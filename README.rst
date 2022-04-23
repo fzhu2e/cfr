@@ -1,11 +1,11 @@
-***************************************************
-pda: the library for paleoclimate data assimilation
-***************************************************
+*************************************************
+cfr: the library for climate field reconstruction
+*************************************************
 
-`pda` aims to provide a universal framework for paleoclimate data assimilation (PDA).
+`cfr` aims to provide a universal framework for climate field reconstruction (CFR).
 
 Documentation
 =============
 
-+ Homepage: https://fzhu2e.github.io/pda
-+ Installation: https://fzhu2e.github.io/pda/ug-installation.html
++ Homepage: https://fzhu2e.github.io/cfr
++ Installation: https://fzhu2e.github.io/cfr/ug-installation.html

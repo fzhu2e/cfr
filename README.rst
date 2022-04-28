@@ -1,6 +1,6 @@
-*************************************************
-cfr: the library for climate field reconstruction
-*************************************************
+***********************************************************
+cfr: a universal framework for climate field reconstruction
+***********************************************************
 
 `cfr` aims to provide a universal framework for climate field reconstruction (CFR).
 

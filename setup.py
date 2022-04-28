@@ -25,6 +25,7 @@ setup(
     ],
     install_requires=[
         'termcolor',
+        'seaborn',
         'pandas',
         'tqdm',
         'xarray',

@@ -7,7 +7,7 @@ from .visual import (
     closefig,
     savefig,
 )
-set_style(style='journal', font_scale=1.4)
+set_style(style='journal', font_scale=1.2)
 
 # get the version
 from importlib.metadata import version

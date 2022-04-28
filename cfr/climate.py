@@ -67,18 +67,41 @@ class ClimateField:
 
     def get_anom(self, ref_period=[1951, 1980]):
         new = self.copy()
-        if ref_period[0] > np.max(self.time) or ref_period[-1] < np.min(self.time):
-            utils.p_warning(f'p2k >>> The time axis does not overlap with the reference period {ref_period}; use its own time period as reference [{np.min(self.time):.2f}, {np.max(self.time):.2f}].')
-            var_ref = self.da
-        else:
-            var_ref = self.da.loc[str(ref_period[0]):str(ref_period[-1])]
 
-        clim = var_ref.groupby('time.month').mean('time')
-        new.da = self.da.groupby('time.month') - clim
+        if ref_period is not None:
+            if ref_period[0] > np.max(self.time) or ref_period[-1] < np.min(self.time):
+                utils.p_warning(f'>>> The time axis does not overlap with the reference period {ref_period}; use its own time period as reference [{np.min(self.time):.2f}, {np.max(self.time):.2f}].')
+                var_ref = self.da
+            else:
+                var_ref = self.da.loc[str(ref_period[0]):str(ref_period[-1])]
+
+            clim = var_ref.groupby('time.month').mean('time')
+            new.da = self.da.groupby('time.month') - clim
+
         return new
 
-    def load_nc(self, path, time_name='time', lat_name='lat', lon_name='lon', load=False, **kwargs):
-        da = xr.open_dataarray(path, **kwargs)
+    def center(self, ref_period=[1951, 1980]):
+        new = self.copy()
+
+        if ref_period is not None:
+            if ref_period[0] > np.max(self.time) or ref_period[-1] < np.min(self.time):
+                utils.p_warning(f'>>> The time axis does not overlap with the reference period {ref_period}; use its own time period as reference [{np.min(self.time):.2f}, {np.max(self.time):.2f}].')
+                var_ref = self.da
+            else:
+                var_ref = self.da.loc[str(ref_period[0]):str(ref_period[-1])]
+
+            clim = var_ref.mean('time')
+            new.da = self.da - clim
+
+        return new
+
+    def load_nc(self, path, vn=None, time_name='time', lat_name='lat', lon_name='lon', load=False, **kwargs):
+        if vn is None: 
+            da = xr.open_dataarray(path, **kwargs)
+        else:
+            ds = xr.open_dataset(path, **kwargs)
+            da = ds[vn]
+
         new = ClimateField(da=da, time_name=time_name, lat_name=lat_name, lon_name=lon_name)
         if load: new.da.load()
         return new
@@ -231,7 +254,7 @@ class ClimateDataset:
             try:
                 del new.fields[field.vn]
             except:
-                utils.p_warning(f'p2k >>> Subtracting {field.vn} failed.')
+                utils.p_warning(f'>>> Subtracting {field.vn} failed.')
 
         new.refresh()
         return new
@@ -249,6 +272,14 @@ class ClimateDataset:
         new = ClimateDataset()
         for vn, fd in tqdm(self.fields.items(), total=self.nv, desc='Getting anomaly from ClimateField'):
             sfd = fd.get_anom(ref_period=ref_period)
+            new += sfd
+        new.refresh()
+        return new
+
+    def center(self, ref_period=[1951, 1980]):
+        new = ClimateDataset()
+        for vn, fd in tqdm(self.fields.items(), total=self.nv, desc='Getting anomaly from ClimateField'):
+            sfd = fd.center(ref_period=ref_period)
             new += sfd
         new.refresh()
         return new

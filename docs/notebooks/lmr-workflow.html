@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>PSM for coral Sr/Ca &#8212; cfr  documentation</title>
+    <title>A basic workflow &#8212; cfr  documentation</title>
     
   <!-- Loaded before other Sphinx assets -->
   <link href="../_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
@@ -39,8 +39,8 @@
     <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="PSM for coral d18O" href="psm-coral-d18O.html" />
-    <link rel="prev" title="PSM for lake varve thickness" href="psm-lake-VarveThickness.html" />
+    <link rel="next" title="API Reference" href="../ug-api.html" />
+    <link rel="prev" title="LMR" href="../ug-lmr.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="None">
     
@@ -172,16 +172,16 @@
    </li>
   </ul>
  </li>
- <li class="toctree-l1 current active has-children">
+ <li class="toctree-l1 has-children">
   <a class="reference internal" href="../ug-psm.html">
    PSM
   </a>
-  <input checked="" class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/>
+  <input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/>
   <label for="toctree-checkbox-3">
    <i class="fas fa-chevron-down">
    </i>
   </label>
-  <ul class="current">
+  <ul>
    <li class="toctree-l2">
     <a class="reference internal" href="psm-linear.html">
      Univariate linear regression
@@ -202,8 +202,8 @@
      PSM for lake varve thickness
     </a>
    </li>
-   <li class="toctree-l2 current active">
-    <a class="current reference internal" href="#">
+   <li class="toctree-l2">
+    <a class="reference internal" href="psm-coral-SrCa.html">
      PSM for coral Sr/Ca
     </a>
    </li>
@@ -229,18 +229,18 @@
    </li>
   </ul>
  </li>
- <li class="toctree-l1 has-children">
+ <li class="toctree-l1 current active has-children">
   <a class="reference internal" href="../ug-lmr.html">
    LMR
   </a>
-  <input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/>
+  <input checked="" class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/>
   <label for="toctree-checkbox-4">
    <i class="fas fa-chevron-down">
    </i>
   </label>
-  <ul>
-   <li class="toctree-l2">
-    <a class="reference internal" href="lmr-workflow.html">
+  <ul class="current">
+   <li class="toctree-l2 current active">
+    <a class="current reference internal" href="#">
      A basic workflow
     </a>
    </li>
@@ -327,7 +327,7 @@ title="Source repository"
       </li>
       
       <li>
-        <a href="https://github.com/fzhu2e/cfr/issues/new?title=Issue%20on%20page%20%2Fnotebooks/psm-coral-SrCa.html&body=Your%20issue%20content%20here."
+        <a href="https://github.com/fzhu2e/cfr/issues/new?title=Issue%20on%20page%20%2Fnotebooks/lmr-workflow.html&body=Your%20issue%20content%20here."
    class="headerbtn"
    data-toggle="tooltip"
 data-placement="left"
@@ -344,7 +344,7 @@ title="Open an issue"
       </li>
       
       <li>
-        <a href="https://github.com/fzhu2e/cfr/edit/master/notebooks/psm-coral-SrCa.ipynb"
+        <a href="https://github.com/fzhu2e/cfr/edit/master/notebooks/lmr-workflow.ipynb"
    class="headerbtn"
    data-toggle="tooltip"
 data-placement="left"
@@ -372,7 +372,7 @@ title="Edit this page"
   <div class="menu-dropdown__content">
     <ul>
       <li>
-        <a href="../_sources/notebooks/psm-coral-SrCa.ipynb.txt"
+        <a href="../_sources/notebooks/lmr-workflow.ipynb.txt"
    class="headerbtn"
    data-toggle="tooltip"
 data-placement="left"
@@ -432,35 +432,18 @@ title="Print to PDF"
     <nav id="bd-toc-nav" aria-label="Page">
         <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#Data-preparation">
-   Data preparation
-  </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#Proxy">
-     Proxy
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#Model">
-     Model
-    </a>
-   </li>
-  </ul>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#Get-climate-data-for-a-specific-ProxyRecord">
-   Get climate data for a specific
-   <code class="docutils literal notranslate">
-    <span class="pre">
-     ProxyRecord
-    </span>
-   </code>
+  <a class="reference internal nav-link" href="#Create-a-reconstruction-job-object">
+   Create a reconstruction job object
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#Create-a-PSM-object">
-   Create a PSM object
+  <a class="reference internal nav-link" href="#Load-a-proxy-database">
+   Load a proxy database
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#Load-climate-modoel-priors">
+   Load climate modoel priors
   </a>
  </li>
 </ul>
@@ -472,7 +455,7 @@ title="Print to PDF"
         <div class="col pl-md-3 pl-lg-5 content-container">
             <!-- Table of contents that is only displayed when printing the page -->
             <div id="jb-print-docs-body" class="onlyprint">
-                <h1>PSM for coral Sr/Ca</h1>
+                <h1>A basic workflow</h1>
                 <!-- Table of contents -->
                 <div id="print-main-content">
                     <div id="jb-print-toc">
@@ -483,35 +466,18 @@ title="Print to PDF"
                         <nav aria-label="Page">
                             <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#Data-preparation">
-   Data preparation
-  </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#Proxy">
-     Proxy
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#Model">
-     Model
-    </a>
-   </li>
-  </ul>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#Get-climate-data-for-a-specific-ProxyRecord">
-   Get climate data for a specific
-   <code class="docutils literal notranslate">
-    <span class="pre">
-     ProxyRecord
-    </span>
-   </code>
+  <a class="reference internal nav-link" href="#Create-a-reconstruction-job-object">
+   Create a reconstruction job object
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#Create-a-PSM-object">
-   Create a PSM object
+  <a class="reference internal nav-link" href="#Load-a-proxy-database">
+   Load a proxy database
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#Load-climate-modoel-priors">
+   Load climate modoel priors
   </a>
  </li>
 </ul>
@@ -772,9 +738,8 @@ div.rendered_html tbody tr:hover {
   background: rgba(66, 165, 245, 0.2);
 }
 </style>
-<section id="PSM-for-coral-Sr/Ca">
-<h1>PSM for coral Sr/Ca<a class="headerlink" href="#PSM-for-coral-Sr/Ca" title="Permalink to this headline">#</a></h1>
-<p>In this tutorial, we introduce the PSM for coral Sr/Ca in <code class="docutils literal notranslate"><span class="pre">cfr</span></code>.</p>
+<section id="A-basic-workflow">
+<h1>A basic workflow<a class="headerlink" href="#A-basic-workflow" title="Permalink to this headline">#</a></h1>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
@@ -783,111 +748,17 @@ div.rendered_html tbody tr:hover {
 <span class="o">%</span><span class="k">autoreload</span> 2
 
 <span class="kn">import</span> <span class="nn">cfr</span>
-<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">os</span>
-
-<span class="kn">import</span> <span class="nn">warnings</span>
-<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s1">&#39;ignore&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
-<section id="Data-preparation">
-<h2>Data preparation<a class="headerlink" href="#Data-preparation" title="Permalink to this headline">#</a></h2>
-<section id="Proxy">
-<h3>Proxy<a class="headerlink" href="#Proxy" title="Permalink to this headline">#</a></h3>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_pickle</span><span class="p">(</span><span class="s1">&#39;./data/pages2k_dataset.pkl&#39;</span><span class="p">)</span>
-<span class="n">pdb</span> <span class="o">=</span> <span class="n">cfr</span><span class="o">.</span><span class="n">ProxyDatabase</span><span class="p">()</span><span class="o">.</span><span class="n">from_df</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pdb_sub</span> <span class="o">=</span> <span class="n">pdb</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="s1">&#39;ptype&#39;</span><span class="p">,</span> <span class="n">keys</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;SrCa&#39;</span><span class="p">])</span>
-<span class="n">pobj</span> <span class="o">=</span> <span class="n">pdb_sub</span><span class="o">.</span><span class="n">records</span><span class="p">[</span><span class="s1">&#39;Ocn_061&#39;</span><span class="p">]</span>
-<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">pobj</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
-</pre></div>
-</div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<img alt="../_images/notebooks_psm-coral-SrCa_6_0.png" src="../_images/notebooks_psm-coral-SrCa_6_0.png" />
-</div>
-</div>
-</section>
-<section id="Model">
-<h3>Model<a class="headerlink" href="#Model" title="Permalink to this headline">#</a></h3>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%time</span>
-
-<span class="n">dirpath</span> <span class="o">=</span> <span class="s1">&#39;/Volumes/ExtraDrive/Data/GCM_sims/icesm_last_millennium_historical&#39;</span>
-<span class="n">model_tos</span> <span class="o">=</span> <span class="n">cfr</span><span class="o">.</span><span class="n">ClimateField</span><span class="p">()</span><span class="o">.</span><span class="n">load_nc</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">dirpath</span><span class="p">,</span> <span class="s1">&#39;tos_sfc_Omon_iCESM_past1000historical_085001-200512_interp.nc&#39;</span><span class="p">))</span>
-</pre></div>
-</div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-CPU times: user 1.5 s, sys: 1.83 s, total: 3.32 s
-Wall time: 3.88 s
-</pre></div></div>
-</div>
-</section>
-</section>
-<section id="Get-climate-data-for-a-specific-ProxyRecord">
-<h2>Get climate data for a specific <code class="docutils literal notranslate"><span class="pre">ProxyRecord</span></code><a class="headerlink" href="#Get-climate-data-for-a-specific-ProxyRecord" title="Permalink to this headline">#</a></h2>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%time</span>
-
-<span class="n">pobj</span><span class="o">.</span><span class="n">del_clim</span><span class="p">()</span>
-<span class="n">pobj</span><span class="o">.</span><span class="n">get_clim</span><span class="p">(</span><span class="n">model_tos</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="s1">&#39;model&#39;</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-<span class="ansi-green-intense-fg ansi-bold">ProxyRecord.clim deleted for Ocn_061.</span>
-<span class="ansi-green-intense-fg ansi-bold">ProxyRecord.clim[&#34;model_tos&#34;] created.</span>
-CPU times: user 35.4 ms, sys: 1.69 ms, total: 37.1 ms
-Wall time: 36.1 ms
-</pre></div></div>
-</div>
-</section>
-<section id="Create-a-PSM-object">
-<h2>Create a PSM object<a class="headerlink" href="#Create-a-PSM-object" title="Permalink to this headline">#</a></h2>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mdl</span> <span class="o">=</span> <span class="n">cfr</span><span class="o">.</span><span class="n">psm</span><span class="o">.</span><span class="n">Coral_SrCa</span><span class="p">(</span><span class="n">pobj</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
+<section id="Create-a-reconstruction-job-object">
+<h2>Create a reconstruction job object<a class="headerlink" href="#Create-a-reconstruction-job-object" title="Permalink to this headline">#</a></h2>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%time</span>
-<span class="n">pp</span> <span class="o">=</span> <span class="n">mdl</span><span class="o">.</span><span class="n">forward</span><span class="p">()</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">job</span> <span class="o">=</span> <span class="n">cfr</span><span class="o">.</span><span class="n">ReconJob</span><span class="p">(</span><span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">job</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -896,15 +767,19 @@ Wall time: 36.1 ms
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-CPU times: user 2.83 ms, sys: 667 µs, total: 3.5 ms
-Wall time: 2.75 ms
+<span class="ansi-cyan-intense-fg ansi-bold">CFR &gt;&gt;&gt; job.configs:</span>
+{}
+&lt;cfr.reconjob.ReconJob object at 0x144d1d700&gt;
 </pre></div></div>
 </div>
+</section>
+<section id="Load-a-proxy-database">
+<h2>Load a proxy database<a class="headerlink" href="#Load-a-proxy-database" title="Permalink to this headline">#</a></h2>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">pp</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">job</span><span class="o">.</span><span class="n">load_proxydb</span><span class="p">(</span><span class="s1">&#39;./data/pages2k_dataset.pkl&#39;</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -912,8 +787,85 @@ Wall time: 2.75 ms
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_psm-coral-SrCa_14_0.png" src="../_images/notebooks_psm-coral-SrCa_14_0.png" />
+<div class="highlight"><pre>
+<span class="ansi-cyan-intense-fg ansi-bold">job.configs[&#34;proxydb_path&#34;] = ./data/pages2k_dataset.pkl</span>
+<span class="ansi-green-intense-fg ansi-bold">692 records loaded</span>
+<span class="ansi-green-intense-fg ansi-bold">job.proxydb created</span>
+</pre></div></div>
 </div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">job</span><span class="o">.</span><span class="n">proxydb</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/notebooks_lmr-workflow_6_0.png" src="../_images/notebooks_lmr-workflow_6_0.png" />
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">job</span><span class="o">.</span><span class="n">filter_proxydb</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="s1">&#39;ptype&#39;</span><span class="p">,</span> <span class="n">keys</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;coral&#39;</span><span class="p">],</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+<span class="ansi-green-intense-fg ansi-bold">104 records left</span>
+<span class="ansi-green-intense-fg ansi-bold">job.proxydb updated</span>
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">job</span><span class="o">.</span><span class="n">proxydb</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">plot_count</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/notebooks_lmr-workflow_8_0.png" src="../_images/notebooks_lmr-workflow_8_0.png" />
+</div>
+</div>
+</section>
+<section id="Load-climate-modoel-priors">
+<h2>Load climate modoel priors<a class="headerlink" href="#Load-climate-modoel-priors" title="Permalink to this headline">#</a></h2>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">job</span><span class="o">.</span><span class="n">load_prior</span><span class="p">(</span>
+    <span class="p">{</span>
+        <span class="s1">&#39;tas&#39;</span><span class="p">:</span> <span class="s1">&#39;./data/tas_sfc_Amon_iCESM_past1000historical_085001-200512.nc&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;pr&#39;</span><span class="p">:</span> <span class="s1">&#39;./data/pr_sfc_Amon_iCESM_past1000historical_085001-200512.nc&#39;</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+<span class="ansi-cyan-intense-fg ansi-bold">job.configs[&#34;prior_path&#34;] = {&#39;tas&#39;: &#39;./data/tas_sfc_Amon_iCESM_past1000historical_085001-200512.nc&#39;, &#39;pr&#39;: &#39;./data/pr_sfc_Amon_iCESM_past1000historical_085001-200512.nc&#39;}</span>
+<span class="ansi-green-intense-fg ansi-bold">prior variables [&#39;tas&#39;, &#39;pr&#39;] loaded</span>
+<span class="ansi-green-intense-fg ansi-bold">job.prior created</span>
+</pre></div></div>
 </div>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
@@ -934,17 +886,17 @@ Wall time: 2.75 ms
                 
     <!-- Previous / next buttons -->
 <div class='prev-next-area'>
-    <a class='left-prev' id="prev-link" href="psm-lake-VarveThickness.html" title="previous page">
+    <a class='left-prev' id="prev-link" href="../ug-lmr.html" title="previous page">
         <i class="fas fa-angle-left"></i>
         <div class="prev-next-info">
             <p class="prev-next-subtitle">previous</p>
-            <p class="prev-next-title">PSM for lake varve thickness</p>
+            <p class="prev-next-title">LMR</p>
         </div>
     </a>
-    <a class='right-next' id="next-link" href="psm-coral-d18O.html" title="next page">
+    <a class='right-next' id="next-link" href="../ug-api.html" title="next page">
     <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">PSM for coral d18O</p>
+        <p class="prev-next-title">API Reference</p>
     </div>
     <i class="fas fa-angle-right"></i>
     </a>

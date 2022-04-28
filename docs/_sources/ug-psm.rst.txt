@@ -11,3 +11,5 @@ PSM
     notebooks/psm-coral-SrCa
     notebooks/psm-coral-d18O
     notebooks/psm-tree-TRW
+    notebooks/psm-tree-seasonality
+    notebooks/psm-tree-memory

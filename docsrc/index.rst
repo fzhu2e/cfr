@@ -10,5 +10,5 @@
    ug-proxy
    ug-climate
    ug-psm
-   ug-app
+   ug-lmr
    ug-api

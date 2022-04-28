@@ -217,11 +217,21 @@
      PSM for tree TRW (VS-Lite)
     </a>
    </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="psm-tree-seasonality.html">
+     Detecting the seasonality of the trees
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="psm-tree-memory.html">
+     Detecting the biological memory in the trees
+    </a>
+   </li>
   </ul>
  </li>
  <li class="toctree-l1 has-children">
-  <a class="reference internal" href="../ug-app.html">
-   Applications
+  <a class="reference internal" href="../ug-lmr.html">
+   LMR
   </a>
   <input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/>
   <label for="toctree-checkbox-4">
@@ -230,13 +240,8 @@
   </label>
   <ul>
    <li class="toctree-l2">
-    <a class="reference internal" href="app-tree-seasonality.html">
-     Detecting the seasonality of the trees
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="app-tree-memory.html">
-     Detecting the biological memory in the trees
+    <a class="reference internal" href="lmr-workflow.html">
+     A basic workflow
     </a>
    </li>
   </ul>
@@ -910,10 +915,10 @@ Index([&#39;paleoData_pages2kID&#39;, &#39;dataSetName&#39;, &#39;archiveType&#3
 <section id="Load-climate-data-to-ClimateDataset">
 <h2>Load climate data to <code class="docutils literal notranslate"><span class="pre">ClimateDataset</span></code><a class="headerlink" href="#Load-climate-data-to-ClimateDataset" title="Permalink to this headline">#</a></h2>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dirpath</span> <span class="o">=</span> <span class="s1">&#39;/Volumes/ExtraDrive/Data/GCM_sims/icesm_last_millennium_historical&#39;</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dirpath</span> <span class="o">=</span> <span class="s1">&#39;./data&#39;</span>
 
 <span class="n">ds_tas</span> <span class="o">=</span> <span class="n">cfr</span><span class="o">.</span><span class="n">ClimateDataset</span><span class="p">()</span><span class="o">.</span><span class="n">load_nc</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">dirpath</span><span class="p">,</span> <span class="s1">&#39;tas_sfc_Amon_iCESM_past1000historical_085001-200512.nc&#39;</span><span class="p">))</span>
 <span class="n">ds_pr</span> <span class="o">=</span> <span class="n">cfr</span><span class="o">.</span><span class="n">ClimateDataset</span><span class="p">()</span><span class="o">.</span><span class="n">load_nc</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">dirpath</span><span class="p">,</span> <span class="s1">&#39;pr_sfc_Amon_iCESM_past1000historical_085001-200512.nc&#39;</span><span class="p">))</span>
@@ -924,7 +929,7 @@ Index([&#39;paleoData_pages2kID&#39;, &#39;dataSetName&#39;, &#39;archiveType&#3
 <section id="Get-the-nearest-climate-from-a-ClimateField-or-a-ClimateDataset-for-a-ProxyRecord">
 <h2>Get the nearest climate from a <code class="docutils literal notranslate"><span class="pre">ClimateField</span></code> or a <code class="docutils literal notranslate"><span class="pre">ClimateDataset</span></code> for a <code class="docutils literal notranslate"><span class="pre">ProxyRecord</span></code><a class="headerlink" href="#Get-the-nearest-climate-from-a-ClimateField-or-a-ClimateDataset-for-a-ProxyRecord" title="Permalink to this headline">#</a></h2>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fd</span> <span class="o">=</span> <span class="n">ds_tas</span><span class="o">.</span><span class="n">fields</span><span class="p">[</span><span class="s1">&#39;tas&#39;</span><span class="p">]</span>
@@ -932,7 +937,7 @@ Index([&#39;paleoData_pages2kID&#39;, &#39;dataSetName&#39;, &#39;archiveType&#3
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pobj</span> <span class="o">=</span> <span class="n">pdb</span><span class="o">.</span><span class="n">records</span><span class="p">[</span><span class="s1">&#39;Ant_005&#39;</span><span class="p">]</span>
@@ -948,7 +953,7 @@ Index([&#39;paleoData_pages2kID&#39;, &#39;dataSetName&#39;, &#39;archiveType&#3
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pobj</span><span class="o">.</span><span class="n">get_clim</span><span class="p">(</span><span class="n">fd</span><span class="p">)</span>
@@ -964,7 +969,7 @@ Index([&#39;paleoData_pages2kID&#39;, &#39;dataSetName&#39;, &#39;archiveType&#3
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pobj</span><span class="o">.</span><span class="n">get_clim</span><span class="p">(</span><span class="n">ds_pr</span><span class="p">)</span>
@@ -980,7 +985,7 @@ Index([&#39;paleoData_pages2kID&#39;, &#39;dataSetName&#39;, &#39;archiveType&#3
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pobj</span><span class="o">.</span><span class="n">clim</span><span class="p">[</span><span class="s1">&#39;tas&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">da</span>
@@ -988,7 +993,7 @@ Index([&#39;paleoData_pages2kID&#39;, &#39;dataSetName&#39;, &#39;archiveType&#3
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
 </pre></div>
 </div>
 <div class="output_area rendered_html docutils container">
@@ -1344,25 +1349,25 @@ dl.xr-attrs {
   fill: currentColor;
 }
 </style><pre class='xr-text-repr-fallback'>&lt;xarray.DataArray &#x27;tas&#x27; (time: 13872)&gt;
-array([248.87474, 242.98064, 234.44029, ..., 233.60123, 243.2134 , 249.26338],
-      dtype=float32)
+array([248.87474, 242.98064, 234.44029, ..., 233.60123, 243.2134 ,
+       249.26338], dtype=float32)
 Coordinates:
   * time     (time) object 0850-01-17 00:00:00 ... 2005-12-17 00:00:00
     lat      float32 -74.84
     lon      float32 357.5
 Attributes:
     long_name:  Reference height temperature
-    units:      K</pre><div class='xr-wrap' style='display:none'><div class='xr-header'><div class='xr-obj-type'>xarray.DataArray</div><div class='xr-array-name'>'tas'</div><ul class='xr-dim-list'><li><span class='xr-has-index'>time</span>: 13872</li></ul></div><ul class='xr-sections'><li class='xr-section-item'><div class='xr-array-wrap'><input id='section-096d7ec6-78c9-4cd8-8937-45db3c42a62a' class='xr-array-in' type='checkbox' checked><label for='section-096d7ec6-78c9-4cd8-8937-45db3c42a62a' title='Show/hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-array-preview xr-preview'><span>248.9 243.0 234.4 231.7 229.3 228.0 ... 228.1 227.7 233.6 243.2 249.3</span></div><div class='xr-array-data'><pre>array([248.87474, 242.98064, 234.44029, ..., 233.60123, 243.2134 , 249.26338],
-      dtype=float32)</pre></div></div></li><li class='xr-section-item'><input id='section-7629cf89-27ad-46c7-8099-661be7512247' class='xr-section-summary-in' type='checkbox'  checked><label for='section-7629cf89-27ad-46c7-8099-661be7512247' class='xr-section-summary' >Coordinates: <span>(3)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><ul class='xr-var-list'><li class='xr-var-item'><div class='xr-var-name'><span class='xr-has-index'>time</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>object</div><div class='xr-var-preview xr-preview'>0850-01-17 00:00:00 ... 2005-12-...</div><input id='attrs-63f50cf3-9842-487f-9272-9a9c90ae7763' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-63f50cf3-9842-487f-9272-9a9c90ae7763' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-22dc8e4c-647a-45c5-bd2e-74064f72aaee' class='xr-var-data-in' type='checkbox'><label for='data-22dc8e4c-647a-45c5-bd2e-74064f72aaee' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>description :</span></dt><dd>time</dd><dt><span>long_name :</span></dt><dd>time</dd><dt><span>standard_name :</span></dt><dd>time</dd></dl></div><div class='xr-var-data'><pre>array([cftime.DatetimeNoLeap(850, 1, 17, 0, 0, 0, 0, has_year_zero=True),
+    units:      K</pre><div class='xr-wrap' style='display:none'><div class='xr-header'><div class='xr-obj-type'>xarray.DataArray</div><div class='xr-array-name'>'tas'</div><ul class='xr-dim-list'><li><span class='xr-has-index'>time</span>: 13872</li></ul></div><ul class='xr-sections'><li class='xr-section-item'><div class='xr-array-wrap'><input id='section-6c4167dc-a618-4a9d-91a5-093fb5615833' class='xr-array-in' type='checkbox' checked><label for='section-6c4167dc-a618-4a9d-91a5-093fb5615833' title='Show/hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-array-preview xr-preview'><span>248.9 243.0 234.4 231.7 229.3 228.0 ... 228.1 227.7 233.6 243.2 249.3</span></div><div class='xr-array-data'><pre>array([248.87474, 242.98064, 234.44029, ..., 233.60123, 243.2134 ,
+       249.26338], dtype=float32)</pre></div></div></li><li class='xr-section-item'><input id='section-6e265dd9-3b04-4774-ba27-5e9c3aee535b' class='xr-section-summary-in' type='checkbox'  checked><label for='section-6e265dd9-3b04-4774-ba27-5e9c3aee535b' class='xr-section-summary' >Coordinates: <span>(3)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><ul class='xr-var-list'><li class='xr-var-item'><div class='xr-var-name'><span class='xr-has-index'>time</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>object</div><div class='xr-var-preview xr-preview'>0850-01-17 00:00:00 ... 2005-12-...</div><input id='attrs-78b7df6c-6800-43f1-b419-4ac00e8bf719' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-78b7df6c-6800-43f1-b419-4ac00e8bf719' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-fd112b91-d850-4357-98d5-c65f9442479c' class='xr-var-data-in' type='checkbox'><label for='data-fd112b91-d850-4357-98d5-c65f9442479c' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>description :</span></dt><dd>time</dd><dt><span>long_name :</span></dt><dd>time</dd><dt><span>standard_name :</span></dt><dd>time</dd></dl></div><div class='xr-var-data'><pre>array([cftime.DatetimeNoLeap(850, 1, 17, 0, 0, 0, 0, has_year_zero=True),
        cftime.DatetimeNoLeap(850, 2, 14, 0, 0, 0, 0, has_year_zero=True),
        cftime.DatetimeNoLeap(850, 3, 17, 0, 0, 0, 0, has_year_zero=True), ...,
        cftime.DatetimeNoLeap(2005, 10, 17, 0, 0, 0, 0, has_year_zero=True),
        cftime.DatetimeNoLeap(2005, 11, 16, 0, 0, 0, 0, has_year_zero=True),
        cftime.DatetimeNoLeap(2005, 12, 17, 0, 0, 0, 0, has_year_zero=True)],
-      dtype=object)</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>lat</span></div><div class='xr-var-dims'>()</div><div class='xr-var-dtype'>float32</div><div class='xr-var-preview xr-preview'>-74.84</div><input id='attrs-737c5778-2018-44b6-8307-41caa0dc2fac' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-737c5778-2018-44b6-8307-41caa0dc2fac' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-f1d54ef2-00fe-4815-a6b9-e46541792864' class='xr-var-data-in' type='checkbox'><label for='data-f1d54ef2-00fe-4815-a6b9-e46541792864' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>description :</span></dt><dd>latitude</dd><dt><span>long_name :</span></dt><dd>latitude coordinate</dd><dt><span>standard_name :</span></dt><dd>latitude</dd><dt><span>units :</span></dt><dd>degrees_north</dd></dl></div><div class='xr-var-data'><pre>array(-74.8421, dtype=float32)</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>lon</span></div><div class='xr-var-dims'>()</div><div class='xr-var-dtype'>float32</div><div class='xr-var-preview xr-preview'>357.5</div><input id='attrs-0e60d5a9-cc16-4692-9532-b7544ca10913' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-0e60d5a9-cc16-4692-9532-b7544ca10913' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-032dfe28-a317-45f8-8d4c-363826dbe957' class='xr-var-data-in' type='checkbox'><label for='data-032dfe28-a317-45f8-8d4c-363826dbe957' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>description :</span></dt><dd>longitude</dd><dt><span>long_name :</span></dt><dd>longitude coordinate</dd><dt><span>standard_name :</span></dt><dd>longitude</dd><dt><span>units :</span></dt><dd>degrees_east</dd></dl></div><div class='xr-var-data'><pre>array(357.5, dtype=float32)</pre></div></li></ul></div></li><li class='xr-section-item'><input id='section-894396cc-7db0-4dc5-a3cd-141a9def1aac' class='xr-section-summary-in' type='checkbox'  checked><label for='section-894396cc-7db0-4dc5-a3cd-141a9def1aac' class='xr-section-summary' >Attributes: <span>(2)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><dl class='xr-attrs'><dt><span>long_name :</span></dt><dd>Reference height temperature</dd><dt><span>units :</span></dt><dd>K</dd></dl></div></li></ul></div></div></div>
+      dtype=object)</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>lat</span></div><div class='xr-var-dims'>()</div><div class='xr-var-dtype'>float32</div><div class='xr-var-preview xr-preview'>-74.84</div><input id='attrs-5e60f581-a64d-4463-ab48-8a25927e229b' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-5e60f581-a64d-4463-ab48-8a25927e229b' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-bf770657-50e3-4f09-9a39-81338ab87850' class='xr-var-data-in' type='checkbox'><label for='data-bf770657-50e3-4f09-9a39-81338ab87850' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>description :</span></dt><dd>latitude</dd><dt><span>long_name :</span></dt><dd>latitude coordinate</dd><dt><span>standard_name :</span></dt><dd>latitude</dd><dt><span>units :</span></dt><dd>degrees_north</dd></dl></div><div class='xr-var-data'><pre>array(-74.8421, dtype=float32)</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>lon</span></div><div class='xr-var-dims'>()</div><div class='xr-var-dtype'>float32</div><div class='xr-var-preview xr-preview'>357.5</div><input id='attrs-ce0dcab2-2988-484f-afb1-5f1d229ab174' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-ce0dcab2-2988-484f-afb1-5f1d229ab174' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-5840ff3e-db7c-47e4-946c-5c24ab5dc692' class='xr-var-data-in' type='checkbox'><label for='data-5840ff3e-db7c-47e4-946c-5c24ab5dc692' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>description :</span></dt><dd>longitude</dd><dt><span>long_name :</span></dt><dd>longitude coordinate</dd><dt><span>standard_name :</span></dt><dd>longitude</dd><dt><span>units :</span></dt><dd>degrees_east</dd></dl></div><div class='xr-var-data'><pre>array(357.5, dtype=float32)</pre></div></li></ul></div></li><li class='xr-section-item'><input id='section-12a7ea4d-37cc-4e94-9077-d467e4b6e8b8' class='xr-section-summary-in' type='checkbox'  checked><label for='section-12a7ea4d-37cc-4e94-9077-d467e4b6e8b8' class='xr-section-summary' >Attributes: <span>(2)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><dl class='xr-attrs'><dt><span>long_name :</span></dt><dd>Reference height temperature</dd><dt><span>units :</span></dt><dd>K</dd></dl></div></li></ul></div></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pobj</span><span class="o">.</span><span class="n">clim</span><span class="p">[</span><span class="s1">&#39;pr&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">da</span>
@@ -1370,7 +1375,7 @@ Attributes:
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
 </pre></div>
 </div>
 <div class="output_area rendered_html docutils container">
@@ -1726,28 +1731,28 @@ dl.xr-attrs {
   fill: currentColor;
 }
 </style><pre class='xr-text-repr-fallback'>&lt;xarray.DataArray &#x27;pr&#x27; (time: 13872)&gt;
-array([7.413925e-07, 4.369729e-07, 6.698622e-07, ..., 8.378123e-07,
-       5.276332e-07, 2.980374e-06], dtype=float32)
+array([7.4139251e-07, 4.3697287e-07, 6.6986217e-07, ..., 8.3781231e-07,
+       5.2763323e-07, 2.9803739e-06], dtype=float32)
 Coordinates:
   * time     (time) object 0850-01-17 00:00:00 ... 2005-12-17 00:00:00
     lat      float32 -74.84
     lon      float32 357.5
 Attributes:
     long_name:  Total mass precip rate of H216O
-    units:      kg m-2 s-1</pre><div class='xr-wrap' style='display:none'><div class='xr-header'><div class='xr-obj-type'>xarray.DataArray</div><div class='xr-array-name'>'pr'</div><ul class='xr-dim-list'><li><span class='xr-has-index'>time</span>: 13872</li></ul></div><ul class='xr-sections'><li class='xr-section-item'><div class='xr-array-wrap'><input id='section-74810835-b098-402b-8d3a-c9e645f0f435' class='xr-array-in' type='checkbox' checked><label for='section-74810835-b098-402b-8d3a-c9e645f0f435' title='Show/hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-array-preview xr-preview'><span>7.414e-07 4.37e-07 6.699e-07 ... 8.378e-07 5.276e-07 2.98e-06</span></div><div class='xr-array-data'><pre>array([7.413925e-07, 4.369729e-07, 6.698622e-07, ..., 8.378123e-07,
-       5.276332e-07, 2.980374e-06], dtype=float32)</pre></div></div></li><li class='xr-section-item'><input id='section-27563b53-920b-4266-82c9-ac2b4f2fd9a8' class='xr-section-summary-in' type='checkbox'  checked><label for='section-27563b53-920b-4266-82c9-ac2b4f2fd9a8' class='xr-section-summary' >Coordinates: <span>(3)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><ul class='xr-var-list'><li class='xr-var-item'><div class='xr-var-name'><span class='xr-has-index'>time</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>object</div><div class='xr-var-preview xr-preview'>0850-01-17 00:00:00 ... 2005-12-...</div><input id='attrs-18d5a7fb-8eca-4abe-8ed7-546d57d72977' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-18d5a7fb-8eca-4abe-8ed7-546d57d72977' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-c02b30df-9c43-4ea5-9568-39ad01077d50' class='xr-var-data-in' type='checkbox'><label for='data-c02b30df-9c43-4ea5-9568-39ad01077d50' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>description :</span></dt><dd>time</dd><dt><span>long_name :</span></dt><dd>time</dd><dt><span>standard_name :</span></dt><dd>time</dd></dl></div><div class='xr-var-data'><pre>array([cftime.DatetimeNoLeap(850, 1, 17, 0, 0, 0, 0, has_year_zero=True),
+    units:      kg m-2 s-1</pre><div class='xr-wrap' style='display:none'><div class='xr-header'><div class='xr-obj-type'>xarray.DataArray</div><div class='xr-array-name'>'pr'</div><ul class='xr-dim-list'><li><span class='xr-has-index'>time</span>: 13872</li></ul></div><ul class='xr-sections'><li class='xr-section-item'><div class='xr-array-wrap'><input id='section-540693c0-d386-443a-896b-a9b0df147112' class='xr-array-in' type='checkbox' checked><label for='section-540693c0-d386-443a-896b-a9b0df147112' title='Show/hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-array-preview xr-preview'><span>7.414e-07 4.37e-07 6.699e-07 ... 8.378e-07 5.276e-07 2.98e-06</span></div><div class='xr-array-data'><pre>array([7.4139251e-07, 4.3697287e-07, 6.6986217e-07, ..., 8.3781231e-07,
+       5.2763323e-07, 2.9803739e-06], dtype=float32)</pre></div></div></li><li class='xr-section-item'><input id='section-c86e5c19-945e-493b-b5bc-3344dcabe8b2' class='xr-section-summary-in' type='checkbox'  checked><label for='section-c86e5c19-945e-493b-b5bc-3344dcabe8b2' class='xr-section-summary' >Coordinates: <span>(3)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><ul class='xr-var-list'><li class='xr-var-item'><div class='xr-var-name'><span class='xr-has-index'>time</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>object</div><div class='xr-var-preview xr-preview'>0850-01-17 00:00:00 ... 2005-12-...</div><input id='attrs-1daedf01-be23-4456-805c-c5a9436a2489' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-1daedf01-be23-4456-805c-c5a9436a2489' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-2a3f4982-f889-4391-93d2-92a099ae23fc' class='xr-var-data-in' type='checkbox'><label for='data-2a3f4982-f889-4391-93d2-92a099ae23fc' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>description :</span></dt><dd>time</dd><dt><span>long_name :</span></dt><dd>time</dd><dt><span>standard_name :</span></dt><dd>time</dd></dl></div><div class='xr-var-data'><pre>array([cftime.DatetimeNoLeap(850, 1, 17, 0, 0, 0, 0, has_year_zero=True),
        cftime.DatetimeNoLeap(850, 2, 14, 0, 0, 0, 0, has_year_zero=True),
        cftime.DatetimeNoLeap(850, 3, 17, 0, 0, 0, 0, has_year_zero=True), ...,
        cftime.DatetimeNoLeap(2005, 10, 17, 0, 0, 0, 0, has_year_zero=True),
        cftime.DatetimeNoLeap(2005, 11, 16, 0, 0, 0, 0, has_year_zero=True),
        cftime.DatetimeNoLeap(2005, 12, 17, 0, 0, 0, 0, has_year_zero=True)],
-      dtype=object)</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>lat</span></div><div class='xr-var-dims'>()</div><div class='xr-var-dtype'>float32</div><div class='xr-var-preview xr-preview'>-74.84</div><input id='attrs-47627be7-02ab-4b27-94fc-60e1532c008f' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-47627be7-02ab-4b27-94fc-60e1532c008f' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-f0642a47-658c-4bb4-a900-a8586e9bbc6c' class='xr-var-data-in' type='checkbox'><label for='data-f0642a47-658c-4bb4-a900-a8586e9bbc6c' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>description :</span></dt><dd>latitude</dd><dt><span>long_name :</span></dt><dd>latitude coordinate</dd><dt><span>standard_name :</span></dt><dd>latitude</dd><dt><span>units :</span></dt><dd>degrees_north</dd></dl></div><div class='xr-var-data'><pre>array(-74.8421, dtype=float32)</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>lon</span></div><div class='xr-var-dims'>()</div><div class='xr-var-dtype'>float32</div><div class='xr-var-preview xr-preview'>357.5</div><input id='attrs-1ad0dc19-7b8a-4e7d-acba-318cf732dc21' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-1ad0dc19-7b8a-4e7d-acba-318cf732dc21' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-b7e6ed1a-3469-4e49-9e14-1a967cd56e6d' class='xr-var-data-in' type='checkbox'><label for='data-b7e6ed1a-3469-4e49-9e14-1a967cd56e6d' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>description :</span></dt><dd>longitude</dd><dt><span>long_name :</span></dt><dd>longitude coordinate</dd><dt><span>standard_name :</span></dt><dd>longitude</dd><dt><span>units :</span></dt><dd>degrees_east</dd></dl></div><div class='xr-var-data'><pre>array(357.5, dtype=float32)</pre></div></li></ul></div></li><li class='xr-section-item'><input id='section-375e8b1b-2c13-4cf9-b86a-3c2febd92e69' class='xr-section-summary-in' type='checkbox'  checked><label for='section-375e8b1b-2c13-4cf9-b86a-3c2febd92e69' class='xr-section-summary' >Attributes: <span>(2)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><dl class='xr-attrs'><dt><span>long_name :</span></dt><dd>Total mass precip rate of H216O</dd><dt><span>units :</span></dt><dd>kg m-2 s-1</dd></dl></div></li></ul></div></div></div>
+      dtype=object)</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>lat</span></div><div class='xr-var-dims'>()</div><div class='xr-var-dtype'>float32</div><div class='xr-var-preview xr-preview'>-74.84</div><input id='attrs-3b16500b-8b67-4ce7-8853-9f3065ea9356' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-3b16500b-8b67-4ce7-8853-9f3065ea9356' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-307d6d8e-8f6b-491e-8e00-f234b596193a' class='xr-var-data-in' type='checkbox'><label for='data-307d6d8e-8f6b-491e-8e00-f234b596193a' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>description :</span></dt><dd>latitude</dd><dt><span>long_name :</span></dt><dd>latitude coordinate</dd><dt><span>standard_name :</span></dt><dd>latitude</dd><dt><span>units :</span></dt><dd>degrees_north</dd></dl></div><div class='xr-var-data'><pre>array(-74.8421, dtype=float32)</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>lon</span></div><div class='xr-var-dims'>()</div><div class='xr-var-dtype'>float32</div><div class='xr-var-preview xr-preview'>357.5</div><input id='attrs-f14ede01-fac8-469d-883f-5856f2ee2181' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-f14ede01-fac8-469d-883f-5856f2ee2181' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-4fb3efdd-c327-4f50-880a-8770727beb87' class='xr-var-data-in' type='checkbox'><label for='data-4fb3efdd-c327-4f50-880a-8770727beb87' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>description :</span></dt><dd>longitude</dd><dt><span>long_name :</span></dt><dd>longitude coordinate</dd><dt><span>standard_name :</span></dt><dd>longitude</dd><dt><span>units :</span></dt><dd>degrees_east</dd></dl></div><div class='xr-var-data'><pre>array(357.5, dtype=float32)</pre></div></li></ul></div></li><li class='xr-section-item'><input id='section-7b6c6e4f-1f08-44a0-bcc4-7271db820b99' class='xr-section-summary-in' type='checkbox'  checked><label for='section-7b6c6e4f-1f08-44a0-bcc4-7271db820b99' class='xr-section-summary' >Attributes: <span>(2)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><dl class='xr-attrs'><dt><span>long_name :</span></dt><dd>Total mass precip rate of H216O</dd><dt><span>units :</span></dt><dd>kg m-2 s-1</dd></dl></div></li></ul></div></div></div>
 </div>
 </section>
 <section id="Get-the-nearest-climate-from-a-ClimateField-for-a-ProxyDatabase">
 <h2>Get the nearest climate from a <code class="docutils literal notranslate"><span class="pre">ClimateField</span></code> for a <code class="docutils literal notranslate"><span class="pre">ProxyDatabase</span></code><a class="headerlink" href="#Get-the-nearest-climate-from-a-ClimateField-for-a-ProxyDatabase" title="Permalink to this headline">#</a></h2>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pdb_TRW</span> <span class="o">=</span> <span class="n">pdb</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="s1">&#39;ptype&#39;</span><span class="p">,</span> <span class="n">keys</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;tree.TRW&#39;</span><span class="p">])</span>
@@ -1755,7 +1760,7 @@ Attributes:
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pdb_TRW</span><span class="o">.</span><span class="n">del_clim</span><span class="p">()</span>
@@ -1768,17 +1773,91 @@ Attributes:
 </div>
 <div class="output_area stderr docutils container">
 <div class="highlight"><pre>
-Deleting the nearest climate for ProxyRecord: 100%|█| 354/354 [00:01&lt;00:00, 233.
-Getting the nearest climate for ProxyRecord: 100%|█| 354/354 [08:04&lt;00:00,  1.37
+Deleting the nearest climate for ProxyRecord:  63%|██████▎   | 224/354 [00:00&lt;00:00, 350.23it/s]
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
-</pre></div>
+<div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-&lt;cfr.proxy.ProxyDatabase at 0x7f83b5a9b880&gt;
+<span class="ansi-red-fg">---------------------------------------------------------------------------</span>
+<span class="ansi-red-fg">KeyboardInterrupt</span>                         Traceback (most recent call last)
+<span class="ansi-green-intense-fg ansi-bold">/Users/fzhu/Github/cfr/docsrc/notebooks/proxy-get-nearest-climate.ipynb Cell 19&#39;</span> in <span class="ansi-cyan-fg">&lt;cell line: 1&gt;</span><span class="ansi-blue-fg">()</span>
+<span class="ansi-green-fg">----&gt; &lt;a href=&#39;vscode-notebook-cell:/Users/fzhu/Github/cfr/docsrc/notebooks/proxy-get-nearest-climate.ipynb#ch0000018?line=0&#39;&gt;1&lt;/a&gt;</span> pdb_TRW.del_clim()
+<span class="ansi-green-intense-fg ansi-bold">      &lt;a href=&#39;vscode-notebook-cell:/Users/fzhu/Github/cfr/docsrc/notebooks/proxy-get-nearest-climate.ipynb#ch0000018?line=1&#39;&gt;2&lt;/a&gt;</span> pdb_TRW.get_clim(ds_tas+ds_pr, tag=&#39;model&#39;)
+
+File <span class="ansi-green-fg">~/Github/cfr/cfr/proxy.py:518</span>, in <span class="ansi-cyan-fg">ProxyDatabase.del_clim</span><span class="ansi-blue-fg">(self, verbose)</span>
+<span class="ansi-green-intense-fg ansi-bold">    &lt;a href=&#39;file:///Users/fzhu/Github/cfr/cfr/proxy.py?line=515&#39;&gt;516&lt;/a&gt;</span> for pid, pobj in tqdm(self.records.items(), total=self.nrec, desc=&#39;Deleting the nearest climate for ProxyRecord&#39;):
+<span class="ansi-green-intense-fg ansi-bold">    &lt;a href=&#39;file:///Users/fzhu/Github/cfr/cfr/proxy.py?line=516&#39;&gt;517&lt;/a&gt;</span>     pobj.del_clim(verbose=verbose)
+<span class="ansi-green-fg">--&gt; &lt;a href=&#39;file:///Users/fzhu/Github/cfr/cfr/proxy.py?line=517&#39;&gt;518&lt;/a&gt;</span>     new += pobj
+<span class="ansi-green-intense-fg ansi-bold">    &lt;a href=&#39;file:///Users/fzhu/Github/cfr/cfr/proxy.py?line=519&#39;&gt;520&lt;/a&gt;</span> new.refresh()
+<span class="ansi-green-intense-fg ansi-bold">    &lt;a href=&#39;file:///Users/fzhu/Github/cfr/cfr/proxy.py?line=520&#39;&gt;521&lt;/a&gt;</span> return new
+
+File <span class="ansi-green-fg">~/Github/cfr/cfr/proxy.py:398</span>, in <span class="ansi-cyan-fg">ProxyDatabase.__add__</span><span class="ansi-blue-fg">(self, records)</span>
+<span class="ansi-green-intense-fg ansi-bold">    &lt;a href=&#39;file:///Users/fzhu/Github/cfr/cfr/proxy.py?line=394&#39;&gt;395&lt;/a&gt;</span> def __add__(self, records):
+<span class="ansi-green-intense-fg ansi-bold">    &lt;a href=&#39;file:///Users/fzhu/Github/cfr/cfr/proxy.py?line=395&#39;&gt;396&lt;/a&gt;</span>     &#39;&#39;&#39; Add a list of records into the database
+<span class="ansi-green-intense-fg ansi-bold">    &lt;a href=&#39;file:///Users/fzhu/Github/cfr/cfr/proxy.py?line=396&#39;&gt;397&lt;/a&gt;</span>     &#39;&#39;&#39;
+<span class="ansi-green-fg">--&gt; &lt;a href=&#39;file:///Users/fzhu/Github/cfr/cfr/proxy.py?line=397&#39;&gt;398&lt;/a&gt;</span>     new = self.copy()
+<span class="ansi-green-intense-fg ansi-bold">    &lt;a href=&#39;file:///Users/fzhu/Github/cfr/cfr/proxy.py?line=398&#39;&gt;399&lt;/a&gt;</span>     if isinstance(records, ProxyRecord):
+<span class="ansi-green-intense-fg ansi-bold">    &lt;a href=&#39;file:///Users/fzhu/Github/cfr/cfr/proxy.py?line=399&#39;&gt;400&lt;/a&gt;</span>         # if only one record
+<span class="ansi-green-intense-fg ansi-bold">    &lt;a href=&#39;file:///Users/fzhu/Github/cfr/cfr/proxy.py?line=400&#39;&gt;401&lt;/a&gt;</span>         records = [records]
+
+File <span class="ansi-green-fg">~/Github/cfr/cfr/proxy.py:332</span>, in <span class="ansi-cyan-fg">ProxyDatabase.copy</span><span class="ansi-blue-fg">(self)</span>
+<span class="ansi-green-intense-fg ansi-bold">    &lt;a href=&#39;file:///Users/fzhu/Github/cfr/cfr/proxy.py?line=330&#39;&gt;331&lt;/a&gt;</span> def copy(self):
+<span class="ansi-green-fg">--&gt; &lt;a href=&#39;file:///Users/fzhu/Github/cfr/cfr/proxy.py?line=331&#39;&gt;332&lt;/a&gt;</span>     return copy.deepcopy(self)
+
+File <span class="ansi-green-fg">~/Apps/miniconda3/envs/p2k-env/lib/python3.9/copy.py:172</span>, in <span class="ansi-cyan-fg">deepcopy</span><span class="ansi-blue-fg">(x, memo, _nil)</span>
+<span class="ansi-green-intense-fg ansi-bold">    &lt;a href=&#39;file:///Users/fzhu/Apps/miniconda3/envs/p2k-env/lib/python3.9/copy.py?line=169&#39;&gt;170&lt;/a&gt;</span>                 y = x
+<span class="ansi-green-intense-fg ansi-bold">    &lt;a href=&#39;file:///Users/fzhu/Apps/miniconda3/envs/p2k-env/lib/python3.9/copy.py?line=170&#39;&gt;171&lt;/a&gt;</span>             else:
+<span class="ansi-green-fg">--&gt; &lt;a href=&#39;file:///Users/fzhu/Apps/miniconda3/envs/p2k-env/lib/python3.9/copy.py?line=171&#39;&gt;172&lt;/a&gt;</span>                 y = _reconstruct(x, memo, *rv)
+<span class="ansi-green-intense-fg ansi-bold">    &lt;a href=&#39;file:///Users/fzhu/Apps/miniconda3/envs/p2k-env/lib/python3.9/copy.py?line=173&#39;&gt;174&lt;/a&gt;</span> # If is its own copy, don&#39;t memoize.
+<span class="ansi-green-intense-fg ansi-bold">    &lt;a href=&#39;file:///Users/fzhu/Apps/miniconda3/envs/p2k-env/lib/python3.9/copy.py?line=174&#39;&gt;175&lt;/a&gt;</span> if y is not x:
+
+File <span class="ansi-green-fg">~/Apps/miniconda3/envs/p2k-env/lib/python3.9/copy.py:270</span>, in <span class="ansi-cyan-fg">_reconstruct</span><span class="ansi-blue-fg">(x, memo, func, args, state, listiter, dictiter, deepcopy)</span>
+<span class="ansi-green-intense-fg ansi-bold">    &lt;a href=&#39;file:///Users/fzhu/Apps/miniconda3/envs/p2k-env/lib/python3.9/copy.py?line=267&#39;&gt;268&lt;/a&gt;</span> if state is not None:
+<span class="ansi-green-intense-fg ansi-bold">    &lt;a href=&#39;file:///Users/fzhu/Apps/miniconda3/envs/p2k-env/lib/python3.9/copy.py?line=268&#39;&gt;269&lt;/a&gt;</span>     if deep:
+<span class="ansi-green-fg">--&gt; &lt;a href=&#39;file:///Users/fzhu/Apps/miniconda3/envs/p2k-env/lib/python3.9/copy.py?line=269&#39;&gt;270&lt;/a&gt;</span>         state = deepcopy(state, memo)
+<span class="ansi-green-intense-fg ansi-bold">    &lt;a href=&#39;file:///Users/fzhu/Apps/miniconda3/envs/p2k-env/lib/python3.9/copy.py?line=270&#39;&gt;271&lt;/a&gt;</span>     if hasattr(y, &#39;__setstate__&#39;):
+<span class="ansi-green-intense-fg ansi-bold">    &lt;a href=&#39;file:///Users/fzhu/Apps/miniconda3/envs/p2k-env/lib/python3.9/copy.py?line=271&#39;&gt;272&lt;/a&gt;</span>         y.__setstate__(state)
+
+File <span class="ansi-green-fg">~/Apps/miniconda3/envs/p2k-env/lib/python3.9/copy.py:146</span>, in <span class="ansi-cyan-fg">deepcopy</span><span class="ansi-blue-fg">(x, memo, _nil)</span>
+<span class="ansi-green-intense-fg ansi-bold">    &lt;a href=&#39;file:///Users/fzhu/Apps/miniconda3/envs/p2k-env/lib/python3.9/copy.py?line=143&#39;&gt;144&lt;/a&gt;</span> copier = _deepcopy_dispatch.get(cls)
+<span class="ansi-green-intense-fg ansi-bold">    &lt;a href=&#39;file:///Users/fzhu/Apps/miniconda3/envs/p2k-env/lib/python3.9/copy.py?line=144&#39;&gt;145&lt;/a&gt;</span> if copier is not None:
+<span class="ansi-green-fg">--&gt; &lt;a href=&#39;file:///Users/fzhu/Apps/miniconda3/envs/p2k-env/lib/python3.9/copy.py?line=145&#39;&gt;146&lt;/a&gt;</span>     y = copier(x, memo)
+<span class="ansi-green-intense-fg ansi-bold">    &lt;a href=&#39;file:///Users/fzhu/Apps/miniconda3/envs/p2k-env/lib/python3.9/copy.py?line=146&#39;&gt;147&lt;/a&gt;</span> else:
+<span class="ansi-green-intense-fg ansi-bold">    &lt;a href=&#39;file:///Users/fzhu/Apps/miniconda3/envs/p2k-env/lib/python3.9/copy.py?line=147&#39;&gt;148&lt;/a&gt;</span>     if issubclass(cls, type):
+
+File <span class="ansi-green-fg">~/Apps/miniconda3/envs/p2k-env/lib/python3.9/copy.py:230</span>, in <span class="ansi-cyan-fg">_deepcopy_dict</span><span class="ansi-blue-fg">(x, memo, deepcopy)</span>
+<span class="ansi-green-intense-fg ansi-bold">    &lt;a href=&#39;file:///Users/fzhu/Apps/miniconda3/envs/p2k-env/lib/python3.9/copy.py?line=227&#39;&gt;228&lt;/a&gt;</span> memo[id(x)] = y
+<span class="ansi-green-intense-fg ansi-bold">    &lt;a href=&#39;file:///Users/fzhu/Apps/miniconda3/envs/p2k-env/lib/python3.9/copy.py?line=228&#39;&gt;229&lt;/a&gt;</span> for key, value in x.items():
+<span class="ansi-green-fg">--&gt; &lt;a href=&#39;file:///Users/fzhu/Apps/miniconda3/envs/p2k-env/lib/python3.9/copy.py?line=229&#39;&gt;230&lt;/a&gt;</span>     y[deepcopy(key, memo)] = deepcopy(value, memo)
+<span class="ansi-green-intense-fg ansi-bold">    &lt;a href=&#39;file:///Users/fzhu/Apps/miniconda3/envs/p2k-env/lib/python3.9/copy.py?line=230&#39;&gt;231&lt;/a&gt;</span> return y
+
+File <span class="ansi-green-fg">~/Apps/miniconda3/envs/p2k-env/lib/python3.9/copy.py:146</span>, in <span class="ansi-cyan-fg">deepcopy</span><span class="ansi-blue-fg">(x, memo, _nil)</span>
+<span class="ansi-green-intense-fg ansi-bold">    &lt;a href=&#39;file:///Users/fzhu/Apps/miniconda3/envs/p2k-env/lib/python3.9/copy.py?line=143&#39;&gt;144&lt;/a&gt;</span> copier = _deepcopy_dispatch.get(cls)
+<span class="ansi-green-intense-fg ansi-bold">    &lt;a href=&#39;file:///Users/fzhu/Apps/miniconda3/envs/p2k-env/lib/python3.9/copy.py?line=144&#39;&gt;145&lt;/a&gt;</span> if copier is not None:
+<span class="ansi-green-fg">--&gt; &lt;a href=&#39;file:///Users/fzhu/Apps/miniconda3/envs/p2k-env/lib/python3.9/copy.py?line=145&#39;&gt;146&lt;/a&gt;</span>     y = copier(x, memo)
+<span class="ansi-green-intense-fg ansi-bold">    &lt;a href=&#39;file:///Users/fzhu/Apps/miniconda3/envs/p2k-env/lib/python3.9/copy.py?line=146&#39;&gt;147&lt;/a&gt;</span> else:
+<span class="ansi-green-intense-fg ansi-bold">    &lt;a href=&#39;file:///Users/fzhu/Apps/miniconda3/envs/p2k-env/lib/python3.9/copy.py?line=147&#39;&gt;148&lt;/a&gt;</span>     if issubclass(cls, type):
+
+File <span class="ansi-green-fg">~/Apps/miniconda3/envs/p2k-env/lib/python3.9/copy.py:205</span>, in <span class="ansi-cyan-fg">_deepcopy_list</span><span class="ansi-blue-fg">(x, memo, deepcopy)</span>
+<span class="ansi-green-intense-fg ansi-bold">    &lt;a href=&#39;file:///Users/fzhu/Apps/miniconda3/envs/p2k-env/lib/python3.9/copy.py?line=202&#39;&gt;203&lt;/a&gt;</span> append = y.append
+<span class="ansi-green-intense-fg ansi-bold">    &lt;a href=&#39;file:///Users/fzhu/Apps/miniconda3/envs/p2k-env/lib/python3.9/copy.py?line=203&#39;&gt;204&lt;/a&gt;</span> for a in x:
+<span class="ansi-green-fg">--&gt; &lt;a href=&#39;file:///Users/fzhu/Apps/miniconda3/envs/p2k-env/lib/python3.9/copy.py?line=204&#39;&gt;205&lt;/a&gt;</span>     append(deepcopy(a, memo))
+<span class="ansi-green-intense-fg ansi-bold">    &lt;a href=&#39;file:///Users/fzhu/Apps/miniconda3/envs/p2k-env/lib/python3.9/copy.py?line=205&#39;&gt;206&lt;/a&gt;</span> return y
+
+File <span class="ansi-green-fg">~/Apps/miniconda3/envs/p2k-env/lib/python3.9/copy.py:128</span>, in <span class="ansi-cyan-fg">deepcopy</span><span class="ansi-blue-fg">(x, memo, _nil)</span>
+<span class="ansi-green-intense-fg ansi-bold">    &lt;a href=&#39;file:///Users/fzhu/Apps/miniconda3/envs/p2k-env/lib/python3.9/copy.py?line=123&#39;&gt;124&lt;/a&gt;</span>     d[PyStringMap] = PyStringMap.copy
+<span class="ansi-green-intense-fg ansi-bold">    &lt;a href=&#39;file:///Users/fzhu/Apps/miniconda3/envs/p2k-env/lib/python3.9/copy.py?line=125&#39;&gt;126&lt;/a&gt;</span> del d, t
+<span class="ansi-green-fg">--&gt; &lt;a href=&#39;file:///Users/fzhu/Apps/miniconda3/envs/p2k-env/lib/python3.9/copy.py?line=127&#39;&gt;128&lt;/a&gt;</span> def deepcopy(x, memo=None, _nil=[]):
+<span class="ansi-green-intense-fg ansi-bold">    &lt;a href=&#39;file:///Users/fzhu/Apps/miniconda3/envs/p2k-env/lib/python3.9/copy.py?line=128&#39;&gt;129&lt;/a&gt;</span>     &#34;&#34;&#34;Deep copy operation on arbitrary Python objects.
+<span class="ansi-green-intense-fg ansi-bold">    &lt;a href=&#39;file:///Users/fzhu/Apps/miniconda3/envs/p2k-env/lib/python3.9/copy.py?line=129&#39;&gt;130&lt;/a&gt;</span>
+<span class="ansi-green-intense-fg ansi-bold">    &lt;a href=&#39;file:///Users/fzhu/Apps/miniconda3/envs/p2k-env/lib/python3.9/copy.py?line=130&#39;&gt;131&lt;/a&gt;</span>     See the module&#39;s __doc__ string for more info.
+<span class="ansi-green-intense-fg ansi-bold">    &lt;a href=&#39;file:///Users/fzhu/Apps/miniconda3/envs/p2k-env/lib/python3.9/copy.py?line=131&#39;&gt;132&lt;/a&gt;</span>     &#34;&#34;&#34;
+<span class="ansi-green-intense-fg ansi-bold">    &lt;a href=&#39;file:///Users/fzhu/Apps/miniconda3/envs/p2k-env/lib/python3.9/copy.py?line=133&#39;&gt;134&lt;/a&gt;</span>     if memo is None:
+
+<span class="ansi-red-fg">KeyboardInterrupt</span>:
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">

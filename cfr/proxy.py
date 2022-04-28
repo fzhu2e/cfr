@@ -189,10 +189,16 @@ class ProxyRecord:
         new.time_unit = da.attrs['time_unit'] if 'time_name' in da.attrs else None
         return new
 
-    def annualize(self, months=list(range(1, 13))):
+    def annualize(self, months=list(range(1, 13)), verbose=False):
         new = self.copy()
-        new.time, new.value = utils.annualize(self.time, self.value, months=months)
-        return new
+        try:
+            new.time, new.value = utils.annualize(self.time, self.value, months=months)
+            return new
+        except:
+            if verbose:
+                print(f'Record {self.pid} cannot be annualized with months {months}. None returned.')
+            return None
+            
 
     def __add__(self, records):
         ''' Add a list of records into a database
@@ -493,11 +499,12 @@ class ProxyDatabase:
 
         return fig, ax
 
-    def annualize(self, months=list(range(1, 13))):
+    def annualize(self, months=list(range(1, 13)), verbose=False):
         new = ProxyDatabase()
         for pid, pobj in tqdm(self.records.items(), total=self.nrec, desc='Annualizing ProxyRecord'):
-            spobj = pobj.annualize(months=months)
-            new += spobj
+            spobj = pobj.annualize(months=months, verbose=verbose)
+            if spobj is not None:
+                new += spobj
 
         new.refresh()
         return new

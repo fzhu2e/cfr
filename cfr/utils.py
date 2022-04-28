@@ -216,11 +216,11 @@ def datetime2year_float(date):
     return year_float
 
 def year_float2datetime(year_float, resolution='day'):
-    if np.min(year_float) < 0:
-        raise ValueError('Cannot handel negative years. Please truncate first.')
-
     ''' Convert an array of floats in unit of year to a datetime time; accuracy: one day
     '''
+    # if np.min(year_float) < 0:
+    #     raise ValueError('Cannot handel negative years. Please truncate first.')
+
     year = np.array([int(y) for y in year_float], dtype=int)
     month = np.zeros(np.size(year), dtype=int)
     day = np.zeros(np.size(year), dtype=int)
@@ -243,11 +243,11 @@ def year_float2datetime(year_float, resolution='day'):
     return time
 
 def year_float2dates(year_float):
-    if np.min(year_float) < 0:
-        raise ValueError('Cannot handel negative years. Please truncate first.')
-
     ''' Convert an array of floats in unit of year to a datetime time; accuracy: one day
     '''
+    # if np.min(year_float) < 0:
+    #     raise ValueError('Cannot handel negative years. Please truncate first.')
+
     year = np.array([int(y) for y in year_float], dtype=int)
     dates = []
 

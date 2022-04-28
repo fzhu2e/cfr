@@ -15,7 +15,7 @@
 # sys.path.insert(0, os.path.abspath('.'))
 # -- Project information -----------------------------------------------------
 
-project = 'p2k'
+project = 'cfr'
 author = 'Feng Zhu'
 copyright = f'2022, {author}'
 
@@ -62,7 +62,7 @@ html_theme = 'sphinx_book_theme'
 # html_theme = 'bootstrap'
 # html_theme = "sphinxawesome_theme"
 html_theme_options = {
-    'repository_url': 'https://github.com/fzhu2e/p2k',
+    'repository_url': 'https://github.com/fzhu2e/cfr',
     'use_edit_page_button': True,
     'use_repository_button': True,
     'use_issues_button': True,

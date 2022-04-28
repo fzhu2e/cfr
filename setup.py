@@ -24,6 +24,20 @@ setup(
         'Programming Language :: Python :: 3.10',
     ],
     install_requires=[
-        'p2k',
+        'termcolor',
+        'pandas',
+        'tqdm',
+        'xarray',
+        'netCDF4',
+        'nc-time-axis',
+        'dask',
     ],
+    extras_require={
+        'psm': [
+            'pathos',
+            'fbm',
+            'statsmodels',
+            'pyvsl',
+        ]
+    }
 )

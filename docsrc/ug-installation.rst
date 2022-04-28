@@ -55,7 +55,7 @@ Step 3: Test your Installation
   which conda  # should return a path under <base-path>
 
 
-Install `p2k`
+Install `cfr`
 ---------------
 
 

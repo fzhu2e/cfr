@@ -24,12 +24,16 @@ def clean_df(df, mask=None):
     return df_cleaned
 
 class Linear:
-    def __init__(self, pobj):
+    def __init__(self, pobj=None, climate_required = ['tas']):
         self.pobj = pobj
+        self.climate_required = climate_required
 
     def calibrate(self, calib_period=None, nobs_lb=25, metric='fitR2adj',
         season_list=[list(range(1, 13))], annualize_exog=True, exog_name='obs_tas', **fit_args):
         exog = self.pobj.clim[exog_name]
+
+        if type(season_list[0]) is not list:
+            season_list = [season_list]
 
         score_list = []
         mdl_list = []
@@ -122,8 +126,9 @@ class Linear:
 
 
 class Bilinear:
-    def __init__(self, pobj):
+    def __init__(self, pobj=None, climate_required = ['tas', 'pr']):
         self.pobj = pobj
+        self.climate_required = climate_required
 
     def calibrate(self, calib_period=None, nobs_lb=25, metric='fitR2adj',
         season_list1=[list(range(1, 13))], season_list2=[list(range(1, 13))],
@@ -237,12 +242,14 @@ class Bilinear:
 
 
 class Ice_d18O():
-    def __init__(self, pobj, tas_name='model_tas', pr_name='model_pr', psl_name='model_psl', d18O_name='model_d18O'):
+    def __init__(self, pobj=None, tas_name='model_tas', pr_name='model_pr', psl_name='model_psl', d18O_name='model_d18O',
+                 climate_required=['tas', 'pr', 'psl', 'd18O']):
         self.pobj = pobj
         self.tas_name = tas_name
         self.pr_name = pr_name
         self.psl_name = psl_name
         self.d18O_name = d18O_name
+        self.climate_required = climate_required
 
     def forward(self, nproc=None):
         ''' The ice d18O model
@@ -609,7 +616,8 @@ class Lake_VarveThickness():
 
     It takes summer temperature as input (JJA for NH and DJF for SH).
     '''
-    def __init__(self, pobj, model_tas_name='model_tas', H=None, shape=None, mean=None, SNR=None, seed=None):
+    def __init__(self, pobj=None, model_tas_name='model_tas', H=None, shape=None, mean=None, SNR=None, seed=None,
+                 climate_required=['tas']):
         self.pobj = pobj
         self.H = H
         self.shape = shape
@@ -617,6 +625,7 @@ class Lake_VarveThickness():
         self.SNR = SNR
         self.seed = seed
         self.model_tas_name = model_tas_name
+        self.climate_required = climate_required
 
     def forward(self):
 
@@ -727,12 +736,13 @@ class Lake_VarveThickness():
 class Coral_SrCa:
     ''' The coral Sr/Ca model
     '''
-    def __init__(self, pobj, model_tos_name='model_tos', b=10.553, a=None, seed=None):
+    def __init__(self, pobj=None, model_tos_name='model_tos', b=10.553, a=None, seed=None, climate_required='tos'):
         self.pobj = pobj
         self.model_tos_name = model_tos_name
         self.b = b
         self.a = a
         self.seed = seed
+        self.climate_required = climate_required
 
     def forward(self):
         ''' Sensor model for Coral Sr/Ca = a * tos + b
@@ -769,8 +779,9 @@ class Coral_d18O:
        model of coral \u03b418O, Geophys.Res.Lett., 38, L14706, doi:10.1029/2011GL048224.>
        Returns a numpy array that is the same size and shape as the input vectors for SST, SSS.
     '''
-    def __init__(self, pobj, model_tos_name='model_tos', model_d18Osw_name='model_d18Osw',
-        species='default', b1=0.3007062, b2=0.2619054, b3=0.436509, b4=0.1552032, b5=0.15):
+    def __init__(self, pobj=None, model_tos_name='model_tos', model_d18Osw_name='model_d18Osw',
+        climate_required=['tos', 'd18Osw'], species='default',
+        b1=0.3007062, b2=0.2619054, b3=0.436509, b4=0.1552032, b5=0.15):
         self.pobj = pobj
         self.model_tos_name = model_tos_name
         self.model_d18Osw_name = model_d18Osw_name
@@ -780,6 +791,7 @@ class Coral_d18O:
         self.b3 = b3
         self.b4 = b4
         self.b5 = b5
+        self.climate_required = climate_required
 
     def forward(self):
         def pseudocoral(sst, sss=None, d18O=None, species="default", lat=None, lon=None, 
@@ -937,15 +949,17 @@ class Coral_d18O:
 class VSLite:
     ''' The VS-Lite tree-ring width model that takes monthly tas, pr as input.
     '''
-    def __init__(self, pobj,
+    def __init__(self, pobj=None,
             obs_tas_name='obs_tas', obs_pr_name='obs_pr',
             model_tas_name='model_tas', model_pr_name='model_pr',
+            climate_required=['tas', 'pr'],
         ):
         self.pobj = pobj
         self.obs_tas_name = obs_tas_name
         self.obs_pr_name = obs_pr_name
         self.model_tas_name = model_tas_name
         self.model_pr_name = model_pr_name
+        self.climate_required = climate_required
 
     def calibrate(self, calib_period=[1901, 2000], method='Bayesian'):
         proxy_time = self.pobj.time

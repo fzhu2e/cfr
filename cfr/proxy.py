@@ -223,12 +223,12 @@ class ProxyRecord:
         if hasattr(self, 'clim'): del self.clim
         if verbose: utils.p_success(f'ProxyRecord.clim deleted for {self.pid}.')
 
-    def get_clim(self, fields, tag=None, verbose=True, load=True, **kwargs):
+    def get_clim(self, fields, tag=None, verbose=False, load=True, **kwargs):
         ''' Get the nearest climate from cliamte fields
 
         Parameters
         ----------
-        fields : p2k.climate.ClimateField or p2k.climate.ClimateDataset
+        fields : cfr.climate.ClimateField or cfr.climate.ClimateDataset
             the climate field
         '''
         if isinstance(fields, ClimateDataset):
@@ -420,8 +420,8 @@ class ProxyDatabase:
         ''' Subtract a list of records from a database
 
         Args:
-            records (list): a list of p2k.proxy.ProxyRecord
-                can also be a single p2k.proxy.ProxyRecord or p2k.proxy.ProxyDatabase
+            records (list): a list of cfr.proxy.ProxyRecord
+                can also be a single cfr.proxy.ProxyRecord or cfr.proxy.ProxyDatabase
 
         '''
         new = self.copy()
@@ -437,7 +437,7 @@ class ProxyDatabase:
             try:
                 del new.records[record.pid]
             except:
-                utils.p_warning(f'p2k >>> Subtracting {record.pid} failed.')
+                utils.p_warning(f'>>> Subtracting {record.pid} failed.')
 
         new.refresh()
         return new
@@ -550,8 +550,8 @@ class ProxyDatabase:
             da.to_netcdf(path=path, **kwargs)
 
         if verbose:
-            utils.p_warning(f'p2k >>> Data before 1 CE is dropped for records: {pid_truncated}.')
-            utils.p_success(f'p2k >>> ProxyDatabase saved to: {dirpath}')
+            utils.p_warning(f'>>> Data before 1 CE is dropped for records: {pid_truncated}.')
+            utils.p_success(f'>>> ProxyDatabase saved to: {dirpath}')
 
     def load_nc(self, dirpath, nproc=None, **kwargs):
         ''' Load from multiple .nc files

@@ -166,11 +166,14 @@ class ClimateField:
         new.time = np.floor(utils.datetime2year_float(new.da.time.values))
         return new
 
-    def regrid(self, lat, lon):
+    def regrid(self, lats, lons, periodic_lon=False):
         new = self.copy()
-        lat_da = xr.DataArray(lat, dims=[self.lat_name], coords={self.lat_name: lat})
-        lon_da = xr.DataArray(lon, dims=[self.lon_name], coords={self.lon_name: lon})
-        dai = self.da.interp(lon=lon_da, lat=lat_da)
+        lat_da = xr.DataArray(lats, dims=[self.lat_name], coords={self.lat_name: lats})
+        lon_da = xr.DataArray(lons, dims=[self.lon_name], coords={self.lon_name: lons})
+        dai = self.da.interp(coords={self.lon_name: lon_da, self.lat_name: lat_da})
+        if periodic_lon:
+            dai[..., -1] = dai[..., 0]
+
         new.da = dai
         new.refresh()
 

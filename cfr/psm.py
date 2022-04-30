@@ -200,6 +200,7 @@ class Bilinear:
                 'PSMmse': np.mean(opt_mdl.resid**2),
                 'SNR': np.std(opt_mdl.predict()) / np.std(opt_mdl.resid),
                 'seasonality': opt_sn,
+                'score_list': score_list,  # for debug purpose
             }
 
             self.calib_details = calib_details

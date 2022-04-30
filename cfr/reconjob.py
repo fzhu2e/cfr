@@ -109,17 +109,14 @@ class ReconJob:
         if verbose:
             p_success(f'>>> job.proxydb updated')
 
-    def mark_pids_to_cfg(self, verbose=False):
+    def mark_pids(self, verbose=False):
         self.configs['pids'] = self.proxydb.pids
         if verbose:
             p_success(f'>>> job.configs updated with pids: {self.proxydb.pids}')
 
-    def split_proxydb(self, proxy_assim_frac=0.75, seed=0, verbose=False):
-        if proxy_assim_frac is not None:
-            self.configs.update({'proxy_assim_frac': proxy_assim_frac})
-            if verbose: p_header(f'>>> job.configs["proxy_assim_frac"] = {proxy_assim_frac}')
-        else:
-            proxy_assim_frac = self.configs['proxy_assim_frac']
+    def split_proxydb(self, assim_frac=None, seed=0, verbose=False):
+        assim_frac = self.io_cfg('proxy_assim_frac', assim_frac, default=0.75, verbose=verbose)
+
         
 
     def load_gridded(self, tag, path_dict=None, rename_dict=None, center_period=None, lon_name='lon', verbose=False):
@@ -139,32 +136,25 @@ class ReconJob:
             p_success(f'>>> instrumental observation variables {list(self.__dict__[tag].keys())} loaded')
             p_success(f'>>> job.{tag} created')
 
-    def annualize_ds(self, tag, verbose=False, **kwargs):
+    def annualize_ds(self, tag, verbose=False, months=None):
+        months = self.io_cfg('prior_annualize_months', months, default=list(range(1, 13)), verbose=verbose)
+
         for vn, fd in self.__dict__[tag].items():
             if verbose: p_header(f'>>> Processing {vn} ...')
-            self.__dict__[tag][vn] = fd.annualize(**kwargs)
+            self.__dict__[tag][vn] = fd.annualize(months=months)
 
         if verbose:
             p_success(f'>>> job.{tag} updated')
 
     def regrid_ds(self, tag, verbose=False, lats=None, lons=None, nlat=None, nlon=None, periodic_lon=True):
-        if lats is not None: 
-            lats_new = lats
-        elif nlat is not None:
-            lats_new = np.linspace(-90, 90, nlat)
-        else:
-            raise ValueError('lats or nlat should be set')
-
-        if lons is not None:
-            lons_new = lons
-        elif nlon is not None:
-            lons_new = np.linspace(0, 360, nlon)
-        else:
-            raise ValueError('lons or nlon should be set')
+        nlat = self.io_cfg('prior_regrid_nlat', nlat, default=42, verbose=verbose)
+        nlon = self.io_cfg('prior_regrid_nlon', nlon, default=63, verbose=verbose)
+        lats = self.io_cfg('prior_regrid_lats', lats, default=np.linspace(-90, 90, nlat), verbose=verbose)
+        lons = self.io_cfg('prior_regrid_lons', lons, default=np.linspace(0, 360, nlon), verbose=verbose)
 
         for vn, fd in self.__dict__[tag].items():
             if verbose: p_header(f'>>> Processing {vn} ...')
-            self.__dict__[tag][vn] = fd.regrid(lats=lats_new, lons=lons_new, periodic_lon=periodic_lon)
+            self.__dict__[tag][vn] = fd.regrid(lats=lats, lons=lons, periodic_lon=periodic_lon)
         
     def calib_psms(self, ptype_psm_dict=None, ptype_season_dict=None, calib_period=None, verbose=False):
         ptype_psm_dict = self.io_cfg(
@@ -223,23 +213,9 @@ class ReconJob:
             p_success(f'>>> job.ppdb created for {self.proxydb.nrec} records')
 
     def run_da(self, recon_period=None, recon_loc_rad=None, recon_timescale=None, verbose=False, debug=False):
-        if recon_period is not None:
-            self.configs['recon_period'] = recon_period
-            if verbose: p_header(f'>>> job.configs["recon_period"] = {recon_period}')
-        else:
-            recon_period = self.configs['recon_period']
-
-        if recon_timescale is not None:
-            self.configs['recon_timescale'] = recon_timescale
-            if verbose: p_header(f'>>> job.configs["recon_timescale"] = {recon_timescale}')
-        else:
-            recon_timescale = self.configs['recon_timescale']
-
-        if recon_loc_rad is not None:
-            self.configs['recon_loc_rad'] = recon_loc_rad
-            if verbose: p_header(f'>>> job.configs["recon_loc_rad"] = {recon_loc_rad}')
-        else:
-            recon_loc_rad = self.configs['recon_loc_rad']
+        recon_period = self.io_cfg('recon_period', recon_period, default=[0, 2000], verbose=verbose)
+        recon_loc_rad = self.io_cfg('recon_loc_rad', recon_loc_rad, default=25000, verbose=verbose)  # unit: km
+        recon_timescale = self.io_cfg('recon_timescale', recon_timescale, default=1, verbose=verbose)  # unit: yr
 
         recon_yrs = np.arange(recon_period[0], recon_period[-1]+1)
         Xb_aug = np.append(self.Xb, self.Ye_assim, axis=0)
@@ -263,25 +239,22 @@ class ReconJob:
         self.recon_fields = recon_fields
         if verbose: p_success(f'>>> job.recon_fields created')
 
-    def run(self, recon_seeds=None, verbose=False):
-        if recon_seeds is not None:
-            self.configs.update({'recon_seeds': recon_seeds})
-            if verbose: p_header(f'>>> job.configs["recon_seeds"] = {recon_seeds}')
-        else:
-            recon_seeds = self.configs['recon_seeds']
+    def run(self, recon_seeds=None, save_dirpath=None, verbose=False):
+        recon_seeds = self.io_cfg('recon_seeds', recon_seeds, default=np.arange(0, 20), verbose=verbose)
+        save_dirpath = self.io_cfg('save_dirpath', save_dirpath, verbose=verbose)
 
         for seed in recon_seeds:
             if verbose: p_header(f'>>> seed: {seed} | max: {recon_seeds[-1]}')
+            # gen_Ye()
+            # gen_Xb()
+            # run_da()
+            # save_recon()
 
+        p_success('>>> DONE!')
         
 
-    def save(self, job_dirpath=None, verbose=False):
-        if job_dirpath is not None:
-            self.configs.update({'job_dirpath': job_dirpath})
-            if verbose: p_header(f'>>> job.configs["job_dirpath"] = {job_dirpath}')
-        else:
-            job_dirpath = self.configs['job_dirpath']
-
-        os.makedirs(job_dirpath, exist_ok=True)
-        pd.to_pickle(self, os.path.join(job_dirpath, 'job.pkl'))
-        if verbose: p_success(f'>>> job saved to: {job_dirpath}')
+    def save(self, save_dirpath=None, filename='job.pkl', verbose=False):
+        save_dirpath = self.io_cfg('save_dirpath', save_dirpath, verbose=verbose)
+        os.makedirs(save_dirpath, exist_ok=True)
+        pd.to_pickle(self, os.path.join(save_dirpath, filename))
+        if verbose: p_success(f'>>> job saved to: {save_dirpath}')

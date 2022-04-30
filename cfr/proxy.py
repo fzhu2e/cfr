@@ -62,7 +62,7 @@ def get_ptype(archive_type, proxy_type):
     return ptype_dict[(archive_type, proxy_type)]
 
 class ProxyRecord:
-    def __init__(self, pid=None, time=None, value=None, lat=None, lon=None, ptype=None,
+    def __init__(self, pid=None, time=None, value=None, lat=None, lon=None, ptype=None, tags=None,
         value_name=None, value_unit=None, time_name=None, time_unit=None, seasonality=None):
         '''
         Parameters
@@ -90,6 +90,9 @@ class ProxyRecord:
             - 'coral.d18O' : Coral d18O isotopes
             - 'coral.SrCa' : Coral Sr/Ca ratios
             - 'ice.d18O' : Ice d18O isotopes
+
+        tags : list of str
+            the tags for the record, to enable tag filtering
         '''
         self.pid = pid
         self.time = time
@@ -97,6 +100,7 @@ class ProxyRecord:
         self.lat = lat
         self.lon = lon
         self.ptype = ptype
+        self.tags = [] if tags is None else tags
 
         self.dt = np.median(np.diff(time)) if time is not None else None
         self.value_name = 'Proxy Value' if value_name is None else value_name
@@ -448,7 +452,7 @@ class ProxyDatabase:
         Parameters
         ----------
         by : str
-            filter by a keyword {'ptype', 'pid', 'lat', 'lon', 'loc'}
+            filter by a keyword {'ptype', 'pid', 'lat', 'lon', 'loc', 'tag'}
 
         keys : list
             | a list of keywords
@@ -467,6 +471,7 @@ class ProxyDatabase:
                 'lon': pobj.lon,
                 'loc-square': (pobj.lat, pobj.lon),
                 'loc-circle': (pobj.lat, pobj.lon),
+                'tag': pobj.tags,
             }
             if by in ['ptype', 'pid']:
                 for key in keys:
@@ -483,6 +488,9 @@ class ProxyDatabase:
                 plat, plon = target[by]
                 d = utils.gcd(plat, plon, keys[0], keys[1])
                 if d <= keys[2]:
+                    new_db += pobj
+            elif by == 'tag':
+                if set(keys) <= set(target[by]):
                     new_db += pobj
 
         new_db.refresh()

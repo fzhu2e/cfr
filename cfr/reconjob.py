@@ -34,7 +34,7 @@ class ReconJob:
             p_header(f'>>> job.configs:')
             pp.pprint(self.configs)
 
-    def atrf_cfg(self, k, v, default=None, verbose=False):
+    def io_cfg(self, k, v, default=None, verbose=False):
         ''' Add-to or read-from configurations
         '''
         if v is not None:
@@ -44,6 +44,8 @@ class ReconJob:
             v = self.configs[k]
         elif default is not None:
             v = default
+            self.configs.update({k: v})
+            if verbose: p_header(f'>>> job.configs["{k}"] = {v}')
         else:
             raise ValueError(f'{k} not properly set.')
 
@@ -53,7 +55,7 @@ class ReconJob:
         return copy.deepcopy(self)
 
     def load_proxydb(self, path=None, verbose=False, **kwargs):
-        path = self.atrf_cfg('proxydb_path', path, verbose=verbose)
+        path = self.io_cfg('proxydb_path', path, verbose=verbose)
 
         _, ext =  os.path.splitext(path)
         if ext.lower() == '.pkl':
@@ -66,17 +68,51 @@ class ReconJob:
             p_success(f'>>> {self.proxydb.nrec} records loaded')
             p_success(f'>>> job.proxydb created')
 
-    def filter_proxydb(self, *args, verbose=False, **kwargs):
-        self.proxydb = self.proxydb.filter(*args, **kwargs)
+    def filter_proxydb(self, *args, inplace=True, verbose=False, **kwargs):
+        if inplace:
+            self.proxydb = self.proxydb.filter(*args, **kwargs)
+
+            if verbose:
+                p_success(f'>>> {self.proxydb.nrec} records remaining')
+                p_success(f'>>> job.proxydb updated')
+
+        else:
+            pdb = self.proxydb.filter(*args, **kwargs)
+            return pdb
+
+    def annualize_proxydb(self, ptypes=None, inplace=True, verbose=False, **kwargs):
+        if ptypes is None:
+            if inplace:
+                self.proxydb = self.proxydb.annualize(**kwargs)
+            else:
+                pdb = self.proxydb.annualize(**kwargs)
+                return pdb
+        else:
+            pdb_filtered = self.proxydb.filter(by='ptype', keys=ptypes)
+            pdb_ann = pdb_filtered.annualize(**kwargs)
+            pdb_left = self.proxydb - pdb_filtered
+
+            if inplace:
+                self.proxydb = pdb_ann + pdb_left
+            else:
+                pdb = pdb_ann + pdb_left
+                return pdb
+                
         if verbose:
             p_success(f'>>> {self.proxydb.nrec} records remaining')
             p_success(f'>>> job.proxydb updated')
 
-    def annualize_proxydb(self, verbose=False, **kwargs):
-        self.proxydb = self.proxydb.annualize(**kwargs)
+    def clear_proxydb_tags(self, verbose=False):
+        for pid, pobj in self.proxydb.records.items():
+            pobj.tags = []
+
         if verbose:
-            p_success(f'>>> {self.proxydb.nrec} records remaining')
             p_success(f'>>> job.proxydb updated')
+
+    def mark_pids_to_cfg(self, verbose=False):
+        self.configs['pids'] = self.proxydb.pids
+        if verbose:
+            p_success(f'>>> job.configs updated with pids: {self.proxydb.pids}')
 
     def split_proxydb(self, proxy_assim_frac=0.75, seed=0, verbose=False):
         if proxy_assim_frac is not None:
@@ -87,7 +123,7 @@ class ReconJob:
         
 
     def load_gridded(self, tag, path_dict=None, rename_dict=None, center_period=None, lon_name='lon', verbose=False):
-        path_dict = self.atrf_cfg(f'{tag}_path', path_dict, verbose=verbose)
+        path_dict = self.io_cfg(f'{tag}_path', path_dict, verbose=verbose)
 
         self.__dict__[tag] = {}
         for vn, path in path_dict.items():
@@ -130,18 +166,18 @@ class ReconJob:
             if verbose: p_header(f'>>> Processing {vn} ...')
             self.__dict__[tag][vn] = fd.regrid(lats=lats_new, lons=lons_new, periodic_lon=periodic_lon)
         
-    def calib_psms(self, proxydb=None, ptype_psm_dict=None, ptype_season_dict=None, calib_period=None, verbose=False):
-        ptype_psm_dict = self.atrf_cfg(
+    def calib_psms(self, ptype_psm_dict=None, ptype_season_dict=None, calib_period=None, verbose=False):
+        ptype_psm_dict = self.io_cfg(
             'ptype_psm_dict', ptype_psm_dict,
             default={ptype: 'Linear' for ptype in set(self.proxydb.type_list)},
             verbose=verbose)
 
-        ptype_season_dict = self.atrf_cfg(
+        ptype_season_dict = self.io_cfg(
             'ptype_season_dict', ptype_season_dict,
             default={ptype: 'Linear' for ptype in set(self.proxydb.type_list)},
             verbose=verbose)
 
-        calib_period = self.atrf_cfg(
+        calib_period = self.io_cfg(
             'psm_calib_period', calib_period,
             default=(1850, 2015),
             verbose=verbose)
@@ -154,26 +190,26 @@ class ReconJob:
                 pobj.get_clim(self.obs[vn], tag='obs')
 
             self.psms[pid] = psm.__dict__[psm_name](pobj)
-            self.psms[pid].calibrate(season_list=ptype_season_dict[pobj.ptype], calib_period=calib_period)
+            if psm_name == 'Bilinear':
+                self.psms[pid].calibrate(
+                    season_list1=ptype_season_dict[pobj.ptype],
+                    season_list2=ptype_season_dict[pobj.ptype], calib_period=calib_period)
+            else:
+                self.psms[pid].calibrate(season_list=ptype_season_dict[pobj.ptype], calib_period=calib_period)
 
-        
-        # drop out the proxy record whose PSM is failed to be calibrated
-        pids_to_remove = []
+        # give the calibrated records a tag
         for pid, mdl in self.psms.items():
             if mdl.calib_details is None:
                 if verbose: p_warning(f'>>> The PSM for {pid} failed to calibrate.')
-                pids_to_remove.append(pid)
-
-        for pid in pids_to_remove:
-            if pid in self.proxydb.records: self.proxydb.records.pop(pid)
-            if pid in self.psms: self.psms.pop(pid)
+            else:
+                if 'calibrated' not in self.proxydb.records[pid].tags:
+                    self.proxydb.records[pid].tags.append('calibrated')
 
         self.proxydb.refresh()
 
         if verbose:
             p_success(f'>>> job.psm created for {self.proxydb.nrec} records')
-            p_success(f'>>> job.proxydb_bak created')
-            p_success(f'>>> job.proxydb updated')
+            p_success(f'>>> job.proxydb updated with the tag: "calibrated"')
 
     def forward_psms(self, verbose=False, **kwargs):
         self.ppdb = ProxyDatabase()

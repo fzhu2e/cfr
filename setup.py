@@ -5,7 +5,7 @@ with open('README.rst', 'r') as fh:
 
 setup(
     name='cfr',  # required
-    version='0.0.1',
+    version='0.0.2',
     description='cfr: the library for climate field reconstruction',
     long_description=long_description,
     long_description_content_type='text/x-rst',

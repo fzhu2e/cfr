@@ -5,6 +5,7 @@ import numpy as np
 import yaml
 from tqdm import tqdm
 import pandas as pd
+import random
 from .climate import ClimateField
 from .proxy import ProxyDatabase, ProxyRecord
 from . import psm
@@ -116,6 +117,9 @@ class ReconJob:
 
     def split_proxydb(self, assim_frac=None, seed=0, verbose=False):
         assim_frac = self.io_cfg('proxy_assim_frac', assim_frac, default=0.75, verbose=verbose)
+        nrec_assim = int(self.proxydb.nrec * assim_frac)
+        random.seed(seed)
+        idx_assim = random.sample(range(self.proxydb.nrec), nrec_assim)
 
         
 

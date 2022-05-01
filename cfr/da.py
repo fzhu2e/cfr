@@ -1,4 +1,4 @@
-
+import pandas as pd
 import numpy as np
 from .utils import (
     gcd,
@@ -7,6 +7,46 @@ from .utils import (
     p_warning,
     p_fail,
 )
+
+
+class EnKF:
+    def __init__(self, prior, proxydb):
+        self.prior = prior
+        self.pdb_assim = proxydb.filter(by='tag', keys=['assim'])
+        self.pdb_eval = proxydb.filter(by='tag', keys=['eval'])
+
+    def gen_Ye(self):
+        vn = list(self.prior.keys())[0]
+        time = self.prior[vn].time
+
+        self.Ye_df = {}
+        self.Ye_lat = {}
+        self.Ye_lon = {}
+        self.Ye_coords = {}
+        for tag in ['assim', 'eval']:
+            target_pdb = self.__dict__[f'pdb_{tag}']
+            self.Ye_df[tag] = pd.DataFrame(index=time)
+            self.Ye_lat[tag] = []
+            self.Ye_lon[tag] = []
+            self.Ye_coords[tag] = np.ndarray((target_pdb.nrec, 2))
+
+            for pid, pobj in target_pdb.records.items():
+                series = pd.Series(index=pobj.pseudo.time, data=pobj.pseudo.value)
+                self.Ye_df[tag][pid] = series
+                self.Ye_lat[tag].append(pobj.lat)
+                self.Ye_lon[tag].append(pobj.lon)
+
+            self.Ye_df[tag].dropna(inplace=True)
+            self.Ye_coords[tag][:, 0] = self.Ye_lat[tag]
+            self.Ye_coords[tag][:, 1] = self.Ye_lon[tag]
+        
+
+    def gen_Xb(self):
+        pass
+
+    def run_da(self):
+        pass
+    
 
 def enkf_update_array(Xb, obvalue, Ye, ob_err, loc=None, debug=False):
     """ Function to do the ensemble square-root filter (EnSRF) update
@@ -158,3 +198,4 @@ def cov_localization(locRad, Y, X_coords):
     covLoc[covLoc < 0.0] = 0.0
 
     return covLoc
+

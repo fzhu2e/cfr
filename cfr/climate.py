@@ -175,7 +175,8 @@ class ClimateField:
             dai[..., -1] = dai[..., 0]
 
         new.da = dai
-        new.refresh()
+        new.lat = dai[self.lat_name]
+        new.lon = dai[self.lon_name]
 
         return new
 
@@ -190,7 +191,8 @@ class ClimateField:
             }
         )
         new.da = dac
-        new.refresh()
+        new.lat = dac[self.lat_name]
+        new.lon = dac[self.lon_name]
 
         return  new
 

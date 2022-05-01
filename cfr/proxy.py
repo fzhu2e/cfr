@@ -454,14 +454,17 @@ class ProxyDatabase:
         by : str
             filter by a keyword {'ptype', 'pid', 'lat', 'lon', 'loc', 'tag'}
 
-        keys : list
-            | a list of keywords
+        keys : set
+            | a set of keywords
             | For by = 'ptype' or 'pid', keys take a fuzzy match
             | For by = 'lat' or 'lon', keys = (lat_min, lat_max) or (lon_min, lon_max)
             | For by = 'loc-squre', keys = (lat_min, lat_max, lon_min, lon_max)
             | For by = 'loc-circle', keys = (center_lat, center_lon, distance)
 
         '''
+        if isinstance(keys, str): keys = [keys]
+        keys = set(keys)
+
         new_db = ProxyDatabase()
         pobjs = []
         for pid, pobj in self.records.items():
@@ -491,7 +494,7 @@ class ProxyDatabase:
                 if d <= keys[2]:
                     pobjs.append(pobj)
             elif by == 'tag':
-                if set(keys) <= target[by]:
+                if keys <= target[by]:
                     pobjs.append(pobj)
             
         new_db += pobjs
@@ -500,8 +503,10 @@ class ProxyDatabase:
 
     def nrec_tags(self, keys):
         nrec = 0
+        if isinstance(keys, str): keys = [keys]
+        keys = set(keys)
         for pid, pobj in self.records.items():
-            if set(keys) <= pobj.tags:
+            if keys <= pobj.tags:
                 nrec += 1
 
         return nrec

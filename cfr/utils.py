@@ -38,8 +38,8 @@ def clean_ts(ts, ys):
     ys : array
         The time series without NaNs
     '''
-    ys = np.asarray(ys, dtype=np.float)
-    ts = np.asarray(ts, dtype=np.float)
+    ys = np.array(ys, dtype=np.float)
+    ts = np.array(ts, dtype=np.float)
     assert ys.size == ts.size, 'The size of time axis and data value should be equal!'
 
     ys_tmp = np.copy(ys)
@@ -198,7 +198,7 @@ def ymd2year_float(year, month, day):
         year_length = lst_day - fst_day
         year_float.append(y + year_part/year_length)
 
-    year_float = np.asarray(year_float)
+    year_float = np.array(year_float)
     return year_float
 
 def datetime2year_float(date):

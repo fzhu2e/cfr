@@ -118,7 +118,7 @@ class ReconJob:
             pobj.tags = []
 
         if verbose:
-            p_success(f'>>> job.proxydb updated')
+            p_success(f'>>> job.proxydb updated with tags cleared')
 
     def split_proxydb(self, tag='calibrated', assim_frac=None, seed=0, verbose=False):
         assim_frac = self.io_cfg('proxy_assim_frac', assim_frac, default=0.75, verbose=verbose)
@@ -231,21 +231,19 @@ class ReconJob:
                 self.proxydb.records[pid].tags.add('calibrated')
 
         if verbose:
-            p_success(f'>>> {self.proxydb.filter(by="tag", keys=["calibrated"]).nrec} records tagged "calibrated" with ProxyRecord.psm created')
+            p_success(f'>>> {self.proxydb.nrec_tags("calibrated")} records tagged "calibrated" with ProxyRecord.psm created')
 
     def forward_psms(self, verbose=False, **kwargs):
-        self.ppdb = ProxyDatabase()
-        nrec = self.proxydb.nrec_tags('calibrated')
+        pdb_calib = self.proxydb.filter(by='tag', keys={'calibrated'})
             
-        for pid, pobj in tqdm(self.proxydb.records.items(), total=nrec, desc='Forwarding the PSMs:'):
-            if 'calibrated' in pobj.tags:
-                for vn in pobj.psm.climate_required:
-                    pobj.get_clim(self.prior[vn], tag='model')
+        for pid, pobj in tqdm(pdb_calib.records.items(), total=pdb_calib.nrec, desc='Forwarding the PSMs:'):
+            for vn in pobj.psm.climate_required:
+                pobj.get_clim(self.prior[vn], tag='model')
 
-                self.ppdb += pobj.psm.forward(**kwargs)
+            pobj.pseudo = pobj.psm.forward(**kwargs)
 
         if verbose:
-            p_success(f'>>> job.ppdb created for {nrec} records')
+            p_success(f'>>> ProxyRecord.pseudo created for {pdb_calib.nrec} records')
 
     def run_da(self, recon_period=None, recon_loc_rad=None, recon_timescale=None, verbose=False, debug=False):
         recon_period = self.io_cfg('recon_period', recon_period, default=[0, 2000], verbose=verbose)

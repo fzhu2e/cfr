@@ -138,6 +138,19 @@ class CartopySettings:
         'OSNI': ccrs.OSNI,
     }
 
+def setlabel(ax, label, loc=2, borderpad=0.6, **kwargs):
+    ''' Enumerate plots
+    Reference: https://stackoverflow.com/questions/22508590/enumerate-plots-in-matplotlib-figure
+    '''
+    legend = ax.get_legend()
+    if legend:
+        ax.add_artist(legend)
+    line, = ax.plot(np.NaN, np.NaN,color='none',label=label)
+    label_legend = ax.legend(handles=[line],loc=loc,handlelength=0,handleheight=0,handletextpad=0,borderaxespad=0,borderpad=borderpad,frameon=False,**kwargs)
+    label_legend.remove()
+    ax.add_artist(label_legend)
+    line.remove()
+
 def plot_field_map(field_var, lat, lon, levels=50, add_cyclic_point=True,
                    title=None, title_size=20, title_weight='normal', figsize=[10, 8],
                    site_lats=None, site_lons=None, site_marker='o',

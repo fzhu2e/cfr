@@ -179,7 +179,7 @@ class ClimateField:
 
         return new
 
-    def crop(self, lat_min, lat_max, lon_min, lon_max):
+    def crop(self, lat_min=-90, lat_max=90, lon_min=0, lon_max=360):
         new = self.copy()
         mask_lat = (self.da[self.lat_name] >= lat_min) & (self.da[self.lat_name] <= lat_max)
         mask_lon = (self.da[self.lon_name] >= lon_min) & (self.da[self.lon_name] <= lon_max)

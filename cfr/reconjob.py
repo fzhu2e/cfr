@@ -52,6 +52,16 @@ class ReconJob:
 
         return v
 
+    def write_cfg(self, k, v, verbose=False):
+        self.configs.update({k: v})
+        if verbose: p_header(f'>>> job.configs["{k}"] = {v}')
+
+    def erase_cfg(self, keys, verbose=False):
+        for k in keys:
+            self.configs.pop(k)
+            if verbose: p_success(f'>>> job.configs["{k}"] dropped')
+
+
     def copy(self):
         return copy.deepcopy(self)
 
@@ -110,20 +120,28 @@ class ReconJob:
         if verbose:
             p_success(f'>>> job.proxydb updated')
 
-    def mark_pids(self, verbose=False):
-        self.configs['pids'] = self.proxydb.pids
-        if verbose:
-            p_success(f'>>> job.configs updated with pids: {self.proxydb.pids}')
-
-    def split_proxydb(self, assim_frac=None, seed=0, verbose=False):
+    def split_proxydb(self, tag='calibrated', assim_frac=None, seed=0, verbose=False):
         assim_frac = self.io_cfg('proxy_assim_frac', assim_frac, default=0.75, verbose=verbose)
-        nrec_assim = int(self.proxydb.nrec * assim_frac)
+        target_pdb = self.proxydb.filter(by='tag', keys=[tag])
+
+        nrec_assim = int(target_pdb.nrec * assim_frac)
         random.seed(seed)
-        idx_assim = random.sample(range(self.proxydb.nrec), nrec_assim)
+        idx_assim = random.sample(range(target_pdb.nrec), nrec_assim)
+        idx_eval = list(set(range(target_pdb.nrec)) - set(idx_assim))
 
-        
+        idx = 0
+        for pid, pobj in target_pdb.records.items():
+            if idx in idx_assim:
+                pobj.tags.add('assim')
+            elif idx in idx_eval:
+                pobj.tags.add('eval')
+            idx += 1
 
-    def load_gridded(self, tag, path_dict=None, rename_dict=None, center_period=None, lon_name='lon', verbose=False):
+        if verbose:
+            p_success(f'>>> {target_pdb.nrec_tags(keys=["assim"])} records tagged "assim"')
+            p_success(f'>>> {target_pdb.nrec_tags(keys=["eval"])} records tagged "eval"')
+
+    def load_clim(self, tag, path_dict=None, rename_dict=None, center_period=None, lon_name='lon', verbose=False):
         path_dict = self.io_cfg(f'{tag}_path', path_dict, verbose=verbose)
 
         self.__dict__[tag] = {}
@@ -133,14 +151,14 @@ class ReconJob:
             else:
                 vn_in_file = rename_dict[vn]
 
-            self.__dict__[tag][vn] = ClimateField().load_nc(path, vn=vn_in_file).center(center_period).wrap_lon(lon_name=lon_name)
+            self.__dict__[tag][vn] = ClimateField().load_nc(path, vn=vn_in_file).center(ref_period=center_period).wrap_lon(lon_name=lon_name)
             self.__dict__[tag][vn].da.name = vn
 
         if verbose:
             p_success(f'>>> instrumental observation variables {list(self.__dict__[tag].keys())} loaded')
             p_success(f'>>> job.{tag} created')
 
-    def annualize_ds(self, tag, verbose=False, months=None):
+    def annualize_clim(self, tag, verbose=False, months=None):
         months = self.io_cfg('prior_annualize_months', months, default=list(range(1, 13)), verbose=verbose)
 
         for vn, fd in self.__dict__[tag].items():
@@ -150,15 +168,30 @@ class ReconJob:
         if verbose:
             p_success(f'>>> job.{tag} updated')
 
-    def regrid_ds(self, tag, verbose=False, lats=None, lons=None, nlat=None, nlon=None, periodic_lon=True):
-        nlat = self.io_cfg('prior_regrid_nlat', nlat, default=42, verbose=verbose)
-        nlon = self.io_cfg('prior_regrid_nlon', nlon, default=63, verbose=verbose)
-        lats = self.io_cfg('prior_regrid_lats', lats, default=np.linspace(-90, 90, nlat), verbose=verbose)
-        lons = self.io_cfg('prior_regrid_lons', lons, default=np.linspace(0, 360, nlon), verbose=verbose)
+    def regrid_clim(self, tag, verbose=False, lats=None, lons=None, nlat=None, nlon=None, periodic_lon=True):
+        if lats is None and lons is None:
+            nlat = self.io_cfg('prior_regrid_nlat', nlat, default=42, verbose=verbose)
+            nlon = self.io_cfg('prior_regrid_nlon', nlon, default=63, verbose=verbose)
+            lats = np.linspace(-90, 90, nlat)
+            lons = np.linspace(0, 360, nlon)
+        else:
+            lats = self.io_cfg('prior_regrid_lats', lats, verbose=verbose)
+            lons = self.io_cfg('prior_regrid_lons', lons, verbose=verbose)
 
         for vn, fd in self.__dict__[tag].items():
             if verbose: p_header(f'>>> Processing {vn} ...')
             self.__dict__[tag][vn] = fd.regrid(lats=lats, lons=lons, periodic_lon=periodic_lon)
+    
+    def crop_clim(self, tag, lat_min=None, lat_max=None, lon_min=None, lon_max=None, verbose=False):
+        lat_min = self.io_cfg(f'prior_lat_min', lat_min, default=-90, verbose=verbose)
+        lat_max = self.io_cfg(f'prior_lat_max', lat_max, default=90, verbose=verbose)
+        lon_min = self.io_cfg(f'prior_lon_min', lon_min, default=0, verbose=verbose)
+        lon_max = self.io_cfg(f'prior_lon_max', lon_max, default=360, verbose=verbose)
+
+        for vn, fd in self.__dict__[tag].items():
+            if verbose: p_header(f'>>> Processing {vn} ...')
+            self.__dict__[tag][vn] = fd.crop(lat_min=lat_min, lat_max=lat_max, lon_min=lon_min, lon_max=lon_max)
+        
         
     def calib_psms(self, ptype_psm_dict=None, ptype_season_dict=None, calib_period=None, verbose=False):
         ptype_psm_dict = self.io_cfg(
@@ -176,45 +209,43 @@ class ReconJob:
             default=(1850, 2015),
             verbose=verbose)
 
-        self.psms = {}
         for pid, pobj in tqdm(self.proxydb.records.items(), total=self.proxydb.nrec, desc='Calibrating the PSMs:'):
             psm_name = ptype_psm_dict[pobj.ptype]
 
             for vn in psm.__dict__[psm_name]().climate_required:
                 pobj.get_clim(self.obs[vn], tag='obs')
 
-            self.psms[pid] = psm.__dict__[psm_name](pobj)
+            pobj.psm = psm.__dict__[psm_name](pobj)
             if psm_name == 'Bilinear':
-                self.psms[pid].calibrate(
+                pobj.psm.calibrate(
                     season_list1=ptype_season_dict[pobj.ptype],
                     season_list2=ptype_season_dict[pobj.ptype], calib_period=calib_period)
             else:
-                self.psms[pid].calibrate(season_list=ptype_season_dict[pobj.ptype], calib_period=calib_period)
+                pobj.psm.calibrate(season_list=ptype_season_dict[pobj.ptype], calib_period=calib_period)
 
         # give the calibrated records a tag
-        for pid, mdl in self.psms.items():
-            if mdl.calib_details is None:
+        for pid, pobj in self.proxydb.records.items():
+            if pobj.psm.calib_details is None:
                 if verbose: p_warning(f'>>> The PSM for {pid} failed to calibrate.')
             else:
-                if 'calibrated' not in self.proxydb.records[pid].tags:
-                    self.proxydb.records[pid].tags.append('calibrated')
-
-        self.proxydb.refresh()
+                self.proxydb.records[pid].tags.add('calibrated')
 
         if verbose:
-            p_success(f'>>> job.psm created for {self.proxydb.nrec} records')
-            p_success(f'>>> job.proxydb updated with the tag: "calibrated"')
+            p_success(f'>>> {self.proxydb.filter(by="tag", keys=["calibrated"]).nrec} records tagged "calibrated" with ProxyRecord.psm created')
 
     def forward_psms(self, verbose=False, **kwargs):
         self.ppdb = ProxyDatabase()
-        for pid, mdl in tqdm(self.psms.items(), total=self.proxydb.nrec, desc='Forwarding the PSMs:'):
-            for vn in mdl.climate_required:
-                self.proxydb.records[pid].get_clim(self.prior[vn], tag='model')
+        nrec = self.proxydb.nrec_tags('calibrated')
+            
+        for pid, pobj in tqdm(self.proxydb.records.items(), total=nrec, desc='Forwarding the PSMs:'):
+            if 'calibrated' in pobj.tags:
+                for vn in pobj.psm.climate_required:
+                    pobj.get_clim(self.prior[vn], tag='model')
 
-            self.ppdb += mdl.forward(**kwargs)
+                self.ppdb += pobj.psm.forward(**kwargs)
 
         if verbose:
-            p_success(f'>>> job.ppdb created for {self.proxydb.nrec} records')
+            p_success(f'>>> job.ppdb created for {nrec} records')
 
     def run_da(self, recon_period=None, recon_loc_rad=None, recon_timescale=None, verbose=False, debug=False):
         recon_period = self.io_cfg('recon_period', recon_period, default=[0, 2000], verbose=verbose)

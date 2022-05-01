@@ -91,7 +91,7 @@ class ProxyRecord:
             - 'coral.SrCa' : Coral Sr/Ca ratios
             - 'ice.d18O' : Ice d18O isotopes
 
-        tags : list of str
+        tags : a set of str
             the tags for the record, to enable tag filtering
         '''
         self.pid = pid
@@ -100,7 +100,7 @@ class ProxyRecord:
         self.lat = lat
         self.lon = lon
         self.ptype = ptype
-        self.tags = [] if tags is None else tags
+        self.tags = set() if tags is None else tags
 
         self.dt = np.median(np.diff(time)) if time is not None else None
         self.value_name = 'Proxy Value' if value_name is None else value_name
@@ -463,6 +463,7 @@ class ProxyDatabase:
 
         '''
         new_db = ProxyDatabase()
+        pobjs = []
         for pid, pobj in self.records.items():
             target = {
                 'ptype': pobj.ptype,
@@ -476,25 +477,34 @@ class ProxyDatabase:
             if by in ['ptype', 'pid']:
                 for key in keys:
                     if key in target[by]:
-                        new_db += pobj
+                        pobjs.append(pobj)
             elif by in ['lat', 'lon']:
                 if target[by] >= keys[0] and target[by] <= keys[-1]:
-                    new_db += pobj
+                    pobjs.append(pobj)
             elif by == 'loc-square':
                 plat, plon = target[by]
                 if plat >= keys[0] and plat <= keys[1] and plon >= keys[2] and plon <= keys[3]:
-                    new_db += pobj
+                    pobjs.append(pobj)
             elif by == 'loc-circle':
                 plat, plon = target[by]
                 d = utils.gcd(plat, plon, keys[0], keys[1])
                 if d <= keys[2]:
-                    new_db += pobj
+                    pobjs.append(pobj)
             elif by == 'tag':
-                if set(keys) <= set(target[by]):
-                    new_db += pobj
-
+                if set(keys) <= target[by]:
+                    pobjs.append(pobj)
+            
+        new_db += pobjs
         new_db.refresh()
         return new_db
+
+    def nrec_tags(self, keys):
+        nrec = 0
+        for pid, pobj in self.records.items():
+            if set(keys) <= pobj.tags:
+                nrec += 1
+
+        return nrec
 
     def plot(self, **kws):
 

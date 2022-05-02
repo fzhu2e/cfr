@@ -317,3 +317,58 @@ def regrid_field_curv_rect(field, lat_curv, lon_curv, dlat=1, lon_range=None, la
         )
 
     return rgd_data, lats, lons
+
+def coefficient_efficiency(ref, test, valid=None):
+    """ Compute the coefficient of efficiency for a test time series, with respect to a reference time series.
+
+    Inputs:
+    test:  test array
+    ref:   reference array, of same size as test
+    valid: fraction of valid data required to calculate the statistic
+
+    Note: Assumes that the first dimension in test and ref arrays is time!!!
+
+    Outputs:
+    CE: CE statistic calculated following Nash & Sutcliffe (1970)
+    """
+
+    # check array dimensions
+    dims_test = test.shape
+    dims_ref  = ref.shape
+    # print('dims_test: ', dims_test, ' dims_ref: ', dims_ref)
+
+    if len(dims_ref) == 3:   # 3D: time + 2D spatial
+        dims = dims_ref[1:3]
+    elif len(dims_ref) == 2: # 2D: time + 1D spatial
+        dims = dims_ref[1:2]
+    elif len(dims_ref) == 1: # 0D: time series
+        dims = 1
+    else:
+        print('In coefficient_efficiency(): Problem with input array dimension! Exiting...')
+        SystemExit(1)
+
+    CE = np.zeros(dims)
+
+    # error
+    error = test - ref
+
+    # CE
+    numer = np.nansum(np.power(error,2),axis=0)
+    denom = np.nansum(np.power(ref-np.nanmean(ref,axis=0),2),axis=0)
+    CE    = 1. - np.divide(numer,denom)
+
+    if valid:
+        nbok  = np.sum(np.isfinite(ref),axis=0)
+        nball = float(dims_ref[0])
+        ratio = np.divide(nbok,nball)
+        indok  = np.where(ratio >= valid)
+        indbad = np.where(ratio < valid)
+        dim_indbad = len(indbad)
+        testlist = [indbad[k].size for k in range(dim_indbad)]
+        if not all(v == 0 for v in testlist):
+            if isinstance(dims,(tuple,list)):
+                CE[indbad] = np.nan
+            else:
+                CE = np.nan
+
+    return CE

@@ -550,8 +550,8 @@ if timespan = [a, b, c, d], then the sliced output includes segment [a, b] and s
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>by</strong> (<em>str</em>) – filter by a keyword {‘ptype’, ‘pid’, ‘lat’, ‘lon’, ‘loc’, ‘tag’}</p></li>
-<li><p><strong>keys</strong> (<em>list</em>) – <div class="line-block">
-<div class="line">a list of keywords</div>
+<li><p><strong>keys</strong> (<em>set</em>) – <div class="line-block">
+<div class="line">a set of keywords</div>
 <div class="line">For by = ‘ptype’ or ‘pid’, keys take a fuzzy match</div>
 <div class="line">For by = ‘lat’ or ‘lon’, keys = (lat_min, lat_max) or (lon_min, lon_max)</div>
 <div class="line">For by = ‘loc-squre’, keys = (lat_min, lat_max, lon_min, lon_max)</div>

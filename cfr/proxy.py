@@ -223,7 +223,7 @@ class ProxyRecord:
         new.refresh()
         return new
 
-    def del_clim(self, verbose=True):
+    def del_clim(self, verbose=False):
         if hasattr(self, 'clim'): del self.clim
         if verbose: utils.p_success(f'ProxyRecord.clim deleted for {self.pid}.')
 

@@ -1147,3 +1147,56 @@ def plot_scatter_map(values, lats, lons, levels=None,
         return fig, ax
     else:
         return ax
+
+def plot_ml_loss(train_loss, valid_loss, optim_epoch=None, train_label='train_loss', valid_label='valid_loss',
+                 figsize=[8, 4], xlabel='Epoch', ylabel='Loss', xlim=None, ylim=None, ax=None):
+
+    if ax is None:
+        fig, ax = plt.subplots(figsize=figsize)
+
+    epochs = np.arange(1, np.size(train_loss)+1)
+    ax.plot(epochs, train_loss, label=train_label)
+    ax.plot(epochs, valid_loss, label=valid_label)
+    ax.set_xlabel(xlabel)
+    ax.set_ylabel(ylabel)
+
+    if optim_epoch is not None:
+        ax.axvline(x=optim_epoch, color='tab:grey', ls='--', label=f'epoch: {optim_epoch}')
+
+    if xlim is not None:
+        ax.set_xlim(xlim)
+    if ylim is not None:
+        ax.set_ylim(ylim)
+
+    ax.legend()
+
+    if 'fig' in locals():
+        return fig, ax
+    else:
+        return ax
+
+def plot_ml_predict(res_dict, figsize=[8, 4], xlabel='Time', ylabel='Value', xlim=None, ylim=None, ax=None):
+
+    if ax is None:
+        fig, ax = plt.subplots(figsize=figsize)
+
+    pred = res_dict['pred']
+    truth = res_dict['truth']
+    ax.plot(pred, label='prediction')
+    ax.plot(truth, label='truth')
+
+    ax.set_xlabel(xlabel)
+    ax.set_ylabel(ylabel)
+    ax.set_title(f'r={res_dict["corr"]:.2f}, CE={res_dict["CE"]:.2f}')
+
+    if xlim is not None:
+        ax.set_xlim(xlim)
+    if ylim is not None:
+        ax.set_ylim(ylim)
+
+    ax.legend()
+
+    if 'fig' in locals():
+        return fig, ax
+    else:
+        return ax

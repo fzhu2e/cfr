@@ -1,3 +1,4 @@
+import random
 import pandas as pd
 import numpy as np
 from .utils import (
@@ -10,15 +11,23 @@ from .utils import (
 
 
 class EnKF:
-    def __init__(self, prior, proxydb):
+    def __init__(self, prior, proxydb, seed=0, nens=100, recon_vars=['tas']):
         self.prior = prior
         self.pdb_assim = proxydb.filter(by='tag', keys=['assim'])
         self.pdb_eval = proxydb.filter(by='tag', keys=['eval'])
+        self.seed = seed
+        self.nens = nens
+        self.recon_vars = recon_vars
 
     def gen_Ye(self):
         vn = list(self.prior.keys())[0]
         time = self.prior[vn].time
+        random.seed(self.seed)
+        sample_idx = random.sample(list(range(np.size(time))), self.nens)
+        self.prior_sample_idx = sample_idx
+        self.prior_sample_years = time[sample_idx]
 
+        self.Ye = {}
         self.Ye_df = {}
         self.Ye_lat = {}
         self.Ye_lon = {}
@@ -37,12 +46,38 @@ class EnKF:
                 self.Ye_lon[tag].append(pobj.lon)
 
             self.Ye_df[tag].dropna(inplace=True)
+            self.Ye[tag] = np.array(self.Ye_df[tag])[sample_idx].T
+
             self.Ye_coords[tag][:, 0] = self.Ye_lat[tag]
             self.Ye_coords[tag][:, 1] = self.Ye_lon[tag]
         
 
     def gen_Xb(self):
-        pass
+        vn_1st = list(self.prior.keys())[0]
+        Xb_var_irow = {}  # index of rows in Xb to store the specific var
+        loc = 0
+        for vn in self.recon_vars:
+            nt, nlat, nlon = np.shape(self.prior[vn].da.values)
+            lats, lons = self.prior[vn].da.lat.values, self.prior[vn].da.lon.values
+            lon2d, lat2d = np.meshgrid(lons, lats)
+            fd_coords = np.ndarray((nlat*nlon, 2))
+            fd_coords[:, 0] = lat2d.flatten()
+            fd_coords[:, 1] = lon2d.flatten()
+            fd = self.prior[vn].da.values[self.prior_sample_idx]
+            fd = np.moveaxis(fd, 0, -1)
+            fd_flat = fd.reshape((nlat*nlon, self.nens))
+            if vn == vn_1st:
+                Xb = fd_flat
+                Xb_coords = fd_coords
+            else:
+                Xb = np.concatenate((Xb, fd_flat), axis=0)
+                Xb_coords = np.concatenate((Xb_coords, fd_coords), axis=0)
+            Xb_var_irow[vn] = [loc, loc+nlat*nlon-1]
+            loc += nlat*nlon
+
+        self.Xb = Xb
+        self.Xb_coords = Xb_coords
+        self.Xb_var_irow = Xb_var_irow
 
     def run_da(self):
         pass

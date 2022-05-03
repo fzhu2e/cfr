@@ -67,7 +67,7 @@ class LinearNet(nn.Module):
         self.fc = nn.Linear(input_size, output_size)
 
     def forward(self, x):
-        out = self.fc(x)
+        out = self.fc(x.to(self.device))
         return out
     
 
@@ -211,8 +211,8 @@ def eval_model(model, features, labels, scaler, model_type=None):
     else:
         out = model(features.float().to(device))
     
-    pred = scaler.inverse_transform(out[:, -1].detach().numpy()).squeeze()
-    truth = scaler.inverse_transform(labels[:, -1].detach().numpy()).squeeze()
+    pred = scaler.inverse_transform(out[:, -1].detach().cpu().numpy()).squeeze()
+    truth = scaler.inverse_transform(labels[:, -1].detach().cpu().numpy()).squeeze()
 
     r = np.corrcoef(truth, pred)[1, 0]
     ce = utils.coefficient_efficiency(truth, pred)

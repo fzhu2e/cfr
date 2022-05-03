@@ -113,8 +113,8 @@ class LSTMNet(nn.Module):
     
     def init_hidden(self, batch_size):
         weight = next(self.parameters()).data
-        hidden = (weight.new(self.num_layers, batch_size, self.hidden_dim).zero_().to(self.device),
-                  weight.new(self.num_layers, batch_size, self.hidden_dim).zero_().to(self.device))
+        hidden = (weight.new(self.num_layers, batch_size, self.hidden_size).zero_().to(self.device),
+                  weight.new(self.num_layers, batch_size, self.hidden_size).zero_().to(self.device))
         return hidden
         
 
@@ -203,12 +203,13 @@ def train_model(train_loader, valid_f, valid_l, lr, model_type,
     return output_dict
 
 def eval_model(model, features, labels, scaler, model_type=None):
+    device = get_device()
     model.eval()
     if model_type in ['GRU', 'LSTM']:
         h = model.init_hidden(features.shape[0])
-        out, h = model(features.float(), h)
+        out, h = model(features.float().to(device), h)
     else:
-        out = model(features.float())
+        out = model(features.float().to(device))
     
     pred = scaler.inverse_transform(out[:, -1].detach().numpy()).squeeze()
     truth = scaler.inverse_transform(labels[:, -1].detach().numpy()).squeeze()

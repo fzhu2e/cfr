@@ -522,6 +522,9 @@ class ProxyDatabase:
 
         return fig, ax
 
+    def plot_composite(self, **kws):
+        pass
+
     def annualize(self, months=list(range(1, 13)), verbose=False):
         new = ProxyDatabase()
         for pid, pobj in tqdm(self.records.items(), total=self.nrec, desc='Annualizing ProxyRecord'):

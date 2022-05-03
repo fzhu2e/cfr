@@ -1,12 +1,15 @@
 import numpy as np
 import pandas as pd
-import statsmodels.formula.api as smf
 from scipy import integrate, signal, stats
 from tqdm import tqdm
-from pathos.multiprocessing import ProcessingPool as Pool
 from multiprocessing import cpu_count
-import fbm
-import PyVSL
+try:
+    import statsmodels.formula.api as smf
+    from pathos.multiprocessing import ProcessingPool as Pool
+    import fbm
+    import PyVSL
+except:
+    pass
 
 from . import utils
 from .proxy import ProxyRecord

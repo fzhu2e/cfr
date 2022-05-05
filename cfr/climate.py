@@ -103,6 +103,7 @@ class ClimateField:
             da = ds[vn]
 
         new = ClimateField(da=da, time_name=time_name, lat_name=lat_name, lon_name=lon_name)
+        new = new.rename({lat_name: 'lat', lon_name: 'lon'})
         if load: new.da.load()
         return new
 
@@ -137,7 +138,7 @@ class ClimateField:
         return new
 
     def plot(self, it=0, **kwargs):
-        t = self.da.time.values[it]
+        t = self.da[self.time_name].values[it]
         if isinstance(t, np.datetime64):
             # convert to cftime.datetime
             t = utils.datetime2year_float([t])
@@ -150,8 +151,13 @@ class ClimateField:
             'pr': 'BrBG',
         }
         cmap = cmap_dict[self.vn] if self.vn in cmap_dict else 'viridis'
+        if 'title' not in kwargs:
+            if self.time_name == 'time':
+                kwargs['title'] = f'{self.vn}, {t.year}-{t.month}' 
+            elif self.time_name == 'year':
+                kwargs['title'] = f'{self.vn}, {t}' 
+
         _kwargs = {
-            'title': f'{self.vn}, {t.year}-{t.month}',
             'cbar_title': cbar_title,
             'cmap': cmap,
         }
@@ -180,19 +186,37 @@ class ClimateField:
 
         return new
 
-    def crop(self, lat_min=-90, lat_max=90, lon_min=0, lon_max=360):
+    def crop(self, time_min=None, time_max=None, lat_min=None, lat_max=None, lon_min=None, lon_max=None):
         new = self.copy()
-        mask_lat = (self.da[self.lat_name] >= lat_min) & (self.da[self.lat_name] <= lat_max)
-        mask_lon = (self.da[self.lon_name] >= lon_min) & (self.da[self.lon_name] <= lon_max)
-        dac = self.da.sel(
-            {
-                self.lat_name: self.da[self.lat_name][mask_lat],
-                self.lon_name: self.da[self.lon_name][mask_lon],
-            }
-        )
+        if time_min is not None and time_max is not None:
+            mask_time = (self.da[self.time_name] >= time_min) & (self.da[self.time_name] <= time_max)
+        else:
+            mask_time = None
+
+        if lat_min is not None and lat_max is not None:
+            mask_lat = (self.da[self.lat_name] >= lat_min) & (self.da[self.lat_name] <= lat_max)
+        else:
+            mask_lat = None
+
+        if lon_min is not None and lon_max is not None:
+            mask_lon = (self.da[self.lon_name] >= lon_min) & (self.da[self.lon_name] <= lon_max)
+        else:
+            mask_lon = None
+
+        crop_dict = {}
+
+        if mask_time is not None:
+            crop_dict[self.time_name] = self.da[self.time_name][mask_time]
+
+        if mask_lat is not None:
+            crop_dict[self.lat_name] = self.da[self.lat_name][mask_lat]
+
+        if mask_lon is not None:
+            crop_dict[self.lon_name] = self.da[self.lon_name][mask_lon]
+
+        dac = self.da.sel(crop_dict)
         new.da = dac
-        new.lat = dac[self.lat_name]
-        new.lon = dac[self.lon_name]
+        new.refresh(time_name=self.time_name, lon_name=self.lon_name, lat_name=self.lat_name)
 
         return  new
 

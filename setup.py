@@ -5,7 +5,7 @@ with open('README.rst', 'r') as fh:
 
 setup(
     name='cfr',  # required
-    version='0.0.7',
+    version='0.0.8',
     description='cfr: the library for climate field reconstruction',
     long_description=long_description,
     long_description_content_type='text/x-rst',
@@ -32,12 +32,12 @@ setup(
         'netCDF4',
         'nc-time-axis',
         'dask',
+        'statsmodels',
     ],
     extras_require={
         'psm': [
             'pathos',
             'fbm',
-            'statsmodels',
             'pyvsl',
         ],
         'ml': [

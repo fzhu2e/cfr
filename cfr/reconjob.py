@@ -8,7 +8,10 @@ import pandas as pd
 import random
 from .climate import ClimateField
 from .proxy import ProxyDatabase, ProxyRecord
-from . import psm
+try:
+    from . import psm
+except:
+    pass
 
 from .utils import (
     p_header,

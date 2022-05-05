@@ -61,6 +61,37 @@ def get_ptype(archive_type, proxy_type):
 
     return ptype_dict[(archive_type, proxy_type)]
 
+class PAGES2k:
+    ''' A bunch of PAGES2k style settings
+    '''
+    archive_types = [
+        'bivalve',
+        'borehole',
+        'coral',
+        'documents',
+        'ice',
+        'hybrid',
+        'lake',
+        'marine',
+        'sclerosponge',
+        'speleothem',
+        'tree',
+    ]
+    markers = ['p', 'p', 'o', 'v', 'd', '*', 's', 's', '8', 'D', '^']
+    markers_dict = dict(zip(archive_types, markers))
+    colors = [np.array([ 1.        ,  0.83984375,  0.        ]),
+              np.array([ 0.73828125,  0.71484375,  0.41796875]),
+              np.array([ 1.        ,  0.546875  ,  0.        ]),
+              np.array([ 0.41015625,  0.41015625,  0.41015625]),
+              np.array([ 0.52734375,  0.8046875 ,  0.97916667]),
+              np.array([ 0.        ,  0.74609375,  1.        ]),
+              np.array([ 0.25390625,  0.41015625,  0.87890625]),
+              np.array([ 0.54296875,  0.26953125,  0.07421875]),
+              np.array([ 1         ,           0,           0]),
+              np.array([ 1.        ,  0.078125  ,  0.57421875]),
+              np.array([ 0.1953125 ,  0.80078125,  0.1953125 ])]
+    colors_dict = dict(zip(archive_types, colors))
+
 class ProxyRecord:
     def __init__(self, pid=None, time=None, value=None, lat=None, lon=None, ptype=None, tags=None,
         value_name=None, value_unit=None, time_name=None, time_unit=None, seasonality=None):
@@ -203,6 +234,15 @@ class ProxyRecord:
                 print(f'Record {self.pid} cannot be annualized with months {months}. None returned.')
             return None
             
+
+    def standardize(self):
+        new = self.copy()
+        if self.value.std() == 0:
+            new.value = np.zeros(np.size(self.value))
+        else:
+            new.value = (self.value - self.value.mean()) / self.value.std()
+        return new
+        
 
     def __add__(self, records):
         ''' Add a list of records into a database
@@ -522,8 +562,162 @@ class ProxyDatabase:
 
         return fig, ax
 
-    def plot_composite(self, **kws):
-        pass
+    def make_composite(self, obs_nc_path, vn='tas', lat_name=None, lon_name=None, bin_width=10, n_bootstraps=1000, qs=(0.025, 0.975), stat_func=np.nanmean, anom_period=[1951, 1980]):
+        obs = ClimateField().load_nc(obs_nc_path, vn=vn, lat_name=lat_name, lon_name=lon_name)
+
+        for pid, pobj in tqdm(self.records.items(), total=self.nrec, desc='Analyzing ProxyRecord'):
+            pobj.get_clim(obs, tag='obs')
+            pobj_stdd = pobj.standardize()
+
+            proxy_time, proxy_value, _ = utils.smooth_ts(pobj_stdd.time, pobj_stdd.value, bin_width=bin_width)
+
+            ts_proxy = pd.Series(index=proxy_time, data=proxy_value, name=pid)
+            if 'df_proxy' not in locals():
+                df_proxy = ts_proxy.to_frame()
+            else:
+                df_proxy = pd.merge(df_proxy, ts_proxy, left_index=True, right_index=True, how='outer')
+
+            pobj.clim[f'obs_{vn}'].center(ref_period=anom_period)
+            obs_time, obs_value, _ = utils.smooth_ts(pobj.clim[f'obs_{vn}'].time, pobj.clim[f'obs_{vn}'].da.values, bin_width=bin_width)
+            ts_obs = pd.Series(index=obs_time, data=obs_value, name=pid)
+            if 'df_obs' not in locals():
+                df_obs = ts_obs.to_frame()
+            else:
+                df_obs = pd.merge(df_obs, ts_obs, left_index=True, right_index=True, how='outer')
+
+        proxy_comp = df_proxy.apply(stat_func, axis=1)
+        obs_comp = df_obs.apply(stat_func, axis=1)
+        ols_model = utils.ols_ts(proxy_comp.index, proxy_comp.values, obs_comp.index, obs_comp.values)
+        results = ols_model.fit()
+        intercept = results.params[0]
+        slope = results.params[1]
+        r2 = results.rsquared
+        proxy_comp_scaled = proxy_comp.values*slope + intercept
+
+        proxy_bin_vector = utils.make_bin_vector(proxy_comp.index, bin_width=bin_width)
+        obs_bin_vector = utils.make_bin_vector(obs_comp.index, bin_width=bin_width)
+        proxy_comp_time, proxy_comp_value = utils.bin_ts(proxy_comp.index, proxy_comp_scaled, bin_vector=proxy_bin_vector, smoothed=True)
+        obs_comp_time, obs_comp_value = utils.bin_ts(obs_comp.index, obs_comp.values, bin_vector=obs_bin_vector, smoothed=True)
+
+        proxy_sq_low = np.empty_like(proxy_comp.index)
+        proxy_sq_high = np.empty_like(proxy_comp.index)
+        proxy_num = np.empty_like(proxy_comp.index)
+        idx = 0
+        for _, row in tqdm(df_proxy.iterrows(), total=len(df_proxy), desc='Bootstrapping'):
+            samples = np.array(row.to_list())*slope + intercept
+            proxy_num[idx] = np.size([s for s in samples if not np.isnan(s)])
+            bootstrap_samples = utils.bootstrap(samples, n_bootstraps=n_bootstraps, stat_func=stat_func)
+            proxy_sq_low[idx] = np.quantile(bootstrap_samples, qs[0])
+            proxy_sq_high[idx] = np.quantile(bootstrap_samples, qs[1])
+            idx += 1
+
+        proxy_sq_low_time, proxy_sq_low_value = utils.bin_ts(proxy_comp.index, proxy_sq_low, bin_vector=proxy_bin_vector, smoothed=True)
+        proxy_sq_high_time, proxy_sq_high_value = utils.bin_ts(proxy_comp.index, proxy_sq_high, bin_vector=proxy_bin_vector, smoothed=True)
+        proxy_num_time, proxy_num_value = utils.bin_ts(proxy_comp.index, proxy_num, bin_vector=proxy_bin_vector, smoothed=True)
+
+        res_dict = {
+            'df_proxy': df_proxy,
+            'df_obs': df_obs,
+            'proxy_comp': proxy_comp,
+            'proxy_comp_time': proxy_comp_time,
+            'proxy_comp_value': proxy_comp_value,
+            'proxy_sq_low_time': proxy_sq_low_time,
+            'proxy_sq_high_time': proxy_sq_high_time,
+            'proxy_sq_low_value': proxy_sq_low_value,
+            'proxy_sq_high_value': proxy_sq_high_value,
+            'proxy_num': proxy_num,
+            'proxy_num_time': proxy_num_time,
+            'proxy_num_value': proxy_num_value,
+            'obs_comp': obs_comp,
+            'obs_comp_time': obs_comp_time,
+            'obs_comp_value': obs_comp_value,
+            'intercept': intercept,
+            'slope': slope,
+            'r2': r2,
+        }
+
+        self.composite = res_dict
+
+
+    def plot_composite(self, figsize=[10, 4], clr_proxy=None, clr_count='tab:gray', clr_obs='tab:red',
+                       left_ylim=[-2, 2], right_ylim=None, xlim=[0, 2000], base_n=60,
+                       ax=None, bin_width=10):
+        if clr_proxy is None:
+            type_dict = sorted(self.type_dict.items(), key=lambda item: item[1])
+            majority = next(iter(type_dict))[0]
+            try:
+                archive = majority.split('.')[0]
+            except:
+                archive = majority
+
+            if archive in PAGES2k().archive_types:
+                clr_proxy = PAGES2k().colors_dict[archive]
+            else:
+                clr_proxy = 'tab:blue'
+
+        if ax is None:
+            fig = plt.figure(figsize=figsize,facecolor='white')
+            ax = {}
+
+        title_font = {
+            'fontname': 'Arial',
+            'size': '24',
+            'color': 'black',
+            'weight': 'normal',
+            'verticalalignment': 'bottom',
+        }
+        lb_proxy = fr'proxy, conversion factor = {np.abs(self.composite["slope"]):.3f}, $R^2$ = {self.composite["r2"]:.3f}'
+        ax['var'] = fig.add_subplot()
+        ax['var'].plot(self.composite['proxy_comp_time'], self.composite['proxy_comp_value'], color=clr_proxy, lw=1, label=lb_proxy)
+        ax['var'].plot(self.composite['obs_comp_time'], self.composite['obs_comp_value'], color=clr_obs, lw=1, label='instrumental')
+        ax['var'].fill_between(
+            self.composite['proxy_sq_low_time'],
+            self.composite['proxy_sq_low_value'],
+            self.composite['proxy_sq_high_value'],
+            alpha=0.2, color=clr_proxy,
+        )
+        ax['var'].set_xlim(xlim)
+        ax['var'].set_ylim(left_ylim)
+        ax['var'].set_yticks(np.linspace(np.min(left_ylim), np.max(left_ylim), 5))
+        ax['var'].set_xticks(np.linspace(np.min(xlim), np.max(xlim), 5))
+        ax['var'].set_yticks(np.linspace(-2, 2, 5))
+        ax['var'].set_xlabel('Year (CE)')
+        ax['var'].set_ylabel('proxy', color=clr_proxy)
+        ax['var'].tick_params('y', colors=clr_proxy)
+        ax['var'].spines['left'].set_color(clr_proxy)
+        ax['var'].spines['bottom'].set_color(clr_proxy)
+        ax['var'].spines['bottom'].set_alpha(0.5)
+        ax['var'].spines['top'].set_visible(False)
+        ax['var'].yaxis.grid(True, color=clr_proxy, alpha=0.5, ls='-')
+        ax['var'].xaxis.grid(False)
+        ax['var'].set_title(f'{archive}, {self.nrec} records, bin_width={bin_width}')
+        ax['var'].legend(loc='upper left', frameon=False)
+
+        ax['count'] = ax['var'].twinx()
+        ax['count'].set_ylabel('# records', color=clr_count)
+        ax['count'].bar(
+            self.composite['proxy_comp'].index,
+            self.composite['proxy_num'],
+            bin_width*0.9, color=clr_count, alpha=0.2)
+
+        if right_ylim is None:
+            count_max = int((np.max(self.composite['proxy_num']) // base_n + 1) * base_n)
+            right_ylim = [0, count_max]
+
+        ax['count'].set_ylim(right_ylim)
+        ax['count'].set_yticks(np.linspace(np.min(right_ylim), np.max(right_ylim), 5))
+        ax['count'].grid(False)
+        ax['count'].spines['bottom'].set_visible(False)
+        ax['count'].spines['right'].set_visible(True)
+        ax['count'].spines['left'].set_visible(False)
+        ax['count'].spines['top'].set_visible(False)
+        ax['count'].tick_params(axis='y', colors=clr_count)
+        ax['count'].spines['right'].set_color(clr_count)
+
+        if 'fig' in locals():
+            return fig, ax
+        else:
+            return ax
 
     def annualize(self, months=list(range(1, 13)), verbose=False):
         new = ProxyDatabase()
@@ -543,6 +737,7 @@ class ProxyDatabase:
 
         new.refresh()
         return new
+
 
     def del_clim(self, verbose=False):
         new = ProxyDatabase()

@@ -137,7 +137,7 @@ class ClimateField:
         return new
 
     def plot(self, it=0, **kwargs):
-        t = self.da.time.values[it]
+        t = self.da[self.time_name].values[it]
         if isinstance(t, np.datetime64):
             # convert to cftime.datetime
             t = utils.datetime2year_float([t])
@@ -150,8 +150,13 @@ class ClimateField:
             'pr': 'BrBG',
         }
         cmap = cmap_dict[self.vn] if self.vn in cmap_dict else 'viridis'
+        if 'title' not in kwargs:
+            if self.time_name == 'time':
+                kwargs['title'] = f'{self.vn}, {t.year}-{t.month}' 
+            elif self.time_name == 'year':
+                kwargs['title'] = f'{self.vn}, {t}' 
+
         _kwargs = {
-            'title': f'{self.vn}, {t.year}-{t.month}',
             'cbar_title': cbar_title,
             'cmap': cmap,
         }

@@ -1200,3 +1200,17 @@ def plot_ml_predict(res_dict, figsize=[8, 4], xlabel='Time', ylabel='Value', xli
         return fig, ax
     else:
         return ax
+
+def plot_composite(figsize=[8, 4], clr_count='tab:gray', ax=None):
+    if ax is None:
+        fig = plt.figure(figsize=figsize)
+        ax = {}
+    
+    ax['var'] = fig.add_subplot()
+    ax['count'] = ax['var'].twinx()
+    ax['count'].set_ylabel('# records', color=clr_count)
+
+    if 'fig' in locals():
+        return fig, ax
+    else:
+        return ax

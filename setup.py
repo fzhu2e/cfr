@@ -32,12 +32,12 @@ setup(
         'netCDF4',
         'nc-time-axis',
         'dask',
+        'statsmodels',
     ],
     extras_require={
         'psm': [
             'pathos',
             'fbm',
-            'statsmodels',
             'pyvsl',
         ],
         'ml': [

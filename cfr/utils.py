@@ -4,6 +4,7 @@ import numpy as np
 from datetime import datetime, timedelta
 import cftime
 from termcolor import cprint
+import statsmodels.api as sm
 
 def p_header(text):
     return cprint(text, 'cyan', attrs=['bold'])
@@ -20,6 +21,54 @@ def p_fail(text):
 def p_warning(text):
     return cprint(text, 'yellow', attrs=['bold'])
 
+
+def smooth_ts(ts, ys, bin_vector=None, bin_width=10):
+    if bin_vector is None:
+        bin_vector = np.arange(
+            bin_width*(np.min(ts)//bin_width),
+            bin_width*(np.max(ts)//bin_width+2),
+            step=bin_width)
+
+    ts_bin = (bin_vector[1:] + bin_vector[:-1])/2
+    n_bin = np.size(ts_bin)
+    ys_bin = np.zeros(n_bin)
+
+    for i in range(n_bin):
+        t_start = bin_vector[i]
+        t_end = bin_vector[i+1]
+        t_range = (ts >= t_start) & (ts < t_end)
+        if np.sum(t_range*1) == 1:
+            ys_bin[i] = ys[t_range]
+        else:
+            ys_bin[i] = np.average(ys[t_range], axis=0)
+
+    return ts_bin, ys_bin, bin_vector
+
+
+def bin_ts(ts, ys, bin_vector=None, bin_width=10, resolution=1):
+    ts_smooth, ys_smooth, bin_vector = smooth_ts(ts, ys, bin_vector=bin_vector, bin_width=bin_width)
+
+    bin_vector_finer = np.arange(np.min(bin_vector), np.max(bin_vector)+1, step=resolution)
+    bin_value = np.zeros(bin_vector_finer.size)
+
+    n_bin = np.size(ts_smooth)
+    for i in range(n_bin):
+        t_start = bin_vector[i]
+        t_end = bin_vector[i+1]
+        t_range = (bin_vector_finer >= t_start) & (bin_vector_finer <= t_end)
+        bin_value[t_range] = ys_smooth[i]
+
+    return bin_vector_finer, bin_value
+
+def bootstrap(samples, n_bootstraps=1000, stat_func=np.nanmean):
+
+    n_samples = np.shape(samples)[0]
+    stats = np.zeros(n_bootstraps)
+    for i in range(n_bootstraps):
+        rand_ind = np.random.randint(n_samples, size=n_samples)
+        stats[i] = stat_func(samples[rand_ind])
+
+    return stats
 
 def clean_ts(ts, ys):
     ''' Delete the NaNs in the time series and sort it with time axis ascending
@@ -75,6 +124,42 @@ def clean_ts(ts, ys):
     ys = np.array(ys)
 
     return ts, ys
+
+
+def overlap_ts(ts_proxy, ys_proxy, ys_obs, ts_obs):
+    ys_proxy = np.array(ys_proxy, dtype=np.float)
+    ts_proxy = np.array(ts_proxy, dtype=np.float)
+    ys_obs = np.array(ys_obs, dtype=np.float)
+    ts_obs = np.array(ts_obs, dtype=np.float)
+
+    overlap_proxy = (ts_proxy >= np.min(ts_obs)) & (ts_proxy <= np.max(ts_obs))
+    overlap_obs = (ts_obs >= np.min(ts_proxy)) & (ts_obs <= np.max(ts_proxy))
+
+    ys_proxy_overlap, ts_proxy_overlap = ys_proxy[overlap_proxy], ts_proxy[overlap_proxy]
+    ys_obs_overlap, ts_obs_overlap = ys_obs[overlap_obs], ts_obs[overlap_obs]
+
+    time_overlap = np.intersect1d(ts_proxy_overlap, ts_obs_overlap)
+    ind_proxy = list(i for i, t in enumerate(ts_proxy_overlap) if t in time_overlap)
+    ind_obs = list(i for i, t in enumerate(ts_obs_overlap) if t in time_overlap)
+    ys_proxy_overlap = ys_proxy_overlap[ind_proxy]
+    ys_obs_overlap = ys_obs_overlap[ind_obs]
+
+    return ts_proxy_overlap, ys_obs_overlap, time_overlap
+
+def ols_ts(ts_proxy, ys_proxy, ys_obs, ts_obs):
+    ys_proxy = np.asarray(ys_proxy, dtype=np.float)
+    ts_proxy = np.asarray(ts_proxy, dtype=np.float)
+    ys_obs = np.asarray(ys_obs, dtype=np.float)
+    ts_obs = np.asarray(ts_obs, dtype=np.float)
+
+    ts_proxy_overlap, ys_obs_overlap, time_overlap = overlap_ts(ys_proxy, ts_proxy, ys_obs, ts_obs)
+
+    # calculate the linear regression
+    X = sm.add_constant(ts_proxy_overlap)
+    ols_model = sm.OLS(ys_obs_overlap, X, missing='drop')
+
+    return ols_model
+
 
 def gcd(lat1, lon1, lat2, lon2):
 	'''

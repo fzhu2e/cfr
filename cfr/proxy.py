@@ -522,8 +522,23 @@ class ProxyDatabase:
 
         return fig, ax
 
+    def make_composite(self, obs_nc_path, vn='tas', bin_width=10, n_bootstraps=1000, stat_func=np.nanmean):
+        obs = ClimateField().load_nc(obs_nc_path, vn=vn)
+        proxy_time = {}
+        proxy_value = {}
+        obs_time = {}
+        obs_value = {}
+        bootstrap_stats = {}
+        for pid, pobj in tqdm(self.records.items(), total=self.nrec, desc='Analyzing ProxyRecord'):
+            pobj.get_clim(obs, tag='obs')
+            proxy_time[pid], proxy_value[pid] = utils.bin_ts(pobj.time, pobj.value, bin_width=bin_width)
+            obs_time[pid], obs_value[pid] = utils.bin_ts(pobj.clim[f'obs_{vn}'].time, pobj.clim[f'obs_{vn}'].value, bin_width=bin_width)
+            bootstrap_stats[pid] = utils.bootstrap(pobj.value, n_bootstraps=n_bootstraps, stat_func=stat_func)
+
+
     def plot_composite(self, **kws):
-        pass
+        fig, ax = visual.plot_composite(**kws)
+        return fig, ax
 
     def annualize(self, months=list(range(1, 13)), verbose=False):
         new = ProxyDatabase()
@@ -543,6 +558,7 @@ class ProxyDatabase:
 
         new.refresh()
         return new
+
 
     def del_clim(self, verbose=False):
         new = ProxyDatabase()

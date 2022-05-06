@@ -524,16 +524,31 @@ class ProxyDatabase:
 
     def make_composite(self, obs_nc_path, vn='tas', bin_width=10, n_bootstraps=1000, stat_func=np.nanmean):
         obs = ClimateField().load_nc(obs_nc_path, vn=vn)
-        proxy_time = {}
-        proxy_value = {}
-        obs_time = {}
-        obs_value = {}
         bootstrap_stats = {}
+
         for pid, pobj in tqdm(self.records.items(), total=self.nrec, desc='Analyzing ProxyRecord'):
             pobj.get_clim(obs, tag='obs')
-            proxy_time[pid], proxy_value[pid] = utils.bin_ts(pobj.time, pobj.value, bin_width=bin_width)
-            obs_time[pid], obs_value[pid] = utils.bin_ts(pobj.clim[f'obs_{vn}'].time, pobj.clim[f'obs_{vn}'].value, bin_width=bin_width)
+            proxy_time, proxy_value = utils.bin_ts(pobj.time, pobj.value, bin_width=bin_width)
+            ts_proxy = pd.Series({'time': proxy_time, pid: proxy_value})
+            if 'df_proxy' not in locals():
+                df_proxy = ts_proxy.to_frame()
+            else:
+                df_proxy.merge(ts_proxy, on='time')
+            obs_time, obs_value = utils.bin_ts(pobj.clim[f'obs_{vn}'].time, pobj.clim[f'obs_{vn}'].da.values, bin_width=bin_width)
+            ts_obs = pd.Series({'time': obs_time, pid: obs_value})
+            if 'df_obs' not in locals():
+                df_obs = ts_obs.to_frame()
+            else:
+                df_obs.merge(ts_obs, on='time')
             bootstrap_stats[pid] = utils.bootstrap(pobj.value, n_bootstraps=n_bootstraps, stat_func=stat_func)
+
+        res_dict = {
+            'df_proxy': df_proxy,
+            'df_obs': df_obs,
+            'bootstrap_stats': bootstrap_stats,
+        }
+
+        return res_dict
 
 
     def plot_composite(self, **kws):

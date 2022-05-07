@@ -204,6 +204,15 @@ class ProxyRecord:
             return None
             
 
+    def standardize(self):
+        new = self.copy()
+        if self.value.std() == 0:
+            new.value = np.zeros(np.size(self.value))
+        else:
+            new.value = (self.value - self.value.mean()) / self.value.std()
+        return new
+        
+
     def __add__(self, records):
         ''' Add a list of records into a database
         '''
@@ -522,38 +531,70 @@ class ProxyDatabase:
 
         return fig, ax
 
-    def make_composite(self, obs_nc_path, vn='tas', bin_width=10, n_bootstraps=1000, stat_func=np.nanmean):
+    def make_composite(self, obs_nc_path, vn='tas', bin_width=10, n_bootstraps=100, stat_func=np.nanmean):
         obs = ClimateField().load_nc(obs_nc_path, vn=vn)
-        bootstrap_stats = {}
 
         for pid, pobj in tqdm(self.records.items(), total=self.nrec, desc='Analyzing ProxyRecord'):
             pobj.get_clim(obs, tag='obs')
-            proxy_time, proxy_value = utils.bin_ts(pobj.time, pobj.value, bin_width=bin_width)
-            ts_proxy = pd.Series({'time': proxy_time, pid: proxy_value})
+            pobj_stdd = pobj.standardize()
+
+            proxy_time, proxy_value, proxy_bin_vector = utils.smooth_ts(pobj_stdd.time, pobj_stdd.value, bin_width=bin_width)
+
+            ts_proxy = pd.Series(index=proxy_time, data=proxy_value, name=pid)
             if 'df_proxy' not in locals():
                 df_proxy = ts_proxy.to_frame()
             else:
-                df_proxy.merge(ts_proxy, on='time')
-            obs_time, obs_value = utils.bin_ts(pobj.clim[f'obs_{vn}'].time, pobj.clim[f'obs_{vn}'].da.values, bin_width=bin_width)
-            ts_obs = pd.Series({'time': obs_time, pid: obs_value})
+                df_proxy = pd.merge(df_proxy, ts_proxy, left_index=True, right_index=True, how='outer')
+
+            obs_time, obs_value, obs_bin_vector = utils.smooth_ts(pobj.clim[f'obs_{vn}'].time, pobj.clim[f'obs_{vn}'].da.values, bin_width=bin_width)
+            ts_obs = pd.Series(index=obs_time, data=obs_value, name=pid)
             if 'df_obs' not in locals():
                 df_obs = ts_obs.to_frame()
             else:
-                df_obs.merge(ts_obs, on='time')
-            bootstrap_stats[pid] = utils.bootstrap(pobj.value, n_bootstraps=n_bootstraps, stat_func=stat_func)
+                df_obs = pd.merge(df_obs, ts_obs, left_index=True, right_index=True, how='outer')
+
+        proxy_mean = df_proxy.apply(stat_func, axis=1)
+        obs_mean = df_obs.apply(stat_func, axis=1)
+        proxy_mean_time, proxy_mean_value = utils.bin_ts(proxy_mean.index, proxy_mean.values, bin_vector=proxy_bin_vector, smoothed=True)
+        obs_mean_time, obs_mean_value = utils.bin_ts(obs_mean.index, obs_mean.values, bin_vector=obs_bin_vector, smoothed=True)
+
+        # proxy_sample_quantile_low = np.empty_like(proxy_mean)
+        # proxy_sample_quantile_high = np.empty_like(proxy_mean)
+        # for idx, row in df_proxy.iterrows():
+        #     samples = np.array(row.to_list())
+        #     bootstrap_samples = utils.bootstrap(samples, n_bootstraps=n_bootstraps, stat_func=stat_func)
+        #     proxy_sample_quantile_low[idx] = np.quantile(bootstrap_samples, 0.025)
+        #     proxy_sample_quantile_high[idx] = np.quantile(bootstrap_samples, 0.975)
 
         res_dict = {
             'df_proxy': df_proxy,
             'df_obs': df_obs,
-            'bootstrap_stats': bootstrap_stats,
+            'proxy_mean': proxy_mean,
+            'proxy_mean_time': proxy_mean_time,
+            'proxy_mean_value': proxy_mean_value,
+            'obs_mean': obs_mean,
+            'obs_mean_time': obs_mean_time,
+            'obs_mean_value': obs_mean_value,
+            # 'samples': samples,
         }
 
-        return res_dict
+        self.composite = res_dict
 
 
-    def plot_composite(self, **kws):
-        fig, ax = visual.plot_composite(**kws)
-        return fig, ax
+    def plot_composite(self, figsize=[8, 4], clr_count='tab:gray', ax=None):
+        if ax is None:
+            fig = plt.figure(figsize=figsize)
+            ax = {}
+
+        ax['var'] = fig.add_subplot()
+        ax['var'].plot(self.composite['proxy_mean_time'], self.composite['proxy_mean_value'])
+        ax['count'] = ax['var'].twinx()
+        ax['count'].set_ylabel('# records', color=clr_count)
+
+        if 'fig' in locals():
+            return fig, ax
+        else:
+            return ax
 
     def annualize(self, months=list(range(1, 13)), verbose=False):
         new = ProxyDatabase()

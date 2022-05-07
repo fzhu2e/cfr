@@ -44,9 +44,11 @@ def smooth_ts(ts, ys, bin_vector=None, bin_width=10):
 
     return ts_bin, ys_bin, bin_vector
 
-
-def bin_ts(ts, ys, bin_vector=None, bin_width=10, resolution=1):
-    ts_smooth, ys_smooth, bin_vector = smooth_ts(ts, ys, bin_vector=bin_vector, bin_width=bin_width)
+def bin_ts(ts, ys, bin_vector=None, bin_width=10, resolution=1, smoothed=False):
+    if not smoothed:
+        ts_smooth, ys_smooth, bin_vector = smooth_ts(ts, ys, bin_vector=bin_vector, bin_width=bin_width)
+    else:
+        ts_smooth, ys_smooth = ts, ys
 
     bin_vector_finer = np.arange(np.min(bin_vector), np.max(bin_vector)+1, step=resolution)
     bin_value = np.zeros(bin_vector_finer.size)

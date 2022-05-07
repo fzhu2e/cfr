@@ -103,6 +103,7 @@ class ClimateField:
             da = ds[vn]
 
         new = ClimateField(da=da, time_name=time_name, lat_name=lat_name, lon_name=lon_name)
+        new = new.rename({lat_name: 'lat', lon_name: 'lon'})
         if load: new.da.load()
         return new
 

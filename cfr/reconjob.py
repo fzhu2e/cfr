@@ -232,6 +232,7 @@ class ReconJob:
                 if verbose: p_warning(f'>>> The PSM for {pid} failed to calibrate.')
             else:
                 self.proxydb.records[pid].tags.add('calibrated')
+                self.proxydb.records[pid].R = pobj.psm.calib_details['PSMmse']  # assign obs err matrix
 
         if verbose:
             p_success(f'>>> {self.proxydb.nrec_tags("calibrated")} records tagged "calibrated" with ProxyRecord.psm created')

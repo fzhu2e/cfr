@@ -228,6 +228,7 @@ class ProxyRecord:
         new = self.copy()
         try:
             new.time, new.value = utils.annualize(self.time, self.value, months=months)
+            new.time, new.value = utils.clean_ts(new.time, new.value)
             return new
         except:
             if verbose:

@@ -8,7 +8,7 @@ from .utils import (
     p_warning,
     p_fail,
 )
-
+from tqdm import tqdm
 
 class EnKF:
     def __init__(self, prior, proxydb, seed=0, nens=100, recon_vars=['tas']):
@@ -78,9 +78,70 @@ class EnKF:
         self.Xb = Xb
         self.Xb_coords = Xb_coords
         self.Xb_var_irow = Xb_var_irow
+        self.Xb_aug = np.append(self.Xb, self.Ye['assim'], axis=0)
+        self.Xb_aug = np.append(self.Xb_aug, self.Ye['eval'], axis=0)
+        self.Xb_aug_coords = np.append(self.Xb_coords, self.Ye_coords['assim'], axis=0)
+        self.Xb_aug_coords = np.append(self.Xb_aug_coords, self.Ye_coords['eval'], axis=0)
 
-    def run_da(self):
-        pass
+    def update_yr(self, target_yr, recon_loc_rad=25000, recon_timescale=1, debug=False):
+        start_yr = target_yr - recon_timescale/2
+        end_yr = target_yr + recon_timescale/2
+        Xb = np.copy(self.Xb_aug)
+
+        i = 0
+        for pid, pobj in self.pdb_assim.records.items():
+            mask = (pobj.time >= start_yr) & (pobj.time <= end_yr)
+            nYobs = np.sum(mask)
+            if nYobs == 0:
+                i += 1
+                continue  # skip to next proxy record
+            
+            Yobs = pobj.value[mask].mean()
+            loc = cov_localization(recon_loc_rad, pobj, self.Xb_aug_coords)
+            Ye = Xb[i - (self.pdb_assim.nrec+self.pdb_eval.nrec)]
+            ob_err = pobj.R / nYobs
+            Xa = enkf_update_array(Xb, Yobs, Ye, ob_err, loc=loc, debug=debug)
+
+            if debug:
+                Xb_mean = Xb[:-(self.pdb_assim.nrec+self.pdb_eval.nrec)].mean()
+                Xa_mean = Xa[:-(self.pdb_assim.nrec+self.pdb_eval.nrec)].mean()
+                innov = Yobs - Ye.mean()
+                if np.abs(innov / Yobs) > 1:
+                    print(pid, i - (self.pdb_assim.nrec+self.pdb_eval.nrec))
+                    print(f'\tXb_mean: {Xb_mean:.2f}, Xa_mean: {Xa_mean:.2f}')
+                    print(f'\tInnovation: {innov:.2f}, ob_err: {ob_err:.2f}, Yobs: {Yobs:.2f}, Ye_mean: {Ye.mean():.2f}')
+
+            Xbvar = Xb.var(axis=1, ddof=1)
+            Xavar = Xa.var(axis=1, ddof=1)
+            vardiff = Xavar - Xbvar
+            if (not np.isfinite(np.min(vardiff))) or (not np.isfinite(np.max(vardiff))):
+                raise ValueError('Reconstruction has blown-up. Exiting!')
+
+            if debug: print('min/max change in variance: ('+str(np.min(vardiff))+','+str(np.max(vardiff))+')')
+            i += 1
+
+            Xb = Xa
+
+        return Xb
+
+    def run(self, recon_yrs=np.arange(1, 2001), recon_loc_rad=25000, recon_timescale=1, verbose=False, debug=False):
+        self.gen_Ye()
+        self.gen_Xb()
+
+        nt = np.size(recon_yrs)
+        nrow, nens = np.shape(self.Xb_aug)
+
+        self.Xa = np.ndarray((nt, nrow, nens))
+        for yr_idx, target_yr in enumerate(tqdm(recon_yrs, desc='KF updating')):
+            self.Xa[yr_idx] = self.update_yr(target_yr, recon_loc_rad, recon_timescale, debug=debug)
+
+        self.recon_fields = {}
+        for vn, irow in self.Xb_var_irow.items():
+            _, nlat, nlon = np.shape(self.prior[vn].da.values)
+            self.recon_fields[vn] = self.Xa[:, irow[0]:irow[-1]+1, :].reshape((nt, nlat, nlon, nens))
+            self.recon_fields[vn] = np.moveaxis(self.recon_fields[vn], -1, 1)
+
+        if verbose: p_success(f'>>> EnKF.recon_fields created')
     
 
 def enkf_update_array(Xb, obvalue, Ye, ob_err, loc=None, debug=False):

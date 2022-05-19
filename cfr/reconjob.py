@@ -1,3 +1,4 @@
+from email.policy import default
 import os
 import copy
 from shutil import ReadError
@@ -60,10 +61,21 @@ class ReconJob:
         self.configs.update({k: v})
         if verbose: p_header(f'>>> job.configs["{k}"] = {v}')
 
+    def mark_pids(self, verbose=False):
+        self.write_cfg('pids', self.proxydb.pids, verbose=verbose)
+
     def erase_cfg(self, keys, verbose=False):
         for k in keys:
             self.configs.pop(k)
             if verbose: p_success(f'>>> job.configs["{k}"] dropped')
+
+    def save_cfg(self, save_dirpath=None, verbose=False):
+        save_dirpath = self.io_cfg('save_dirpath', save_dirpath, verbose=verbose)
+        save_path = os.path.join(save_dirpath, 'configs.yml') 
+        with open(save_path, 'w') as f:
+            yaml.dump(self.configs, f)
+
+        if verbose: p_success(f'>>> job.configs saved to: {save_path}')
 
 
     def copy(self):
@@ -95,16 +107,18 @@ class ReconJob:
             pdb = self.proxydb.filter(*args, **kwargs)
             return pdb
 
-    def annualize_proxydb(self, ptypes=None, inplace=True, verbose=False, **kwargs):
+    def annualize_proxydb(self, months=None, ptypes=None, inplace=True, verbose=False, **kwargs):
+        months = self.io_cfg('annualize_proxydb_months', months, default=list(range(1, 13)), verbose=verbose)
+        ptypes = self.io_cfg('annualize_proxydb_ptypes', ptypes, verbose=verbose)
         if ptypes is None:
             if inplace:
-                self.proxydb = self.proxydb.annualize(**kwargs)
+                self.proxydb = self.proxydb.annualize(months=months, **kwargs)
             else:
-                pdb = self.proxydb.annualize(**kwargs)
+                pdb = self.proxydb.annualize(months=months, **kwargs)
                 return pdb
         else:
             pdb_filtered = self.proxydb.filter(by='ptype', keys=ptypes)
-            pdb_ann = pdb_filtered.annualize(**kwargs)
+            pdb_ann = pdb_filtered.annualize(months=months, **kwargs)
             pdb_left = self.proxydb - pdb_filtered
 
             if inplace:
@@ -145,8 +159,11 @@ class ReconJob:
             p_success(f'>>> {target_pdb.nrec_tags(keys=["assim"])} records tagged "assim"')
             p_success(f'>>> {target_pdb.nrec_tags(keys=["eval"])} records tagged "eval"')
 
-    def load_clim(self, tag, path_dict=None, rename_dict=None, center_period=None, lon_name='lon', verbose=False):
+    def load_clim(self, tag, path_dict=None, rename_dict=None, center_period=None, lon_name=None, verbose=False):
         path_dict = self.io_cfg(f'{tag}_path', path_dict, verbose=verbose)
+        if rename_dict is not None: rename_dict = self.io_cfg(f'{tag}_rename_dict', rename_dict, verbose=verbose)
+        center_period = self.io_cfg(f'{tag}_center_period', center_period, default=[1951, 1980], verbose=verbose)
+        lon_name = self.io_cfg(f'{tag}_lon_name', lon_name, default='lon', verbose=verbose)
 
         self.__dict__[tag] = {}
         for vn, path in path_dict.items():
@@ -159,7 +176,7 @@ class ReconJob:
             self.__dict__[tag][vn].da.name = vn
 
         if verbose:
-            p_success(f'>>> instrumental observation variables {list(self.__dict__[tag].keys())} loaded')
+            p_success(f'>>> {tag} variables {list(self.__dict__[tag].keys())} loaded')
             p_success(f'>>> job.{tag} created')
 
     def annualize_clim(self, tag, verbose=False, months=None):
@@ -210,7 +227,7 @@ class ReconJob:
 
         calib_period = self.io_cfg(
             'psm_calib_period', calib_period,
-            default=(1850, 2015),
+            default=[1850, 2015],
             verbose=verbose)
 
         for pid, pobj in tqdm(self.proxydb.records.items(), total=self.proxydb.nrec, desc='Calibrating the PSMs:'):
@@ -250,14 +267,14 @@ class ReconJob:
         if verbose:
             p_success(f'>>> ProxyRecord.pseudo created for {pdb_calib.nrec} records')
 
-    def run_da(self, recon_period=None, recon_loc_rad=None, recon_timescale=None, verbose=False, debug=False):
+    def run_da(self, recon_period=None, recon_loc_rad=None, recon_timescale=None, seed=0, verbose=False, debug=False):
         recon_period = self.io_cfg('recon_period', recon_period, default=[0, 2000], verbose=verbose)
         recon_loc_rad = self.io_cfg('recon_loc_rad', recon_loc_rad, default=25000, verbose=verbose)  # unit: km
         recon_timescale = self.io_cfg('recon_timescale', recon_timescale, default=1, verbose=verbose)  # unit: yr
 
         recon_yrs = np.arange(recon_period[0], recon_period[-1]+1)
 
-        solver = da.EnKF(self.prior, self.proxydb)
+        solver = da.EnKF(self.prior, self.proxydb, seed=seed)
         solver.run(
             recon_yrs=recon_yrs,
             recon_loc_rad=recon_loc_rad,
@@ -267,22 +284,76 @@ class ReconJob:
         self.recon_fields = solver.recon_fields
         if verbose: p_success(f'>>> job.recon_fields created')
 
-    def run_mc(self, recon_period=None, recon_loc_rad=None, recon_timescale=None,
-               recon_seeds=None, assim_frac=None, save_dirpath=None, verbose=False):
+    def run_mc(self, recon_period=None, recon_loc_rad=None, recon_timescale=None, output_full_ens=False, save_dtype=np.float32,
+               recon_seeds=None, assim_frac=None, save_dirpath=None, compress_params=None, verbose=False):
+
         recon_period = self.io_cfg('recon_period', recon_period, default=[0, 2000], verbose=verbose)
         recon_loc_rad = self.io_cfg('recon_loc_rad', recon_loc_rad, default=25000, verbose=verbose)  # unit: km
         recon_timescale = self.io_cfg('recon_timescale', recon_timescale, default=1, verbose=verbose)  # unit: yr
         recon_seeds = self.io_cfg('recon_seeds', recon_seeds, default=np.arange(0, 20), verbose=verbose)
         assim_frac = self.io_cfg('assim_frac', assim_frac, default=0.75, verbose=verbose)
         save_dirpath = self.io_cfg('save_dirpath', save_dirpath, verbose=verbose)
+        compress_params = self.io_cfg('compress_params', compress_params, default={'zlib': True, 'least_significant_digit': 1}, verbose=verbose)
 
         for seed in recon_seeds:
             if verbose: p_header(f'>>> seed: {seed} | max: {recon_seeds[-1]}')
-            self.split_proxydb(seed=seed, assim_frac=assim_frac, verbose=verbose)
-            self.run_da(recon_period=recon_period, recon_loc_rad=recon_loc_rad, recon_timescale=recon_timescale)
-            # save_recon()
+
+            self.split_proxydb(seed=seed, assim_frac=assim_frac, verbose=False)
+            self.run_da(recon_period=recon_period, recon_loc_rad=recon_loc_rad,
+                        recon_timescale=recon_timescale, seed=seed, verbose=False)
+
+            recon_savepath = os.path.join(save_dirpath, f'job_r{seed:02d}_recon.nc')
+            self.save_recon(recon_savepath, compress_params=compress_params,
+                            verbose=verbose, output_full_ens=output_full_ens, dtype=save_dtype)
 
         p_success('>>> DONE!')
+
+    def run_cfg(self, cfg_path, verbose=False):
+        with open(cfg_path, 'r') as f:
+            self.configs = yaml.safe_load(f)
+
+        if verbose:
+            p_success(f'>>> job.configs loaded')
+            pp.pprint(self.configs)
+
+        self.load_proxydb(self.configs['proxydb_path'], verbose=verbose)
+        self.filter_proxydb(by='pid', keys=self.configs['pids'], verbose=verbose)
+        self.annualize_proxydb(
+            months=self.configs['annualize_proxydb_months'],
+            ptypes=self.configs['annualize_proxydb_ptypes'])
+
+        if 'prior_rename_dict' in self.configs:
+            prior_rename_dict = self.configs['prior_rename_dict']
+        else:
+            prior_rename_dict = None
+
+        if 'obs_rename_dict' in self.configs:
+            obs_rename_dict = self.configs['obs_rename_dict']
+        else:
+            obs_rename_dict = None
+
+        self.load_clim(tag='prior', path_dict=self.configs['prior_path'],
+                       center_period=self.configs[f'prior_center_period'], rename_dict=prior_rename_dict, verbose=verbose)
+        self.load_clim(tag='obs', path_dict=self.configs['obs_path'],
+                       center_period=self.configs[f'obs_center_period'], rename_dict=obs_rename_dict, verbose=verbose)
+        self.calib_psms(ptype_psm_dict=self.configs['ptype_psm_dict'],
+                        ptype_season_dict=self.configs['ptype_season_dict'], verbose=verbose)
+        self.forward_psms(verbose=verbose)
+
+        if 'prior_annualize_months' in self.configs:
+            self.annualize_clim(tag='prior', months=self.configs['prior_annualize_months'], verbose=verbose)
+
+        if 'prior_regrid_nlat' in self.configs:
+            self.regrid_clim(tag='prior', nlat=self.configs['prior_regrid_nlat'], 
+                             nlon=self.configs['prior_regrid_nlon'], verbose=verbose)
+        self.run_mc(
+            recon_period=self.configs['recon_period'],
+            recon_loc_rad=self.configs['recon_loc_rad'],
+            recon_timescale=self.configs['recon_timescale'],
+            recon_seeds=self.configs['recon_seeds'],
+            assim_frac=self.configs['assim_frac'],
+            compress_params=self.configs['compress_params'],
+        )
         
 
     def save(self, save_dirpath=None, filename='job.pkl', verbose=False):
@@ -291,8 +362,11 @@ class ReconJob:
         pd.to_pickle(self, os.path.join(save_dirpath, filename))
         if verbose: p_success(f'>>> job saved to: {save_dirpath}')
     
-    def save_recon(self, save_path, compress_dict={'zlib': True, 'least_significant_digit': 1}, verbose=False,
-               output_geo_mean=False, target_lats=[], target_lons=[], output_full_ens=False, dtype=np.float32):
+    def save_recon(self, save_path, compress_params=None, verbose=False, output_full_ens=False, dtype=np.float32):
+        compress_params = self.io_cfg(
+            'compress_params', compress_params,
+            default={'zlib': True, 'least_significant_digit': 1},
+            verbose=False)
 
         output_dict = {}
         for vn, fd in self.recon_fields.items():
@@ -304,70 +378,19 @@ class ReconJob:
                 output_var = np.array(fd.mean(axis=1), dtype=dtype)
                 output_dict[vn] = (('year', 'lat', 'lon'), output_var)
 
-            lats, lons = self.prior.fields[vn].lat, self.prior.fields[vn].lon
-            try:
-                gm_ens = np.ndarray((nyr, nens), dtype=dtype)
-                nhm_ens = np.ndarray((nyr, nens), dtype=dtype)
-                shm_ens = np.ndarray((nyr, nens), dtype=dtype)
-                for k in range(nens):
-                    gm_ens[:,k], nhm_ens[:,k], shm_ens[:,k] = utils.global_hemispheric_means(fd[:,k,:,:], lats)
-
-                output_dict[f'{vn}_gm_ens'] = (('year', 'ens'), gm_ens)
-                output_dict[f'{vn}_nhm_ens'] = (('year', 'ens'), nhm_ens)
-                output_dict[f'{vn}_shm_ens'] = (('year', 'ens'), shm_ens)
-            except:
-                if verbose: p_warning(f'LMRt: job.save_recon() >>> Global hemispheric means cannot be calculated')
-
-            if vn == 'tas':
-                try:
-                    nino_ind = utils.nino_indices(fd, lats, lons)
-                    nino12 = nino_ind['nino1+2']
-                    nino3 = nino_ind['nino3']
-                    nino34 = nino_ind['nino3.4']
-                    nino4 = nino_ind['nino4']
-                    wpi = nino_ind['wpi']
-
-                    nino12 = np.array(nino12, dtype=dtype)
-                    nino3 = np.array(nino3, dtype=dtype)
-                    nino34 = np.array(nino34, dtype=dtype)
-                    nino4 = np.array(nino4, dtype=dtype)
-
-                    output_dict['nino1+2'] = (('year', 'ens'), nino12)
-                    output_dict['nino3'] = (('year', 'ens'), nino3)
-                    output_dict['nino3.4'] = (('year', 'ens'), nino34)
-                    output_dict['nino4'] = (('year', 'ens'), nino4)
-                    output_dict['wpi'] = (('year', 'ens'), wpi)
-                except:
-                    if verbose: p_warning(f'LMRt: job.save_recon() >>> NINO or West Pacific Indices cannot be calculated')
-
-                # calculate tripole index (TPI)
-                try:
-                    tpi = calc_tpi(fd, lats, lons)
-                    tpi = np.array(tpi, dtype=dtype)
-                    output_dict['tpi'] = (('year', 'ens'), tpi)
-                except:
-                    if verbose: p_warning(f'LMRt: job.save_recon() >>> Tripole Index (TPI) cannot be calculated')
-
-            if output_geo_mean:
-                geo_mean_ts = geo_mean(fd, lats, lons, target_lats, target_lons)
-                output_dict['geo_mean'] = (('year', 'ens'), geo_mean_ts)
-
         ds = xr.Dataset(
             data_vars=output_dict,
             coords={
                 'year': np.arange(self.configs['recon_period'][0], self.configs['recon_period'][1]+1),
                 'ens': np.arange(nens),
-                'lat': lats,
-                'lon': lons,
+                'lat': self.prior[vn].lat,
+                'lon': self.prior[vn].lon,
             })
 
-        if compress_dict is not None:
-            encoding_dict = {}
-            for k in output_dict.keys():
-                encoding_dict[k] = compress_dict
+        encoding_dict = {}
+        for k in output_dict.keys():
+            encoding_dict[k] = compress_params
 
-            ds.to_netcdf(save_path, encoding=encoding_dict)
-        else:
-            ds.to_netcdf(save_path)
+        ds.to_netcdf(save_path, encoding=encoding_dict)
 
-        if verbose: p_header(f'LMRt: job.save_recon() >>> Reconstructed fields saved to: {save_path}')
+        if verbose: p_success(f'>>> Reconstructed fields saved to: {save_path}')

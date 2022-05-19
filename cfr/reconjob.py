@@ -12,7 +12,8 @@ try:
     from . import psm
 except:
     pass
-
+import xarray as xr
+from . import utils, da
 from .utils import (
     p_header,
     p_hint,
@@ -255,36 +256,30 @@ class ReconJob:
         recon_timescale = self.io_cfg('recon_timescale', recon_timescale, default=1, verbose=verbose)  # unit: yr
 
         recon_yrs = np.arange(recon_period[0], recon_period[-1]+1)
-        Xb_aug = np.append(self.Xb, self.Ye_assim, axis=0)
-        Xb_aug = np.append(Xb_aug, self.Ye_eval, axis=0)
-        Xb_aug_coords = np.append(self.Xb_coords, self.Ye_assim_coords, axis=0)
-        Xb_aug_coords = np.append(Xb_aug_coords, self.Ye_eval_coords, axis=0)
 
-        nt = np.size(recon_yrs)
-        nrow, nens = np.shape(Xb_aug)
+        solver = da.EnKF(self.prior, self.proxydb)
+        solver.run(
+            recon_yrs=recon_yrs,
+            recon_loc_rad=recon_loc_rad,
+            recon_timescale=recon_timescale,
+            verbose=verbose, debug=debug)
 
-        Xa = np.ndarray((nt, nrow, nens))
-        for yr_idx, target_yr in enumerate(tqdm(recon_yrs, desc='KF updating')):
-            Xa[yr_idx] = self.update_yr(target_yr, Xb_aug, Xb_aug_coords, recon_loc_rad, recon_timescale, verbose=verbose, debug=debug)
-
-        recon_fields = {}
-        for vn, irow in self.Xb_var_irow.items():
-            _, nlat, nlon = np.shape(self.prior.fields[vn].value)
-            recon_fields[vn] = Xa[:, irow[0]:irow[-1]+1, :].reshape((nt, nlat, nlon, nens))
-            recon_fields[vn] = np.moveaxis(recon_fields[vn], -1, 1)
-
-        self.recon_fields = recon_fields
+        self.recon_fields = solver.recon_fields
         if verbose: p_success(f'>>> job.recon_fields created')
 
-    def run(self, recon_seeds=None, save_dirpath=None, verbose=False):
+    def run_mc(self, recon_period=None, recon_loc_rad=None, recon_timescale=None,
+               recon_seeds=None, assim_frac=None, save_dirpath=None, verbose=False):
+        recon_period = self.io_cfg('recon_period', recon_period, default=[0, 2000], verbose=verbose)
+        recon_loc_rad = self.io_cfg('recon_loc_rad', recon_loc_rad, default=25000, verbose=verbose)  # unit: km
+        recon_timescale = self.io_cfg('recon_timescale', recon_timescale, default=1, verbose=verbose)  # unit: yr
         recon_seeds = self.io_cfg('recon_seeds', recon_seeds, default=np.arange(0, 20), verbose=verbose)
+        assim_frac = self.io_cfg('assim_frac', assim_frac, default=0.75, verbose=verbose)
         save_dirpath = self.io_cfg('save_dirpath', save_dirpath, verbose=verbose)
 
         for seed in recon_seeds:
             if verbose: p_header(f'>>> seed: {seed} | max: {recon_seeds[-1]}')
-            # gen_Ye()
-            # gen_Xb()
-            # run_da()
+            self.split_proxydb(seed=seed, assim_frac=assim_frac, verbose=verbose)
+            self.run_da(recon_period=recon_period, recon_loc_rad=recon_loc_rad, recon_timescale=recon_timescale)
             # save_recon()
 
         p_success('>>> DONE!')
@@ -295,3 +290,84 @@ class ReconJob:
         os.makedirs(save_dirpath, exist_ok=True)
         pd.to_pickle(self, os.path.join(save_dirpath, filename))
         if verbose: p_success(f'>>> job saved to: {save_dirpath}')
+    
+    def save_recon(self, save_path, compress_dict={'zlib': True, 'least_significant_digit': 1}, verbose=False,
+               output_geo_mean=False, target_lats=[], target_lons=[], output_full_ens=False, dtype=np.float32):
+
+        output_dict = {}
+        for vn, fd in self.recon_fields.items():
+            nyr, nens, nlat, nlon = np.shape(fd)
+            if output_full_ens:
+                output_var = np.array(fd, dtype=dtype)
+                output_dict[vn] = (('year', 'ens', 'lat', 'lon'), output_var)
+            else:
+                output_var = np.array(fd.mean(axis=1), dtype=dtype)
+                output_dict[vn] = (('year', 'lat', 'lon'), output_var)
+
+            lats, lons = self.prior.fields[vn].lat, self.prior.fields[vn].lon
+            try:
+                gm_ens = np.ndarray((nyr, nens), dtype=dtype)
+                nhm_ens = np.ndarray((nyr, nens), dtype=dtype)
+                shm_ens = np.ndarray((nyr, nens), dtype=dtype)
+                for k in range(nens):
+                    gm_ens[:,k], nhm_ens[:,k], shm_ens[:,k] = utils.global_hemispheric_means(fd[:,k,:,:], lats)
+
+                output_dict[f'{vn}_gm_ens'] = (('year', 'ens'), gm_ens)
+                output_dict[f'{vn}_nhm_ens'] = (('year', 'ens'), nhm_ens)
+                output_dict[f'{vn}_shm_ens'] = (('year', 'ens'), shm_ens)
+            except:
+                if verbose: p_warning(f'LMRt: job.save_recon() >>> Global hemispheric means cannot be calculated')
+
+            if vn == 'tas':
+                try:
+                    nino_ind = utils.nino_indices(fd, lats, lons)
+                    nino12 = nino_ind['nino1+2']
+                    nino3 = nino_ind['nino3']
+                    nino34 = nino_ind['nino3.4']
+                    nino4 = nino_ind['nino4']
+                    wpi = nino_ind['wpi']
+
+                    nino12 = np.array(nino12, dtype=dtype)
+                    nino3 = np.array(nino3, dtype=dtype)
+                    nino34 = np.array(nino34, dtype=dtype)
+                    nino4 = np.array(nino4, dtype=dtype)
+
+                    output_dict['nino1+2'] = (('year', 'ens'), nino12)
+                    output_dict['nino3'] = (('year', 'ens'), nino3)
+                    output_dict['nino3.4'] = (('year', 'ens'), nino34)
+                    output_dict['nino4'] = (('year', 'ens'), nino4)
+                    output_dict['wpi'] = (('year', 'ens'), wpi)
+                except:
+                    if verbose: p_warning(f'LMRt: job.save_recon() >>> NINO or West Pacific Indices cannot be calculated')
+
+                # calculate tripole index (TPI)
+                try:
+                    tpi = calc_tpi(fd, lats, lons)
+                    tpi = np.array(tpi, dtype=dtype)
+                    output_dict['tpi'] = (('year', 'ens'), tpi)
+                except:
+                    if verbose: p_warning(f'LMRt: job.save_recon() >>> Tripole Index (TPI) cannot be calculated')
+
+            if output_geo_mean:
+                geo_mean_ts = geo_mean(fd, lats, lons, target_lats, target_lons)
+                output_dict['geo_mean'] = (('year', 'ens'), geo_mean_ts)
+
+        ds = xr.Dataset(
+            data_vars=output_dict,
+            coords={
+                'year': np.arange(self.configs['recon_period'][0], self.configs['recon_period'][1]+1),
+                'ens': np.arange(nens),
+                'lat': lats,
+                'lon': lons,
+            })
+
+        if compress_dict is not None:
+            encoding_dict = {}
+            for k in output_dict.keys():
+                encoding_dict[k] = compress_dict
+
+            ds.to_netcdf(save_path, encoding=encoding_dict)
+        else:
+            ds.to_netcdf(save_path)
+
+        if verbose: p_header(f'LMRt: job.save_recon() >>> Reconstructed fields saved to: {save_path}')

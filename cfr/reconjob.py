@@ -1,4 +1,3 @@
-from email.policy import default
 import os
 import copy
 from shutil import ReadError
@@ -284,7 +283,7 @@ class ReconJob:
         self.recon_fields = solver.recon_fields
         if verbose: p_success(f'>>> job.recon_fields created')
 
-    def run_mc(self, recon_period=None, recon_loc_rad=None, recon_timescale=None, output_full_ens=False, save_dtype=np.float32,
+    def run_mc(self, recon_period=None, recon_loc_rad=None, recon_timescale=None, output_full_ens=None, save_dtype=np.float32,
                recon_seeds=None, assim_frac=None, save_dirpath=None, compress_params=None, verbose=False):
 
         recon_period = self.io_cfg('recon_period', recon_period, default=[0, 2000], verbose=verbose)
@@ -294,6 +293,7 @@ class ReconJob:
         assim_frac = self.io_cfg('assim_frac', assim_frac, default=0.75, verbose=verbose)
         save_dirpath = self.io_cfg('save_dirpath', save_dirpath, verbose=verbose)
         compress_params = self.io_cfg('compress_params', compress_params, default={'zlib': True, 'least_significant_digit': 1}, verbose=verbose)
+        output_full_ens = self.io_cfg('output_full_ens', output_full_ens, default=False, verbose=verbose)
 
         for seed in recon_seeds:
             if verbose: p_header(f'>>> seed: {seed} | max: {recon_seeds[-1]}')
@@ -353,6 +353,8 @@ class ReconJob:
             recon_seeds=self.configs['recon_seeds'],
             assim_frac=self.configs['assim_frac'],
             compress_params=self.configs['compress_params'],
+            output_full_ens=self.configs['output_full_ens'],
+            verbose=verbose,
         )
         
 
@@ -362,35 +364,66 @@ class ReconJob:
         pd.to_pickle(self, os.path.join(save_dirpath, filename))
         if verbose: p_success(f'>>> job saved to: {save_dirpath}')
     
-    def save_recon(self, save_path, compress_params=None, verbose=False, output_full_ens=False, dtype=np.float32):
+    def save_recon(self, save_path, compress_params=None, verbose=False, output_full_ens=False,
+                   output_indices=None, dtype=np.float32):
+
         compress_params = self.io_cfg(
             'compress_params', compress_params,
             default={'zlib': True, 'least_significant_digit': 1},
             verbose=False)
 
-        output_dict = {}
+        output_indices = self.io_cfg(
+            'output_indices', output_indices,
+            default=['gm', 'nhm', 'shm', 'nino3.4'],
+            verbose=False)
+
+        ds = xr.Dataset()
+        year = np.arange(self.configs['recon_period'][0], self.configs['recon_period'][1]+1)
         for vn, fd in self.recon_fields.items():
             nyr, nens, nlat, nlon = np.shape(fd)
-            if output_full_ens:
-                output_var = np.array(fd, dtype=dtype)
-                output_dict[vn] = (('year', 'ens', 'lat', 'lon'), output_var)
-            else:
-                output_var = np.array(fd.mean(axis=1), dtype=dtype)
-                output_dict[vn] = (('year', 'lat', 'lon'), output_var)
+            da = xr.DataArray(fd,
+                coords={
+                    'year': year,
+                    'ens': np.arange(nens),
+                    'lat': self.prior[vn].lat,
+                    'lon': self.prior[vn].lon,
+                })
 
-        ds = xr.Dataset(
-            data_vars=output_dict,
-            coords={
-                'year': np.arange(self.configs['recon_period'][0], self.configs['recon_period'][1]+1),
-                'ens': np.arange(nens),
-                'lat': self.prior[vn].lat,
-                'lon': self.prior[vn].lon,
-            })
+            # output indices
+            if 'gm' in output_indices: ds[f'{vn}_gm'] = utils.geo_mean(da)
+            if 'nhm' in output_indices: ds[f'{vn}_shm'] = utils.geo_mean(da, lat_min=0)
+            if 'shm' in output_indices: ds[f'{vn}_shm'] = utils.geo_mean(da, lat_max=0)
+            if vn in ['tas', 'sst']:
+                if 'nino3.4' in output_indices:
+                    ds['nino3.4'] = utils.geo_mean(da, lat_min=-5, lat_max=5, lon_min=np.mod(-170, 360), lon_max=np.mod(-120, 360))
+                if 'nino1+2' in output_indices:
+                    ds['nino1+2'] = utils.geo_mean(da, lat_min=-10, lat_max=10, lon_min=np.mod(-90, 360), lon_max=np.mod(-80, 360))
+                if 'nino3' in output_indices:
+                    ds['nino3'] = utils.geo_mean(da, lat_min=-5, lat_max=5, lon_min=np.mod(-150, 360), lon_max=np.mod(-90, 360))
+                if 'nino4' in output_indices:
+                    ds['nino4'] = utils.geo_mean(da, lat_min=-5, lat_max=5, lon_min=np.mod(160, 360), lon_max=np.mod(-150, 360))
+                if 'wpi' in output_indices:
+                    ds['wpi'] = utils.geo_mean(da, lat_min=-10, lat_max=10, lon_min=np.mod(120, 360), lon_max=np.mod(150, 360))
+                if 'tpi' in output_indices:
+                    v1 = utils.geo_mean(da, lat_min=25, lat_max=45, lon_min=np.mod(140, 360), lon_max=np.mod(-145, 360))
+                    v2 = utils.geo_mean(da, lat_min=-10, lat_max=10, lon_min=np.mod(170, 360), lon_max=np.mod(-90, 360))
+                    v3 = utils.geo_mean(da, lat_min=-50, lat_max=-15, lon_min=np.mod(150, 360), lon_max=np.mod(-160, 360))
+                    ds['tpi'] = v2 - (v1 + v3)/2
+
+            if not output_full_ens: da = da.mean(dim='ens')
+            ds[vn] = da
 
         encoding_dict = {}
-        for k in output_dict.keys():
+        for k in self.recon_fields.keys():
             encoding_dict[k] = compress_params
 
+        # mark the pids being assimilated
+        pdb_assim = self.proxydb.filter(by='tag', keys=['assim'])
+        pdb_eval = self.proxydb.filter(by='tag', keys=['eval'])
+        ds.attrs = {
+            'pids_assim': pdb_assim.pids,
+            'pids_eval': pdb_eval.pids,
+        }
         ds.to_netcdf(save_path, encoding=encoding_dict)
 
         if verbose: p_success(f'>>> Reconstructed fields saved to: {save_path}')

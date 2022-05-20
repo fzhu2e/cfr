@@ -2,6 +2,7 @@ from .climate import *
 from .proxy import *
 from .da import *
 from .reconjob import *
+from .reconres import *
 try:
     from . import ml
 except:

@@ -14,6 +14,12 @@ from multiprocessing import Pool, cpu_count
 from functools import partial
 from . import utils
 from . import visual
+from .utils import (
+    p_warning,
+    p_header,
+    p_success,
+    p_fail,
+)
 
 def get_ptype(archive_type, proxy_type):
     ptype_dict = {
@@ -228,12 +234,12 @@ class ProxyRecord:
         new = self.copy()
         try:
             new.time, new.value = utils.annualize(self.time, self.value, months=months)
-            new.time, new.value = utils.clean_ts(new.time, new.value)
-            return new
         except:
-            if verbose:
-                print(f'Record {self.pid} cannot be annualized with months {months}. None returned.')
-            return None
+            new.time, new.value = utils.annualize(self.time, self.value, months=list(range(1, 13)))
+            if verbose: p_warning(f'Record {self.pid} cannot be annualized with months {months}. Use calendar year instead.')
+
+        new.time, new.value = utils.clean_ts(new.time, new.value)
+        return new
             
 
     def standardize(self):

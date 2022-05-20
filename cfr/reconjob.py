@@ -158,10 +158,10 @@ class ReconJob:
             p_success(f'>>> {target_pdb.nrec_tags(keys=["assim"])} records tagged "assim"')
             p_success(f'>>> {target_pdb.nrec_tags(keys=["eval"])} records tagged "eval"')
 
-    def load_clim(self, tag, path_dict=None, rename_dict=None, center_period=None, lon_name=None, verbose=False):
+    def load_clim(self, tag, path_dict=None, rename_dict=None, anom_period=None, lon_name=None, verbose=False):
         path_dict = self.io_cfg(f'{tag}_path', path_dict, verbose=verbose)
         if rename_dict is not None: rename_dict = self.io_cfg(f'{tag}_rename_dict', rename_dict, verbose=verbose)
-        center_period = self.io_cfg(f'{tag}_center_period', center_period, default=[1951, 1980], verbose=verbose)
+        anom_period = self.io_cfg(f'{tag}_anom_period', anom_period, default=[1951, 1980], verbose=verbose)
         lon_name = self.io_cfg(f'{tag}_lon_name', lon_name, default='lon', verbose=verbose)
 
         self.__dict__[tag] = {}
@@ -171,7 +171,7 @@ class ReconJob:
             else:
                 vn_in_file = rename_dict[vn]
 
-            self.__dict__[tag][vn] = ClimateField().load_nc(path, vn=vn_in_file).center(ref_period=center_period).wrap_lon(lon_name=lon_name)
+            self.__dict__[tag][vn] = ClimateField().load_nc(path, vn=vn_in_file).get_anom(ref_period=anom_period).wrap_lon(lon_name=lon_name)
             self.__dict__[tag][vn].da.name = vn
 
         if verbose:
@@ -333,9 +333,9 @@ class ReconJob:
             obs_rename_dict = None
 
         self.load_clim(tag='prior', path_dict=self.configs['prior_path'],
-                       center_period=self.configs[f'prior_center_period'], rename_dict=prior_rename_dict, verbose=verbose)
+                       anom_period=self.configs[f'prior_anom_period'], rename_dict=prior_rename_dict, verbose=verbose)
         self.load_clim(tag='obs', path_dict=self.configs['obs_path'],
-                       center_period=self.configs[f'obs_center_period'], rename_dict=obs_rename_dict, verbose=verbose)
+                       anom_period=self.configs[f'obs_anom_period'], rename_dict=obs_rename_dict, verbose=verbose)
         self.calib_psms(ptype_psm_dict=self.configs['ptype_psm_dict'],
                         ptype_season_dict=self.configs['ptype_season_dict'], verbose=verbose)
         self.forward_psms(verbose=verbose)

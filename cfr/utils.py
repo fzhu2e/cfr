@@ -329,11 +329,12 @@ def annualize_var(year_float, var, resolution='month', weights=None):
     year_ann = np.sort(list(set([t.year for t in time])))
     return year_ann, var_ann
 
-def ymd2year_float(year, month, day):
+def ymd2year_float(year, month, day, resolution='month'):
     ''' Convert a set of (year, month, day) to an array of floats in unit of year
     '''
     year_float = []
     for y, m, d in zip(year, month, day):
+        if resolution == 'month': d = 1
         date = datetime(year=y, month=m, day=d)
         fst_day = datetime(year=y, month=1, day=1)
         lst_day = datetime(year=y+1, month=1, day=1)
@@ -344,7 +345,7 @@ def ymd2year_float(year, month, day):
     year_float = np.array(year_float)
     return year_float
 
-def datetime2year_float(date):
+def datetime2year_float(date, resolution='month'):
     ''' Convert a list of dates to floats in year
     '''
     if isinstance(date[0], np.datetime64):
@@ -353,12 +354,13 @@ def datetime2year_float(date):
     year = [d.year for d in date]
     month = [d.month for d in date]
     day = [d.day for d in date]
+    if resolution == 'month': day = np.ones(np.size(day))
 
     year_float = ymd2year_float(year, month, day)
 
     return year_float
 
-def year_float2datetime(year_float, resolution='day'):
+def year_float2datetime(year_float, resolution='month'):
     ''' Convert an array of floats in unit of year to a datetime time; accuracy: one day
     '''
     # if np.min(year_float) < 0:

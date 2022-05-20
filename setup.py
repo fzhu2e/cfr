@@ -33,6 +33,7 @@ setup(
         'nc-time-axis',
         'dask',
         'statsmodels',
+        'pens',
     ],
     extras_require={
         'psm': [

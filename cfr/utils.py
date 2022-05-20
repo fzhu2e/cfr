@@ -515,3 +515,19 @@ def coefficient_efficiency(ref, test, valid=None):
                 CE = np.nan
 
     return CE
+
+def geo_mean(da, lat_min=-90, lat_max=90, lon_min=0, lon_max=360, lat_name='lat', lon_name='lon'):
+    # calculation
+    mask_lat = (da[lat_name] >= lat_min) & (da[lat_name] <= lat_max)
+    mask_lon = (da[lon_name] >= lon_min) & (da[lon_name] <= lon_max)
+
+    dac = da.sel(
+        {
+            lat_name: da[lat_name][mask_lat],
+            lon_name: da[lon_name][mask_lon],
+        }
+    )
+
+    wgts = np.cos(np.deg2rad(dac[lat_name]))
+    m = dac.weighted(wgts).mean((lon_name, lat_name))
+    return m

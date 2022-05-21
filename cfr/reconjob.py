@@ -70,6 +70,7 @@ class ReconJob:
 
     def save_cfg(self, save_dirpath=None, verbose=False):
         save_dirpath = self.io_cfg('save_dirpath', save_dirpath, verbose=verbose)
+        os.makedirs(save_dirpath, exist_ok=True)
         save_path = os.path.join(save_dirpath, 'configs.yml') 
         with open(save_path, 'w') as f:
             yaml.dump(self.configs, f)
@@ -293,6 +294,7 @@ class ReconJob:
         recon_seeds = self.io_cfg('recon_seeds', recon_seeds, default=np.arange(0, 20), verbose=verbose)
         assim_frac = self.io_cfg('assim_frac', assim_frac, default=0.75, verbose=verbose)
         save_dirpath = self.io_cfg('save_dirpath', save_dirpath, verbose=verbose)
+        os.makedirs(save_dirpath, exist_ok=True)
         compress_params = self.io_cfg('compress_params', compress_params, default={'zlib': True, 'least_significant_digit': 1}, verbose=verbose)
         output_full_ens = self.io_cfg('output_full_ens', output_full_ens, default=False, verbose=verbose)
 

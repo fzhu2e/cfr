@@ -33,6 +33,7 @@ setup(
         'nc-time-axis',
         'dask',
         'statsmodels',
+        'sklearn',
         'pens',
     ],
     extras_require={
@@ -44,7 +45,6 @@ setup(
         'ml': [
             'torch',
             'torchvision',
-            'sklearn',
         ]
     }
 )

@@ -265,8 +265,6 @@ def annualize(time=None, value=None, da=None, months=list(range(1, 13))):
     else:
         da_wk = da
 
-    old_yrs = np.array(list(set(np.floor(datetime2year_float(da_wk.time.values)))))
-
     sda = da_wk.sel(time=da_wk.time.dt.month.isin(months))
     anchor = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC']
     idx = months[-1]-1

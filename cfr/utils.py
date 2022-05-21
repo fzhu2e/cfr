@@ -274,60 +274,10 @@ def annualize(time=None, value=None, da=None, months=list(range(1, 13))):
     time_ann = np.floor(datetime2year_float(sda_ann.time.values))
     value_ann = sda_ann.values
 
-    # drop the last one since its caused by months cross two years, e.g., [12, 1, 2]
-    if len(old_yrs) < len(time_ann):
-        time_ann = time_ann[:-1]
-        value_ann = value_ann[:-1, ...]
-        sda_ann = sda_ann.drop_isel({'time': -1})
-
     if da is None:
         return time_ann, value_ann
     else:
         return sda_ann
-
-def annualize_var(year_float, var, resolution='month', weights=None):
-    ''' Annualize a variable array
-    Args:
-        var (ndarray): the target variable array with 1st dim to be year
-        year_float (1-D array): the time axis of the variable array
-        weights (ndarray): the weights that shares the same shape of the target variable array
-    Returns:
-        var_ann (ndarray): the annualized variable array
-        year_ann (1-D array): the time axis of the annualized variable array
-    '''
-    var = np.array(var)
-    year_float = np.array(year_float)
-
-    ndims = len(np.shape(var))
-    dims = ['time']
-    for i in range(ndims-1):
-        dims.append(f'dim{i+1}')
-
-    time = year_float2datetime(year_float, resolution=resolution)
-
-    if weights is not None:
-        weights_da = xr.DataArray(weights, dims=dims, coords={'time': time})
-
-        coeff = np.ndarray(np.shape(weights))
-        for i, gp in enumerate(list(weights_da.groupby('time.year'))):
-            year, value = gp
-            k = np.shape(value)[0]
-            coeff[k*i:k*(i+1)] = value / np.sum(value, axis=0)
-
-        del weights, weights_da  # save the memory
-
-        var = np.multiply(coeff, var)
-        var_da = xr.DataArray(var, dims=dims, coords={'time': time})
-        var_ann = var_da.groupby('time.year').sum('time')
-
-    else:
-        var_da = xr.DataArray(var, dims=dims, coords={'time': time})
-        var_ann = var_da.groupby('time.year').mean('time')
-
-    var_ann = var_ann.values
-
-    year_ann = np.sort(list(set([t.year for t in time])))
-    return year_ann, var_ann
 
 def ymd2year_float(year, month, day, resolution='month'):
     ''' Convert a set of (year, month, day) to an array of floats in unit of year

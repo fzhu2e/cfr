@@ -109,6 +109,7 @@ class ReconJob:
     def annualize_proxydb(self, months=None, ptypes=None, inplace=True, verbose=False, **kwargs):
         months = self.io_cfg('annualize_proxydb_months', months, default=list(range(1, 13)), verbose=verbose)
         ptypes = self.io_cfg('annualize_proxydb_ptypes', ptypes, verbose=verbose)
+
         if ptypes is None:
             if inplace:
                 self.proxydb = self.proxydb.annualize(months=months, **kwargs)

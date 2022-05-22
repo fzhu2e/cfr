@@ -25,9 +25,6 @@ from .utils import (
 import pprint
 pp = pprint.PrettyPrinter()
 
-# from multiprocessing import Pool
-from pathos.multiprocessing import ProcessingPool as Pool
-
 class ReconJob:
     ''' Reconstruction Job
     '''
@@ -271,7 +268,7 @@ class ReconJob:
         if verbose:
             p_success(f'>>> ProxyRecord.pseudo created for {pdb_calib.nrec} records')
 
-    def run_da(self, recon_period=None, recon_loc_rad=None, recon_timescale=None, seed=0, verbose=False, debug=False):
+    def run_da(self, recon_period=None, recon_loc_rad=None, recon_timescale=None, seed=0, nproc=None, verbose=False, debug=False):
         recon_period = self.io_cfg('recon_period', recon_period, default=[0, 2000], verbose=verbose)
         recon_loc_rad = self.io_cfg('recon_loc_rad', recon_loc_rad, default=25000, verbose=verbose)  # unit: km
         recon_timescale = self.io_cfg('recon_timescale', recon_timescale, default=1, verbose=verbose)  # unit: yr
@@ -289,7 +286,7 @@ class ReconJob:
         if verbose: p_success(f'>>> job.recon_fields created')
 
     def run_mc(self, recon_period=None, recon_loc_rad=None, recon_timescale=None, output_full_ens=None, save_dtype=np.float32,
-               recon_seeds=None, assim_frac=None, save_dirpath=None, compress_params=None, nproc=None, verbose=False):
+               recon_seeds=None, assim_frac=None, save_dirpath=None, compress_params=None, verbose=False):
 
         recon_period = self.io_cfg('recon_period', recon_period, default=[0, 2000], verbose=verbose)
         recon_loc_rad = self.io_cfg('recon_loc_rad', recon_loc_rad, default=25000, verbose=verbose)  # unit: km
@@ -300,9 +297,8 @@ class ReconJob:
         os.makedirs(save_dirpath, exist_ok=True)
         compress_params = self.io_cfg('compress_params', compress_params, default={'zlib': True, 'least_significant_digit': 1}, verbose=verbose)
         output_full_ens = self.io_cfg('output_full_ens', output_full_ens, default=False, verbose=verbose)
-        nproc = self.io_cfg('nproc', nproc, default=1, verbose=verbose)
 
-        def task(seed):
+        for seed in recon_seeds:
             if verbose: p_header(f'>>> seed: {seed} | max: {recon_seeds[-1]}')
 
             self.split_proxydb(seed=seed, assim_frac=assim_frac, verbose=False)
@@ -312,20 +308,6 @@ class ReconJob:
             recon_savepath = os.path.join(save_dirpath, f'job_r{seed:02d}_recon.nc')
             self.save_recon(recon_savepath, compress_params=compress_params,
                             verbose=verbose, output_full_ens=output_full_ens, dtype=save_dtype)
-
-        with Pool(processes=nproc) as pool:
-            pool.map(task, recon_seeds)
-
-        # for seed in recon_seeds:
-        #     if verbose: p_header(f'>>> seed: {seed} | max: {recon_seeds[-1]}')
-
-        #     self.split_proxydb(seed=seed, assim_frac=assim_frac, verbose=False)
-        #     self.run_da(recon_period=recon_period, recon_loc_rad=recon_loc_rad,
-        #                 recon_timescale=recon_timescale, seed=seed, verbose=False)
-
-        #     recon_savepath = os.path.join(save_dirpath, f'job_r{seed:02d}_recon.nc')
-        #     self.save_recon(recon_savepath, compress_params=compress_params,
-        #                     verbose=verbose, output_full_ens=output_full_ens, dtype=save_dtype)
 
         p_success('>>> DONE!')
 

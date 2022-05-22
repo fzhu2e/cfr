@@ -17,8 +17,9 @@ def main():
  cfr: a scripting system for CFR (Feng Zhu, fzhu@nuist.edu.cn)
 ----------------------------------------------------------------------------------------
  Usage example:
-    cfr reconjob -c config.yml
+    cfr reconjob -c config.yml -vb True
     # -c config.yml: run the reconstruction job according to config.yml
+    # -vb True: output the verbose runtime information
 ========================================================================================
             ''', formatter_class=argparse.RawTextHelpFormatter)
 
@@ -42,7 +43,7 @@ def main():
         '-vb',
         '--verbose',
         default=False,
-        help='output runtime information')
+        help='output the verbose runtime information')
 
     #===================================================================================
     # Executing

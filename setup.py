@@ -17,6 +17,7 @@ setup(
     license='BSD 3-Clause',
     zip_safe=False,
     keywords='paleocliamte reconstruction',
+    scripts=['bin/cfr'],
     classifiers=[
         'Natural Language :: English',
         'Programming Language :: Python :: 3.8',

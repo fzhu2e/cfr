@@ -132,6 +132,8 @@ class EnKF:
         nrow, nens = np.shape(self.Xb_aug)
 
         self.Xa = np.ndarray((nt, nrow, nens))
+
+
         for yr_idx, target_yr in enumerate(tqdm(recon_yrs, desc='KF updating')):
             self.Xa[yr_idx] = self.update_yr(target_yr, recon_loc_rad, recon_timescale, debug=debug)
 

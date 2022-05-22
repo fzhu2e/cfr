@@ -1,0 +1,59 @@
+#!/usr/bin/env python3
+
+# ==============================================================================
+#  Author: Feng Zhu (fzhu@nuist.edu.cn)
+#  Date: 2022-05-22
+# ==============================================================================
+
+import argparse
+import os
+import subprocess
+import cfr
+
+def main():
+    parser = argparse.ArgumentParser(
+            description='''
+========================================================================================
+ cfr: a scripting system for CFR (Feng Zhu, fzhu@nuist.edu.cn)
+----------------------------------------------------------------------------------------
+ Usage example:
+    cfr reconjob -c config.yml
+    # -c config.yml: run the reconstruction job according to config.yml
+========================================================================================
+            ''', formatter_class=argparse.RawTextHelpFormatter)
+
+    parser.add_argument(
+            '-v',
+            '--version',
+            action='version',
+            version='%(prog)s version: {}'.format(cfr.__version__)
+            )
+
+    subparsers = parser.add_subparsers(help='running mode')
+    subparsers.dest = 'mode'
+
+    parser_reconjob = subparsers.add_parser('reconjob', help='reconstruction job')
+    parser_reconjob.add_argument(
+        '-c',
+        '--config',
+        required=True, help='path of the config YAML file')
+
+    parser_reconjob.add_argument(
+        '-vb',
+        '--verbose',
+        default=False,
+        help='output runtime information')
+
+    #===================================================================================
+    # Executing
+    #===================================================================================
+
+    # parse the input command line
+    args = parser.parse_args()
+
+    if args.mode == 'reconjob':
+        job = cfr.ReconJob()
+        job.run_cfg(args.config, verbose=args.verbose)
+
+if __name__ == '__main__':
+    main()

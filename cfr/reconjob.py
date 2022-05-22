@@ -300,7 +300,7 @@ class ReconJob:
         os.makedirs(save_dirpath, exist_ok=True)
         compress_params = self.io_cfg('compress_params', compress_params, default={'zlib': True, 'least_significant_digit': 1}, verbose=verbose)
         output_full_ens = self.io_cfg('output_full_ens', output_full_ens, default=False, verbose=verbose)
-        nproc = self.io_cfg('nproc', nproc, default=4, verbose=verbose)
+        nproc = self.io_cfg('nproc', nproc, default=1, verbose=verbose)
 
         def task(seed):
             if verbose: p_header(f'>>> seed: {seed} | max: {recon_seeds[-1]}')

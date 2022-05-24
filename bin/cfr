@@ -43,7 +43,7 @@ def main():
     parser_reconjob.add_argument(
         '-vb',
         '--verbose',
-        default=False,
+        action=argparse.BooleanOptionalAction,
         help='output the verbose runtime information')
 
     parser_reconjob.add_argument(
@@ -56,8 +56,14 @@ def main():
     parser_reconjob.add_argument(
         '-b',
         '--bsub',
-        default=False,
+        action=argparse.BooleanOptionalAction,
         help='submit a BSUB job')
+
+    parser_reconjob.add_argument(
+        '-r',
+        '--run',
+        action=argparse.BooleanOptionalAction,
+        help='prepare the job without running Monte-Carlo')
 
     #===================================================================================
     # Executing
@@ -70,14 +76,18 @@ def main():
         if args.bsub:
             cfg_path = os.path.abspath(args.config)
             work_dir = os.path.dirname(cfg_path)
-            bsub_path = make_bsub(work_dir, cfg_path, args.seeds)
+            bsub_path = make_bsub(work_dir, cfg_path, args.seeds, args.run, args.verbose)
             run_bsub(bsub_path)
 
         else:
-            job = cfr.ReconJob()
-            job.run_cfg(args.config, seeds=list(range(int(args.seeds[0]), int(args.seeds[-1]))), verbose=args.verbose)
+            if args.seeds is None:
+                seeds = None
+            else:
+                seeds = list(range(int(args.seeds[0]), int(args.seeds[-1])))
 
-def make_bsub(work_dir, cfg_path, seeds=None):
+            cfr.run_cfg(args.config, seeds=seeds, run_mc=args.run, verbose=args.verbose)
+
+def make_bsub(work_dir, cfg_path, seeds, run, verbose):
     bsub_path = os.path.join(work_dir, 'cfr.bsub')
     with open(bsub_path, 'w') as f:
         f.write('''#!/bin/bash
@@ -86,14 +96,13 @@ def make_bsub(work_dir, cfg_path, seeds=None):
 #BSUB -o %J.out
         ''')
 
-        if seeds is not None:
-            f.write(f'''
-cfr reconjob -c {cfg_path} -s {seeds[0]} {seeds[-1]}
-            ''')
-        else:
-            f.write(f'''
-cfr reconjob -c {cfg_path}
-            ''')
+        spell = f'cfr reconjob -c {cfg_path}'
+        if seeds is not None: spell += f' -s {seeds[0]} {seeds[-1]}'
+        if verbose: spell += ' -vb'
+        if run: spell += ' -r'
+        f.write(f'''
+{spell}
+        ''')
     
     return bsub_path
 

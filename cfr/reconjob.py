@@ -315,59 +315,6 @@ class ReconJob:
         t_used = t_e - t_s
         p_success(f'>>> DONE! Total time used: {t_used/60:.2f} mins.')
 
-    def run_cfg(self, cfg_path, seeds=None, verbose=False):
-        with open(cfg_path, 'r') as f:
-            self.configs = yaml.safe_load(f)
-
-        if seeds is not None:
-            self.configs['recon_seeds'] = seeds
-            p_header(f'>>> Settings seeds: {seeds}')
-
-        if verbose:
-            p_success(f'>>> job.configs loaded')
-            pp.pprint(self.configs)
-
-        self.load_proxydb(self.configs['proxydb_path'], verbose=verbose)
-        self.filter_proxydb(by='pid', keys=self.configs['pids'], verbose=verbose)
-        self.annualize_proxydb(
-            months=self.configs['annualize_proxydb_months'],
-            ptypes=self.configs['annualize_proxydb_ptypes'])
-
-        if 'prior_rename_dict' in self.configs:
-            prior_rename_dict = self.configs['prior_rename_dict']
-        else:
-            prior_rename_dict = None
-
-        if 'obs_rename_dict' in self.configs:
-            obs_rename_dict = self.configs['obs_rename_dict']
-        else:
-            obs_rename_dict = None
-
-        self.load_clim(tag='prior', path_dict=self.configs['prior_path'],
-                       anom_period=self.configs[f'prior_anom_period'], rename_dict=prior_rename_dict, verbose=verbose)
-        self.load_clim(tag='obs', path_dict=self.configs['obs_path'],
-                       anom_period=self.configs[f'obs_anom_period'], rename_dict=obs_rename_dict, verbose=verbose)
-        self.calib_psms(ptype_psm_dict=self.configs['ptype_psm_dict'],
-                        ptype_season_dict=self.configs['ptype_season_dict'], verbose=verbose)
-        self.forward_psms(verbose=verbose)
-
-        if 'prior_annualize_months' in self.configs:
-            self.annualize_clim(tag='prior', months=self.configs['prior_annualize_months'], verbose=verbose)
-
-        if 'prior_regrid_nlat' in self.configs:
-            self.regrid_clim(tag='prior', nlat=self.configs['prior_regrid_nlat'], 
-                             nlon=self.configs['prior_regrid_nlon'], verbose=verbose)
-        self.run_mc(
-            recon_period=self.configs['recon_period'],
-            recon_loc_rad=self.configs['recon_loc_rad'],
-            recon_timescale=self.configs['recon_timescale'],
-            recon_seeds=self.configs['recon_seeds'],
-            assim_frac=self.configs['assim_frac'],
-            compress_params=self.configs['compress_params'],
-            output_full_ens=self.configs['output_full_ens'],
-            verbose=verbose,
-        )
-        
 
     def save(self, save_dirpath=None, filename='job.pkl', verbose=False):
         save_dirpath = self.io_cfg('save_dirpath', save_dirpath, verbose=verbose)
@@ -438,3 +385,86 @@ class ReconJob:
         ds.to_netcdf(save_path, encoding=encoding_dict)
 
         if verbose: p_success(f'>>> Reconstructed fields saved to: {save_path}')
+
+    def prepare_cfg(self, cfg_path, seeds=None, verbose=False):
+        t_s = time.time()
+
+        with open(cfg_path, 'r') as f:
+            self.configs = yaml.safe_load(f)
+
+        if seeds is not None:
+            self.configs['recon_seeds'] = seeds
+            p_header(f'>>> Settings seeds: {seeds}')
+
+        if verbose:
+            p_success(f'>>> job.configs loaded')
+            pp.pprint(self.configs)
+
+        self.load_proxydb(self.configs['proxydb_path'], verbose=verbose)
+        self.filter_proxydb(by='pid', keys=self.configs['pids'], verbose=verbose)
+        self.annualize_proxydb(
+            months=self.configs['annualize_proxydb_months'],
+            ptypes=self.configs['annualize_proxydb_ptypes'])
+
+        if 'prior_rename_dict' in self.configs:
+            prior_rename_dict = self.configs['prior_rename_dict']
+        else:
+            prior_rename_dict = None
+
+        if 'obs_rename_dict' in self.configs:
+            obs_rename_dict = self.configs['obs_rename_dict']
+        else:
+            obs_rename_dict = None
+
+        self.load_clim(tag='prior', path_dict=self.configs['prior_path'],
+                       anom_period=self.configs[f'prior_anom_period'],
+                       rename_dict=prior_rename_dict, verbose=verbose)
+        self.load_clim(tag='obs', path_dict=self.configs['obs_path'],
+                       anom_period=self.configs[f'obs_anom_period'],
+                       rename_dict=obs_rename_dict, verbose=verbose)
+        self.calib_psms(ptype_psm_dict=self.configs['ptype_psm_dict'],
+                        ptype_season_dict=self.configs['ptype_season_dict'], verbose=verbose)
+        self.forward_psms(verbose=verbose)
+
+        if 'prior_annualize_months' in self.configs:
+            self.annualize_clim(tag='prior', months=self.configs['prior_annualize_months'], verbose=verbose)
+
+        if 'prior_regrid_nlat' in self.configs:
+            self.regrid_clim(tag='prior', nlat=self.configs['prior_regrid_nlat'], 
+                             nlon=self.configs['prior_regrid_nlon'], verbose=verbose)
+
+        self.save_cfg(save_dirpath=self.configs['save_dirpath'], verbose=verbose)
+        self.save(save_dirpath=self.configs['save_dirpath'], verbose=verbose)
+
+        t_e = time.time()
+        t_used = t_e - t_s
+        p_success(f'>>> DONE! Total time used: {t_used/60:.2f} mins.')
+
+
+def run_cfg(cfg_path, seeds=None, run_mc=True, verbose=False):
+    # get job_save_path
+    job = ReconJob()
+    with open(cfg_path, 'r') as f:
+        job.configs = yaml.safe_load(f)
+
+    job_save_path = os.path.join(job.configs['save_dirpath'], 'job.pkl')
+
+    # load precalculated job.pkl if exists, or prepare the job
+    if os.path.exists(job_save_path):
+        job = pd.read_pickle(job_save_path)
+        p_success(f'>>> {job_save_path} loaded')
+    else:
+        job.prepare_cfg(cfg_path, seeds=seeds, verbose=verbose)
+    
+    # run the Monte-Carlo iterations
+    if run_mc:
+        job.run_mc(
+            recon_period=job.configs['recon_period'],
+            recon_loc_rad=job.configs['recon_loc_rad'],
+            recon_timescale=job.configs['recon_timescale'],
+            recon_seeds=job.configs['recon_seeds'],
+            assim_frac=job.configs['assim_frac'],
+            compress_params=job.configs['compress_params'],
+            output_full_ens=job.configs['output_full_ens'],
+            verbose=verbose,
+        )

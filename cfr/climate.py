@@ -225,6 +225,10 @@ class ClimateField:
         m = self.da.weighted(wgts).mean((self.lon_name, self.lat_name))
         return m
 
+    def validate(self, fd_ref, stat='corr'):
+        pass
+
+
 class ClimateDataset:
     def __init__(self, fields=None):
         self.fields = {} if fields is None else fields

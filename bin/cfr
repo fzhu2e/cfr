@@ -6,8 +6,8 @@
 # ==============================================================================
 
 import argparse
-import os
 import subprocess
+import os
 import cfr
 
 def main():
@@ -20,6 +20,7 @@ def main():
     cfr reconjob -c config.yml -vb True
     # -c config.yml: run the reconstruction job according to config.yml
     # -vb True: output the verbose runtime information
+    # -s 0 10: set seeds as list(range(0, 10)), i.e., integers from 0 to 9
 ========================================================================================
             ''', formatter_class=argparse.RawTextHelpFormatter)
 
@@ -45,6 +46,19 @@ def main():
         default=False,
         help='output the verbose runtime information')
 
+    parser_reconjob.add_argument(
+        '-s',
+        '--seeds',
+        nargs=2,
+        default=None,
+        help='the start and end of the random seeds for reconstruction')
+
+    parser_reconjob.add_argument(
+        '-b',
+        '--bsub',
+        default=False,
+        help='submit a BSUB job')
+
     #===================================================================================
     # Executing
     #===================================================================================
@@ -53,8 +67,40 @@ def main():
     args = parser.parse_args()
 
     if args.mode == 'reconjob':
-        job = cfr.ReconJob()
-        job.run_cfg(args.config, verbose=args.verbose)
+        if args.bsub:
+            cfg_path = os.path.abspath(args.config)
+            work_dir = os.path.dirname(cfg_path)
+            bsub_path = make_bsub(work_dir, cfg_path, args.seeds)
+            run_bsub(bsub_path)
+
+        else:
+            job = cfr.ReconJob()
+            job.run_cfg(args.config, seeds=list(range(int(args.seeds[0]), int(args.seeds[-1]))), verbose=args.verbose)
+
+def make_bsub(work_dir, cfg_path, seeds=None):
+    bsub_path = os.path.join(work_dir, 'cfr.bsub')
+    with open(bsub_path, 'w') as f:
+        f.write('''#!/bin/bash
+#BSUB -J CFR
+#BSUB -n 1
+#BSUB -o %J.out
+        ''')
+
+        if seeds is not None:
+            f.write(f'''
+cfr reconjob -c {cfg_path} -s {seeds[0]} {seeds[-1]}
+            ''')
+        else:
+            f.write(f'''
+cfr reconjob -c {cfg_path}
+            ''')
+    
+    return bsub_path
+
+
+def run_bsub(bsub_path):
+    cmd = f'bsub < {bsub_path}'
+    subprocess.call(cmd, shell=True)
 
 if __name__ == '__main__':
     main()

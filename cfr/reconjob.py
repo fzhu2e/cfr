@@ -1,5 +1,6 @@
 import os
 import copy
+import time
 from shutil import ReadError
 import numpy as np
 import yaml
@@ -288,6 +289,7 @@ class ReconJob:
     def run_mc(self, recon_period=None, recon_loc_rad=None, recon_timescale=None, output_full_ens=None, save_dtype=np.float32,
                recon_seeds=None, assim_frac=None, save_dirpath=None, compress_params=None, verbose=False):
 
+        t_s = time.time()
         recon_period = self.io_cfg('recon_period', recon_period, default=[0, 2000], verbose=verbose)
         recon_loc_rad = self.io_cfg('recon_loc_rad', recon_loc_rad, default=25000, verbose=verbose)  # unit: km
         recon_timescale = self.io_cfg('recon_timescale', recon_timescale, default=1, verbose=verbose)  # unit: yr
@@ -309,11 +311,17 @@ class ReconJob:
             self.save_recon(recon_savepath, compress_params=compress_params,
                             verbose=verbose, output_full_ens=output_full_ens, dtype=save_dtype)
 
-        p_success('>>> DONE!')
+        t_e = time.time()
+        t_used = t_e - t_s
+        p_success(f'>>> DONE! Total time used: {t_used/60:.2f} mins.')
 
-    def run_cfg(self, cfg_path, verbose=False):
+    def run_cfg(self, cfg_path, seeds=None, verbose=False):
         with open(cfg_path, 'r') as f:
             self.configs = yaml.safe_load(f)
+
+        if seeds is not None:
+            self.configs['recon_seeds'] = seeds
+            p_header(f'>>> Settings seeds: {seeds}')
 
         if verbose:
             p_success(f'>>> job.configs loaded')

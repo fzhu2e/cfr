@@ -455,6 +455,9 @@ def run_cfg(cfg_path, seeds=None, run_mc=True, verbose=False):
         p_success(f'>>> {job_save_path} loaded')
     else:
         job.prepare_cfg(cfg_path, seeds=seeds, verbose=verbose)
+
+    if seeds is not None and np.size(seeds) == 1:
+        seeds = [seeds]
     
     # run the Monte-Carlo iterations
     if run_mc:
@@ -462,7 +465,7 @@ def run_cfg(cfg_path, seeds=None, run_mc=True, verbose=False):
             recon_period=job.configs['recon_period'],
             recon_loc_rad=job.configs['recon_loc_rad'],
             recon_timescale=job.configs['recon_timescale'],
-            recon_seeds=job.configs['recon_seeds'],
+            recon_seeds=seeds,
             assim_frac=job.configs['assim_frac'],
             compress_params=job.configs['compress_params'],
             output_full_ens=job.configs['output_full_ens'],

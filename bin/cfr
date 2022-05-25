@@ -20,7 +20,7 @@ def main():
     cfr reconjob -c config.yml -vb True
     # -c config.yml: run the reconstruction job according to config.yml
     # -vb True: output the verbose runtime information
-    # -s 0 10: set seeds as list(range(0, 10)), i.e., integers from 0 to 9
+    # -s 0 9: set seeds as integers from 0 to 9
 ========================================================================================
             ''', formatter_class=argparse.RawTextHelpFormatter)
 
@@ -49,7 +49,7 @@ def main():
     parser_reconjob.add_argument(
         '-s',
         '--seeds',
-        nargs=2,
+        nargs='*',
         default=None,
         help='the start and end of the random seeds for reconstruction')
 
@@ -73,17 +73,21 @@ def main():
     args = parser.parse_args()
 
     if args.mode == 'reconjob':
+
         if args.bsub:
             cfg_path = os.path.abspath(args.config)
             work_dir = os.path.dirname(cfg_path)
             bsub_path = make_bsub(work_dir, cfg_path, args.seeds, args.run, args.verbose)
             run_bsub(bsub_path)
-
         else:
             if args.seeds is None:
                 seeds = None
+            elif len(args.seeds) == 1:
+                seeds = int(args.seeds[0])
+            elif len(args.seeds) == 2:
+                seeds = list(range(int(args.seeds[0]), int(args.seeds[-1])+1))
             else:
-                seeds = list(range(int(args.seeds[0]), int(args.seeds[-1])))
+                raise ValueError('Wrong number of seeds')
 
             cfr.run_cfg(args.config, seeds=seeds, run_mc=args.run, verbose=args.verbose)
 
@@ -97,7 +101,11 @@ def make_bsub(work_dir, cfg_path, seeds, run, verbose):
         ''')
 
         spell = f'cfr reconjob -c {cfg_path}'
-        if seeds is not None: spell += f' -s {seeds[0]} {seeds[-1]}'
+        if seeds is not None:
+            if len(seeds) == 1:
+                spell += f' -s {int(seeds[0])}'
+            elif len(seeds) == 2:
+                spell += f' -s {int(seeds[0])} {int(seeds[-1])}'
         if verbose: spell += ' -vb'
         if run: spell += ' -r'
         f.write(f'''

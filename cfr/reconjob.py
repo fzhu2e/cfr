@@ -401,7 +401,8 @@ class ReconJob:
             pp.pprint(self.configs)
 
         self.load_proxydb(self.configs['proxydb_path'], verbose=verbose)
-        self.filter_proxydb(by='pid', keys=self.configs['pids'], verbose=verbose)
+        if 'pids' in self.configs:
+            self.filter_proxydb(by='pid', keys=self.configs['pids'], verbose=verbose)
         self.annualize_proxydb(
             months=self.configs['annualize_proxydb_months'],
             ptypes=self.configs['annualize_proxydb_ptypes'])

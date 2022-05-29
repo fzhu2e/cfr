@@ -1022,9 +1022,9 @@ class VSLite:
         calib_syear = np.max([proxy_syear, obs_syear, calib_period[0]])
         calib_eyear = np.min([proxy_eyear, obs_eyear, calib_period[1]])
         if calib_period is not None:
-            mask_T = (obs_tas_time>calib_syear) & (obs_tas_time<calib_eyear)
-            mask_P = (obs_pr_time>calib_syear) & (obs_pr_time<calib_eyear)
-            mask_TRW = (proxy_time>calib_syear) & (proxy_time<calib_eyear)
+            mask_T = (obs_tas_time>=calib_syear) & (obs_tas_time<calib_eyear)
+            mask_P = (obs_pr_time>=calib_syear) & (obs_pr_time<calib_eyear)
+            mask_TRW = (proxy_time>=calib_syear) & (proxy_time<calib_eyear)
             T = obs_tas_value[mask_T]
             P = obs_pr_value[mask_P]
             TRW = proxy_value[mask_TRW]

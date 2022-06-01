@@ -362,7 +362,7 @@ class ProxyRecord:
         ax['ts'].set_xlabel(time_lb)
         ax['ts'].set_ylabel(value_lb)
 
-        title = f'{self.pid} @ (lat:{self.lat}, lon:{self.lon}) | Type: {self.ptype}'
+        title = f'{self.pid} @ (lat:{self.lat:.2f}, lon:{self.lon:.2f}) | Type: {self.ptype}'
         if self.seasonality is not None:
             title += f'\nSeasonality: {self.seasonality}'
         ax['ts'].set_title(title)

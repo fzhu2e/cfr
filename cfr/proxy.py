@@ -74,37 +74,6 @@ def get_ptype(archive_type, proxy_type):
 
     return ptype_dict[(archive_type, proxy_type)]
 
-class PAGES2k:
-    ''' A bunch of PAGES2k style settings
-    '''
-    archive_types = [
-        'bivalve',
-        'borehole',
-        'coral',
-        'documents',
-        'ice',
-        'hybrid',
-        'lake',
-        'marine',
-        'sclerosponge',
-        'speleothem',
-        'tree',
-    ]
-    markers = ['p', 'p', 'o', 'v', 'd', '*', 's', 's', '8', 'D', '^']
-    markers_dict = dict(zip(archive_types, markers))
-    colors = [np.array([ 1.        ,  0.83984375,  0.        ]),
-              np.array([ 0.73828125,  0.71484375,  0.41796875]),
-              np.array([ 1.        ,  0.546875  ,  0.        ]),
-              np.array([ 0.41015625,  0.41015625,  0.41015625]),
-              np.array([ 0.52734375,  0.8046875 ,  0.97916667]),
-              np.array([ 0.        ,  0.74609375,  1.        ]),
-              np.array([ 0.25390625,  0.41015625,  0.87890625]),
-              np.array([ 0.54296875,  0.26953125,  0.07421875]),
-              np.array([ 1         ,           0,           0]),
-              np.array([ 1.        ,  0.078125  ,  0.57421875]),
-              np.array([ 0.1953125 ,  0.80078125,  0.1953125 ])]
-    colors_dict = dict(zip(archive_types, colors))
-
 class ProxyRecord:
     def __init__(self, pid=None, time=None, value=None, lat=None, lon=None, ptype=None, tags=None,
         value_name=None, value_unit=None, time_name=None, time_unit=None, seasonality=None):
@@ -341,7 +310,7 @@ class ProxyRecord:
     def plot(self, figsize=[12, 4], legend=False, ms=200, stock_img=True, edge_clr='w',
         wspace=0.1, hspace=0.1, plot_map=True, **kwargs):
         if 'color' not in kwargs and 'c' not in kwargs:
-            kwargs['color'] = visual.PAGES2k.colors_dict[self.ptype]
+            kwargs['color'] = visual.STYLE.colors_dict[self.ptype]
 
         fig = plt.figure(figsize=figsize)
 
@@ -379,7 +348,7 @@ class ProxyRecord:
 
             transform=ccrs.PlateCarree()
             ax['map'].scatter(
-                self.lon, self.lat, marker=visual.PAGES2k.markers_dict[self.ptype],
+                self.lon, self.lat, marker=visual.STYLE.markers_dict[self.ptype],
                 s=ms, c=kwargs['color'], edgecolor=edge_clr, transform=transform,
             )
 
@@ -676,8 +645,8 @@ class ProxyDatabase:
             except:
                 archive = majority
 
-            if archive in PAGES2k().archive_types:
-                clr_proxy = PAGES2k().colors_dict[archive]
+            if archive in visual.PAGES2k.archive_types:
+                clr_proxy = visual.PAGES2k.colors_dict[archive]
             else:
                 clr_proxy = 'tab:blue'
 
@@ -685,13 +654,13 @@ class ProxyDatabase:
             fig = plt.figure(figsize=figsize,facecolor='white')
             ax = {}
 
-        title_font = {
-            'fontname': 'Arial',
-            'size': '24',
-            'color': 'black',
-            'weight': 'normal',
-            'verticalalignment': 'bottom',
-        }
+        # title_font = {
+        #     'fontname': 'Arial',
+        #     'size': '24',
+        #     'color': 'black',
+        #     'weight': 'normal',
+        #     'verticalalignment': 'bottom',
+        # }
         lb_proxy = fr'proxy, conversion factor = {np.abs(self.composite["slope"]):.3f}, $R^2$ = {self.composite["r2"]:.3f}'
         ax['var'] = fig.add_subplot()
         ax['var'].plot(self.composite['proxy_comp_time'], self.composite['proxy_comp_value'], color=clr_proxy, lw=1, label=lb_proxy)

@@ -29,13 +29,13 @@ def clean_df(df, mask=None):
 class WhiteNoise:
     ''' A PSM that adds white noise to the input climate signal.
     '''
-    def __init__(self, pobj=None, climate_required=[]):
+    def __init__(self, pobj=None, climate_required=['tas']):
         self.pobj = pobj
         self.climate_required = climate_required
 
-    def calibrate(self, SNR=10, seasonality=list(range(13))):
-        sigma = np.std(self.pobj.value) / SNR
-        self.wn = np.random.normal(0, sigma, np.size(self.pobj.value))
+    def calibrate(self, SNR=10, seasonality=list(range(13)), vn='model_tas'):
+        sigma = np.std(self.pobj.clim[vn].da.values) / SNR
+        self.wn = np.random.normal(0, sigma, np.size(self.pobj.clim[vn].da.values))
         calib_details = {
             'PSMmse': np.mean(self.wn**2),
             'SNR': SNR,
@@ -43,11 +43,11 @@ class WhiteNoise:
         }
         self.calib_details = calib_details
 
-    def forward(self):
+    def forward(self, vn='model_tas'):
         pp = ProxyRecord(
             pid=f'pseudo_{self.pobj.pid}',
-            time=self.pobj.time,
-            value=self.pobj.value + self.wn,
+            time=self.pobj.clim[vn].time,
+            value=self.pobj.clim[vn].da.values + self.wn,
             lat=self.pobj.lat,
             lon=self.pobj.lon,
             ptype=self.pobj.ptype,

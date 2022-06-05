@@ -27,6 +27,37 @@ from cartopy import util as cutil
 from . import utils
 
 class PAGES2k:
+    ''' A bunch of PAGES2k style settings
+    '''
+    archive_types = [
+        'bivalve',
+        'borehole',
+        'coral',
+        'documents',
+        'ice',
+        'hybrid',
+        'lake',
+        'marine',
+        'sclerosponge',
+        'speleothem',
+        'tree',
+    ]
+    markers = ['p', 'p', 'o', 'v', 'd', '*', 's', 's', '8', 'D', '^']
+    markers_dict = dict(zip(archive_types, markers))
+    colors = [np.array([ 1.        ,  0.83984375,  0.        ]),
+              np.array([ 0.73828125,  0.71484375,  0.41796875]),
+              np.array([ 1.        ,  0.546875  ,  0.        ]),
+              np.array([ 0.41015625,  0.41015625,  0.41015625]),
+              np.array([ 0.52734375,  0.8046875 ,  0.97916667]),
+              np.array([ 0.        ,  0.74609375,  1.        ]),
+              np.array([ 0.25390625,  0.41015625,  0.87890625]),
+              np.array([ 0.54296875,  0.26953125,  0.07421875]),
+              np.array([ 1         ,           0,           0]),
+              np.array([ 1.        ,  0.078125  ,  0.57421875]),
+              np.array([ 0.1953125 ,  0.80078125,  0.1953125 ])]
+    colors_dict = dict(zip(archive_types, colors))
+
+class STYLE:
     colors_dict = {
         'coral.calc': sns.xkcd_rgb['yellow'],
         'coral.SrCa': sns.xkcd_rgb['orange'],
@@ -38,6 +69,7 @@ class PAGES2k:
         'tree.TRW': sns.xkcd_rgb['green'],
         'tree.MXD': sns.xkcd_rgb['forest green'],
         'tree.ENSO': sns.xkcd_rgb['sea green'],
+        'pollen.temp': sns.xkcd_rgb['red'],
         'tas': sns.xkcd_rgb['pale red'],
         'pr': sns.xkcd_rgb['aqua'],
         'speleothem.d18O': sns.xkcd_rgb['light brown'],
@@ -76,6 +108,7 @@ class PAGES2k:
         'tree.TRW': '^',
         'tree.MXD': 'v',
         'tree.ENSO': '^',
+        'pollen.temp': 'o',
         'tas': '^',
         'pr': 'o',
         'speleothem.d18O': 'o',
@@ -306,7 +339,7 @@ def plot_proxies(df, year=np.arange(2001), lon_col='lon', lat_col='lat', type_co
                  figsize=[10, 10], projection='Robinson', proj_args=None, central_longitude=180, markersize=50,
                  plot_count=False, nrow=2, ncol=1, wspace=0.5, hspace=0.3,
                  lgd_ncol=None, lgd_anchor_upper=(1, 0), lgd_anchor_lower=(1, -0.05),lgd_frameon=False,
-                 enumerate_ax=False, enumerate_prop={'weight': 'bold', 'size': 30}, p=PAGES2k, stock_img=True,
+                 enumerate_ax=False, enumerate_prop={'weight': 'bold', 'size': 30}, p=STYLE, stock_img=True,
                  enumerate_anchor_map=[0, 1], enumerate_anchor_count=[0, 1], map_grid_idx=0, count_grid_idx=-1):
 
     fig = plt.figure(figsize=figsize)
@@ -416,7 +449,7 @@ def plot_proxies(df, year=np.arange(2001), lon_col='lon', lat_col='lat', type_co
 def plot_proxy_age_map(df, lon_col='lon', lat_col='lat', type_col='type', time_col='time',
                        title=None, title_weight='normal', font_scale=1.5,
                        figsize=[12, 10], projection=ccrs.Robinson, central_longitude=0, markersize=150,
-                       plot_cbar=True, marker_color=None, transform=ccrs.PlateCarree(), p=PAGES2k,
+                       plot_cbar=True, marker_color=None, transform=ccrs.PlateCarree(), p=STYLE,
                        add_nino34_box=False, add_nino12_box=False, add_box=False, add_box_lf=None, add_box_ur=None):
 
     fig = plt.figure(figsize=figsize)

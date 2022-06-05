@@ -240,8 +240,15 @@ class ReconJob:
         for pid, pobj in tqdm(self.proxydb.records.items(), total=self.proxydb.nrec, desc='Calibrating the PSMs:'):
             psm_name = ptype_psm_dict[pobj.ptype]
 
-            for vn in psm.__dict__[psm_name]().climate_required:
-                pobj.get_clim(self.obs[vn], tag='obs')
+            if psm_name in ['WhiteNoise']:
+                for vn in psm.__dict__[psm_name]().climate_required:
+                    if 'clim' not in pobj.__dict__ or f'model_{vn}' not in pobj.clim:
+                        pobj.get_clim(self.prior[vn], tag='model')
+            else:
+                for vn in psm.__dict__[psm_name]().climate_required:
+                    if 'clim' not in pobj.__dict__ or f'obs_{vn}' not in pobj.clim:
+                        pobj.get_clim(self.obs[vn], tag='obs')
+
 
             pobj.psm = psm.__dict__[psm_name](pobj)
             if psm_name in ['WhiteNoise']:
@@ -269,7 +276,8 @@ class ReconJob:
             
         for pid, pobj in tqdm(pdb_calib.records.items(), total=pdb_calib.nrec, desc='Forwarding the PSMs:'):
             for vn in pobj.psm.climate_required:
-                pobj.get_clim(self.prior[vn], tag='model')
+                if 'clim' not in pobj.__dict__ or f'model_{vn}' not in pobj.clim:
+                    pobj.get_clim(self.prior[vn], tag='model')
 
             pobj.pseudo = pobj.psm.forward(**kwargs)
 
@@ -357,7 +365,7 @@ class ReconJob:
 
             # output indices
             if 'gm' in output_indices: ds[f'{vn}_gm'] = utils.geo_mean(da)
-            if 'nhm' in output_indices: ds[f'{vn}_shm'] = utils.geo_mean(da, lat_min=0)
+            if 'nhm' in output_indices: ds[f'{vn}_nhm'] = utils.geo_mean(da, lat_min=0)
             if 'shm' in output_indices: ds[f'{vn}_shm'] = utils.geo_mean(da, lat_max=0)
             if vn in ['tas', 'sst']:
                 if 'nino3.4' in output_indices:

@@ -51,7 +51,7 @@ class EnKF:
             else:
                 self.Ye_df[tag] = pd.DataFrame()
 
-            self.Ye_df[tag].dropna(inplace=True)
+            self.Ye_df[tag].dropna(how='all', inplace=True)
             self.Ye[tag] = np.array(self.Ye_df[tag])[sample_idx].T
 
             self.Ye_coords[tag][:, 0] = self.Ye_lat[tag]

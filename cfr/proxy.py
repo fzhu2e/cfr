@@ -271,18 +271,19 @@ class ProxyRecord:
             if tag is not None:
                 name = f'{tag}_{name}'
 
-            try:
+            nda = field.da.sel(lat=self.lat, lon=self.lon, **_kwargs)
+            if np.all(np.isnan(nda.values)):
+                # value_wrap, lon_wrap = add_cyclic_point(field.da.values, field.da.lon)
+                # updated_coords = {}
+                # for k, v in field.da.coords.items():
+                #     if k == 'lon':
+                #         updated_coords[k] = lon_wrap
+                #     else:
+                #         updated_coords[k] = v
+                # da_wrap = xr.DataArray(value_wrap, coords=updated_coords)
+                # nda = da_wrap.sel(lat=self.lat, lon=self.lon, **_kwargs)
+                _kwargs.update({'method': 'ffill'})
                 nda = field.da.sel(lat=self.lat, lon=self.lon, **_kwargs)
-            except:
-                value_wrap, lon_wrap = add_cyclic_point(field.da.values, field.da.lon)
-                updated_coords = {}
-                for k, v in field.da.coords.items():
-                    if k == 'lon':
-                        updated_coords[k] = lon_wrap
-                    else:
-                        updated_coords[k] = v
-                da_wrap = xr.DataArray(value_wrap, coords=updated_coords)
-                nda = field.da_wrap.interp(lat=self.lat, lon=self.lon, **_kwargs)
 
             if not hasattr(self, 'clim'):
                 self.clim = {}

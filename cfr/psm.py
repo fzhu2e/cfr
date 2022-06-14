@@ -26,6 +26,40 @@ def clean_df(df, mask=None):
 
     return df_cleaned
 
+class WhiteNoise:
+    ''' A PSM that adds white noise to the input climate signal.
+    '''
+    def __init__(self, pobj=None, climate_required=['tas']):
+        self.pobj = pobj
+        self.climate_required = climate_required
+
+    def calibrate(self, SNR=10, seasonality=list(range(13)), vn='model_tas'):
+        sigma = np.std(self.pobj.clim[vn].da.values) / SNR
+        self.wn = np.random.normal(0, sigma, np.size(self.pobj.clim[vn].da.values))
+        calib_details = {
+            'PSMmse': np.mean(self.wn**2),
+            'SNR': SNR,
+            'seasonality': seasonality,
+        }
+        self.calib_details = calib_details
+
+    def forward(self, vn='model_tas'):
+        pp = ProxyRecord(
+            pid=f'pseudo_{self.pobj.pid}',
+            time=self.pobj.clim[vn].time,
+            value=self.pobj.clim[vn].da.values + self.wn,
+            lat=self.pobj.lat,
+            lon=self.pobj.lon,
+            ptype=self.pobj.ptype,
+            value_name=self.pobj.value_name,
+            value_unit=self.pobj.value_unit,
+            time_name=self.pobj.time_name,
+            time_unit=self.pobj.time_unit,
+            seasonality=self.calib_details['seasonality'],
+        )
+
+        return pp
+
 class Linear:
     def __init__(self, pobj=None, climate_required = ['tas']):
         self.pobj = pobj
@@ -988,9 +1022,9 @@ class VSLite:
         calib_syear = np.max([proxy_syear, obs_syear, calib_period[0]])
         calib_eyear = np.min([proxy_eyear, obs_eyear, calib_period[1]])
         if calib_period is not None:
-            mask_T = (obs_tas_time>calib_syear) & (obs_tas_time<calib_eyear)
-            mask_P = (obs_pr_time>calib_syear) & (obs_pr_time<calib_eyear)
-            mask_TRW = (proxy_time>calib_syear) & (proxy_time<calib_eyear)
+            mask_T = (obs_tas_time>=calib_syear) & (obs_tas_time<calib_eyear)
+            mask_P = (obs_pr_time>=calib_syear) & (obs_pr_time<calib_eyear)
+            mask_TRW = (proxy_time>=calib_syear) & (proxy_time<calib_eyear)
             T = obs_tas_value[mask_T]
             P = obs_pr_value[mask_P]
             TRW = proxy_value[mask_TRW]

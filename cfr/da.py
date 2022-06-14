@@ -39,13 +39,19 @@ class EnKF:
             self.Ye_lon[tag] = []
             self.Ye_coords[tag] = np.ndarray((target_pdb.nrec, 2))
 
+            series_dict = {}
             for pid, pobj in target_pdb.records.items():
                 series = pd.Series(index=pobj.pseudo.time, data=pobj.pseudo.value)
-                self.Ye_df[tag][pid] = series
+                series_dict[pid] = series
                 self.Ye_lat[tag].append(pobj.lat)
                 self.Ye_lon[tag].append(pobj.lon)
 
-            self.Ye_df[tag].dropna(inplace=True)
+            if len(series_dict) > 0:
+                self.Ye_df[tag] = pd.concat(series_dict, axis=1)
+            else:
+                self.Ye_df[tag] = pd.DataFrame()
+
+            self.Ye_df[tag].dropna(how='all', inplace=True)
             self.Ye[tag] = np.array(self.Ye_df[tag])[sample_idx].T
 
             self.Ye_coords[tag][:, 0] = self.Ye_lat[tag]

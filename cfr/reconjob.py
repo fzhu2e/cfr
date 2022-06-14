@@ -161,11 +161,12 @@ class ReconJob:
             p_success(f'>>> {target_pdb.nrec_tags(keys=["assim"])} records tagged "assim"')
             p_success(f'>>> {target_pdb.nrec_tags(keys=["eval"])} records tagged "eval"')
 
-    def load_clim(self, tag, path_dict=None, rename_dict=None, anom_period=None, lon_name=None, verbose=False):
+    def load_clim(self, tag, path_dict=None, rename_dict=None, anom_period=None, time_name=None, lon_name=None, verbose=False):
         path_dict = self.io_cfg(f'{tag}_path', path_dict, verbose=verbose)
         if rename_dict is not None: rename_dict = self.io_cfg(f'{tag}_rename_dict', rename_dict, verbose=verbose)
-        anom_period = self.io_cfg(f'{tag}_anom_period', anom_period, default=[1951, 1980], verbose=verbose)
+        anom_period = self.io_cfg(f'{tag}_anom_period', anom_period, verbose=verbose)
         lon_name = self.io_cfg(f'{tag}_lon_name', lon_name, default='lon', verbose=verbose)
+        time_name = self.io_cfg(f'{tag}_time_name', time_name, default='time', verbose=verbose)
 
         self.__dict__[tag] = {}
         for vn, path in path_dict.items():
@@ -174,7 +175,11 @@ class ReconJob:
             else:
                 vn_in_file = rename_dict[vn]
 
-            self.__dict__[tag][vn] = ClimateField().load_nc(path, vn=vn_in_file).get_anom(ref_period=anom_period).wrap_lon(lon_name=lon_name)
+            if anom_period == 'null':
+                self.__dict__[tag][vn] = ClimateField().load_nc(path, vn=vn_in_file, time_name=time_name).wrap_lon(lon_name=lon_name)
+            else:
+                self.__dict__[tag][vn] = ClimateField().load_nc(path, vn=vn_in_file, time_name=time_name).get_anom(ref_period=anom_period).wrap_lon(lon_name=lon_name)
+
             self.__dict__[tag][vn].da.name = vn
 
         if verbose:
@@ -216,7 +221,7 @@ class ReconJob:
             self.__dict__[tag][vn] = fd.crop(lat_min=lat_min, lat_max=lat_max, lon_min=lon_min, lon_max=lon_max)
         
         
-    def calib_psms(self, ptype_psm_dict=None, ptype_season_dict=None, calib_period=None, verbose=False):
+    def calib_psms(self, ptype_psm_dict=None, ptype_season_dict=None, calib_period=None, verbose=False, **kwargs):
         ptype_psm_dict = self.io_cfg(
             'ptype_psm_dict', ptype_psm_dict,
             default={ptype: 'Linear' for ptype in set(self.proxydb.type_list)},
@@ -224,7 +229,7 @@ class ReconJob:
 
         ptype_season_dict = self.io_cfg(
             'ptype_season_dict', ptype_season_dict,
-            default={ptype: 'Linear' for ptype in set(self.proxydb.type_list)},
+            default={ptype: list(range(13)) for ptype in set(self.proxydb.type_list)},
             verbose=verbose)
 
         calib_period = self.io_cfg(
@@ -235,11 +240,20 @@ class ReconJob:
         for pid, pobj in tqdm(self.proxydb.records.items(), total=self.proxydb.nrec, desc='Calibrating the PSMs:'):
             psm_name = ptype_psm_dict[pobj.ptype]
 
-            for vn in psm.__dict__[psm_name]().climate_required:
-                pobj.get_clim(self.obs[vn], tag='obs')
+            if psm_name in ['WhiteNoise']:
+                for vn in psm.__dict__[psm_name]().climate_required:
+                    if 'clim' not in pobj.__dict__ or f'model_{vn}' not in pobj.clim:
+                        pobj.get_clim(self.prior[vn], tag='model')
+            else:
+                for vn in psm.__dict__[psm_name]().climate_required:
+                    if 'clim' not in pobj.__dict__ or f'obs_{vn}' not in pobj.clim:
+                        pobj.get_clim(self.obs[vn], tag='obs')
+
 
             pobj.psm = psm.__dict__[psm_name](pobj)
-            if psm_name == 'Bilinear':
+            if psm_name in ['WhiteNoise']:
+                pobj.psm.calibrate(**kwargs)
+            elif psm_name == 'Bilinear':
                 pobj.psm.calibrate(
                     season_list1=ptype_season_dict[pobj.ptype],
                     season_list2=ptype_season_dict[pobj.ptype], calib_period=calib_period)
@@ -262,21 +276,23 @@ class ReconJob:
             
         for pid, pobj in tqdm(pdb_calib.records.items(), total=pdb_calib.nrec, desc='Forwarding the PSMs:'):
             for vn in pobj.psm.climate_required:
-                pobj.get_clim(self.prior[vn], tag='model')
+                if 'clim' not in pobj.__dict__ or f'model_{vn}' not in pobj.clim:
+                    pobj.get_clim(self.prior[vn], tag='model')
 
             pobj.pseudo = pobj.psm.forward(**kwargs)
 
         if verbose:
             p_success(f'>>> ProxyRecord.pseudo created for {pdb_calib.nrec} records')
 
-    def run_da(self, recon_period=None, recon_loc_rad=None, recon_timescale=None, seed=0, nproc=None, verbose=False, debug=False):
+    def run_da(self, recon_period=None, recon_loc_rad=None, recon_timescale=None, nens=None, seed=0, nproc=None, verbose=False, debug=False):
         recon_period = self.io_cfg('recon_period', recon_period, default=[0, 2000], verbose=verbose)
         recon_loc_rad = self.io_cfg('recon_loc_rad', recon_loc_rad, default=25000, verbose=verbose)  # unit: km
         recon_timescale = self.io_cfg('recon_timescale', recon_timescale, default=1, verbose=verbose)  # unit: yr
+        nens = self.io_cfg('nens', nens, default=100, verbose=verbose)
 
         recon_yrs = np.arange(recon_period[0], recon_period[-1]+1)
 
-        solver = da.EnKF(self.prior, self.proxydb, seed=seed)
+        solver = da.EnKF(self.prior, self.proxydb, nens=nens,seed=seed)
         solver.run(
             recon_yrs=recon_yrs,
             recon_loc_rad=recon_loc_rad,
@@ -349,7 +365,7 @@ class ReconJob:
 
             # output indices
             if 'gm' in output_indices: ds[f'{vn}_gm'] = utils.geo_mean(da)
-            if 'nhm' in output_indices: ds[f'{vn}_shm'] = utils.geo_mean(da, lat_min=0)
+            if 'nhm' in output_indices: ds[f'{vn}_nhm'] = utils.geo_mean(da, lat_min=0)
             if 'shm' in output_indices: ds[f'{vn}_shm'] = utils.geo_mean(da, lat_max=0)
             if vn in ['tas', 'sst']:
                 if 'nino3.4' in output_indices:
@@ -401,7 +417,8 @@ class ReconJob:
             pp.pprint(self.configs)
 
         self.load_proxydb(self.configs['proxydb_path'], verbose=verbose)
-        self.filter_proxydb(by='pid', keys=self.configs['pids'], verbose=verbose)
+        if 'pids' in self.configs:
+            self.filter_proxydb(by='pid', keys=self.configs['pids'], verbose=verbose)
         self.annualize_proxydb(
             months=self.configs['annualize_proxydb_months'],
             ptypes=self.configs['annualize_proxydb_ptypes'])

@@ -1,6 +1,4 @@
-from gzip import READ
 from pathlib import Path
-from pyexpat.errors import XML_ERROR_PARAM_ENTITY_REF
 import xarray as xr
 import numpy as np
 from tqdm import tqdm

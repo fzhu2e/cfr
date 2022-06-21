@@ -1,3 +1,4 @@
+from dataclasses import replace
 import glob
 import os
 from .climate import ClimateField, ClimateDataset
@@ -159,6 +160,19 @@ class ProxyRecord:
         new.dt = np.median(np.diff(new.time))
         return new
 
+    def concat(self, rec_list):
+        new = self.copy()
+        ts_list = [pd.Series(index=self.time, data=self.value)]
+        for rec in rec_list:
+            ts_list.append(pd.Series(index=rec.time, data=rec.value))
+
+        ts_concat = pd.concat(ts_list)
+        ts_concat = ts_concat.sort_index()
+        new.time = ts_concat.index.to_numpy()
+        new.value = ts_concat.values
+        new.dt = np.median(np.diff(new.time))
+        return new
+
     def to_nc(self, path, verbose=True, **kwargs):
         da = self.to_da()
         da.to_netcdf(path=path, **kwargs)
@@ -294,7 +308,11 @@ class ProxyRecord:
 
 
     def plotly(self, **kwargs):
-        import plotly.express as px
+        try:
+            import plotly.express as px
+        except:
+            raise ImportError('Need to install plotly: `pip install plotly`')
+
         time_lb = visual.make_lb(self.time_name, self.time_unit)
         value_lb = visual.make_lb(self.value_name, self.value_unit)
 
@@ -558,6 +576,23 @@ class ProxyDatabase:
 
         return fig, ax
 
+    def plotly(self, **kwargs):
+        try:
+            import plotly.express as px
+        except:
+            raise ImportError('Need to install plotly: `pip install plotly`')
+
+        df = self.to_df()
+        fig = px.scatter_geo(
+            df, lat='lat', lon='lon',
+            color='ptype',
+            hover_name='pid',
+            projection='natural earth',
+            **kwargs,
+        )
+
+        return fig
+
     def make_composite(self, obs_nc_path, vn='tas', lat_name=None, lon_name=None, bin_width=10, n_bootstraps=1000, qs=(0.025, 0.975), stat_func=np.nanmean, anom_period=[1951, 1980]):
         obs = ClimateField().load_nc(obs_nc_path, vn=vn, lat_name=lat_name, lon_name=lon_name)
 
@@ -754,6 +789,23 @@ class ProxyDatabase:
         new.refresh()
 
         return new
+
+    def to_df(self):
+        df = pd.DataFrame(columns=['pid', 'lat', 'lon', 'ptype', 'time', 'value'])
+        df['time'] = df['time'].astype(object)
+        df['value'] = df['value'].astype(object)
+
+        i = 0
+        for pid, pobj in self.records.items():
+            df.loc[i, 'pid'] = pobj.pid
+            df.loc[i, 'lat'] = pobj.lat
+            df.loc[i, 'lon'] = pobj.lon
+            df.loc[i, 'ptype'] = pobj.ptype
+            df.loc[i, 'time'] = pobj.time
+            df.loc[i, 'value'] = pobj.value
+            i += 1
+            
+        return df
 
     def to_nc(self, dirpath, verbose=True, **kwargs):
         os.makedirs(dirpath, exist_ok=True)

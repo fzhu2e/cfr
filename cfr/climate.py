@@ -15,8 +15,8 @@ class ClimateField:
             self.refresh(time_name=time_name, lat_name=lat_name, lon_name=lon_name)
 
     def refresh(self, time_name='time', lat_name='lat', lon_name='lon'):
-        self.lat = self.da[lat_name]
-        self.lon = self.da[lon_name]
+        self.lat = self.da[lat_name].values
+        self.lon = self.da[lon_name].values
         if time_name == 'year':
             self.time = self.da[time_name].values
         elif time_name == 'time':

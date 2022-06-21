@@ -7,6 +7,7 @@ import yaml
 from tqdm import tqdm
 import pandas as pd
 import random
+import glob
 from .climate import ClimateField
 from .proxy import ProxyDatabase, ProxyRecord
 try:
@@ -335,8 +336,31 @@ class ReconJob:
     def save(self, save_dirpath=None, filename='job.pkl', verbose=False):
         save_dirpath = self.io_cfg('save_dirpath', save_dirpath, verbose=verbose)
         os.makedirs(save_dirpath, exist_ok=True)
-        pd.to_pickle(self, os.path.join(save_dirpath, filename))
-        if verbose: p_success(f'>>> job saved to: {save_dirpath}')
+        for tag in ['prior', 'obs']:
+            if hasattr(self, tag):
+                for k, v in self.__dict__[tag].items():
+                    savepath = os.path.join(save_dirpath, f'{tag}_{k}.nc')
+                    v.da.to_netcdf(savepath)
+                    if verbose: p_success(f'>>> {tag}_{k} saved to: {savepath}')
+                    del(self.__dict__[tag][k].da)
+
+        savepath = os.path.join(save_dirpath, filename)
+        pd.to_pickle(self, savepath)
+        if verbose: p_success(f'>>> job saved to: {savepath}')
+
+    def load(self, save_dirpath=None, filename='job.pkl', verbose=False):
+        job = pd.read_pickle(os.path.join(save_dirpath, filename))
+        if verbose: p_success(f'>>> job is loaded')
+
+        for tag in ['prior', 'obs']:
+            paths = sorted(glob.glob(os.path.join(save_dirpath, f'{tag}_*.nc')))
+            for p in paths:
+                if os.path.exists(p):
+                    vn = os.path.basename(p).split('prior_')[-1].split('.nc')[0]
+                    job.__dict__[tag][vn].da = xr.load_dataarray(p)
+                    if verbose: p_success(f'>>> job.{tag}["{vn}"].da is loaded')
+
+        return job
     
     def save_recon(self, save_path, compress_params=None, verbose=False, output_full_ens=False,
                    output_indices=None, dtype=np.float32):

@@ -19,9 +19,13 @@ class EnKF:
         self.nens = nens
         self.recon_vars = recon_vars
 
-    def gen_Ye(self):
+    def gen_Ye(self, recon_period=None):
         vn = list(self.prior.keys())[0]
         time = self.prior[vn].time
+        if recon_period is not None:
+            time_mask = (time>=np.min(recon_period))&(time<=np.max(recon_period))
+            time = time[time_mask]
+
         random.seed(self.seed)
         sample_idx = random.sample(list(range(np.size(time))), self.nens)
         self.prior_sample_idx = sample_idx
@@ -130,15 +134,17 @@ class EnKF:
 
         return Xb
 
-    def run(self, recon_yrs=np.arange(1, 2001), recon_loc_rad=25000, recon_timescale=1, verbose=False, debug=False):
-        self.gen_Ye()
+    def run(self, recon_yrs=np.arange(1, 2001), recon_loc_rad=25000, recon_timescale=1,
+            verbose=False, debug=False):
+
+        recon_period = [recon_yrs[0], recon_yrs[-1]]
+        self.gen_Ye(recon_period=recon_period)
         self.gen_Xb()
 
         nt = np.size(recon_yrs)
         nrow, nens = np.shape(self.Xb_aug)
 
         self.Xa = np.ndarray((nt, nrow, nens))
-
 
         for yr_idx, target_yr in enumerate(tqdm(recon_yrs, desc='KF updating')):
             self.Xa[yr_idx] = self.update_yr(target_yr, recon_loc_rad, recon_timescale, debug=debug)

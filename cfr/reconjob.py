@@ -177,9 +177,9 @@ class ReconJob:
                 vn_in_file = rename_dict[vn]
 
             if anom_period == 'null':
-                self.__dict__[tag][vn] = ClimateField().load_nc(path, vn=vn_in_file, time_name=time_name).wrap_lon(lon_name=lon_name)
+                self.__dict__[tag][vn] = ClimateField().load_nc(path, vn=vn_in_file, time_name=time_name).wrap_lon(lon_name=lon_name, time_name=time_name)
             else:
-                self.__dict__[tag][vn] = ClimateField().load_nc(path, vn=vn_in_file, time_name=time_name).get_anom(ref_period=anom_period).wrap_lon(lon_name=lon_name)
+                self.__dict__[tag][vn] = ClimateField().load_nc(path, vn=vn_in_file, time_name=time_name).get_anom(ref_period=anom_period).wrap_lon(lon_name=lon_name, time_name=time_name)
 
             self.__dict__[tag][vn].da.name = vn
 
@@ -238,7 +238,7 @@ class ReconJob:
             default=[1850, 2015],
             verbose=verbose)
 
-        for pid, pobj in tqdm(self.proxydb.records.items(), total=self.proxydb.nrec, desc='Calibrating the PSMs:'):
+        for pid, pobj in tqdm(self.proxydb.records.items(), total=self.proxydb.nrec, desc='Calibrating the PSMs'):
             psm_name = ptype_psm_dict[pobj.ptype]
 
             if psm_name in ['WhiteNoise']:
@@ -275,7 +275,7 @@ class ReconJob:
     def forward_psms(self, verbose=False, **kwargs):
         pdb_calib = self.proxydb.filter(by='tag', keys={'calibrated'})
             
-        for pid, pobj in tqdm(pdb_calib.records.items(), total=pdb_calib.nrec, desc='Forwarding the PSMs:'):
+        for pid, pobj in tqdm(pdb_calib.records.items(), total=pdb_calib.nrec, desc='Forwarding the PSMs'):
             for vn in pobj.psm.climate_required:
                 if 'clim' not in pobj.__dict__ or f'model_{vn}' not in pobj.clim:
                     pobj.get_clim(self.prior[vn], tag='model')
@@ -285,31 +285,33 @@ class ReconJob:
         if verbose:
             p_success(f'>>> ProxyRecord.pseudo created for {pdb_calib.nrec} records')
 
-    def run_da(self, recon_period=None, recon_loc_rad=None, recon_timescale=None, nens=None, seed=0, nproc=None, verbose=False, debug=False):
+    def run_da(self, recon_period=None, recon_loc_rad=None, recon_timescale=None,
+               nens=None, seed=0, verbose=False, debug=False):
         recon_period = self.io_cfg('recon_period', recon_period, default=[0, 2000], verbose=verbose)
         recon_loc_rad = self.io_cfg('recon_loc_rad', recon_loc_rad, default=25000, verbose=verbose)  # unit: km
         recon_timescale = self.io_cfg('recon_timescale', recon_timescale, default=1, verbose=verbose)  # unit: yr
         nens = self.io_cfg('nens', nens, default=100, verbose=verbose)
 
-        recon_yrs = np.arange(recon_period[0], recon_period[-1]+1)
+        recon_yrs = np.arange(recon_period[0], recon_period[-1]+1, recon_timescale)
 
-        solver = da.EnKF(self.prior, self.proxydb, nens=nens,seed=seed)
-        solver.run(
+        self.da_solver = da.EnKF(self.prior, self.proxydb, nens=nens,seed=seed)
+        self.da_solver.run(
             recon_yrs=recon_yrs,
             recon_loc_rad=recon_loc_rad,
             recon_timescale=recon_timescale,
             verbose=verbose, debug=debug)
 
-        self.recon_fields = solver.recon_fields
+        self.recon_fields = self.da_solver.recon_fields
         if verbose: p_success(f'>>> job.recon_fields created')
 
-    def run_mc(self, recon_period=None, recon_loc_rad=None, recon_timescale=None, output_full_ens=None, save_dtype=np.float32,
+    def run_mc(self, recon_period=None, recon_loc_rad=None, recon_timescale=None, nens=None, output_full_ens=None, save_dtype=np.float32,
                recon_seeds=None, assim_frac=None, save_dirpath=None, compress_params=None, verbose=False):
 
         t_s = time.time()
         recon_period = self.io_cfg('recon_period', recon_period, default=[0, 2000], verbose=verbose)
         recon_loc_rad = self.io_cfg('recon_loc_rad', recon_loc_rad, default=25000, verbose=verbose)  # unit: km
         recon_timescale = self.io_cfg('recon_timescale', recon_timescale, default=1, verbose=verbose)  # unit: yr
+        nens = self.io_cfg('nens', nens, default=100, verbose=verbose)
         recon_seeds = self.io_cfg('recon_seeds', recon_seeds, default=np.arange(0, 20), verbose=verbose)
         assim_frac = self.io_cfg('assim_frac', assim_frac, default=0.75, verbose=verbose)
         save_dirpath = self.io_cfg('save_dirpath', save_dirpath, verbose=verbose)
@@ -321,7 +323,7 @@ class ReconJob:
             if verbose: p_header(f'>>> seed: {seed} | max: {recon_seeds[-1]}')
 
             self.split_proxydb(seed=seed, assim_frac=assim_frac, verbose=False)
-            self.run_da(recon_period=recon_period, recon_loc_rad=recon_loc_rad,
+            self.run_da(recon_period=recon_period, recon_loc_rad=recon_loc_rad, nens=nens,
                         recon_timescale=recon_timescale, seed=seed, verbose=False)
 
             recon_savepath = os.path.join(save_dirpath, f'job_r{seed:02d}_recon.nc')
@@ -336,16 +338,17 @@ class ReconJob:
     def save(self, save_dirpath=None, filename='job.pkl', verbose=False):
         save_dirpath = self.io_cfg('save_dirpath', save_dirpath, verbose=verbose)
         os.makedirs(save_dirpath, exist_ok=True)
+        new = self.copy()
         for tag in ['prior', 'obs']:
             if hasattr(self, tag):
                 for k, v in self.__dict__[tag].items():
                     savepath = os.path.join(save_dirpath, f'{tag}_{k}.nc')
                     v.da.to_netcdf(savepath)
                     if verbose: p_success(f'>>> {tag}_{k} saved to: {savepath}')
-                    del(self.__dict__[tag][k].da)
+                    del(new.__dict__[tag][k].da)
 
         savepath = os.path.join(save_dirpath, filename)
-        pd.to_pickle(self, savepath)
+        pd.to_pickle(new, savepath)
         if verbose: p_success(f'>>> job saved to: {savepath}')
 
     def load(self, save_dirpath=None, filename='job.pkl', verbose=False):
@@ -376,7 +379,7 @@ class ReconJob:
             verbose=False)
 
         ds = xr.Dataset()
-        year = np.arange(self.configs['recon_period'][0], self.configs['recon_period'][1]+1)
+        year = np.arange(self.configs['recon_period'][0], self.configs['recon_period'][1]+1, self.configs['recon_timescale'])
         for vn, fd in self.recon_fields.items():
             nyr, nens, nlat, nlon = np.shape(fd)
             da = xr.DataArray(fd,

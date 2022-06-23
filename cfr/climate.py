@@ -33,7 +33,7 @@ class ClimateField:
         except:
             self.unit = None
 
-    def wrap_lon(self, mode='360', lon_name='lon'):
+    def wrap_lon(self, mode='360', time_name='time', lon_name='lon'):
         if mode == '360':
             tmp_da = self.da.assign_coords({lon_name: np.mod(self.da[lon_name], 360)})
         elif mode == '180':
@@ -42,7 +42,7 @@ class ClimateField:
             raise ValueError('Wrong mode. Should be either "360" or "180".')
 
         tmp_da = tmp_da.sortby(tmp_da[self.lon_name])
-        new = ClimateField().from_da(tmp_da)
+        new = ClimateField().from_da(tmp_da, time_name=time_name)
         return new
 
     def from_da(self, da, time_name='time', lat_name='lat', lon_name='lon'):

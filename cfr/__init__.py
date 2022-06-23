@@ -18,3 +18,8 @@ set_style(style='journal', font_scale=1.2)
 # get the version
 from importlib.metadata import version
 __version__ = version('cfr')
+
+
+# mute future warnings from pkgs like pandas
+import warnings
+warnings.simplefilter(action='ignore', category=FutureWarning)

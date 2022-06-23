@@ -302,7 +302,12 @@ class ProxyRecord:
             if not hasattr(self, 'clim'):
                 self.clim = {}
 
-            self.clim[name] = ClimateField().from_da(nda)
+            if 'time' in field.da.dims:
+                time_name = 'time'
+            elif 'year' in field.da.dims:
+                time_name = 'year'
+
+            self.clim[name] = ClimateField().from_da(nda, time_name=time_name)
             if load: self.clim[name].da.load()
             if verbose: utils.p_success(f'ProxyRecord.clim["{name}"] created.')
 

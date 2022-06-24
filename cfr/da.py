@@ -1,5 +1,6 @@
 import random
 import pandas as pd
+from scipy import stats
 import numpy as np
 from .utils import (
     gcd,
@@ -19,15 +20,48 @@ class EnKF:
         self.nens = nens
         self.recon_vars = recon_vars
 
-    def gen_Ye(self, recon_period=None):
+    def gen_Ye(self, recon_period=None, sigma=None, dist='uniform'):
         vn = list(self.prior.keys())[0]
         time = self.prior[vn].time
+
         if recon_period is not None:
-            time_mask = (time>=np.min(recon_period))&(time<=np.max(recon_period))
+            time_mask = (time>=np.min(recon_period)) & (time<=np.max(recon_period))
             time = time[time_mask]
 
-        random.seed(self.seed)
-        sample_idx = random.sample(list(range(np.size(time))), self.nens)
+        if dist == 'uniform':
+            random.seed(self.seed)
+            nt = np.size(time)
+            pool_idx = list(range(nt))
+            sample_idx = random.sample(pool_idx, self.nens)
+
+        elif dist == 'normal':
+            rng = np.random.default_rng(self.seed)
+            recon_time = np.arange(recon_period[0], recon_period[1]+1)
+            target_time = (recon_period[0] + recon_period[1])/2
+            target_idx = list(recon_time).index(target_time)
+            nt = np.size(recon_time)
+            pool_idx = list(range(nt))
+            p = stats.norm(target_idx, sigma).pdf(pool_idx)
+
+            pool_mask = []
+            for rt in recon_time:
+                if rt in time:
+                    pool_mask.append(True)
+                else:
+                    pool_mask.append(False)
+
+            pool_idx_masked = np.array(pool_idx)[pool_mask]
+            p_masked = p[pool_mask]
+            replace=True if self.nens > len(pool_idx_masked) else False
+            sample_idx_tmp = rng.choice(pool_idx_masked, size=self.nens, p=p_masked/np.sum(p_masked), replace=replace)
+            sample_idx = []
+            for rt in recon_time[sample_idx_tmp]:
+                if rt in time:
+                    sample_idx.append(list(time).index(rt))
+
+        else:
+            raise ValueError(f'Distribution not supported: {dist}.')
+
         self.prior_sample_idx = sample_idx
         self.prior_sample_years = time[sample_idx]
 
@@ -135,24 +169,45 @@ class EnKF:
         return Xb
 
     def run(self, recon_yrs=np.arange(1, 2001), recon_loc_rad=25000, recon_timescale=1,
-            verbose=False, debug=False):
-
-        recon_period = [recon_yrs[0], recon_yrs[-1]]
-        self.gen_Ye(recon_period=recon_period)
-        self.gen_Xb()
+            recon_sampling_mode='fixed', normal_sampling_sigma=None, normal_sampling_cutoff_factor=3, verbose=False, debug=False):
 
         nt = np.size(recon_yrs)
-        nrow, nens = np.shape(self.Xb_aug)
+        nrow = 0
+        for vn in self.recon_vars:
+            _, nlat, nlon = np.shape(self.prior[vn].da.values)
+            nrow += nlat*nlon
 
-        self.Xa = np.ndarray((nt, nrow, nens))
+        nrow += self.pdb_assim.nrec + self.pdb_eval.nrec
+        self.Xa = np.ndarray((nt, nrow, self.nens))
 
-        for yr_idx, target_yr in enumerate(tqdm(recon_yrs, desc='KF updating')):
-            self.Xa[yr_idx] = self.update_yr(target_yr, recon_loc_rad, recon_timescale, debug=debug)
+        if recon_sampling_mode == 'fixed':
+            if verbose: p_header(f'>>> Fixed prior sampling ...')
+            self.gen_Ye()
+            self.gen_Xb()
+            for yr_idx, target_yr in enumerate(tqdm(recon_yrs, desc='KF updating')):
+                self.Xa[yr_idx] = self.update_yr(target_yr, recon_loc_rad, recon_timescale, debug=debug)
+
+        elif recon_sampling_mode == 'normal':
+            if verbose: p_header(f'>>> Rolling prior sampling with normal distribution ...')
+            for yr_idx, target_yr in enumerate(tqdm(recon_yrs, desc='KF updating')):
+                self.gen_Ye(
+                    recon_period=[
+                        target_yr-normal_sampling_cutoff_factor*normal_sampling_sigma,
+                        target_yr+normal_sampling_cutoff_factor*normal_sampling_sigma,
+                    ],
+                    sigma=normal_sampling_sigma,
+                    dist='normal',
+                )
+                self.gen_Xb()
+                self.Xa[yr_idx] = self.update_yr(target_yr, recon_loc_rad, recon_timescale, debug=debug)
+
+        else:
+            raise ValueError('Wrong recon_sampling_mode.')
 
         self.recon_fields = {}
         for vn, irow in self.Xb_var_irow.items():
             _, nlat, nlon = np.shape(self.prior[vn].da.values)
-            self.recon_fields[vn] = self.Xa[:, irow[0]:irow[-1]+1, :].reshape((nt, nlat, nlon, nens))
+            self.recon_fields[vn] = self.Xa[:, irow[0]:irow[-1]+1, :].reshape((nt, nlat, nlon, self.nens))
             self.recon_fields[vn] = np.moveaxis(self.recon_fields[vn], -1, 1)
 
         if verbose: p_success(f'>>> EnKF.recon_fields created')

@@ -286,10 +286,16 @@ class ReconJob:
             p_success(f'>>> ProxyRecord.pseudo created for {pdb_calib.nrec} records')
 
     def run_da(self, recon_period=None, recon_loc_rad=None, recon_timescale=None,
+               recon_sampling_mode=None, normal_sampling_sigma=None, normal_sampling_cutoff_factor=None,
                nens=None, seed=0, verbose=False, debug=False):
         recon_period = self.io_cfg('recon_period', recon_period, default=[0, 2000], verbose=verbose)
         recon_loc_rad = self.io_cfg('recon_loc_rad', recon_loc_rad, default=25000, verbose=verbose)  # unit: km
         recon_timescale = self.io_cfg('recon_timescale', recon_timescale, default=1, verbose=verbose)  # unit: yr
+        recon_sampling_mode = self.io_cfg('recon_sampling_mode', recon_sampling_mode, default='fixed', verbose=verbose)
+        if recon_sampling_mode == 'normal':
+            normal_sampling_sigma = self.io_cfg('normal_sampling_sigma', normal_sampling_sigma, verbose=verbose)
+            normal_sampling_cutoff_factor = self.io_cfg('normal_sampling_cutoff_factor', normal_sampling_cutoff_factor, default=3, verbose=verbose)
+
         nens = self.io_cfg('nens', nens, default=100, verbose=verbose)
 
         recon_yrs = np.arange(recon_period[0], recon_period[-1]+1, recon_timescale)
@@ -299,12 +305,17 @@ class ReconJob:
             recon_yrs=recon_yrs,
             recon_loc_rad=recon_loc_rad,
             recon_timescale=recon_timescale,
+            recon_sampling_mode=recon_sampling_mode,
+            normal_sampling_sigma=normal_sampling_sigma,
+            normal_sampling_cutoff_factor=normal_sampling_cutoff_factor,
             verbose=verbose, debug=debug)
 
         self.recon_fields = self.da_solver.recon_fields
         if verbose: p_success(f'>>> job.recon_fields created')
 
-    def run_mc(self, recon_period=None, recon_loc_rad=None, recon_timescale=None, nens=None, output_full_ens=None, save_dtype=np.float32,
+    def run_mc(self, recon_period=None, recon_loc_rad=None, recon_timescale=None, nens=None,
+               output_full_ens=None, save_dtype=np.float32,
+               recon_sampling_mode=None, normal_sampling_sigma=None, normal_sampling_cutoff_factor=None,
                recon_seeds=None, assim_frac=None, save_dirpath=None, compress_params=None, verbose=False):
 
         t_s = time.time()
@@ -318,12 +329,19 @@ class ReconJob:
         os.makedirs(save_dirpath, exist_ok=True)
         compress_params = self.io_cfg('compress_params', compress_params, default={'zlib': True, 'least_significant_digit': 1}, verbose=verbose)
         output_full_ens = self.io_cfg('output_full_ens', output_full_ens, default=False, verbose=verbose)
+        recon_sampling_mode = self.io_cfg('recon_sampling_mode', recon_sampling_mode, default='fixed', verbose=verbose)
+        if recon_sampling_mode == 'normal':
+            normal_sampling_sigma = self.io_cfg('normal_sampling_sigma', normal_sampling_sigma, verbose=verbose)
+            normal_sampling_cutoff_factor = self.io_cfg('normal_sampling_cutoff_factor', normal_sampling_cutoff_factor, default=3, verbose=verbose)
 
         for seed in recon_seeds:
             if verbose: p_header(f'>>> seed: {seed} | max: {recon_seeds[-1]}')
 
             self.split_proxydb(seed=seed, assim_frac=assim_frac, verbose=False)
             self.run_da(recon_period=recon_period, recon_loc_rad=recon_loc_rad, nens=nens,
+                        recon_sampling_mode=recon_sampling_mode,
+                        normal_sampling_sigma=normal_sampling_sigma,
+                        normal_sampling_cutoff_factor=normal_sampling_cutoff_factor,
                         recon_timescale=recon_timescale, seed=seed, verbose=False)
 
             recon_savepath = os.path.join(save_dirpath, f'job_r{seed:02d}_recon.nc')

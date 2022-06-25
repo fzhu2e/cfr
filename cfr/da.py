@@ -144,7 +144,13 @@ class EnKF:
             Yobs = pobj.value[mask].mean()
             loc = cov_localization(recon_loc_rad, pobj, self.Xb_aug_coords)
             Ye = Xb[i - (self.pdb_assim.nrec+self.pdb_eval.nrec)]
-            ob_err = pobj.R / nYobs
+            if np.size(pobj.R) == 1:
+                # if ob is an average of several values, adjust its ob error variance
+                ob_err = pobj.R / nYobs
+            else:
+                # if R is not a constant
+                ob_err = np.mean(pobj.R[mask]) / nYobs
+
             Xa = enkf_update_array(Xb, Yobs, Ye, ob_err, loc=loc, debug=debug)
 
             if debug:

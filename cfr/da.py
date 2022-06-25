@@ -1,4 +1,3 @@
-import random
 import pandas as pd
 from scipy import stats
 import numpy as np
@@ -28,14 +27,14 @@ class EnKF:
             time_mask = (time>=np.min(recon_period)) & (time<=np.max(recon_period))
             time = time[time_mask]
 
+        rng = np.random.default_rng(self.seed)
         if dist == 'uniform':
-            random.seed(self.seed)
             nt = np.size(time)
             pool_idx = list(range(nt))
-            sample_idx = random.sample(pool_idx, self.nens)
+            replace = True if self.nens > len(pool_idx) else False
+            sample_idx = rng.choice(pool_idx, size=self.nens, replace=replace)
 
         elif dist == 'normal':
-            rng = np.random.default_rng(self.seed)
             recon_time = np.arange(recon_period[0], recon_period[1]+1)
             target_time = (recon_period[0] + recon_period[1])/2
             target_idx = list(recon_time).index(target_time)
@@ -52,7 +51,7 @@ class EnKF:
 
             pool_idx_masked = np.array(pool_idx)[pool_mask]
             p_masked = p[pool_mask]
-            replace=True if self.nens > len(pool_idx_masked) else False
+            replace = True if self.nens > len(pool_idx_masked) else False
             sample_idx_tmp = rng.choice(pool_idx_masked, size=self.nens, p=p_masked/np.sum(p_masked), replace=replace)
             sample_idx = []
             for rt in recon_time[sample_idx_tmp]:
@@ -96,19 +95,21 @@ class EnKF:
             self.Ye_coords[tag][:, 1] = self.Ye_lon[tag]
         
 
-    def gen_Xb(self):
+    def gen_Xb(self, recon_period=None):
         vn_1st = list(self.prior.keys())[0]
         Xb_var_irow = {}  # index of rows in Xb to store the specific var
         loc = 0
         for vn in self.recon_vars:
-            nt, nlat, nlon = np.shape(self.prior[vn].da.values)
+            _, nlat, nlon = np.shape(self.prior[vn].da.values)
             lats, lons = self.prior[vn].da.lat.values, self.prior[vn].da.lon.values
             lon2d, lat2d = np.meshgrid(lons, lats)
             fd_coords = np.ndarray((nlat*nlon, 2))
             fd_coords[:, 0] = lat2d.flatten()
             fd_coords[:, 1] = lon2d.flatten()
-            fd = self.prior[vn].da.values[self.prior_sample_idx]
-            fd = np.moveaxis(fd, 0, -1)
+            time_name = self.prior[vn].time_name
+            time_mask = (self.prior[vn].da.coords[time_name]>=np.min(recon_period)) & (self.prior[vn].da.coords[time_name]<=np.max(recon_period))
+            fd = self.prior[vn].da.sel({time_name: time_mask}).values[self.prior_sample_idx]  # the size of the time axis becomes self.nens
+            fd = np.moveaxis(fd, 0, -1)  # move the time axis to the rightest
             fd_flat = fd.reshape((nlat*nlon, self.nens))
             if vn == vn_1st:
                 Xb = fd_flat
@@ -182,23 +183,22 @@ class EnKF:
 
         if recon_sampling_mode == 'fixed':
             if verbose: p_header(f'>>> Fixed prior sampling ...')
-            self.gen_Ye()
-            self.gen_Xb()
+            recon_period = (np.min(recon_yrs), np.max(recon_yrs))
+            self.gen_Ye(recon_period=recon_period, dist='uniform')
+            self.gen_Xb(recon_period=recon_period)
             for yr_idx, target_yr in enumerate(tqdm(recon_yrs, desc='KF updating')):
                 self.Xa[yr_idx] = self.update_yr(target_yr, recon_loc_rad, recon_timescale, debug=debug)
 
         elif recon_sampling_mode == 'normal':
             if verbose: p_header(f'>>> Rolling prior sampling with normal distribution ...')
             for yr_idx, target_yr in enumerate(tqdm(recon_yrs, desc='KF updating')):
-                self.gen_Ye(
-                    recon_period=[
-                        target_yr-normal_sampling_cutoff_factor*normal_sampling_sigma,
-                        target_yr+normal_sampling_cutoff_factor*normal_sampling_sigma,
-                    ],
-                    sigma=normal_sampling_sigma,
-                    dist='normal',
-                )
-                self.gen_Xb()
+                recon_period=[
+                    target_yr-normal_sampling_cutoff_factor*normal_sampling_sigma,
+                    target_yr+normal_sampling_cutoff_factor*normal_sampling_sigma,
+                ]
+
+                self.gen_Ye(recon_period=recon_period, dist='normal', sigma=normal_sampling_sigma)
+                self.gen_Xb(recon_period=recon_period)
                 self.Xa[yr_idx] = self.update_yr(target_yr, recon_loc_rad, recon_timescale, debug=debug)
 
         else:

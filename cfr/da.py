@@ -176,7 +176,8 @@ class EnKF:
         return Xb
 
     def run(self, recon_yrs=np.arange(1, 2001), recon_loc_rad=25000, recon_timescale=1,
-            recon_sampling_mode='fixed', normal_sampling_sigma=None, normal_sampling_cutoff_factor=3, verbose=False, debug=False):
+            recon_sampling_mode='fixed', normal_sampling_sigma=None, normal_sampling_cutoff_factor=3,
+            verbose=False, debug=False):
 
         nt = np.size(recon_yrs)
         nrow = 0
@@ -195,7 +196,7 @@ class EnKF:
             for yr_idx, target_yr in enumerate(tqdm(recon_yrs, desc='KF updating')):
                 self.Xa[yr_idx] = self.update_yr(target_yr, recon_loc_rad, recon_timescale, debug=debug)
 
-        elif recon_sampling_mode == 'normal':
+        elif recon_sampling_mode == 'rolling':
             if verbose: p_header(f'>>> Rolling prior sampling with normal distribution ...')
             for yr_idx, target_yr in enumerate(tqdm(recon_yrs, desc='KF updating')):
                 recon_period=[

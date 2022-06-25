@@ -33,9 +33,10 @@ class WhiteNoise:
         self.pobj = pobj
         self.climate_required = climate_required
 
-    def calibrate(self, SNR=10, seasonality=list(range(13)), vn='model_tas'):
+    def calibrate(self, SNR=10, seasonality=list(range(13)), vn='model_tas', seed=0):
         sigma = np.std(self.pobj.clim[vn].da.values) / SNR
-        self.wn = np.random.normal(0, sigma, np.size(self.pobj.clim[vn].da.values))
+        rng = np.random.default_rng(seed)
+        self.wn = rng.normal(0, sigma, np.size(self.pobj.clim[vn].da.values))
         calib_details = {
             'PSMmse': np.mean(self.wn**2),
             'SNR': SNR,

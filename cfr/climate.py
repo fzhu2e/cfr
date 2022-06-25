@@ -80,7 +80,7 @@ class ClimateField:
 
         return new
 
-    def center(self, ref_period=[1951, 1980]):
+    def center(self, ref_period=[1951, 1980], time_name='time'):
         new = self.copy()
 
         if ref_period is not None:
@@ -90,7 +90,7 @@ class ClimateField:
             else:
                 var_ref = self.da.loc[str(ref_period[0]):str(ref_period[-1])]
 
-            clim = var_ref.mean('time')
+            clim = var_ref.mean(time_name)
             new.da = self.da - clim
 
         return new

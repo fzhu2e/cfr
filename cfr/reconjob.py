@@ -179,7 +179,10 @@ class ReconJob:
             if anom_period == 'null':
                 self.__dict__[tag][vn] = ClimateField().load_nc(path, vn=vn_in_file, time_name=time_name).wrap_lon(lon_name=lon_name, time_name=time_name)
             else:
-                self.__dict__[tag][vn] = ClimateField().load_nc(path, vn=vn_in_file, time_name=time_name).get_anom(ref_period=anom_period).wrap_lon(lon_name=lon_name, time_name=time_name)
+                if time_name == 'time':
+                    self.__dict__[tag][vn] = ClimateField().load_nc(path, vn=vn_in_file, time_name=time_name).get_anom(ref_period=anom_period).wrap_lon(lon_name=lon_name, time_name=time_name)
+                elif time_name == 'year':
+                    self.__dict__[tag][vn] = ClimateField().load_nc(path, vn=vn_in_file, time_name=time_name).center(ref_period=anom_period, time_name=time_name).wrap_lon(lon_name=lon_name, time_name=time_name)
 
             self.__dict__[tag][vn].da.name = vn
 
@@ -222,7 +225,8 @@ class ReconJob:
             self.__dict__[tag][vn] = fd.crop(lat_min=lat_min, lat_max=lat_max, lon_min=lon_min, lon_max=lon_max)
         
         
-    def calib_psms(self, ptype_psm_dict=None, ptype_season_dict=None, calib_period=None, verbose=False, **kwargs):
+    def calib_psms(self, ptype_psm_dict=None, ptype_season_dict=None, calib_period=None,
+                   use_predefined_R=False, verbose=False, **kwargs):
         ptype_psm_dict = self.io_cfg(
             'ptype_psm_dict', ptype_psm_dict,
             default={ptype: 'Linear' for ptype in set(self.proxydb.type_list)},
@@ -241,7 +245,7 @@ class ReconJob:
         for pid, pobj in tqdm(self.proxydb.records.items(), total=self.proxydb.nrec, desc='Calibrating the PSMs'):
             psm_name = ptype_psm_dict[pobj.ptype]
 
-            if psm_name in ['WhiteNoise']:
+            if psm_name in ['TempPlusNoise']:
                 for vn in psm.__dict__[psm_name]().climate_required:
                     if 'clim' not in pobj.__dict__ or f'model_{vn}' not in pobj.clim:
                         pobj.get_clim(self.prior[vn], tag='model')
@@ -252,7 +256,7 @@ class ReconJob:
 
 
             pobj.psm = psm.__dict__[psm_name](pobj)
-            if psm_name in ['WhiteNoise']:
+            if psm_name in ['TempPlusNoise']:
                 pobj.psm.calibrate(**kwargs)
             elif psm_name == 'Bilinear':
                 pobj.psm.calibrate(
@@ -267,7 +271,8 @@ class ReconJob:
                 if verbose: p_warning(f'>>> The PSM for {pid} failed to calibrate.')
             else:
                 self.proxydb.records[pid].tags.add('calibrated')
-                self.proxydb.records[pid].R = pobj.psm.calib_details['PSMmse']  # assign obs err matrix
+                if not use_predefined_R:
+                    self.proxydb.records[pid].R = pobj.psm.calib_details['PSMmse']  # assign obs err variance
 
         if verbose:
             p_success(f'>>> {self.proxydb.nrec_tags("calibrated")} records tagged "calibrated" with ProxyRecord.psm created')

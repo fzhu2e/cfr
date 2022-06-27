@@ -20,7 +20,7 @@ class EnKF:
         self.nens = nens
         self.recon_vars = recon_vars
 
-    def gen_Ye(self, recon_period=None, sigma=None, dist='uniform'):
+    def gen_prior_samples(self, recon_period=None, sigma=None, dist='uniform'):
         vn = list(self.prior.keys())[0]
         prior_time = self.prior[vn].time
 
@@ -71,14 +71,16 @@ class EnKF:
             self.prior_sample_idx.append(list(prior_time).index(y))
         self.prior_sample_idx = np.array(self.prior_sample_idx)
 
+    def gen_Ye(self):
         self.Ye = {}
         self.Ye_df = {}
         self.Ye_lat = {}
         self.Ye_lon = {}
         self.Ye_coords = {}
+        vn = list(self.prior.keys())[0]
         for tag in ['assim', 'eval']:
             target_pdb = self.__dict__[f'pdb_{tag}']
-            self.Ye_df[tag] = pd.DataFrame(index=time)
+            self.Ye_df[tag] = pd.DataFrame(index=self.prior[vn].time)
             self.Ye_lat[tag] = []
             self.Ye_lon[tag] = []
             self.Ye_coords[tag] = np.ndarray((target_pdb.nrec, 2))
@@ -196,7 +198,8 @@ class EnKF:
         if recon_sampling_mode == 'fixed':
             if verbose: p_header(f'>>> Fixed prior sampling ...')
             recon_period = (np.min(recon_yrs), np.max(recon_yrs))
-            self.gen_Ye(recon_period=recon_period, dist='uniform')
+            self.gen_prior_samples(recon_period=recon_period, dist='uniform')
+            self.gen_Ye()
             self.gen_Xb()
             for yr_idx, target_yr in enumerate(tqdm(recon_yrs, desc='KF updating')):
                 self.Xa[yr_idx] = self.update_yr(target_yr, recon_loc_rad, recon_timescale, debug=debug)
@@ -209,7 +212,8 @@ class EnKF:
                     target_yr+normal_sampling_cutoff_factor*normal_sampling_sigma,
                 ]
 
-                self.gen_Ye(recon_period=recon_period, dist=recon_sampling_dist, sigma=normal_sampling_sigma)
+                self.gen_prior_samples(recon_period=recon_period, dist=recon_sampling_dist, sigma=normal_sampling_sigma)
+                self.gen_Ye()
                 self.gen_Xb()
                 self.Xa[yr_idx] = self.update_yr(
                     target_yr,

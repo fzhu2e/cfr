@@ -291,13 +291,15 @@ class ReconJob:
             p_success(f'>>> ProxyRecord.pseudo created for {pdb_calib.nrec} records')
 
     def run_da(self, recon_period=None, recon_loc_rad=None, recon_timescale=None,
-               recon_sampling_mode=None, normal_sampling_sigma=None, normal_sampling_cutoff_factor=None,
+               recon_sampling_mode=None, recon_sampling_dist=None,
+               normal_sampling_sigma=None, normal_sampling_cutoff_factor=None,
                nens=None, seed=0, verbose=False, debug=False):
         recon_period = self.io_cfg('recon_period', recon_period, default=[0, 2000], verbose=verbose)
         recon_loc_rad = self.io_cfg('recon_loc_rad', recon_loc_rad, default=25000, verbose=verbose)  # unit: km
         recon_timescale = self.io_cfg('recon_timescale', recon_timescale, default=1, verbose=verbose)  # unit: yr
         recon_sampling_mode = self.io_cfg('recon_sampling_mode', recon_sampling_mode, default='fixed', verbose=verbose)
         if recon_sampling_mode == 'rolling':
+            recon_sampling_dist = self.io_cfg('recon_sampling_dist', recon_sampling_dist, default='normal', verbose=verbose)
             normal_sampling_sigma = self.io_cfg('normal_sampling_sigma', normal_sampling_sigma, verbose=verbose)
             normal_sampling_cutoff_factor = self.io_cfg('normal_sampling_cutoff_factor', normal_sampling_cutoff_factor, default=3, verbose=verbose)
 
@@ -311,6 +313,7 @@ class ReconJob:
             recon_loc_rad=recon_loc_rad,
             recon_timescale=recon_timescale,
             recon_sampling_mode=recon_sampling_mode,
+            recon_sampling_dist=recon_sampling_dist,
             normal_sampling_sigma=normal_sampling_sigma,
             normal_sampling_cutoff_factor=normal_sampling_cutoff_factor,
             verbose=verbose, debug=debug)
@@ -320,7 +323,8 @@ class ReconJob:
 
     def run_mc(self, recon_period=None, recon_loc_rad=None, recon_timescale=None, nens=None,
                output_full_ens=None, save_dtype=np.float32,
-               recon_sampling_mode=None, normal_sampling_sigma=None, normal_sampling_cutoff_factor=None,
+               recon_sampling_mode=None, recon_sampling_dist=None,
+               normal_sampling_sigma=None, normal_sampling_cutoff_factor=None,
                recon_seeds=None, assim_frac=None, save_dirpath=None, compress_params=None, verbose=False):
 
         t_s = time.time()
@@ -338,6 +342,7 @@ class ReconJob:
         if recon_sampling_mode == 'rolling':
             normal_sampling_sigma = self.io_cfg('normal_sampling_sigma', normal_sampling_sigma, verbose=verbose)
             normal_sampling_cutoff_factor = self.io_cfg('normal_sampling_cutoff_factor', normal_sampling_cutoff_factor, default=3, verbose=verbose)
+            recon_sampling_dist = self.io_cfg('recon_sampling_dist', recon_sampling_dist, default='normal', verbose=verbose)
 
         for seed in recon_seeds:
             if verbose: p_header(f'>>> seed: {seed} | max: {recon_seeds[-1]}')
@@ -345,6 +350,7 @@ class ReconJob:
             self.split_proxydb(seed=seed, assim_frac=assim_frac, verbose=False)
             self.run_da(recon_period=recon_period, recon_loc_rad=recon_loc_rad, nens=nens,
                         recon_sampling_mode=recon_sampling_mode,
+                        recon_sampling_dist=recon_sampling_dist,
                         normal_sampling_sigma=normal_sampling_sigma,
                         normal_sampling_cutoff_factor=normal_sampling_cutoff_factor,
                         recon_timescale=recon_timescale, seed=seed, verbose=False)

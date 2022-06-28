@@ -95,8 +95,6 @@ class Linear:
             exog_ann = exog.annualize(months=sn) if annualize_exog else exog
             df_exog = pd.DataFrame({'time': exog_ann.time, exog_colname: exog_ann.da.values})
             df_proxy = pd.DataFrame({'time': self.pobj.time, 'proxy': self.pobj.value})
-            print(df_exog)
-            print(df_proxy)
             df = df_proxy.dropna().merge(df_exog.dropna(), how='inner', on='time')
             df.set_index('time', drop=True, inplace=True)
             df.sort_index(inplace=True)

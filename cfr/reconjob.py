@@ -376,6 +376,10 @@ class ReconJob:
                     if verbose: p_success(f'>>> {tag}_{k} saved to: {savepath}')
                     del(new.__dict__[tag][k].da)
 
+        for pid, pobj in self.proxydb.records.items():
+            if hasattr(pobj, 'clim'):
+                del(pobj.clim)
+
         savepath = os.path.join(save_dirpath, filename)
         pd.to_pickle(new, savepath)
         if verbose: p_success(f'>>> job saved to: {savepath}')

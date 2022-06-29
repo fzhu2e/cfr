@@ -14,6 +14,15 @@ class ClimateField:
         if self.da is not None:
             self.refresh(time_name=time_name, lat_name=lat_name, lon_name=lon_name)
 
+    def __getitem__(self, key):
+        new = self.copy()
+        new.da = new.da[key]
+        if type(key) is tuple:
+            new.time = new.time[key[0]]
+        else:
+            new.time = new.time[key]
+        return new
+
     def refresh(self, time_name='time', lat_name='lat', lon_name='lon'):
         self.lat = self.da[lat_name].values
         self.lon = self.da[lon_name].values
@@ -138,7 +147,14 @@ class ClimateField:
         return new
 
     def plot(self, it=0, **kwargs):
-        t = self.da[self.time_name].values[it]
+        try:
+            t = self.da[self.time_name].values[it]
+        except:
+            t = self.da[self.time_name].values
+            yyyy = str(t)[:4]
+            mm = str(t)[5:7]
+            t = datetime(year=int(yyyy), month=int(mm), day=1)
+
         if isinstance(t, np.datetime64):
             # convert to cftime.datetime
             t = utils.datetime2year_float([t])
@@ -162,7 +178,10 @@ class ClimateField:
             'cmap': cmap,
         }
         _kwargs.update(kwargs)
-        fig, ax =  visual.plot_field_map(self.da.values[it], self.lat, self.lon, **_kwargs)
+        if len(self.da.dims) == 3:
+            fig, ax =  visual.plot_field_map(self.da.values[it], self.lat, self.lon, **_kwargs)
+        elif len(self.da.dims) == 2:
+            fig, ax =  visual.plot_field_map(self.da.values, self.lat, self.lon, **_kwargs)
 
         return fig, ax
 

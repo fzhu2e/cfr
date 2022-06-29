@@ -239,7 +239,17 @@ class ProxyRecord:
         else:
             new.value = (self.value - self.value.mean()) / self.value.std()
         return new
-        
+
+    def __getitem__(self, key):
+        new = self.copy()
+        new.value = new.value[key]
+        if type(key) is tuple:
+            new.time = new.time[key[0]]
+        else:
+            new.time = new.time[key]
+
+        new.dt = np.median(np.diff(new.time))
+        return new
 
     def __add__(self, records):
         ''' Add a list of records into a database
@@ -471,7 +481,8 @@ class ProxyDatabase:
 
         if isinstance(records, ProxyDatabase):
             # if a database
-            records = [records.records[pid] for pid in records.records.keys()]
+            pdb = records
+            records = [pdb.records[pid] for pid in pdb.records.keys()]
 
         for record in records:
             new.records[record.pid] = record
@@ -494,7 +505,8 @@ class ProxyDatabase:
 
         if isinstance(records, ProxyDatabase):
             # if a database
-            records = [records.records[pid] for pid in records.records.keys()]
+            pdb = records
+            records = [pdb.records[pid] for pid in pdb.records.keys()]
 
         for record in records:
             try:

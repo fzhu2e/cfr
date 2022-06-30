@@ -126,6 +126,12 @@ class ProxyRecord:
     def copy(self):
         return copy.deepcopy(self)
 
+    def center(self, ref_period):
+        new = self.copy()
+        ref = self.slice(ref_period)
+        new.value -= np.mean(ref.value)
+        return new
+
     def slice(self, timespan):
         ''' Slicing the timeseries with a timespan (tuple or list)
 
@@ -409,6 +415,17 @@ class ProxyDatabase:
 
     def copy(self):
         return copy.deepcopy(self)
+
+    def center(self, ref_period):
+        new = self.copy()
+        for pid, pobj in tqdm(self.records.items(), total=self.nrec, desc='Centering each of the ProxyRecord'):
+            ref = pobj.slice(ref_period)
+            if np.size(ref.time) == 0:
+                new -= pobj
+            else:
+                new.records[pid].value -= np.mean(ref.value)
+
+        return new
 
     def refresh(self):
         self.nrec = len(self.records)

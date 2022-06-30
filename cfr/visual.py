@@ -70,6 +70,8 @@ class STYLE:
         'tree.MXD': sns.xkcd_rgb['forest green'],
         'tree.ENSO': sns.xkcd_rgb['sea green'],
         'pollen.temp': sns.xkcd_rgb['red'],
+        'land.temp': sns.xkcd_rgb['red'],
+        'ocean.temp': sns.xkcd_rgb['blue'],
         'tas': sns.xkcd_rgb['pale red'],
         'pr': sns.xkcd_rgb['aqua'],
         'speleothem.d18O': sns.xkcd_rgb['light brown'],
@@ -109,6 +111,8 @@ class STYLE:
         'tree.MXD': 'v',
         'tree.ENSO': '^',
         'pollen.temp': 'o',
+        'land.temp': 'o',
+        'ocean.temp': 'v',
         'tas': '^',
         'pr': 'o',
         'speleothem.d18O': 'o',
@@ -418,7 +422,7 @@ def plot_proxies(df, year=np.arange(2001), lon_col='lon', lat_col='lat', type_co
             for k in time:
                 # if k < np.max(year):
                 if k in year:
-                    proxy_count[ptype][k] += 1
+                    proxy_count[ptype][list(year).index(k)] += 1
 
         cumu_count = np.zeros(np.size(year))
         cumu_last = np.copy(cumu_count)

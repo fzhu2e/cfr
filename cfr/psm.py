@@ -157,7 +157,7 @@ class Linear:
         }
 
         pp = ProxyRecord(
-            pid=f'pseudo_{self.pobj.pid}',
+            pid=self.pobj.pid,
             time=exog.time,
             value=np.array(self.model.predict(exog=exog_dict).values),
             lat=self.pobj.lat,

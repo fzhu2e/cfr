@@ -412,7 +412,13 @@ def plot_proxies(df, year=np.arange(2001), lon_col='lon', lat_col='lat', type_co
         for index, row in df.iterrows():
             ptype = row[type_col]
             time = row[time_col]
-            time = np.array([int(t) for t in time])
+            time_list = []
+            for t in time:
+                if not np.isnan(t):
+                    time_list.append(int(t))
+                else:
+                    time_list.append(np.nan)
+            time = np.array(time_list)
             time = time[~np.isnan(time)]
             time = np.sort(list(set(time)))  # remove the duplicates for monthly data
 

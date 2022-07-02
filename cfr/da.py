@@ -12,6 +12,15 @@ from .utils import (
 from tqdm import tqdm
 
 class EnKF:
+    ''' The class for ensemble Kalman filter.
+
+    Args:
+        prior (dict): a dictionary of :py:mod:`cfr.climate.ClimateField`
+        proxydb (cfr.proxy.ProxyDatabase): the proxy database
+        seed (int, optional): random seed. Defaults to 0.
+        nens (int, optional): the ensemble size. Defaults to 100.
+        recon_vars (list, optional): the list of variables to reconstruct. Defaults to ['tas'].
+    '''
     def __init__(self, prior, proxydb, seed=0, nens=100, recon_vars=['tas']):
         self.prior = prior
         self.pdb_assim = proxydb.filter(by='tag', keys=['assim'])

@@ -24,6 +24,16 @@ from .utils import (
 )
 
 def get_ptype(archive_type, proxy_type):
+    '''Get proxy type string based on archive and proxy strings
+
+    Args:
+        archive_type (str): archive string
+        proxy_type (str): proxy string
+
+    Returns:
+        str: the proxy type string, e.g., coral.d18O
+
+    '''
     ptype_dict = {
         ('tree', 'delta Density'): 'tree.MXD',
         ('tree', 'MXD'): 'tree.MXD',
@@ -76,38 +86,27 @@ def get_ptype(archive_type, proxy_type):
     return ptype_dict[(archive_type, proxy_type)]
 
 class ProxyRecord:
+    ''' The class for a proxy record.
+
+    Args:
+        pid (str): the unique proxy ID
+        lat (float): latitude
+        lon (float): longitude
+        time (numpy.array): time axis in unit of year CE 
+        value (numpy.array): proxy value axis
+        ptype (str): the label of proxy type according to archive and proxy information;
+            some examples:
+
+            * 'tree.trw' : TRW
+            * 'tree.mxd' : MXD
+            * 'coral.d18O' : Coral d18O isotopes
+            * 'coral.SrCa' : Coral Sr/Ca ratios
+            * 'ice.d18O' : Ice d18O isotopes
+        tags (a set of str):
+            the tags for the record, to enable tag filtering
+    '''
     def __init__(self, pid=None, time=None, value=None, lat=None, lon=None, ptype=None, tags=None,
         value_name=None, value_unit=None, time_name=None, time_unit=None, seasonality=None):
-        '''
-        Parameters
-        ----------
-        pid : str
-            the unique proxy ID
-
-        lat : float
-            latitude
-
-        lon : float
-            longitude
-
-        time : np.array
-            time axis in unit of year CE 
-
-        value : np.array
-            proxy value axis
-
-        ptype : str
-            the label of proxy type according to archive and proxy information;
-            some examples:
-            - 'tree.trw' : TRW
-            - 'tree.mxd' : MXD
-            - 'coral.d18O' : Coral d18O isotopes
-            - 'coral.SrCa' : Coral Sr/Ca ratios
-            - 'ice.d18O' : Ice d18O isotopes
-
-        tags : a set of str
-            the tags for the record, to enable tag filtering
-        '''
         self.pid = pid
         self.time = time
         self.value = value
@@ -127,6 +126,7 @@ class ProxyRecord:
         return copy.deepcopy(self)
 
     def center(self, ref_period):
+        ''' Centering the proxy timeseries regarding a reference period. '''
         new = self.copy()
         ref = self.slice(ref_period)
         new.value -= np.mean(ref.value)
@@ -135,20 +135,15 @@ class ProxyRecord:
     def slice(self, timespan):
         ''' Slicing the timeseries with a timespan (tuple or list)
 
-        Parameters
-        ----------
+        Args:
+            timespan (tuple or list):
+                The list of time points for slicing, whose length must be even.
+                When there are n time points, the output Series includes n/2 segments.
+                For example, if timespan = [a, b], then the sliced output includes one segment [a, b];
+                if timespan = [a, b, c, d], then the sliced output includes segment [a, b] and segment [c, d].
 
-        timespan : tuple or list
-            The list of time points for slicing, whose length must be even.
-            When there are n time points, the output Series includes n/2 segments.
-            For example, if timespan = [a, b], then the sliced output includes one segment [a, b];
-            if timespan = [a, b, c, d], then the sliced output includes segment [a, b] and segment [c, d].
-
-        Returns
-        -------
-
-        new : Series
-            The sliced Series object.
+        Returns:
+            ProxyRecord: The sliced Series object.
 
         '''
         new = self.copy()
@@ -397,17 +392,14 @@ class ProxyRecord:
 
 
 class ProxyDatabase:
+    ''' The class for a proxy database.
+
+    Args:
+        records (dict): a dict of the :py:mod:`cfr.proxy.ProxyRecord` objects with proxy ID as keys
+        source (str): a path to the original source file
+
+    '''
     def __init__(self, records=None, source=None):
-        '''
-        Parameters
-        ----------
-        records : dict
-            a dict of the ProxyRecord objects with proxy ID as keys
-
-        source : str
-            a path to the original source file
-
-        '''
         self.records = {} if records is None else records
         self.source = source
         if records is not None:

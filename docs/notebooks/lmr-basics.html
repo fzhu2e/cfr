@@ -39,7 +39,7 @@
     <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="API Reference" href="../ug-api.html" />
+    <link rel="next" title="Run the job based on the configurations in a YAML file" href="lmr-cfg.html" />
     <link rel="prev" title="LMR" href="../ug-lmr.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="None">
@@ -121,11 +121,6 @@
    <li class="toctree-l2">
     <a class="reference internal" href="proxy-ops.html">
      Basic Operations
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="proxy-viz.html">
-     Visualizations
     </a>
    </li>
    <li class="toctree-l2">
@@ -244,6 +239,38 @@
      Basic workflows
     </a>
    </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="lmr-cfg.html">
+     Run the job based on the configurations in a YAML file
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="lmr-mc.html">
+     Monte-Carlo iterations
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="lmr-post.html">
+     Post-processing
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../ug-graphem.html">
+   GraphEM
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/>
+  <label for="toctree-checkbox-5">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="graphem-basics.html">
+     The basic workflows for the GraphEM method
+    </a>
+   </li>
   </ul>
  </li>
  <li class="toctree-l1">
@@ -327,7 +354,7 @@ title="Source repository"
       </li>
       
       <li>
-        <a href="https://github.com/fzhu2e/cfr/issues/new?title=Issue%20on%20page%20%2Fnotebooks/lmr-workflow.html&body=Your%20issue%20content%20here."
+        <a href="https://github.com/fzhu2e/cfr/issues/new?title=Issue%20on%20page%20%2Fnotebooks/lmr-basics.html&body=Your%20issue%20content%20here."
    class="headerbtn"
    data-toggle="tooltip"
 data-placement="left"
@@ -344,7 +371,7 @@ title="Open an issue"
       </li>
       
       <li>
-        <a href="https://github.com/fzhu2e/cfr/edit/master/notebooks/lmr-workflow.ipynb"
+        <a href="https://github.com/fzhu2e/cfr/edit/master/notebooks/lmr-basics.ipynb"
    class="headerbtn"
    data-toggle="tooltip"
 data-placement="left"
@@ -372,7 +399,7 @@ title="Edit this page"
   <div class="menu-dropdown__content">
     <ul>
       <li>
-        <a href="../_sources/notebooks/lmr-workflow.ipynb.txt"
+        <a href="../_sources/notebooks/lmr-basics.ipynb.txt"
    class="headerbtn"
    data-toggle="tooltip"
 data-placement="left"
@@ -843,6 +870,7 @@ div.nboutput.container div.output_area > div[class^='highlight']{
 }
 
 /* Some additional styling taken form the Jupyter notebook CSS */
+.jp-RenderedHTMLCommon table,
 div.rendered_html table {
   border: none;
   border-collapse: collapse;
@@ -851,10 +879,14 @@ div.rendered_html table {
   font-size: 12px;
   table-layout: fixed;
 }
+.jp-RenderedHTMLCommon thead,
 div.rendered_html thead {
   border-bottom: 1px solid black;
   vertical-align: bottom;
 }
+.jp-RenderedHTMLCommon tr,
+.jp-RenderedHTMLCommon th,
+.jp-RenderedHTMLCommon td,
 div.rendered_html tr,
 div.rendered_html th,
 div.rendered_html td {
@@ -866,12 +898,15 @@ div.rendered_html td {
   max-width: none;
   border: none;
 }
+.jp-RenderedHTMLCommon th,
 div.rendered_html th {
   font-weight: bold;
 }
+.jp-RenderedHTMLCommon tbody tr:nth-child(odd),
 div.rendered_html tbody tr:nth-child(odd) {
   background: #f5f5f5;
 }
+.jp-RenderedHTMLCommon tbody tr:hover,
 div.rendered_html tbody tr:hover {
   background: rgba(66, 165, 245, 0.2);
 }
@@ -907,7 +942,7 @@ div.rendered_html tbody tr:hover {
 <div class="highlight"><pre>
 <span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs:</span>
 {}
-&lt;cfr.reconjob.ReconJob object at 0x7f812046bf40&gt;
+&lt;cfr.reconjob.ReconJob object at 0x7f99483dcaf0&gt;
 </pre></div></div>
 </div>
 </section>
@@ -932,7 +967,81 @@ div.rendered_html tbody tr:hover {
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">job</span><span class="o">.</span><span class="n">proxydb</span><span class="o">.</span><span class="n">records</span><span class="p">[</span><span class="s1">&#39;Ocn_103&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/notebooks_lmr-basics_6_0.png" src="../_images/notebooks_lmr-basics_6_0.png" />
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[27]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pobj</span> <span class="o">=</span> <span class="n">job</span><span class="o">.</span><span class="n">proxydb</span><span class="o">.</span><span class="n">records</span><span class="p">[</span><span class="s1">&#39;Ocn_122&#39;</span><span class="p">]</span>
+<span class="n">pobj</span><span class="o">.</span><span class="n">time</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[27]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+array([1638.3, 1639.3, 1640.3, 1641.3, 1642.3, 1643.3, 1644.3, 1645.3,
+       1646.3, 1647.3, 1648.3, 1649.3, 1650.3, 1651.3, 1652.3, 1653.3,
+       1654.3, 1655.3, 1656.3, 1657.3, 1658.3, 1659.3, 1660.3, 1661.3,
+       1662.3, 1663.3, 1664.3, 1665.3, 1666.3, 1667.3, 1668.3, 1669.3,
+       1670.3, 1671.3, 1672.3, 1673.3, 1674.3, 1675.3, 1676.3, 1677.3,
+       1678.3, 1679.3, 1680.3, 1681.3, 1682.3, 1683.3, 1684.3, 1685.3,
+       1686.3, 1687.3, 1688.3, 1689.3, 1690.3, 1691.3, 1692.3, 1693.3,
+       1694.3, 1695.3, 1696.3, 1697.3, 1698.3, 1699.3, 1700.3, 1701.3,
+       1702.3, 1703.3, 1704.3, 1705.3, 1706.3, 1707.3, 1708.3, 1709.3,
+       1710.3, 1714.3, 1715.3, 1716.3, 1717.3, 1718.3, 1719.3, 1720.3,
+       1721.3, 1722.3, 1723.3, 1724.3, 1725.3, 1726.3, 1727.3, 1728.3,
+       1729.3, 1730.3, 1731.3, 1732.3, 1733.3, 1734.3, 1735.3, 1736.3,
+       1737.3, 1738.3, 1739.3, 1740.3, 1741.3, 1742.3, 1744.3, 1745.3,
+       1746.3, 1747.3, 1748.3, 1749.3, 1750.3, 1751.3, 1752.3, 1753.3,
+       1754.3, 1755.3, 1756.3, 1758.3, 1759.3, 1760.3, 1761.3, 1762.3,
+       1763.3, 1764.3, 1765.3, 1766.3, 1767.3, 1768.3, 1769.3, 1770.3,
+       1771.3, 1772.3, 1773.3, 1774.3, 1775.3, 1776.3, 1777.3, 1778.3,
+       1779.3, 1780.3, 1781.3, 1782.3, 1783.3, 1784.3, 1785.3, 1786.3,
+       1787.3, 1788.3, 1789.3, 1790.3, 1791.3, 1792.3, 1793.3, 1794.3,
+       1795.3, 1796.3, 1797.3, 1798.3, 1799.3, 1800.3, 1801.3, 1802.3,
+       1803.3, 1804.3, 1805.3, 1806.3, 1807.3, 1808.3, 1809.3, 1810.3,
+       1811.3, 1812.3, 1813.3, 1814.3, 1815.3, 1816.3, 1817.3, 1818.3,
+       1819.3, 1820.3, 1821.3, 1822.3, 1823.3, 1824.3, 1825.3, 1826.3,
+       1827.3, 1828.3, 1829.3, 1830.3, 1831.3, 1832.3, 1833.3, 1834.3,
+       1835.3, 1836.3, 1837.3, 1838.3, 1839.3, 1840.3, 1841.3, 1842.3,
+       1843.3, 1844.3, 1845.3, 1846.3, 1849.3, 1850.3, 1851.3, 1852.3,
+       1853.3, 1854.3, 1855.3, 1856.3, 1857.3, 1858.3, 1859.3, 1860.3,
+       1861.3, 1862.3, 1863.3, 1864.3, 1865.3, 1866.3, 1867.3, 1868.3,
+       1869.3, 1870.3, 1871.3, 1872.3, 1873.3, 1874.3, 1875.3, 1876.3,
+       1877.3, 1878.3, 1879.3, 1881.3, 1882.3, 1883.3, 1884.3, 1885.3,
+       1886.3, 1887.3, 1888.3, 1889.3, 1890.3, 1891.3, 1892.3, 1893.3,
+       1894.3, 1895.3, 1896.3, 1897.3, 1898.3, 1899.3, 1900.3, 1901.3,
+       1902.3, 1903.3, 1904.3, 1905.3, 1906.3, 1907.3, 1908.3, 1909.3,
+       1910.3, 1911.3, 1912.3, 1913.3, 1914.3, 1915.3, 1916.3, 1917.3,
+       1918.3, 1919.3, 1920.3, 1921.3, 1922.3, 1923.3, 1924.3, 1925.3,
+       1926.3, 1927.3, 1928.3, 1929.3, 1930.3, 1931.3, 1932.3, 1933.3,
+       1934.3, 1935.3, 1936.3, 1937.3, 1939.3, 1940.3, 1941.3, 1942.3,
+       1943.3, 1944.3, 1945.3, 1946.3, 1947.3, 1948.3, 1949.3, 1950.3,
+       1951.3, 1952.3, 1953.3, 1954.3, 1955.3, 1956.3, 1957.3, 1958.3,
+       1959.3, 1960.3, 1961.3, 1962.3, 1963.3, 1964.3, 1965.3, 1966.3,
+       1967.3, 1968.3, 1969.3, 1970.3, 1971.3, 1972.3, 1974.3, 1976.3,
+       1977.3, 1978.3, 1979.3, 1981.3, 1982.3, 1983.3])
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">job</span><span class="o">.</span><span class="n">proxydb</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">plot_count</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
@@ -943,14 +1052,14 @@ div.rendered_html tbody tr:hover {
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_lmr-workflow_6_0.png" src="../_images/notebooks_lmr-workflow_6_0.png" />
+<img alt="../_images/notebooks_lmr-basics_8_0.png" src="../_images/notebooks_lmr-basics_8_0.png" />
 </div>
 </div>
 </section>
 <section id="Filter-a-proxy-database">
 <h2>Filter a proxy database<a class="headerlink" href="#Filter-a-proxy-database" title="Permalink to this headline">#</a></h2>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># filtering a ProxyDatabase object returns a new ProxyDatabase object</span>
@@ -963,11 +1072,11 @@ div.rendered_html tbody tr:hover {
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_lmr-workflow_8_0.png" src="../_images/notebooks_lmr-workflow_8_0.png" />
+<img alt="../_images/notebooks_lmr-basics_10_0.png" src="../_images/notebooks_lmr-basics_10_0.png" />
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># job.filter_proxydb() will, however, modify job.proxydb by default,</span>
@@ -981,11 +1090,11 @@ div.rendered_html tbody tr:hover {
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_lmr-workflow_9_0.png" src="../_images/notebooks_lmr-workflow_9_0.png" />
+<img alt="../_images/notebooks_lmr-basics_11_0.png" src="../_images/notebooks_lmr-basics_11_0.png" />
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># we may merge several ProxyDatabase&#39;s and form a job.proxydb</span>
@@ -998,14 +1107,14 @@ div.rendered_html tbody tr:hover {
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_lmr-workflow_10_0.png" src="../_images/notebooks_lmr-workflow_10_0.png" />
+<img alt="../_images/notebooks_lmr-basics_12_0.png" src="../_images/notebooks_lmr-basics_12_0.png" />
 </div>
 </div>
 </section>
 <section id="Annualize/seasonalize-the-proxy-database">
 <h2>Annualize/seasonalize the proxy database<a class="headerlink" href="#Annualize/seasonalize-the-proxy-database" title="Permalink to this headline">#</a></h2>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># we only annualize coral records</span>
@@ -1019,7 +1128,7 @@ div.rendered_html tbody tr:hover {
 </div>
 <div class="output_area stderr docutils container">
 <div class="highlight"><pre>
-Annualizing ProxyRecord: 100%|██████████| 104/104 [00:03&lt;00:00, 26.07it/s]
+Annualizing ProxyRecord: 100%|██████████| 104/104 [00:04&lt;00:00, 24.39it/s]
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
@@ -1035,44 +1144,79 @@ Annualizing ProxyRecord: 100%|██████████| 104/104 [00:03&lt;
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_lmr-workflow_12_2.png" src="../_images/notebooks_lmr-workflow_12_2.png" />
+<img alt="../_images/notebooks_lmr-basics_14_2.png" src="../_images/notebooks_lmr-basics_14_2.png" />
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># let&#39;s check the time axis of the coral record</span>
-<span class="n">job</span><span class="o">.</span><span class="n">proxydb</span><span class="o">.</span><span class="n">records</span><span class="p">[</span><span class="s1">&#39;Ocn_076&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">time</span>
+<span class="n">job</span><span class="o">.</span><span class="n">proxydb</span><span class="o">.</span><span class="n">records</span><span class="p">[</span><span class="s1">&#39;Ocn_103&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">time</span>
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-array([1887., 1888., 1889., 1890., 1891., 1892., 1893., 1894., 1895.,
-       1896., 1897., 1898., 1899., 1900., 1901., 1902., 1903., 1904.,
-       1905., 1906., 1907., 1908., 1909., 1910., 1911., 1912., 1913.,
-       1914., 1915., 1916., 1917., 1918., 1919., 1920., 1921., 1922.,
-       1923., 1924., 1925., 1926., 1927., 1928., 1929., 1930., 1931.,
-       1932., 1933., 1934., 1935., 1936., 1937., 1938., 1939., 1940.,
-       1941., 1942., 1943., 1944., 1945., 1946., 1947., 1948., 1949.,
-       1950., 1951., 1952., 1953., 1954., 1955., 1956., 1957., 1958.,
-       1959., 1960., 1961., 1962., 1963., 1964., 1965., 1966., 1967.,
-       1968., 1969., 1970., 1971., 1972., 1973., 1974., 1975., 1976.,
-       1977., 1978., 1979., 1980., 1981., 1982., 1983., 1984., 1985.,
-       1986., 1987., 1988., 1989., 1990., 1991., 1992., 1993., 1994.,
-       1995., 1996., 1997., 1998., 1999., 2000., 2001., 2002.])
+array([ 928.,  929.,  930.,  931.,  932.,  933.,  934.,  935.,  936.,
+        937.,  938.,  939.,  940.,  941.,  942.,  943.,  944.,  945.,
+        946.,  947.,  948.,  949.,  950.,  951.,  952.,  953.,  954.,
+        955.,  956.,  957.,  958.,  959.,  960., 1149., 1150., 1151.,
+       1152., 1153., 1154., 1155., 1156., 1157., 1158., 1159., 1160.,
+       1161., 1162., 1163., 1164., 1165., 1166., 1167., 1168., 1169.,
+       1170., 1171., 1172., 1173., 1174., 1175., 1176., 1177., 1178.,
+       1179., 1180., 1181., 1182., 1183., 1184., 1185., 1186., 1187.,
+       1188., 1189., 1190., 1191., 1192., 1193., 1194., 1195., 1196.,
+       1197., 1198., 1199., 1200., 1201., 1202., 1203., 1204., 1205.,
+       1206., 1207., 1208., 1209., 1210., 1211., 1212., 1213., 1214.,
+       1215., 1216., 1217., 1218., 1219., 1317., 1318., 1319., 1320.,
+       1321., 1322., 1323., 1324., 1325., 1326., 1327., 1328., 1329.,
+       1330., 1331., 1332., 1333., 1334., 1335., 1336., 1337., 1338.,
+       1339., 1340., 1341., 1342., 1343., 1344., 1345., 1346., 1347.,
+       1348., 1349., 1350., 1351., 1352., 1353., 1354., 1355., 1356.,
+       1357., 1358., 1359., 1360., 1361., 1362., 1363., 1364., 1365.,
+       1366., 1367., 1368., 1369., 1370., 1371., 1372., 1373., 1374.,
+       1375., 1376., 1377., 1378., 1379., 1380., 1381., 1382., 1383.,
+       1384., 1385., 1386., 1387., 1388., 1389., 1390., 1391., 1392.,
+       1393., 1394., 1395., 1396., 1397., 1398., 1399., 1400., 1401.,
+       1402., 1403., 1404., 1405., 1406., 1407., 1408., 1409., 1410.,
+       1411., 1412., 1413., 1414., 1415., 1416., 1417., 1418., 1419.,
+       1420., 1421., 1422., 1423., 1424., 1425., 1426., 1427., 1428.,
+       1429., 1430., 1431., 1432., 1433., 1434., 1435., 1436., 1437.,
+       1438., 1439., 1440., 1441., 1442., 1443., 1444., 1445., 1446.,
+       1447., 1448., 1449., 1450., 1451., 1452., 1453., 1454., 1455.,
+       1456., 1457., 1458., 1459., 1460., 1461., 1462., 1463., 1464.,
+       1635., 1636., 1637., 1638., 1639., 1640., 1641., 1642., 1643.,
+       1644., 1645., 1646., 1647., 1648., 1649., 1650., 1651., 1652.,
+       1653., 1654., 1655., 1656., 1657., 1658., 1659., 1660., 1661.,
+       1662., 1663., 1664., 1665., 1666., 1667., 1668., 1669., 1670.,
+       1671., 1672., 1673., 1674., 1675., 1676., 1677., 1678., 1679.,
+       1680., 1681., 1682., 1683., 1684., 1685., 1686., 1687., 1688.,
+       1689., 1690., 1691., 1692., 1693., 1694., 1695., 1696., 1697.,
+       1698., 1699., 1700., 1701., 1702., 1886., 1887., 1888., 1889.,
+       1890., 1891., 1892., 1893., 1894., 1895., 1896., 1897., 1898.,
+       1899., 1900., 1901., 1902., 1903., 1904., 1905., 1906., 1907.,
+       1908., 1909., 1910., 1911., 1912., 1913., 1914., 1915., 1916.,
+       1917., 1918., 1919., 1920., 1921., 1922., 1923., 1924., 1925.,
+       1926., 1927., 1928., 1929., 1930., 1931., 1932., 1933., 1934.,
+       1935., 1936., 1937., 1938., 1939., 1940., 1941., 1942., 1943.,
+       1944., 1945., 1946., 1947., 1948., 1949., 1950., 1951., 1952.,
+       1953., 1954., 1955., 1956., 1957., 1958., 1959., 1960., 1961.,
+       1962., 1963., 1964., 1965., 1966., 1967., 1968., 1969., 1970.,
+       1971., 1972., 1973., 1974., 1975., 1976., 1977., 1978., 1979.,
+       1980., 1981., 1982., 1983., 1984., 1985., 1986., 1987., 1988.,
+       1989., 1990., 1991., 1992., 1993., 1994., 1995., 1996.])
 </pre></div></div>
 </div>
 </section>
 <section id="Load-climate-model-priors">
 <h2>Load climate model priors<a class="headerlink" href="#Load-climate-model-priors" title="Permalink to this headline">#</a></h2>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">job</span><span class="o">.</span><span class="n">load_clim</span><span class="p">(</span>
@@ -1101,7 +1245,7 @@ array([1887., 1888., 1889., 1890., 1891., 1892., 1893., 1894., 1895.,
 <section id="Load-instrumental-observations">
 <h2>Load instrumental observations<a class="headerlink" href="#Load-instrumental-observations" title="Permalink to this headline">#</a></h2>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">job</span><span class="o">.</span><span class="n">load_clim</span><span class="p">(</span>
@@ -1128,7 +1272,7 @@ array([1887., 1888., 1889., 1890., 1891., 1892., 1893., 1894., 1895.,
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># note that the lon axis has been wrapped into the 0-360 range</span>
@@ -1137,7 +1281,7 @@ array([1887., 1888., 1889., 1890., 1891., 1892., 1893., 1894., 1895.,
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
 </pre></div>
 </div>
 <div class="output_area rendered_html docutils container">
@@ -1537,7 +1681,7 @@ array([[[        nan,         nan,         nan, ...,         nan,
 Coordinates:
   * lat      (lat) float32 -89.0 -87.0 -85.0 -83.0 -81.0 ... 83.0 85.0 87.0 89.0
   * lon      (lon) float32 1.0 3.0 5.0 7.0 9.0 ... 351.0 353.0 355.0 357.0 359.0
-  * time     (time) datetime64[ns] 1880-01-15 1880-02-15 ... 2017-04-15</pre><div class='xr-wrap' hidden><div class='xr-header'><div class='xr-obj-type'>xarray.DataArray</div><div class='xr-array-name'>'tas'</div><ul class='xr-dim-list'><li><span class='xr-has-index'>time</span>: 1648</li><li><span class='xr-has-index'>lat</span>: 90</li><li><span class='xr-has-index'>lon</span>: 180</li></ul></div><ul class='xr-sections'><li class='xr-section-item'><div class='xr-array-wrap'><input id='section-48442c9f-3d3f-465d-ab50-cd8e0c355a63' class='xr-array-in' type='checkbox' checked><label for='section-48442c9f-3d3f-465d-ab50-cd8e0c355a63' title='Show/hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-array-preview xr-preview'><span>nan nan nan nan nan nan nan nan ... -0.3 -0.3 -0.3 -0.3 -0.3 -0.3 -0.3</span></div><div class='xr-array-data'><pre>array([[[        nan,         nan,         nan, ...,         nan,
+  * time     (time) datetime64[ns] 1880-01-15 1880-02-15 ... 2017-04-15</pre><div class='xr-wrap' hidden><div class='xr-header'><div class='xr-obj-type'>xarray.DataArray</div><div class='xr-array-name'>'tas'</div><ul class='xr-dim-list'><li><span class='xr-has-index'>time</span>: 1648</li><li><span class='xr-has-index'>lat</span>: 90</li><li><span class='xr-has-index'>lon</span>: 180</li></ul></div><ul class='xr-sections'><li class='xr-section-item'><div class='xr-array-wrap'><input id='section-82115396-66ae-4f57-be28-60230493d28a' class='xr-array-in' type='checkbox' checked><label for='section-82115396-66ae-4f57-be28-60230493d28a' title='Show/hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-array-preview xr-preview'><span>nan nan nan nan nan nan nan nan ... -0.3 -0.3 -0.3 -0.3 -0.3 -0.3 -0.3</span></div><div class='xr-array-data'><pre>array([[[        nan,         nan,         nan, ...,         nan,
                  nan,         nan],
         [        nan,         nan,         nan, ...,         nan,
                  nan,         nan],
@@ -1577,14 +1721,14 @@ Coordinates:
         [-0.29999998, -0.29999998, -0.29999998, ..., -0.29999998,
          -0.29999998, -0.29999998],
         [-0.29999998, -0.29999998, -0.29999998, ..., -0.29999998,
-         -0.29999998, -0.29999998]]], dtype=float32)</pre></div></div></li><li class='xr-section-item'><input id='section-13362595-f060-411a-8fef-43ec844ff41d' class='xr-section-summary-in' type='checkbox'  checked><label for='section-13362595-f060-411a-8fef-43ec844ff41d' class='xr-section-summary' >Coordinates: <span>(3)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><ul class='xr-var-list'><li class='xr-var-item'><div class='xr-var-name'><span class='xr-has-index'>lat</span></div><div class='xr-var-dims'>(lat)</div><div class='xr-var-dtype'>float32</div><div class='xr-var-preview xr-preview'>-89.0 -87.0 -85.0 ... 87.0 89.0</div><input id='attrs-4209409f-085c-46c1-aad0-044004a10261' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-4209409f-085c-46c1-aad0-044004a10261' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-f646f74c-2ddb-4ea8-a72b-11c0c89d3d7d' class='xr-var-data-in' type='checkbox'><label for='data-f646f74c-2ddb-4ea8-a72b-11c0c89d3d7d' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>standard_name :</span></dt><dd>latitude</dd><dt><span>long_name :</span></dt><dd>Latitude</dd><dt><span>units :</span></dt><dd>degrees_north</dd></dl></div><div class='xr-var-data'><pre>array([-89., -87., -85., -83., -81., -79., -77., -75., -73., -71., -69., -67.,
+         -0.29999998, -0.29999998]]], dtype=float32)</pre></div></div></li><li class='xr-section-item'><input id='section-20b5c2bc-de23-4170-9e95-cbb386a941a5' class='xr-section-summary-in' type='checkbox'  checked><label for='section-20b5c2bc-de23-4170-9e95-cbb386a941a5' class='xr-section-summary' >Coordinates: <span>(3)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><ul class='xr-var-list'><li class='xr-var-item'><div class='xr-var-name'><span class='xr-has-index'>lat</span></div><div class='xr-var-dims'>(lat)</div><div class='xr-var-dtype'>float32</div><div class='xr-var-preview xr-preview'>-89.0 -87.0 -85.0 ... 87.0 89.0</div><input id='attrs-07a6a202-8db5-4ccb-806d-35edaadec03e' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-07a6a202-8db5-4ccb-806d-35edaadec03e' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-e4b07151-e242-4272-8c1b-a87ad23a31c8' class='xr-var-data-in' type='checkbox'><label for='data-e4b07151-e242-4272-8c1b-a87ad23a31c8' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>standard_name :</span></dt><dd>latitude</dd><dt><span>long_name :</span></dt><dd>Latitude</dd><dt><span>units :</span></dt><dd>degrees_north</dd></dl></div><div class='xr-var-data'><pre>array([-89., -87., -85., -83., -81., -79., -77., -75., -73., -71., -69., -67.,
        -65., -63., -61., -59., -57., -55., -53., -51., -49., -47., -45., -43.,
        -41., -39., -37., -35., -33., -31., -29., -27., -25., -23., -21., -19.,
        -17., -15., -13., -11.,  -9.,  -7.,  -5.,  -3.,  -1.,   1.,   3.,   5.,
          7.,   9.,  11.,  13.,  15.,  17.,  19.,  21.,  23.,  25.,  27.,  29.,
         31.,  33.,  35.,  37.,  39.,  41.,  43.,  45.,  47.,  49.,  51.,  53.,
         55.,  57.,  59.,  61.,  63.,  65.,  67.,  69.,  71.,  73.,  75.,  77.,
-        79.,  81.,  83.,  85.,  87.,  89.], dtype=float32)</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span class='xr-has-index'>lon</span></div><div class='xr-var-dims'>(lon)</div><div class='xr-var-dtype'>float32</div><div class='xr-var-preview xr-preview'>1.0 3.0 5.0 ... 355.0 357.0 359.0</div><input id='attrs-d2bfb11e-38f6-44ee-a514-a151a616301c' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-d2bfb11e-38f6-44ee-a514-a151a616301c' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-68b21950-ceec-41ed-8e18-921605880603' class='xr-var-data-in' type='checkbox'><label for='data-68b21950-ceec-41ed-8e18-921605880603' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>standard_name :</span></dt><dd>longitude</dd><dt><span>long_name :</span></dt><dd>Longitude</dd><dt><span>units :</span></dt><dd>degrees_east</dd></dl></div><div class='xr-var-data'><pre>array([  1.,   3.,   5.,   7.,   9.,  11.,  13.,  15.,  17.,  19.,  21.,  23.,
+        79.,  81.,  83.,  85.,  87.,  89.], dtype=float32)</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span class='xr-has-index'>lon</span></div><div class='xr-var-dims'>(lon)</div><div class='xr-var-dtype'>float32</div><div class='xr-var-preview xr-preview'>1.0 3.0 5.0 ... 355.0 357.0 359.0</div><input id='attrs-d90c811b-782a-4f48-80c3-7cafcd1682a1' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-d90c811b-782a-4f48-80c3-7cafcd1682a1' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-407205b7-81ad-451f-bb1a-b2f5a5530fc4' class='xr-var-data-in' type='checkbox'><label for='data-407205b7-81ad-451f-bb1a-b2f5a5530fc4' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>standard_name :</span></dt><dd>longitude</dd><dt><span>long_name :</span></dt><dd>Longitude</dd><dt><span>units :</span></dt><dd>degrees_east</dd></dl></div><div class='xr-var-data'><pre>array([  1.,   3.,   5.,   7.,   9.,  11.,  13.,  15.,  17.,  19.,  21.,  23.,
         25.,  27.,  29.,  31.,  33.,  35.,  37.,  39.,  41.,  43.,  45.,  47.,
         49.,  51.,  53.,  55.,  57.,  59.,  61.,  63.,  65.,  67.,  69.,  71.,
         73.,  75.,  77.,  79.,  81.,  83.,  85.,  87.,  89.,  91.,  93.,  95.,
@@ -1599,13 +1743,13 @@ Coordinates:
        289., 291., 293., 295., 297., 299., 301., 303., 305., 307., 309., 311.,
        313., 315., 317., 319., 321., 323., 325., 327., 329., 331., 333., 335.,
        337., 339., 341., 343., 345., 347., 349., 351., 353., 355., 357., 359.],
-      dtype=float32)</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span class='xr-has-index'>time</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>datetime64[ns]</div><div class='xr-var-preview xr-preview'>1880-01-15 ... 2017-04-15</div><input id='attrs-8e3322c3-07e9-4c6f-92c8-cc3ab16bf146' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-8e3322c3-07e9-4c6f-92c8-cc3ab16bf146' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-1f5c04ee-625d-4203-ac8b-90f997c8fc89' class='xr-var-data-in' type='checkbox'><label for='data-1f5c04ee-625d-4203-ac8b-90f997c8fc89' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>long_name :</span></dt><dd>time</dd><dt><span>bounds :</span></dt><dd>time_bnds</dd></dl></div><div class='xr-var-data'><pre>array([&#x27;1880-01-15T00:00:00.000000000&#x27;, &#x27;1880-02-15T00:00:00.000000000&#x27;,
+      dtype=float32)</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span class='xr-has-index'>time</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>datetime64[ns]</div><div class='xr-var-preview xr-preview'>1880-01-15 ... 2017-04-15</div><input id='attrs-93265626-6b22-4239-b661-bc4e8869a19c' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-93265626-6b22-4239-b661-bc4e8869a19c' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-89fae3fa-2696-44b7-bf4f-ffe43b11c345' class='xr-var-data-in' type='checkbox'><label for='data-89fae3fa-2696-44b7-bf4f-ffe43b11c345' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>long_name :</span></dt><dd>time</dd><dt><span>bounds :</span></dt><dd>time_bnds</dd></dl></div><div class='xr-var-data'><pre>array([&#x27;1880-01-15T00:00:00.000000000&#x27;, &#x27;1880-02-15T00:00:00.000000000&#x27;,
        &#x27;1880-03-15T00:00:00.000000000&#x27;, ..., &#x27;2017-02-15T00:00:00.000000000&#x27;,
        &#x27;2017-03-15T00:00:00.000000000&#x27;, &#x27;2017-04-15T00:00:00.000000000&#x27;],
-      dtype=&#x27;datetime64[ns]&#x27;)</pre></div></li></ul></div></li><li class='xr-section-item'><input id='section-e1555d76-8780-4df7-b13e-f8ca2f27f823' class='xr-section-summary-in' type='checkbox' disabled ><label for='section-e1555d76-8780-4df7-b13e-f8ca2f27f823' class='xr-section-summary'  title='Expand/collapse section'>Attributes: <span>(0)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><dl class='xr-attrs'></dl></div></li></ul></div></div></div>
+      dtype=&#x27;datetime64[ns]&#x27;)</pre></div></li></ul></div></li><li class='xr-section-item'><input id='section-8767bf78-7bc9-4358-8008-052e90cd4153' class='xr-section-summary-in' type='checkbox' disabled ><label for='section-8767bf78-7bc9-4358-8008-052e90cd4153' class='xr-section-summary'  title='Expand/collapse section'>Attributes: <span>(0)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><dl class='xr-attrs'></dl></div></li></ul></div></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># now let&#39;s check out configurations</span>
@@ -1614,7 +1758,7 @@ Coordinates:
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
@@ -1630,7 +1774,7 @@ Coordinates:
 <section id="Calibrate-the-PSMs">
 <h2>Calibrate the PSMs<a class="headerlink" href="#Calibrate-the-PSMs" title="Permalink to this headline">#</a></h2>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ptype_psm_dict</span> <span class="o">=</span> <span class="p">{</span>
@@ -1670,7 +1814,7 @@ Coordinates:
 </div>
 <div class="output_area stderr docutils container">
 <div class="highlight"><pre>
-Calibrating the PSMs::  52%|█████▏    | 32/61 [00:02&lt;00:01, 15.88it/s]
+Calibrating the PSMs::  52%|█████▏    | 32/61 [00:02&lt;00:01, 15.32it/s]
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
@@ -1686,7 +1830,7 @@ The number of overlapped data points is 0 &lt; 25. Skipping ...
 </div>
 <div class="output_area stderr docutils container">
 <div class="highlight"><pre>
-Calibrating the PSMs:: 100%|██████████| 61/61 [00:06&lt;00:00,  9.38it/s]
+Calibrating the PSMs:: 100%|██████████| 61/61 [00:06&lt;00:00,  9.19it/s]
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
@@ -1707,28 +1851,31 @@ Calibrating the PSMs:: 100%|██████████| 61/61 [00:06&lt;00:0
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># check the fitting R-squared</span>
-<span class="n">job</span><span class="o">.</span><span class="n">proxydb</span><span class="o">.</span><span class="n">records</span><span class="p">[</span><span class="s1">&#39;NAm_153&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">psm</span><span class="o">.</span><span class="n">calib_details</span><span class="p">[</span><span class="s1">&#39;fitR2adj&#39;</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">job</span><span class="o">.</span><span class="n">proxydb</span><span class="o">.</span><span class="n">records</span><span class="p">[</span><span class="s1">&#39;NAm_153&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">psm</span><span class="o">.</span><span class="n">calib_details</span><span class="p">[</span><span class="s1">&#39;fitR2adj&#39;</span><span class="p">])</span>
+
+<span class="c1"># check the obs err matrix</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">job</span><span class="o">.</span><span class="n">proxydb</span><span class="o">.</span><span class="n">records</span><span class="p">[</span><span class="s1">&#39;NAm_153&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">R</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
-</pre></div>
+<div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
 0.13500868898269947
+0.02688566471873942
 </pre></div></div>
 </div>
 </section>
 <section id="Forward-the-PSMs">
 <h2>Forward the PSMs<a class="headerlink" href="#Forward-the-PSMs" title="Permalink to this headline">#</a></h2>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">job</span><span class="o">.</span><span class="n">forward_psms</span><span class="p">(</span><span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
@@ -1740,7 +1887,7 @@ Calibrating the PSMs:: 100%|██████████| 61/61 [00:06&lt;00:0
 </div>
 <div class="output_area stderr docutils container">
 <div class="highlight"><pre>
-Forwarding the PSMs:: 100%|██████████| 60/60 [00:17&lt;00:00,  3.44it/s]
+Forwarding the PSMs:: 100%|██████████| 60/60 [00:18&lt;00:00,  3.31it/s]
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
@@ -1760,10 +1907,10 @@ Forwarding the PSMs:: 100%|██████████| 60/60 [00:17&lt;00:00
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">pid</span><span class="p">,</span> <span class="n">pobj</span> <span class="ow">in</span> <span class="n">job</span><span class="o">.</span><span class="n">proxydb</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="s1">&#39;pid&#39;</span><span class="p">,</span> <span class="n">keys</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;NAm_153&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">records</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">pid</span><span class="p">,</span> <span class="n">pobj</span> <span class="ow">in</span> <span class="n">job</span><span class="o">.</span><span class="n">proxydb</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="s1">&#39;pid&#39;</span><span class="p">,</span> <span class="n">keys</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Ocn_103&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">records</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
     <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">pobj</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
     <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">pobj</span><span class="o">.</span><span class="n">pseudo</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
 </pre></div>
@@ -1773,18 +1920,18 @@ Forwarding the PSMs:: 100%|██████████| 60/60 [00:17&lt;00:00
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_lmr-workflow_25_0.png" src="../_images/notebooks_lmr-workflow_25_0.png" />
+<img alt="../_images/notebooks_lmr-basics_27_0.png" src="../_images/notebooks_lmr-basics_27_0.png" />
 </div>
 </div>
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_lmr-workflow_25_1.png" src="../_images/notebooks_lmr-workflow_25_1.png" />
+<img alt="../_images/notebooks_lmr-basics_27_1.png" src="../_images/notebooks_lmr-basics_27_1.png" />
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># let&#39;s add the pids into the configurations</span>
@@ -1802,7 +1949,7 @@ Forwarding the PSMs:: 100%|██████████| 60/60 [00:17&lt;00:00
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
@@ -1892,7 +2039,7 @@ Forwarding the PSMs:: 100%|██████████| 60/60 [00:17&lt;00:00
 <section id="Annualize/seasonalize-the-climate-model-prior">
 <h2>Annualize/seasonalize the climate model prior<a class="headerlink" href="#Annualize/seasonalize-the-climate-model-prior" title="Permalink to this headline">#</a></h2>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">job</span><span class="o">.</span><span class="n">annualize_clim</span><span class="p">(</span><span class="n">tag</span><span class="o">=</span><span class="s1">&#39;prior&#39;</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">months</span><span class="o">=</span><span class="p">[</span><span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">])</span>
@@ -1915,11 +2062,11 @@ Forwarding the PSMs:: 100%|██████████| 60/60 [00:17&lt;00:00
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_lmr-workflow_28_1.png" src="../_images/notebooks_lmr-workflow_28_1.png" />
+<img alt="../_images/notebooks_lmr-basics_30_1.png" src="../_images/notebooks_lmr-basics_30_1.png" />
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">job</span><span class="o">.</span><span class="n">prior</span><span class="p">[</span><span class="s1">&#39;tas&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">time</span>
@@ -1927,7 +2074,7 @@ Forwarding the PSMs:: 100%|██████████| 60/60 [00:17&lt;00:00
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
@@ -1936,7 +2083,7 @@ array([ 850.,  851.,  852., ..., 2003., 2004., 2005.])
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">job</span><span class="o">.</span><span class="n">regrid_clim</span><span class="p">(</span><span class="n">tag</span><span class="o">=</span><span class="s1">&#39;prior&#39;</span><span class="p">,</span> <span class="n">nlat</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span> <span class="n">nlon</span><span class="o">=</span><span class="mi">63</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
@@ -1956,7 +2103,7 @@ array([ 850.,  851.,  852., ..., 2003., 2004., 2005.])
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
 </pre></div>
 </div>
 <div class="output_area rendered_html docutils container">
@@ -2356,7 +2503,7 @@ array([[[ -7.47643518,  -7.51106125,  -7.60682241, ...,  -7.61908068,
 Coordinates:
   * time     (time) object 0850-08-31 00:00:00 ... 2005-08-31 00:00:00
   * lon      (lon) float64 0.0 5.806 11.61 17.42 ... 342.6 348.4 354.2 360.0
-  * lat      (lat) float64 -90.0 -85.61 -81.22 -76.83 ... 76.83 81.22 85.61 90.0</pre><div class='xr-wrap' hidden><div class='xr-header'><div class='xr-obj-type'>xarray.DataArray</div><div class='xr-array-name'>'tas'</div><ul class='xr-dim-list'><li><span class='xr-has-index'>time</span>: 1156</li><li><span class='xr-has-index'>lat</span>: 42</li><li><span class='xr-has-index'>lon</span>: 63</li></ul></div><ul class='xr-sections'><li class='xr-section-item'><div class='xr-array-wrap'><input id='section-ed994643-0e83-42cf-947d-2704d4f3d745' class='xr-array-in' type='checkbox' checked><label for='section-ed994643-0e83-42cf-947d-2704d4f3d745' title='Show/hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-array-preview xr-preview'><span>-7.476 -7.511 -7.607 -7.528 -7.525 ... 21.37 21.35 21.32 21.31 21.3</span></div><div class='xr-array-data'><pre>array([[[ -7.47643518,  -7.51106125,  -7.60682241, ...,  -7.61908068,
+  * lat      (lat) float64 -90.0 -85.61 -81.22 -76.83 ... 76.83 81.22 85.61 90.0</pre><div class='xr-wrap' hidden><div class='xr-header'><div class='xr-obj-type'>xarray.DataArray</div><div class='xr-array-name'>'tas'</div><ul class='xr-dim-list'><li><span class='xr-has-index'>time</span>: 1156</li><li><span class='xr-has-index'>lat</span>: 42</li><li><span class='xr-has-index'>lon</span>: 63</li></ul></div><ul class='xr-sections'><li class='xr-section-item'><div class='xr-array-wrap'><input id='section-99ffc4fd-62c0-4977-8674-bac5bc4b1c45' class='xr-array-in' type='checkbox' checked><label for='section-99ffc4fd-62c0-4977-8674-bac5bc4b1c45' title='Show/hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-array-preview xr-preview'><span>-7.476 -7.511 -7.607 -7.528 -7.525 ... 21.37 21.35 21.32 21.31 21.3</span></div><div class='xr-array-data'><pre>array([[[ -7.47643518,  -7.51106125,  -7.60682241, ...,  -7.61908068,
           -7.52936638,  -7.47643518],
         [ -9.42977243,  -9.21364785,  -8.86146122, ...,  -9.45751958,
           -9.48816517,  -9.42977243],
@@ -2396,13 +2543,13 @@ Coordinates:
         [ 19.38425552,  19.14868929,  18.96859062, ...,  20.08208032,
           19.72616568,  19.38425552],
         [ 21.30426979,  21.3106148 ,  21.30226732, ...,  21.32455081,
-          21.31077791,  21.30426979]]])</pre></div></div></li><li class='xr-section-item'><input id='section-93aa0fd5-098a-4b64-9b64-1cca97d5bf35' class='xr-section-summary-in' type='checkbox'  checked><label for='section-93aa0fd5-098a-4b64-9b64-1cca97d5bf35' class='xr-section-summary' >Coordinates: <span>(3)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><ul class='xr-var-list'><li class='xr-var-item'><div class='xr-var-name'><span class='xr-has-index'>time</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>object</div><div class='xr-var-preview xr-preview'>0850-08-31 00:00:00 ... 2005-08-...</div><input id='attrs-22e731ba-0296-4d20-a295-6aff8fd3d260' class='xr-var-attrs-in' type='checkbox' disabled><label for='attrs-22e731ba-0296-4d20-a295-6aff8fd3d260' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-1a2f44c7-2db6-4764-b419-e999d28fe2c3' class='xr-var-data-in' type='checkbox'><label for='data-1a2f44c7-2db6-4764-b419-e999d28fe2c3' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'></dl></div><div class='xr-var-data'><pre>array([cftime.DatetimeNoLeap(850, 8, 31, 0, 0, 0, 0, has_year_zero=True),
+          21.31077791,  21.30426979]]])</pre></div></div></li><li class='xr-section-item'><input id='section-e0ca25de-943b-4a41-a9dd-ca1f70578811' class='xr-section-summary-in' type='checkbox'  checked><label for='section-e0ca25de-943b-4a41-a9dd-ca1f70578811' class='xr-section-summary' >Coordinates: <span>(3)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><ul class='xr-var-list'><li class='xr-var-item'><div class='xr-var-name'><span class='xr-has-index'>time</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>object</div><div class='xr-var-preview xr-preview'>0850-08-31 00:00:00 ... 2005-08-...</div><input id='attrs-7e578ca3-3c8c-49b0-85c6-f6845807c92c' class='xr-var-attrs-in' type='checkbox' disabled><label for='attrs-7e578ca3-3c8c-49b0-85c6-f6845807c92c' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-a76ea7bf-a64c-4d65-aa1c-12e727480654' class='xr-var-data-in' type='checkbox'><label for='data-a76ea7bf-a64c-4d65-aa1c-12e727480654' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'></dl></div><div class='xr-var-data'><pre>array([cftime.DatetimeNoLeap(850, 8, 31, 0, 0, 0, 0, has_year_zero=True),
        cftime.DatetimeNoLeap(851, 8, 31, 0, 0, 0, 0, has_year_zero=True),
        cftime.DatetimeNoLeap(852, 8, 31, 0, 0, 0, 0, has_year_zero=True), ...,
        cftime.DatetimeNoLeap(2003, 8, 31, 0, 0, 0, 0, has_year_zero=True),
        cftime.DatetimeNoLeap(2004, 8, 31, 0, 0, 0, 0, has_year_zero=True),
        cftime.DatetimeNoLeap(2005, 8, 31, 0, 0, 0, 0, has_year_zero=True)],
-      dtype=object)</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span class='xr-has-index'>lon</span></div><div class='xr-var-dims'>(lon)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>0.0 5.806 11.61 ... 354.2 360.0</div><input id='attrs-118a70f9-cc7d-4373-b42e-3185118fe4d2' class='xr-var-attrs-in' type='checkbox' disabled><label for='attrs-118a70f9-cc7d-4373-b42e-3185118fe4d2' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-8df5ec8d-c363-4aca-b201-6ead2a983f05' class='xr-var-data-in' type='checkbox'><label for='data-8df5ec8d-c363-4aca-b201-6ead2a983f05' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'></dl></div><div class='xr-var-data'><pre>array([  0.      ,   5.806452,  11.612903,  17.419355,  23.225806,  29.032258,
+      dtype=object)</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span class='xr-has-index'>lon</span></div><div class='xr-var-dims'>(lon)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>0.0 5.806 11.61 ... 354.2 360.0</div><input id='attrs-7031d31a-27f5-48c8-90d0-0bc4346d94af' class='xr-var-attrs-in' type='checkbox' disabled><label for='attrs-7031d31a-27f5-48c8-90d0-0bc4346d94af' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-9a4c47d2-397c-43da-b249-0a5610838df3' class='xr-var-data-in' type='checkbox'><label for='data-9a4c47d2-397c-43da-b249-0a5610838df3' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'></dl></div><div class='xr-var-data'><pre>array([  0.      ,   5.806452,  11.612903,  17.419355,  23.225806,  29.032258,
         34.83871 ,  40.645161,  46.451613,  52.258065,  58.064516,  63.870968,
         69.677419,  75.483871,  81.290323,  87.096774,  92.903226,  98.709677,
        104.516129, 110.322581, 116.129032, 121.935484, 127.741935, 133.548387,
@@ -2412,16 +2559,16 @@ Coordinates:
        243.870968, 249.677419, 255.483871, 261.290323, 267.096774, 272.903226,
        278.709677, 284.516129, 290.322581, 296.129032, 301.935484, 307.741935,
        313.548387, 319.354839, 325.16129 , 330.967742, 336.774194, 342.580645,
-       348.387097, 354.193548, 360.      ])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span class='xr-has-index'>lat</span></div><div class='xr-var-dims'>(lat)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>-90.0 -85.61 -81.22 ... 85.61 90.0</div><input id='attrs-de58eaf5-8cb9-4009-924d-dc3a48ae80b1' class='xr-var-attrs-in' type='checkbox' disabled><label for='attrs-de58eaf5-8cb9-4009-924d-dc3a48ae80b1' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-dcd0e942-afe0-422e-9143-a95402539df5' class='xr-var-data-in' type='checkbox'><label for='data-dcd0e942-afe0-422e-9143-a95402539df5' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'></dl></div><div class='xr-var-data'><pre>array([-90.      , -85.609756, -81.219512, -76.829268, -72.439024, -68.04878 ,
+       348.387097, 354.193548, 360.      ])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span class='xr-has-index'>lat</span></div><div class='xr-var-dims'>(lat)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>-90.0 -85.61 -81.22 ... 85.61 90.0</div><input id='attrs-7c085fd4-a60b-473c-9890-f08af55b4a3e' class='xr-var-attrs-in' type='checkbox' disabled><label for='attrs-7c085fd4-a60b-473c-9890-f08af55b4a3e' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-6665aa33-5b75-41d7-8ef9-6327a7b0eb40' class='xr-var-data-in' type='checkbox'><label for='data-6665aa33-5b75-41d7-8ef9-6327a7b0eb40' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'></dl></div><div class='xr-var-data'><pre>array([-90.      , -85.609756, -81.219512, -76.829268, -72.439024, -68.04878 ,
        -63.658537, -59.268293, -54.878049, -50.487805, -46.097561, -41.707317,
        -37.317073, -32.926829, -28.536585, -24.146341, -19.756098, -15.365854,
        -10.97561 ,  -6.585366,  -2.195122,   2.195122,   6.585366,  10.97561 ,
         15.365854,  19.756098,  24.146341,  28.536585,  32.926829,  37.317073,
         41.707317,  46.097561,  50.487805,  54.878049,  59.268293,  63.658537,
-        68.04878 ,  72.439024,  76.829268,  81.219512,  85.609756,  90.      ])</pre></div></li></ul></div></li><li class='xr-section-item'><input id='section-fb0a6c35-2a54-41a8-a6ce-2a5c70440879' class='xr-section-summary-in' type='checkbox' disabled ><label for='section-fb0a6c35-2a54-41a8-a6ce-2a5c70440879' class='xr-section-summary'  title='Expand/collapse section'>Attributes: <span>(0)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><dl class='xr-attrs'></dl></div></li></ul></div></div></div>
+        68.04878 ,  72.439024,  76.829268,  81.219512,  85.609756,  90.      ])</pre></div></li></ul></div></li><li class='xr-section-item'><input id='section-5baf2592-ca6d-4d82-9820-bea57da2f907' class='xr-section-summary-in' type='checkbox' disabled ><label for='section-5baf2592-ca6d-4d82-9820-bea57da2f907' class='xr-section-summary'  title='Expand/collapse section'>Attributes: <span>(0)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><dl class='xr-attrs'></dl></div></li></ul></div></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[23]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">job</span><span class="o">.</span><span class="n">prior</span><span class="p">[</span><span class="s1">&#39;tas&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
@@ -2432,14 +2579,14 @@ Coordinates:
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_lmr-workflow_31_0.png" src="../_images/notebooks_lmr-workflow_31_0.png" />
+<img alt="../_images/notebooks_lmr-basics_33_0.png" src="../_images/notebooks_lmr-basics_33_0.png" />
 </div>
 </div>
 </section>
 <section id="Crop-the-prior">
 <h2>Crop the prior<a class="headerlink" href="#Crop-the-prior" title="Permalink to this headline">#</a></h2>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[23]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[24]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># let&#39;s backup our prior</span>
@@ -2448,7 +2595,7 @@ Coordinates:
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[24]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[25]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># just for a test</span>
@@ -2474,11 +2621,11 @@ Coordinates:
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_lmr-workflow_34_1.png" src="../_images/notebooks_lmr-workflow_34_1.png" />
+<img alt="../_images/notebooks_lmr-basics_36_1.png" src="../_images/notebooks_lmr-basics_36_1.png" />
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[25]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[26]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># let&#39;s recover our prior and remove the items in the configs</span>
@@ -2504,11 +2651,11 @@ Coordinates:
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_lmr-workflow_35_1.png" src="../_images/notebooks_lmr-workflow_35_1.png" />
+<img alt="../_images/notebooks_lmr-basics_37_1.png" src="../_images/notebooks_lmr-basics_37_1.png" />
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[26]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[27]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">job</span><span class="o">.</span><span class="n">configs</span>
@@ -2516,7 +2663,7 @@ Coordinates:
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[26]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[27]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
@@ -2609,7 +2756,7 @@ Coordinates:
 <section id="Saving-the-job-object">
 <h2>Saving the <code class="docutils literal notranslate"><span class="pre">job</span></code> object<a class="headerlink" href="#Saving-the-job-object" title="Permalink to this headline">#</a></h2>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[27]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[28]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">job</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">save_dirpath</span><span class="o">=</span><span class="s1">&#39;./data/exp_test&#39;</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
@@ -2629,7 +2776,7 @@ Coordinates:
 <section id="Load-the-job-object">
 <h2>Load the <code class="docutils literal notranslate"><span class="pre">job</span></code> object<a class="headerlink" href="#Load-the-job-object" title="Permalink to this headline">#</a></h2>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[29]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
@@ -2639,7 +2786,7 @@ Coordinates:
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[29]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
@@ -2735,7 +2882,7 @@ Coordinates:
 <section id="Randomly-pick-proxy-records">
 <h3>Randomly pick proxy records<a class="headerlink" href="#Randomly-pick-proxy-records" title="Permalink to this headline">#</a></h3>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[30]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">job</span><span class="o">.</span><span class="n">split_proxydb</span><span class="p">(</span><span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
@@ -2753,7 +2900,7 @@ Coordinates:
 </pre></div></div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[31]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">solver</span> <span class="o">=</span> <span class="n">cfr</span><span class="o">.</span><span class="n">EnKF</span><span class="p">(</span><span class="n">job</span><span class="o">.</span><span class="n">prior</span><span class="p">,</span> <span class="n">job</span><span class="o">.</span><span class="n">proxydb</span><span class="p">)</span>
@@ -2761,7 +2908,7 @@ Coordinates:
 </div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[32]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">solver</span><span class="o">.</span><span class="n">gen_Ye</span><span class="p">()</span>
@@ -2769,7 +2916,7 @@ Coordinates:
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[33]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">solver</span><span class="o">.</span><span class="n">Ye_df</span><span class="p">[</span><span class="s1">&#39;assim&#39;</span><span class="p">]</span>
@@ -2777,7 +2924,7 @@ Coordinates:
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[33]:
 </pre></div>
 </div>
 <div class="output_area rendered_html docutils container">
@@ -3093,7 +3240,7 @@ Coordinates:
 </div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[34]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">solver</span><span class="o">.</span><span class="n">prior_sample_years</span>
@@ -3101,7 +3248,7 @@ Coordinates:
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[34]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
@@ -3121,7 +3268,7 @@ array([1638., 1711.,  932., 1380., 1897., 1845., 1679., 1471., 1826.,
 </pre></div></div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[35]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">solver</span><span class="o">.</span><span class="n">gen_Xb</span><span class="p">()</span>
@@ -3129,10 +3276,11 @@ array([1638., 1711.,  932., 1380., 1897., 1845., 1679., 1471., 1826.,
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[36]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">solver</span><span class="o">.</span><span class="n">Xb</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">solver</span><span class="o">.</span><span class="n">Xb_aug</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">solver</span><span class="o">.</span><span class="n">Xb_var_irow</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -3143,7 +3291,79 @@ array([1638., 1711.,  932., 1380., 1897., 1845., 1679., 1471., 1826.,
 <div class="output_area docutils container">
 <div class="highlight"><pre>
 (2646, 100)
+(2706, 100)
 {&#39;tas&#39;: [0, 2645]}
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[37]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="c1"># fig, ax = job.proxydb.records[&#39;Ocn_103&#39;].plot()</span>
+<span class="c1"># for t in job.proxydb.records[&#39;Ocn_103&#39;].time:</span>
+<span class="c1">#     print(t)</span>
+<span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">job</span><span class="o">.</span><span class="n">proxydb</span><span class="o">.</span><span class="n">records</span><span class="p">[</span><span class="s1">&#39;Ocn_103&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">value</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">v</span><span class="p">):</span> <span class="nb">print</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[38]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">Xb</span> <span class="o">=</span> <span class="n">solver</span><span class="o">.</span><span class="n">update_yr</span><span class="p">(</span><span class="mi">961</span><span class="p">,</span> <span class="n">debug</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[39]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">solver</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+KF updating: 100%|██████████| 2000/2000 [00:46&lt;00:00, 42.68it/s]
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[46]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">job</span><span class="o">.</span><span class="n">run_da</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+KF updating: 100%|██████████| 2001/2001 [01:17&lt;00:00, 25.76it/s]
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[43]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">job</span><span class="o">.</span><span class="n">recon_fields</span><span class="p">[</span><span class="s1">&#39;tas&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[43]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+(2001, 100, 42, 63)
 </pre></div></div>
 </div>
 <div class="nbinput nblast docutils container">
@@ -3173,10 +3393,10 @@ array([1638., 1711.,  932., 1380., 1897., 1845., 1679., 1471., 1826.,
             <p class="prev-next-title">LMR</p>
         </div>
     </a>
-    <a class='right-next' id="next-link" href="../ug-api.html" title="next page">
+    <a class='right-next' id="next-link" href="lmr-cfg.html" title="next page">
     <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">API Reference</p>
+        <p class="prev-next-title">Run the job based on the configurations in a YAML file</p>
     </div>
     <i class="fas fa-angle-right"></i>
     </a>

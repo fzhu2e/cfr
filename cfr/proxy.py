@@ -527,19 +527,16 @@ class ProxyDatabase:
         return new
 
     def filter(self, by, keys):
-        ''' Filter the proxy database according to given ptype list
+        ''' Filter the proxy database according to given ptype list.
 
-        Parameters
-        ----------
-        by : str
-            filter by a keyword {'ptype', 'pid', 'lat', 'lon', 'loc', 'tag'}
+        Args:
+            by (str): filter by a keyword {'ptype', 'pid', 'lat', 'lon', 'loc', 'tag'}
+            keys (set): a set of keywords
 
-        keys : set
-            | a set of keywords
-            | For by = 'ptype' or 'pid', keys take a fuzzy match
-            | For by = 'lat' or 'lon', keys = (lat_min, lat_max) or (lon_min, lon_max)
-            | For by = 'loc-squre', keys = (lat_min, lat_max, lon_min, lon_max)
-            | For by = 'loc-circle', keys = (center_lat, center_lon, distance)
+                * For `by = 'ptype' or 'pid'`, keys take a fuzzy match
+                * For `by = 'lat' or 'lon'`, keys = (lat_min, lat_max) or (lon_min, lon_max)
+                * For `by = 'loc-squre'`, keys = (lat_min, lat_max, lon_min, lon_max)
+                * For `by = 'loc-circle'`, keys = (center_lat, center_lon, distance)
 
         '''
         if isinstance(keys, str): keys = [keys]
@@ -582,6 +579,12 @@ class ProxyDatabase:
         return new_db
 
     def nrec_tags(self, keys):
+        ''' Check the number of tagged records.
+
+        Args:
+            keys (list): list of tag strings
+
+        '''
         nrec = 0
         if isinstance(keys, str): keys = [keys]
         keys = set(keys)
@@ -592,6 +595,10 @@ class ProxyDatabase:
         return nrec
 
     def plot(self, **kws):
+        '''Visualize the proxy database.
+
+        See :py:func:`cfr.visual.plot_proxies()` for more information.
+        '''
 
         time_list = []
         for pid, pobj in self.records.items():

@@ -345,6 +345,12 @@ def plot_proxies(df, year=np.arange(2001), lon_col='lon', lat_col='lat', type_co
                  lgd_ncol=None, lgd_anchor_upper=(1, 0), lgd_anchor_lower=(1, -0.05),lgd_frameon=False,
                  enumerate_ax=False, enumerate_prop={'weight': 'bold', 'size': 30}, p=STYLE, stock_img=True,
                  enumerate_anchor_map=[0, 1], enumerate_anchor_count=[0, 1], map_grid_idx=0, count_grid_idx=-1):
+    ''' Visualize proxies.
+
+    Args:
+        df (pandas.DataFrame): proxy database in `pandas.DataFrame`.
+
+    '''
 
     fig = plt.figure(figsize=figsize)
 

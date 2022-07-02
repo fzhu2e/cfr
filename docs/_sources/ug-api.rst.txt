@@ -55,3 +55,15 @@ GraphEM
 
 .. autoclass:: cfr.graphem.solver.GraphEM
     :members:
+
+ReconJob
+--------
+
+.. autoclass:: cfr.reconjob.ReconJob
+    :members:
+
+Visual
+--------
+
+.. autoclass:: cfr.visual.plot_proxies
+    :members:

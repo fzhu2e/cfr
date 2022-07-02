@@ -10,30 +10,27 @@
     "%autoreload 2\n",
     "\n",
     "\n",
-    "import cfr\n",
-    "import xarray as xr\n",
-    "import numpy as np\n",
-    "import pandas as pd"
+    "import cfr"
    ]
   },
   {
    "cell_type": "code",
-   "execution_count": 2,
+   "execution_count": 3,
    "metadata": {},
    "outputs": [
     {
      "data": {
       "text/plain": [
-       "<module 'cfr.graphem' from '/Users/fzhu/Github/cfr/cfr/graphem/__init__.py'>"
+       "<module 'cfr.da.enkf' from '/Users/fzhu/Github/cfr/cfr/da/enkf.py'>"
       ]
      },
-     "execution_count": 2,
+     "execution_count": 3,
      "metadata": {},
      "output_type": "execute_result"
     }
    ],
    "source": [
-    "cfr.graphem"
+    "cfr.da.enkf"
    ]
   },
   {

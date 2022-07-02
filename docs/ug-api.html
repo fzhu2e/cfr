@@ -480,6 +480,16 @@ title="Print to PDF"
    GraphEM
   </a>
  </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#reconjob">
+   ReconJob
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#visual">
+   Visual
+  </a>
+ </li>
 </ul>
 
     </nav>
@@ -522,6 +532,16 @@ title="Print to PDF"
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#graphem">
    GraphEM
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#reconjob">
+   ReconJob
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#visual">
+   Visual
   </a>
  </li>
 </ul>
@@ -630,18 +650,18 @@ if timespan = [a, b, c, d], then the sliced output includes segment [a, b] and s
 <dl class="py method">
 <dt class="sig sig-object py" id="cfr.proxy.ProxyDatabase.filter">
 <span class="sig-name descname"><span class="pre">filter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">by</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">keys</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.proxy.ProxyDatabase.filter" title="Permalink to this definition">#</a></dt>
-<dd><p>Filter the proxy database according to given ptype list</p>
+<dd><p>Filter the proxy database according to given ptype list.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>by</strong> (<em>str</em>) – filter by a keyword {‘ptype’, ‘pid’, ‘lat’, ‘lon’, ‘loc’, ‘tag’}</p></li>
-<li><p><strong>keys</strong> (<em>set</em>) – <div class="line-block">
-<div class="line">a set of keywords</div>
-<div class="line">For by = ‘ptype’ or ‘pid’, keys take a fuzzy match</div>
-<div class="line">For by = ‘lat’ or ‘lon’, keys = (lat_min, lat_max) or (lon_min, lon_max)</div>
-<div class="line">For by = ‘loc-squre’, keys = (lat_min, lat_max, lon_min, lon_max)</div>
-<div class="line">For by = ‘loc-circle’, keys = (center_lat, center_lon, distance)</div>
-</div>
+<li><p><strong>keys</strong> (<em>set</em>) – <p>a set of keywords</p>
+<ul>
+<li><p>For <cite>by = ‘ptype’ or ‘pid’</cite>, keys take a fuzzy match</p></li>
+<li><p>For <cite>by = ‘lat’ or ‘lon’</cite>, keys = (lat_min, lat_max) or (lon_min, lon_max)</p></li>
+<li><p>For <cite>by = ‘loc-squre’</cite>, keys = (lat_min, lat_max, lon_min, lon_max)</p></li>
+<li><p>For <cite>by = ‘loc-circle’</cite>, keys = (center_lat, center_lon, distance)</p></li>
+</ul>
 </p></li>
 </ul>
 </dd>
@@ -677,6 +697,24 @@ the default is by multiprocessing.cpu_count()</p></li>
 </dl>
 </dd></dl>
 
+<dl class="py method">
+<dt class="sig sig-object py" id="cfr.proxy.ProxyDatabase.nrec_tags">
+<span class="sig-name descname"><span class="pre">nrec_tags</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">keys</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.proxy.ProxyDatabase.nrec_tags" title="Permalink to this definition">#</a></dt>
+<dd><p>Check the number of tagged records.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>keys</strong> (<em>list</em>) – list of tag strings</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cfr.proxy.ProxyDatabase.plot">
+<span class="sig-name descname"><span class="pre">plot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kws</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.proxy.ProxyDatabase.plot" title="Permalink to this definition">#</a></dt>
+<dd><p>Visualize the proxy database.</p>
+<p>See <a class="reference internal" href="#cfr.visual.plot_proxies" title="cfr.visual.plot_proxies"><code class="xref py py-func docutils literal notranslate"><span class="pre">cfr.visual.plot_proxies()</span></code></a> for more information.</p>
+</dd></dl>
+
 </dd></dl>
 
 </section>
@@ -685,14 +723,14 @@ the default is by multiprocessing.cpu_count()</p></li>
 <dl class="py class">
 <dt class="sig sig-object py" id="cfr.climate.ClimateField">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cfr.climate.</span></span><span class="sig-name descname"><span class="pre">ClimateField</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">da</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lat_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lon_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.climate.ClimateField" title="Permalink to this definition">#</a></dt>
-<dd><p>The class for the gridded climate field data</p>
+<dd><p>The class for the gridded climate field data.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>da</strong> (<em>xarray.DataArray</em>) – the gridded data array</p></li>
-<li><p><strong>time_name</strong> (<em>str</em>) – the name of the time dimension</p></li>
-<li><p><strong>lat_name</strong> (<em>str</em>) – the name of the latitude dimension</p></li>
-<li><p><strong>lon_name</strong> (<em>str</em>) – the name of the longitude dimension</p></li>
+<li><p><strong>da</strong> (<em>xarray.DataArray</em>) – the gridded data array.</p></li>
+<li><p><strong>time_name</strong> (<em>str</em>) – the name of the time dimension.</p></li>
+<li><p><strong>lat_name</strong> (<em>str</em>) – the name of the latitude dimension.</p></li>
+<li><p><strong>lon_name</strong> (<em>str</em>) – the name of the longitude dimension.</p></li>
 </ul>
 </dd>
 </dl>
@@ -942,6 +980,407 @@ used if graph_method = ‘neighborhood’.</p></li>
 </dl>
 </dd></dl>
 
+</dd></dl>
+
+</section>
+<section id="reconjob">
+<h2>ReconJob<a class="headerlink" href="#reconjob" title="Permalink to this headline">#</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="cfr.reconjob.ReconJob">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cfr.reconjob.</span></span><span class="sig-name descname"><span class="pre">ReconJob</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">configs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.reconjob.ReconJob" title="Permalink to this definition">#</a></dt>
+<dd><p>The class for a reconstruction Job.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>configs</strong> (<em>dict</em><em>, </em><em>optional</em>) – a dictionary of configurations. Defaults to None.</p></li>
+<li><p><strong>verbose</strong> (<em>bool</em><em>, </em><em>optional</em>) – print verbose information. Defaults to False.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="cfr.reconjob.ReconJob.annualize_clim">
+<span class="sig-name descname"><span class="pre">annualize_clim</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tag</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">months</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.reconjob.ReconJob.annualize_clim" title="Permalink to this definition">#</a></dt>
+<dd><p>Annualize the grided climate data, either model simulations or instrumental observations.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>tag</strong> (<em>str</em>) – the tag to denote identity; either ‘prior’ or ‘obs.</p></li>
+<li><p><strong>months</strong> (<em>list</em>) – the list of months for annualization.</p></li>
+<li><p><strong>verbose</strong> (<em>bool</em><em>, </em><em>optional</em>) – print verbose information. Defaults to False.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cfr.reconjob.ReconJob.annualize_proxydb">
+<span class="sig-name descname"><span class="pre">annualize_proxydb</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">months</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ptypes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inplace</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.reconjob.ReconJob.annualize_proxydb" title="Permalink to this definition">#</a></dt>
+<dd><p>Annualize the proxy database.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>months</strong> (<em>list</em>) – the list of months for annualization.</p></li>
+<li><p><strong>ptypes</strong> (<em>list</em>) – the list of proxy types.</p></li>
+<li><p><strong>inplace</strong> (<em>bool</em>) – if True, the annualized proxy database will replace the current <cite>self.proxydb</cite>.</p></li>
+<li><p><strong>verbose</strong> (<em>bool</em><em>, </em><em>optional</em>) – print verbose information. Defaults to False.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cfr.reconjob.ReconJob.calib_psms">
+<span class="sig-name descname"><span class="pre">calib_psms</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ptype_psm_dict</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ptype_season_dict</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">calib_period</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_predefined_R</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.reconjob.ReconJob.calib_psms" title="Permalink to this definition">#</a></dt>
+<dd><p>Calibrate the PSMs.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ptype_psm_dict</strong> (<em>dict</em>) – the dictionary to denote the PSM for each proxy type.</p></li>
+<li><p><strong>ptype_season_dict</strong> (<em>dict</em>) – the dictionary to denote the seasonality for each proxy type.</p></li>
+<li><p><strong>calib_period</strong> (<em>tuple</em><em> or </em><em>list</em>) – the time period for calibration.</p></li>
+<li><p><strong>use_predefined_R</strong> (<em>bool</em>) – use the predefined observation error covariance instead of by calibration.</p></li>
+<li><p><strong>verbose</strong> (<em>bool</em><em>, </em><em>optional</em>) – print verbose information. Defaults to False.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cfr.reconjob.ReconJob.clear_proxydb_tags">
+<span class="sig-name descname"><span class="pre">clear_proxydb_tags</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.reconjob.ReconJob.clear_proxydb_tags" title="Permalink to this definition">#</a></dt>
+<dd><p>Clear the tags for each proxy record in the proxy database.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>verbose</strong> (<em>bool</em><em>, </em><em>optional</em>) – print verbose information. Defaults to False.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cfr.reconjob.ReconJob.copy">
+<span class="sig-name descname"><span class="pre">copy</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#cfr.reconjob.ReconJob.copy" title="Permalink to this definition">#</a></dt>
+<dd><p>Make a deep copy of the object itself.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cfr.reconjob.ReconJob.crop_clim">
+<span class="sig-name descname"><span class="pre">crop_clim</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tag</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lat_min</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lat_max</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lon_min</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lon_max</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.reconjob.ReconJob.crop_clim" title="Permalink to this definition">#</a></dt>
+<dd><p>Crop the grided climate data, either model simulations or instrumental observations.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>tag</strong> (<em>str</em>) – the tag to denote identity; either ‘prior’ or ‘obs.</p></li>
+<li><p><strong>lat_min</strong> (<em>float</em>) – the minimum latitude of the cropped grid.</p></li>
+<li><p><strong>lat_max</strong> (<em>float</em>) – the maximum latitude of the cropped grid.</p></li>
+<li><p><strong>lon_min</strong> (<em>float</em>) – the minimum longitude of the cropped grid.</p></li>
+<li><p><strong>lon_max</strong> (<em>float</em>) – the maximum longitude of the cropped grid.</p></li>
+<li><p><strong>verbose</strong> (<em>bool</em><em>, </em><em>optional</em>) – print verbose information. Defaults to False.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cfr.reconjob.ReconJob.erase_cfg">
+<span class="sig-name descname"><span class="pre">erase_cfg</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">keys</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.reconjob.ReconJob.erase_cfg" title="Permalink to this definition">#</a></dt>
+<dd><p>Erase configuration items from <cite>self.configs</cite>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>keys</strong> (<em>list</em>) – a list of configuration item strings.</p></li>
+<li><p><strong>verbose</strong> (<em>bool</em><em>, </em><em>optional</em>) – print verbose information. Defaults to False.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cfr.reconjob.ReconJob.filter_proxydb">
+<span class="sig-name descname"><span class="pre">filter_proxydb</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inplace</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.reconjob.ReconJob.filter_proxydb" title="Permalink to this definition">#</a></dt>
+<dd><p>Filter the proxy database.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>inplace</strong> (<em>bool</em>) – if True, the annualized proxy database will replace the current <cite>self.proxydb</cite>.</p></li>
+<li><p><strong>verbose</strong> (<em>bool</em><em>, </em><em>optional</em>) – print verbose information. Defaults to False.</p></li>
+</ul>
+</dd>
+</dl>
+<p>See <a class="reference internal" href="#cfr.proxy.ProxyDatabase.filter" title="cfr.proxy.ProxyDatabase.filter"><code class="xref py py-mod docutils literal notranslate"><span class="pre">cfr.proxy.ProxyDatabase.filter()</span></code></a> for more information.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cfr.reconjob.ReconJob.forward_psms">
+<span class="sig-name descname"><span class="pre">forward_psms</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.reconjob.ReconJob.forward_psms" title="Permalink to this definition">#</a></dt>
+<dd><p>Forward the PSMs.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>verbose</strong> (<em>bool</em><em>, </em><em>optional</em>) – print verbose information. Defaults to False.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cfr.reconjob.ReconJob.io_cfg">
+<span class="sig-name descname"><span class="pre">io_cfg</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">k</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">v</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">default</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.reconjob.ReconJob.io_cfg" title="Permalink to this definition">#</a></dt>
+<dd><p>Add-to or read-from configurations.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>k</strong> (<em>str</em>) – the name of a configuration item</p></li>
+<li><p><strong>v</strong> (<em>object</em>) – any value of the configuration item</p></li>
+<li><p><strong>default</strong> (<em>object</em>) – the default value of the configuration item</p></li>
+<li><p><strong>verbose</strong> (<em>bool</em><em>, </em><em>optional</em>) – print verbose information. Defaults to False.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cfr.reconjob.ReconJob.load">
+<span class="sig-name descname"><span class="pre">load</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">save_dirpath</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'job.pkl'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.reconjob.ReconJob.load" title="Permalink to this definition">#</a></dt>
+<dd><p>Load a ReconJob object from a pickle file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>save_dirpath</strong> (<em>str</em>) – the directory path for saving the <code class="xref py py-mod docutils literal notranslate"><span class="pre">cfr.ReconJob</span></code> object.</p></li>
+<li><p><strong>filename</strong> (<em>str</em>) – the filename of the to-be-saved <code class="xref py py-mod docutils literal notranslate"><span class="pre">cfr.ReconJob</span></code> object.</p></li>
+<li><p><strong>verbose</strong> (<em>bool</em><em>, </em><em>optional</em>) – print verbose information. Defaults to False.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cfr.reconjob.ReconJob.load_clim">
+<span class="sig-name descname"><span class="pre">load_clim</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tag</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path_dict</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rename_dict</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">anom_period</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lon_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.reconjob.ReconJob.load_clim" title="Permalink to this definition">#</a></dt>
+<dd><p>Load grided climate data, either model simulations or instrumental observations.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>tag</strong> (<em>str</em>) – the tag to denote identity; either ‘prior’ or ‘obs.</p></li>
+<li><p><strong>path_dict</strong> (<em>dict</em>) – the dictionary of paths of climate data files with keys to be the variable names,
+e.g., ‘tas’ and ‘pr’, etc.</p></li>
+<li><p><strong>rename_dict</strong> (<em>dict</em>) – the dictionary for renaming the variable names in the climate data files.</p></li>
+<li><p><strong>anom_period</strong> (<em>tuple</em><em> or </em><em>list</em>) – the time period for computing the anomaly.</p></li>
+<li><p><strong>time_name</strong> (<em>str</em>) – the name of the time dimension in the climate data files.</p></li>
+<li><p><strong>lon_name</strong> (<em>str</em>) – the name of the longitude dimension in the climate data files.</p></li>
+<li><p><strong>verbose</strong> (<em>bool</em><em>, </em><em>optional</em>) – print verbose information. Defaults to False.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cfr.reconjob.ReconJob.load_proxydb">
+<span class="sig-name descname"><span class="pre">load_proxydb</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.reconjob.ReconJob.load_proxydb" title="Permalink to this definition">#</a></dt>
+<dd><p>Load the proxy database from a <cite>pandas.DataFrame</cite>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>path</strong> (<em>str</em><em>, </em><em>optional</em>) – the path to the pickle file of the <cite>pandas.DataFrame</cite>. Defaults to None.</p></li>
+<li><p><strong>verbose</strong> (<em>bool</em><em>, </em><em>optional</em>) – print verbose information. Defaults to False.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cfr.reconjob.ReconJob.mark_pids">
+<span class="sig-name descname"><span class="pre">mark_pids</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.reconjob.ReconJob.mark_pids" title="Permalink to this definition">#</a></dt>
+<dd><p>Mark proxy IDs to <cite>self.configs</cite>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>verbose</strong> (<em>bool</em><em>, </em><em>optional</em>) – print verbose information. Defaults to False.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cfr.reconjob.ReconJob.prepare_cfg">
+<span class="sig-name descname"><span class="pre">prepare_cfg</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cfg_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seeds</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.reconjob.ReconJob.prepare_cfg" title="Permalink to this definition">#</a></dt>
+<dd><p>Prepare the configuration items.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>cfg_path</strong> (<em>str</em>) – the path of the configuration YAML file.</p></li>
+<li><p><strong>seeds</strong> (<em>list</em><em>, </em><em>optional</em>) – the list of random seeds.</p></li>
+<li><p><strong>verbose</strong> (<em>bool</em><em>, </em><em>optional</em>) – print verbose information. Defaults to False.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cfr.reconjob.ReconJob.regrid_clim">
+<span class="sig-name descname"><span class="pre">regrid_clim</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tag</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lats</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lons</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nlat</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nlon</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">periodic_lon</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.reconjob.ReconJob.regrid_clim" title="Permalink to this definition">#</a></dt>
+<dd><p>Regrid the grided climate data, either model simulations or instrumental observations.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>tag</strong> (<em>str</em>) – the tag to denote identity; either ‘prior’ or ‘obs.</p></li>
+<li><p><strong>lats</strong> (<em>list</em><em> or </em><em>numpy.array</em>) – the latitudes of the regridded grid.</p></li>
+<li><p><strong>lons</strong> (<em>list</em><em> or </em><em>numpy.array</em>) – the longitudes of the regridded grid.</p></li>
+<li><p><strong>nlat</strong> (<em>int</em>) – the number of latitudes of the regridded grid; effective when <cite>lats = None</cite>.</p></li>
+<li><p><strong>nlon</strong> (<em>int</em>) – the number of longitudes of the regridded grid; effective when <cite>lons = None</cite>..</p></li>
+<li><p><strong>periodic_lon</strong> (<em>bool</em>) – if True, then assume the original longitudes form a loop.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cfr.reconjob.ReconJob.run_da">
+<span class="sig-name descname"><span class="pre">run_da</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">recon_period</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">recon_loc_rad</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">recon_timescale</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">recon_sampling_mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">recon_sampling_dist</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">normal_sampling_sigma</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">normal_sampling_cutoff_factor</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nens</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">debug</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.reconjob.ReconJob.run_da" title="Permalink to this definition">#</a></dt>
+<dd><p>Run the data assimilation workflows.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>recon_period</strong> (<em>tuple</em><em> or </em><em>list</em>) – the time period for reconstruction.</p></li>
+<li><p><strong>recon_loc_rad</strong> (<em>float</em>) – the localization radius; unit: km.</p></li>
+<li><p><strong>recon_timescale</strong> (<em>int</em><em> or </em><em>float</em>) – the timescale for reconstruction.</p></li>
+<li><p><strong>recon_sampling_mode</strong> (<em>str</em>) – ‘fixed’ or ‘rolling’ window for prior sampling.</p></li>
+<li><p><strong>recon_sampling_dist</strong> (<em>str</em>) – ‘normal’ or ‘uniform’ distribution for prior sampling.</p></li>
+<li><p><strong>normal_sampling_sigma</strong> (<em>str</em>) – the standard deviation of the normal distribution for prior sampling.</p></li>
+<li><p><strong>normal_sampling_cutoff_factor</strong> (<em>int</em>) – the cutoff factor for the window for prior sampling.</p></li>
+<li><p><strong>nens</strong> (<em>int</em>) – the ensemble size.</p></li>
+<li><p><strong>seed</strong> (<em>int</em>) – the random seed.</p></li>
+<li><p><strong>verbose</strong> (<em>bool</em><em>, </em><em>optional</em>) – print verbose information. Defaults to False.</p></li>
+<li><p><strong>debug</strong> (<em>bool</em>) – if True, the debug mode is turned on and more information will be printed out.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cfr.reconjob.ReconJob.run_mc">
+<span class="sig-name descname"><span class="pre">run_mc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">recon_period=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">recon_loc_rad=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">recon_timescale=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nens=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_full_ens=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_dtype=&lt;class</span> <span class="pre">'numpy.float32'&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">recon_sampling_mode=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">recon_sampling_dist=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">normal_sampling_sigma=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">normal_sampling_cutoff_factor=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">recon_seeds=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">assim_frac=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_dirpath=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">compress_params=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose=False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.reconjob.ReconJob.run_mc" title="Permalink to this definition">#</a></dt>
+<dd><p>Run the Monte-Carlo iterations of data assimilation workflows.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>recon_period</strong> (<em>tuple</em><em> or </em><em>list</em>) – the time period for reconstruction.</p></li>
+<li><p><strong>recon_loc_rad</strong> (<em>float</em>) – the localization radius; unit: km.</p></li>
+<li><p><strong>recon_timescale</strong> (<em>int</em><em> or </em><em>float</em>) – the timescale for reconstruction.</p></li>
+<li><p><strong>recon_sampling_mode</strong> (<em>str</em>) – ‘fixed’ or ‘rolling’ window for prior sampling.</p></li>
+<li><p><strong>recon_sampling_dist</strong> (<em>str</em>) – ‘normal’ or ‘uniform’ distribution for prior sampling.</p></li>
+<li><p><strong>normal_sampling_sigma</strong> (<em>str</em>) – the standard deviation of the normal distribution for prior sampling.</p></li>
+<li><p><strong>normal_sampling_cutoff_factor</strong> (<em>int</em>) – the cutoff factor for the window for prior sampling.</p></li>
+<li><p><strong>output_full_ens</strong> (<em>bool</em>) – if True, the full ensemble fields will be stored to netCDF files.</p></li>
+<li><p><strong>save_dtype</strong> (<em>object</em>) – the data type used for storing the reconstruction results.</p></li>
+<li><p><strong>nens</strong> (<em>int</em>) – the ensemble size.</p></li>
+<li><p><strong>recon_seed</strong> (<em>int</em>) – the random seeds.</p></li>
+<li><p><strong>assim_frac</strong> (<em>float</em><em>, </em><em>optional</em>) – the fraction of proxies for assimilation. Defaults to None.</p></li>
+<li><p><strong>verbose</strong> (<em>bool</em><em>, </em><em>optional</em>) – print verbose information. Defaults to False.</p></li>
+<li><p><strong>save_dirpath</strong> (<em>str</em>) – the directory path for saving the reconstruction results.</p></li>
+<li><p><strong>compress_params</strong> (<em>dict</em>) – the paramters for compression when storing the reconstruction results to netCDF files.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cfr.reconjob.ReconJob.save">
+<span class="sig-name descname"><span class="pre">save</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">save_dirpath</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'job.pkl'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.reconjob.ReconJob.save" title="Permalink to this definition">#</a></dt>
+<dd><p>Save the ReconJob object to a pickle file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>save_dirpath</strong> (<em>str</em>) – the directory path for saving the <code class="xref py py-mod docutils literal notranslate"><span class="pre">cfr.ReconJob</span></code> object.</p></li>
+<li><p><strong>filename</strong> (<em>str</em>) – the filename of the to-be-saved <code class="xref py py-mod docutils literal notranslate"><span class="pre">cfr.ReconJob</span></code> object.</p></li>
+<li><p><strong>verbose</strong> (<em>bool</em><em>, </em><em>optional</em>) – print verbose information. Defaults to False.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cfr.reconjob.ReconJob.save_cfg">
+<span class="sig-name descname"><span class="pre">save_cfg</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">save_dirpath</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.reconjob.ReconJob.save_cfg" title="Permalink to this definition">#</a></dt>
+<dd><p>Save <cite>self.configs</cite> to a directory.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>save_dirpath</strong> (<em>str</em>) – the directory path for saving <cite>self.configs</cite>.
+The filename will be <cite>configs.yml</cite>.</p></li>
+<li><p><strong>verbose</strong> (<em>bool</em><em>, </em><em>optional</em>) – print verbose information. Defaults to False.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cfr.reconjob.ReconJob.save_recon">
+<span class="sig-name descname"><span class="pre">save_recon</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">save_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">compress_params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_full_ens</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_indices</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.reconjob.ReconJob.save_recon" title="Permalink to this definition">#</a></dt>
+<dd><p>Save the reconstruction results.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>save_path</strong> (<em>str</em>) – the path for saving the reconstruciton results.</p></li>
+<li><p><strong>verbose</strong> (<em>bool</em><em>, </em><em>optional</em>) – print verbose information. Defaults to False.</p></li>
+<li><p><strong>output_full_ens</strong> (<em>bool</em>) – if True, the full ensemble fields will be stored to netCDF files.</p></li>
+<li><p><strong>output_indices</strong> (<em>list</em>) – <p>the list of indices to output; supported indices:</p>
+<ul>
+<li><p>’nino3.4’</p></li>
+<li><p>’nino1+2’</p></li>
+<li><p>’nino3’</p></li>
+<li><p>’nino4’</p></li>
+<li><p>’tpi’</p></li>
+<li><p>’wp’</p></li>
+</ul>
+</p></li>
+<li><p><strong>compress_params</strong> (<em>dict</em>) – the paramters for compression when storing the reconstruction results to netCDF files.</p></li>
+<li><p><strong>verbose</strong> – print verbose information. Defaults to False.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cfr.reconjob.ReconJob.split_proxydb">
+<span class="sig-name descname"><span class="pre">split_proxydb</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tag</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'calibrated'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">assim_frac</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.reconjob.ReconJob.split_proxydb" title="Permalink to this definition">#</a></dt>
+<dd><p>Split the proxy database.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>tag</strong> (<em>str</em><em>, </em><em>optional</em>) – the tag for filtering the proxy database. Defaults to ‘calibrated’.</p></li>
+<li><p><strong>assim_frac</strong> (<em>float</em><em>, </em><em>optional</em>) – the fraction of proxies for assimilation. Defaults to None.</p></li>
+<li><p><strong>seed</strong> (<em>int</em><em>, </em><em>optional</em>) – random seed. Defaults to 0.</p></li>
+<li><p><strong>verbose</strong> (<em>bool</em><em>, </em><em>optional</em>) – print verbose information. Defaults to False.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cfr.reconjob.ReconJob.write_cfg">
+<span class="sig-name descname"><span class="pre">write_cfg</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">k</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">v</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.reconjob.ReconJob.write_cfg" title="Permalink to this definition">#</a></dt>
+<dd><p>Right a configurations item to <cite>self.configs</cite>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>k</strong> (<em>str</em>) – the name of a configuration item</p></li>
+<li><p><strong>v</strong> (<em>object</em>) – any value of the configuration item</p></li>
+<li><p><strong>verbose</strong> (<em>bool</em><em>, </em><em>optional</em>) – print verbose information. Defaults to False.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="visual">
+<h2>Visual<a class="headerlink" href="#visual" title="Permalink to this headline">#</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="cfr.visual.plot_proxies">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cfr.visual.</span></span><span class="sig-name descname"><span class="pre">plot_proxies</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">df,</span> <span class="pre">year=array([</span>&#160;&#160; <span class="pre">0,</span>&#160;&#160;&#160; <span class="pre">1,</span>&#160;&#160;&#160; <span class="pre">2,</span> <span class="pre">...,</span> <span class="pre">1998,</span> <span class="pre">1999,</span> <span class="pre">2000]),</span> <span class="pre">lon_col='lon',</span> <span class="pre">lat_col='lat',</span> <span class="pre">type_col='type',</span> <span class="pre">time_col='time',</span> <span class="pre">title=None,</span> <span class="pre">title_weight='normal',</span> <span class="pre">markers_dict=None,</span> <span class="pre">colors_dict=None,</span> <span class="pre">plot_timespan=None,</span> <span class="pre">plot_xticks=[850,</span> <span class="pre">1000,</span> <span class="pre">1200,</span> <span class="pre">1400,</span> <span class="pre">1600,</span> <span class="pre">1800,</span> <span class="pre">2000],</span> <span class="pre">figsize=[10,</span> <span class="pre">10],</span> <span class="pre">projection='Robinson',</span> <span class="pre">proj_args=None,</span> <span class="pre">central_longitude=180,</span> <span class="pre">markersize=50,</span> <span class="pre">plot_count=False,</span> <span class="pre">nrow=2,</span> <span class="pre">ncol=1,</span> <span class="pre">wspace=0.5,</span> <span class="pre">hspace=0.3,</span> <span class="pre">lgd_ncol=None,</span> <span class="pre">lgd_anchor_upper=(1,</span> <span class="pre">0),</span> <span class="pre">lgd_anchor_lower=(1,</span> <span class="pre">-0.05),</span> <span class="pre">lgd_frameon=False,</span> <span class="pre">enumerate_ax=False,</span> <span class="pre">enumerate_prop={'size':</span> <span class="pre">30,</span> <span class="pre">'weight':</span> <span class="pre">'bold'},</span> <span class="pre">p=&lt;class</span> <span class="pre">'cfr.visual.STYLE'&gt;,</span> <span class="pre">stock_img=True,</span> <span class="pre">enumerate_anchor_map=[0,</span> <span class="pre">1],</span> <span class="pre">enumerate_anchor_count=[0,</span> <span class="pre">1],</span> <span class="pre">map_grid_idx=0,</span> <span class="pre">count_grid_idx=-1</span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.visual.plot_proxies" title="Permalink to this definition">#</a></dt>
+<dd><p>Visualize proxies.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>df</strong> (<em>pandas.DataFrame</em>) – proxy database in <cite>pandas.DataFrame</cite>.</p>
+</dd>
+</dl>
 </dd></dl>
 
 </section>

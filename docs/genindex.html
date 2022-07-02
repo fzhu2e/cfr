@@ -119,11 +119,6 @@
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="notebooks/proxy-viz.html">
-     Visualizations
-    </a>
-   </li>
-   <li class="toctree-l2">
     <a class="reference internal" href="notebooks/proxy-analysis.html">
      Analysis
     </a>
@@ -235,8 +230,40 @@
   </label>
   <ul>
    <li class="toctree-l2">
-    <a class="reference internal" href="notebooks/lmr-workflow.html">
+    <a class="reference internal" href="notebooks/lmr-basics.html">
      Basic workflows
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="notebooks/lmr-cfg.html">
+     Run the job based on the configurations in a YAML file
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="notebooks/lmr-mc.html">
+     Monte-Carlo iterations
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="notebooks/lmr-post.html">
+     Post-processing
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="ug-graphem.html">
+   GraphEM
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/>
+  <label for="toctree-checkbox-5">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="notebooks/graphem-basics.html">
+     The basic workflows for the GraphEM method
     </a>
    </li>
   </ul>
@@ -371,6 +398,7 @@ title="Open an issue"
 <div class="genindex-jumpbox">
  <a href="#B"><strong>B</strong></a>
  | <a href="#C"><strong>C</strong></a>
+ | <a href="#E"><strong>E</strong></a>
  | <a href="#F"><strong>F</strong></a>
  | <a href="#G"><strong>G</strong></a>
  | <a href="#I"><strong>I</strong></a>
@@ -387,20 +415,38 @@ title="Open an issue"
       <li><a href="ug-api.html#cfr.psm.Bilinear">Bilinear (class in cfr.psm)</a>
 </li>
   </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="ug-api.html#cfr.graphem.solver.GraphEM.bootstrap">bootstrap() (cfr.graphem.solver.GraphEM method)</a>
+</li>
+  </ul></td>
 </tr></table>
 
 <h2 id="C">C</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="ug-api.html#cfr.climate.ClimateDataset">ClimateDataset (class in cfr.climate)</a>
+      <li><a href="ug-api.html#cfr.proxy.ProxyRecord.center">center() (cfr.proxy.ProxyRecord method)</a>
 </li>
-      <li><a href="ug-api.html#cfr.climate.ClimateField">ClimateField (class in cfr.climate)</a>
+      <li><a href="ug-api.html#cfr.climate.ClimateDataset">ClimateDataset (class in cfr.climate)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="ug-api.html#cfr.climate.ClimateField">ClimateField (class in cfr.climate)</a>
+</li>
       <li><a href="ug-api.html#cfr.psm.Coral_d18O">Coral_d18O (class in cfr.psm)</a>
 </li>
       <li><a href="ug-api.html#cfr.psm.Coral_SrCa">Coral_SrCa (class in cfr.psm)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="E">E</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="ug-api.html#cfr.graphem.solver.GraphEM.EM">EM() (cfr.graphem.solver.GraphEM method)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="ug-api.html#cfr.da.EnKF">EnKF (class in cfr.da)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -409,6 +455,10 @@ title="Open an issue"
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="ug-api.html#cfr.proxy.ProxyDatabase.filter">filter() (cfr.proxy.ProxyDatabase method)</a>
+</li>
+      <li><a href="ug-api.html#cfr.graphem.solver.GraphEM.fit">fit() (cfr.graphem.solver.GraphEM method)</a>
+</li>
+      <li><a href="ug-api.html#cfr.graphem.solver.GraphEM.fit_Sigma">fit_Sigma() (cfr.graphem.solver.GraphEM method)</a>
 </li>
       <li><a href="ug-api.html#cfr.psm.Coral_SrCa.forward">forward() (cfr.psm.Coral_SrCa method)</a>
 
@@ -431,6 +481,10 @@ title="Open an issue"
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="ug-api.html#cfr.proxy.ProxyRecord.get_clim">get_clim() (cfr.proxy.ProxyRecord method)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="ug-api.html#cfr.graphem.solver.GraphEM">GraphEM (class in cfr.graphem.solver)</a>
 </li>
   </ul></td>
 </tr></table>

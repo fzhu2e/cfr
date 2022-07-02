@@ -39,7 +39,7 @@
     <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Visualizations" href="proxy-viz.html" />
+    <link rel="next" title="&lt;no title&gt;" href="proxy-viz.html" />
     <link rel="prev" title="Input/Output" href="proxy-io.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="None">
@@ -121,11 +121,6 @@
    <li class="toctree-l2 current active">
     <a class="current reference internal" href="#">
      Basic Operations
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="proxy-viz.html">
-     Visualizations
     </a>
    </li>
    <li class="toctree-l2">
@@ -240,8 +235,40 @@
   </label>
   <ul>
    <li class="toctree-l2">
-    <a class="reference internal" href="lmr-workflow.html">
+    <a class="reference internal" href="lmr-basics.html">
      Basic workflows
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="lmr-cfg.html">
+     Run the job based on the configurations in a YAML file
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="lmr-mc.html">
+     Monte-Carlo iterations
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="lmr-post.html">
+     Post-processing
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../ug-graphem.html">
+   GraphEM
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/>
+  <label for="toctree-checkbox-5">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="graphem-basics.html">
+     The basic workflows for the GraphEM method
     </a>
    </li>
   </ul>
@@ -983,6 +1010,7 @@ div.nboutput.container div.output_area > div[class^='highlight']{
 }
 
 /* Some additional styling taken form the Jupyter notebook CSS */
+.jp-RenderedHTMLCommon table,
 div.rendered_html table {
   border: none;
   border-collapse: collapse;
@@ -991,10 +1019,14 @@ div.rendered_html table {
   font-size: 12px;
   table-layout: fixed;
 }
+.jp-RenderedHTMLCommon thead,
 div.rendered_html thead {
   border-bottom: 1px solid black;
   vertical-align: bottom;
 }
+.jp-RenderedHTMLCommon tr,
+.jp-RenderedHTMLCommon th,
+.jp-RenderedHTMLCommon td,
 div.rendered_html tr,
 div.rendered_html th,
 div.rendered_html td {
@@ -1006,12 +1038,15 @@ div.rendered_html td {
   max-width: none;
   border: none;
 }
+.jp-RenderedHTMLCommon th,
 div.rendered_html th {
   font-weight: bold;
 }
+.jp-RenderedHTMLCommon tbody tr:nth-child(odd),
 div.rendered_html tbody tr:nth-child(odd) {
   background: #f5f5f5;
 }
+.jp-RenderedHTMLCommon tbody tr:hover,
 div.rendered_html tbody tr:hover {
   background: rgba(66, 165, 245, 0.2);
 }
@@ -1073,7 +1108,7 @@ Index([&#39;paleoData_pages2kID&#39;, &#39;dataSetName&#39;, &#39;archiveType&#3
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-&lt;cfr.proxy.ProxyDatabase at 0x7fc2526e5d30&gt;
+&lt;cfr.proxy.ProxyDatabase at 0x1080a9d60&gt;
 </pre></div></div>
 </div>
 <p>Once the <code class="docutils literal notranslate"><span class="pre">ProxyDatabase</span></code> is created, we have <code class="docutils literal notranslate"><span class="pre">ProxyDatabase.records</span></code> as a dictionary of <code class="docutils literal notranslate"><span class="pre">ProxyRecord</span></code>.</p>
@@ -1095,11 +1130,11 @@ Index([&#39;paleoData_pages2kID&#39;, &#39;dataSetName&#39;, &#39;archiveType&#3
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-NAm_153 &lt;cfr.proxy.ProxyRecord object at 0x7fc230b468e0&gt;
-Asi_245 &lt;cfr.proxy.ProxyRecord object at 0x7fc230b465e0&gt;
-NAm_165 &lt;cfr.proxy.ProxyRecord object at 0x7fc230b46a00&gt;
-Asi_178 &lt;cfr.proxy.ProxyRecord object at 0x7fc250e324f0&gt;
-Asi_174 &lt;cfr.proxy.ProxyRecord object at 0x7fc230b46e20&gt;
+NAm_153 &lt;cfr.proxy.ProxyRecord object at 0x108dc5e50&gt;
+Asi_245 &lt;cfr.proxy.ProxyRecord object at 0x12f935100&gt;
+NAm_165 &lt;cfr.proxy.ProxyRecord object at 0x1080a23a0&gt;
+Asi_178 &lt;cfr.proxy.ProxyRecord object at 0x12eebf460&gt;
+Asi_174 &lt;cfr.proxy.ProxyRecord object at 0x12f935190&gt;
 </pre></div></div>
 </div>
 </section>
@@ -1125,7 +1160,7 @@ Asi_174 &lt;cfr.proxy.ProxyRecord object at 0x7fc230b46e20&gt;
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">pobj</span><span class="o">.</span><span class="n">slice</span><span class="p">([</span><span class="mi">1900</span><span class="p">,</span> <span class="mi">2000</span><span class="p">])</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">pobj</span><span class="o">.</span><span class="n">slice</span><span class="p">([</span><span class="mi">1900</span><span class="p">,</span> <span class="mi">1990</span><span class="p">])</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -1136,11 +1171,26 @@ Asi_174 &lt;cfr.proxy.ProxyRecord object at 0x7fc230b46e20&gt;
 <img alt="../_images/notebooks_proxy-ops_11_0.png" src="../_images/notebooks_proxy-ops_11_0.png" />
 </div>
 </div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">pobj</span><span class="p">[</span><span class="nb">list</span><span class="p">(</span><span class="n">pobj</span><span class="o">.</span><span class="n">time</span><span class="p">)</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="mi">1900</span><span class="p">):</span><span class="nb">list</span><span class="p">(</span><span class="n">pobj</span><span class="o">.</span><span class="n">time</span><span class="p">)</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="mi">1990</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/notebooks_proxy-ops_12_0.png" src="../_images/notebooks_proxy-ops_12_0.png" />
+</div>
+</div>
 </section>
 <section id="Add-several-ProxyRecords-together-to-form-a-ProxyDatabase">
 <h2>Add several <code class="docutils literal notranslate"><span class="pre">ProxyRecord</span></code>s together to form a <code class="docutils literal notranslate"><span class="pre">ProxyDatabase</span></code><a class="headerlink" href="#Add-several-ProxyRecords-together-to-form-a-ProxyDatabase" title="Permalink to this headline">#</a></h2>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pdb_sub</span> <span class="o">=</span> <span class="n">pdb</span><span class="o">.</span><span class="n">records</span><span class="p">[</span><span class="s1">&#39;NAm_153&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">pdb</span><span class="o">.</span><span class="n">records</span><span class="p">[</span><span class="s1">&#39;Afr_005&#39;</span><span class="p">]</span>
@@ -1149,20 +1199,20 @@ Asi_174 &lt;cfr.proxy.ProxyRecord object at 0x7fc230b46e20&gt;
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-{&#39;NAm_153&#39;: &lt;cfr.proxy.ProxyRecord at 0x7fc230b46b80&gt;,
- &#39;Afr_005&#39;: &lt;cfr.proxy.ProxyRecord at 0x7fc253ae8e50&gt;}
+{&#39;NAm_153&#39;: &lt;cfr.proxy.ProxyRecord at 0x14b04a7f0&gt;,
+ &#39;Afr_005&#39;: &lt;cfr.proxy.ProxyRecord at 0x14ae25550&gt;}
 </pre></div></div>
 </div>
 </section>
 <section id="Add-a-list-of-ProxyRecords-into-an-existing-ProxyDatabase">
 <h2>Add a list of <code class="docutils literal notranslate"><span class="pre">ProxyRecord</span></code>s into an existing <code class="docutils literal notranslate"><span class="pre">ProxyDatabase</span></code><a class="headerlink" href="#Add-a-list-of-ProxyRecords-into-an-existing-ProxyDatabase" title="Permalink to this headline">#</a></h2>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pobj_list</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">pdb</span><span class="o">.</span><span class="n">records</span><span class="o">.</span><span class="n">values</span><span class="p">())[:</span><span class="mi">5</span><span class="p">]</span>
@@ -1176,34 +1226,32 @@ Asi_174 &lt;cfr.proxy.ProxyRecord object at 0x7fc230b46e20&gt;
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-{&#39;NAm_153&#39;: &lt;cfr.proxy.ProxyRecord at 0x7fc232984310&gt;,
- &#39;Asi_245&#39;: &lt;cfr.proxy.ProxyRecord at 0x7fc2080aa040&gt;,
- &#39;NAm_165&#39;: &lt;cfr.proxy.ProxyRecord at 0x7fc253c1cee0&gt;,
- &#39;Asi_178&#39;: &lt;cfr.proxy.ProxyRecord at 0x7fc253c1c550&gt;,
- &#39;Asi_174&#39;: &lt;cfr.proxy.ProxyRecord at 0x7fc230b46e20&gt;}
+{&#39;NAm_153&#39;: &lt;cfr.proxy.ProxyRecord at 0x14b0c3b50&gt;,
+ &#39;Asi_245&#39;: &lt;cfr.proxy.ProxyRecord at 0x14b0c3c70&gt;,
+ &#39;NAm_165&#39;: &lt;cfr.proxy.ProxyRecord at 0x14b0da3d0&gt;,
+ &#39;Asi_178&#39;: &lt;cfr.proxy.ProxyRecord at 0x14b0da730&gt;,
+ &#39;Asi_174&#39;: &lt;cfr.proxy.ProxyRecord at 0x12f935190&gt;}
 </pre></div></div>
 </div>
 </section>
 <section id="Merge-several-ProxyDatabases">
 <h2>Merge several <code class="docutils literal notranslate"><span class="pre">ProxyDatabase</span></code>s<a class="headerlink" href="#Merge-several-ProxyDatabases" title="Permalink to this headline">#</a></h2>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pobj_list</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">pdb</span><span class="o">.</span><span class="n">records</span><span class="o">.</span><span class="n">values</span><span class="p">())[:</span><span class="mi">5</span><span class="p">]</span>
-<span class="n">pdb_sub1</span> <span class="o">=</span> <span class="n">cfr</span><span class="o">.</span><span class="n">ProxyDatabase</span><span class="p">()</span>
-<span class="k">for</span> <span class="n">pobj</span> <span class="ow">in</span> <span class="n">pobj_list</span><span class="p">:</span>
-    <span class="n">pdb_sub1</span> <span class="o">+=</span> <span class="n">pobj</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pdb_sub1</span> <span class="o">=</span> <span class="n">cfr</span><span class="o">.</span><span class="n">ProxyDatabase</span><span class="p">()</span>
+<span class="n">pobj_list</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">pdb</span><span class="o">.</span><span class="n">records</span><span class="o">.</span><span class="n">values</span><span class="p">())[:</span><span class="mi">5</span><span class="p">]</span>
+<span class="n">pdb_sub1</span> <span class="o">+=</span> <span class="n">pobj_list</span>
 
-<span class="n">pobj_list</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">pdb</span><span class="o">.</span><span class="n">records</span><span class="o">.</span><span class="n">values</span><span class="p">())[</span><span class="mi">10</span><span class="p">:</span><span class="mi">15</span><span class="p">]</span>
 <span class="n">pdb_sub2</span> <span class="o">=</span> <span class="n">cfr</span><span class="o">.</span><span class="n">ProxyDatabase</span><span class="p">()</span>
-<span class="k">for</span> <span class="n">pobj</span> <span class="ow">in</span> <span class="n">pobj_list</span><span class="p">:</span>
-    <span class="n">pdb_sub2</span> <span class="o">+=</span> <span class="n">pobj</span>
+<span class="n">pobj_list</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">pdb</span><span class="o">.</span><span class="n">records</span><span class="o">.</span><span class="n">values</span><span class="p">())[</span><span class="mi">10</span><span class="p">:</span><span class="mi">15</span><span class="p">]</span>
+<span class="n">pdb_sub2</span> <span class="o">+=</span> <span class="n">pobj_list</span>
 
 <span class="n">pdb_sub</span> <span class="o">=</span> <span class="n">pdb_sub1</span> <span class="o">+</span> <span class="n">pdb_sub2</span>
 <span class="n">pdb_sub</span><span class="o">.</span><span class="n">records</span>
@@ -1211,28 +1259,28 @@ Asi_174 &lt;cfr.proxy.ProxyRecord object at 0x7fc230b46e20&gt;
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-{&#39;NAm_153&#39;: &lt;cfr.proxy.ProxyRecord at 0x7fc253c1cb20&gt;,
- &#39;Asi_245&#39;: &lt;cfr.proxy.ProxyRecord at 0x7fc253c1ca90&gt;,
- &#39;NAm_165&#39;: &lt;cfr.proxy.ProxyRecord at 0x7fc253c1ca60&gt;,
- &#39;Asi_178&#39;: &lt;cfr.proxy.ProxyRecord at 0x7fc253c1c340&gt;,
- &#39;Asi_174&#39;: &lt;cfr.proxy.ProxyRecord at 0x7fc253c1ccd0&gt;,
- &#39;NAm_102&#39;: &lt;cfr.proxy.ProxyRecord at 0x7fc253c1caf0&gt;,
- &#39;NAm_046&#39;: &lt;cfr.proxy.ProxyRecord at 0x7fc253c1c0a0&gt;,
- &#39;Ocn_065&#39;: &lt;cfr.proxy.ProxyRecord at 0x7fc253c1c6d0&gt;,
- &#39;Asi_242&#39;: &lt;cfr.proxy.ProxyRecord at 0x7fc253c1c6a0&gt;,
- &#39;Asi_170&#39;: &lt;cfr.proxy.ProxyRecord at 0x7fc252a9f700&gt;}
+{&#39;NAm_153&#39;: &lt;cfr.proxy.ProxyRecord at 0x14b0e9730&gt;,
+ &#39;Asi_245&#39;: &lt;cfr.proxy.ProxyRecord at 0x14b0e9820&gt;,
+ &#39;NAm_165&#39;: &lt;cfr.proxy.ProxyRecord at 0x14b0e9f70&gt;,
+ &#39;Asi_178&#39;: &lt;cfr.proxy.ProxyRecord at 0x14afb7eb0&gt;,
+ &#39;Asi_174&#39;: &lt;cfr.proxy.ProxyRecord at 0x14afb7760&gt;,
+ &#39;NAm_102&#39;: &lt;cfr.proxy.ProxyRecord at 0x108dc5a60&gt;,
+ &#39;NAm_046&#39;: &lt;cfr.proxy.ProxyRecord at 0x108dc5ca0&gt;,
+ &#39;Ocn_065&#39;: &lt;cfr.proxy.ProxyRecord at 0x108dc5f70&gt;,
+ &#39;Asi_242&#39;: &lt;cfr.proxy.ProxyRecord at 0x12f98a940&gt;,
+ &#39;Asi_170&#39;: &lt;cfr.proxy.ProxyRecord at 0x12f98a9a0&gt;}
 </pre></div></div>
 </div>
 </section>
 <section id="Substract-a-list-of-ProxyRecords-from-a-ProxyDatabase">
 <h2>Substract a list of <code class="docutils literal notranslate"><span class="pre">ProxyRecord</span></code>s from a <code class="docutils literal notranslate"><span class="pre">ProxyDatabase</span></code><a class="headerlink" href="#Substract-a-list-of-ProxyRecords-from-a-ProxyDatabase" title="Permalink to this headline">#</a></h2>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pdb_left</span> <span class="o">=</span> <span class="n">pdb_sub</span> <span class="o">-</span> <span class="n">pdb_sub1</span>
@@ -1241,21 +1289,21 @@ Asi_174 &lt;cfr.proxy.ProxyRecord object at 0x7fc230b46e20&gt;
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-{&#39;NAm_102&#39;: &lt;cfr.proxy.ProxyRecord at 0x7fc253c40580&gt;,
- &#39;NAm_046&#39;: &lt;cfr.proxy.ProxyRecord at 0x7fc253c40610&gt;,
- &#39;Ocn_065&#39;: &lt;cfr.proxy.ProxyRecord at 0x7fc253c40520&gt;,
- &#39;Asi_242&#39;: &lt;cfr.proxy.ProxyRecord at 0x7fc253c40fd0&gt;,
- &#39;Asi_170&#39;: &lt;cfr.proxy.ProxyRecord at 0x7fc230b4a2b0&gt;}
+{&#39;NAm_102&#39;: &lt;cfr.proxy.ProxyRecord at 0x14b0e9cd0&gt;,
+ &#39;NAm_046&#39;: &lt;cfr.proxy.ProxyRecord at 0x14b0e9970&gt;,
+ &#39;Ocn_065&#39;: &lt;cfr.proxy.ProxyRecord at 0x14b0e97c0&gt;,
+ &#39;Asi_242&#39;: &lt;cfr.proxy.ProxyRecord at 0x14b0e9940&gt;,
+ &#39;Asi_170&#39;: &lt;cfr.proxy.ProxyRecord at 0x14ae92640&gt;}
 </pre></div></div>
 </div>
 <p>If the <code class="docutils literal notranslate"><span class="pre">ProxyRecord</span></code> to remove does not exist, a warning will prompt.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pdb_left</span> <span class="o">=</span> <span class="n">pdb_sub</span> <span class="o">-</span> <span class="n">pdb</span><span class="o">.</span><span class="n">records</span><span class="p">[</span><span class="s1">&#39;Ocn_001&#39;</span><span class="p">]</span> <span class="o">-</span> <span class="n">pdb</span><span class="o">.</span><span class="n">records</span><span class="p">[</span><span class="s1">&#39;NAm_153&#39;</span><span class="p">]</span>
@@ -1272,27 +1320,27 @@ Asi_174 &lt;cfr.proxy.ProxyRecord object at 0x7fc230b46e20&gt;
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-{&#39;Asi_245&#39;: &lt;cfr.proxy.ProxyRecord at 0x7fc2415b97c0&gt;,
- &#39;NAm_165&#39;: &lt;cfr.proxy.ProxyRecord at 0x7fc2415b9d60&gt;,
- &#39;Asi_178&#39;: &lt;cfr.proxy.ProxyRecord at 0x7fc2102abdf0&gt;,
- &#39;Asi_174&#39;: &lt;cfr.proxy.ProxyRecord at 0x7fc2102abe80&gt;,
- &#39;NAm_102&#39;: &lt;cfr.proxy.ProxyRecord at 0x7fc2415b3bb0&gt;,
- &#39;NAm_046&#39;: &lt;cfr.proxy.ProxyRecord at 0x7fc2415b38b0&gt;,
- &#39;Ocn_065&#39;: &lt;cfr.proxy.ProxyRecord at 0x7fc2415c6f40&gt;,
- &#39;Asi_242&#39;: &lt;cfr.proxy.ProxyRecord at 0x7fc2415c6c40&gt;,
- &#39;Asi_170&#39;: &lt;cfr.proxy.ProxyRecord at 0x7fc2415c6400&gt;}
+{&#39;Asi_245&#39;: &lt;cfr.proxy.ProxyRecord at 0x14b0f7310&gt;,
+ &#39;NAm_165&#39;: &lt;cfr.proxy.ProxyRecord at 0x14b0f73a0&gt;,
+ &#39;Asi_178&#39;: &lt;cfr.proxy.ProxyRecord at 0x14b0f7430&gt;,
+ &#39;Asi_174&#39;: &lt;cfr.proxy.ProxyRecord at 0x14b0f74c0&gt;,
+ &#39;NAm_102&#39;: &lt;cfr.proxy.ProxyRecord at 0x14b0f7550&gt;,
+ &#39;NAm_046&#39;: &lt;cfr.proxy.ProxyRecord at 0x14b0f75e0&gt;,
+ &#39;Ocn_065&#39;: &lt;cfr.proxy.ProxyRecord at 0x14b0f7670&gt;,
+ &#39;Asi_242&#39;: &lt;cfr.proxy.ProxyRecord at 0x14b0f7700&gt;,
+ &#39;Asi_170&#39;: &lt;cfr.proxy.ProxyRecord at 0x14b0f7790&gt;}
 </pre></div></div>
 </div>
 </section>
 <section id="Substract-a-ProxyDatabase-from-another">
 <h2>Substract a <code class="docutils literal notranslate"><span class="pre">ProxyDatabase</span></code> from another<a class="headerlink" href="#Substract-a-ProxyDatabase-from-another" title="Permalink to this headline">#</a></h2>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pdb_right</span> <span class="o">=</span> <span class="n">pdb_sub</span> <span class="o">-</span> <span class="n">pdb_left</span>
@@ -1301,19 +1349,19 @@ Asi_174 &lt;cfr.proxy.ProxyRecord object at 0x7fc230b46e20&gt;
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-{&#39;NAm_153&#39;: &lt;cfr.proxy.ProxyRecord at 0x7fc253c40880&gt;}
+{&#39;NAm_153&#39;: &lt;cfr.proxy.ProxyRecord at 0x14af4aac0&gt;}
 </pre></div></div>
 </div>
 </section>
 <section id="Filter-a-ProxyDatabase">
 <h2>Filter a <code class="docutils literal notranslate"><span class="pre">ProxyDatabase</span></code><a class="headerlink" href="#Filter-a-ProxyDatabase" title="Permalink to this headline">#</a></h2>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># by proxy type</span>
@@ -1329,14 +1377,14 @@ Asi_174 &lt;cfr.proxy.ProxyRecord object at 0x7fc230b46e20&gt;
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_proxy-ops_25_0.png" src="../_images/notebooks_proxy-ops_25_0.png" />
+<img alt="../_images/notebooks_proxy-ops_26_0.png" src="../_images/notebooks_proxy-ops_26_0.png" />
 </div>
 </div>
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_proxy-ops_25_1.png" src="../_images/notebooks_proxy-ops_25_1.png" />
+<img alt="../_images/notebooks_proxy-ops_26_1.png" src="../_images/notebooks_proxy-ops_26_1.png" />
 </div>
 </div>
 <div class="nbinput docutils container">
@@ -1356,14 +1404,14 @@ Asi_174 &lt;cfr.proxy.ProxyRecord object at 0x7fc230b46e20&gt;
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_proxy-ops_26_0.png" src="../_images/notebooks_proxy-ops_26_0.png" />
+<img alt="../_images/notebooks_proxy-ops_27_0.png" src="../_images/notebooks_proxy-ops_27_0.png" />
 </div>
 </div>
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_proxy-ops_26_1.png" src="../_images/notebooks_proxy-ops_26_1.png" />
+<img alt="../_images/notebooks_proxy-ops_27_1.png" src="../_images/notebooks_proxy-ops_27_1.png" />
 </div>
 </div>
 <div class="nbinput docutils container">
@@ -1380,7 +1428,7 @@ Asi_174 &lt;cfr.proxy.ProxyRecord object at 0x7fc230b46e20&gt;
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_proxy-ops_27_0.png" src="../_images/notebooks_proxy-ops_27_0.png" />
+<img alt="../_images/notebooks_proxy-ops_28_0.png" src="../_images/notebooks_proxy-ops_28_0.png" />
 </div>
 </div>
 <div class="nbinput docutils container">
@@ -1397,7 +1445,7 @@ Asi_174 &lt;cfr.proxy.ProxyRecord object at 0x7fc230b46e20&gt;
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_proxy-ops_28_0.png" src="../_images/notebooks_proxy-ops_28_0.png" />
+<img alt="../_images/notebooks_proxy-ops_29_0.png" src="../_images/notebooks_proxy-ops_29_0.png" />
 </div>
 </div>
 <div class="nbinput docutils container">
@@ -1414,7 +1462,7 @@ Asi_174 &lt;cfr.proxy.ProxyRecord object at 0x7fc230b46e20&gt;
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_proxy-ops_29_0.png" src="../_images/notebooks_proxy-ops_29_0.png" />
+<img alt="../_images/notebooks_proxy-ops_30_0.png" src="../_images/notebooks_proxy-ops_30_0.png" />
 </div>
 </div>
 <div class="nbinput docutils container">
@@ -1431,7 +1479,7 @@ Asi_174 &lt;cfr.proxy.ProxyRecord object at 0x7fc230b46e20&gt;
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_proxy-ops_30_0.png" src="../_images/notebooks_proxy-ops_30_0.png" />
+<img alt="../_images/notebooks_proxy-ops_31_0.png" src="../_images/notebooks_proxy-ops_31_0.png" />
 </div>
 </div>
 <div class="nbinput docutils container">
@@ -1454,7 +1502,7 @@ Asi_174 &lt;cfr.proxy.ProxyRecord object at 0x7fc230b46e20&gt;
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_proxy-ops_31_0.png" src="../_images/notebooks_proxy-ops_31_0.png" />
+<img alt="../_images/notebooks_proxy-ops_32_0.png" src="../_images/notebooks_proxy-ops_32_0.png" />
 </div>
 </div>
 <div class="nbinput docutils container">
@@ -1471,7 +1519,7 @@ Asi_174 &lt;cfr.proxy.ProxyRecord object at 0x7fc230b46e20&gt;
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_proxy-ops_32_0.png" src="../_images/notebooks_proxy-ops_32_0.png" />
+<img alt="../_images/notebooks_proxy-ops_33_0.png" src="../_images/notebooks_proxy-ops_33_0.png" />
 </div>
 </div>
 </section>
@@ -2005,7 +2053,7 @@ Data variables:
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_proxy-ops_38_2.png" src="../_images/notebooks_proxy-ops_38_2.png" />
+<img alt="../_images/notebooks_proxy-ops_39_2.png" src="../_images/notebooks_proxy-ops_39_2.png" />
 </div>
 </div>
 <div class="nbinput nblast docutils container">
@@ -2037,7 +2085,7 @@ Data variables:
     <a class='right-next' id="next-link" href="proxy-viz.html" title="next page">
     <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Visualizations</p>
+        <p class="prev-next-title">&lt;no title&gt;</p>
     </div>
     <i class="fas fa-angle-right"></i>
     </a>

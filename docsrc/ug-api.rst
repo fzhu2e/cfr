@@ -43,3 +43,15 @@ PSM
 
 .. autoclass:: cfr.psm.VSLite
     :members:
+
+DA
+------
+
+.. autoclass:: cfr.da.EnKF
+    :members:
+
+GraphEM
+-------
+
+.. autoclass:: cfr.graphem.solver.GraphEM
+    :members:

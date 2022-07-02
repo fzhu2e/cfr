@@ -9,6 +9,15 @@ from . import utils
 
 
 class ClimateField:
+    ''' The class for the gridded climate field data
+    
+    Args:
+        da (xarray.DataArray): the gridded data array
+        time_name (str): the name of the time dimension
+        lat_name (str): the name of the latitude dimension
+        lon_name (str): the name of the longitude dimension
+    
+    '''
     def __init__(self, da=None, time_name=None, lat_name=None, lon_name=None):
         self.da = da
         if self.da is not None:
@@ -249,6 +258,12 @@ class ClimateField:
 
 
 class ClimateDataset:
+    ''' The class for the gridded climate field dataset
+    
+    Args:
+        fields (dict): the dictionary of :py:mod:`cfr.climate.ClimateField`
+    
+    '''
     def __init__(self, fields=None):
         self.fields = {} if fields is None else fields
         if fields is not None:

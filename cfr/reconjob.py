@@ -460,8 +460,7 @@ class ReconJob:
         if verbose: p_success(f'>>> job.recon_fields created')
 
     def run_mc(self, recon_period=None, recon_loc_rad=None, recon_timescale=None, nens=None,
-               output_full_ens=None, save_dtype=np.float32,
-               recon_sampling_mode=None, recon_sampling_dist=None,
+               output_full_ens=None, recon_sampling_mode=None, recon_sampling_dist=None,
                normal_sampling_sigma=None, normal_sampling_cutoff_factor=None,
                recon_seeds=None, assim_frac=None, save_dirpath=None, compress_params=None, verbose=False):
         ''' Run the Monte-Carlo iterations of data assimilation workflows.
@@ -475,7 +474,6 @@ class ReconJob:
             normal_sampling_sigma (str): the standard deviation of the normal distribution for prior sampling.
             normal_sampling_cutoff_factor (int): the cutoff factor for the window for prior sampling.
             output_full_ens (bool): if True, the full ensemble fields will be stored to netCDF files.
-            save_dtype (object): the data type used for storing the reconstruction results.
             nens (int): the ensemble size.
             recon_seed (int): the random seeds.
             assim_frac (float, optional): the fraction of proxies for assimilation. Defaults to None.
@@ -514,7 +512,7 @@ class ReconJob:
 
             recon_savepath = os.path.join(save_dirpath, f'job_r{seed:02d}_recon.nc')
             self.save_recon(recon_savepath, compress_params=compress_params,
-                            verbose=verbose, output_full_ens=output_full_ens, dtype=save_dtype)
+                            verbose=verbose, output_full_ens=output_full_ens)
 
         t_e = time.time()
         t_used = t_e - t_s

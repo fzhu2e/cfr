@@ -459,15 +459,16 @@ def regrid_field_curv_rect(field, lat_curv, lon_curv, dlat=1, lon_range=None, la
 def coefficient_efficiency(ref, test, valid=None):
     """ Compute the coefficient of efficiency for a test time series, with respect to a reference time series.
 
-    Inputs:
-    test:  test array
-    ref:   reference array, of same size as test
-    valid: fraction of valid data required to calculate the statistic
+    Args:
+        ref (numpy.ndarray):   reference array, of same size as test
+        test (numpy.ndarray):  test array
+        valid (float): fraction of valid data required to calculate the statistic
 
-    Note: Assumes that the first dimension in test and ref arrays is time!!!
+    Note:
+        Assumes that the first dimension in test and ref arrays is time!!!
 
-    Outputs:
-    CE: CE statistic calculated following Nash & Sutcliffe (1970)
+    Returns:
+        CE (float): CE statistic calculated following Nash & Sutcliffe (1970)
     """
 
     # check array dimensions

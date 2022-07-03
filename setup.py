@@ -53,7 +53,6 @@ setup(
         'dask',
         'statsmodels',
         'sklearn',
-        'pens',
         'pathos'
     ],
     extras_require={

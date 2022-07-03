@@ -155,6 +155,68 @@ class ClimateField:
         new.refresh()
         return new
 
+    def validate(self, ref, time_name='year', stat='corr', valid_period=(1880, 2000)):
+        ''' Validate against a reference field.
+
+        Args:
+            ref (cfr.climate.ClimateField): the reference to compare against, assuming the first dimension to be time
+            stat (str): the statistics to calculate. Supported quantaties:
+
+                * 'corr': correlation coefficient
+                * 'R2': coefficient of determination
+                * 'CE': coefficient of efficiency
+        '''
+
+        fd_slice = self.da.loc[f'{valid_period[0]}':f'{valid_period[-1]}']
+        ref_slice = ref.da.loc[f'{valid_period[0]}':f'{valid_period[-1]}']
+        fd_slice = fd_slice.interp({'lat': ref_slice.lat, 'lon': ref_slice.lon})
+
+        if ref.da.dims[0] != time_name:
+            ref_slice = ref_slice.rename({ref_slice.dims[0]: time_name})
+            ref_slice[time_name] = [t.year for t in ref_slice[time_name].values]
+
+        if stat == 'corr':
+            stat_da = xr.corr(fd_slice, ref_slice, dim=time_name)
+            stat_da = stat_da.expand_dims({time_name: 1})
+            stat_fd = ClimateField().from_da(da=stat_da, time_name=time_name)
+            stat_fd.vn = stat
+            stat_fd.plot_kwargs = {
+                'cmap': 'RdBu_r',
+                'extend': 'neither',
+                'levels': np.linspace(-1, 1, 21),
+                'cbar_labels': np.linspace(-1, 1, 11),
+                'cbar_title': r'$r$',
+            }
+        elif stat == 'R2':
+            stat_da = xr.corr(fd_slice, ref_slice, dim=time_name)
+            stat_da = stat_da.expand_dims({time_name: 1})
+            stat_fd = ClimateField().from_da(da=stat_da**2, time_name=time_name)
+            stat_fd.vn = stat
+            stat_fd.plot_kwargs = {
+                'cmap': 'Reds',
+                'extend': 'neither',
+                'levels': np.linspace(0, 1, 21),
+                'cbar_labels': np.linspace(0, 1, 11),
+                'cbar_title': r'$R^2$',
+            }
+        elif stat == 'CE':
+            ce = utils.coefficient_efficiency(ref_slice.values, fd_slice.values)
+            stat_da = xr.DataArray(ce[np.newaxis], coords={'year': [1], 'lat': fd_slice.lat, 'lon': fd_slice.lon})
+            stat_fd = ClimateField().from_da(da=stat_da, time_name=time_name)
+            stat_fd.vn = stat
+            stat_fd.plot_kwargs = {
+                'cmap': 'RdBu_r',
+                'extend': 'both',
+                'levels': np.linspace(-1, 1, 21),
+                'cbar_labels': np.linspace(-1, 1, 11),
+                'cbar_title': r'$CE$',
+            }
+        else:
+            raise ValueError('Wrong `stat`; should be one of `corr`, `R2`, and `CE`.' )
+
+        return stat_fd
+            
+
     def plot(self, it=0, **kwargs):
         try:
             t = self.da[self.time_name].values[it]
@@ -252,9 +314,6 @@ class ClimateField:
         wgts = np.cos(np.deg2rad(self.da[self.lat_name]))
         m = self.da.weighted(wgts).mean((self.lon_name, self.lat_name))
         return m
-
-    def validate(self, fd_ref, stat='corr'):
-        pass
 
 
 class ClimateDataset:

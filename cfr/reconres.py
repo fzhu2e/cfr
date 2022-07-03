@@ -3,21 +3,28 @@ import xarray as xr
 import numpy as np
 from tqdm import tqdm
 import pandas as pd
+import matplotlib.pyplot as plt
 from .climate import ClimateField
+from scipy.stats import pearsonr
 import glob
 import os
 import copy
 from .utils import (
+    coefficient_efficiency,
     p_header,
     p_hint,
     p_success,
     p_fail,
     p_warning,
 )
-import pens
 
 class ReconRes:
-    ''' Reconstruction Result
+    ''' The class for reconstruction results
+
+    Args:
+        job_dirpath (str): the directory path where the reconstruction results are stored.
+        load_num (int): the number of ensembles to load
+        verbose (bool, optional): print verbose information. Defaults to False.
     '''
 
     def __init__(self, job_dirpath, load_num=None, verbose=False):
@@ -36,30 +43,313 @@ class ReconRes:
         self.recons = {}
         self.da = {}
     
-    def load(self, vn, verbose=False):
-        ''' Load reconstruction results
+    def load(self, vn_list, verbose=False):
+        ''' Load reconstruction results.
 
         Args:
-            vn (str): the variable name, supported names, taking 'tas' for example:
-            - ensemble timeseries: 'tas_gm', 'tas_nhm', 'tas_shm'
-            - ensemble fields: 'tas'
+            vn_list (list): list of variable names; supported names, taking 'tas' as an example:
+
+                * ensemble fields: 'tas'
+                * ensemble timeseries: 'tas_gm', 'tas_nhm', 'tas_shm'
+
+            verbose (bool, optional): print verbose information. Defaults to False.
         '''
-        da_list = []
-        for path in self.paths:
-            with xr.open_dataset(path) as ds_tmp:
-                da_list.append(ds_tmp[vn])
+        if type(vn_list) is str:
+            vn_list = [vn_list]
 
-        da = xr.concat(da_list, dim='ens')
-        if 'ens' not in da.coords:
-            da.coords['ens'] = np.arange(len(self.paths))
-        da = da.transpose('year', 'ens', ...)
+        for vn in vn_list:
+            da_list = []
+            for path in self.paths:
+                with xr.open_dataset(path) as ds_tmp:
+                    da_list.append(ds_tmp[vn])
 
-        self.da[vn] = da
-        if 'lat' not in da.coords and 'lon' not in da.coords:
-            self.recons[vn] = pens.EnsembleTS(time=da['year'], value=da.values)
+            da = xr.concat(da_list, dim='ens')
+            if 'ens' not in da.coords:
+                da.coords['ens'] = np.arange(len(self.paths))
+            da = da.transpose('year', 'ens', ...)
+
+            self.da[vn] = da
+            if 'lat' not in da.coords and 'lon' not in da.coords:
+                self.recons[vn] = EnsTS(time=da['year'], value=da.values, value_name=vn)
+            else:
+                self.recons[vn] = ClimateField().from_da(da.mean(dim='ens'), time_name='year')
+
+            if verbose:
+                p_success(f'>>> ReconRes.recons["{vn}"] created')
+                p_success(f'>>> ReconRes.da["{vn}"] created')
+
+class EnsTS:
+    ''' Ensemble Timeseries
+
+    Note that annual reconstruction is assumed so the time axis is in years.
+    The ensembles variable should be in shape of (nt, nEns), where nt is the number of years,
+    and nEns is the number of ensemble members.
+
+    '''
+    def __init__(self, time=None, value=None, value_name=None):
+        if np.ndim(value) == 1:
+            value = value[:, np.newaxis]
+
+        self.time = time
+        self.value = value
+        self.value_name = value_name
+
+        if self.value is not None:
+            self.nt = np.shape(self.value)[0]
+            self.nEns = np.shape(self.value)[-1]
+            self.median = np.median(self.value, axis=-1)
+
+    def __getitem__(self, key):
+        new = self.copy()
+        new.value = new.value[key]
+        if type(key) is tuple:
+            new.time = new.time[key[0]]
         else:
-            self.recons[vn] = ClimateField().from_da(da.mean(dim='ens'), time_name='year')
+            new.time = new.time[key]
+        new.nt = np.shape(new.value)[0]
+        new.nEns = np.shape(new.value)[-1]
+        new.median = np.median(new.value, axis=-1)
+        return new
 
-        if verbose:
-            p_success(f'>>> ReconRes.da["{vn}"] created')
-            p_success(f'>>> ReconRes.recons["{vn}"] created')
+    def copy(self):
+        return copy.deepcopy(self)
+
+    def get_median(self):
+        med = EnsTS(time=self.time, value=self.median)
+        return med
+
+    def plot(self, figsize=[12, 4],
+        xlabel='Year (CE)', ylabel=None, title=None, ylim=None, xlim=None, alphas=[0.5, 0.1],
+        plot_kwargs=None, legend_kwargs=None, title_kwargs=None, ax=None):
+        ''' Plot the raw values (multiple series)
+        '''
+
+        plot_kwargs = {} if plot_kwargs is None else plot_kwargs
+        legend_kwargs = {} if legend_kwargs is None else legend_kwargs
+        title_kwargs = {} if title_kwargs is None else title_kwargs
+
+        if ax is None:
+            fig, ax = plt.subplots(figsize=figsize)
+
+        ax.margins(0)
+        # plot timeseries
+        _plot_kwargs = {'linewidth': 1}
+        _plot_kwargs.update(plot_kwargs)
+
+        ax.plot(self.time, self.value, **_plot_kwargs)
+        ax.set_xlabel(xlabel)
+        if ylabel is None: ylabel = self.value_name
+        ax.set_ylabel(ylabel)
+
+        if xlim is not None:
+            ax.set_xlim(xlim)
+
+        if ylim is not None:
+            ax.set_ylim(ylim)
+
+        if title is not None:
+            _title_kwargs = {'fontweight': 'bold'}
+            _title_kwargs.update(title_kwargs)
+            ax.set_title(title, **_title_kwargs)
+
+        if 'fig' in locals():
+            return fig, ax
+        else:
+            return ax
+
+    def line_density(self, figsize=[12, 4], cmap='plasma', color_scale='linear', bins=None, num_fine=None,
+        xlabel='Year (CE)', ylabel=None, title=None, ylim=None, xlim=None, 
+        title_kwargs=None, ax=None, **pcolormesh_kwargs,):
+        ''' Plot the timeseries 2-D histogram
+
+        Parameters
+        ----------
+        cmap : str
+            The colormap for the histogram.
+
+        color_scale : str
+            The scale of the colorbar; should be either 'linear' or 'log'.
+
+        bins : list/tuple of 2 floats
+            The number of bins for each axis: nx, ny = bins.
+
+        Referneces
+        ----------
+        - https://matplotlib.org/3.5.0/gallery/statistics/time_series_histogram.html
+
+        '''
+        pcolormesh_kwargs = {} if pcolormesh_kwargs is None else pcolormesh_kwargs
+
+        if ax is None:
+            fig, ax = plt.subplots(figsize=figsize)
+
+        if num_fine is None:
+            num_fine = np.min([self.nt*8, 1000])
+
+        num_series = self.nEns
+        x = self.time
+        Y = self.value.T
+        x_fine = np.linspace(x.min(), x.max(), num_fine)
+        y_fine = np.empty((num_series, num_fine), dtype=float)
+        for i in range(num_series):
+            y_fine[i, :] = np.interp(x_fine, x, Y[i, :])
+        y_fine = y_fine.flatten()
+        x_fine = np.tile(x_fine, [num_series, 1]).flatten()
+
+        if bins is None:
+            bins = [num_fine//2, num_series//10]
+
+        h, xedges, yedges = np.histogram2d(x_fine, y_fine, bins=bins)
+        h = h / h.max()  # normalize
+
+        pcm_kwargs = {}
+        # if 'vmax' in pcolormesh_kwargs:
+        #     vmax = pcolormesh_kwargs['vmax']
+        #     pcolormesh_kwargs.pop('vmax')
+        # else:
+        #     vmax = np.max(h) // 2
+        vmax = 1
+
+        if color_scale == 'log':
+            pcm_kwargs['norm'] = LogNorm(vmax=vmax)
+        elif color_scale == 'linear':
+            pcm_kwargs['vmax'] = vmax
+        else:
+            raise ValueError('Wrong `color_scale`; should be either "log" or "linear".')
+
+        pcm_kwargs.update(pcolormesh_kwargs)
+
+        ax.set_xlabel(xlabel)
+        if ylabel is None: ylabel = self.value_name
+        ax.set_ylabel(ylabel)
+
+        if xlim is not None:
+            ax.set_xlim(xlim)
+
+        if ylim is not None:
+            ax.set_ylim(ylim)
+
+        cmap = copy.copy(plt.cm.__dict__[cmap])
+        cmap.set_bad(cmap(0))
+        pcm = ax.pcolormesh(xedges, yedges, h.T, cmap=cmap, rasterized=True, **pcm_kwargs)
+
+        fig.colorbar(pcm, ax=ax, label='Density', pad=0)
+
+        if title is not None:
+            ax.set_title(title, **title_kwargs)
+        
+        return fig, ax
+            
+
+    def plot_qs(self, figsize=[12, 4], qs=[0.025, 0.25, 0.5, 0.75, 0.975], color='indianred',
+        xlabel='Year (CE)', ylabel=None, title=None, ylim=None, xlim=None, alphas=[0.5, 0.1],
+        plot_kwargs=None, legend_kwargs=None, title_kwargs=None, ax=None, plot_valid=True):
+        ''' Plot the quantiles
+        '''
+
+        plot_kwargs = {} if plot_kwargs is None else plot_kwargs
+        legend_kwargs = {} if legend_kwargs is None else legend_kwargs
+        title_kwargs = {} if title_kwargs is None else title_kwargs
+
+        if ax is None:
+            fig, ax = plt.subplots(figsize=figsize)
+
+        ax.margins(0)
+
+        # calculate quantiles
+        ts_qs = np.quantile(self.value, qs, axis=-1)
+        nqs = len(qs)
+        idx_mid = int(np.floor(nqs/2))
+
+        if qs[idx_mid] == 0.5:
+            label_mid = 'median'
+        else:
+            label_mid = f'{qs[2]*100}%'
+
+        # plot timeseries
+        _plot_kwargs = {'linewidth': 1}
+        _plot_kwargs.update(plot_kwargs)
+
+        ax.plot(self.time, ts_qs[idx_mid], label=label_mid, color=color, **_plot_kwargs)
+        for i, alpha in zip(range(idx_mid), alphas[::-1]):
+            ax.fill_between(self.time, ts_qs[-(i+1)], ts_qs[i], color=color, alpha=alpha, label=f'{qs[i]*100}% to {qs[-(i+1)]*100}%')
+
+        if plot_valid and hasattr(self, 'valid_stats'):
+            lb = f'{self.ref_name}'
+            s =  ' ('
+            for k, v in self.valid_stats.items():
+                if k == 'corr':
+                    s += fr'$r$={v:.2f}, '
+                elif k == 'R2':
+                    s += fr'$R^2$={v:.2f}, '
+                elif k == 'CE':
+                    s += fr'$CE$={v:.2f}, '
+            s = s[:-2]
+            s += ')'
+            lb += s
+
+            ax.plot(self.ref_time, self.ref_value, label=lb, color='k')
+
+        ax.set_xlabel(xlabel)
+        if ylabel is None: ylabel = self.value_name
+        ax.set_ylabel(ylabel)
+
+        if xlim is not None:
+            ax.set_xlim(xlim)
+
+        if ylim is not None:
+            ax.set_xlim(ylim)
+
+
+        _legend_kwargs = {'ncol': 4, 'loc': 'upper left'}
+        _legend_kwargs.update(legend_kwargs)
+        ax.legend(**_legend_kwargs)
+
+        if title is not None:
+            _title_kwargs = {'fontweight': 'bold'}
+            _title_kwargs.update(title_kwargs)
+            ax.set_title(title, **_title_kwargs)
+
+        if 'fig' in locals():
+            return fig, ax
+        else:
+            return ax
+
+    def validate(self, ref_time, ref_value, ref_name='reference', stats=['corr', 'CE'], valid_period=(1880, 2000)):
+        ''' Validate against a reference timeseries
+
+        Args:
+            ref_time (numpy.array): the time axis of the reference timeseries
+            ref_value (numpy.array): the value axis of the reference timeseries
+            stats (list, optional): the list of validation statistics to calculate. Defaults to ['corr', 'CE'].
+            valid_period (tuple, optional): the time period for validation. Defaults to (1880, 2000).
+        '''
+        new = self.copy()
+        new.valid_stats = {}
+        ref_time = np.array(ref_time)
+        ref_value = np.array(ref_value)
+        new.ref_name = ref_name
+
+        recon_value = np.array(self.get_median().value)[:, 0]
+        recon_time = np.array(self.get_median().time)
+        recon_mask = (recon_time>=valid_period[0])&(recon_time<=valid_period[1])
+        recon_slice = recon_value[recon_mask]
+
+        ref_mask = (ref_time>=valid_period[0])&(ref_time<=valid_period[1])
+        ref_slice = ref_value[ref_mask]
+        new.ref_time = ref_time[ref_mask]
+        new.ref_value = ref_value[ref_mask]
+
+        for stat in stats:
+            if stat == 'corr':
+                r, p = pearsonr(recon_slice, ref_slice)
+                new.valid_stats['corr'], new.valid_stats['p-value'] = r, p
+            elif stat == 'R2':
+                r, p = pearsonr(recon_slice, ref_slice)
+                new.valid_stats['R2'], new.valid_stats['p-value'] = r**2, p
+            elif stat == 'CE':
+                new.valid_stats['CE'] = coefficient_efficiency(ref_slice, recon_slice)
+            else:
+                raise ValueError('Wrong `stat`; should be one of `corr`, `R2`, and `CE`.' )
+
+        return new

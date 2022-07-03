@@ -541,7 +541,6 @@ class ProxyDatabase:
 
         '''
         if isinstance(keys, str): keys = [keys]
-        keys = set(keys)
 
         new_db = ProxyDatabase()
         pobjs = []
@@ -572,7 +571,7 @@ class ProxyDatabase:
                 if d <= keys[2]:
                     pobjs.append(pobj)
             elif by == 'tag':
-                if keys <= target[by]:
+                if set(keys) <= target[by]:
                     pobjs.append(pobj)
             
         new_db += pobjs

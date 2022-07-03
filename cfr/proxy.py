@@ -319,6 +319,7 @@ class ProxyRecord:
                 time_name = 'year'
 
             self.clim[name] = ClimateField().from_da(nda, time_name=time_name)
+            self.clim[name].time = field.time
             if load: self.clim[name].da.load()
             if verbose: utils.p_success(f'ProxyRecord.clim["{name}"] created.')
 

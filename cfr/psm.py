@@ -56,7 +56,7 @@ class TempPlusNoise:
             value = value - np.mean(value[mask_model]) + np.mean(self.pobj.value[mask_pobj])
 
         pp = ProxyRecord(
-            pid=f'pseudo_{self.pobj.pid}',
+            pid=self.pobj.pid,
             time=self.pobj.clim[vn].time,
             value=value,
             lat=self.pobj.lat,
@@ -274,7 +274,7 @@ class Bilinear:
         }
 
         pp = ProxyRecord(
-            pid=f'pseudo_{self.pobj.pid}',
+            pid=self.pobj.pid,
             time=exog1.time,
             value=np.array(self.model.predict(exog=exog_dict).values),
             lat=self.pobj.lat,
@@ -646,7 +646,7 @@ class Ice_d18O():
         ice_diffused = ice_archive(d18O_ice, pr_ann.da.values, tas_ann.da.values, psl_ann.da.values, nproc=nproc)
 
         pp = ProxyRecord(
-            pid=f'pseudo_{self.pobj.pid}',
+            pid=self.pobj.pid,
             time=tas_ann.time,
             value=ice_diffused[::-1],
             lat=self.pobj.lat,
@@ -768,7 +768,7 @@ class Lake_VarveThickness():
         varve_res = simpleVarveModel(tas_ann.da.values, **kwargs)
 
         pp = ProxyRecord(
-            pid=f'pseudo_{self.pobj.pid}',
+            pid=self.pobj.pid,
             time=tas_ann.time,
             value=np.array(varve_res['varves'])[0],
             lat=self.pobj.lat,
@@ -807,7 +807,7 @@ class Coral_SrCa:
         SrCa = self.a*self.pobj.clim[self.model_tos_name].da.values + self.b
 
         pp = ProxyRecord(
-            pid=f'pseudo_{self.pobj.pid}',
+            pid=self.pobj.pid,
             time=self.pobj.clim[self.model_tos_name].time,
             value=SrCa,
             lat=self.pobj.lat,
@@ -980,7 +980,7 @@ class Coral_d18O:
         )
 
         pp = ProxyRecord(
-            pid=f'pseudo_{self.pobj.pid}',
+            pid=self.pobj.pid,
             time=self.pobj.clim[self.model_tos_name].time,
             value=d18O,
             lat=self.pobj.lat,
@@ -1086,7 +1086,7 @@ class VSLite:
         )
 
         pp = ProxyRecord(
-            pid=f'pseudo_{self.pobj.pid}',
+            pid=self.pobj.pid,
             time=np.arange(syear, eyear+1),
             value=vsl_res['trw'],
             lat=self.pobj.lat,

@@ -155,21 +155,29 @@ class ClimateField:
         new.refresh()
         return new
 
-    def validate(self, ref, time_name='year', stat='corr', valid_period=(1880, 2000)):
+    def validate(self, ref, time_name='time', stat='corr', interp_direction='to-ref', valid_period=(1880, 2000)):
         ''' Validate against a reference field.
 
         Args:
             ref (cfr.climate.ClimateField): the reference to compare against, assuming the first dimension to be time
+            time_name (str): the name of the tima axis of `ref`
+            valid_period (tuple, optional): the time period for validation. Defaults to None.
+            interp_direction (str, optional): the direction to interpolate the fields:
+            
+                * 'to-ref': interpolate from `self` to `ref`
+                * 'from-ref': interpolate from `ref` to `self`
             stat (str): the statistics to calculate. Supported quantaties:
 
                 * 'corr': correlation coefficient
                 * 'R2': coefficient of determination
                 * 'CE': coefficient of efficiency
         '''
-
         fd_slice = self.da.loc[f'{valid_period[0]}':f'{valid_period[-1]}']
         ref_slice = ref.da.loc[f'{valid_period[0]}':f'{valid_period[-1]}']
-        fd_slice = fd_slice.interp({'lat': ref_slice.lat, 'lon': ref_slice.lon})
+        if interp_direction == 'to-ref':
+            fd_slice = fd_slice.interp({'lat': ref_slice.lat, 'lon': ref_slice.lon})
+        elif interp_direction == 'from-ref':
+            ref_slice = ref_slice.interp({'lat': fd_slice.lat, 'lon': fd_slice.lon})
 
         if ref.da.dims[0] != time_name:
             ref_slice = ref_slice.rename({ref_slice.dims[0]: time_name})
@@ -177,8 +185,8 @@ class ClimateField:
 
         if stat == 'corr':
             stat_da = xr.corr(fd_slice, ref_slice, dim=time_name)
-            stat_da = stat_da.expand_dims({time_name: 1})
-            stat_fd = ClimateField().from_da(da=stat_da, time_name=time_name)
+            stat_da = stat_da.expand_dims({'year': 1})
+            stat_fd = ClimateField().from_da(da=stat_da, time_name='year')
             stat_fd.vn = stat
             stat_fd.plot_kwargs = {
                 'cmap': 'RdBu_r',
@@ -189,8 +197,8 @@ class ClimateField:
             }
         elif stat == 'R2':
             stat_da = xr.corr(fd_slice, ref_slice, dim=time_name)
-            stat_da = stat_da.expand_dims({time_name: 1})
-            stat_fd = ClimateField().from_da(da=stat_da**2, time_name=time_name)
+            stat_da = stat_da.expand_dims({'year': 1})
+            stat_fd = ClimateField().from_da(da=stat_da**2, time_name='year')
             stat_fd.vn = stat
             stat_fd.plot_kwargs = {
                 'cmap': 'Reds',
@@ -202,7 +210,7 @@ class ClimateField:
         elif stat == 'CE':
             ce = utils.coefficient_efficiency(ref_slice.values, fd_slice.values)
             stat_da = xr.DataArray(ce[np.newaxis], coords={'year': [1], 'lat': fd_slice.lat, 'lon': fd_slice.lon})
-            stat_fd = ClimateField().from_da(da=stat_da, time_name=time_name)
+            stat_fd = ClimateField().from_da(da=stat_da, time_name='year')
             stat_fd.vn = stat
             stat_fd.plot_kwargs = {
                 'cmap': 'RdBu_r',

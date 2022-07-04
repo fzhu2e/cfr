@@ -199,28 +199,63 @@ def plot_field_map(field_var, lat, lon, levels=50, add_cyclic_point=True,
                    lon_ticks=[60, 120, 180, 240, 300], lat_ticks=[-90, -45, 0, 45, 90],
                    land_color=sns.xkcd_rgb['light grey'], ocean_color=sns.xkcd_rgb['light grey'],
                    land_zorder=None, ocean_zorder=None, signif_values=None, signif_range=[0.05, 9999], hatch='..',
-                   clim=None, cmap=None, cmap_under=None, cmap_over=None, extend=None, mode='latlon', add_gridlines=False,
+                   clim=None, cmap=None, cmap_under=None, cmap_over=None, cmap_bad=None, extend=None, mode='latlon', add_gridlines=False,
                    make_cbar=True, cbar_labels=None, cbar_pad=0.05, cbar_orientation='vertical', cbar_aspect=10,
                    cbar_fraction=0.15, cbar_shrink=0.5, cbar_title=None, cbar_title_x=0.5, cbar_title_y=1.05,
-                   font_scale=1.5, plot_type=None, fig=None, ax=None):
+                   fig=None, ax=None):
+    ''' Visualize a field on a map.
 
-    if plot_type == 'corr':
-        clim = [-1, 1] if clim is None else clim
-        levels = np.linspace(-1, 1, 21) if levels is None else levels
-        cbar_labels = np.linspace(-1, 1, 11) if cbar_labels is None else cbar_labels
-        cbar_title = 'r' if cbar_title is None else cbar_title
-        extend = 'neither' if extend is None else extend
-        cmap = 'RdBu_r' if cmap is None else cmap
-    elif plot_type == 'R2':
-        clim = [0, 1] if clim is None else clim
-        levels = np.linspace(0, 1, 21) if levels is None else levels
-        cbar_labels = np.linspace(0, 1, 11) if cbar_labels is None else cbar_labels
-        cbar_title = r'R$^2$' if cbar_title is None else cbar_title
-        extend = 'neither' if extend is None else extend
-        cmap = 'Reds' if cmap is None else cmap
-    else:
-        extend = 'both' if extend is None else extend
-        cmap = 'RdBu_r' if cmap is None else cmap
+    Args:
+        field_var (numpy.ndarray): field data array
+        lat (numpy.array): list of latitudes
+        lon (numpy.array): list of longitudes
+        levels (int or list, optional): contour levels. Defaults to 50.
+        add_cyclic_point (bool, optional): if True, add cyclic point to the field. Defaults to True.
+        title (str, optional): title string. Defaults to None.
+        title_size (int, optional): font size of the title string. Defaults to 20.
+        title_weight (str, optional): font weight of the title string. Defaults to 'normal'.
+        figsize (list, optional): figure size. Defaults to [10, 8].
+        site_lats (list, optional): list of latitudes for the sites to be plotted on the map. Defaults to None.
+        site_lons (list, optional): list of longitudes for the sites to be plotted on the map. Defaults to None.
+        site_marker (list, optional): marker for the sites to be plotted on the map. Defaults to 'o'.
+        site_markersize (float, optional): marker size for the sites to be plotted on the map. Defaults to 50.
+        site_color (str, optional): color of the markers for the sites to be plotted on the map. Defaults to sns.xkcd_rgb['amber'].
+        projection (str, optional): map projection. Defaults to 'Robinson'.
+        transform (object, optional): map tranform. Defaults to ccrs.PlateCarree().
+        proj_args (dict, optional): map projection arguments. Defaults to None.
+        latlon_range (list, optional): for regional plotting; equals to [lat_min, lat_max, lon_min, lon_max]. Defaults to None.
+        central_longitude (int, optional): central longitude for the map projection. Defaults to 180.
+        lon_ticks (list, optional): _description_. Defaults to [60, 120, 180, 240, 300].
+        lat_ticks (list, optional): _description_. Defaults to [-90, -45, 0, 45, 90].
+        land_color (str, optional): _description_. Defaults to sns.xkcd_rgb['light grey'].
+        ocean_color (str, optional): _description_. Defaults to sns.xkcd_rgb['light grey'].
+        land_zorder (float, optional): _description_. Defaults to None.
+        ocean_zorder (float, optional): _description_. Defaults to None.
+        signif_values (float, optional): _description_. Defaults to None.
+        signif_range (list, optional): _description_. Defaults to [0.05, 9999].
+        hatch (str, optional): _description_. Defaults to '..'.
+        clim (list, optional): _description_. Defaults to None.
+        cmap (str, optional): colormap. Defaults to None.
+        cmap_under (str, optional): color under the limit. Defaults to None.
+        cmap_over (str, optional): color over the limit. Defaults to None.
+        cmap_bad (str, optional): color for bad values. Defaults to None.
+        extend (str, optional): if True, extend the colorbar. Defaults to None.
+        mode (str, optional): _description_. Defaults to 'latlon'.
+        add_gridlines (bool, optional): _description_. Defaults to False.
+        make_cbar (bool, optional): if True, plot the colorbar. Defaults to True.
+        cbar_labels (_type_, optional): colorbar labels. Defaults to None.
+        cbar_pad (float, optional): colorbar padding space. Defaults to 0.05.
+        cbar_orientation (str, optional): colorbar orientation. Defaults to 'vertical'.
+        cbar_aspect (int, optional): colorbar aspect. Defaults to 10.
+        cbar_fraction (float, optional): colorbar fraction. Defaults to 0.15.
+        cbar_shrink (float, optional): colorbar shrink. Defaults to 0.5.
+        cbar_title (_type_, optional): colorbar title string. Defaults to None.
+        cbar_title_x (float, optional): colorbar title location x. Defaults to 0.5.
+        cbar_title_y (float, optional): colorbar title location y. Defaults to 1.05.
+        fig (object, optional): `matplotlib.figure`. Defaults to None.
+        ax (object, optional): `matplotlib.axes`. Defaults to None.
+
+    '''
 
     if add_cyclic_point:
         if mode == 'latlon':
@@ -272,8 +307,8 @@ def plot_field_map(field_var, lat, lon, levels=50, add_cyclic_point=True,
         plt.title(title, fontsize=title_size, fontweight=title_weight)
 
     if latlon_range:
-        lon_min, lon_max, lat_min, lat_max = latlon_range
-        ax.set_extent(latlon_range, crs=transform)
+        lat_min, lat_max, lon_min, lon_max = latlon_range
+        ax.set_extent([lon_min, lon_max, lat_min, lat_max], crs=transform)
         lon_formatter = LongitudeFormatter(zero_direction_label=False)
         lat_formatter = LatitudeFormatter()
         ax.xaxis.set_major_formatter(lon_formatter)
@@ -299,6 +334,8 @@ def plot_field_map(field_var, lat, lon, levels=50, add_cyclic_point=True,
         cmap.set_under(cmap_under)
     if cmap_over is not None:
         cmap.set_over(cmap_over)
+    if cmap_bad is not None:
+        cmap.set_bad(cmap_bad)
 
     if mode == 'latlon':
         im = ax.contourf(lon_c, lat_c, field_var_c, levels, transform=transform, cmap=cmap, extend=extend)
@@ -349,6 +386,7 @@ def plot_proxies(df, year=np.arange(2001), lon_col='lon', lat_col='lat', type_co
 
     Args:
         df (pandas.DataFrame): proxy database in `pandas.DataFrame`.
+        year (list): the years for counting proxy numbers.
 
     '''
 

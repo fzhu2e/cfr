@@ -4,6 +4,7 @@ import numpy as np
 from tqdm import tqdm
 import pandas as pd
 import matplotlib.pyplot as plt
+from matplotlib.colors import LogNorm
 from .climate import ClimateField
 from scipy.stats import pearsonr
 import glob

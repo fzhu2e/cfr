@@ -89,7 +89,7 @@ def main():
             else:
                 raise ValueError('Wrong number of seeds')
 
-            cfr.run_cfg(args.config, seeds=seeds, run_mc=args.run, verbose=args.verbose)
+            cfr.run_da_cfg(args.config, seeds=seeds, run_mc=args.run, verbose=args.verbose)
 
 def make_bsub(work_dir, cfg_path, seeds, run, verbose):
     bsub_path = os.path.join(work_dir, 'cfr.bsub')

@@ -10,6 +10,7 @@ import random
 import glob
 from .climate import ClimateField
 from .proxy import ProxyDatabase, ProxyRecord
+from .graphem import GraphEM
 try:
     from . import psm
 except:
@@ -459,7 +460,7 @@ class ReconJob:
         self.recon_fields = self.da_solver.recon_fields
         if verbose: p_success(f'>>> job.recon_fields created')
 
-    def run_mc(self, recon_period=None, recon_loc_rad=None, recon_timescale=None, nens=None,
+    def run_da_mc(self, recon_period=None, recon_loc_rad=None, recon_timescale=None, nens=None,
                output_full_ens=None, recon_sampling_mode=None, recon_sampling_dist=None,
                normal_sampling_sigma=None, normal_sampling_cutoff_factor=None,
                recon_seeds=None, assim_frac=None, save_dirpath=None, compress_params=None, verbose=False):
@@ -511,7 +512,7 @@ class ReconJob:
                         recon_timescale=recon_timescale, seed=seed, verbose=False)
 
             recon_savepath = os.path.join(save_dirpath, f'job_r{seed:02d}_recon.nc')
-            self.save_recon(recon_savepath, compress_params=compress_params,
+            self.save_da_recon(recon_savepath, compress_params=compress_params,
                             verbose=verbose, output_full_ens=output_full_ens)
 
         t_e = time.time()
@@ -567,7 +568,7 @@ class ReconJob:
 
         return job
     
-    def save_recon(self, save_path, compress_params=None, verbose=False, output_full_ens=False,
+    def save_da_recon(self, save_path, compress_params=None, verbose=False, output_full_ens=False,
                    output_indices=None):
         ''' Save the reconstruction results.
 
@@ -648,7 +649,7 @@ class ReconJob:
 
         if verbose: p_success(f'>>> Reconstructed fields saved to: {save_path}')
 
-    def prepare_cfg(self, cfg_path, seeds=None, verbose=False):
+    def prep_da_cfg(self, cfg_path, seeds=None, verbose=False):
         ''' Prepare the configuration items.
 
         Args:
@@ -710,8 +711,114 @@ class ReconJob:
         t_used = t_e - t_s
         p_success(f'>>> DONE! Total time used: {t_used/60:.2f} mins.')
 
+    def prep_graphem(self, recon_period=None, calib_period=None, verbose=False):
+        ''' A shortcut of the steps for GraphEM data preparation
+        '''
+        recon_period = self.io_cfg('recon_period', recon_period, default=(0, 2000), verbose=False)
+        calib_period = self.io_cfg('calib_period', calib_period, default=(1850, 2000), verbose=False)
 
-def run_cfg(cfg_path, seeds=None, run_mc=True, verbose=False):
+        recon_time = np.arange(recon_period[0], recon_period[1]+1)
+        calib_time = np.arange(calib_period[0], calib_period[1]+1)
+        self.recon_time = recon_time
+        self.calib_time = calib_time
+        if verbose: p_success(f'>>> job.recon_time created')
+        if verbose: p_success(f'>>> job.calib_time created')
+
+        tas = self.obs['tas']
+        tas_nt = tas.da.shape[0]
+        tas_2d = tas.da.values.reshape(tas_nt, -1)
+        tas_npos = np.shape(tas_2d)[-1]
+
+        nt = np.size(recon_time)
+        temp = np.ndarray((nt, tas_npos))
+        temp[:] = np.nan
+
+        temp_calib_idx = [list(recon_time).index(t) for t in calib_time]
+        self.calib_idx = temp_calib_idx
+        if verbose: p_success(f'>>> job.calib_idx created')
+
+        tas_calib_idx = [list(tas.time).index(t) for t in calib_time]
+        temp[temp_calib_idx] = tas_2d[tas_calib_idx]
+
+        self.temp = temp
+        if verbose: p_success(f'>>> job.temp created')
+
+        lonlat = np.ndarray((tas_npos+self.proxydb.nrec, 2))
+
+        k = 0
+        for i in range(np.size(tas.da.lon)):
+            for j in range(np.size(tas.da.lat)):
+                lonlat[k] = [tas.lon[i], tas.lat[j]]
+                k += 1
+
+        df_proxy = pd.DataFrame(index=recon_time)
+        for pid, pobj in self.proxydb.records.items():
+            series = pd.Series(index=pobj.time, data=pobj.value, name=pid)
+            df_proxy = pd.concat([df_proxy, series], axis=1)
+            lonlat[k] = [pobj.lon, pobj.lat]
+            k += 1
+
+        mask = (df_proxy.index>=recon_time[0]) & (df_proxy.index<=recon_time[-1])
+        df_proxy = df_proxy[mask]
+
+        self.df_proxy = df_proxy
+        self.proxy = df_proxy.values
+        if verbose: p_success(f'>>> job.df_proxy created')
+        if verbose: p_success(f'>>> job.proxy created')
+
+        self.lonlat = lonlat
+        if verbose: p_success(f'>>> job.lonlat created')
+
+    def run_graphem(self, save_path, verbose=False, **fit_kws):
+        ''' Run the GraphEM solver, essentially the :py:meth: `GraphEM.solver.GraphEM.fit` method
+
+        Note that the arguments for :py:meth: `GraphEM.solver.GraphEM.fit` can be appended in the
+        argument list of this function directly. For instance, to pass a pre-calculated graph, use
+        `estimate_graph=False` and `graph=g.adj`, where `g` is the :py:`Graph` object.
+
+        Args:
+            save_path (str): the path to save the fitting result
+            verbose (bool, optional): print verbose information. Defaults to False.
+            fit_kws (dict): the arguments for :py:meth: `GraphEM.solver.GraphEM.fit`
+
+        See also:
+            cfr.graphem.solver.GraphEM.fit : fitting the GraphEM method
+
+        '''
+        if os.path.exists(save_path):
+            self.G = pd.read_pickle(save_path)
+            if verbose: p_success(f'job.G created with the existing result at: {save_path}')
+        else:
+            self.G = GraphEM()
+            fit_kwargs = {
+                'lonlat': self.lonlat,
+                'graph_method': 'neighborhood',
+            }
+            fit_kwargs.update(fit_kws)
+            self.G.fit(self.temp, self.proxy, self.calib_idx, **fit_kwargs)
+            pd.to_pickle(self.G, save_path)
+            if verbose: p_success(f'job.G created and saved to: {save_path}')
+
+        nt = np.shape(self.temp)[0]
+        _, nlat, nlon = np.shape(self.obs.fields['tas'].value)
+        self.recon = self.G.temp_r.reshape((nt, nlat, nlon))
+        if verbose: p_success(f'>>> job.recon created')
+
+    def save(self, prep_savepath=None, verbose=False):
+        ''' Save the job object for later use
+        '''
+        if prep_savepath is None:
+            prep_savepath = os.path.join(self.configs['job_dirpath'], f'job.pkl')
+
+        pd.to_pickle(self, prep_savepath)
+        self.configs['prep_savepath'] = prep_savepath
+
+        if verbose:
+            p_header(f'LMRt: job.save_job() >>> Prepration data saved to: {prep_savepath}')
+            p_header(f'LMRt: job.save_job() >>> job.configs["prep_savepath"] = {prep_savepath}')
+
+
+def run_da_cfg(cfg_path, seeds=None, run_mc=True, verbose=False):
     ''' Run the reconstruction job according to a configuration YAML file.
 
     Args:
@@ -732,14 +839,14 @@ def run_cfg(cfg_path, seeds=None, run_mc=True, verbose=False):
         job = pd.read_pickle(job_save_path)
         p_success(f'>>> {job_save_path} loaded')
     else:
-        job.prepare_cfg(cfg_path, seeds=seeds, verbose=verbose)
+        job.prep_da_cfg(cfg_path, seeds=seeds, verbose=verbose)
 
     if seeds is not None and np.size(seeds) == 1:
         seeds = [seeds]
     
     # run the Monte-Carlo iterations
     if run_mc:
-        job.run_mc(
+        job.run_da_mc(
             recon_period=job.configs['recon_period'],
             recon_loc_rad=job.configs['recon_loc_rad'],
             recon_timescale=job.configs['recon_timescale'],

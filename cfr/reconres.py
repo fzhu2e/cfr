@@ -80,11 +80,21 @@ class ReconRes:
                 p_success(f'>>> ReconRes.da["{vn}"] created')
 
 class EnsTS:
-    ''' Ensemble Timeseries
+    ''' The class for ensemble timeseries
 
     Note that annual reconstruction is assumed so the time axis is in years.
     The ensembles variable should be in shape of (nt, nEns), where nt is the number of years,
     and nEns is the number of ensemble members.
+
+    Args:
+        time (numpy.array): the time axis of the series
+        value (numpy.array): the value axis of the series
+        value_name (str): the name of value axis; will be used as ylabel in plots
+
+    Attributes:
+        nt (int): the size of the time axis
+        nEns (int): the size of the ensemble
+        median (numpy.array): the median of the ensemble timeseries
 
     '''
     def __init__(self, time=None, value=None, value_name=None):
@@ -101,6 +111,7 @@ class EnsTS:
             self.median = np.median(self.value, axis=-1)
 
     def __getitem__(self, key):
+        ''' This makes the object subscriptable. '''
         new = self.copy()
         new.value = new.value[key]
         if type(key) is tuple:
@@ -113,16 +124,18 @@ class EnsTS:
         return new
 
     def copy(self):
+        ''' Make a deepcopy of the object. '''
         return copy.deepcopy(self)
 
     def get_median(self):
+        ''' Get the median, returning an EnsTS object. '''
         med = EnsTS(time=self.time, value=self.median)
         return med
 
     def plot(self, figsize=[12, 4],
         xlabel='Year (CE)', ylabel=None, title=None, ylim=None, xlim=None, alphas=[0.5, 0.1],
         plot_kwargs=None, legend_kwargs=None, title_kwargs=None, ax=None):
-        ''' Plot the raw values (multiple series)
+        ''' Plot the raw values (multiple series).
         '''
 
         plot_kwargs = {} if plot_kwargs is None else plot_kwargs
@@ -163,20 +176,13 @@ class EnsTS:
         title_kwargs=None, ax=None, **pcolormesh_kwargs,):
         ''' Plot the timeseries 2-D histogram
 
-        Parameters
-        ----------
-        cmap : str
-            The colormap for the histogram.
+        Args:
+            cmap (str): The colormap for the histogram.
+            color_scale (str): The scale of the colorbar; should be either 'linear' or 'log'.
+            bins (list or tuple): The number of bins for each axis: nx, ny = bins.
 
-        color_scale : str
-            The scale of the colorbar; should be either 'linear' or 'log'.
-
-        bins : list/tuple of 2 floats
-            The number of bins for each axis: nx, ny = bins.
-
-        Referneces
-        ----------
-        - https://matplotlib.org/3.5.0/gallery/statistics/time_series_histogram.html
+        Referneces:
+            https://matplotlib.org/3.5.0/gallery/statistics/time_series_histogram.html
 
         '''
         pcolormesh_kwargs = {} if pcolormesh_kwargs is None else pcolormesh_kwargs
@@ -245,7 +251,7 @@ class EnsTS:
     def plot_qs(self, figsize=[12, 4], qs=[0.025, 0.25, 0.5, 0.75, 0.975], color='indianred',
         xlabel='Year (CE)', ylabel=None, title=None, ylim=None, xlim=None, alphas=[0.5, 0.1],
         plot_kwargs=None, legend_kwargs=None, title_kwargs=None, ax=None, plot_valid=True):
-        ''' Plot the quantiles
+        ''' Plot the quantiles.
         '''
 
         plot_kwargs = {} if plot_kwargs is None else plot_kwargs
@@ -317,7 +323,7 @@ class EnsTS:
             return ax
 
     def validate(self, ref_time, ref_value, ref_name='reference', stats=['corr', 'CE'], valid_period=(1880, 2000)):
-        ''' Validate against a reference timeseries
+        ''' Validate against a reference timeseries.
 
         Args:
             ref_time (numpy.array): the time axis of the reference timeseries

@@ -24,6 +24,7 @@ class ClimateField:
             self.refresh(time_name=time_name, lat_name=lat_name, lon_name=lon_name)
 
     def __getitem__(self, key):
+        ''' This makes the object subscriptable. '''
         new = self.copy()
         new.da = new.da[key]
         if type(key) is tuple:
@@ -33,6 +34,8 @@ class ClimateField:
         return new
 
     def refresh(self, time_name='time', lat_name='lat', lon_name='lon'):
+        ''' Refresh a bunch of attributes.
+        '''
         self.lat = self.da[lat_name].values
         self.lon = self.da[lon_name].values
         if time_name == 'year':
@@ -52,6 +55,8 @@ class ClimateField:
             self.unit = None
 
     def wrap_lon(self, mode='360', time_name='time', lon_name='lon'):
+        ''' Convert longitude values from the range (-180, 180) to (0, 360).
+        '''
         if mode == '360':
             tmp_da = self.da.assign_coords({lon_name: np.mod(self.da[lon_name], 360)})
         elif mode == '180':
@@ -64,12 +69,16 @@ class ClimateField:
         return new
 
     def from_da(self, da, time_name='time', lat_name='lat', lon_name='lon'):
+        ''' Load data from a `xarray.DataArray`.
+        '''
         new = self.copy()
         new.da = da
         new.refresh(time_name=time_name, lat_name=lat_name, lon_name=lon_name)
         return new
 
     def from_np(self, time, lat, lon, value, time_name='time', lat_name='lat', lon_name='lon', value_name='tas'):
+        ''' Load data from a `numpy.ndarray`.
+        '''
         new = self.copy()
         lat_da = xr.DataArray(lat, dims=[lat_name], coords={lat_name: lat})
         lon_da = xr.DataArray(lon, dims=[lon_name], coords={lon_name: lon})
@@ -84,6 +93,11 @@ class ClimateField:
         return new
 
     def get_anom(self, ref_period=[1951, 1980]):
+        ''' Get the anomaly against a reference time period.
+
+        Args:
+            ref_period (tuple or list): the reference time period in the form or (start_yr, end_yr)
+        '''
         new = self.copy()
 
         if ref_period is not None:
@@ -99,6 +113,12 @@ class ClimateField:
         return new
 
     def center(self, ref_period=[1951, 1980], time_name='time'):
+        ''' Center the climate field against a reference time period.
+
+        Args:
+            ref_period (tuple or list): the reference time period in the form or (start_yr, end_yr)
+            time_name (str): name of the time dimention
+        '''
         new = self.copy()
 
         if ref_period is not None:
@@ -114,6 +134,11 @@ class ClimateField:
         return new
 
     def load_nc(self, path, vn=None, time_name='time', lat_name='lat', lon_name='lon', load=False, **kwargs):
+        ''' Load the climate field from a netCDF file.
+
+        Args:
+            path (str): the path where to load data from
+        '''
         if vn is None: 
             da = xr.open_dataarray(path, **kwargs)
         else:
@@ -126,13 +151,20 @@ class ClimateField:
         return new
 
     def to_nc(self, path, verbose=True, **kwargs):
+        ''' Convert the climate field to a netCDF file.
+
+        Args:
+            path (str): the path where to save
+        '''
         self.da.to_netcdf(path, **kwargs)
         if verbose: utils.p_success(f'ClimateField saved to: {path}')
 
     def copy(self):
+        ''' Make a deepcopy of the object. '''
         return copy.deepcopy(self)
 
     def rename(self, new_vn):
+        ''' Rename the variable name of the climate field.'''
         new = self.copy()
         new.da = self.da.rename(new_vn)
         new.vn = new_vn
@@ -226,6 +258,7 @@ class ClimateField:
             
 
     def plot(self, it=0, **kwargs):
+        ''' Plot the climate field.'''
         try:
             t = self.da[self.time_name].values[it]
         except:
@@ -265,12 +298,19 @@ class ClimateField:
         return fig, ax
 
     def annualize(self, months=list(range(1, 13))):
+        ''' Annualize/seasonalize the climate field based on a list of months.
+
+        Args:
+            months (list): the months based on which for annualization; e.g., [6, 7, 8] means JJA annualization
+        '''
         new = self.copy()
         new.da = utils.annualize(da=self.da, months=months)
         new.time = np.floor(utils.datetime2year_float(new.da.time.values))
         return new
 
     def regrid(self, lats, lons, periodic_lon=False):
+        ''' Regrid the climate field.'''
+
         new = self.copy()
         lat_da = xr.DataArray(lats, dims=[self.lat_name], coords={self.lat_name: lats})
         lon_da = xr.DataArray(lons, dims=[self.lon_name], coords={self.lon_name: lons})
@@ -285,6 +325,7 @@ class ClimateField:
         return new
 
     def crop(self, time_min=None, time_max=None, lat_min=None, lat_max=None, lon_min=None, lon_max=None):
+        ''' Crop the climate field.'''
         new = self.copy()
         if time_min is not None and time_max is not None:
             mask_time = (self.da[self.time_name] >= time_min) & (self.da[self.time_name] <= time_max)
@@ -318,9 +359,10 @@ class ClimateField:
 
         return  new
 
-    def geo_mean(self):
-        wgts = np.cos(np.deg2rad(self.da[self.lat_name]))
-        m = self.da.weighted(wgts).mean((self.lon_name, self.lat_name))
+    def geo_mean(self, lat_min=-90, lat_max=90, lon_min=0, lon_max=360, lat_name='lat', lon_name='lon'):
+        ''' Calculate the geographical mean value of the climate field. '''
+        m = utils.geo_mean(self.da, lat_min=lat_min, lat_max=lat_max, lon_min=lon_min, lon_max=lon_max,
+                           lat_name=lat_name, lon_name=lon_name)
         return m
 
 
@@ -337,9 +379,11 @@ class ClimateDataset:
             self.refresh()
 
     def refresh(self):
+        ''' Refresh a bunch of attributes. '''
         self.nv = len(list(self.fields.keys()))
 
     def copy(self):
+        ''' Make a deepcopy of the object. '''
         return copy.deepcopy(self)
 
     def load_nc(self, path, time_name='time', lat_name='lat', lon_name='lon', vn=None, load=False, **kwargs):
@@ -394,6 +438,11 @@ class ClimateDataset:
         return new
 
     def annualize(self, months=list(range(1, 13))):
+        ''' Annualize/seasonalize the climate dataset based on a list of months.
+
+        Args:
+            months (list): the months based on which for annualization; e.g., [6, 7, 8] means JJA annualization
+        '''
         new = ClimateDataset()
         for vn, fd in tqdm(self.fields.items(), total=self.nv, desc='Annualizing ClimateField'):
             sfd = fd.annualize(months=months)
@@ -403,6 +452,11 @@ class ClimateDataset:
         return new
 
     def get_anom(self, ref_period=[1951, 1980]):
+        ''' Get anomaly of the climate dataset against a reference time period.
+
+        Args:
+            ref_period (tuple or list): the reference time period in the form or (start_yr, end_yr)
+        '''
         new = ClimateDataset()
         for vn, fd in tqdm(self.fields.items(), total=self.nv, desc='Getting anomaly from ClimateField'):
             sfd = fd.get_anom(ref_period=ref_period)
@@ -411,6 +465,11 @@ class ClimateDataset:
         return new
 
     def center(self, ref_period=[1951, 1980]):
+        ''' Center the climate dataset against a reference time period.
+
+        Args:
+            ref_period (tuple or list): the reference time period in the form or (start_yr, end_yr)
+        '''
         new = ClimateDataset()
         for vn, fd in tqdm(self.fields.items(), total=self.nv, desc='Getting anomaly from ClimateField'):
             sfd = fd.center(ref_period=ref_period)
@@ -431,6 +490,13 @@ class ClimateDataset:
         return new
 
     def regrid(self, lat, lon):
+        ''' Regrid the climate dataset
+
+        Args:
+            lat (numpy.array): the latitudes of the target grid.
+            lon (numpy.array): the longitudes of the target grid.
+
+        '''
         lat_da = xr.DataArray(lat, dims=['lat'], coords={'lat': lat})
         lon_da = xr.DataArray(lon, dims=['lon'], coords={'lon': lon})
         dsi = self.ds.interp(lon=lon_da, lat=lat_da)

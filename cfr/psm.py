@@ -28,12 +28,17 @@ def clean_df(df, mask=None):
 
 class TempPlusNoise:
     ''' A PSM that adds white noise to the input climate signal.
+
+    Args:
+        pobj (cfr.proxy.ProxyRecord): the proxy record object
+        climate_required (cfr.climate.ClimateField): the required climate field object for running this PSM
     '''
     def __init__(self, pobj=None, climate_required=['tas']):
         self.pobj = pobj
         self.climate_required = climate_required
 
     def calibrate(self, SNR=10, seasonality=list(range(13)), vn='model_tas', seed=0):
+        ''' Calibrate the PSM.'''
         sigma = np.std(self.pobj.clim[vn].da.values) / SNR
         rng = np.random.default_rng(seed)
         self.wn = rng.normal(0, sigma, np.size(self.pobj.clim[vn].da.values))
@@ -45,6 +50,7 @@ class TempPlusNoise:
         self.calib_details = calib_details
 
     def forward(self, vn='model_tas', no_noise=False, center_period=None):
+        ''' Forward the PSM.'''
         if no_noise:
             value = self.pobj.clim[vn].da.values 
         else:
@@ -72,7 +78,13 @@ class TempPlusNoise:
         return pp
 
 class Linear:
-    def __init__(self, pobj=None, climate_required = ['tas']):
+    ''' A PSM that is based on univariate linear regression.
+
+    Args:
+        pobj (cfr.proxy.ProxyRecord): the proxy record object
+        climate_required (cfr.climate.ClimateField): the required climate field object for running this PSM
+    '''
+    def __init__(self, pobj=None, climate_required=['tas']):
         self.pobj = pobj
         self.climate_required = climate_required
 
@@ -174,6 +186,12 @@ class Linear:
 
 
 class Bilinear:
+    ''' A PSM that is based on bivariate linear regression.
+
+    Args:
+        pobj (cfr.proxy.ProxyRecord): the proxy record object
+        climate_required (cfr.climate.ClimateField): the required climate field object for running this PSM
+    '''
     def __init__(self, pobj=None, climate_required = ['tas', 'pr']):
         self.pobj = pobj
         self.climate_required = climate_required
@@ -291,6 +309,12 @@ class Bilinear:
 
 
 class Ice_d18O():
+    ''' The ice core d18O model adopted from PRYSM (https://github.com/sylvia-dee/PRYSM)
+
+    Args:
+        pobj (cfr.proxy.ProxyRecord): the proxy record object
+        climate_required (cfr.climate.ClimateField): the required climate field object for running this PSM
+    '''
     def __init__(self, pobj=None, tas_name='model_tas', pr_name='model_pr', psl_name='model_psl', d18O_name='model_d18O',
                  climate_required=['tas', 'pr', 'psl', 'd18O']):
         self.pobj = pobj
@@ -661,7 +685,7 @@ class Ice_d18O():
         return pp
 
 class Lake_VarveThickness():
-    ''' The varve thickness model
+    ''' The varve thickness model.
 
     It takes summer temperature as input (JJA for NH and DJF for SH).
     '''

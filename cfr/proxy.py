@@ -123,10 +123,15 @@ class ProxyRecord:
         self.seasonality = seasonality
 
     def copy(self):
+        ''' Make a deepcopy of the object. '''
         return copy.deepcopy(self)
 
     def center(self, ref_period):
-        ''' Centering the proxy timeseries regarding a reference period. '''
+        ''' Centering the proxy timeseries regarding a reference period.
+
+        Args:
+            ref_period (tuple or list): the reference time period in the form or (start_yr, end_yr)
+        '''
         new = self.copy()
         ref = self.slice(ref_period)
         new.value -= np.mean(ref.value)
@@ -242,6 +247,7 @@ class ProxyRecord:
         return new
 
     def __getitem__(self, key):
+        ''' This makes the object subscriptable. '''
         new = self.copy()
         new.value = new.value[key]
         if type(key) is tuple:
@@ -407,9 +413,15 @@ class ProxyDatabase:
             self.refresh()
 
     def copy(self):
+        ''' Make a deepcopy of the object. '''
         return copy.deepcopy(self)
 
     def center(self, ref_period):
+        ''' Center the proxy timeseries against a reference time period.
+
+        Args:
+            ref_period (tuple or list): the reference time period in the form or (start_yr, end_yr)
+        '''
         new = self.copy()
         for pid, pobj in tqdm(self.records.items(), total=self.nrec, desc='Centering each of the ProxyRecord'):
             ref = pobj.slice(ref_period)
@@ -421,6 +433,7 @@ class ProxyDatabase:
         return new
 
     def refresh(self):
+        ''' Refresh a bunch of attributes. '''
         self.nrec = len(self.records)
         self.pids = [pobj.pid for pid, pobj in self.records.items()]
         self.lats = [pobj.lat for pid, pobj in self.records.items()]
@@ -439,13 +452,9 @@ class ProxyDatabase:
                 verbose=False):
         ''' Load database from a Pandas DataFrame
 
-        Parameters
-        ----------
-        df : Pandas DataFrame
-            a Pandas DataFrame include at least lat, lon, time, value, proxy_type
-        
-        ptype_psm : dict
-            a mapping from ptype to psm
+        Args:
+            df (pandas.DataFrame): a Pandas DataFrame include at least lat, lon, time, value, proxy_type
+            ptype_psm (dict): a mapping from ptype to psm
         '''
         new = self.copy()
         if not isinstance(df, pd.DataFrame):
@@ -482,7 +491,12 @@ class ProxyDatabase:
         return new
 
     def __add__(self, records):
-        ''' Add a list of records into the database
+        ''' Add a list of records into the database.
+
+        Args:
+            records (list): a list of :py:mod:`cfr.proxy.ProxyRecord`
+                can also be a single :py:mod:`cfr.proxy.ProxyRecord` or :py:mod:`cfr.proxy.ProxyDatabase`
+
         '''
         new = self.copy()
         if isinstance(records, ProxyRecord):
@@ -501,11 +515,11 @@ class ProxyDatabase:
         return new
 
     def __sub__(self, records):
-        ''' Subtract a list of records from a database
+        ''' Subtract a list of records from a database.
 
         Args:
-            records (list): a list of cfr.proxy.ProxyRecord
-                can also be a single cfr.proxy.ProxyRecord or cfr.proxy.ProxyDatabase
+            records (list): a list of :py:mod:`cfr.proxy.ProxyRecord`
+                can also be a single :py:mod:`cfr.proxy.ProxyRecord` or :py:mod:`cfr.proxy.ProxyDatabase`
 
         '''
         new = self.copy()
@@ -628,6 +642,7 @@ class ProxyDatabase:
 
     def make_composite(self, obs_nc_path, vn='tas', lat_name=None, lon_name=None, bin_width=10, n_bootstraps=1000, qs=(0.025, 0.975), stat_func=np.nanmean, anom_period=[1951, 1980]):
         obs = ClimateField().load_nc(obs_nc_path, vn=vn, lat_name=lat_name, lon_name=lon_name)
+        ''' Make composites of the records in the proxy database.'''
 
         for pid, pobj in tqdm(self.records.items(), total=self.nrec, desc='Analyzing ProxyRecord'):
             pobj.get_clim(obs, tag='obs')
@@ -706,6 +721,7 @@ class ProxyDatabase:
     def plot_composite(self, figsize=[10, 4], clr_proxy=None, clr_count='tab:gray', clr_obs='tab:red',
                        left_ylim=[-2, 2], right_ylim=None, xlim=[0, 2000], base_n=60,
                        ax=None, bin_width=10):
+        ''' Plot the composites of the records in the proxy database.'''
         if clr_proxy is None:
             type_dict = sorted(self.type_dict.items(), key=lambda item: item[1])
             majority = next(iter(type_dict))[0]
@@ -784,6 +800,7 @@ class ProxyDatabase:
             return ax
 
     def annualize(self, months=list(range(1, 13)), verbose=False):
+        ''' Annualize the records in the proxy database.'''
         new = ProxyDatabase()
         for pid, pobj in tqdm(self.records.items(), total=self.nrec, desc='Annualizing ProxyRecord'):
             spobj = pobj.annualize(months=months, verbose=verbose)
@@ -794,6 +811,7 @@ class ProxyDatabase:
         return new
 
     def slice(self, timespan):
+        ''' Slice the records in the proxy database.'''
         new = ProxyDatabase()
         for pid, pobj in tqdm(self.records.items(), total=self.nrec, desc='Slicing ProxyRecord'):
             spobj = pobj.slice(timespan=timespan)
@@ -804,6 +822,7 @@ class ProxyDatabase:
 
 
     def del_clim(self, verbose=False):
+        ''' Delete the nearest climate data for the records in the proxy database.'''
         new = ProxyDatabase()
         for pid, pobj in tqdm(self.records.items(), total=self.nrec, desc='Deleting the nearest climate for ProxyRecord'):
             pobj.del_clim(verbose=verbose)
@@ -813,6 +832,7 @@ class ProxyDatabase:
         return new
 
     def get_clim(self, field, tag=None, verbose=False, load=True, **kwargs):
+        ''' Get the nearest climate data for the records in the proxy database.'''
 
         new = ProxyDatabase()
         for pid, pobj in tqdm(self.records.items(), total=self.nrec, desc='Getting the nearest climate for ProxyRecord'):
@@ -824,6 +844,7 @@ class ProxyDatabase:
         return new
 
     def to_df(self):
+        ''' Convert the proxy database to a `pandas.DataFrame`.'''
         df = pd.DataFrame(columns=['pid', 'lat', 'lon', 'ptype', 'time', 'value'])
         df['time'] = df['time'].astype(object)
         df['value'] = df['value'].astype(object)
@@ -841,6 +862,11 @@ class ProxyDatabase:
         return df
 
     def to_nc(self, dirpath, verbose=True, **kwargs):
+        ''' Convert the proxy database to a netCDF file.
+
+        Args:
+            dirpath (str): the directory path of the multiple .nc files
+        '''
         os.makedirs(dirpath, exist_ok=True)
         pid_truncated = []
         for pid, pobj in tqdm(self.records.items(), total=self.nrec, desc='Saving ProxyDatabase to .nc files'):
@@ -855,8 +881,8 @@ class ProxyDatabase:
             utils.p_warning(f'>>> Data before 1 CE is dropped for records: {pid_truncated}.')
             utils.p_success(f'>>> ProxyDatabase saved to: {dirpath}')
 
-    def load_nc(self, dirpath, nproc=None, **kwargs):
-        ''' Load from multiple .nc files
+    def load_nc(self, dirpath, nproc=None):
+        ''' Load from multiple netCDF files
 
         Args:
             dirpath (str): the directory path of the multiple .nc files

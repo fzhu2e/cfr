@@ -23,14 +23,14 @@ class ReconRes:
     ''' The class for reconstruction results
 
     Args:
-        job_dirpath (str): the directory path where the reconstruction results are stored.
+        dirpath (str): the directory path where the reconstruction results are stored.
         load_num (int): the number of ensembles to load
         verbose (bool, optional): print verbose information. Defaults to False.
     '''
 
-    def __init__(self, job_dirpath, load_num=None, verbose=False):
+    def __init__(self, dirpath, load_num=None, verbose=False):
         try:
-            recon_paths = sorted(glob.glob(os.path.join(job_dirpath, 'job_r*_recon.nc')))
+            recon_paths = sorted(glob.glob(os.path.join(dirpath, 'job_r*_recon.nc')))
             if load_num is not None:
                 recon_paths = recon_paths[:load_num]
             self.paths = recon_paths

@@ -192,6 +192,7 @@ def setlabel(ax, label, loc=2, borderpad=0.6, **kwargs):
 
 def plot_field_map(field_var, lat, lon, levels=50, add_cyclic_point=True,
                    title=None, title_size=20, title_weight='normal', figsize=[10, 8],
+                   plot_proxydb=False, proxydb=None, proxydb_lgd_kws=None,
                    site_lats=None, site_lons=None, site_marker='o',
                    site_markersize=50, site_color=sns.xkcd_rgb['amber'],
                    projection='Robinson', transform=ccrs.PlateCarree(),
@@ -369,8 +370,39 @@ def plot_field_map(field_var, lat, lon, levels=50, add_cyclic_point=True,
                        zorder=99, transform=transform, cmap=cmap)
         else:
             for name in site_lats.keys():
-                ax.scatter(site_lons[name], site_lats[name], s=site_markersize[name], c=site_color[name], marker=site_marker[name], edgecolors='k',
-                           zorder=99, transform=transform, cmap=cmap)
+                ax.scatter(site_lons[name], site_lats[name], s=site_markersize[name], c=site_color[name],
+                           marker=site_marker[name], edgecolors='k', zorder=99, transform=transform, cmap=cmap)
+
+    if plot_proxydb:
+        ptypes = []
+        ptype_labels = []
+        for k, v in proxydb.type_dict.items():
+            ptypes.append(k)
+            ptype_labels.append(f'{k} (n={v})')
+
+        site_lats, site_lons = {}, {}
+        for ptype in ptypes:
+            site_lats[ptype] = []
+            site_lons[ptype] = []
+
+        for _, pobj in proxydb.records.items():
+            site_lats[pobj.ptype].append(pobj.lat)
+            site_lons[pobj.ptype].append(pobj.lon)
+
+        s_plots = []
+        for ptype in ptypes:
+            s_plots.append(
+                ax.scatter(
+                    site_lons[ptype], site_lats[ptype], marker=STYLE.markers_dict[ptype],
+                    c=STYLE.colors_dict[ptype], edgecolor='k', s=site_markersize, transform=ccrs.PlateCarree()
+                )
+            )
+
+        ax.legend(
+            s_plots, ptype_labels,
+            **proxydb_lgd_kws,
+        )
+        
 
     return fig, ax
 

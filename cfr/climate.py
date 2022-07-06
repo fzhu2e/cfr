@@ -192,7 +192,7 @@ class ClimateField:
 
         Args:
             ref (cfr.climate.ClimateField): the reference to compare against, assuming the first dimension to be time
-            time_name (str): the name of the tima axis of `ref`
+            time_name (str): the name of the time axis of the reference `xarray.DataArray`.
             valid_period (tuple, optional): the time period for validation. Defaults to None.
             interp_direction (str, optional): the direction to interpolate the fields:
             
@@ -211,9 +211,10 @@ class ClimateField:
         elif interp_direction == 'from-ref':
             ref_slice = ref_slice.interp({'lat': fd_slice.lat, 'lon': fd_slice.lon})
 
-        if ref.da.dims[0] != time_name:
-            ref_slice = ref_slice.rename({ref_slice.dims[0]: time_name})
-            ref_slice[time_name] = [t.year for t in ref_slice[time_name].values]
+        fd_slice = xr.DataArray(
+            fd_slice.values,
+            coords={'time': ref_slice[time_name], 'lat': fd_slice.lat, 'lon': fd_slice.lon}
+        )
 
         if stat == 'corr':
             stat_da = xr.corr(fd_slice, ref_slice, dim=time_name)

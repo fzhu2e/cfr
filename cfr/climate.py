@@ -188,12 +188,11 @@ class ClimateField:
         new.refresh()
         return new
 
-    def validate(self, ref, time_name='year', stat='corr', interp_direction='to-ref', valid_period=(1880, 2000)):
+    def validate(self, ref, stat='corr', interp_direction='to-ref', valid_period=(1880, 2000)):
         ''' Validate against a reference field.
 
         Args:
             ref (cfr.climate.ClimateField): the reference to compare against, assuming the first dimension to be time
-            time_name (str): the name of the time axis of the reference `xarray.DataArray`.
             valid_period (tuple, optional): the time period for validation. Defaults to None.
             interp_direction (str, optional): the direction to interpolate the fields:
             
@@ -207,10 +206,16 @@ class ClimateField:
         '''
         fd_slice = self.da.loc[f'{valid_period[0]}':f'{valid_period[-1]}']
         ref_slice = ref.da.loc[f'{valid_period[0]}':f'{valid_period[-1]}']
+
         if interp_direction == 'to-ref':
             fd_slice = fd_slice.interp({'lat': ref_slice.lat, 'lon': ref_slice.lon})
         elif interp_direction == 'from-ref':
             ref_slice = ref_slice.interp({'lat': fd_slice.lat, 'lon': fd_slice.lon})
+
+        if 'time' in ref_slice.dims:
+            time_name = 'time'
+        elif 'year' in ref_slice.dims:
+            time_name = 'year'
 
         fd_slice = xr.DataArray(
             fd_slice.values,
@@ -354,10 +359,10 @@ class ClimateField:
         time = np.floor(utils.datetime2year_float(new.da.time.values))
         new.time = np.array([int(t) for t in time])
         new.time_name = 'year'
-        da = xr.DataArray(
-            new.da.values, coords={new.time_name: new.time, 'lat': new.lat, 'lon': new.lon}
-        )
-        new.da = da
+        if 'time' in new.da.dims:
+            new.da = new.da.rename({'time': 'year'})
+            new.da['year'] = new.time
+
         return new
 
     def regrid(self, lats, lons, periodic_lon=False):

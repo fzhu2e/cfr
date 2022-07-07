@@ -53,7 +53,8 @@ setup(
         'dask',
         'statsmodels',
         'sklearn',
-        'pathos'
+        'pathos',
+        'eofs',
     ],
     extras_require={
         'psm': [

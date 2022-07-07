@@ -201,7 +201,7 @@ def plot_field_map(field_var, lat, lon, levels=50, add_cyclic_point=True,
                    land_color=sns.xkcd_rgb['light grey'], ocean_color=sns.xkcd_rgb['light grey'],
                    land_zorder=None, ocean_zorder=None, signif_values=None, signif_range=[0.05, 9999], hatch='..',
                    clim=None, cmap=None, cmap_under=None, cmap_over=None, cmap_bad=None, extend=None, mode='latlon', add_gridlines=False,
-                   make_cbar=True, cbar_labels=None, cbar_pad=0.05, cbar_orientation='vertical', cbar_aspect=10,
+                   plot_cbar=True, cbar_labels=None, cbar_pad=0.05, cbar_orientation='vertical', cbar_aspect=10,
                    cbar_fraction=0.15, cbar_shrink=0.5, cbar_title=None, cbar_title_x=0.5, cbar_title_y=1.05,
                    fig=None, ax=None):
     ''' Visualize a field on a map.
@@ -243,7 +243,7 @@ def plot_field_map(field_var, lat, lon, levels=50, add_cyclic_point=True,
         extend (str, optional): if True, extend the colorbar. Defaults to None.
         mode (str, optional): _description_. Defaults to 'latlon'.
         add_gridlines (bool, optional): _description_. Defaults to False.
-        make_cbar (bool, optional): if True, plot the colorbar. Defaults to True.
+        plot_cbar (bool, optional): if True, plot the colorbar. Defaults to True.
         cbar_labels (_type_, optional): colorbar labels. Defaults to None.
         cbar_pad (float, optional): colorbar padding space. Defaults to 0.05.
         cbar_orientation (str, optional): colorbar orientation. Defaults to 'vertical'.
@@ -354,7 +354,7 @@ def plot_field_map(field_var, lat, lon, levels=50, add_cyclic_point=True,
     if signif_values is not None:
         ax.contourf(lon_c, lat_c, signif_values_c, signif_range, transform=transform, hatches=[hatch], colors='none')
 
-    if make_cbar:
+    if plot_cbar:
         cbar = fig.colorbar(im, ax=ax, orientation=cbar_orientation, pad=cbar_pad, aspect=cbar_aspect, extend=extend,
                         fraction=cbar_fraction, shrink=cbar_shrink)
 
@@ -1321,3 +1321,39 @@ def plot_ml_predict(res_dict, figsize=[8, 4], xlabel='Time', ylabel='Value', xli
         return fig, ax
     else:
         return ax
+
+def plot_eof(eof, pc, lat, lon, time, eof_title='EOF', pc_title='PC'):
+    fig = plt.figure(figsize=[12, 10])
+    gs = gridspec.GridSpec(2, 1)
+    gs.update(wspace=0.1, hspace=0.2)
+
+    ax = {}
+    ax['mode'] = fig.add_subplot(gs[0, 0], projection=ccrs.Robinson(central_longitude=180))
+    ax['mode'].set_global()
+    ax['mode'].add_feature(cfeature.LAND, color='lightgrey')
+    ax['mode'].add_feature(cfeature.OCEAN, color='white')
+    ax['mode'].coastlines()
+
+    CS = ax['mode'].contourf(
+        lon, lat, eof,
+        levels=np.arange(-1, 1.1, 0.1),
+        vmin=-1, vmax=1,
+        cmap='RdBu_r',
+        transform=ccrs.PlateCarree(),
+        extend='neither',
+    )
+    ax['mode'].set_title(eof_title)
+    cbar = fig.colorbar(CS, shrink=1.)
+    # cbar.ax.set_title(r'[$^{\circ}$C]', y=1.05)
+    cbar.ax.set_yticks(np.arange(-1, 1.1, 0.2))
+
+    ax['pc'] = fig.add_subplot(gs[1, 0])
+    ax['pc'].plot(time, pc)
+    ax['pc'].set_title(pc_title)
+    ax['pc'].set_xlabel('Year')
+    ax['pc'].set_ylabel(pc_title)
+    ax['pc'].grid(ls='--')
+    ax['pc'].spines.top.set_visible(False)
+    ax['pc'].spines.right.set_visible(False)
+
+    return fig, ax

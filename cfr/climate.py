@@ -6,6 +6,7 @@ import copy
 from tqdm import tqdm
 from . import visual
 from . import utils
+import eofs
 
 
 class ClimateField:
@@ -187,7 +188,7 @@ class ClimateField:
         new.refresh()
         return new
 
-    def validate(self, ref, time_name='time', stat='corr', interp_direction='to-ref', valid_period=(1880, 2000)):
+    def validate(self, ref, time_name='year', stat='corr', interp_direction='to-ref', valid_period=(1880, 2000)):
         ''' Validate against a reference field.
 
         Args:
@@ -213,7 +214,7 @@ class ClimateField:
 
         fd_slice = xr.DataArray(
             fd_slice.values,
-            coords={'time': ref_slice[time_name], 'lat': fd_slice.lat, 'lon': fd_slice.lon}
+            coords={time_name: ref_slice[time_name], 'lat': fd_slice.lat, 'lon': fd_slice.lon}
         )
 
         if stat == 'corr':
@@ -257,6 +258,50 @@ class ClimateField:
 
         return stat_fd
             
+    def get_eof(self, n=1, time_period=None, verbose=False, flip=False):
+        if time_period is None:
+            da = self.da
+        else:
+            da = self.da.loc[f'{time_period[0]}':f'{time_period[1]}']
+
+        if flip:
+            da = -da
+
+        coslat = np.cos(np.deg2rad(self.da['lat'].values))
+        wgts = np.sqrt(coslat)[..., np.newaxis]
+        solver = eofs.standard.Eof(da.values, weights=wgts)
+        modes = solver.eofsAsCorrelation(neofs=n)
+        pcs = solver.pcs(npcs=n, pcscaling=1)
+        fracs = solver.varianceFraction(neigs=n)
+
+        self.eof_res = {
+            'modes': modes,
+            'pcs': pcs,
+            'fracs': fracs,
+            'time_period': time_period,
+        }
+
+        if verbose: utils.p_success(f'ClimateField.eof_res created with {n} mode(s).')
+
+    def plot_eof(self, n=1, eof_title=None, pc_title=None):
+        eof = self.eof_res['modes']
+        pc = self.eof_res['pcs']
+        fracs = self.eof_res['fracs']
+        time_period = self.eof_res['time_period']
+        if eof_title is None: eof_title = f'EOF{n} ({fracs[n-1]*100:.2f}%)'
+        if pc_title is None: pc_title = f'PC{n} ({fracs[n-1]*100:.2f}%)'
+
+        if time_period is None:
+            time = self.time
+        else:
+            time_mask = (self.time>=time_period[0]) & (self.time<=time_period[1])
+            time = self.time[time_mask]
+
+        fig, ax = visual.plot_eof(
+            eof[n-1], pc[:, n-1], self.lat, self.lon, time,
+            eof_title, pc_title)
+
+        return fig, ax
 
     def plot(self, it=0, **kwargs):
         ''' Plot the climate field.'''
@@ -306,7 +351,13 @@ class ClimateField:
         '''
         new = self.copy()
         new.da = utils.annualize(da=self.da, months=months)
-        new.time = np.floor(utils.datetime2year_float(new.da.time.values))
+        time = np.floor(utils.datetime2year_float(new.da.time.values))
+        new.time = np.array([int(t) for t in time])
+        new.time_name = 'year'
+        da = xr.DataArray(
+            new.da.values, coords={new.time_name: new.time, 'lat': new.lat, 'lon': new.lon}
+        )
+        new.da = da
         return new
 
     def regrid(self, lats, lons, periodic_lon=False):

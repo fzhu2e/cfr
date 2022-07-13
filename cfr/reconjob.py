@@ -711,7 +711,7 @@ class ReconJob:
         t_used = t_e - t_s
         p_success(f'>>> DONE! Total time used: {t_used/60:.2f} mins.')
 
-    def prep_graphem(self, recon_period=None, calib_period=None, verbose=False):
+    def prep_graphem(self, recon_period=None, calib_period=None, remove_duplicates = False, verbose=False):
         ''' A shortcut of the steps for GraphEM data preparation
         '''
         recon_period = self.io_cfg('recon_period', recon_period, default=(1000, 2000), verbose=False)
@@ -734,18 +734,15 @@ class ReconJob:
         temp = np.ndarray((nt, tas_npos)) 
         temp[:] = np.nan
 
-        temp_calib_idx = [list(recon_time).index(t) for t in calib_time]  # this yields the first len(calib_time) indices, instead of the last
-        #temp_calib_idx = np.where(np.in1d(recon_time,calib_time))[0]
-        
+        temp_calib_idx = [list(recon_time).index(t) for t in calib_time]  
         self.calib_idx = temp_calib_idx
         if verbose: p_success(f'>>> job.calib_idx created')
 
         tas_calib_idx = [list(tas.time).index(t) for t in calib_time]
-        #tas_calib_idx = np.where(np.in1d(tas.time,calib_time))[0]
         
         temp[temp_calib_idx] = tas_2d[tas_calib_idx] #align matrices
-
-        self.temp = temp  # flip 
+        
+        self.temp = temp  
         if verbose: p_success(f'>>> job.temp created')
 
         lonlat = np.ndarray((tas_npos+self.proxydb.nrec, 2))
@@ -766,8 +763,26 @@ class ReconJob:
         mask = (df_proxy.index>=recon_time[0]) & (df_proxy.index<=recon_time[-1])
         df_proxy = df_proxy[mask]
 
-        self.df_proxy = df_proxy
-        self.proxy = df_proxy.values
+        
+        proxy = df_proxy.values
+        
+        # hunt for duplicates
+        R = np.triu(np.corrcoef(proxy.T),k=1) # exclude diagonal and lower triangle (matrix is symmetric --> double counting)
+        di, dj = np.where(R==1)
+        num_dup = len(di)
+        
+        if num_dup > 0 and remove_duplicates:            
+            print(str(num_dup)+' have been found! Removing..')
+            di, dj = np.where(R<1)
+            # TODO: figure out indices
+            #nodup =  # find where the duplicates are not 
+            #proxy = proxy[:,nodup] export this trimmed proy matrix
+            #df_proxy = df_proxy[:,nodup] # this should work the same, right?
+        
+        self.proxy = proxy
+        self.df_proxy = df_proxy 
+
+        
         if verbose: p_success(f'>>> job.df_proxy created')
         if verbose: p_success(f'>>> job.proxy created')
 

@@ -5,6 +5,8 @@ import math
 from . import iridge
 from .GraphEstimation import graph_greedy_search
 from .GraphEstimation import neighbor_graph
+import matplotlib.pyplot as plt
+
 
 class GraphEM(object):
     ''' The class for the GraphEM solver
@@ -462,6 +464,12 @@ def fitggm(S, graph, tol=5e-3, maxit=200):
             ind[i1] = 0
             indices = find(ind)
             W11_star = W[np.ix_(indices,indices)]
+            
+            # DEBUG ONLY:
+            #c = np.linalg.cond(W11_star) 
+            #plt.imshow(W11_star)
+            #plt.title(r'$\Omega_{11}$ for i = ' +str(i1) +', condition number = {:6.3f}'.format(c))
+            
             s12_star = S[indices,i1]
             if ~np.all(ind==0):
                 #beta_star = np.linalg.solve(W11_star,s12_star)

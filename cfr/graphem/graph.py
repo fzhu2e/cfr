@@ -84,19 +84,19 @@ class Graph:
         ax.add_patch(plt.Rectangle((0, 0), num_grid, num_grid, alpha = 0.3,
                                    fc=clr, # face color
                                    ec='none'))  # edge color
-        ax.annotate('climate-climate', color=clr,
+        ax.annotate('in-field', color=clr,
                     xy=(num_grid/2, 0),xycoords='data',
-                    xytext=(0.1, 1.02), textcoords='axes fraction')
+                    xytext=(num_grid/2/num_tot, 1.02), textcoords='axes fraction')
         
         # plot climate-proxy part of the graph
-        ax.add_patch(plt.Rectangle((num_grid, 0), num_proxy, num_grid,
+        ax.add_patch(plt.Rectangle((num_grid, 0), num_proxy-2, num_grid,
                                    fc='none', ec=clr, linewidth=2))
-        ax.annotate('climate-proxy', color=clr,
+        ax.annotate('field-proxy', color=clr,
                     xy=(num_grid+num_proxy/2, 0),xycoords='data',
-                    xytext=(0.6, 1.02), textcoords='axes fraction')
+                    xytext=((num_grid+num_proxy/2)/num_tot, 1.02), textcoords='axes fraction')
         
         # plot proxy-proxy part of the graph
-        ax.add_patch(plt.Rectangle((num_grid+1, num_grid+1), num_proxy, num_proxy,
+        ax.add_patch(plt.Rectangle((num_grid+1, num_grid+1), num_proxy-2, num_proxy,
                                    linewidth=2,ls='--',
                                    fc='none', ec=clr))
                     

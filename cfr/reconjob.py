@@ -714,33 +714,38 @@ class ReconJob:
     def prep_graphem(self, recon_period=None, calib_period=None, verbose=False):
         ''' A shortcut of the steps for GraphEM data preparation
         '''
-        recon_period = self.io_cfg('recon_period', recon_period, default=(0, 2000), verbose=False)
+        recon_period = self.io_cfg('recon_period', recon_period, default=(1000, 2000), verbose=False)
         calib_period = self.io_cfg('calib_period', calib_period, default=(1850, 2000), verbose=False)
 
         recon_time = np.arange(recon_period[0], recon_period[1]+1)
         calib_time = np.arange(calib_period[0], calib_period[1]+1)
+        
         self.recon_time = recon_time
         self.calib_time = calib_time
         if verbose: p_success(f'>>> job.recon_time created')
         if verbose: p_success(f'>>> job.calib_time created')
 
-        tas = self.obs['tas']
+        tas = self.obs['tas']  
         tas_nt = tas.da.shape[0]
         tas_2d = tas.da.values.reshape(tas_nt, -1)
         tas_npos = np.shape(tas_2d)[-1]
 
         nt = np.size(recon_time)
-        temp = np.ndarray((nt, tas_npos))
+        temp = np.ndarray((nt, tas_npos)) 
         temp[:] = np.nan
 
-        temp_calib_idx = [list(recon_time).index(t) for t in calib_time]
+        temp_calib_idx = [list(recon_time).index(t) for t in calib_time]  # this yields the first len(calib_time) indices, instead of the last
+        #temp_calib_idx = np.where(np.in1d(recon_time,calib_time))[0]
+        
         self.calib_idx = temp_calib_idx
         if verbose: p_success(f'>>> job.calib_idx created')
 
         tas_calib_idx = [list(tas.time).index(t) for t in calib_time]
-        temp[temp_calib_idx] = tas_2d[tas_calib_idx]
+        #tas_calib_idx = np.where(np.in1d(tas.time,calib_time))[0]
+        
+        temp[temp_calib_idx] = tas_2d[tas_calib_idx] #align matrices
 
-        self.temp = temp
+        self.temp = temp  # flip 
         if verbose: p_success(f'>>> job.temp created')
 
         lonlat = np.ndarray((tas_npos+self.proxydb.nrec, 2))
@@ -748,7 +753,7 @@ class ReconJob:
         k = 0
         for i in range(np.size(tas.da.lon)):
             for j in range(np.size(tas.da.lat)):
-                lonlat[k] = [tas.lon[i], tas.lat[j]]
+                lonlat[k] = [tas.lon[i], tas.lat[j]]  # does this need a check on whether lon is [0 360] or [-180 +180]
                 k += 1
 
         df_proxy = pd.DataFrame(index=recon_time)

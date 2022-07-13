@@ -107,7 +107,7 @@ class GraphEM(object):
         else:
             if estimate_graph:
                 if graph_method == "neighborhood":
-                    print("Computing a neighborhood graph with R = {:4.1d} km".format(self.cutoff_radius))
+                    print("Computing a neighborhood graph with R = {:4.1f} km".format(self.cutoff_radius))
                     if len(lonlat) == 0:
                         print("Error: you need to specify the longitude/latitude of temperature locations and proxies (lonlat)")
                         return
@@ -197,7 +197,7 @@ class GraphEM(object):
             if use_iridge:
                 C = X.T.dot(X)/(n-1)
             else:
-                C = X.T.dot(X)/(n-1) + 0.1*np.eye(p)
+                C = X.T.dot(X)/(n-1) + 0.1*np.eye(p) # boost rank of C for initial estimate
         else:
             C = C0
 

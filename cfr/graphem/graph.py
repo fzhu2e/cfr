@@ -1,4 +1,6 @@
 from .GraphEstimation import dMat
+from .GraphEstimation import graph_sparsity
+
 import numpy as np
 
 import cartopy.crs as ccrs
@@ -12,8 +14,8 @@ class Graph:
     def __init__(self, lonlat, temp, proxy):
         '''
         Args:
-            lonlat (numpy.array): the location array in shape of (num_gridpoint + num_proxy, 2), where the 2nd dimension is aranged as [longitude, latitude]
-            temp (numpy.array): the temperature array in shape of (num_time, num_gridpoint)
+            lonlat (numpy.array): the location array in shape of (num_grid + num_proxy, 2), where the 2nd dimension is aranged as [longitude, latitude]
+            temp (numpy.array): the temperature array in shape of (num_time, num_grid)
             proxy (numpy.array): the proxy array in shape of (num_time, num_proxy)
         '''
         self.lonlat = lonlat
@@ -24,46 +26,84 @@ class Graph:
         ''' Calculate the distance matrix
 
         Attributes:
-            D (numpy.array): the great circle distance matrix
+            dist_mat (numpy.array): the great circle distance matrix
         '''
-        self.D = dMat(self.lonlat)
+        
+        self.dist_mat = dMat(self.lonlat)
+        
 
-    def adj_calc(self, distance=1000):
+    def neigh_adj(self, cutoff_radius=1000):
         ''' Calculate the adjacency matrix for a neighborhood graph
 
         Args:
-            distance (float): the distance in unit of [km] for neighbor searching
+            cutoff_radius (float): the great circle distance in unit of [km] for neighbor searching
 
 
         Attributes:
-            adj (numpy.array): the adjacency matrix in shape of (num_temperature + num_proxy, num_temperature + num_proxy)
+            adj (numpy.array): the adjacency matrix (num_grid + num_proxy, num_grid + num_proxy)
 
         '''
+        
+        if not hasattr(self, 'dist_mat'):
+            self.calc_distance()
+        
+        ind_T = range(self.temp.shape[1])
         ind_P = range(self.temp.shape[1], self.temp.shape[1]+self.proxy.shape[1])
-        adj = (self.D <= distance).astype(int)              # replace 0s or 1s
+                
+        adj = (self.dist_mat <= cutoff_radius).astype(int)  # replace 0s or 1s
         adj[np.ix_(ind_P, ind_P)] = np.eye(len(ind_P)) # set pp to 1s
 
         self.adj = adj
-        self.distance = distance
+        self.cutoff_radius = cutoff_radius
+        self.sparsity = graph_sparsity(adj, ind_T, ind_P)
+
         
         
-    def adj_plot(self):
+    def adj_plot(self,figsize=(6, 6), clr='C0'):
         ''' Plot the adjacency matrix for a neighborhood graph
 
         Args:
-            distance (float): the distance in unit of [km] for neighbor searching
+            figsize (tuple) : figure size (optional)
+            clr : color of the rectangular patches and text delineating regions of the matrix   
 
 
         Attributes:
-            adj (numpy.array): the adjacency matrix in shape of (num_temperature + num_proxy, num_temperature + num_proxy)
+            adj (numpy.array): the adjacency matrix in shape of (num_grid + num_proxy, num_grid + num_proxy)
 
         '''
-        
-        num_temperature = self.temperature.shape[1]
+        num_tot = self.adj.shape[1]
+        num_grid = self.temp.shape[1]
         num_proxy = self.proxy.shape[1]
         
-        self.adj = adj
-        self.distance = distance
+        assert num_tot == num_grid+num_proxy, "matrix dimensions do not add up"
+        
+        fig, ax = plt.subplots(figsize=figsize) # in inches
+        ax.imshow(self.adj,cmap="Greys",interpolation="none")
+        ax.set_xlabel('Index')
+        # plot climate-climate part of the graph
+        ax.add_patch(plt.Rectangle((0, 0), num_grid, num_grid, alpha = 0.3,
+                                   fc=clr, # face color
+                                   ec='none'))  # edge color
+        ax.annotate('climate-climate', color=clr,
+                    xy=(num_grid/2, 0),xycoords='data',
+                    xytext=(0.1, 1.02), textcoords='axes fraction')
+        
+        # plot climate-proxy part of the graph
+        ax.add_patch(plt.Rectangle((num_grid, 0), num_proxy, num_grid,
+                                   fc='none', ec=clr, linewidth=2))
+        ax.annotate('climate-proxy', color=clr,
+                    xy=(num_grid+num_proxy/2, 0),xycoords='data',
+                    xytext=(0.6, 1.02), textcoords='axes fraction')
+        
+        # plot proxy-proxy part of the graph
+        ax.add_patch(plt.Rectangle((num_grid+1, num_grid+1), num_proxy, num_proxy,
+                                   linewidth=2,ls='--',
+                                   fc='none', ec=clr))
+                    
+        ax.text(1.05*num_tot,num_grid+1.4*num_proxy/2, s='proxy-proxy', 
+                rotation='vertical', color = clr)
+        
+        
 
     def get_neighbor_locs(self, idx):
         n_gridpts = self.temp.shape[1]
@@ -117,9 +157,11 @@ class Graph:
         ----------
 
         adj : array
-            the adjacency matrix in shape of (num_temperature + num_proxy, num_temperature + num_proxy)
+            the adjacency matrix in shape of (num_grid + num_proxy, num_grid + num_proxy)
 
         '''
+        
+        # TODO: include ax argument to plot into axes
         target_lon, target_lat, neighbor_lons, neighbor_lats, _ = self.get_neighbor_locs(idx)
 
         fig = plt.figure(figsize=figsize)
@@ -128,7 +170,7 @@ class Graph:
         ax.stock_img()
 
         if title is None:
-            ax.set_title(f'Neighbors of the target proxy (r={self.distance} km)')
+            ax.set_title(f'Neighbors of the target proxy (r={self.cutoff_radius} km)')
         else:
             ax.set_title(title)
 
@@ -143,7 +185,7 @@ class Graph:
         return fig, ax
 
 
-    def plot_neighbors_corr(self, idx, time_idx_range=None, figsize=(4, 4), ms=50, title=None,
+    def plot_neighbors_corr(self, idx, time_idx_range=None, figsize=(5, 5), ms=50, title=None,
         cmap='RdBu_r', target_clr='k', edge_clr='w', marker='o',  levels=np.linspace(-1, 1, 21),
         cbar_pad=0.1, cbar_orientation='horizontal', cbar_aspect=10, cbar_labels=[-1, -0.5, 0, 0.5, 1],
         cbar_fraction=0.15, cbar_shrink=0.5, cbar_title='Correlation', plot_cbar=True):
@@ -186,9 +228,11 @@ class Graph:
         ----------
 
         adj : array
-            the adjacency matrix in shape of (num_temperature + num_proxy, num_temperature + num_proxy)
+            the adjacency matrix in shape of (num_grid + num_proxy, num_grid + num_proxy)
 
         '''
+        
+        # TODO: include ax argument to plot into axes
 
         _, _, _, _, neighbor_idx = self.get_neighbor_locs(idx)
         target_value = self.proxy[:, idx]

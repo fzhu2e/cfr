@@ -28,7 +28,7 @@ class Graph:
         '''
         self.D = dMat(self.lonlat)
 
-    def calc_adj(self, distance=1000):
+    def adj_calc(self, distance=1000):
         ''' Calculate the adjacency matrix for a neighborhood graph
 
         Args:
@@ -43,6 +43,25 @@ class Graph:
         adj = (self.D <= distance).astype(int)              # replace 0s or 1s
         adj[np.ix_(ind_P, ind_P)] = np.eye(len(ind_P)) # set pp to 1s
 
+        self.adj = adj
+        self.distance = distance
+        
+        
+    def adj_plot(self):
+        ''' Plot the adjacency matrix for a neighborhood graph
+
+        Args:
+            distance (float): the distance in unit of [km] for neighbor searching
+
+
+        Attributes:
+            adj (numpy.array): the adjacency matrix in shape of (num_temperature + num_proxy, num_temperature + num_proxy)
+
+        '''
+        
+        num_temperature = self.temperature.shape[1]
+        num_proxy = self.proxy.shape[1]
+        
         self.adj = adj
         self.distance = distance
 

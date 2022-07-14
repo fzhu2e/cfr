@@ -673,13 +673,16 @@ class ProxyDatabase:
         pdb_dups = self.filter(by='pid', keys=dup_pids)
         pdb_dups.groups = []
         for pid, pobj in pdb_dups.records.items():
-            flat_list = [x for xs in pdb_dups.groups for x in xs]
+            s_tmp = set([pid, *pobj.dup_pids])
             flag = True
-            for id_tmp in set([pid, *pobj.dup_pids]):
-                if id_tmp in flat_list:
-                    flag = False
+            for g in pdb_dups.groups:
+                if len(s_tmp & set(g)) > 0:  # found in an existing group
+                    g |= s_tmp  # merge into that group
+                    flag = False  # will not create a new group
+                    break
+
             if flag:
-                pdb_dups.groups.append(set([pid, *pobj.dup_pids]))
+                pdb_dups.groups.append(s_tmp)
 
         pdb_dups.dup_args = {'r_thresh': r_thresh, 'time_period': time_period}
 

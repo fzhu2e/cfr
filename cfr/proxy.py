@@ -1,10 +1,12 @@
 from dataclasses import replace
 import glob
+from operator import le
 import os
 from .climate import ClimateField, ClimateDataset
 import xarray as xr
 import pandas as pd
 import numpy as np
+import plotly.express as px
 import copy
 from tqdm import tqdm
 from collections import OrderedDict
@@ -111,7 +113,7 @@ class ProxyRecord:
         self.time = time
         self.value = value
         self.lat = lat
-        self.lon = lon
+        self.lon = np.mod(lon, 360)
         self.ptype = ptype
         self.tags = set() if tags is None else tags
 
@@ -331,11 +333,6 @@ class ProxyRecord:
 
 
     def plotly(self, **kwargs):
-        try:
-            import plotly.express as px
-        except:
-            raise ImportError('Need to install plotly: `pip install plotly`')
-
         time_lb = visual.make_lb(self.time_name, self.time_unit)
         value_lb = visual.make_lb(self.value_name, self.value_unit)
 
@@ -373,7 +370,7 @@ class ProxyRecord:
         ax['ts'].set_xlabel(time_lb)
         ax['ts'].set_ylabel(value_lb)
 
-        title = f'{self.pid} @ (lat:{self.lat:.2f}, lon:{self.lon:.2f}) | Type: {self.ptype}'
+        title = f'{self.pid} ({self.ptype}) @ (lat:{self.lat:.2f}, lon:{self.lon:.2f})'
         if self.seasonality is not None:
             title += f'\nSeasonality: {self.seasonality}'
         ax['ts'].set_title(title)
@@ -393,6 +390,37 @@ class ProxyRecord:
                 self.lon, self.lat, marker=visual.STYLE.markers_dict[self.ptype],
                 s=ms, c=kwargs['color'], edgecolor=edge_clr, transform=transform,
             )
+
+        return fig, ax
+
+    def plot_dups(self, figsize=[12, 4], legend=False, ms=200, stock_img=True, edge_clr='w',
+        wspace=0.1, hspace=0.1, plot_map=True, lgd_kws=None, **kwargs):
+        lgd_kws = {} if lgd_kws is None else lgd_kws
+
+        fig, ax = self.plot(
+            figsize=figsize,
+            legend=legend,
+            ms=ms,
+            stock_img=stock_img,
+            edge_clr=edge_clr,
+            wspace=wspace,
+            hspace=hspace,
+            plot_map=plot_map,
+            label=f'{self.pid} ({self.ptype})',
+            **kwargs
+        )
+        for pdb in self.dups:
+            ax['ts'].plot(pdb.time, pdb.value, label=f'{pdb.pid} ({pdb.ptype})')
+            transform=ccrs.PlateCarree()
+            ax['map'].scatter(
+                pdb.lon, pdb.lat, marker=visual.STYLE.markers_dict[pdb.ptype],
+                s=ms, edgecolor=edge_clr, transform=transform,
+            )
+
+        ax['ts'].set_ylabel('Proxy values')
+        _lgd_kws = {'ncol': 2}
+        _lgd_kws.update(lgd_kws)
+        ax['ts'].legend(**_lgd_kws)
 
         return fig, ax
 
@@ -608,6 +636,79 @@ class ProxyDatabase:
 
         return nrec
 
+    def find_duplicates(self, r_thresh=0.9, time_period=[0, 2000]):
+        df_proxy = pd.DataFrame(index=np.arange(time_period[0], time_period[1]+1))
+        for pid, pobj in self.records.items():
+            series = pd.Series(index=pobj.time, data=pobj.value, name=pid)
+            df_proxy = pd.concat([df_proxy, series], axis=1)
+
+        mask = (df_proxy.index>=time_period[0]) & (df_proxy.index<=time_period[-1])
+        df_proxy = df_proxy[mask]
+        pid_list = df_proxy.columns.values
+        R = np.triu(np.corrcoef(df_proxy.values.T), k=1) 
+        R[R==0] = np.nan
+        di, dj = np.where(R >= r_thresh)
+        dup_pids = []
+        for i, j in zip(di, dj):
+            pid_i = pid_list[i]
+            pid_j = pid_list[j]
+            if not hasattr(self.records[pid_i], 'dups'):
+                self.records[pid_i].dups = [self.records[pid_j]]
+                self.records[pid_i].dup_pids = [pid_j]
+            else:
+                self.records[pid_i].dups.append(self.records[pid_j])
+                self.records[pid_i].dup_pids.append(pid_j)
+
+            if not hasattr(self.records[pid_j], 'dups'):
+                self.records[pid_j].dups = [self.records[pid_i]]
+                self.records[pid_j].dup_pids = [pid_i]
+            else:
+                self.records[pid_j].dups.append(self.records[pid_i])
+                self.records[pid_j].dup_pids.append(pid_i)
+
+            dup_pids.append(pid_i)
+            dup_pids.append(pid_j)
+
+        dup_pids = set(dup_pids)
+        pdb_dups = self.filter(by='pid', keys=dup_pids)
+        pdb_dups.groups = []
+        for pid, pobj in pdb_dups.records.items():
+            flat_list = [x for xs in pdb_dups.groups for x in xs]
+            flag = True
+            for id_tmp in set([pid, *pobj.dup_pids]):
+                if id_tmp in flat_list:
+                    flag = False
+            if flag:
+                pdb_dups.groups.append(set([pid, *pobj.dup_pids]))
+
+        pdb_dups.dup_args = {'r_thresh': r_thresh, 'time_period': time_period}
+
+        p_header('>>> Groups of duplicates:')
+        for i, g in enumerate(pdb_dups.groups):
+            print(i, g)
+
+        p_header('>>> Hint for the next step:')
+        p_header('Use the method `.sequeeze_dups(pids_to_keep=pid_list)` to keep only one record from each group.')
+
+        return pdb_dups
+
+    def squeeze_dups(self, pids_to_keep=None):
+        if pids_to_keep is None:
+            p_warning('>>> Note: since `pids_to_keep` is not specified, the first of each group of the duplicates is picked.')
+            pids_to_keep = []
+            for g in self.groups:
+                pids_to_keep.append(list(g)[0])
+        
+        pids_to_keep = set(pids_to_keep)
+        p_header(f'>>> pids to keep (n={len(pids_to_keep)}):')
+        print(pids_to_keep)
+        pdb_to_keep = self.filter(by='pid', keys=pids_to_keep)
+        for pid, pobj in pdb_to_keep.records.items():
+            if hasattr(pobj, 'dups'): del(pobj.dups)
+            if hasattr(pobj, 'dup_pids'):del(pobj.dup_pids)
+        return pdb_to_keep
+        
+
     def plot(self, **kws):
         '''Visualize the proxy database.
 
@@ -624,11 +725,8 @@ class ProxyDatabase:
         return fig, ax
 
     def plotly(self, **kwargs):
-        try:
-            import plotly.express as px
-        except:
-            raise ImportError('Need to install plotly: `pip install plotly`')
-
+        ''' Plot the database on an interactive map utilizing Plotly
+        '''
         df = self.to_df()
         fig = px.scatter_geo(
             df, lat='lat', lon='lon',

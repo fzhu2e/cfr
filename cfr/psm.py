@@ -37,7 +37,7 @@ class TempPlusNoise:
         self.pobj = pobj
         self.climate_required = climate_required
 
-    def calibrate(self, SNR=10, seasonality=list(range(13)), vn='model_tas', seed=0):
+    def calibrate(self, SNR=10, seasonality=list(range(1, 13)), vn='model_tas', seed=None):
         ''' Calibrate the PSM.'''
         sigma = np.std(self.pobj.clim[vn].da.values) / SNR
         rng = np.random.default_rng(seed)

@@ -711,7 +711,7 @@ class ReconJob:
         t_used = t_e - t_s
         p_success(f'>>> DONE! Total time used: {t_used/60:.2f} mins.')
 
-    def prep_graphem(self, recon_period=None, calib_period=None, remove_duplicates = False, verbose=False):
+    def prep_graphem(self, recon_period=None, calib_period=None, verbose=False):
         ''' A shortcut of the steps for GraphEM data preparation
         '''
         recon_period = self.io_cfg('recon_period', recon_period, default=(1000, 2000), verbose=False)
@@ -725,63 +725,47 @@ class ReconJob:
         if verbose: p_success(f'>>> job.recon_time created')
         if verbose: p_success(f'>>> job.calib_time created')
 
-        tas = self.obs['tas']  
-        tas_nt = tas.da.shape[0]
-        tas_2d = tas.da.values.reshape(tas_nt, -1)
-        tas_npos = np.shape(tas_2d)[-1]
+        vn = list(self.obs.keys())[0]
+        fd = self.obs[vn]  
+        fd_nt = fd.da.shape[0]
+        fd_2d = fd.da.values.reshape(fd_nt, -1)
+        fd_npos = np.shape(fd_2d)[-1]
 
         nt = np.size(recon_time)
-        temp = np.ndarray((nt, tas_npos)) 
+        temp = np.ndarray((nt, fd_npos)) 
         temp[:] = np.nan
 
         temp_calib_idx = [list(recon_time).index(t) for t in calib_time]  
         self.calib_idx = temp_calib_idx
         if verbose: p_success(f'>>> job.calib_idx created')
 
-        tas_calib_idx = [list(tas.time).index(t) for t in calib_time]
+        fd_calib_idx = [list(fd.time).index(t) for t in calib_time]
         
-        temp[temp_calib_idx] = tas_2d[tas_calib_idx] #align matrices
+        temp[temp_calib_idx] = fd_2d[fd_calib_idx] #align matrices
         
         self.temp = temp  
         if verbose: p_success(f'>>> job.temp created')
 
-        lonlat = np.ndarray((tas_npos+self.proxydb.nrec, 2))
+        lonlat = np.ndarray((fd_npos+self.proxydb.nrec, 2))
 
         k = 0
-        for i in range(np.size(tas.da.lon)):
-            for j in range(np.size(tas.da.lat)):
-                lonlat[k] = [tas.lon[i], tas.lat[j]]  # does this need a check on whether lon is [0 360] or [-180 +180]
+        for i in range(np.size(fd.da.lon)):
+            for j in range(np.size(fd.da.lat)):
+                lonlat[k] = [np.mod(fd.lon[i], 360), fd.lat[j]]
                 k += 1
 
         df_proxy = pd.DataFrame(index=recon_time)
         for pid, pobj in self.proxydb.records.items():
             series = pd.Series(index=pobj.time, data=pobj.value, name=pid)
             df_proxy = pd.concat([df_proxy, series], axis=1)
-            lonlat[k] = [pobj.lon, pobj.lat]
+            lonlat[k] = [np.mod(pobj.lon, 360), pobj.lat]
             k += 1
 
         mask = (df_proxy.index>=recon_time[0]) & (df_proxy.index<=recon_time[-1])
         df_proxy = df_proxy[mask]
-
         
-        proxy = df_proxy.values
-        
-        # hunt for duplicates
-        R = np.triu(np.corrcoef(proxy.T),k=1) # exclude diagonal and lower triangle (matrix is symmetric --> double counting)
-        di, dj = np.where(R==1)
-        num_dup = len(di)
-        
-        if num_dup > 0 and remove_duplicates:            
-            print(str(num_dup)+' have been found! Removing..')
-            di, dj = np.where(R<1)
-            # TODO: figure out indices
-            #nodup =  # find where the duplicates are not 
-            #proxy = proxy[:,nodup] export this trimmed proy matrix
-            #df_proxy = df_proxy[:,nodup] # this should work the same, right?
-        
-        self.proxy = proxy
         self.df_proxy = df_proxy 
-
+        self.proxy = df_proxy.values
         
         if verbose: p_success(f'>>> job.df_proxy created')
         if verbose: p_success(f'>>> job.proxy created')
@@ -789,7 +773,7 @@ class ReconJob:
         self.lonlat = lonlat
         if verbose: p_success(f'>>> job.lonlat created')
 
-    def run_graphem(self, save_path, verbose=False, **fit_kws):
+    def run_graphem(self, save_path, load_precalculated=True, verbose=False, **fit_kws):
         ''' Run the GraphEM solver, essentially the :py:meth: `GraphEM.solver.GraphEM.fit` method
 
         Note that the arguments for :py:meth: `GraphEM.solver.GraphEM.fit` can be appended in the
@@ -798,6 +782,7 @@ class ReconJob:
 
         Args:
             save_path (str): the path to save the fitting result
+            load_precalculated (bool, optional): load the precalculated `Graph` object. Defaults to False.
             verbose (bool, optional): print verbose information. Defaults to False.
             fit_kws (dict): the arguments for :py:meth: `GraphEM.solver.GraphEM.fit`
 
@@ -805,23 +790,26 @@ class ReconJob:
             cfr.graphem.solver.GraphEM.fit : fitting the GraphEM method
 
         '''
-        if os.path.exists(save_path):
-            self.G = pd.read_pickle(save_path)
+        if os.path.exists(save_path) and load_precalculated:
+            self.graphem_solver = pd.read_pickle(save_path)
             if verbose: p_success(f'job.G created with the existing result at: {save_path}')
         else:
-            self.G = GraphEM()
+            self.graphem_solver = GraphEM()
             fit_kwargs = {
                 'lonlat': self.lonlat,
                 'graph_method': 'neighborhood',
             }
             fit_kwargs.update(fit_kws)
-            self.G.fit(self.temp, self.proxy, self.calib_idx, **fit_kwargs)
-            pd.to_pickle(self.G, save_path)
-            if verbose: p_success(f'job.G created and saved to: {save_path}')
+            self.graphem_solver.fit(self.temp, self.proxy, self.calib_idx, **fit_kwargs)
+            save_dirpath = os.path.dirname(save_path)
+            os.makedirs(save_dirpath, exist_ok=True)
+            pd.to_pickle(self.graphem_solver, save_path)
+            if verbose: p_success(f'job.graphem_solver created and saved to: {save_path}')
 
         nt = np.shape(self.temp)[0]
-        _, nlat, nlon = np.shape(self.obs.fields['tas'].value)
-        self.recon = self.G.temp_r.reshape((nt, nlat, nlon))
+        vn = list(self.obs.keys())[0]
+        _, nlat, nlon = np.shape(self.obs[vn].da.values)
+        self.recon = self.graphem_solver.temp_r.reshape((nt, nlat, nlon))
         if verbose: p_success(f'>>> job.recon created')
 
     def save(self, prep_savepath=None, verbose=False):

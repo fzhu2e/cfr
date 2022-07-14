@@ -691,7 +691,7 @@ class ProxyDatabase:
             print(i, g)
 
         p_header('>>> Hint for the next step:')
-        p_header('Use the method `.sequeeze_dups(pids_to_keep=pid_list)` to keep only one record from each group.')
+        p_header('Use the method `.squeeze_dups(pids_to_keep=pid_list)` to keep only one record from each group.')
 
         return pdb_dups
 

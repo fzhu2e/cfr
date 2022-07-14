@@ -21,12 +21,12 @@ class NoSuffixBuilder(build_ext):
 
 setup(
     name='cfr',  # required
-    version='0.1.2',
+    version='0.1.3',
     description='cfr: the library for climate field reconstruction',
     long_description=long_description,
     long_description_content_type='text/x-rst',
-    author='Feng Zhu',
-    author_email='fzhu@nuist.edu.cn',
+    author='Feng Zhu, Julien Emile-Geay',
+    author_email='fengzhu@usc.edu, julieneg@usc.edu',
     url='https://github.com/fzhu2e/cfr',
     packages=find_packages(),
     include_package_data=True,
@@ -55,6 +55,7 @@ setup(
         'sklearn',
         'pathos',
         'eofs',
+        'plotly',
     ],
     extras_require={
         'psm': [

@@ -262,6 +262,9 @@ class ProxyRecord:
                 time_mask = (new.time>=int(key.start)) & (new.time<=int(key.stop))
                 new.value = new.value[time_mask]
                 new.time = new.time[time_mask]
+                if key.step is not None:
+                    new.value = new.value[::int(key.step)]
+                    new.time = new.time[::int(key.step)]
 
         new.dt = np.median(np.diff(new.time))
         return new

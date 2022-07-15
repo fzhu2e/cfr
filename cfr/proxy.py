@@ -251,11 +251,17 @@ class ProxyRecord:
     def __getitem__(self, key):
         ''' This makes the object subscriptable. '''
         new = self.copy()
-        new.value = new.value[key]
-        if type(key) is tuple:
-            new.time = new.time[key[0]]
-        else:
+        if type(key) is int:
+            new.value = new.value[key]
             new.time = new.time[key]
+        elif type(key) is slice: 
+            if type(key.start) is int:
+                new.value = new.value[key]
+                new.time = new.time[key]
+            elif type(key.start) is str:
+                time_mask = (new.time>=int(key.start)) & (new.time<=int(key.stop))
+                new.value = new.value[time_mask]
+                new.time = new.time[time_mask]
 
         new.dt = np.median(np.diff(new.time))
         return new
@@ -711,7 +717,7 @@ class ProxyDatabase:
             print(i+1, g)
 
         p_header('>>> Hint for the next step:')
-        p_header('Use the method `.squeeze_dups(pids_to_keep=pid_list)` to keep only one record from each group.')
+        p_header('Use the method `ProxyDatabase.squeeze_dups(pids_to_keep=pid_list)` to keep only one record from each group.')
 
         return pdb_dups
 

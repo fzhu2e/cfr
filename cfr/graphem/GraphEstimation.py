@@ -103,10 +103,10 @@ from numpy import cos, sin, arcsin, sqrt, radians
 import itertools
 
 
-def neighbor_graph(lonlat, ind_T, ind_P, distance = 1000):
+def neighbor_graph(lonlat, ind_T, ind_P, cutoff_radius = 1000):
 	'''
 	Constructs a neighborhood graph. Vertices are connected 
-	if and only if they are at less than a given distance.
+	if and only if they are at less than a given cutoff_radius.
 	
 	Parameters:
 	----------
@@ -116,7 +116,7 @@ def neighbor_graph(lonlat, ind_T, ind_P, distance = 1000):
 		Vector containing the indices of the temperature locations
 	ind_P: vector 
 		Vector containing the indices of the proxies
-	distance: float, positive
+	cutoff_radius: float, positive
 		Radius of the neighborhood graph
 		
 	Returns: 
@@ -129,7 +129,7 @@ def neighbor_graph(lonlat, ind_T, ind_P, distance = 1000):
 	print("Estimating graph using neighborhood method")
 
 	D = dMat(lonlat)
-	adj = (D <= distance).astype(np.int)           # replace 0s or 1s
+	adj = (D <= cutoff_radius).astype(np.int)           # replace 0s or 1s
 	adj[np.ix_(ind_P, ind_P)] = np.eye(len(ind_P)) # set pp to 1s
 	sparsity = graph_sparsity(adj, ind_T, ind_P)
 

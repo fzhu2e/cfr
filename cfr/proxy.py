@@ -315,17 +315,15 @@ class ProxyRecord:
             nda = field.da.sel(lat=self.lat, lon=self.lon, **_kwargs)
             if np.all(np.isnan(nda.values)):
                 for i in range(1, search_dist+1):
-                    if verbose:
-                        p_header(f'{self.pid} >>> Nearest climate is NaN. Searching around within distance of {i} deg ...')
+                    p_header(f'{self.pid} >>> Nearest climate is NaN. Searching around within distance of {i} deg ...')
                     da_cond = field.da.where(np.abs(field.da.lat - self.lat)<= i).where(
                         np.abs(field.da.lon - self.lon) <= i
                     )
                     nda = utils.geo_mean(da_cond)
+                    nda.coords['lat'] = self.lat
+                    nda.coords['lon'] = self.lon
                     if not np.all(np.isnan(nda.values)):
                         p_success(f'{self.pid} >>> Found nearest climate within distance of {i} deg.')
-                        nda = xr.DataArray(
-                            nda.values[:, np.newaxis, np.newaxis], dims=['time', 'lat', 'lon'],
-                            coords={'time': nda.time, 'lat': [self.lat], 'lon': [self.lon]})
                         break
 
             if not hasattr(self, 'clim'):

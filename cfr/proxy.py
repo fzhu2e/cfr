@@ -751,7 +751,7 @@ class ProxyDatabase:
         for pid, pobj in self.records.items():
             time_list.append(pobj.time)
 
-        df = pd.DataFrame({'lat': self.lats, 'lon': self.lons, 'type': self.type_list, 'time': time_list})
+        df = pd.DataFrame({'lat': self.lats, 'lon': self.lons, 'type': self.type_list, 'time': time_list, 'pid': self.pids})
         fig, ax = visual.plot_proxies(df, **kws)
 
         return fig, ax

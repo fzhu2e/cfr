@@ -812,19 +812,6 @@ class ReconJob:
         self.recon = self.graphem_solver.temp_r.reshape((nt, nlat, nlon))
         if verbose: p_success(f'>>> job.recon created')
 
-    def save(self, prep_savepath=None, verbose=False):
-        ''' Save the job object for later use
-        '''
-        if prep_savepath is None:
-            prep_savepath = os.path.join(self.configs['job_dirpath'], f'job.pkl')
-
-        pd.to_pickle(self, prep_savepath)
-        self.configs['prep_savepath'] = prep_savepath
-
-        if verbose:
-            p_header(f'LMRt: job.save_job() >>> Prepration data saved to: {prep_savepath}')
-            p_header(f'LMRt: job.save_job() >>> job.configs["prep_savepath"] = {prep_savepath}')
-
 
 def run_da_cfg(cfg_path, seeds=None, run_mc=True, verbose=False):
     ''' Run the reconstruction job according to a configuration YAML file.

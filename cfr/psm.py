@@ -1,3 +1,4 @@
+from turtle import color
 import numpy as np
 import pandas as pd
 from scipy import integrate, signal, stats
@@ -37,12 +38,18 @@ class TempPlusNoise:
         self.pobj = pobj
         self.climate_required = climate_required
 
-    def calibrate(self, SNR=10, seasonality=list(range(1, 13)), vn='model_tas', seed=None, noise='white'):
+    def calibrate(self, SNR=10, seasonality=list(range(1, 13)), vn='model_tas',
+                  seed=None, noise='white', colored_noise_kws=None):
         ''' Calibrate the PSM.'''
         sigma = np.std(self.pobj.clim[vn].da.values) / SNR
-        rng = np.random.default_rng(seed)
         if noise == 'white':
+            rng = np.random.default_rng(seed)
             self.noise = rng.normal(0, sigma, np.size(self.pobj.clim[vn].da.values))
+        elif noise == 'colored':
+            colored_noise_kws = {} if colored_noise_kws is None else colored_noise_kws
+            _colored_noise_kws = {'seed': seed, 'alpha': 1, 't': self.pobj.clim[vn].time}
+            _colored_noise_kws.update(colored_noise_kws)
+            self.noise = utils.colored_noise(**_colored_noise_kws)
 
         calib_details = {
             'PSMmse': np.mean(self.noise**2),

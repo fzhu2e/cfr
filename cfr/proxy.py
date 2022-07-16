@@ -292,13 +292,12 @@ class ProxyRecord:
         if hasattr(self, 'clim'): del self.clim
         if verbose: utils.p_success(f'ProxyRecord.clim deleted for {self.pid}.')
 
-    def get_clim(self, fields, tag=None, verbose=False, load=True, **kwargs):
+    def get_clim(self, fields, tag=None, verbose=False, search_dist=5, load=True, **kwargs):
         ''' Get the nearest climate from cliamte fields
 
-        Parameters
-        ----------
-        fields : cfr.climate.ClimateField or cfr.climate.ClimateDataset
-            the climate field
+        Args:
+            fields (cfr.climate.ClimateField or cfr.climate.ClimateDataset): the climate field
+            search_dist (float): the farest distance to search for climate data in degree
         '''
         if isinstance(fields, ClimateDataset):
             fields = list(fields.fields.values())
@@ -315,17 +314,19 @@ class ProxyRecord:
 
             nda = field.da.sel(lat=self.lat, lon=self.lon, **_kwargs)
             if np.all(np.isnan(nda.values)):
-                # value_wrap, lon_wrap = add_cyclic_point(field.da.values, field.da.lon)
-                # updated_coords = {}
-                # for k, v in field.da.coords.items():
-                #     if k == 'lon':
-                #         updated_coords[k] = lon_wrap
-                #     else:
-                #         updated_coords[k] = v
-                # da_wrap = xr.DataArray(value_wrap, coords=updated_coords)
-                # nda = da_wrap.sel(lat=self.lat, lon=self.lon, **_kwargs)
-                _kwargs.update({'method': 'ffill'})
-                nda = field.da.sel(lat=self.lat, lon=self.lon, **_kwargs)
+                for i in range(1, search_dist+1):
+                    if verbose:
+                        p_header(f'{self.pid} >>> Nearest climate is NaN. Searching around within distance of {i} deg ...')
+                    da_cond = field.da.where(np.abs(field.da.lat - self.lat)<= i).where(
+                        np.abs(field.da.lon - self.lon) <= i
+                    )
+                    nda = utils.geo_mean(da_cond)
+                    if not np.all(np.isnan(nda.values)):
+                        p_success(f'{self.pid} >>> Found nearest climate within distance of {i} deg.')
+                        nda = xr.DataArray(
+                            nda.values[:, np.newaxis, np.newaxis], dims=['time', 'lat', 'lon'],
+                            coords={'time': nda.time, 'lat': [self.lat], 'lon': [self.lon]})
+                        break
 
             if not hasattr(self, 'clim'):
                 self.clim = {}
@@ -338,7 +339,7 @@ class ProxyRecord:
             self.clim[name] = ClimateField().from_da(nda, time_name=time_name)
             self.clim[name].time = field.time
             if load: self.clim[name].da.load()
-            if verbose: utils.p_success(f'ProxyRecord.clim["{name}"] created.')
+            if verbose: utils.p_success(f'{self.pid} >>> ProxyRecord.clim["{name}"] created.')
 
 
     def plotly(self, **kwargs):

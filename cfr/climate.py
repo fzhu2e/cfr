@@ -3,6 +3,7 @@ import xarray as xr
 import pandas as pd
 import numpy as np
 import copy
+import plotly.express as px
 from tqdm import tqdm
 from . import visual
 from . import utils
@@ -347,6 +348,49 @@ class ClimateField:
             fig, ax =  visual.plot_field_map(self.da.values, self.lat, self.lon, **_kwargs)
 
         return fig, ax
+
+    def plotly_grid(self, site_lats=None, site_lons=None, **kwargs):
+        ''' Plot the grid on an interactive map utilizing Plotly
+        '''
+        nlat, nlon = np.size(self.lat), np.size(self.lon)
+        df = pd.DataFrame()
+        n = 0
+        for i in range(nlat):
+            for j in range(nlon):
+                lat = self.lat[i]
+                lon = self.lon[j]
+                if not np.isnan(self.da[-1, i, j]):
+                    avail = 'Data'
+                else:
+                    avail = 'NaN'
+                df.loc[n, 'lat'] = lat
+                df.loc[n, 'lon'] = lon
+                df.loc[n, 'Type'] = avail
+                n += 1
+
+        if site_lats is not None:
+            if type(site_lats) is not list:
+                site_lats = [site_lats]
+
+        if site_lons is not None:
+            if type(site_lons) is not list:
+                site_lons = [site_lons]
+
+        for i, site_lat in enumerate(site_lats):
+            for j, site_lon in enumerate(site_lons):
+                df.loc[n, 'lat'] = site_lat
+                df.loc[n, 'lon'] = site_lon
+                df.loc[n, 'Type'] = 'Site'
+                n += 1
+
+        fig = px.scatter_geo(
+            df, lat='lat', lon='lon',
+            color='Type',
+            projection='natural earth',
+            **kwargs,
+        )
+
+        return fig
 
     def annualize(self, months=list(range(1, 13))):
         ''' Annualize/seasonalize the climate field based on a list of months.

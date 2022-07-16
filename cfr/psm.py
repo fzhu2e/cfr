@@ -27,7 +27,7 @@ def clean_df(df, mask=None):
     return df_cleaned
 
 class TempPlusNoise:
-    ''' A PSM that adds white noise to the input climate signal.
+    ''' A PSM that adds noise to the input climate signal.
 
     Args:
         pobj (cfr.proxy.ProxyRecord): the proxy record object
@@ -37,13 +37,15 @@ class TempPlusNoise:
         self.pobj = pobj
         self.climate_required = climate_required
 
-    def calibrate(self, SNR=10, seasonality=list(range(1, 13)), vn='model_tas', seed=None):
+    def calibrate(self, SNR=10, seasonality=list(range(1, 13)), vn='model_tas', seed=None, noise='white'):
         ''' Calibrate the PSM.'''
         sigma = np.std(self.pobj.clim[vn].da.values) / SNR
         rng = np.random.default_rng(seed)
-        self.wn = rng.normal(0, sigma, np.size(self.pobj.clim[vn].da.values))
+        if noise == 'white':
+            self.noise = rng.normal(0, sigma, np.size(self.pobj.clim[vn].da.values))
+
         calib_details = {
-            'PSMmse': np.mean(self.wn**2),
+            'PSMmse': np.mean(self.noise**2),
             'SNR': SNR,
             'seasonality': seasonality,
         }
@@ -54,7 +56,7 @@ class TempPlusNoise:
         if no_noise:
             value = self.pobj.clim[vn].da.values 
         else:
-            value=self.pobj.clim[vn].da.values + self.wn
+            value=self.pobj.clim[vn].da.values + self.noise
 
         if center_period is not None:
             mask_pobj = (self.pobj.time>=center_period[0]) & (self.pobj.time<=center_period[1])

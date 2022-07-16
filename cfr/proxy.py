@@ -251,7 +251,7 @@ class ProxyRecord:
     def __getitem__(self, key):
         ''' This makes the object subscriptable. '''
         new = self.copy()
-        if type(key) is int:
+        if type(key) is int or type(key) is list:
             new.value = new.value[key]
             new.time = new.time[key]
         elif type(key) is slice: 
@@ -452,14 +452,14 @@ class ProxyDatabase:
     def __getitem__(self, key):
         ''' This makes the object subscriptable. '''
         new = self.copy()
-        if type(key) is int or type(key) is slice:
+        if type(key) is str:
+            new = new.records[key]
+        else:
             key = new.pids[key]
             new = new.filter(by='pid', keys=key, mode='exact')
             if len(new.records) == 1:
                 pid = new.pids[0]
                 new = new.records[pid]
-        elif type(key) is str:
-            new = new.records[key]
 
         return new
 

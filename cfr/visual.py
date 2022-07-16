@@ -420,6 +420,7 @@ def plot_proxies(df, year=np.arange(2001), lon_col='lon', lat_col='lat', type_co
     Args:
         df (pandas.DataFrame): proxy database in `pandas.DataFrame`.
         year (list): the years for counting proxy numbers.
+        p (object): the style object that contains dictionaries of markers and colors
 
     '''
 

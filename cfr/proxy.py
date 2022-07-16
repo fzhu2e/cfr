@@ -113,7 +113,7 @@ class ProxyRecord:
         self.time = time
         self.value = value
         self.lat = lat
-        self.lon = np.mod(lon, 360)
+        self.lon = np.mod(lon, 360) if lon is not None else None
         self.ptype = ptype
         self.tags = set() if tags is None else tags
 

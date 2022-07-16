@@ -22,6 +22,7 @@ from matplotlib.lines import Line2D
 from matplotlib.patches import Patch
 from matplotlib.legend_handler import HandlerLine2D
 import pathlib
+import pandas as pd
 
 from cartopy import util as cutil
 from . import utils
@@ -484,29 +485,24 @@ def plot_proxies(df, year=np.arange(2001), lon_col='lon', lat_col='lat', type_co
 
     if plot_count:
         ax['count'] = plt.subplot(gs[count_grid_idx])
-        proxy_count = {}
+        df_count = {}
+        for ptype in type_set[::-1]:
+            df_count[ptype] = pd.DataFrame(index=year)
+
         for index, row in df.iterrows():
             ptype = row[type_col]
-            time = row[time_col]
-            time_list = []
-            for t in time:
-                if not np.isnan(t):
-                    time_list.append(int(t))
-                else:
-                    time_list.append(np.nan)
-            time = np.array(time_list)
+            time = np.array(row[time_col]).astype(int)
             time = time[~np.isnan(time)]
+            time = time[time<np.max(year)+1]
             time = np.sort(list(set(time)))  # remove the duplicates for monthly data
+            ts = pd.Series(index=time, data=1, name=row['pid'])
+            df_count[ptype] = pd.concat([df_count[ptype], ts], axis=1)
 
-            if ptype not in proxy_count.keys():
-                proxy_count[ptype] = np.zeros(np.size(year))
+        proxy_count = {}
+        for ptype in df_count.keys():
+            proxy_count[ptype] = df_count[ptype].sum(axis=1)
 
-            for k in time:
-                # if k < np.max(year):
-                if k in year:
-                    proxy_count[ptype][list(year).index(k)] += 1
-
-        cumu_count = np.zeros(np.size(year))
+        cumu_count = np.zeros_like(year)
         cumu_last = np.copy(cumu_count)
         for ptype in type_set:
             cumu_count += proxy_count[ptype]

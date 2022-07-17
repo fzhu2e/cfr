@@ -433,7 +433,7 @@ class ProxyRecord:
         return fig, ax
 
 
-    def plot_compare(self, ref, label=None, ref_label=None, ref_color=None,
+    def plot_compare(self, ref, label=None, title=None, ref_label=None, ref_color=None, ref_zorder=2,
                     figsize=[12, 4], legend=False, ms=200, stock_img=True, edge_clr='w',
                     wspace=0.1, hspace=0.1, plot_map=True, lgd_kws=None, **kwargs):
         lgd_kws = {} if lgd_kws is None else lgd_kws
@@ -448,21 +448,24 @@ class ProxyRecord:
             hspace=hspace,
             plot_map=plot_map,
             label=label,
-            zorder=99,
             **kwargs
         )
 
-        ax['ts'].plot(ref.time, ref.value, color=ref_color, label=ref_label)
+        if title is not None:
+            ax['ts'].set_title(title)
+
+        ax['ts'].plot(ref.time, ref.value, color=ref_color, label=ref_label, zorder=ref_zorder)
         transform=ccrs.PlateCarree()
         ax['map'].scatter(
             ref.lon, ref.lat, marker=visual.STYLE.markers_dict[ref.ptype],
             s=ms, edgecolor=edge_clr, transform=transform,
-            zorder=0, 
+            zorder=ref_zorder, 
         )
 
-        _lgd_kws = {'ncol': 2}
-        _lgd_kws.update(lgd_kws)
-        ax['ts'].legend(**_lgd_kws)
+        if label is not None or ref_label is not None:
+            _lgd_kws = {'ncol': 2}
+            _lgd_kws.update(lgd_kws)
+            ax['ts'].legend(**_lgd_kws)
 
         return fig, ax
 

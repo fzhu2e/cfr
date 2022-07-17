@@ -723,6 +723,9 @@ class ReconJob:
 
     def prep_graphem(self, recon_period=None, recon_timescale=None, calib_period=None, verbose=False):
         ''' A shortcut of the steps for GraphEM data preparation
+        
+        Arguments:
+        ---------    
         '''
         recon_period = self.io_cfg('recon_period', recon_period, default=(1000, 2000), verbose=verbose)
         recon_timescale = self.io_cfg('recon_timescale', recon_timescale, default=1, verbose=verbose)  # unit: yr

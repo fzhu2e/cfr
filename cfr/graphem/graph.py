@@ -82,6 +82,9 @@ class Graph:
 
         ax.imshow(self.adj,cmap="Greys",interpolation="none")
         ax.set_xlabel('Index')
+        
+        # TODO : better label positions, using rcParams
+        
         # plot climate-climate part of the graph
         ax.add_patch(plt.Rectangle((0, 0), num_grid, num_grid, alpha = 0.3,
                                    fc=clr, # face color
@@ -91,11 +94,12 @@ class Graph:
                     xytext=(num_grid/2/num_tot, 1.02), textcoords='axes fraction')
         
         # plot climate-proxy part of the graph
+        fac= 0.75
         ax.add_patch(plt.Rectangle((num_grid, 0), num_proxy-2, num_grid,
                                    fc='none', ec=clr, linewidth=2))
         ax.annotate('field-proxy', color=clr,
-                    xy=(num_grid+num_proxy/2, 0),xycoords='data',
-                    xytext=((num_grid+num_proxy/2)/num_tot, 1.02), textcoords='axes fraction')
+                    xy=(num_grid+fac*num_proxy/2, 0),xycoords='data',
+                    xytext=((num_grid+fac*num_proxy/2)/num_tot, 1.02), textcoords='axes fraction')
         
         # plot proxy-proxy part of the graph
         ax.add_patch(plt.Rectangle((num_grid+1, num_grid+1), num_proxy-2, num_proxy,

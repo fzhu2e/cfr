@@ -59,7 +59,7 @@ class Graph:
 
         
         
-    def adj_plot(self,figsize=(6, 6), clr='C0'):
+    def plot_adj(self,figsize=(6, 6), clr='C0'):
         ''' Plot the adjacency matrix for a neighborhood graph
 
         Args:
@@ -71,6 +71,10 @@ class Graph:
             adj (numpy.array): the adjacency matrix in shape of (num_grid + num_proxy, num_grid + num_proxy)
 
         '''
+        
+        # TODO: include ax argument to plot into axes
+
+        
         num_tot = self.adj.shape[1]
         num_grid = self.field.shape[1]
         num_proxy = self.proxy.shape[1]

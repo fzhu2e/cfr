@@ -417,11 +417,11 @@ class ProxyRecord:
             label=f'{self.pid} ({self.ptype})',
             **kwargs
         )
-        for pdb in self.dups:
-            ax['ts'].plot(pdb.time, pdb.value, label=f'{pdb.pid} ({pdb.ptype})')
+        for pobj in self.dups:
+            ax['ts'].plot(pobj.time, pobj.value, label=f'{pobj.pid} ({pobj.ptype})')
             transform=ccrs.PlateCarree()
             ax['map'].scatter(
-                pdb.lon, pdb.lat, marker=visual.STYLE.markers_dict[pdb.ptype],
+                pobj.lon, pobj.lat, marker=visual.STYLE.markers_dict[pobj.ptype],
                 s=ms, edgecolor=edge_clr, transform=transform,
             )
 
@@ -432,6 +432,39 @@ class ProxyRecord:
 
         return fig, ax
 
+
+    def plot_compare(self, ref, label=None, ref_label=None, ref_color=None,
+                    figsize=[12, 4], legend=False, ms=200, stock_img=True, edge_clr='w',
+                    wspace=0.1, hspace=0.1, plot_map=True, lgd_kws=None, **kwargs):
+        lgd_kws = {} if lgd_kws is None else lgd_kws
+
+        fig, ax = self.plot(
+            figsize=figsize,
+            legend=legend,
+            ms=ms,
+            stock_img=stock_img,
+            edge_clr=edge_clr,
+            wspace=wspace,
+            hspace=hspace,
+            plot_map=plot_map,
+            label=label,
+            zorder=99,
+            **kwargs
+        )
+
+        ax['ts'].plot(ref.time, ref.value, color=ref_color, label=ref_label)
+        transform=ccrs.PlateCarree()
+        ax['map'].scatter(
+            ref.lon, ref.lat, marker=visual.STYLE.markers_dict[ref.ptype],
+            s=ms, edgecolor=edge_clr, transform=transform,
+            zorder=0, 
+        )
+
+        _lgd_kws = {'ncol': 2}
+        _lgd_kws.update(lgd_kws)
+        ax['ts'].legend(**_lgd_kws)
+
+        return fig, ax
 
 
 class ProxyDatabase:

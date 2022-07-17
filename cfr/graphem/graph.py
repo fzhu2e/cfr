@@ -11,15 +11,15 @@ from matplotlib.colors import BoundaryNorm
 class Graph:
     ''' The object for a graph '''
 
-    def __init__(self, lonlat, temp, proxy):
+    def __init__(self, lonlat, field, proxy):
         '''
         Args:
-            lonlat (numpy.array): the location array in shape of (num_grid + num_proxy, 2), where the 2nd dimension is aranged as [longitude, latitude]
-            temp (numpy.array): the temperature array in shape of (num_time, num_grid)
-            proxy (numpy.array): the proxy array in shape of (num_time, num_proxy)
+            lonlat (numpy.array): the location array with shape (num_grid + num_proxy, 2), where the 2nd dimension is aranged as [longitude, latitude]
+            field (numpy.array): the climate field with shape (num_time, num_grid)
+            proxy (numpy.array): the proxy matrix with shape (num_time, num_proxy)
         '''
         self.lonlat = lonlat
-        self.temp = temp
+        self.field = field
         self.proxy = proxy
 
     def calc_distance(self):
@@ -47,8 +47,8 @@ class Graph:
         if not hasattr(self, 'dist_mat'):
             self.calc_distance()
         
-        ind_T = range(self.temp.shape[1])
-        ind_P = range(self.temp.shape[1], self.temp.shape[1]+self.proxy.shape[1])
+        ind_T = range(self.field.shape[1])
+        ind_P = range(self.field.shape[1], self.field.shape[1]+self.proxy.shape[1])
                 
         adj = (self.dist_mat <= cutoff_radius).astype(int)  # replace 0s or 1s
         adj[np.ix_(ind_P, ind_P)] = np.eye(len(ind_P)) # set pp to 1s
@@ -72,7 +72,7 @@ class Graph:
 
         '''
         num_tot = self.adj.shape[1]
-        num_grid = self.temp.shape[1]
+        num_grid = self.field.shape[1]
         num_proxy = self.proxy.shape[1]
         
         assert num_tot == num_grid+num_proxy, "matrix dimensions do not add up"
@@ -106,7 +106,7 @@ class Graph:
         
 
     def get_neighbor_locs(self, idx):
-        n_gridpts = self.temp.shape[1]
+        n_gridpts = self.field.shape[1]
         i = idx + n_gridpts
 
         target_lon, target_lat = self.lonlat[i]
@@ -239,7 +239,7 @@ class Graph:
         corrs = []
         # print('np.shape(target_value):', np.shape(target_value))
         for i in neighbor_idx:
-            neighbor_value = self.temp[:, i]
+            neighbor_value = self.field[:, i]
             if time_idx_range is None:
                 time_idx_range = ~np.isnan(neighbor_value)
             # print('np.shape(neighbor_value):', np.shape(neighbor_value))

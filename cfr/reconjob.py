@@ -732,19 +732,19 @@ class ReconJob:
         fd_npos = np.shape(fd_2d)[-1]
 
         nt = np.size(recon_time)
-        temp = np.ndarray((nt, fd_npos)) 
-        temp[:] = np.nan
+        field = np.ndarray((nt, fd_npos)) 
+        field[:] = np.nan
 
-        temp_calib_idx = [list(recon_time).index(t) for t in calib_time]  
-        self.calib_idx = temp_calib_idx
+        field_calib_idx = [list(recon_time).index(t) for t in calib_time]  
+        self.calib_idx = field_calib_idx
         if verbose: p_success(f'>>> job.calib_idx created')
 
         fd_calib_idx = [list(fd.time).index(t) for t in calib_time]
         
-        temp[temp_calib_idx] = fd_2d[fd_calib_idx] #align matrices
+        field[field_calib_idx] = fd_2d[fd_calib_idx] #align matrices
         
-        self.temp = temp  
-        if verbose: p_success(f'>>> job.temp created')
+        self.field = field  
+        if verbose: p_success(f'>>> job.field created')
 
         lonlat = np.ndarray((fd_npos+self.proxydb.nrec, 2))
 
@@ -800,16 +800,16 @@ class ReconJob:
                 'graph_method': 'neighborhood',
             }
             fit_kwargs.update(fit_kws)
-            self.graphem_solver.fit(self.temp, self.proxy, self.calib_idx, **fit_kwargs)
+            self.graphem_solver.fit(self.field, self.proxy, self.calib_idx, **fit_kwargs)
             save_dirpath = os.path.dirname(save_path)
             os.makedirs(save_dirpath, exist_ok=True)
             pd.to_pickle(self.graphem_solver, save_path)
             if verbose: p_success(f'job.graphem_solver created and saved to: {save_path}')
 
-        nt = np.shape(self.temp)[0]
+        nt = np.shape(self.field)[0]
         vn = list(self.obs.keys())[0]
         _, nlat, nlon = np.shape(self.obs[vn].da.values)
-        self.recon = self.graphem_solver.temp_r.reshape((nt, nlat, nlon))
+        self.recon = self.graphem_solver.field_r.reshape((nt, nlat, nlon))
         if verbose: p_success(f'>>> job.recon created')
 
 

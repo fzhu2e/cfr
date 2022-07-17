@@ -58,17 +58,28 @@ class TempPlusNoise:
         }
         self.calib_details = calib_details
 
-    def forward(self, vn='model_tas', no_noise=False, center_period=None):
+    def forward(self, vn='model_tas', no_noise=False, match_var=False, match_mean=False):
         ''' Forward the PSM.'''
         if no_noise:
             value = self.pobj.clim[vn].da.values 
         else:
             value=self.pobj.clim[vn].da.values + self.noise
 
-        if center_period is not None:
-            mask_pobj = (self.pobj.time>=center_period[0]) & (self.pobj.time<=center_period[1])
-            mask_model = (self.pobj.clim[vn].time>=center_period[0]) & (self.pobj.clim[vn].time<=center_period[1])
-            value = value - np.mean(value[mask_model]) + np.mean(self.pobj.value[mask_pobj])
+        if match_var or match_mean:
+            proxy_time_min = np.min(self.pobj.time)
+            proxy_time_max = np.max(self.pobj.time)
+            climate_time_min = np.min(self.pobj.clim[vn].time)
+            climate_time_max = np.max(self.pobj.clim[vn].time)
+            time_min = np.max([proxy_time_min, climate_time_min])
+            time_max = np.min([proxy_time_max, climate_time_max])
+            mask_proxy = (self.pobj.time>=time_min)&(self.pobj.time<=time_max)
+            mask_climate = (self.pobj.clim[vn].time>=time_min)&(self.pobj.clim[vn].time<=time_max)
+
+        if match_var:
+            value = value / np.std(value[mask_climate]) * np.std(self.pobj.value[mask_proxy])
+
+        if match_mean:
+            value = value - np.mean(value[mask_climate]) + np.mean(self.pobj.value[mask_proxy])
 
         pp = ProxyRecord(
             pid=self.pobj.pid,

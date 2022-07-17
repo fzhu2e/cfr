@@ -512,8 +512,8 @@ class ReconJob:
                         recon_timescale=recon_timescale, seed=seed, verbose=False)
 
             recon_savepath = os.path.join(save_dirpath, f'job_r{seed:02d}_recon.nc')
-            self.save_da_recon(recon_savepath, compress_params=compress_params,
-                            verbose=verbose, output_full_ens=output_full_ens)
+            self.save_recon(recon_savepath, compress_params=compress_params, mark_assim_pids=True,
+                            verbose=verbose, output_full_ens=output_full_ens, grid='prior')
 
         t_e = time.time()
         t_used = t_e - t_s
@@ -568,11 +568,12 @@ class ReconJob:
 
         return job
     
-    def save_da_recon(self, save_path, compress_params=None, verbose=False, output_full_ens=False,
-                   output_indices=None):
+    def save_recon(self, save_path, compress_params=None, verbose=False, output_full_ens=False,
+                   mark_assim_pids=False, output_indices=None, grid='prior'):
         ''' Save the reconstruction results.
 
         Args:
+            tag (str): 'da' or 'graphem'
             save_path (str): the path for saving the reconstruciton results.
             verbose (bool, optional): print verbose information. Defaults to False.
             output_full_ens (bool): if True, the full ensemble fields will be stored to netCDF files.
@@ -601,13 +602,18 @@ class ReconJob:
         ds = xr.Dataset()
         year = np.arange(self.configs['recon_period'][0], self.configs['recon_period'][1]+1, self.configs['recon_timescale'])
         for vn, fd in self.recon_fields.items():
+            if len(np.shape(fd)) == 3:
+                fd = fd[:, np.newaxis, :, :]  # add the axis for ens
+
             nyr, nens, nlat, nlon = np.shape(fd)
+
             da = xr.DataArray(fd,
+                dims=['year', 'ens', 'lat', 'lon'],
                 coords={
                     'year': year,
                     'ens': np.arange(nens),
-                    'lat': self.prior[vn].lat,
-                    'lon': self.prior[vn].lon,
+                    'lat': self.prior[vn].lat if grid == 'prior' else self.obs[vn].lat,
+                    'lon': self.prior[vn].lon if grid == 'prior' else self.obs[vn].lon,
                 })
 
             # output indices
@@ -639,15 +645,19 @@ class ReconJob:
             encoding_dict[k] = compress_params
 
         # mark the pids being assimilated
-        pdb_assim = self.proxydb.filter(by='tag', keys=['assim'])
-        pdb_eval = self.proxydb.filter(by='tag', keys=['eval'])
-        ds.attrs = {
-            'pids_assim': pdb_assim.pids,
-            'pids_eval': pdb_eval.pids,
-        }
+        if mark_assim_pids:
+            pdb_assim = self.proxydb.filter(by='tag', keys=['assim'])
+            pdb_eval = self.proxydb.filter(by='tag', keys=['eval'])
+            ds.attrs = {
+                'pids_assim': pdb_assim.pids,
+                'pids_eval': pdb_eval.pids,
+            }
+
+        # save to netCDF files
         ds.to_netcdf(save_path, encoding=encoding_dict)
 
         if verbose: p_success(f'>>> Reconstructed fields saved to: {save_path}')
+
 
     def prep_da_cfg(self, cfg_path, seeds=None, verbose=False):
         ''' Prepare the configuration items.
@@ -711,19 +721,21 @@ class ReconJob:
         t_used = t_e - t_s
         p_success(f'>>> DONE! Total time used: {t_used/60:.2f} mins.')
 
-    def prep_graphem(self, recon_period=None, calib_period=None, verbose=False):
+    def prep_graphem(self, recon_period=None, recon_timescale=None, calib_period=None, verbose=False):
         ''' A shortcut of the steps for GraphEM data preparation
         '''
-        recon_period = self.io_cfg('recon_period', recon_period, default=(1000, 2000), verbose=False)
-        calib_period = self.io_cfg('calib_period', calib_period, default=(1850, 2000), verbose=False)
+        recon_period = self.io_cfg('recon_period', recon_period, default=(1000, 2000), verbose=verbose)
+        recon_timescale = self.io_cfg('recon_timescale', recon_timescale, default=1, verbose=verbose)  # unit: yr
+        calib_period = self.io_cfg('calib_period', calib_period, default=(1850, 2000), verbose=verbose)
 
-        recon_time = np.arange(recon_period[0], recon_period[1]+1)
-        calib_time = np.arange(calib_period[0], calib_period[1]+1)
-        
-        self.recon_time = recon_time
-        self.calib_time = calib_time
-        if verbose: p_success(f'>>> job.recon_time created')
-        if verbose: p_success(f'>>> job.calib_time created')
+        recon_time = np.arange(recon_period[0], recon_period[1]+1, recon_timescale)
+        calib_time = np.arange(calib_period[0], calib_period[1]+1, recon_timescale)
+
+        self.graphem_params = {}
+        self.graphem_params['recon_time'] = recon_time
+        self.graphem_params['calib_time'] = calib_time
+        if verbose: p_success(f'>>> job.graphem_params["recon_time"] created')
+        if verbose: p_success(f'>>> job.graphem_params["calib_time"] created')
 
         vn = list(self.obs.keys())[0]
         fd = self.obs[vn]  
@@ -736,15 +748,15 @@ class ReconJob:
         field[:] = np.nan
 
         field_calib_idx = [list(recon_time).index(t) for t in calib_time]  
-        self.calib_idx = field_calib_idx
-        if verbose: p_success(f'>>> job.calib_idx created')
+        self.graphem_params['calib_idx'] = field_calib_idx
+        if verbose: p_success(f'>>> job.graphem_params["calib_idx"] created')
 
         fd_calib_idx = [list(fd.time).index(t) for t in calib_time]
         
         field[field_calib_idx] = fd_2d[fd_calib_idx] #align matrices
         
-        self.field = field  
-        if verbose: p_success(f'>>> job.field created')
+        self.graphem_params['field'] = field  
+        if verbose: p_success(f'>>> job.graphem_params["field"] created')
 
         lonlat = np.ndarray((fd_npos+self.proxydb.nrec, 2))
 
@@ -764,16 +776,18 @@ class ReconJob:
         mask = (df_proxy.index>=recon_time[0]) & (df_proxy.index<=recon_time[-1])
         df_proxy = df_proxy[mask]
         
-        self.df_proxy = df_proxy 
-        self.proxy = df_proxy.values
+        self.graphem_params['df_proxy'] = df_proxy 
+        self.graphem_params['proxy'] = df_proxy.values
         
-        if verbose: p_success(f'>>> job.df_proxy created')
-        if verbose: p_success(f'>>> job.proxy created')
+        if verbose: p_success(f'>>> job.graphem_params["df_proxy"] created')
+        if verbose: p_success(f'>>> job.graphem_params["proxy"] created')
 
-        self.lonlat = lonlat
-        if verbose: p_success(f'>>> job.lonlat created')
+        self.graphem_params['lonlat'] = lonlat
+        if verbose: p_success(f'>>> job.graphem_params["lonlat"] created')
 
-    def run_graphem(self, save_path, load_precalculated=True, verbose=False, **fit_kws):
+    def run_graphem(self, save_dirpath, load_precalculated=True, verbose=False,
+                    compress_params=None, recon_timescale=None,
+                    **fit_kws):
         ''' Run the GraphEM solver, essentially the :py:meth: `GraphEM.solver.GraphEM.fit` method
 
         Note that the arguments for :py:meth: `GraphEM.solver.GraphEM.fit` can be appended in the
@@ -781,7 +795,7 @@ class ReconJob:
         `estimate_graph=False` and `graph=g.adj`, where `g` is the :py:`Graph` object.
 
         Args:
-            save_path (str): the path to save the fitting result
+            save_dirpath (str): the path to save the related results
             load_precalculated (bool, optional): load the precalculated `Graph` object. Defaults to False.
             verbose (bool, optional): print verbose information. Defaults to False.
             fit_kws (dict): the arguments for :py:meth: `GraphEM.solver.GraphEM.fit`
@@ -790,27 +804,39 @@ class ReconJob:
             cfr.graphem.solver.GraphEM.fit : fitting the GraphEM method
 
         '''
-        if os.path.exists(save_path) and load_precalculated:
-            self.graphem_solver = pd.read_pickle(save_path)
-            if verbose: p_success(f'job.G created with the existing result at: {save_path}')
+        save_dirpath = self.io_cfg('save_dirpath', save_dirpath, verbose=verbose)
+        os.makedirs(save_dirpath, exist_ok=True)
+        compress_params = self.io_cfg('compress_params', compress_params, default={'zlib': True, 'least_significant_digit': 1}, verbose=verbose)
+        recon_timescale = self.io_cfg('recon_timescale', recon_timescale, default=1, verbose=verbose)  # unit: yr
+
+        solver_save_path = os.path.join(save_dirpath, 'job.graphem_solver.pkl')
+        if load_precalculated and os.path.exists(solver_save_path):
+            self.graphem_solver = pd.read_pickle(solver_save_path)
+            if verbose: p_success(f'job.graphem_solver created with the existing result at: {solver_save_path}')
         else:
             self.graphem_solver = GraphEM()
             fit_kwargs = {
-                'lonlat': self.lonlat,
+                'lonlat': self.graphem_params['lonlat'],
                 'graph_method': 'neighborhood',
             }
             fit_kwargs.update(fit_kws)
-            self.graphem_solver.fit(self.field, self.proxy, self.calib_idx, **fit_kwargs)
-            save_dirpath = os.path.dirname(save_path)
-            os.makedirs(save_dirpath, exist_ok=True)
-            pd.to_pickle(self.graphem_solver, save_path)
-            if verbose: p_success(f'job.graphem_solver created and saved to: {save_path}')
+            self.graphem_solver.fit(
+                self.graphem_params['field'],
+                self.graphem_params['proxy'],
+                self.graphem_params['calib_idx'],
+                **fit_kwargs)
+            pd.to_pickle(self.graphem_solver, solver_save_path)
+            if verbose: p_success(f'job.graphem_solver created and saved to: {solver_save_path}')
 
-        nt = np.shape(self.field)[0]
+        nt = np.shape(self.graphem_params['field'])[0]
         vn = list(self.obs.keys())[0]
         _, nlat, nlon = np.shape(self.obs[vn].da.values)
-        self.recon = self.graphem_solver.field_r.reshape((nt, nlat, nlon))
-        if verbose: p_success(f'>>> job.recon created')
+        self.recon_fields = {}  # to make it multivariable reconstruction ready
+        self.recon_fields[vn] = self.graphem_solver.field_r.reshape((nt, nlat, nlon))
+        if verbose: p_success(f'>>> job.recon_fields created')
+
+        recon_savepath = os.path.join(save_dirpath, f'job_r01_recon.nc')
+        self.save_recon(recon_savepath, compress_params=compress_params, verbose=verbose, grid='obs')
 
 
 def run_da_cfg(cfg_path, seeds=None, run_mc=True, verbose=False):

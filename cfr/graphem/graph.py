@@ -59,7 +59,7 @@ class Graph:
 
         
         
-    def plot_adj(self,figsize=(6, 6), clr='C0'):
+    def plot_adj(self,figsize=(6, 6), clr='C0', ax=None):
         ''' Plot the adjacency matrix for a neighborhood graph
 
         Args:
@@ -71,17 +71,15 @@ class Graph:
             adj (numpy.array): the adjacency matrix in shape of (num_grid + num_proxy, num_grid + num_proxy)
 
         '''
-        
-        # TODO: include ax argument to plot into axes
-
-        
         num_tot = self.adj.shape[1]
         num_grid = self.field.shape[1]
         num_proxy = self.proxy.shape[1]
         
         assert num_tot == num_grid+num_proxy, "matrix dimensions do not add up"
         
-        fig, ax = plt.subplots(figsize=figsize) # in inches
+        if ax is None:
+            fig, ax = plt.subplots(figsize=figsize) # in inches
+
         ax.imshow(self.adj,cmap="Greys",interpolation="none")
         ax.set_xlabel('Index')
         # plot climate-climate part of the graph
@@ -107,6 +105,10 @@ class Graph:
         ax.text(1.05*num_tot,num_grid+1.4*num_proxy/2, s='proxy-proxy', 
                 rotation='vertical', color = clr)
         
+        if 'fig' in locals():
+            return fig, ax
+        else:
+            return ax
         
 
     def get_neighbor_locs(self, idx):
@@ -127,7 +129,8 @@ class Graph:
 
         return target_lon, target_lat, neighbor_lons, neighbor_lats, neighbor_idx
 
-    def plot_neighbors(self, idx, figsize=(4, 4), ms=50, title=None, neighbor_clr='r', target_clr='k', edge_clr='w', marker='o', cmap=None, norm=None):
+    def plot_neighbors(self, idx, figsize=(4, 4), ms=50, title=None, neighbor_clr='r',
+                       target_clr='k', edge_clr='w', marker='o', cmap=None, norm=None, ax=None):
         ''' Plot the location of the neighbors according to the adjacency matrix
 
         Parameters
@@ -164,12 +167,12 @@ class Graph:
             the adjacency matrix in shape of (num_grid + num_proxy, num_grid + num_proxy)
 
         '''
-        
-        # TODO: include ax argument to plot into axes
         target_lon, target_lat, neighbor_lons, neighbor_lats, _ = self.get_neighbor_locs(idx)
 
-        fig = plt.figure(figsize=figsize)
-        ax = plt.subplot(projection=ccrs.Orthographic(central_longitude=target_lon, central_latitude=target_lat))
+        if ax is None:
+            fig = plt.figure(figsize=figsize)
+            ax = plt.subplot(projection=ccrs.Orthographic(central_longitude=target_lon, central_latitude=target_lat))
+
         ax.set_global()
         ax.stock_img()
 
@@ -186,13 +189,16 @@ class Graph:
             ax.scatter(neighbor_lons, neighbor_lats, marker=marker, s=ms, c=neighbor_clr, edgecolor=edge_clr,transform=transform)
         ax.scatter(target_lon, target_lat, marker=marker, s=ms, c=target_clr, edgecolor=edge_clr, transform=transform)
 
-        return fig, ax
+        if 'fig' in locals():
+            return fig, ax
+        else:
+            return ax
 
 
     def plot_neighbors_corr(self, idx, time_idx_range=None, figsize=(5, 5), ms=50, title=None,
         cmap='RdBu_r', target_clr='k', edge_clr='w', marker='o',  levels=np.linspace(-1, 1, 21),
         cbar_pad=0.1, cbar_orientation='horizontal', cbar_aspect=10, cbar_labels=[-1, -0.5, 0, 0.5, 1],
-        cbar_fraction=0.15, cbar_shrink=0.5, cbar_title='Correlation', plot_cbar=True):
+        cbar_fraction=0.15, cbar_shrink=0.5, cbar_title='Correlation', plot_cbar=True, ax=None):
         ''' Plot the location of the neighbors according to the adjacency matrix
 
         Parameters
@@ -235,9 +241,6 @@ class Graph:
             the adjacency matrix in shape of (num_grid + num_proxy, num_grid + num_proxy)
 
         '''
-        
-        # TODO: include ax argument to plot into axes
-
         _, _, _, _, neighbor_idx = self.get_neighbor_locs(idx)
         target_value = self.proxy[:, idx]
         corrs = []
@@ -249,19 +252,28 @@ class Graph:
             # print('np.shape(neighbor_value):', np.shape(neighbor_value))
             corr = np.corrcoef(neighbor_value[time_idx_range], target_value[time_idx_range])[1, 0]
             corrs.append(corr)
-
         # print(corrs)
 
         cmap = plt.get_cmap(cmap)
         norm = BoundaryNorm(levels, ncolors=cmap.N, clip=True)
 
-        fig, ax = self.plot_neighbors(idx, figsize=figsize, ms=ms, title=title, neighbor_clr=corrs, target_clr=target_clr, edge_clr=edge_clr, marker=marker, cmap=cmap, norm=norm)
+        if ax is None:
+            fig, ax = self.plot_neighbors(
+                idx, figsize=figsize, ms=ms, title=title, neighbor_clr=corrs, target_clr=target_clr,
+                edge_clr=edge_clr, marker=marker, cmap=cmap, norm=norm)
+        else:
+            ax = self.plot_neighbors(
+                idx, figsize=figsize, ms=ms, title=title, neighbor_clr=corrs, target_clr=target_clr,
+                edge_clr=edge_clr, marker=marker, cmap=cmap, norm=norm, ax=ax)
 
         smap = plt.cm.ScalarMappable(cmap=cmap, norm=norm)
 
         if plot_cbar:
-            cbar = fig.colorbar(smap, ax=ax, orientation=cbar_orientation, pad=cbar_pad, aspect=cbar_aspect, extend='neither', fraction=cbar_fraction, shrink=cbar_shrink)
+            cbar = plt.colorbar(smap, ax=ax, orientation=cbar_orientation, pad=cbar_pad, aspect=cbar_aspect, extend='neither', fraction=cbar_fraction, shrink=cbar_shrink)
             cbar.ax.set_title(cbar_title)
             cbar.set_ticks(cbar_labels)
 
-        return fig, ax
+        if 'fig' in locals():
+            return fig, ax
+        else:
+            return ax

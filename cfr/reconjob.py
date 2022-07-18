@@ -8,9 +8,11 @@ from tqdm import tqdm
 import pandas as pd
 import random
 import glob
+from sklearn.model_selection import KFold
 from .climate import ClimateField
 from .proxy import ProxyDatabase, ProxyRecord
-from .graphem import GraphEM
+from .graphem import GraphEM, Graph
+from .graphem.solver import verif_stats as graphem_verif_stats
 try:
     from . import psm
 except:
@@ -600,7 +602,13 @@ class ReconJob:
             verbose=False)
 
         ds = xr.Dataset()
-        year = np.arange(self.configs['recon_period'][0], self.configs['recon_period'][1]+1, self.configs['recon_timescale'])
+        if 'recon_time' in self.configs:
+            year = self.configs['recon_time']
+        elif 'recon_period' in self.configs:
+            year = np.arange(self.configs['recon_period'][0], self.configs['recon_period'][1]+1, self.configs['recon_timescale'])
+        else:
+            raise ValueError('Unknown reconstruction years.')
+
         for vn, fd in self.recon_fields.items():
             if len(np.shape(fd)) == 3:
                 fd = fd[:, np.newaxis, :, :]  # add the axis for ens
@@ -721,18 +729,29 @@ class ReconJob:
         t_used = t_e - t_s
         p_success(f'>>> DONE! Total time used: {t_used/60:.2f} mins.')
 
-    def prep_graphem(self, recon_period=None, recon_timescale=None, calib_period=None, verbose=False):
+    def prep_graphem(self, recon_time=None, calib_time=None,  recon_period=None, recon_timescale=None, calib_period=None, verbose=False):
         ''' A shortcut of the steps for GraphEM data preparation
-        
-        Arguments:
-        ---------    
-        '''
-        recon_period = self.io_cfg('recon_period', recon_period, default=(1000, 2000), verbose=verbose)
-        recon_timescale = self.io_cfg('recon_timescale', recon_timescale, default=1, verbose=verbose)  # unit: yr
-        calib_period = self.io_cfg('calib_period', calib_period, default=(1850, 2000), verbose=verbose)
 
-        recon_time = np.arange(recon_period[0], recon_period[1]+1, recon_timescale)
-        calib_time = np.arange(calib_period[0], calib_period[1]+1, recon_timescale)
+        Args:
+            recon_time (array list, optional): the time points to reconstruct
+            calib_time (array list, optional): the time points for calibration
+            recon_period (tuple, optional): the reconstruction timespan.
+                Effective when `recon_time` or `calib_time` is None. Defaults to None.
+            recon_timescale (float, optional): the reconstruction timescale. Defaults to None.
+                Effective when `recon_time` or `calib_time` is None. Defaults to None.
+            calib_period (tuple, optional): the calibration timespan. Defaults to None.
+            verbose (bool, optional): print verbose information. Defaults to False.
+        '''
+        if recon_time is None or calib_time is None:
+            recon_period = self.io_cfg('recon_period', recon_period, default=(1001, 2000), verbose=verbose)
+            recon_timescale = self.io_cfg('recon_timescale', recon_timescale, default=1, verbose=verbose)  # unit: yr
+            calib_period = self.io_cfg('calib_period', calib_period, default=(1850, 2000), verbose=verbose)
+
+            recon_time = np.arange(recon_period[0], recon_period[1]+1, recon_timescale)
+            calib_time = np.arange(calib_period[0], calib_period[1]+1, recon_timescale)
+        else:
+            recon_time = self.io_cfg('recon_time', recon_time, verbose=verbose)
+            calib_time = self.io_cfg('calib_time', calib_time, verbose=verbose)
 
         self.graphem_params = {}
         self.graphem_params['recon_time'] = recon_time
@@ -741,32 +760,34 @@ class ReconJob:
         if verbose: p_success(f'>>> job.graphem_params["calib_time"] created')
 
         vn = list(self.obs.keys())[0]
-        fd = self.obs[vn]  
-        fd_nt = fd.da.shape[0]
-        fd_2d = fd.da.values.reshape(fd_nt, -1)
-        fd_npos = np.shape(fd_2d)[-1]
+        obs = self.obs[vn]  
+        obs_nt = obs.da.shape[0]
+        obs_2d = obs.da.values.reshape(obs_nt, -1)
+        obs_npos = np.shape(obs_2d)[-1]
+
+        recon_idx = [list(obs.time).index(t) for t in recon_time]
+        self.graphem_params['obs_2d'] = obs_2d[recon_idx]
+        if verbose: p_success(f'>>> job.graphem_params["field_obs"] created')
 
         nt = np.size(recon_time)
-        field = np.ndarray((nt, fd_npos)) 
+        field = np.ndarray((nt, obs_npos)) 
         field[:] = np.nan
 
         field_calib_idx = [list(recon_time).index(t) for t in calib_time]  
         self.graphem_params['calib_idx'] = field_calib_idx
         if verbose: p_success(f'>>> job.graphem_params["calib_idx"] created')
 
-        fd_calib_idx = [list(fd.time).index(t) for t in calib_time]
-        
-        field[field_calib_idx] = fd_2d[fd_calib_idx] #align matrices
-        
+        obs_calib_idx = [list(obs.time).index(t) for t in calib_time]
+        field[field_calib_idx] = obs_2d[obs_calib_idx] #align matrices
         self.graphem_params['field'] = field  
         if verbose: p_success(f'>>> job.graphem_params["field"] created')
 
-        lonlat = np.ndarray((fd_npos+self.proxydb.nrec, 2))
+        lonlat = np.ndarray((obs_npos+self.proxydb.nrec, 2))
 
         k = 0
-        for i in range(np.size(fd.da.lon)):
-            for j in range(np.size(fd.da.lat)):
-                lonlat[k] = [np.mod(fd.lon[i], 360), fd.lat[j]]
+        for i in range(np.size(obs.da.lon)):
+            for j in range(np.size(obs.da.lat)):
+                lonlat[k] = [np.mod(obs.lon[i], 360), obs.lat[j]]
                 k += 1
 
         df_proxy = pd.DataFrame(index=recon_time)
@@ -776,7 +797,7 @@ class ReconJob:
             lonlat[k] = [np.mod(pobj.lon, 360), pobj.lat]
             k += 1
 
-        mask = (df_proxy.index>=recon_time[0]) & (df_proxy.index<=recon_time[-1])
+        mask = [True if i in recon_time else False for i in df_proxy.index.values]
         df_proxy = df_proxy[mask]
         
         self.graphem_params['df_proxy'] = df_proxy 
@@ -788,8 +809,54 @@ class ReconJob:
         self.graphem_params['lonlat'] = lonlat
         if verbose: p_success(f'>>> job.graphem_params["lonlat"] created')
 
-    def run_graphem(self, save_dirpath, load_precalculated=True, verbose=False,
-                    compress_params=None, recon_timescale=None,
+    def graphem_kcv(self, cv_time, stat='MSE', n_splits=5,
+                    cutoff_radii=[500, 1000, 1500, 2000, 5000]):
+        ''' k-fold cross-validation
+        '''
+        kf = KFold(n_splits=n_splits)
+        cv_stats = np.empty((kf.n_splits, len(cutoff_radii))) # stats for a scalar: TODO: generalize to the grid of job.graphem_params['field']
+        i = 0
+        for train_idx, test_idx in kf.split(cv_time):
+            p_header(f'>>> Processing fold {i+1}:')
+            train = cv_time[train_idx]
+            for j, radius in enumerate(cutoff_radii):
+                p_header(f'>>> radius = {radius}')
+                j_cv = self.copy()
+
+                # specify calibration period
+                j_cv.prep_graphem(
+                    recon_time = cv_time,
+                    calib_time = train,  
+                    verbose=False)
+
+                # obtain graph
+                g_cv = Graph(
+                    j_cv.graphem_params['lonlat'],
+                    j_cv.graphem_params['field'],
+                    j_cv.graphem_params['proxy'])
+                g_cv.neigh_adj(cutoff_radius=radius)
+
+                # run graphem with this graph
+                j_cv.run_graphem(
+                    save_recon=False,
+                    verbose=False,
+                    estimate_graph=False,
+                    graph=g_cv.adj)
+
+                # compute verification statistics
+                field_r = j_cv.graphem_solver.field_r
+                target = j_cv.graphem_params['obs_2d']
+                cv_stats[i, j] = graphem_verif_stats(
+                    field_r, target,
+                    j_cv.graphem_params['calib_idx']).__dict__[stat].mean()
+            i += 1
+
+        return cv_stats
+
+
+    def run_graphem(self, save_recon=True, save_dirpath=None,
+                    load_precalc_solver=False, solver_save_path=None,
+                    compress_params=None, verbose=False,
                     **fit_kws):
         ''' Run the GraphEM solver, essentially the :py:meth: `GraphEM.solver.GraphEM.fit` method
 
@@ -807,13 +874,13 @@ class ReconJob:
             cfr.graphem.solver.GraphEM.fit : fitting the GraphEM method
 
         '''
-        save_dirpath = self.io_cfg('save_dirpath', save_dirpath, verbose=verbose)
-        os.makedirs(save_dirpath, exist_ok=True)
         compress_params = self.io_cfg('compress_params', compress_params, default={'zlib': True, 'least_significant_digit': 1}, verbose=verbose)
-        recon_timescale = self.io_cfg('recon_timescale', recon_timescale, default=1, verbose=verbose)  # unit: yr
 
-        solver_save_path = os.path.join(save_dirpath, 'job.graphem_solver.pkl')
-        if load_precalculated and os.path.exists(solver_save_path):
+        if save_recon:
+            save_dirpath = self.io_cfg('save_dirpath', save_dirpath, verbose=verbose)
+            os.makedirs(save_dirpath, exist_ok=True)
+
+        if load_precalc_solver:
             self.graphem_solver = pd.read_pickle(solver_save_path)
             if verbose: p_success(f'job.graphem_solver created with the existing result at: {solver_save_path}')
         else:
@@ -828,8 +895,12 @@ class ReconJob:
                 self.graphem_params['proxy'],
                 self.graphem_params['calib_idx'],
                 **fit_kwargs)
-            pd.to_pickle(self.graphem_solver, solver_save_path)
+
             if verbose: p_success(f'job.graphem_solver created and saved to: {solver_save_path}')
+
+            if solver_save_path is not None:
+                pd.to_pickle(self.graphem_solver, solver_save_path)
+                if verbose: p_success(f'job.graphem_solver saved to: {solver_save_path}')
 
         nt = np.shape(self.graphem_params['field'])[0]
         vn = list(self.obs.keys())[0]
@@ -838,8 +909,9 @@ class ReconJob:
         self.recon_fields[vn] = self.graphem_solver.field_r.reshape((nt, nlat, nlon))
         if verbose: p_success(f'>>> job.recon_fields created')
 
-        recon_savepath = os.path.join(save_dirpath, f'job_r01_recon.nc')
-        self.save_recon(recon_savepath, compress_params=compress_params, verbose=verbose, grid='obs')
+        if save_recon:
+            recon_savepath = os.path.join(save_dirpath, 'job_r01_recon.nc')
+            self.save_recon(recon_savepath, compress_params=compress_params, verbose=verbose, grid='obs')
 
 
 def run_da_cfg(cfg_path, seeds=None, run_mc=True, verbose=False):

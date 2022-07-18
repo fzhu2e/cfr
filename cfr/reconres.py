@@ -38,7 +38,7 @@ class ReconRes:
             raise ValueError('No ""')
 
         if verbose:
-            p_header(f'>>> recon.paths:')
+            p_header(f'>>> res.paths:')
             print(self.paths)
 
         self.recons = {}

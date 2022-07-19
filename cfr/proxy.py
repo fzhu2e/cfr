@@ -182,6 +182,12 @@ class ProxyRecord:
         return new
 
     def to_nc(self, path, verbose=True, **kwargs):
+        ''' Convert the record to a netCDF file.
+
+        Args:
+            path (str): the path to save the file.
+            verbose (bool, optional): print verbose information. Defaults to False.
+        '''
         da = self.to_da()
         da.to_netcdf(path=path, **kwargs)
         if verbose: utils.p_success(f'ProxyRecord saved to: {path}')
@@ -214,7 +220,11 @@ class ProxyRecord:
         ''' Get the time and value axis from the given Xarray.DataArray
         '''
         new = ProxyRecord()
-        new.time = utils.datetime2year_float(da.time.values)
+        if 'time' in da.dims:
+            new.time = utils.datetime2year_float(da.time.values)
+        elif 'year' in da.dims:
+            new.time = da.year.values
+
         new.value = da.values
         new.pid = da.name
         new.lat = da.attrs['lat'] if 'lat' in da.attrs else None
@@ -541,6 +551,7 @@ class ProxyDatabase:
         Args:
             df (pandas.DataFrame): a Pandas DataFrame include at least lat, lon, time, value, proxy_type
             ptype_psm (dict): a mapping from ptype to psm
+            verbose (bool, optional): print verbose information. Defaults to False.
         '''
         new = self.copy()
         if not isinstance(df, pd.DataFrame):
@@ -1026,8 +1037,71 @@ class ProxyDatabase:
             
         return df
 
-    def to_nc(self, dirpath, verbose=True, **kwargs):
-        ''' Convert the proxy database to a netCDF file.
+    def to_ds(self, annualize=False, months=None, verbose=False):
+        ''' Convert the proxy database to a `xarray.Dataset`
+
+        Args:
+            annaulize (bool): annaulize the proxy records with `months`
+            months (list): months for annulization
+            verbose (bool, optional): print verbose information. Defaults to False.
+        '''
+        da_dict = {}
+        pid_truncated = []
+        for pobj in tqdm(self, total=self.nrec):
+            if np.min(pobj.time) <= 0:
+                pid_truncated.append(pobj.pid)
+                pobj = pobj.slice([1, np.max(pobj.time)])
+            if annualize:
+                pobj = pobj.annualize(months=months)
+            da = pobj.to_da()
+            if annualize:
+                da = da.rename({'time': 'year'})
+                da['year'] = np.array([int(t) for t in pobj.time])
+            da_dict[pobj.pid] = da
+
+        if verbose:
+            utils.p_warning(f'>>> Data before 1 CE is dropped for records: {pid_truncated}.')
+
+        ds = xr.Dataset(da_dict)
+        if annualize:
+            ds['year'] = np.array([int(t) for t in ds['year']])
+
+        return ds
+
+    def from_ds(self, ds):
+        new = self.copy()
+        for vn in ds.var():
+            da = ds[vn]
+            new.records[vn] = ProxyRecord().from_da(da)
+
+        new.refresh()
+        return new
+        
+
+    def to_nc(self, path, annualize=False, months=None, verbose=True, compress_params={'zlib': True, 'least_significant_digit': 2}):
+        ''' Convert the database to a netCDF file.
+
+        Args:
+            path (str): the path to save the file.
+            annaulize (bool): annaulize the proxy records with `months`
+            months (list): months for annulization
+            verbose (bool, optional): print verbose information. Defaults to False.
+        '''
+        encoding_dict = {}
+        for k in self.records.keys():
+            encoding_dict[k] = compress_params
+
+        ds = self.to_ds(annualize=annualize, months=months)
+        ds.to_netcdf(path=path, encoding=encoding_dict)
+        if verbose: utils.p_success(f'ProxyDatabase saved to: {path}')
+
+    def load_nc(self, path):
+        ds = xr.open_dataset(path)
+        pdb = ProxyDatabase().from_ds(ds)
+        return pdb
+
+    def to_multi_nc(self, dirpath, verbose=True, compress_params={'zlib': True, 'least_significant_digit': 2}):
+        ''' Convert the proxy database to multiple netCDF files. One for each record.
 
         Args:
             dirpath (str): the directory path of the multiple .nc files
@@ -1040,14 +1114,14 @@ class ProxyDatabase:
                 pobj = pobj.slice([1, np.max(pobj.time)])
             da = pobj.to_da()
             path = os.path.join(dirpath, f'{pid}.nc')
-            da.to_netcdf(path=path, **kwargs)
+            da.to_netcdf(path=path, encoding={da.name: compress_params})
 
         if verbose:
             utils.p_warning(f'>>> Data before 1 CE is dropped for records: {pid_truncated}.')
             utils.p_success(f'>>> ProxyDatabase saved to: {dirpath}')
 
-    def load_nc(self, dirpath, nproc=None):
-        ''' Load from multiple netCDF files
+    def load_multi_nc(self, dirpath, nproc=None):
+        ''' Load from multiple netCDF files.
 
         Args:
             dirpath (str): the directory path of the multiple .nc files

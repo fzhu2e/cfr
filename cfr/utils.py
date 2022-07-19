@@ -253,9 +253,9 @@ def gcd(lat1, lon1, lat2, lon2):
 	km = 6367 * c
 	return km
 
-def annualize(time=None, value=None, da=None, months=list(range(1, 13))):
+def annualize(time=None, value=None, da=None, months=None):
     # convert negative months to support expressions like [-12, 1, 2]
-    months = np.abs(months)
+    months = list(range(1, 13)) if months is None else np.abs(months)
 
     if da is None:
         dates = year_float2datetime(time)

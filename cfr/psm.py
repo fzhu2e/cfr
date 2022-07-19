@@ -41,7 +41,7 @@ class TempPlusNoise:
     def calibrate(self, SNR=10, seasonality=list(range(1, 13)), vn='model_tas',
                   seed=None, noise='white', colored_noise_kws=None):
         ''' Calibrate the PSM.'''
-        sigma = np.std(self.pobj.clim[vn].da.values) / SNR
+        sigma = np.nanstd(self.pobj.clim[vn].da.values) / SNR
         if noise == 'white':
             rng = np.random.default_rng(seed)
             self.noise = rng.normal(0, sigma, np.size(self.pobj.clim[vn].da.values))
@@ -76,10 +76,10 @@ class TempPlusNoise:
             mask_climate = (self.pobj.clim[vn].time>=time_min)&(self.pobj.clim[vn].time<=time_max)
 
         if match_var:
-            value = value / np.std(value[mask_climate]) * np.std(self.pobj.value[mask_proxy])
+            value = value / np.nanstd(value[mask_climate]) * np.nanstd(self.pobj.value[mask_proxy])
 
         if match_mean:
-            value = value - np.mean(value[mask_climate]) + np.mean(self.pobj.value[mask_proxy])
+            value = value - np.nanmean(value[mask_climate]) + np.nanmean(self.pobj.value[mask_proxy])
 
         pp = ProxyRecord(
             pid=self.pobj.pid,

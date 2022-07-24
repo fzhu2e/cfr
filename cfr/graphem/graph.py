@@ -1,5 +1,6 @@
 from .GraphEstimation import dMat
 from .GraphEstimation import graph_sparsity
+from .GraphEstimation import graph_greedy_search
 
 import numpy as np
 
@@ -32,31 +33,108 @@ class Graph:
         self.dist_mat = dMat(self.lonlat)
         
 
-    def neigh_adj(self, cutoff_radius=1000):
+    def neigh_adj(self, cutoff_radius = None, n_neighbors = None):
         ''' Calculate the adjacency matrix for a neighborhood graph
 
-        Args:
-            cutoff_radius (float): the great circle distance in unit of [km] for neighbor searching
+        The neighborhood is controlled either/and by the cutoff radius or the 
+        number of neigbors.  If both are specified, the beighborhood is 
+        comprised of the `n_neighbors` closest points within a distance of 
+        `cutoff_radius`. An error is raised if neither method is specified.
 
+        Parameters
+        ----------
+        cutoff_radius : float
+            the great circle distance in unit of [km] for neighbor search.
+            Default: None
+        n_neighbors : int
+            number of closest neighbors (Default: None)
 
-        Attributes:
-            adj (numpy.array): the adjacency matrix (num_grid + num_proxy, num_grid + num_proxy)
-
+        Returns
+        -------
+        adj (numpy.array): the adjacency matrix (num_grid + num_proxy, num_grid + num_proxy)
         '''
         
         if not hasattr(self, 'dist_mat'):
             self.calc_distance()
+            
+        # make distance matrix upper triangular
+        D = self.dist_mat.copy()
+        D[np.tril_indices_from(D)] = np.nan
+        p = D.shape[0] # matrix size
         
-        ind_T = range(self.field.shape[1])
-        ind_P = range(self.field.shape[1], self.field.shape[1]+self.proxy.shape[1])
-                
-        adj = (self.dist_mat <= cutoff_radius).astype(int)  # replace 0s or 1s
-        adj[np.ix_(ind_P, ind_P)] = np.eye(len(ind_P)) # set pp to 1s
+        adj   = np.zeros((p,p))   
+        ind_F = range(self.field.shape[1])
+        ind_P = range(self.field.shape[1], p)
+        
+        if cutoff_radius is not None and n_neighbors is not None:        
+            D[D>cutoff_radius] = np.Inf
+            for j in range(p):       
+                idx = np.argsort(D[j,:])
+                nonnan = np.sum(~np.isnan(D[j,idx]))
+                adj[j,idx[:np.min([nonnan,n_neighbors])]] = 1
 
+        elif cutoff_radius is not None and n_neighbors is None:   
+            adj = (self.dist_mat <= cutoff_radius).astype(int)  # Booleans as 0s or 1s
+            
+        elif cutoff_radius is None and n_neighbors is not None:
+            for j in range(p):       
+                idx = np.argsort(D[j,:])
+                nonnan = np.sum(~np.isnan(D[j,idx]))
+                adj[j,idx[:np.min([nonnan,n_neighbors])]] = 1
+        else:
+            print('No rule was specified to create the neighborhood')
+        
+        # symmetrize adjacency matrix
+        adj = np.where(adj,adj,adj.T)  # h/t https://stackoverflow.com/a/58718913/4984978
+        
+        # set PP block to identity
+        adj[np.ix_(ind_P, ind_P)] = np.eye(len(ind_P)) 
+        # restore diagnonal over ind_F
+        for j in ind_F:   
+            adj[j,j] = 1
+        
         self.adj = adj
         self.cutoff_radius = cutoff_radius
-        self.sparsity = graph_sparsity(adj, ind_T, ind_P)
+        self.n_neighbors = n_neighbors
+        self.sparsity = graph_sparsity(adj, ind_F, ind_P)
+        
+    def glasso_adj(self, target_FF, target_FP):
+        ''' Calculates the adjacency matrix using the Graphical LASSO. 
+            Uses a QUIC solver and a greedy approach to find a graph 
+            with a given target sparsity in the FF and FP parts of 
+            the adjacency matrix. The PP part is assumed diagonal.
 
+        Parameters
+        ----------
+        
+        target_FF: float in [0,100] 
+            Target sparsity of the in-field part of the graph (percentage)
+        target_FP: 
+            Target sparsity of the field/proxy part of the graph (percentage)
+            
+        Returns
+        -------
+        adj : matrix, (p1+p2) x (p1+p2)
+            Estimated adjacency matrix (graph) of the total data matrix
+        sparsity:  float x 3
+            Sparsity of the estimated graph
+            
+        References
+        ----------
+        Hsieh et al., "QUIC: Quadratic Approximation for Sparse Inverse
+    		Covariance Estimation", Journal of Machine Learning Research 15 (2014) 2911-2947.     
+        
+        Guillot, Rajaratnam & Emile-Geay. "Statistical paleoclimate reconstructions 
+            via Markov random fields" Ann. Appl. Stat. 9 (1) 324 - 352, March 2015.    
+
+        '''
+        #res = graph_greedy_search(self.field, self.proxy, target_FF, target_FP) 
+        #self.adj = res[0]
+        #self.sparsity = res[1]
+
+        [adj, sp] = graph_greedy_search(self.field, self.proxy, target_FF, target_FP)      
+        self.adj = adj
+        self.sparsity = sp
         
         
     def plot_adj(self,figsize=(6, 6), clr='C0', ax=None):
@@ -181,7 +259,10 @@ class Graph:
         ax.stock_img()
 
         if title is None:
-            ax.set_title(f'Neighbors of the target proxy (r={self.cutoff_radius} km)')
+            if hasattr(self, 'cutoff_radius'):
+                ax.set_title(f'Neighbors (r={self.cutoff_radius} km)')
+            else:
+                ax.set_title(f'Neighbors of the target proxy')
         else:
             ax.set_title(title)
 
@@ -281,3 +362,5 @@ class Graph:
             return fig, ax
         else:
             return ax
+
+

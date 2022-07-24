@@ -809,18 +809,36 @@ class ReconJob:
         self.graphem_params['lonlat'] = lonlat
         if verbose: p_success(f'>>> job.graphem_params["lonlat"] created')
 
-    def graphem_kcv(self, cv_time, stat='MSE', n_splits=5,
-                    cutoff_radii=[500, 1000, 1500, 2000, 5000]):
+    def graphem_kcv(self, cv_time, ctrl_params, graph_type = "neighborhood", stat="MSE", n_splits=5):
         ''' k-fold cross-validation
+        
+        Arguments
+        ---------
+        
+        cv_time : array-like, 1d
+            explain how it differs from recon_time or calib_time
+            
+        ctrl_params : array-like, 1d
+            array of control parameters to try
+            
+        graph_type : str
+            type of graph. Either "neighborhood" or "glasso"
+            
+        stat: str
+            name of objective function. Choices are "MSE", "RE", "CE" or "R2".
+            
+        n_splits: int
+            number of splits (default = 5)
+        
         '''
         kf = KFold(n_splits=n_splits)
-        cv_stats = np.empty((kf.n_splits, len(cutoff_radii))) # stats for a scalar: TODO: generalize to the grid of job.graphem_params['field']
+        cv_stats = np.empty((kf.n_splits, len(ctrl_params))) # stats for a scalar: TODO: generalize to the grid of job.graphem_params['field']
         i = 0
         for train_idx, test_idx in kf.split(cv_time):
             p_header(f'>>> Processing fold {i+1}:')
             train = cv_time[train_idx]
-            for j, radius in enumerate(cutoff_radii):
-                p_header(f'>>> radius = {radius}')
+            for j, param in enumerate(ctrl_params):
+                p_header(f'>>> parameter = {param}')
                 j_cv = self.copy()
 
                 # specify calibration period
@@ -829,13 +847,20 @@ class ReconJob:
                     calib_time = train,  
                     verbose=False)
 
-                # obtain graph
+                # declare graph object
                 g_cv = Graph(
                     j_cv.graphem_params['lonlat'],
                     j_cv.graphem_params['field'],
                     j_cv.graphem_params['proxy'])
-                g_cv.neigh_adj(cutoff_radius=radius)
-
+                
+                # estimate graph
+                if graph_type == "neighborhood":
+                    g_cv.neigh_adj(cutoff_radius=param)
+                elif graph_type == "glasso":
+                    g_cv.glasso_adj(target_FF=param, target_FP=param)
+                    
+                g_cv.plot_adj()
+                
                 # run graphem with this graph
                 j_cv.run_graphem(
                     save_recon=False,

@@ -16,8 +16,7 @@ import cartopy.crs as ccrs
 from cartopy.util import add_cyclic_point
 from multiprocessing import Pool, cpu_count
 from functools import partial
-from . import utils
-from . import visual
+from . import utils, visual
 from .utils import (
     p_warning,
     p_header,
@@ -349,6 +348,65 @@ class ProxyRecord:
             if load: self.clim[name].da.load()
             if verbose: utils.p_success(f'{self.pid} >>> ProxyRecord.clim["{name}"] created.')
 
+    def del_pseudo(self, verbose=False):
+        if hasattr(self, 'pseudo'): del self.pseudo
+        if verbose: utils.p_success(f'ProxyRecord.pseudo deleted for {self.pid}.')
+
+    def get_pseudo(self, psm, model_vars=None,
+                   add_noise=False, noise='white', SNR=10, seed=None,
+                   match_mean=False, match_var=False, verbose=False,
+                   calib_kws=None, forward_kws=None):
+        calib_kws = {} if calib_kws is None else calib_kws
+        forward_kws = {} if forward_kws is None else forward_kws
+
+        if not hasattr(self, 'clim'):
+            for var in model_vars:
+                self.get_clim(var, tag='model', verbose=verbose)
+
+        mdl = psm(self)
+        if hasattr(mdl, 'calibrate'):
+            mdl.calibrate(**calib_kws)
+
+        self.pseudo = mdl.forward(**forward_kws)
+        if verbose: utils.p_success(f'>>> ProxyRecord.pseudo created.')
+
+        if add_noise:
+            sigma = np.nanstd(self.value) / SNR
+            if noise == 'white':
+                rng = np.random.default_rng(seed)
+                noise = rng.normal(0, sigma, np.size(self.value))
+            elif noise == 'colored':
+                colored_noise_kws = {} if colored_noise_kws is None else colored_noise_kws
+                _colored_noise_kws = {'seed': seed, 'alpha': 1, 't': self.time}
+                _colored_noise_kws.update(colored_noise_kws)
+                noise = utils.colored_noise(**_colored_noise_kws)
+
+            self.pseudo += noise
+            if verbose: utils.p_success(f'>>> ProxyRecord.pseudo added with {noise} noise (SNR={SNR}).')
+
+        if match_var or match_mean:
+            proxy_time_min = np.min(self.time)
+            proxy_time_max = np.max(self.time)
+            pseudo_time_min = np.min(self.pseudo.time)
+            pseudo_time_max = np.max(self.pseudo.time)
+            time_min = np.max([proxy_time_min, pseudo_time_min])
+            time_max = np.min([proxy_time_max, pseudo_time_max])
+            mask_proxy = (self.time>=time_min)&(self.time<=time_max)
+            mask_pseudo = (self.pseudo.time>=time_min)&(self.pseudo.time<=time_max)
+
+        value = self.pseudo.value
+
+        if match_var:
+            value = value / np.nanstd(value[mask_pseudo]) * np.nanstd(self.value[mask_proxy])
+            if verbose: utils.p_success(f'>>> Variance matched.')
+
+        if match_mean:
+            value = value - np.nanmean(value[mask_pseudo]) + np.nanmean(self.value[mask_proxy])
+            if verbose: utils.p_success(f'>>> Mean matched.')
+
+        self.pseudo.value = value
+
+
 
     def plotly(self, **kwargs):
         time_lb = visual.make_lb(self.time_name, self.time_unit)
@@ -408,6 +466,113 @@ class ProxyRecord:
                 self.lon, self.lat, marker=visual.STYLE.markers_dict[self.ptype],
                 s=ms, c=kwargs['color'], edgecolor=edge_clr, transform=transform,
             )
+
+        return fig, ax
+
+    def dashboard(self, clim_units=None, clim_colors=None, figsize=[14, 8], scaled_pr=False, ms=200, stock_img=True, edge_clr='w',
+        wspace=0.3, hspace=0.5, spec_method='wwz', **kwargs):
+        ''' Plot a dashboard of the proxy/pseudoproxy along with the climate signal.
+
+        Args:
+            clim_units (dict, optional): the dictionary of units for climate signals. Defaults to None.
+            clim_colors (dict, optional): the dictionary of colors for climate signals. Defaults to None.
+        '''
+
+        if not hasattr(self, 'clim'):
+            raise ValueError('Need to get the nearest climate data.')
+
+        if not hasattr(self, 'pseudo'):
+            raise ValueError('Need to get the pseudoproxy data.')
+
+        if 'color' not in kwargs and 'c' not in kwargs:
+            kwargs['color'] = visual.STYLE.colors_dict[self.ptype]
+
+        fig = plt.figure(figsize=figsize)
+
+        nclim = len(clim_units)
+        gs = gridspec.GridSpec(2*nclim, 3)
+        gs.update(wspace=wspace, hspace=hspace)
+        ax = {}
+
+        # plot proxy/pseudoproxy timeseries
+        ax['ts'] = plt.subplot(gs[:nclim, :2])
+
+        _kwargs = {'label': 'real', 'zorder': 3}
+        _kwargs.update(kwargs)
+        ax['ts'].plot(self.time, self.value, **_kwargs)
+
+        time_lb = visual.make_lb(self.time_name, self.time_unit)
+        value_lb = visual.make_lb(self.value_name, self.value_unit)
+
+        ax['ts'].set_ylabel(value_lb)
+        ax['ts'].plot(self.pseudo.time, self.pseudo.value, label='pseudo')
+        ax['ts'].legend(loc='upper left', ncol=2, bbox_to_anchor=(0, 1.0))
+        title = f'{self.pid} ({self.ptype}) @ (lat:{self.lat:.2f}, lon:{self.lon:.2f})'
+        if self.seasonality is not None:
+            title += f'\nSeasonality: {self.seasonality}'
+        ax['ts'].set_title(title)
+            
+        # plot climate signals
+        i = 0
+        for k, v in self.clim.items():
+            if k in clim_units:
+                ax[k] = plt.subplot(gs[nclim+i, :2], sharex=ax['ts'])
+                ax[k].plot(v.time, v.da.values, color=clim_colors[k], label=k)
+                # ax[k].set_title(k)
+                vn = k.split('_')[-1] if '_' in k else k
+                ylb = f'{vn} [{clim_units[k]}]'
+                if len(ylb)>=10:
+                    ylb = f'{vn}\n[{clim_units[k]}]'
+                    
+                ax[k].set_ylabel(ylb)
+                if vn == 'pr' and scaled_pr:
+                    ax[k].set_title(r'1e-5', loc='left')
+
+                ax[k].legend(loc='upper left', bbox_to_anchor=(0, 1.2))
+                ax[k].set_xlim([self.time.min(), self.time.max()])
+                i += 1
+        ax[k].set_xlabel(time_lb)
+
+
+        # plot map
+        ax['map'] = plt.subplot(gs[:nclim, 2], projection=ccrs.Orthographic(central_longitude=self.lon, central_latitude=self.lat))
+        ax['map'].set_global()
+        if stock_img:
+            ax['map'].stock_img()
+
+        transform=ccrs.PlateCarree()
+        ax['map'].scatter(
+            self.lon, self.lat, marker=visual.STYLE.markers_dict[self.ptype],
+            s=ms, c=kwargs['color'], edgecolor=edge_clr, transform=transform,
+        )
+        ax['map'] = plt.subplot(gs[nclim:, 2])
+
+        # plot spectral analysis
+        try:
+            import pyleoclim as pyleo
+        except:
+            raise ImportError('Need to install pyleoclim: `pip install pyleoclim`.')
+
+        ax['psd'] = plt.subplot(gs[nclim:, 2])
+
+        ts, psd = {}, {}
+        ts['real'] = pyleo.Series(time=self.time, value=self.value)
+        psd['real'] = ts['real'].spectral(method=spec_method)
+        psd['real'].plot(ax=ax['psd'], **_kwargs)
+
+        ts['pseudo'] = pyleo.Series(time=self.pseudo.time, value=self.pseudo.value)
+        psd['pseudo'] = ts['pseudo'].slice([self.time.min(), self.time.max()]).spectral(method=spec_method)
+        psd['pseudo'].plot(ax=ax['psd'], label='pseudo')
+
+        for k, v in self.clim.items():
+            if k in clim_units:
+                ts[k] = pyleo.Series(time=v.time, value=v.da.values)
+                psd[k] = ts[k].slice([self.time.min(), self.time.max()]).spectral(method=spec_method)
+                psd[k].plot(ax=ax['psd'], label=k, color=clim_colors[k])
+
+        # ax['psd'].legend(loc='upper left', ncol=2, bbox_to_anchor=(0, 1.2))
+        ax['psd'].legend_ = None
+        ax['psd'].set_title(f'Timespan: {int(self.time.min())}-{int(self.time.max())}')
 
         return fig, ax
 
@@ -801,6 +966,7 @@ class ProxyDatabase:
         fig, ax = visual.plot_proxies(df, **kws)
 
         return fig, ax
+
 
     def plotly(self, **kwargs):
         ''' Plot the database on an interactive map utilizing Plotly

@@ -1197,9 +1197,12 @@ def plot_volc_cdf(year_volc, anom_volc, anom_nonvolc, anom_nonvolc_draws, value_
         else:
             return ax
 
-def make_lb(name, unit):
+def make_lb(name, unit, wrap=False):
     if unit is not None:
-        lb = f'{name} [{unit}]'
+        if wrap:
+            lb = f'{name}\n[{unit}]'
+        else:
+            lb = f'{name} [{unit}]'
     else:
         lb = f'{name}'
     return lb

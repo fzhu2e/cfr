@@ -58,28 +58,12 @@ class TempPlusNoise:
         }
         self.calib_details = calib_details
 
-    def forward(self, vn='model_tas', no_noise=False, match_var=False, match_mean=False):
+    def forward(self, vn='model_tas', no_noise=False):
         ''' Forward the PSM.'''
         if no_noise:
             value = self.pobj.clim[vn].da.values 
         else:
             value=self.pobj.clim[vn].da.values + self.noise
-
-        if match_var or match_mean:
-            proxy_time_min = np.min(self.pobj.time)
-            proxy_time_max = np.max(self.pobj.time)
-            climate_time_min = np.min(self.pobj.clim[vn].time)
-            climate_time_max = np.max(self.pobj.clim[vn].time)
-            time_min = np.max([proxy_time_min, climate_time_min])
-            time_max = np.min([proxy_time_max, climate_time_max])
-            mask_proxy = (self.pobj.time>=time_min)&(self.pobj.time<=time_max)
-            mask_climate = (self.pobj.clim[vn].time>=time_min)&(self.pobj.clim[vn].time<=time_max)
-
-        if match_var:
-            value = value / np.nanstd(value[mask_climate]) * np.nanstd(self.pobj.value[mask_proxy])
-
-        if match_mean:
-            value = value - np.nanmean(value[mask_climate]) + np.nanmean(self.pobj.value[mask_proxy])
 
         pp = ProxyRecord(
             pid=self.pobj.pid,
@@ -1010,7 +994,7 @@ class Coral_d18O:
         ####################
         # run the model
 
-        d18O = pseudocoral(
+        value = pseudocoral(
             self.pobj.clim[self.model_tos_name].da.values,
             d18O=self.pobj.clim[self.model_d18Osw_name].da.values,
             lat=self.pobj.lat,
@@ -1026,7 +1010,7 @@ class Coral_d18O:
         pp = ProxyRecord(
             pid=self.pobj.pid,
             time=self.pobj.clim[self.model_tos_name].time,
-            value=d18O,
+            value=value,
             lat=self.pobj.lat,
             lon=self.pobj.lon,
             ptype=self.pobj.ptype,

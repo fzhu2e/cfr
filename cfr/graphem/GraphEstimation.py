@@ -29,7 +29,7 @@ def graph_greedy_search(field_inst, proxy_inst, target_FF, target_FP, target_PP 
     -------
     adj_prec: matrix, (p1+p2) x (p1+p2)
         Estimated adjacency matrix (graph) of the total data matrix
-    sparsity_prec, float
+    sparsity_prec: float
         Sparsity of the estimated graph
         
     References
@@ -41,10 +41,9 @@ def graph_greedy_search(field_inst, proxy_inst, target_FF, target_FP, target_PP 
        Ann. Appl. Stat. 9 (1) 324 - 352, March 2015.    
     '''
     # TODO: ask Dominique to rewrite this for FF, FP search only.
-
     
     if np.isnan(field_inst).any() or np.isnan(proxy_inst).any():
-        return "Error: this method requires the data matrices to be gap-free"
+        raise ValueError("Error: this method requires the data matrices to be gap-free")
         
     print("Solving graphical LASSO using greedy search")
 
@@ -113,8 +112,9 @@ def graph_greedy_search(field_inst, proxy_inst, target_FF, target_FP, target_PP 
     
     # for consistency with neighborhood graphs, set PP to 1s
     adj_prec[np.ix_(ind_P, ind_P)] = np.eye(len(ind_P))
+    # print(type(adj_prec), type(sparsity_prec))
 
-    return [adj_prec,sparsity_prec]
+    return adj_prec, sparsity_prec
 
 
 from numpy import cos, sin, arcsin, sqrt, radians

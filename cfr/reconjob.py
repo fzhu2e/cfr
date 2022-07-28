@@ -13,6 +13,7 @@ from .climate import ClimateField
 from .proxy import ProxyDatabase, ProxyRecord
 from .graphem import GraphEM, Graph
 from .graphem.solver import verif_stats as graphem_verif_stats
+from .graphem.solver import KCV
 try:
     from . import psm
 except:
@@ -809,7 +810,7 @@ class ReconJob:
         self.graphem_params['lonlat'] = lonlat
         if verbose: p_success(f'>>> job.graphem_params["lonlat"] created')
 
-    def graphem_kcv(self, cv_time, ctrl_params, graph_type = "neighborhood", stat="MSE", n_splits=5):
+    def graphem_kcv(self, cv_time, ctrl_params, graph_type='neighborhood', stat='MSE', n_splits=5):
         ''' k-fold cross-validation
         
         Arguments
@@ -833,6 +834,7 @@ class ReconJob:
         '''
         kf = KFold(n_splits=n_splits)
         cv_stats = np.empty((kf.n_splits, len(ctrl_params))) # stats for a scalar: TODO: generalize to the grid of job.graphem_params['field']
+        adjs = {}
         i = 0
         for train_idx, test_idx in kf.split(cv_time):
             p_header(f'>>> Processing fold {i+1}:')
@@ -859,7 +861,7 @@ class ReconJob:
                 elif graph_type == "glasso":
                     g_cv.glasso_adj(target_FF=param, target_FP=param)
                     
-                g_cv.plot_adj()
+                adjs[(i+1, param)] = g_cv
                 
                 # run graphem with this graph
                 j_cv.run_graphem(
@@ -875,11 +877,13 @@ class ReconJob:
                     field_r, target,
                     j_cv.graphem_params['calib_idx']).__dict__[stat].mean()
             i += 1
+            
+        kcv_res = KCV(cv_stats, cutoff_radii=ctrl_params, adjs=adjs)
 
-        return cv_stats
+        return kcv_res
 
 
-    def run_graphem(self, save_recon=True, save_dirpath=None,
+    def run_graphem(self, save_recon=True, save_dirpath=None, save_filename=None,
                     load_precalc_solver=False, solver_save_path=None,
                     compress_params=None, verbose=False,
                     **fit_kws):
@@ -903,6 +907,7 @@ class ReconJob:
 
         if save_recon:
             save_dirpath = self.io_cfg('save_dirpath', save_dirpath, verbose=verbose)
+            save_filename = self.io_cfg('save_filename', save_filename, default='job_r01_recon.nc', verbose=verbose)
             os.makedirs(save_dirpath, exist_ok=True)
 
         if load_precalc_solver:
@@ -919,6 +924,7 @@ class ReconJob:
                 self.graphem_params['field'],
                 self.graphem_params['proxy'],
                 self.graphem_params['calib_idx'],
+                verbose=verbose,
                 **fit_kwargs)
 
             if verbose: p_success(f'job.graphem_solver created and saved to: {solver_save_path}')
@@ -935,7 +941,7 @@ class ReconJob:
         if verbose: p_success(f'>>> job.recon_fields created')
 
         if save_recon:
-            recon_savepath = os.path.join(save_dirpath, 'job_r01_recon.nc')
+            recon_savepath = os.path.join(save_dirpath, save_filename)
             self.save_recon(recon_savepath, compress_params=compress_params, verbose=verbose, grid='obs')
 
 

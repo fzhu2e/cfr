@@ -128,16 +128,12 @@ class Graph:
             via Markov random fields" Ann. Appl. Stat. 9 (1) 324 - 352, March 2015.    
 
         '''
-        #res = graph_greedy_search(self.field, self.proxy, target_FF, target_FP) 
-        #self.adj = res[0]
-        #self.sparsity = res[1]
-
-        [adj, sp] = graph_greedy_search(self.field, self.proxy, target_FF, target_FP)      
+        adj, sp = graph_greedy_search(self.field, self.proxy, target_FF, target_FP)      
         self.adj = adj
         self.sparsity = sp
         
         
-    def plot_adj(self,figsize=(6, 6), clr='C0', ax=None):
+    def plot_adj(self,figsize=(6, 6), clr='C0', ax=None, title=None):
         ''' Plot the adjacency matrix for a neighborhood graph
 
         Args:
@@ -186,6 +182,9 @@ class Graph:
                     
         ax.text(1.05*num_tot,num_grid+1.4*num_proxy/2, s='proxy-proxy', 
                 rotation='vertical', color = clr)
+
+        if title is not None:
+            ax.set_title(title, y=1.1)
         
         if 'fig' in locals():
             return fig, ax

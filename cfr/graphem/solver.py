@@ -6,6 +6,7 @@ from . import iridge
 from .GraphEstimation import graph_greedy_search
 from .GraphEstimation import neighbor_graph
 import matplotlib.pyplot as plt
+from matplotlib import gridspec
 
 
 class GraphEM(object):
@@ -36,7 +37,7 @@ class GraphEM(object):
         self.mu = []
 
     def fit(self, field, proxy, calib, graph=[], lonlat=[], sp_FF=3.0, sp_FP=3.0, sp_PP=3.0, N_graph=30, C0=[], M0=[], maxit=200,
-        bootstrap=False, N_boot=20, cutoff_radius=1000, graph_method='neighborhood', estimate_graph=True, save_graphs=False):
+        bootstrap=False, N_boot=20, cutoff_radius=1000, graph_method='neighborhood', estimate_graph=True, save_graphs=False, verbose=False):
         '''
         Estimates the parameters of the GraphEM model and reconstruct the missing values of the climate
         and proxy fields.
@@ -132,15 +133,15 @@ class GraphEM(object):
                 if graph == []:
                     return "Error: you need to specify a graph if estimate_graph = False."
                 else:
-                    print("Using specified graph")
+                    if verbose: print("Using specified graph")
 
-            [X,C,M] = self.EM(X, self.graph, C0, M0, maxit)
+            [X,C,M] = self.EM(X, self.graph, C0, M0, maxit, verbose=verbose)
             self.field_r = X[:,ind_F]
             self.proxy_r = X[:,ind_P]
             self.Sigma = C
             self.mu = M
 
-    def EM(self, X, graph, C0 = [], M0 = [], maxit = 200, use_iridge = False):
+    def EM(self, X, graph, C0 = [], M0 = [], maxit = 200, use_iridge = False, verbose=False):
         '''
         Expectation-Maximization (EM) algorithm with Gaussian Graphical Model
 
@@ -170,7 +171,7 @@ class GraphEM(object):
         '''
         
        # Start EM algorithm
-        print("Running GraphEM:\n")
+        if verbose: print("Running GraphEM:\n")
         [n,p] = X.shape
         
         # Find unique lines
@@ -208,7 +209,7 @@ class GraphEM(object):
 
         Xmis = np.zeros((n,p))
 
-        print("Iter     dXmis     rdXmis\n")
+        if verbose: print("Iter     dXmis     rdXmis\n")
         
         while ((it < maxit) & (rdXmis > self.tol)):
             it = it + 1
@@ -252,7 +253,7 @@ class GraphEM(object):
                 C = (X.T.dot(X) + CovRes)/(n-1)
             else:
                 C = self.fit_Sigma(np.cov(X.T) + CovRes/(n-1), self.graph)
-            print("%1.3d     %1.4f     %1.4f" % (it, dXmis, rdXmis))
+            if verbose: print("%1.3d     %1.4f     %1.4f" % (it, dXmis, rdXmis))
         X = X + M
 
         return [X, C, M]
@@ -697,3 +698,77 @@ def find(condition):
     '''
     res, = np.nonzero(np.ravel(condition))
     return res  
+
+
+class KCV:
+    def __init__(self, stats, cutoff_radii, adjs=None):
+        self.stats = stats
+        self.cutoff_radii = cutoff_radii
+        self.adjs = adjs
+
+    def plot(self, figsize=[6, 4], ylabel='MSE', ax=None, verbose=True):
+        if ax is None:
+            fig, ax = plt.subplots(figsize=figsize)
+
+        ax.plot(self.cutoff_radii, self.stats.mean(axis=0), '-o')
+        ax.fill_between(self.cutoff_radii, self.stats.min(axis=0), self.stats.max(axis=0), alpha=0.3)
+        ax.set_xlabel('Cutoff radius')
+        ax.set_ylabel(ylabel)
+        ax.set_title('K-fold Cross Validation')
+
+        if verbose:
+            opt_rad = self.cutoff_radii[np.argmin(self.stats.mean(axis=0))]
+            print(f'Minimum reached for R = {opt_rad:d} km.')
+
+        if 'fig' in locals():
+            return fig, ax
+        else:
+            return ax
+
+    def plot_adjs(self, figsize=(10, 20)):
+        fig = plt.figure(figsize=figsize)
+        nr = len(self.cutoff_radii)
+        nf = len(self.adjs)//nr
+        gs = gridspec.GridSpec(nf, nr)
+        gs.update(wspace=0.5, hspace=0.5)
+        ax = {}
+        i = 0
+        for k, v in self.adjs.items():
+            fold, param = k
+            ax[k] = fig.add_subplot(gs[i])
+            ax[k] = v.plot_adj(title=f'Fold: {fold}, Parameter: {param}', ax=ax[k])
+            i += 1
+
+        return fig, ax
+        
+
+    def one_sd_rule(self, objective_fun=None, param_vector=None, verbose=True):
+        ''' One SD rule: selects the least complex model whose objective function (e.g. MSE) is 
+        within 1 standard deviation (fold-wise) of the global minimum.
+    
+        Parameters
+        ----------
+        objective_fun : array-like (NumPy, Pandas or similar)
+            values of the objective function, with the first dimension (0) assumed as the sample dimension
+        param_vector :  array-like (NumPy, Pandas or similar)
+            values of the control parameter used to compute the objective function. 
+
+        Returns
+        -------
+        opt_param, the optimal parameter value
+        '''    
+        objective_fun = self.stats if objective_fun is None else objective_fun
+        param_vector = self.cutoff_radii if param_vector is None else param_vector
+
+        assert objective_fun.shape[1] == param_vector.shape[0], "param_vector has an incongruent dimension. See docstring"
+    
+        obj_mean = objective_fun.mean(axis=0)
+        obj_min = obj_mean.min()
+        i_min = np.argmin(obj_mean)
+        sd = np.std(objective_fun,axis=0)[i_min]
+        idx = np.where(obj_mean <= obj_min + sd)[0][0] # take first value
+        opt_param = param_vector[idx]
+        if verbose:
+            print(f'The 1SD rule selects R = {opt_param:d} km.')
+    
+        return opt_param 

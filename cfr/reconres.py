@@ -38,7 +38,7 @@ class ReconRes:
             raise ValueError('No ""')
 
         if verbose:
-            p_header(f'>>> recon.paths:')
+            p_header(f'>>> res.paths:')
             print(self.paths)
 
         self.recons = {}
@@ -132,15 +132,17 @@ class EnsTS:
         med = EnsTS(time=self.time, value=self.median)
         return med
 
-    def plot(self, figsize=[12, 4],
-        xlabel='Year (CE)', ylabel=None, title=None, ylim=None, xlim=None, alphas=[0.5, 0.1],
-        plot_kwargs=None, legend_kwargs=None, title_kwargs=None, ax=None):
+    def plot(self, figsize=[12, 4], color='indianred',
+        xlabel='Year (CE)', ylabel=None, title=None, ylim=None, xlim=None,
+        lgd_kws=None, title_kws=None, plot_valid=True, ax=None, **plot_kws):
         ''' Plot the raw values (multiple series).
+
+        Args:
+            plot_valid (bool, optional): If True, will plot the validation target series if existed. Defaults to True.
         '''
 
-        plot_kwargs = {} if plot_kwargs is None else plot_kwargs
-        legend_kwargs = {} if legend_kwargs is None else legend_kwargs
-        title_kwargs = {} if title_kwargs is None else title_kwargs
+        lgd_kws = {} if lgd_kws is None else lgd_kws
+        title_kws = {} if title_kws is None else title_kws
 
         if ax is None:
             fig, ax = plt.subplots(figsize=figsize)
@@ -148,12 +150,28 @@ class EnsTS:
         ax.margins(0)
         # plot timeseries
         _plot_kwargs = {'linewidth': 1}
-        _plot_kwargs.update(plot_kwargs)
+        _plot_kwargs.update(plot_kws)
 
-        ax.plot(self.time, self.value, **_plot_kwargs)
+        ax.plot(self.time, self.value, color=color, label='recon', **_plot_kwargs)
         ax.set_xlabel(xlabel)
         if ylabel is None: ylabel = self.value_name
         ax.set_ylabel(ylabel)
+
+        if plot_valid and hasattr(self, 'valid_stats'):
+            lb = f'{self.ref_name}'
+            s =  ' ('
+            for k, v in self.valid_stats.items():
+                if k == 'corr':
+                    s += fr'$r$={v:.2f}, '
+                elif k == 'R2':
+                    s += fr'$R^2$={v:.2f}, '
+                elif k == 'CE':
+                    s += fr'$CE$={v:.2f}, '
+            s = s[:-2]
+            s += ')'
+            lb += s
+
+            ax.plot(self.ref_time, self.ref_value, label=lb, color='k')
 
         if xlim is not None:
             ax.set_xlim(xlim)
@@ -161,9 +179,13 @@ class EnsTS:
         if ylim is not None:
             ax.set_ylim(ylim)
 
+        _legend_kwargs = {'ncol': 2, 'loc': 'upper left'}
+        _legend_kwargs.update(lgd_kws)
+        ax.legend(**_legend_kwargs)
+
         if title is not None:
             _title_kwargs = {'fontweight': 'bold'}
-            _title_kwargs.update(title_kwargs)
+            _title_kwargs.update(title_kws)
             ax.set_title(title, **_title_kwargs)
 
         if 'fig' in locals():
@@ -173,7 +195,7 @@ class EnsTS:
 
     def line_density(self, figsize=[12, 4], cmap='plasma', color_scale='linear', bins=None, num_fine=None,
         xlabel='Year (CE)', ylabel=None, title=None, ylim=None, xlim=None, 
-        title_kwargs=None, ax=None, **pcolormesh_kwargs,):
+        title_kws=None, ax=None, **pcolormesh_kwargs,):
         ''' Plot the timeseries 2-D histogram
 
         Args:
@@ -243,14 +265,16 @@ class EnsTS:
         fig.colorbar(pcm, ax=ax, label='Density', pad=0)
 
         if title is not None:
-            ax.set_title(title, **title_kwargs)
+            _title_kwargs = {'fontweight': 'bold'}
+            _title_kwargs.update(title_kws)
+            ax.set_title(title, **_title_kwargs)
         
         return fig, ax
             
 
     def plot_qs(self, figsize=[12, 4], qs=[0.025, 0.25, 0.5, 0.75, 0.975], color='indianred',
         xlabel='Year (CE)', ylabel=None, title=None, ylim=None, xlim=None, alphas=[0.5, 0.1],
-        plot_kwargs=None, legend_kwargs=None, title_kwargs=None, ax=None, plot_valid=True):
+        lgd_kws=None, title_kws=None, ax=None, plot_valid=True, **plot_kws):
         ''' Plot the quantiles
 
         Args:
@@ -263,16 +287,15 @@ class EnsTS:
             ylim (tuple or list, optional): The limit of the y-axis. Defaults to None.
             xlim (tuple or list, optional): The limit of the x-axis. Defaults to None.
             alphas (list, optional): The alphas for the quantile envelopes. Defaults to [0.5, 0.1].
-            plot_kwargs (dict, optional): The keyward arguments for the `ax.plot()` function. Defaults to None.
-            legend_kwargs (dict, optional): The keyward arguments for the `ax.legend()` function. Defaults to None.
-            title_kwargs (dict, optional): The keyward arguments for the `ax.title()` function. Defaults to None.
+            lgd_kws (dict, optional): The keyward arguments for the `ax.legend()` function. Defaults to None.
+            title_kws (dict, optional): The keyward arguments for the `ax.title()` function. Defaults to None.
             ax (matplotlib.axes, optional): The `matplotlib.axes` object. If set the image will be plotted in the existing `ax`. Defaults to None.
             plot_valid (bool, optional): If True, will plot the validation target series if existed. Defaults to True.
+            **kwargs (dict, optional): The keyward arguments for the `ax.plot()` function. Defaults to None.
         '''
 
-        plot_kwargs = {} if plot_kwargs is None else plot_kwargs
-        legend_kwargs = {} if legend_kwargs is None else legend_kwargs
-        title_kwargs = {} if title_kwargs is None else title_kwargs
+        lgd_kws = {} if lgd_kws is None else lgd_kws
+        title_kws = {} if title_kws is None else title_kws
 
         if ax is None:
             fig, ax = plt.subplots(figsize=figsize)
@@ -291,7 +314,7 @@ class EnsTS:
 
         # plot timeseries
         _plot_kwargs = {'linewidth': 1}
-        _plot_kwargs.update(plot_kwargs)
+        _plot_kwargs.update(**plot_kws)
 
         ax.plot(self.time, ts_qs[idx_mid], label=label_mid, color=color, **_plot_kwargs)
         for i, alpha in zip(range(idx_mid), alphas[::-1]):
@@ -325,12 +348,12 @@ class EnsTS:
 
 
         _legend_kwargs = {'ncol': len(qs)//2+1, 'loc': 'upper left'}
-        _legend_kwargs.update(legend_kwargs)
+        _legend_kwargs.update(lgd_kws)
         ax.legend(**_legend_kwargs)
 
         if title is not None:
             _title_kwargs = {'fontweight': 'bold'}
-            _title_kwargs.update(title_kwargs)
+            _title_kwargs.update(title_kws)
             ax.set_title(title, **_title_kwargs)
 
         if 'fig' in locals():

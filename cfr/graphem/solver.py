@@ -6,6 +6,7 @@ from . import iridge
 from .GraphEstimation import graph_greedy_search
 from .GraphEstimation import neighbor_graph
 import matplotlib.pyplot as plt
+from matplotlib import gridspec
 
 
 class GraphEM(object):
@@ -18,8 +19,8 @@ class GraphEM(object):
 
     Args:
         tol (float): convergence tolerence of EM algorithm (default: 5e-3)
-        temp_r (numpy.ndarray): reconstructed temperature field
-        proxy_r (numpy.ndarray): reconstructed proxy field
+        field_r (numpy.ndarray): reconstructed climate field
+        proxy_r (numpy.ndarray): reconstructed proxy matrix
         calib (numpy.ndarray): index of calibration period
         Sigma (numpy.ndarray): covariance matrix of the multivariate normal model
         mu (numpy.ndarray): mean of the multivariate normal model
@@ -29,37 +30,37 @@ class GraphEM(object):
         ''' Initializes the GraphEM object'''
 
         self.tol = tol
-        self.temp_r = []
+        self.field_r = []
         self.proxy_r = []
         self.calib = []
         self.Sigma = []
         self.mu = []
 
-    def fit(self, temp, proxy, calib, graph=[], lonlat=[], sp_TT=3.0, sp_TP=3.0, sp_PP=3.0, N_graph=30, C0=[], M0=[], maxit=200,
-        bootstrap=False, N_boot=20, cutoff_radius=1000, graph_method='neighborhood', estimate_graph=True, save_graphs=False):
+    def fit(self, field, proxy, calib, graph=[], lonlat=[], sp_FF=3.0, sp_FP=3.0, sp_PP=3.0, N_graph=30, C0=[], M0=[], maxit=200,
+        bootstrap=False, N_boot=20, cutoff_radius=1000, graph_method='neighborhood', estimate_graph=True, save_graphs=False, verbose=False):
         '''
-        Estimates the parameters of the GraphEM model and reconstruct the missing values of the temperature
+        Estimates the parameters of the GraphEM model and reconstruct the missing values of the climate
         and proxy fields.
 
         Parameters
         ----------
-        temp: matrix (time x space)
-            Temperature field. Missing values stored as "np.na".
+        field: matrix (time x space)
+            Climate field. Missing values stored as "np.nan".
         proxy: matrix (time x space)
-            Proxy data. Missing values stored as "np.na". The time dimension should be
-                        the same as the temperature field.
+            Proxy data. Missing values stored as "np.nan". The time dimension should be
+                        the same as the climate field.
         calib: vector
             Vector of indices representing the calibration period.
-        graph: matrix
-            Adjacency matrix of the temperature+proxy field. (Default = [], estimated via graph_greedy_search)
-        lonlat: matrix ((number of temperature location + number of proxies) x 2). Default = []
-            Matrix containing the (longitude, latitude) of the temperature and proxy locations. Only
+        graph: NumPy array
+            Adjacency matrix of the climate+proxy data matrix. (Default = [], estimated via graph_greedy_search)
+        lonlat: matrix ((number of grid points + number of proxies) x 2). Default = []
+            Matrix containing the (longitude, latitude) of the climate field grid points and proxy locations. Only
             used if graph_method = 'neighborhood'.
-        sp_TT: float
-            Target sparsity of the temperature/temperature part of the inverse covariance matrix. Only used
+        sp_FF: float
+            Target sparsity of the in-field part of the inverse covariance matrix. Only used
                when the graph is estimated by glasso. Default (3.0%)
-        sp_TP: float
-            Target sparsity of the temperature/proxy part of the inverse covariance matrix. Only used
+        sp_FP: float
+            Target sparsity of the climate field/proxy part of the inverse covariance matrix. Only used
                when the graph is estimated by glasso. Default (3.0%)
         sp_PP: float
             Target sparsity of the proxy/proxy part of the inverse covariance matrix. Only used
@@ -68,9 +69,9 @@ class GraphEM(object):
             Number of graphs to consider in the graph_greedy_search method (Default = 30). Only used
                  if the graph is estimated using glasso.
         C0: matrix
-            Initial estimate of the covariance matrix of the temperature+proxy field. (Default = []).
+            Initial estimate of the covariance matrix of the total data matrix (climate + proxies). (Default = []).
         M0: vector
-            Initial estimate of the mean vector of the temperature+proxy field. (Default = []).
+            Initial estimate of the mean of the total data matrix (climate + proxies). (Default = []).
         bootstrap: boolean
             Indicates whether or not to produce multiple estimates of the reconstructed values via bootstrapping. (Default = False)
         N_boot: int
@@ -85,7 +86,7 @@ class GraphEM(object):
         '''
 
         if ~bootstrap:
-            self.temp = temp
+            self.field = field
             self.proxy = proxy
             self.calib = calib
             self.lonlat = lonlat
@@ -94,27 +95,27 @@ class GraphEM(object):
 
             self.graph_method = graph_method
             self.cutoff_radius = cutoff_radius
-            self.sp_TT = sp_TT
-            self.sp_TP = sp_TP
+            self.sp_FF = sp_FF
+            self.sp_FP = sp_FP
             self.sp_PP = sp_PP
             self.N_graph = N_graph
 
-        ind_T = range(temp.shape[1])
-        ind_P = range(temp.shape[1], temp.shape[1]+proxy.shape[1])
-        X = np.hstack((temp, proxy))
+        ind_F = range(field.shape[1])
+        ind_P = range(field.shape[1], field.shape[1]+proxy.shape[1])
+        X = np.hstack((field, proxy))
 
         if bootstrap:
             self.bootstrap(N_boot = N_boot, save_graphs = save_graphs)
-            self.temp_r = self.temp_r_all.mean(axis=0)
+            self.field_r = self.field_r_all.mean(axis=0)
         else:
             if estimate_graph:
                 if graph_method == "neighborhood":
                     print("Computing a neighborhood graph with R = {:4.1f} km".format(self.cutoff_radius))
                     if len(lonlat) == 0:
-                        print("Error: you need to specify the longitude/latitude of temperature locations and proxies (lonlat)")
+                        print("Error: you need to specify the longitude/latitude of grid points and proxy locations (lonlat)")
                         return
                     else:
-                        [self.graph, self.sparsity] = neighbor_graph(lonlat, ind_T, ind_P, self.cutoff_radius)
+                        [self.graph, self.sparsity] = neighbor_graph(lonlat, ind_F, ind_P, self.cutoff_radius)
 
                 elif graph_method == "glasso":
                     print("Applying the graphical lasso")
@@ -122,9 +123,9 @@ class GraphEM(object):
                     if np.any(np.isnan(X[calib,:])):  # Use iridge to reconstruct missing values on the calibration period
                         print("Infilling missing values over the calibration period using RegEM iridge")
                         Xridge, __, __ = self.EM(X[calib,:], [], C0, M0, maxit, use_iridge = True)
-                        [self.graph, self.sparsity] = graph_greedy_search(Xridge[:,ind_T], Xridge[:,ind_P], sp_TT, sp_TP, sp_PP, N_graph)
+                        [self.graph, self.sparsity] = graph_greedy_search(Xridge[:,ind_F], Xridge[:,ind_P], sp_FF, sp_FP, sp_PP, N_graph)
                     else:
-                        [self.graph, self.sparsity] = graph_greedy_search(temp[calib,:], proxy[calib,:], sp_TT, sp_TP, sp_PP, N_graph)
+                        [self.graph, self.sparsity] = graph_greedy_search(field[calib,:], proxy[calib,:], sp_FF, sp_FP, sp_PP, N_graph)
                 else:
                     return "Error: graph can't be generated! Please choose a graph option."
 
@@ -132,15 +133,15 @@ class GraphEM(object):
                 if graph == []:
                     return "Error: you need to specify a graph if estimate_graph = False."
                 else:
-                    print("Using specified graph")
+                    if verbose: print("Using specified graph")
 
-            [X,C,M] = self.EM(X, self.graph, C0, M0, maxit)
-            self.temp_r = X[:,ind_T]
+            [X,C,M] = self.EM(X, self.graph, C0, M0, maxit, verbose=verbose)
+            self.field_r = X[:,ind_F]
             self.proxy_r = X[:,ind_P]
             self.Sigma = C
             self.mu = M
 
-    def EM(self, X, graph, C0 = [], M0 = [], maxit = 200, use_iridge = False):
+    def EM(self, X, graph, C0 = [], M0 = [], maxit = 200, use_iridge = False, verbose=False):
         '''
         Expectation-Maximization (EM) algorithm with Gaussian Graphical Model
 
@@ -170,7 +171,7 @@ class GraphEM(object):
         '''
         
        # Start EM algorithm
-        print("Running GraphEM:\n")
+        if verbose: print("Running GraphEM:\n")
         [n,p] = X.shape
         
         # Find unique lines
@@ -208,7 +209,7 @@ class GraphEM(object):
 
         Xmis = np.zeros((n,p))
 
-        print("Iter     dXmis     rdXmis\n")
+        if verbose: print("Iter     dXmis     rdXmis\n")
         
         while ((it < maxit) & (rdXmis > self.tol)):
             it = it + 1
@@ -252,7 +253,7 @@ class GraphEM(object):
                 C = (X.T.dot(X) + CovRes)/(n-1)
             else:
                 C = self.fit_Sigma(np.cov(X.T) + CovRes/(n-1), self.graph)
-            print("%1.3d     %1.4f     %1.4f" % (it, dXmis, rdXmis))
+            if verbose: print("%1.3d     %1.4f     %1.4f" % (it, dXmis, rdXmis))
         X = X + M
 
         return [X, C, M]
@@ -292,18 +293,18 @@ class GraphEM(object):
             
         Returns
         -------
-        self.temp_r_all: matrix (sample x time x space)
-            Matrix containing the reconstructed temperature field for each bootstrap sample
+        self.field_r_all: matrix (sample x time x space)
+            Matrix containing the reconstructed climate field for each bootstrap sample
         
         '''
-        temp = np.copy(self.temp)
+        field = np.copy(self.field)
         proxy = np.copy(self.proxy)
 
-        [n,pt] = self.temp.shape
+        [n,pt] = self.field.shape
         verif = np.setdiff1d(range(n),self.calib)
         
         np.random.seed()
-        temp_r_all = np.zeros((N_boot,n,pt))
+        field_r_all = np.zeros((N_boot,n,pt))
         
         # Build bootstrap indices
         n_calib = len(self.calib)
@@ -344,21 +345,21 @@ class GraphEM(object):
             bootindices.append(block)
         
         self.bootindices = bootindices
-        G = np.eye(self.temp.shape[1]+self.proxy.shape[1])
+        G = np.eye(self.field.shape[1]+self.proxy.shape[1])
 
         self.boot_graphs = []
             
         # Begin bootstrap
         for i1 in range(N_boot):
-            self.fit(temp[bootindices[i1],:], proxy[bootindices[i1],:], self.calib, [], self.lonlat, self.sp_TT, self.sp_TP, self.sp_PP, N_graph = self.N_graph, bootstrap=False, cutoff_radius = self.cutoff_radius, graph_method = self.graph_method)
+            self.fit(field[bootindices[i1],:], proxy[bootindices[i1],:], self.calib, [], self.lonlat, self.sp_FF, self.sp_FP, self.sp_PP, N_graph = self.N_graph, bootstrap=False, cutoff_radius = self.cutoff_radius, graph_method = self.graph_method)
             if save_graphs:
                 self.boot_graphs.append(self.graph)
             C0 = self.Sigma
             M0 = self.mu
             # Imputation step (no graph estimation)
-            self.fit(temp, proxy, self.calib, G, self.lonlat, self.sp_TT, self.sp_TP, self.sp_PP, C0 = C0, M0 = M0, maxit=1, graph_method = self.graph_method, cutoff_radius = self.cutoff_radius, estimate_graph = False)
-            temp_r_all[i1,:,:] = self.temp_r
-        self.temp_r_all = temp_r_all
+            self.fit(field, proxy, self.calib, G, self.lonlat, self.sp_FF, self.sp_FP, self.sp_PP, C0 = C0, M0 = M0, maxit=1, graph_method = self.graph_method, cutoff_radius = self.cutoff_radius, estimate_graph = False)
+            field_r_all[i1,:,:] = self.field_r
+        self.field_r_all = field_r_all
             
 
 def adj_matrix(S, tol=1e-3):
@@ -384,25 +385,25 @@ def adj_matrix(S, tol=1e-3):
     adj = adj - np.diag(np.diag(adj))
     return adj
 
-def sp_level_3(O, ind_T, ind_P):
+def sp_level_3(O, ind_F, ind_P):
     '''
     Computes the sparsity level (percentage of nonzero entries) 
-    of a matrix in the temperature/temperature, 
-    temperature/proxy, and proxy/proxy part of the matrix O.
+    of a matrix in the in-field, 
+    field/proxy, and proxy/proxy part of the matrix O.
     
     Parameters
     ----------
     O: matrix
-        Matrix to compute the sparsity level of
-    ind_T: vector of int
-        Indices of the temperature locations
+        Matrix whose sparsity level is sought (real, symmetric)
+    ind_F: vector of int
+        Indices of the field locations
     ind_P: vector of int
         Indices of the proxy locations
         
     Returns
     -------
-    level_TT: sparsity level of the temperature/temperature block of the matrix
-    level_TP: sparsity level of the temperature/proxy block of the matrix
+    level_TT: sparsity level of the in-field block of the matrix
+    level_TP: sparsity level of the field/proxy block of the matrix
     level_PP: sparsity level of the proxy/proxy block of the matrix
     adj: adjacency matrix associated to the matrix O
     '''
@@ -412,13 +413,13 @@ def sp_level_3(O, ind_T, ind_P):
     D = np.diag(dinv)
     O_scaled = D.dot(O).dot(D)
     adj = adj_matrix(O_scaled)
-    p_TT = len(ind_T)
+    p_TT = len(ind_F)
     p_PP = len(ind_P)
 
-    adj_TT = adj[np.ix_(ind_T, ind_T)]
+    adj_TT = adj[np.ix_(ind_F, ind_F)]
     level_TT = adj_TT.sum().astype(float) / (p_TT*(p_TT-1))*100
 
-    adj_TP = adj[np.ix_(ind_T, ind_P)]
+    adj_TP = adj[np.ix_(ind_F, ind_P)]
     level_TP = adj_TP.sum().astype(float) / (p_TT*p_PP)*100
 
     adj_PP = adj[np.ix_(ind_P, ind_P)]
@@ -547,16 +548,16 @@ def unique_rows(a):
     
 class verif_stats:
     '''
-    Class to compute verification statistics of a reconstructed temperature field
+    Class to compute verification statistics of a reconstructed climate field
     
     Attributes
     ----------
     T_hat: matrix (n x p (no bootstrap) or N x n x p (bootstrap)) 
-        Reconstructed temperature field
+        Reconstructed variable
     T: matrix(n x p)
-        Target temperature field
+        Target variable
     calib: vector of int
-        Indices of the calibration period
+        Indices of the calibration period (verification inferred as the complement)
         
     Usage
     -----
@@ -579,21 +580,21 @@ class verif_stats:
     stats: computes all the statistics
     __str__: displays the MSE, RE, CE, and R2
     '''
-    def __init__(self, temp_r, temp_target, calib):
+    def __init__(self, field_recon, field_target, calib):
         '''
         Initializes the verif_stats object
         
         Parameters
         ----------
-        temp_r: matrix (n x p (no bootstrap) or N x n x p (bootstrap))
-            Reconstructed temperature field
-        temp_target: matrix (n x p)
-            Target temperature field
+        field_recon: matrix (n x p (no bootstrap) or N x n x p (bootstrap))
+            Reconstructed climate field
+        field_target: matrix (n x p)
+            Target climate field
         calib: vector of int
             Indices of the calibration period
         '''
-        self.T_hat = temp_r
-        self.T = temp_target
+        self.T_hat = field_recon
+        self.T     = field_target
         self.calib = calib
         self.stats()
 
@@ -697,3 +698,77 @@ def find(condition):
     '''
     res, = np.nonzero(np.ravel(condition))
     return res  
+
+
+class KCV:
+    def __init__(self, stats, cutoff_radii, adjs=None):
+        self.stats = stats
+        self.cutoff_radii = cutoff_radii
+        self.adjs = adjs
+
+    def plot(self, figsize=[6, 4], ylabel='MSE', ax=None, verbose=True):
+        if ax is None:
+            fig, ax = plt.subplots(figsize=figsize)
+
+        ax.plot(self.cutoff_radii, self.stats.mean(axis=0), '-o')
+        ax.fill_between(self.cutoff_radii, self.stats.min(axis=0), self.stats.max(axis=0), alpha=0.3)
+        ax.set_xlabel('Cutoff radius')
+        ax.set_ylabel(ylabel)
+        ax.set_title('K-fold Cross Validation')
+
+        if verbose:
+            opt_rad = self.cutoff_radii[np.argmin(self.stats.mean(axis=0))]
+            print(f'Minimum reached for R = {opt_rad:d} km.')
+
+        if 'fig' in locals():
+            return fig, ax
+        else:
+            return ax
+
+    def plot_adjs(self, figsize=(10, 20)):
+        fig = plt.figure(figsize=figsize)
+        nr = len(self.cutoff_radii)
+        nf = len(self.adjs)//nr
+        gs = gridspec.GridSpec(nf, nr)
+        gs.update(wspace=0.5, hspace=0.5)
+        ax = {}
+        i = 0
+        for k, v in self.adjs.items():
+            fold, param = k
+            ax[k] = fig.add_subplot(gs[i])
+            ax[k] = v.plot_adj(title=f'Fold: {fold}, Parameter: {param}', ax=ax[k])
+            i += 1
+
+        return fig, ax
+        
+
+    def one_sd_rule(self, objective_fun=None, param_vector=None, verbose=True):
+        ''' One SD rule: selects the least complex model whose objective function (e.g. MSE) is 
+        within 1 standard deviation (fold-wise) of the global minimum.
+    
+        Parameters
+        ----------
+        objective_fun : array-like (NumPy, Pandas or similar)
+            values of the objective function, with the first dimension (0) assumed as the sample dimension
+        param_vector :  array-like (NumPy, Pandas or similar)
+            values of the control parameter used to compute the objective function. 
+
+        Returns
+        -------
+        opt_param, the optimal parameter value
+        '''    
+        objective_fun = self.stats if objective_fun is None else objective_fun
+        param_vector = self.cutoff_radii if param_vector is None else param_vector
+
+        assert objective_fun.shape[1] == param_vector.shape[0], "param_vector has an incongruent dimension. See docstring"
+    
+        obj_mean = objective_fun.mean(axis=0)
+        obj_min = obj_mean.min()
+        i_min = np.argmin(obj_mean)
+        sd = np.std(objective_fun,axis=0)[i_min]
+        idx = np.where(obj_mean <= obj_min + sd)[0][0] # take first value
+        opt_param = param_vector[idx]
+        if verbose:
+            print(f'The 1SD rule selects R = {opt_param:d} km.')
+    
+        return opt_param 

@@ -172,21 +172,31 @@ class ClimateField:
         new.vn = new_vn
         return new
 
-    def __add__(self, fields):
-        ''' Add a list of fields into the dataset
+    # def __add__(self, fields):
+    #     ''' Add a list of fields into the dataset
+    #     '''
+    #     new = ClimateDataset()
+    #     new.fields[self.vn] = self.copy()
+    #     if isinstance(fields, ClimateField):
+    #         fields = [fields]
+
+    #     if isinstance(fields, ClimateDataset):
+    #         fields = [fields.fields[vn] for vn in fields.fields.keys()]
+
+    #     for field in fields:
+    #         new.fields[field.vn] = field
+
+    #     new.refresh()
+    #     return new
+
+    def __sub__(self, ref):
+        ''' Substract the reference field.
         '''
-        new = ClimateDataset()
-        new.fields[self.vn] = self.copy()
-        if isinstance(fields, ClimateField):
-            fields = [fields]
+        new = self.copy()
+        if not isinstance(ref, ClimateField):
+            raise ValueError('`ref` should be a `ClimateField` object.')
 
-        if isinstance(fields, ClimateDataset):
-            fields = [fields.fields[vn] for vn in fields.fields.keys()]
-
-        for field in fields:
-            new.fields[field.vn] = field
-
-        new.refresh()
+        new.da = self.da - ref.da
         return new
 
     def validate(self, ref, stat='corr', interp_direction='to-ref', valid_period=(1880, 2000)):
@@ -312,7 +322,10 @@ class ClimateField:
     def plot(self, it=0, **kwargs):
         ''' Plot the climate field.'''
         try:
-            t = self.da[self.time_name].values[it]
+            if self.da[self.time_name].values.ndim == 0:
+                t = self.da[self.time_name].values
+            else:
+                t = self.da[self.time_name].values[it]
         except:
             t = self.da[self.time_name].values
             yyyy = str(t)[:4]
@@ -467,140 +480,141 @@ class ClimateField:
         return m
 
 
-class ClimateDataset:
-    ''' The class for the gridded climate field dataset
+# Not very useful at this moment.
+# class ClimateDataset:
+#     ''' The class for the gridded climate field dataset
     
-    Args:
-        fields (dict): the dictionary of :py:mod:`cfr.climate.ClimateField`
+#     Args:
+#         fields (dict): the dictionary of :py:mod:`cfr.climate.ClimateField`
     
-    '''
-    def __init__(self, fields=None):
-        self.fields = {} if fields is None else fields
-        if fields is not None:
-            self.refresh()
+#     '''
+#     def __init__(self, fields=None):
+#         self.fields = {} if fields is None else fields
+#         if fields is not None:
+#             self.refresh()
 
-    def refresh(self):
-        ''' Refresh a bunch of attributes. '''
-        self.nv = len(list(self.fields.keys()))
+#     def refresh(self):
+#         ''' Refresh a bunch of attributes. '''
+#         self.nv = len(list(self.fields.keys()))
 
-    def copy(self):
-        ''' Make a deepcopy of the object. '''
-        return copy.deepcopy(self)
+#     def copy(self):
+#         ''' Make a deepcopy of the object. '''
+#         return copy.deepcopy(self)
 
-    def load_nc(self, path, time_name='time', lat_name='lat', lon_name='lon', vn=None, load=False, **kwargs):
-        new = self.copy()
-        fields = {}
-        ds = xr.open_dataset(path, **kwargs)
-        if load: ds.load()
-        if vn is None:
-            for k in ds.variables.keys():
-                if k not in [time_name, lat_name, lon_name]:
-                    fields[k] = ClimateField(da=ds[k], time_name=time_name, lat_name=lat_name, lon_name=lon_name)
-        else:
-            fields[vn] = ClimateField(da=ds[vn], time_name=time_name, lat_name=lat_name, lon_name=lon_name)
+#     def load_nc(self, path, time_name='time', lat_name='lat', lon_name='lon', vn=None, load=False, **kwargs):
+#         new = self.copy()
+#         fields = {}
+#         ds = xr.open_dataset(path, **kwargs)
+#         if load: ds.load()
+#         if vn is None:
+#             for k in ds.variables.keys():
+#                 if k not in [time_name, lat_name, lon_name]:
+#                     fields[k] = ClimateField(da=ds[k], time_name=time_name, lat_name=lat_name, lon_name=lon_name)
+#         else:
+#             fields[vn] = ClimateField(da=ds[vn], time_name=time_name, lat_name=lat_name, lon_name=lon_name)
 
-        new.fields = fields
-        new.nv = len(list(fields.keys()))
-        return new
+#         new.fields = fields
+#         new.nv = len(list(fields.keys()))
+#         return new
 
-    def __add__(self, fields):
-        ''' Add a list of fields into the dataset
-        '''
-        new = self.copy()
-        if isinstance(fields, ClimateField):
-            fields = [fields]
+#     def __add__(self, fields):
+#         ''' Add a list of fields into the dataset
+#         '''
+#         new = self.copy()
+#         if isinstance(fields, ClimateField):
+#             fields = [fields]
 
-        if isinstance(fields, ClimateDataset):
-            fields = [fields.fields[vn] for vn in fields.fields.keys()]
+#         if isinstance(fields, ClimateDataset):
+#             fields = [fields.fields[vn] for vn in fields.fields.keys()]
 
-        for field in fields:
-            new.fields[field.vn] = field
+#         for field in fields:
+#             new.fields[field.vn] = field
 
-        new.refresh()
-        return new
+#         new.refresh()
+#         return new
 
-    def __sub__(self, fields):
-        ''' Add a list of fields into the dataset
-        '''
-        new = self.copy()
-        if isinstance(fields, ClimateField):
-            fields = [fields]
+#     def __sub__(self, fields):
+#         ''' Add a list of fields into the dataset
+#         '''
+#         new = self.copy()
+#         if isinstance(fields, ClimateField):
+#             fields = [fields]
 
-        if isinstance(fields, ClimateDataset):
-            fields = [fields.fields[vn] for vn in fields.fields.keys()]
+#         if isinstance(fields, ClimateDataset):
+#             fields = [fields.fields[vn] for vn in fields.fields.keys()]
 
-        for field in fields:
-            try:
-                del new.fields[field.vn]
-            except:
-                utils.p_warning(f'>>> Subtracting {field.vn} failed.')
+#         for field in fields:
+#             try:
+#                 del new.fields[field.vn]
+#             except:
+#                 utils.p_warning(f'>>> Subtracting {field.vn} failed.')
 
-        new.refresh()
-        return new
+#         new.refresh()
+#         return new
 
-    def annualize(self, months=list(range(1, 13))):
-        ''' Annualize/seasonalize the climate dataset based on a list of months.
+#     def annualize(self, months=list(range(1, 13))):
+#         ''' Annualize/seasonalize the climate dataset based on a list of months.
 
-        Args:
-            months (list): the months based on which for annualization; e.g., [6, 7, 8] means JJA annualization
-        '''
-        new = ClimateDataset()
-        for vn, fd in tqdm(self.fields.items(), total=self.nv, desc='Annualizing ClimateField'):
-            sfd = fd.annualize(months=months)
-            new += sfd
+#         Args:
+#             months (list): the months based on which for annualization; e.g., [6, 7, 8] means JJA annualization
+#         '''
+#         new = ClimateDataset()
+#         for vn, fd in tqdm(self.fields.items(), total=self.nv, desc='Annualizing ClimateField'):
+#             sfd = fd.annualize(months=months)
+#             new += sfd
 
-        new.refresh()
-        return new
+#         new.refresh()
+#         return new
 
-    def get_anom(self, ref_period=[1951, 1980]):
-        ''' Get anomaly of the climate dataset against a reference time period.
+#     def get_anom(self, ref_period=[1951, 1980]):
+#         ''' Get anomaly of the climate dataset against a reference time period.
 
-        Args:
-            ref_period (tuple or list): the reference time period in the form or (start_yr, end_yr)
-        '''
-        new = ClimateDataset()
-        for vn, fd in tqdm(self.fields.items(), total=self.nv, desc='Getting anomaly from ClimateField'):
-            sfd = fd.get_anom(ref_period=ref_period)
-            new += sfd
-        new.refresh()
-        return new
+#         Args:
+#             ref_period (tuple or list): the reference time period in the form or (start_yr, end_yr)
+#         '''
+#         new = ClimateDataset()
+#         for vn, fd in tqdm(self.fields.items(), total=self.nv, desc='Getting anomaly from ClimateField'):
+#             sfd = fd.get_anom(ref_period=ref_period)
+#             new += sfd
+#         new.refresh()
+#         return new
 
-    def center(self, ref_period=[1951, 1980]):
-        ''' Center the climate dataset against a reference time period.
+#     def center(self, ref_period=[1951, 1980]):
+#         ''' Center the climate dataset against a reference time period.
 
-        Args:
-            ref_period (tuple or list): the reference time period in the form or (start_yr, end_yr)
-        '''
-        new = ClimateDataset()
-        for vn, fd in tqdm(self.fields.items(), total=self.nv, desc='Getting anomaly from ClimateField'):
-            sfd = fd.center(ref_period=ref_period)
-            new += sfd
-        new.refresh()
-        return new
+#         Args:
+#             ref_period (tuple or list): the reference time period in the form or (start_yr, end_yr)
+#         '''
+#         new = ClimateDataset()
+#         for vn, fd in tqdm(self.fields.items(), total=self.nv, desc='Getting anomaly from ClimateField'):
+#             sfd = fd.center(ref_period=ref_period)
+#             new += sfd
+#         new.refresh()
+#         return new
 
-    def from_ds(self, ds, time_name='time', lat_name='lat', lon_name='lon'):
-        ''' Get data from the Xarray.Dataset object
-        '''
-        new = self.copy()
-        fields = {}
-        for k in ds.variables.keys():
-            if k not in ['time', 'lat', 'lon']:
-                fields[k] = ClimateField(da=ds[k], time_name=time_name, lat_name=lat_name, lon_name=lon_name)
+#     def from_ds(self, ds, time_name='time', lat_name='lat', lon_name='lon'):
+#         ''' Get data from the Xarray.Dataset object
+#         '''
+#         new = self.copy()
+#         fields = {}
+#         for k in ds.variables.keys():
+#             if k not in ['time', 'lat', 'lon']:
+#                 fields[k] = ClimateField(da=ds[k], time_name=time_name, lat_name=lat_name, lon_name=lon_name)
 
-        new.fields = fields
-        return new
+#         new.fields = fields
+#         return new
 
-    def regrid(self, lat, lon):
-        ''' Regrid the climate dataset
+#     def regrid(self, lat, lon):
+#         ''' Regrid the climate dataset
 
-        Args:
-            lat (numpy.array): the latitudes of the target grid.
-            lon (numpy.array): the longitudes of the target grid.
+#         Args:
+#             lat (numpy.array): the latitudes of the target grid.
+#             lon (numpy.array): the longitudes of the target grid.
 
-        '''
-        lat_da = xr.DataArray(lat, dims=['lat'], coords={'lat': lat})
-        lon_da = xr.DataArray(lon, dims=['lon'], coords={'lon': lon})
-        dsi = self.ds.interp(lon=lon_da, lat=lat_da)
-        new = self.from_ds(dsi)
+#         '''
+#         lat_da = xr.DataArray(lat, dims=['lat'], coords={'lat': lat})
+#         lon_da = xr.DataArray(lon, dims=['lon'], coords={'lon': lon})
+#         dsi = self.ds.interp(lon=lon_da, lat=lat_da)
+#         new = self.from_ds(dsi)
 
-        return new
+#         return new

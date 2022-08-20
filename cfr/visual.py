@@ -375,6 +375,7 @@ def plot_field_map(field_var, lat, lon, levels=50, add_cyclic_point=True,
                            marker=site_marker[name], edgecolors='k', zorder=99, transform=transform, cmap=cmap)
 
     if plot_proxydb:
+        proxydb_lgd_kws = {} if proxydb_lgd_kws is None else proxydb_lgd_kws
         ptypes = []
         ptype_labels = []
         for k, v in proxydb.type_dict.items():

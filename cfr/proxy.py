@@ -2,7 +2,7 @@ from dataclasses import replace
 import glob
 from operator import le
 import os
-from .climate import ClimateField, ClimateDataset
+from .climate import ClimateField
 import xarray as xr
 import pandas as pd
 import numpy as np

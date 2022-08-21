@@ -297,6 +297,13 @@ class ProxyRecord:
         new.refresh()
         return new
 
+    def __sub__(self, ref):
+        ''' Substract the reference record
+        '''
+        new = self.copy()
+        new.value = self.value - ref.value
+        return new
+
     def del_clim(self, verbose=False):
         if hasattr(self, 'clim'): del self.clim
         if verbose: utils.p_success(f'ProxyRecord.clim deleted for {self.pid}.')
@@ -305,12 +312,10 @@ class ProxyRecord:
         ''' Get the nearest climate from cliamte fields
 
         Args:
-            fields (cfr.climate.ClimateField or cfr.climate.ClimateDataset): the climate field
+            fields (list of cfr.climate.ClimateField): the climate fields
             search_dist (float): the farest distance to search for climate data in degree
         '''
-        if isinstance(fields, ClimateDataset):
-            fields = list(fields.fields.values())
-        elif isinstance(fields, ClimateField):
+        if isinstance(fields, ClimateField):
             fields = [fields]
 
         _kwargs = {'method': 'nearest'}
@@ -342,6 +347,8 @@ class ProxyRecord:
                 time_name = 'time'
             elif 'year' in field.da.dims:
                 time_name = 'year'
+            else:
+                raise ValueError(f'Incorrect name for the time dimension in {tag}.')
 
             self.clim[name] = ClimateField().from_da(nda, time_name=time_name)
             self.clim[name].time = field.time

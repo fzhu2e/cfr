@@ -420,7 +420,7 @@ class ReconJob:
     def run_da(self, recon_period=None, recon_loc_rad=None, recon_timescale=None,
                recon_sampling_mode=None, recon_sampling_dist=None,
                normal_sampling_sigma=None, normal_sampling_cutoff_factor=None,
-               nens=None, seed=0, verbose=False, debug=False):
+               trim_prior=None, nens=None, seed=0, verbose=False, debug=False):
         ''' Run the data assimilation workflows.
 
         Args:
@@ -440,6 +440,7 @@ class ReconJob:
         recon_loc_rad = self.io_cfg('recon_loc_rad', recon_loc_rad, default=25000, verbose=verbose)  # unit: km
         recon_timescale = self.io_cfg('recon_timescale', recon_timescale, default=1, verbose=verbose)  # unit: yr
         recon_sampling_mode = self.io_cfg('recon_sampling_mode', recon_sampling_mode, default='fixed', verbose=verbose)
+        trim_prior = self.io_cfg('trim_prior', trim_prior, default=True, verbose=verbose)
         if recon_sampling_mode == 'rolling':
             recon_sampling_dist = self.io_cfg('recon_sampling_dist', recon_sampling_dist, default='normal', verbose=verbose)
             normal_sampling_sigma = self.io_cfg('normal_sampling_sigma', normal_sampling_sigma, verbose=verbose)
@@ -456,6 +457,7 @@ class ReconJob:
             recon_timescale=recon_timescale,
             recon_sampling_mode=recon_sampling_mode,
             recon_sampling_dist=recon_sampling_dist,
+            trim_prior=trim_prior,
             normal_sampling_sigma=normal_sampling_sigma,
             normal_sampling_cutoff_factor=normal_sampling_cutoff_factor,
             verbose=verbose, debug=debug)
@@ -465,7 +467,7 @@ class ReconJob:
 
     def run_da_mc(self, recon_period=None, recon_loc_rad=None, recon_timescale=None, nens=None,
                output_full_ens=None, recon_sampling_mode=None, recon_sampling_dist=None,
-               normal_sampling_sigma=None, normal_sampling_cutoff_factor=None,
+               normal_sampling_sigma=None, normal_sampling_cutoff_factor=None, trim_prior=None,
                recon_seeds=None, assim_frac=None, save_dirpath=None, compress_params=None, verbose=False):
         ''' Run the Monte-Carlo iterations of data assimilation workflows.
 
@@ -498,6 +500,7 @@ class ReconJob:
         compress_params = self.io_cfg('compress_params', compress_params, default={'zlib': True, 'least_significant_digit': 2}, verbose=verbose)
         output_full_ens = self.io_cfg('output_full_ens', output_full_ens, default=False, verbose=verbose)
         recon_sampling_mode = self.io_cfg('recon_sampling_mode', recon_sampling_mode, default='fixed', verbose=verbose)
+        trim_prior = self.io_cfg('trim_prior', trim_prior, default=True, verbose=verbose)
         if recon_sampling_mode == 'rolling':
             normal_sampling_sigma = self.io_cfg('normal_sampling_sigma', normal_sampling_sigma, verbose=verbose)
             normal_sampling_cutoff_factor = self.io_cfg('normal_sampling_cutoff_factor', normal_sampling_cutoff_factor, default=3, verbose=verbose)
@@ -508,6 +511,7 @@ class ReconJob:
 
             self.split_proxydb(seed=seed, assim_frac=assim_frac, verbose=False)
             self.run_da(recon_period=recon_period, recon_loc_rad=recon_loc_rad, nens=nens,
+                        trim_prior=trim_prior,
                         recon_sampling_mode=recon_sampling_mode,
                         recon_sampling_dist=recon_sampling_dist,
                         normal_sampling_sigma=normal_sampling_sigma,

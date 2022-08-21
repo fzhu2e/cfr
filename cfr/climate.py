@@ -114,6 +114,22 @@ class ClimateField:
 
         return new
 
+    def pt(self, time):
+        ''' Pick a time point or a time slice.
+
+        Args:
+            time (float, int, list): a time point or a time range
+        '''
+        new = self.copy()
+        if np.size(np.array(time)) == 1:
+            time = [time]
+
+        # time_mask = (self.da[self.time_name]>=time[0]) & (self.da[self.time_name]<=time[-1])
+        time_mask = (self.time>=time[0]) & (self.time<=time[-1])
+        new.da = self.da.sel({self.time_name: self.da[self.time_name][time_mask]})
+        new.refresh(time_name=self.time_name)
+        return new
+
     def center(self, ref_period=[1951, 1980], time_name='time'):
         ''' Center the climate field against a reference time period.
 
@@ -193,10 +209,15 @@ class ClimateField:
         ''' Substract the reference field.
         '''
         new = self.copy()
-        if not isinstance(ref, ClimateField):
-            raise ValueError('`ref` should be a `ClimateField` object.')
+        if isinstance(ref, ClimateField):
+            new.da = self.da - ref.da
+        elif isinstance(ref, float):
+            new.da = self.da - ref
+        elif isinstance(ref, int):
+            new.da = self.da - ref
+        else:
+            raise ValueError('`ref` should be a `ClimateField` object or a float like value.')
 
-        new.da = self.da - ref.da
         return new
 
     def validate(self, ref, stat='corr', interp_direction='to-ref', valid_period=(1880, 2000)):

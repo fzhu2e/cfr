@@ -1,8 +1,8 @@
-from .climate import ClimateField, ClimateDataset
+from .climate import ClimateField
 from .proxy import ProxyRecord, ProxyDatabase
 from .reconjob import ReconJob
 from .reconres import ReconRes
-from . import graphem
+from . import graphem, utils
 try:
     from . import ml
 except:

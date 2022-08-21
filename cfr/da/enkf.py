@@ -29,13 +29,15 @@ class EnKF:
         self.nens = nens
         self.recon_vars = recon_vars
 
-    def gen_prior_samples(self, recon_period=None, sigma=None, dist='uniform'):
+    def gen_prior_samples(self, recon_period=None, sigma=None, dist='uniform', trim_prior=True):
         vn = list(self.prior.keys())[0]
         prior_time = self.prior[vn].time
 
-        if recon_period is not None:
+        if recon_period is not None and trim_prior:
             time_mask = (prior_time>=np.min(recon_period)) & (prior_time<=np.max(recon_period))
             time = prior_time[time_mask]
+        else:
+            time = prior_time
 
         rng = np.random.default_rng(self.seed)
         if dist == 'uniform':
@@ -193,7 +195,7 @@ class EnKF:
 
     def run(self, recon_yrs=np.arange(1, 2001), recon_loc_rad=25000, recon_timescale=1,recon_sampling_mode='fixed',
             recon_sampling_dist='normal', normal_sampling_sigma=None, normal_sampling_cutoff_factor=3,
-            verbose=False, debug=False):
+            trim_prior=True, verbose=False, debug=False):
 
         nt = np.size(recon_yrs)
         nrow = 0
@@ -207,7 +209,7 @@ class EnKF:
         if recon_sampling_mode == 'fixed':
             if verbose: p_header(f'>>> Fixed prior sampling ...')
             recon_period = (np.min(recon_yrs), np.max(recon_yrs))
-            self.gen_prior_samples(recon_period=recon_period, dist='uniform')
+            self.gen_prior_samples(recon_period=recon_period, dist='uniform', trim_prior=trim_prior)
             self.gen_Ye()
             self.gen_Xb()
             for yr_idx, target_yr in enumerate(tqdm(recon_yrs, desc='KF updating')):
@@ -221,7 +223,11 @@ class EnKF:
                     target_yr+normal_sampling_cutoff_factor*normal_sampling_sigma,
                 ]
 
-                self.gen_prior_samples(recon_period=recon_period, dist=recon_sampling_dist, sigma=normal_sampling_sigma)
+                self.gen_prior_samples(
+                    recon_period=recon_period,
+                    dist=recon_sampling_dist,
+                    sigma=normal_sampling_sigma,
+                    trim_prior=trim_prior)
                 self.gen_Ye()
                 self.gen_Xb()
                 self.Xa[yr_idx] = self.update_yr(

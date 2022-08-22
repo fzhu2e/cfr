@@ -335,6 +335,9 @@ class EnsTS:
             lb += s
 
             ax.plot(self.ref_time, self.ref_value, label=lb, color='k')
+            n_ref = 1
+        else:
+            n_ref = 0
 
         ax.set_xlabel(xlabel)
         if ylabel is None: ylabel = self.value_name
@@ -347,7 +350,7 @@ class EnsTS:
             ax.set_xlim(ylim)
 
 
-        _legend_kwargs = {'ncol': len(qs)//2+1, 'loc': 'upper left'}
+        _legend_kwargs = {'ncol': len(qs)//2+1+n_ref, 'loc': 'upper left'}
         _legend_kwargs.update(lgd_kws)
         ax.legend(**_legend_kwargs)
 
@@ -361,14 +364,14 @@ class EnsTS:
         else:
             return ax
 
-    def validate(self, ref_time, ref_value, ref_name='reference', stats=['corr', 'CE'], valid_period=(1880, 2000)):
+    def validate(self, ref_time, ref_value, ref_name='reference', stats=['corr', 'CE'], valid_period=None):
         ''' Validate against a reference timeseries.
 
         Args:
             ref_time (numpy.array): the time axis of the reference timeseries
             ref_value (numpy.array): the value axis of the reference timeseries
             stats (list, optional): the list of validation statistics to calculate. Defaults to ['corr', 'CE'].
-            valid_period (tuple, optional): the time period for validation. Defaults to (1880, 2000).
+            valid_period (tuple, optional): the time period for validation. Defaults to None.
         '''
         new = self.copy()
         new.valid_stats = {}
@@ -378,6 +381,12 @@ class EnsTS:
 
         recon_value = np.array(self.get_median().value)[:, 0]
         recon_time = np.array(self.get_median().time)
+
+        if valid_period is None:
+            time_min = np.max([np.min(recon_time), np.min(ref_time)])
+            time_max = np.min([np.max(recon_time), np.max(ref_time)])
+            valid_period = [time_min, time_max]
+
         recon_mask = (recon_time>=valid_period[0])&(recon_time<=valid_period[1])
         recon_slice = recon_value[recon_mask]
 
@@ -385,6 +394,9 @@ class EnsTS:
         ref_slice = ref_value[ref_mask]
         new.ref_time = ref_time[ref_mask]
         new.ref_value = ref_value[ref_mask]
+
+        if len(recon_slice) != len(ref_slice):
+            raise ValueError(f'Inconsistent length of the two timeseries. recon: {len(recon_slice)}; ref: {len(ref_slice)}.')
 
         for stat in stats:
             if stat == 'corr':

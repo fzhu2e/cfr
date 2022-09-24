@@ -130,6 +130,11 @@
      Get the nearest climate for proxies
     </a>
    </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="notebooks/proxy-composites.html">
+     Proxy Composites
+    </a>
+   </li>
   </ul>
  </li>
  <li class="toctree-l1 has-children">
@@ -264,8 +269,13 @@
   </label>
   <ul>
    <li class="toctree-l2">
-    <a class="reference internal" href="notebooks/graphem-basics.html">
-     The basic workflows for the GraphEM method
+    <a class="reference internal" href="notebooks/graphem-quickstart.html">
+     GraphEM: basic workflow
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="notebooks/graphem-ppe-pages2k.html">
+     A Pseudoproxy Experiment with GraphEM and pseudoPAGES2k
     </a>
    </li>
   </ul>
@@ -531,6 +541,7 @@ title="Print to PDF"
 <li class="toctree-l2"><a class="reference internal" href="notebooks/proxy-ops.html">Basic Operations</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="notebooks/proxy-ops.html#Load-the-PAGES2k-network-stored-in-a-pandas-DataFrame">Load the PAGES2k network stored in a pandas <code class="docutils literal notranslate"><span class="pre">DataFrame</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="notebooks/proxy-ops.html#Create-a-ProxyDatabase-and-load-from-the-pandas-DataFrame">Create a <code class="docutils literal notranslate"><span class="pre">ProxyDatabase</span></code> and load from the pandas <code class="docutils literal notranslate"><span class="pre">DataFrame</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/proxy-ops.html#Slice-a-ProxyDatabase-by-index">Slice a <code class="docutils literal notranslate"><span class="pre">ProxyDatabase</span></code> by index</a></li>
 <li class="toctree-l3"><a class="reference internal" href="notebooks/proxy-ops.html#Slice-a-ProxyRecord">Slice a <code class="docutils literal notranslate"><span class="pre">ProxyRecord</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="notebooks/proxy-ops.html#Add-several-ProxyRecords-together-to-form-a-ProxyDatabase">Add several <code class="docutils literal notranslate"><span class="pre">ProxyRecord</span></code>s together to form a <code class="docutils literal notranslate"><span class="pre">ProxyDatabase</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="notebooks/proxy-ops.html#Add-a-list-of-ProxyRecords-into-an-existing-ProxyDatabase">Add a list of <code class="docutils literal notranslate"><span class="pre">ProxyRecord</span></code>s into an existing <code class="docutils literal notranslate"><span class="pre">ProxyDatabase</span></code></a></li>
@@ -559,6 +570,12 @@ title="Print to PDF"
 <li class="toctree-l3"><a class="reference internal" href="notebooks/proxy-get-nearest-climate.html#Get-the-nearest-climate-from-a-ClimateField-for-a-ProxyDatabase">Get the nearest climate from a <code class="docutils literal notranslate"><span class="pre">ClimateField</span></code> for a <code class="docutils literal notranslate"><span class="pre">ProxyDatabase</span></code></a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="notebooks/proxy-composites.html">Proxy Composites</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/proxy-composites.html#Load-the-PAGES2k-network-stored-in-a-pandas-DataFrame">Load the PAGES2k network stored in a pandas <code class="docutils literal notranslate"><span class="pre">DataFrame</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/proxy-composites.html#Create-a-ProxyDatabase-and-load-from-the-pandas-DataFrame">Create a <code class="docutils literal notranslate"><span class="pre">ProxyDatabase</span></code> and load from the pandas <code class="docutils literal notranslate"><span class="pre">DataFrame</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/proxy-composites.html#Create-composites-for-each-proxy-type">Create composites for each proxy type</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="ug-climate.html">Climate</a><ul>
@@ -570,11 +587,7 @@ title="Print to PDF"
 </li>
 <li class="toctree-l2"><a class="reference internal" href="notebooks/climate-ops.html">Basic Operations</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="notebooks/climate-ops.html#Generate-random-data-and-form-a-ClimateField">Generate random data and form a <code class="docutils literal notranslate"><span class="pre">ClimateField</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="notebooks/climate-ops.html#Load-test-data-to-ClimateDataset">Load test data to <code class="docutils literal notranslate"><span class="pre">ClimateDataset</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="notebooks/climate-ops.html#Extract-the-climate-variables,-which-is-saved-as-ClimateField">Extract the climate variables, which is saved as <code class="docutils literal notranslate"><span class="pre">ClimateField</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="notebooks/climate-ops.html#Add-two-ClimateFields-together-and-get-a-new-ClimateDataset">Add two <code class="docutils literal notranslate"><span class="pre">ClimateField</span></code>s together and get a new <code class="docutils literal notranslate"><span class="pre">ClimateDataset</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="notebooks/climate-ops.html#Add-ClimateFields-into-an-existing-ClimateDataset">Add <code class="docutils literal notranslate"><span class="pre">ClimateField</span></code>s into an existing <code class="docutils literal notranslate"><span class="pre">ClimateDataset</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="notebooks/climate-ops.html#Subtract-ClimateFields-from-an-existing-ClimateDataset">Subtract <code class="docutils literal notranslate"><span class="pre">ClimateField</span></code>s from an existing <code class="docutils literal notranslate"><span class="pre">ClimateDataset</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/climate-ops.html#Load-test-data-to-ClimateField">Load test data to <code class="docutils literal notranslate"><span class="pre">ClimateField</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="notebooks/climate-ops.html#Rename-the-variable-name-of-a-ClimateField">Rename the variable name of a <code class="docutils literal notranslate"><span class="pre">ClimateField</span></code></a></li>
 </ul>
 </li>
@@ -694,7 +707,14 @@ title="Print to PDF"
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="ug-graphem.html">GraphEM</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="notebooks/graphem-basics.html">The basic workflows for the GraphEM method</a></li>
+<li class="toctree-l2"><a class="reference internal" href="notebooks/graphem-quickstart.html">GraphEM: basic workflow</a></li>
+<li class="toctree-l2"><a class="reference internal" href="notebooks/graphem-ppe-pages2k.html">A Pseudoproxy Experiment with GraphEM and pseudoPAGES2k</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/graphem-ppe-pages2k.html#Data-Preparation">Data Preparation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/graphem-ppe-pages2k.html#Graph-estimation">Graph estimation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/graphem-ppe-pages2k.html#running-GraphEM">running GraphEM</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/graphem-ppe-pages2k.html#2.-Graphical-Lasso">2. Graphical Lasso</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="ug-api.html">API Reference</a><ul>

@@ -37,7 +37,7 @@
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="prev" title="The basic workflows for the GraphEM method" href="notebooks/graphem-basics.html" />
+    <link rel="prev" title="A Pseudoproxy Experiment with GraphEM and pseudoPAGES2k" href="notebooks/graphem-ppe-pages2k.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="None">
     
@@ -128,6 +128,11 @@
    <li class="toctree-l2">
     <a class="reference internal" href="notebooks/proxy-get-nearest-climate.html">
      Get the nearest climate for proxies
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="notebooks/proxy-composites.html">
+     Proxy Composites
     </a>
    </li>
   </ul>
@@ -264,8 +269,13 @@
   </label>
   <ul>
    <li class="toctree-l2">
-    <a class="reference internal" href="notebooks/graphem-basics.html">
-     The basic workflows for the GraphEM method
+    <a class="reference internal" href="notebooks/graphem-quickstart.html">
+     GraphEM: basic workflow
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="notebooks/graphem-ppe-pages2k.html">
+     A Pseudoproxy Experiment with GraphEM and pseudoPAGES2k
     </a>
    </li>
   </ul>
@@ -588,6 +598,31 @@ some examples:</p>
 <dt class="sig sig-object py" id="cfr.proxy.ProxyRecord.center">
 <span class="sig-name descname"><span class="pre">center</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ref_period</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.proxy.ProxyRecord.center" title="Permalink to this definition">#</a></dt>
 <dd><p>Centering the proxy timeseries regarding a reference period.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>ref_period</strong> (<em>tuple</em><em> or </em><em>list</em>) – the reference time period in the form or (start_yr, end_yr)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cfr.proxy.ProxyRecord.copy">
+<span class="sig-name descname"><span class="pre">copy</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#cfr.proxy.ProxyRecord.copy" title="Permalink to this definition">#</a></dt>
+<dd><p>Make a deepcopy of the object.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cfr.proxy.ProxyRecord.dashboard">
+<span class="sig-name descname"><span class="pre">dashboard</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">clim_units</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">clim_colors</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">figsize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[14,</span> <span class="pre">8]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scaled_pr</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ms</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">200</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stock_img</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">edge_clr</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'w'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">wspace</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hspace</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spec_method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'wwz'</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.proxy.ProxyRecord.dashboard" title="Permalink to this definition">#</a></dt>
+<dd><p>Plot a dashboard of the proxy/pseudoproxy along with the climate signal.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>clim_units</strong> (<em>dict</em><em>, </em><em>optional</em>) – the dictionary of units for climate signals. Defaults to None.</p></li>
+<li><p><strong>clim_colors</strong> (<em>dict</em><em>, </em><em>optional</em>) – the dictionary of colors for climate signals. Defaults to None.</p></li>
+</ul>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
@@ -598,11 +633,14 @@ some examples:</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="cfr.proxy.ProxyRecord.get_clim">
-<span class="sig-name descname"><span class="pre">get_clim</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fields</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tag</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">load</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.proxy.ProxyRecord.get_clim" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">get_clim</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fields</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tag</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">search_dist</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">load</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.proxy.ProxyRecord.get_clim" title="Permalink to this definition">#</a></dt>
 <dd><p>Get the nearest climate from cliamte fields</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>fields</strong> (<a class="reference internal" href="#cfr.climate.ClimateField" title="cfr.climate.ClimateField"><em>cfr.climate.ClimateField</em></a><em> or </em><a class="reference internal" href="#cfr.climate.ClimateDataset" title="cfr.climate.ClimateDataset"><em>cfr.climate.ClimateDataset</em></a>) – the climate field</p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fields</strong> (<em>list of cfr.climate.ClimateField</em>) – the climate fields</p></li>
+<li><p><strong>search_dist</strong> (<em>float</em>) – the farest distance to search for climate data in degree</p></li>
+</ul>
 </dd>
 </dl>
 </dd></dl>
@@ -633,6 +671,20 @@ if timespan = [a, b, c, d], then the sliced output includes segment [a, b] and s
 <dd><p>Convert to Xarray.DataArray for computation purposes</p>
 </dd></dl>
 
+<dl class="py method">
+<dt class="sig sig-object py" id="cfr.proxy.ProxyRecord.to_nc">
+<span class="sig-name descname"><span class="pre">to_nc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.proxy.ProxyRecord.to_nc" title="Permalink to this definition">#</a></dt>
+<dd><p>Convert the record to a netCDF file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>path</strong> (<em>str</em>) – the path to save the file.</p></li>
+<li><p><strong>verbose</strong> (<em>bool</em><em>, </em><em>optional</em>) – print verbose information. Defaults to False.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
 </dd></dl>
 
 <dl class="py class">
@@ -648,8 +700,37 @@ if timespan = [a, b, c, d], then the sliced output includes segment [a, b] and s
 </dd>
 </dl>
 <dl class="py method">
+<dt class="sig sig-object py" id="cfr.proxy.ProxyDatabase.annualize">
+<span class="sig-name descname"><span class="pre">annualize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">months</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[1,</span> <span class="pre">2,</span> <span class="pre">3,</span> <span class="pre">4,</span> <span class="pre">5,</span> <span class="pre">6,</span> <span class="pre">7,</span> <span class="pre">8,</span> <span class="pre">9,</span> <span class="pre">10,</span> <span class="pre">11,</span> <span class="pre">12]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.proxy.ProxyDatabase.annualize" title="Permalink to this definition">#</a></dt>
+<dd><p>Annualize the records in the proxy database.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cfr.proxy.ProxyDatabase.center">
+<span class="sig-name descname"><span class="pre">center</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ref_period</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.proxy.ProxyDatabase.center" title="Permalink to this definition">#</a></dt>
+<dd><p>Center the proxy timeseries against a reference time period.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>ref_period</strong> (<em>tuple</em><em> or </em><em>list</em>) – the reference time period in the form or (start_yr, end_yr)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cfr.proxy.ProxyDatabase.copy">
+<span class="sig-name descname"><span class="pre">copy</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#cfr.proxy.ProxyDatabase.copy" title="Permalink to this definition">#</a></dt>
+<dd><p>Make a deepcopy of the object.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cfr.proxy.ProxyDatabase.del_clim">
+<span class="sig-name descname"><span class="pre">del_clim</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.proxy.ProxyDatabase.del_clim" title="Permalink to this definition">#</a></dt>
+<dd><p>Delete the nearest climate data for the records in the proxy database.</p>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="cfr.proxy.ProxyDatabase.filter">
-<span class="sig-name descname"><span class="pre">filter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">by</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">keys</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.proxy.ProxyDatabase.filter" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">filter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">by</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">keys</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'fuzzy'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.proxy.ProxyDatabase.filter" title="Permalink to this definition">#</a></dt>
 <dd><p>Filter the proxy database according to given ptype list.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -663,6 +744,7 @@ if timespan = [a, b, c, d], then the sliced output includes segment [a, b] and s
 <li><p>For <cite>by = ‘loc-circle’</cite>, keys = (center_lat, center_lon, distance)</p></li>
 </ul>
 </p></li>
+<li><p><strong>mode</strong> (<em>str</em>) – ‘fuzzy’ or ‘exact’ search when <cite>by = ‘ptype’ or ‘pid’</cite></p></li>
 </ul>
 </dd>
 </dl>
@@ -675,17 +757,24 @@ if timespan = [a, b, c, d], then the sliced output includes segment [a, b] and s
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>df</strong> (<em>Pandas DataFrame</em>) – a Pandas DataFrame include at least lat, lon, time, value, proxy_type</p></li>
+<li><p><strong>df</strong> (<em>pandas.DataFrame</em>) – a Pandas DataFrame include at least lat, lon, time, value, proxy_type</p></li>
 <li><p><strong>ptype_psm</strong> (<em>dict</em>) – a mapping from ptype to psm</p></li>
+<li><p><strong>verbose</strong> (<em>bool</em><em>, </em><em>optional</em>) – print verbose information. Defaults to False.</p></li>
 </ul>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="cfr.proxy.ProxyDatabase.load_nc">
-<span class="sig-name descname"><span class="pre">load_nc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dirpath</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nproc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.proxy.ProxyDatabase.load_nc" title="Permalink to this definition">#</a></dt>
-<dd><p>Load from multiple .nc files</p>
+<dt class="sig sig-object py" id="cfr.proxy.ProxyDatabase.get_clim">
+<span class="sig-name descname"><span class="pre">get_clim</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">field</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tag</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">load</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.proxy.ProxyDatabase.get_clim" title="Permalink to this definition">#</a></dt>
+<dd><p>Get the nearest climate data for the records in the proxy database.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cfr.proxy.ProxyDatabase.load_multi_nc">
+<span class="sig-name descname"><span class="pre">load_multi_nc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dirpath</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nproc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.proxy.ProxyDatabase.load_multi_nc" title="Permalink to this definition">#</a></dt>
+<dd><p>Load from multiple netCDF files.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -695,6 +784,12 @@ the default is by multiprocessing.cpu_count()</p></li>
 </ul>
 </dd>
 </dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cfr.proxy.ProxyDatabase.make_composite">
+<span class="sig-name descname"><span class="pre">make_composite</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">obs=None,</span> <span class="pre">obs_nc_path=None,</span> <span class="pre">vn='tas',</span> <span class="pre">lat_name=None,</span> <span class="pre">lon_name=None,</span> <span class="pre">bin_width=10,</span> <span class="pre">n_bootstraps=1000,</span> <span class="pre">qs=(0.025,</span> <span class="pre">0.975),</span> <span class="pre">stat_func=&lt;function</span> <span class="pre">nanmean&gt;,</span> <span class="pre">anom_period=[1951,</span> <span class="pre">1980]</span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.proxy.ProxyDatabase.make_composite" title="Permalink to this definition">#</a></dt>
+<dd><p>Make composites of the records in the proxy database.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -713,6 +808,78 @@ the default is by multiprocessing.cpu_count()</p></li>
 <span class="sig-name descname"><span class="pre">plot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kws</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.proxy.ProxyDatabase.plot" title="Permalink to this definition">#</a></dt>
 <dd><p>Visualize the proxy database.</p>
 <p>See <a class="reference internal" href="#cfr.visual.plot_proxies" title="cfr.visual.plot_proxies"><code class="xref py py-func docutils literal notranslate"><span class="pre">cfr.visual.plot_proxies()</span></code></a> for more information.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cfr.proxy.ProxyDatabase.plot_composite">
+<span class="sig-name descname"><span class="pre">plot_composite</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">figsize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[10,</span> <span class="pre">4]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">clr_proxy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">clr_count</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'tab:gray'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">clr_obs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'tab:red'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">left_ylim</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[-</span> <span class="pre">2,</span> <span class="pre">2]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">right_ylim</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xlim</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[0,</span> <span class="pre">2000]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">base_n</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">60</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bin_width</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.proxy.ProxyDatabase.plot_composite" title="Permalink to this definition">#</a></dt>
+<dd><p>Plot the composites of the records in the proxy database.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cfr.proxy.ProxyDatabase.plotly">
+<span class="sig-name descname"><span class="pre">plotly</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.proxy.ProxyDatabase.plotly" title="Permalink to this definition">#</a></dt>
+<dd><p>Plot the database on an interactive map utilizing Plotly</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cfr.proxy.ProxyDatabase.refresh">
+<span class="sig-name descname"><span class="pre">refresh</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#cfr.proxy.ProxyDatabase.refresh" title="Permalink to this definition">#</a></dt>
+<dd><p>Refresh a bunch of attributes.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cfr.proxy.ProxyDatabase.slice">
+<span class="sig-name descname"><span class="pre">slice</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">timespan</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.proxy.ProxyDatabase.slice" title="Permalink to this definition">#</a></dt>
+<dd><p>Slice the records in the proxy database.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cfr.proxy.ProxyDatabase.to_df">
+<span class="sig-name descname"><span class="pre">to_df</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#cfr.proxy.ProxyDatabase.to_df" title="Permalink to this definition">#</a></dt>
+<dd><p>Convert the proxy database to a <cite>pandas.DataFrame</cite>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cfr.proxy.ProxyDatabase.to_ds">
+<span class="sig-name descname"><span class="pre">to_ds</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">annualize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">months</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.proxy.ProxyDatabase.to_ds" title="Permalink to this definition">#</a></dt>
+<dd><p>Convert the proxy database to a <cite>xarray.Dataset</cite></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>annaulize</strong> (<em>bool</em>) – annaulize the proxy records with <cite>months</cite></p></li>
+<li><p><strong>months</strong> (<em>list</em>) – months for annulization</p></li>
+<li><p><strong>verbose</strong> (<em>bool</em><em>, </em><em>optional</em>) – print verbose information. Defaults to False.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cfr.proxy.ProxyDatabase.to_multi_nc">
+<span class="sig-name descname"><span class="pre">to_multi_nc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dirpath</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">compress_params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{'least_significant_digit':</span> <span class="pre">2,</span> <span class="pre">'zlib':</span> <span class="pre">True}</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.proxy.ProxyDatabase.to_multi_nc" title="Permalink to this definition">#</a></dt>
+<dd><p>Convert the proxy database to multiple netCDF files. One for each record.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>dirpath</strong> (<em>str</em>) – the directory path of the multiple .nc files</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cfr.proxy.ProxyDatabase.to_nc">
+<span class="sig-name descname"><span class="pre">to_nc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">annualize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">months</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">compress_params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{'least_significant_digit':</span> <span class="pre">2,</span> <span class="pre">'zlib':</span> <span class="pre">True}</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.proxy.ProxyDatabase.to_nc" title="Permalink to this definition">#</a></dt>
+<dd><p>Convert the database to a netCDF file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>path</strong> (<em>str</em>) – the path to save the file.</p></li>
+<li><p><strong>annaulize</strong> (<em>bool</em>) – annaulize the proxy records with <cite>months</cite></p></li>
+<li><p><strong>months</strong> (<em>list</em>) – months for annulization</p></li>
+<li><p><strong>verbose</strong> (<em>bool</em><em>, </em><em>optional</em>) – print verbose information. Defaults to False.</p></li>
+</ul>
+</dd>
+</dl>
 </dd></dl>
 
 </dd></dl>
@@ -734,21 +901,166 @@ the default is by multiprocessing.cpu_count()</p></li>
 </ul>
 </dd>
 </dl>
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py" id="cfr.climate.ClimateDataset">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cfr.climate.</span></span><span class="sig-name descname"><span class="pre">ClimateDataset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fields</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.climate.ClimateDataset" title="Permalink to this definition">#</a></dt>
-<dd><p>The class for the gridded climate field dataset</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="cfr.climate.ClimateField.annualize">
+<span class="sig-name descname"><span class="pre">annualize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">months</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[1,</span> <span class="pre">2,</span> <span class="pre">3,</span> <span class="pre">4,</span> <span class="pre">5,</span> <span class="pre">6,</span> <span class="pre">7,</span> <span class="pre">8,</span> <span class="pre">9,</span> <span class="pre">10,</span> <span class="pre">11,</span> <span class="pre">12]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.climate.ClimateField.annualize" title="Permalink to this definition">#</a></dt>
+<dd><p>Annualize/seasonalize the climate field based on a list of months.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>fields</strong> (<em>dict</em>) – the dictionary of <a class="reference internal" href="#cfr.climate.ClimateField" title="cfr.climate.ClimateField"><code class="xref py py-mod docutils literal notranslate"><span class="pre">cfr.climate.ClimateField</span></code></a></p>
+<dd class="field-odd"><p><strong>months</strong> (<em>list</em>) – the months based on which for annualization; e.g., [6, 7, 8] means JJA annualization</p>
 </dd>
 </dl>
+</dd></dl>
+
 <dl class="py method">
-<dt class="sig sig-object py" id="cfr.climate.ClimateDataset.from_ds">
-<span class="sig-name descname"><span class="pre">from_ds</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ds</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'time'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lat_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'lat'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lon_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'lon'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.climate.ClimateDataset.from_ds" title="Permalink to this definition">#</a></dt>
-<dd><p>Get data from the Xarray.Dataset object</p>
+<dt class="sig sig-object py" id="cfr.climate.ClimateField.center">
+<span class="sig-name descname"><span class="pre">center</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ref_period</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[1951,</span> <span class="pre">1980]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'time'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.climate.ClimateField.center" title="Permalink to this definition">#</a></dt>
+<dd><p>Center the climate field against a reference time period.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ref_period</strong> (<em>tuple</em><em> or </em><em>list</em>) – the reference time period in the form or (start_yr, end_yr)</p></li>
+<li><p><strong>time_name</strong> (<em>str</em>) – name of the time dimention</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cfr.climate.ClimateField.copy">
+<span class="sig-name descname"><span class="pre">copy</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#cfr.climate.ClimateField.copy" title="Permalink to this definition">#</a></dt>
+<dd><p>Make a deepcopy of the object.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cfr.climate.ClimateField.crop">
+<span class="sig-name descname"><span class="pre">crop</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">time_min</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time_max</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lat_min</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lat_max</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lon_min</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lon_max</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.climate.ClimateField.crop" title="Permalink to this definition">#</a></dt>
+<dd><p>Crop the climate field.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cfr.climate.ClimateField.from_da">
+<span class="sig-name descname"><span class="pre">from_da</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">da</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'time'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lat_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'lat'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lon_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'lon'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.climate.ClimateField.from_da" title="Permalink to this definition">#</a></dt>
+<dd><p>Load data from a <cite>xarray.DataArray</cite>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cfr.climate.ClimateField.from_np">
+<span class="sig-name descname"><span class="pre">from_np</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">time</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lat</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lon</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'time'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lat_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'lat'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lon_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'lon'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'tas'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.climate.ClimateField.from_np" title="Permalink to this definition">#</a></dt>
+<dd><p>Load data from a <cite>numpy.ndarray</cite>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cfr.climate.ClimateField.geo_mean">
+<span class="sig-name descname"><span class="pre">geo_mean</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lat_min</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">-</span> <span class="pre">90</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lat_max</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">90</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lon_min</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lon_max</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">360</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lat_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'lat'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lon_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'lon'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.climate.ClimateField.geo_mean" title="Permalink to this definition">#</a></dt>
+<dd><p>Calculate the geographical mean value of the climate field.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cfr.climate.ClimateField.get_anom">
+<span class="sig-name descname"><span class="pre">get_anom</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ref_period</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[1951,</span> <span class="pre">1980]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.climate.ClimateField.get_anom" title="Permalink to this definition">#</a></dt>
+<dd><p>Get the anomaly against a reference time period.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>ref_period</strong> (<em>tuple</em><em> or </em><em>list</em>) – the reference time period in the form or (start_yr, end_yr)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cfr.climate.ClimateField.load_nc">
+<span class="sig-name descname"><span class="pre">load_nc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vn</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'time'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lat_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'lat'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lon_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'lon'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">load</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.climate.ClimateField.load_nc" title="Permalink to this definition">#</a></dt>
+<dd><p>Load the climate field from a netCDF file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>path</strong> (<em>str</em>) – the path where to load data from</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cfr.climate.ClimateField.plot">
+<span class="sig-name descname"><span class="pre">plot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">it</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.climate.ClimateField.plot" title="Permalink to this definition">#</a></dt>
+<dd><p>Plot the climate field.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cfr.climate.ClimateField.plotly_grid">
+<span class="sig-name descname"><span class="pre">plotly_grid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">site_lats</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">site_lons</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.climate.ClimateField.plotly_grid" title="Permalink to this definition">#</a></dt>
+<dd><p>Plot the grid on an interactive map utilizing Plotly</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cfr.climate.ClimateField.pt">
+<span class="sig-name descname"><span class="pre">pt</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">time</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.climate.ClimateField.pt" title="Permalink to this definition">#</a></dt>
+<dd><p>Pick a time point or a time slice.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>time</strong> (<em>float</em><em>, </em><em>int</em><em>, </em><em>list</em>) – a time point or a time range</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cfr.climate.ClimateField.refresh">
+<span class="sig-name descname"><span class="pre">refresh</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">time_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lat_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lon_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.climate.ClimateField.refresh" title="Permalink to this definition">#</a></dt>
+<dd><p>Refresh a bunch of attributes.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cfr.climate.ClimateField.regrid">
+<span class="sig-name descname"><span class="pre">regrid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lats</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lons</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">periodic_lon</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.climate.ClimateField.regrid" title="Permalink to this definition">#</a></dt>
+<dd><p>Regrid the climate field.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cfr.climate.ClimateField.rename">
+<span class="sig-name descname"><span class="pre">rename</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">new_vn</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">modify_vn</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.climate.ClimateField.rename" title="Permalink to this definition">#</a></dt>
+<dd><p>Rename the variable name of the climate field.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cfr.climate.ClimateField.to_nc">
+<span class="sig-name descname"><span class="pre">to_nc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.climate.ClimateField.to_nc" title="Permalink to this definition">#</a></dt>
+<dd><p>Convert the climate field to a netCDF file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>path</strong> (<em>str</em>) – the path where to save</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cfr.climate.ClimateField.validate">
+<span class="sig-name descname"><span class="pre">validate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ref</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stat</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'corr'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">interp_direction</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'to-ref'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">valid_period</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(1880,</span> <span class="pre">2000)</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.climate.ClimateField.validate" title="Permalink to this definition">#</a></dt>
+<dd><p>Validate against a reference field.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ref</strong> (<a class="reference internal" href="#cfr.climate.ClimateField" title="cfr.climate.ClimateField"><em>cfr.climate.ClimateField</em></a>) – the reference to compare against, assuming the first dimension to be time</p></li>
+<li><p><strong>valid_period</strong> (<em>tuple</em><em>, </em><em>optional</em>) – the time period for validation. Defaults to None.</p></li>
+<li><p><strong>interp_direction</strong> (<em>str</em><em>, </em><em>optional</em>) – <p>the direction to interpolate the fields:</p>
+<ul>
+<li><p>’to-ref’: interpolate from <cite>self</cite> to <cite>ref</cite></p></li>
+<li><p>’from-ref’: interpolate from <cite>ref</cite> to <cite>self</cite></p></li>
+</ul>
+</p></li>
+<li><p><strong>stat</strong> (<em>str</em>) – <p>the statistics to calculate. Supported quantaties:</p>
+<ul>
+<li><p>’corr’: correlation coefficient</p></li>
+<li><p>’R2’: coefficient of determination</p></li>
+<li><p>’CE’: coefficient of efficiency</p></li>
+</ul>
+</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cfr.climate.ClimateField.wrap_lon">
+<span class="sig-name descname"><span class="pre">wrap_lon</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'360'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'time'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lon_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'lon'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.climate.ClimateField.wrap_lon" title="Permalink to this definition">#</a></dt>
+<dd><p>Convert longitude values from the range (-180, 180) to (0, 360).</p>
 </dd></dl>
 
 </dd></dl>
@@ -759,17 +1071,44 @@ the default is by multiprocessing.cpu_count()</p></li>
 <dl class="py class">
 <dt class="sig sig-object py" id="cfr.psm.Linear">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cfr.psm.</span></span><span class="sig-name descname"><span class="pre">Linear</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pobj</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">climate_required</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">['tas']</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.psm.Linear" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
+<dd><p>A PSM that is based on univariate linear regression.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>pobj</strong> (<a class="reference internal" href="#cfr.proxy.ProxyRecord" title="cfr.proxy.ProxyRecord"><em>cfr.proxy.ProxyRecord</em></a>) – the proxy record object</p></li>
+<li><p><strong>climate_required</strong> (<a class="reference internal" href="#cfr.climate.ClimateField" title="cfr.climate.ClimateField"><em>cfr.climate.ClimateField</em></a>) – the required climate field object for running this PSM</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="cfr.psm.Bilinear">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cfr.psm.</span></span><span class="sig-name descname"><span class="pre">Bilinear</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pobj</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">climate_required</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">['tas',</span> <span class="pre">'pr']</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.psm.Bilinear" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
+<dd><p>A PSM that is based on bivariate linear regression.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>pobj</strong> (<a class="reference internal" href="#cfr.proxy.ProxyRecord" title="cfr.proxy.ProxyRecord"><em>cfr.proxy.ProxyRecord</em></a>) – the proxy record object</p></li>
+<li><p><strong>climate_required</strong> (<a class="reference internal" href="#cfr.climate.ClimateField" title="cfr.climate.ClimateField"><em>cfr.climate.ClimateField</em></a>) – the required climate field object for running this PSM</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="cfr.psm.Ice_d18O">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cfr.psm.</span></span><span class="sig-name descname"><span class="pre">Ice_d18O</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pobj</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tas_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'model_tas'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pr_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'model_pr'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">psl_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'model_psl'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">d18O_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'model_d18O'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">climate_required</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">['tas',</span> <span class="pre">'pr',</span> <span class="pre">'psl',</span> <span class="pre">'d18O']</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.psm.Ice_d18O" title="Permalink to this definition">#</a></dt>
-<dd><dl class="py method">
+<dd><p>The ice core d18O model adopted from PRYSM (<a class="reference external" href="https://github.com/sylvia-dee/PRYSM">https://github.com/sylvia-dee/PRYSM</a>)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>pobj</strong> (<a class="reference internal" href="#cfr.proxy.ProxyRecord" title="cfr.proxy.ProxyRecord"><em>cfr.proxy.ProxyRecord</em></a>) – the proxy record object</p></li>
+<li><p><strong>climate_required</strong> (<a class="reference internal" href="#cfr.climate.ClimateField" title="cfr.climate.ClimateField"><em>cfr.climate.ClimateField</em></a>) – the required climate field object for running this PSM</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
 <dt class="sig sig-object py" id="cfr.psm.Ice_d18O.forward">
 <span class="sig-name descname"><span class="pre">forward</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nproc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.psm.Ice_d18O.forward" title="Permalink to this definition">#</a></dt>
 <dd><p>The ice d18O model</p>
@@ -781,7 +1120,7 @@ the default is by multiprocessing.cpu_count()</p></li>
 <dl class="py class">
 <dt class="sig sig-object py" id="cfr.psm.Lake_VarveThickness">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cfr.psm.</span></span><span class="sig-name descname"><span class="pre">Lake_VarveThickness</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pobj</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model_tas_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'model_tas'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">H</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shape</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mean</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">SNR</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">climate_required</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">['tas']</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.psm.Lake_VarveThickness" title="Permalink to this definition">#</a></dt>
-<dd><p>The varve thickness model</p>
+<dd><p>The varve thickness model.</p>
 <p>It takes summer temperature as input (JJA for NH and DJF for SH).</p>
 </dd></dl>
 
@@ -854,8 +1193,8 @@ Returns a numpy array that is the same size and shape as the input vectors for S
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>tol</strong> (<em>float</em>) – convergence tolerence of EM algorithm (default: 5e-3)</p></li>
-<li><p><strong>temp_r</strong> (<em>numpy.ndarray</em>) – reconstructed temperature field</p></li>
-<li><p><strong>proxy_r</strong> (<em>numpy.ndarray</em>) – reconstructed proxy field</p></li>
+<li><p><strong>field_r</strong> (<em>numpy.ndarray</em>) – reconstructed climate field</p></li>
+<li><p><strong>proxy_r</strong> (<em>numpy.ndarray</em>) – reconstructed proxy matrix</p></li>
 <li><p><strong>calib</strong> (<em>numpy.ndarray</em>) – index of calibration period</p></li>
 <li><p><strong>Sigma</strong> (<em>numpy.ndarray</em>) – covariance matrix of the multivariate normal model</p></li>
 <li><p><strong>mu</strong> (<em>numpy.ndarray</em>) – mean of the multivariate normal model</p></li>
@@ -864,7 +1203,7 @@ Returns a numpy array that is the same size and shape as the input vectors for S
 </dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="cfr.graphem.solver.GraphEM.EM">
-<span class="sig-name descname"><span class="pre">EM</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">graph</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">C0</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">M0</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">maxit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">200</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_iridge</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.graphem.solver.GraphEM.EM" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">EM</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">graph</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">C0</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">M0</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">maxit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">200</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_iridge</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.graphem.solver.GraphEM.EM" title="Permalink to this definition">#</a></dt>
 <dd><p>Expectation-Maximization (EM) algorithm with Gaussian Graphical Model</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -902,7 +1241,7 @@ Returns a numpy array that is the same size and shape as the input vectors for S
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p><strong>self.temp_r_all</strong> – Matrix containing the reconstructed temperature field for each bootstrap sample</p>
+<dd class="field-even"><p><strong>self.field_r_all</strong> – Matrix containing the reconstructed climate field for each bootstrap sample</p>
 </dd>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p>matrix (sample x time x space)</p>
@@ -912,29 +1251,29 @@ Returns a numpy array that is the same size and shape as the input vectors for S
 
 <dl class="py method">
 <dt class="sig sig-object py" id="cfr.graphem.solver.GraphEM.fit">
-<span class="sig-name descname"><span class="pre">fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">temp</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">proxy</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">calib</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">graph</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lonlat</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sp_TT</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sp_TP</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sp_PP</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">N_graph</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">30</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">C0</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">M0</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">maxit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">200</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bootstrap</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">N_boot</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">20</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">distance</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">graph_method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'neighborhood'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">estimate_graph</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_graphs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.graphem.solver.GraphEM.fit" title="Permalink to this definition">#</a></dt>
-<dd><p>Estimates the parameters of the GraphEM model and reconstruct the missing values of the temperature
+<span class="sig-name descname"><span class="pre">fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">field</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">proxy</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">calib</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">graph</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lonlat</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sp_FF</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sp_FP</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sp_PP</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">N_graph</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">30</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">C0</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">M0</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">maxit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">200</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bootstrap</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">N_boot</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">20</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cutoff_radius</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">graph_method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'neighborhood'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">estimate_graph</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_graphs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.graphem.solver.GraphEM.fit" title="Permalink to this definition">#</a></dt>
+<dd><p>Estimates the parameters of the GraphEM model and reconstruct the missing values of the climate
 and proxy fields.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>temp</strong> (<em>matrix</em><em> (</em><em>time x space</em><em>)</em>) – Temperature field. Missing values stored as “np.na”.</p></li>
+<li><p><strong>field</strong> (<em>matrix</em><em> (</em><em>time x space</em><em>)</em>) – Climate field. Missing values stored as “np.nan”.</p></li>
 <li><p><strong>proxy</strong> (<em>matrix</em><em> (</em><em>time x space</em><em>)</em>) – <dl class="simple">
-<dt>Proxy data. Missing values stored as “np.na”. The time dimension should be</dt><dd><p>the same as the temperature field.</p>
+<dt>Proxy data. Missing values stored as “np.nan”. The time dimension should be</dt><dd><p>the same as the climate field.</p>
 </dd>
 </dl>
 </p></li>
 <li><p><strong>calib</strong> (<em>vector</em>) – Vector of indices representing the calibration period.</p></li>
-<li><p><strong>graph</strong> (<em>matrix</em>) – Adjacency matrix of the temperature+proxy field. (Default = [], estimated via graph_greedy_search)</p></li>
-<li><p><strong>lonlat</strong> (<em>matrix</em><em> (</em><em>(</em><em>number of temperature location + number of proxies</em><em>) </em><em>x 2</em><em>)</em><em>. Default =</em><em> [</em><em>]</em>) – Matrix containing the (longitude, latitude) of the temperature and proxy locations. Only
+<li><p><strong>graph</strong> (<em>NumPy array</em>) – Adjacency matrix of the climate+proxy data matrix. (Default = [], estimated via graph_greedy_search)</p></li>
+<li><p><strong>lonlat</strong> (<em>matrix</em><em> (</em><em>(</em><em>number of grid points + number of proxies</em><em>) </em><em>x 2</em><em>)</em><em>. Default =</em><em> [</em><em>]</em>) – Matrix containing the (longitude, latitude) of the climate field grid points and proxy locations. Only
 used if graph_method = ‘neighborhood’.</p></li>
-<li><p><strong>sp_TT</strong> (<em>float</em>) – <dl class="simple">
-<dt>Target sparsity of the temperature/temperature part of the inverse covariance matrix. Only used</dt><dd><p>when the graph is estimated by glasso. Default (3.0%)</p>
+<li><p><strong>sp_FF</strong> (<em>float</em>) – <dl class="simple">
+<dt>Target sparsity of the in-field part of the inverse covariance matrix. Only used</dt><dd><p>when the graph is estimated by glasso. Default (3.0%)</p>
 </dd>
 </dl>
 </p></li>
-<li><p><strong>sp_TP</strong> (<em>float</em>) – <dl class="simple">
-<dt>Target sparsity of the temperature/proxy part of the inverse covariance matrix. Only used</dt><dd><p>when the graph is estimated by glasso. Default (3.0%)</p>
+<li><p><strong>sp_FP</strong> (<em>float</em>) – <dl class="simple">
+<dt>Target sparsity of the climate field/proxy part of the inverse covariance matrix. Only used</dt><dd><p>when the graph is estimated by glasso. Default (3.0%)</p>
 </dd>
 </dl>
 </p></li>
@@ -948,11 +1287,11 @@ used if graph_method = ‘neighborhood’.</p></li>
 </dd>
 </dl>
 </p></li>
-<li><p><strong>C0</strong> (<em>matrix</em>) – Initial estimate of the covariance matrix of the temperature+proxy field. (Default = []).</p></li>
-<li><p><strong>M0</strong> (<em>vector</em>) – Initial estimate of the mean vector of the temperature+proxy field. (Default = []).</p></li>
+<li><p><strong>C0</strong> (<em>matrix</em>) – Initial estimate of the covariance matrix of the total data matrix (climate + proxies). (Default = []).</p></li>
+<li><p><strong>M0</strong> (<em>vector</em>) – Initial estimate of the mean of the total data matrix (climate + proxies). (Default = []).</p></li>
 <li><p><strong>bootstrap</strong> (<em>boolean</em>) – Indicates whether or not to produce multiple estimates of the reconstructed values via bootstrapping. (Default = False)</p></li>
 <li><p><strong>N_boot</strong> (<em>int</em>) – Number of bootstrap samples to use if using the bootstrap method.</p></li>
-<li><p><strong>distance</strong> (<em>float</em>) – Radius of the neighborhood graph. Only used if graph_method = ‘neighborhood’. (Default = 1000 km).</p></li>
+<li><p><strong>cutoff_radius</strong> (<em>float</em>) – Radius of the neighborhood graph. Only used if graph_method = ‘neighborhood’. (Default = 1000 km).</p></li>
 <li><p><strong>graph_method</strong> (<em>&quot;neighborhood&quot;</em><em> or </em><em>&quot;glasso&quot;</em>) – Method to use to estimate the graph. Used only if graph = [] or if estimate_graph = True.</p></li>
 <li><p><strong>save_graphs</strong> (<em>boolean</em>) – Indicates whether or not to save all the graphs return by graph_greedy_search (Default = False).</p></li>
 </ul>
@@ -1121,6 +1460,23 @@ used if graph_method = ‘neighborhood’.</p></li>
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="cfr.reconjob.ReconJob.graphem_kcv">
+<span class="sig-name descname"><span class="pre">graphem_kcv</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cv_time</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ctrl_params</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">graph_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'neighborhood'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stat</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'MSE'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_splits</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.reconjob.ReconJob.graphem_kcv" title="Permalink to this definition">#</a></dt>
+<dd><p>k-fold cross-validation</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>cv_time</strong> (<em>array-like</em><em>, </em><em>1d</em>) – explain how it differs from recon_time or calib_time</p></li>
+<li><p><strong>ctrl_params</strong> (<em>array-like</em><em>, </em><em>1d</em>) – array of control parameters to try</p></li>
+<li><p><strong>graph_type</strong> (<em>str</em>) – type of graph. Either “neighborhood” or “glasso”</p></li>
+<li><p><strong>stat</strong> (<em>str</em>) – name of objective function. Choices are “MSE”, “RE”, “CE” or “R2”.</p></li>
+<li><p><strong>n_splits</strong> (<em>int</em>) – number of splits (default = 5)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="cfr.reconjob.ReconJob.io_cfg">
 <span class="sig-name descname"><span class="pre">io_cfg</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">k</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">v</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">default</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.reconjob.ReconJob.io_cfg" title="Permalink to this definition">#</a></dt>
 <dd><p>Add-to or read-from configurations.</p>
@@ -1197,14 +1553,34 @@ e.g., ‘tas’ and ‘pr’, etc.</p></li>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="cfr.reconjob.ReconJob.prepare_cfg">
-<span class="sig-name descname"><span class="pre">prepare_cfg</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cfg_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seeds</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.reconjob.ReconJob.prepare_cfg" title="Permalink to this definition">#</a></dt>
+<dt class="sig sig-object py" id="cfr.reconjob.ReconJob.prep_da_cfg">
+<span class="sig-name descname"><span class="pre">prep_da_cfg</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cfg_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seeds</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.reconjob.ReconJob.prep_da_cfg" title="Permalink to this definition">#</a></dt>
 <dd><p>Prepare the configuration items.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>cfg_path</strong> (<em>str</em>) – the path of the configuration YAML file.</p></li>
 <li><p><strong>seeds</strong> (<em>list</em><em>, </em><em>optional</em>) – the list of random seeds.</p></li>
+<li><p><strong>verbose</strong> (<em>bool</em><em>, </em><em>optional</em>) – print verbose information. Defaults to False.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cfr.reconjob.ReconJob.prep_graphem">
+<span class="sig-name descname"><span class="pre">prep_graphem</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">recon_time</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">calib_time</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">recon_period</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">recon_timescale</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">calib_period</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.reconjob.ReconJob.prep_graphem" title="Permalink to this definition">#</a></dt>
+<dd><p>A shortcut of the steps for GraphEM data preparation</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>recon_time</strong> (<em>array list</em><em>, </em><em>optional</em>) – the time points to reconstruct</p></li>
+<li><p><strong>calib_time</strong> (<em>array list</em><em>, </em><em>optional</em>) – the time points for calibration</p></li>
+<li><p><strong>recon_period</strong> (<em>tuple</em><em>, </em><em>optional</em>) – the reconstruction timespan.
+Effective when <cite>recon_time</cite> or <cite>calib_time</cite> is None. Defaults to None.</p></li>
+<li><p><strong>recon_timescale</strong> (<em>float</em><em>, </em><em>optional</em>) – the reconstruction timescale. Defaults to None.
+Effective when <cite>recon_time</cite> or <cite>calib_time</cite> is None. Defaults to None.</p></li>
+<li><p><strong>calib_period</strong> (<em>tuple</em><em>, </em><em>optional</em>) – the calibration timespan. Defaults to None.</p></li>
 <li><p><strong>verbose</strong> (<em>bool</em><em>, </em><em>optional</em>) – print verbose information. Defaults to False.</p></li>
 </ul>
 </dd>
@@ -1231,7 +1607,7 @@ e.g., ‘tas’ and ‘pr’, etc.</p></li>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="cfr.reconjob.ReconJob.run_da">
-<span class="sig-name descname"><span class="pre">run_da</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">recon_period</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">recon_loc_rad</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">recon_timescale</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">recon_sampling_mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">recon_sampling_dist</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">normal_sampling_sigma</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">normal_sampling_cutoff_factor</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nens</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">debug</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.reconjob.ReconJob.run_da" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">run_da</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">recon_period</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">recon_loc_rad</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">recon_timescale</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">recon_sampling_mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">recon_sampling_dist</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">normal_sampling_sigma</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">normal_sampling_cutoff_factor</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">trim_prior</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nens</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">debug</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.reconjob.ReconJob.run_da" title="Permalink to this definition">#</a></dt>
 <dd><p>Run the data assimilation workflows.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -1253,8 +1629,8 @@ e.g., ‘tas’ and ‘pr’, etc.</p></li>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="cfr.reconjob.ReconJob.run_mc">
-<span class="sig-name descname"><span class="pre">run_mc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">recon_period=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">recon_loc_rad=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">recon_timescale=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nens=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_full_ens=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_dtype=&lt;class</span> <span class="pre">'numpy.float32'&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">recon_sampling_mode=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">recon_sampling_dist=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">normal_sampling_sigma=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">normal_sampling_cutoff_factor=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">recon_seeds=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">assim_frac=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_dirpath=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">compress_params=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose=False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.reconjob.ReconJob.run_mc" title="Permalink to this definition">#</a></dt>
+<dt class="sig sig-object py" id="cfr.reconjob.ReconJob.run_da_mc">
+<span class="sig-name descname"><span class="pre">run_da_mc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">recon_period</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">recon_loc_rad</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">recon_timescale</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nens</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_full_ens</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">recon_sampling_mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">recon_sampling_dist</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">normal_sampling_sigma</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">normal_sampling_cutoff_factor</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">trim_prior</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">recon_seeds</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">assim_frac</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_dirpath</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">compress_params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.reconjob.ReconJob.run_da_mc" title="Permalink to this definition">#</a></dt>
 <dd><p>Run the Monte-Carlo iterations of data assimilation workflows.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -1267,7 +1643,6 @@ e.g., ‘tas’ and ‘pr’, etc.</p></li>
 <li><p><strong>normal_sampling_sigma</strong> (<em>str</em>) – the standard deviation of the normal distribution for prior sampling.</p></li>
 <li><p><strong>normal_sampling_cutoff_factor</strong> (<em>int</em>) – the cutoff factor for the window for prior sampling.</p></li>
 <li><p><strong>output_full_ens</strong> (<em>bool</em>) – if True, the full ensemble fields will be stored to netCDF files.</p></li>
-<li><p><strong>save_dtype</strong> (<em>object</em>) – the data type used for storing the reconstruction results.</p></li>
 <li><p><strong>nens</strong> (<em>int</em>) – the ensemble size.</p></li>
 <li><p><strong>recon_seed</strong> (<em>int</em>) – the random seeds.</p></li>
 <li><p><strong>assim_frac</strong> (<em>float</em><em>, </em><em>optional</em>) – the fraction of proxies for assimilation. Defaults to None.</p></li>
@@ -1277,6 +1652,29 @@ e.g., ‘tas’ and ‘pr’, etc.</p></li>
 </ul>
 </dd>
 </dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cfr.reconjob.ReconJob.run_graphem">
+<span class="sig-name descname"><span class="pre">run_graphem</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">save_recon</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_dirpath</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_filename</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">load_precalc_solver</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">solver_save_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">compress_params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">fit_kws</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.reconjob.ReconJob.run_graphem" title="Permalink to this definition">#</a></dt>
+<dd><p>Run the GraphEM solver, essentially the :py:meth: <cite>GraphEM.solver.GraphEM.fit</cite> method</p>
+<p>Note that the arguments for :py:meth: <cite>GraphEM.solver.GraphEM.fit</cite> can be appended in the
+argument list of this function directly. For instance, to pass a pre-calculated graph, use
+<cite>estimate_graph=False</cite> and <cite>graph=g.adj</cite>, where <cite>g</cite> is the <a href="#id1"><span class="problematic" id="id2">:py:`Graph`</span></a> object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>save_dirpath</strong> (<em>str</em>) – the path to save the related results</p></li>
+<li><p><strong>load_precalculated</strong> (<em>bool</em><em>, </em><em>optional</em>) – load the precalculated <cite>Graph</cite> object. Defaults to False.</p></li>
+<li><p><strong>verbose</strong> (<em>bool</em><em>, </em><em>optional</em>) – print verbose information. Defaults to False.</p></li>
+<li><p><strong>fit_kws</strong> (<em>dict</em>) – the arguments for :py:meth: <cite>GraphEM.solver.GraphEM.fit</cite></p></li>
+</ul>
+</dd>
+</dl>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p>cfr.graphem.solver.GraphEM.fit : fitting the GraphEM method</p>
+</div>
 </dd></dl>
 
 <dl class="py method">
@@ -1311,11 +1709,12 @@ The filename will be <cite>configs.yml</cite>.</p></li>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="cfr.reconjob.ReconJob.save_recon">
-<span class="sig-name descname"><span class="pre">save_recon</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">save_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">compress_params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_full_ens</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_indices</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.reconjob.ReconJob.save_recon" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">save_recon</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">save_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">compress_params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_full_ens</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mark_assim_pids</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_indices</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">grid</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'prior'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.reconjob.ReconJob.save_recon" title="Permalink to this definition">#</a></dt>
 <dd><p>Save the reconstruction results.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
+<li><p><strong>tag</strong> (<em>str</em>) – ‘da’ or ‘graphem’</p></li>
 <li><p><strong>save_path</strong> (<em>str</em>) – the path for saving the reconstruciton results.</p></li>
 <li><p><strong>verbose</strong> (<em>bool</em><em>, </em><em>optional</em>) – print verbose information. Defaults to False.</p></li>
 <li><p><strong>output_full_ens</strong> (<em>bool</em>) – if True, the full ensemble fields will be stored to netCDF files.</p></li>
@@ -1378,7 +1777,11 @@ The filename will be <cite>configs.yml</cite>.</p></li>
 <dd><p>Visualize proxies.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>df</strong> (<em>pandas.DataFrame</em>) – proxy database in <cite>pandas.DataFrame</cite>.</p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>df</strong> (<em>pandas.DataFrame</em>) – proxy database in <cite>pandas.DataFrame</cite>.</p></li>
+<li><p><strong>year</strong> (<em>list</em>) – the years for counting proxy numbers.</p></li>
+<li><p><strong>p</strong> (<em>object</em>) – the style object that contains dictionaries of markers and colors</p></li>
+</ul>
 </dd>
 </dl>
 </dd></dl>
@@ -1394,11 +1797,11 @@ The filename will be <cite>configs.yml</cite>.</p></li>
                 
     <!-- Previous / next buttons -->
 <div class='prev-next-area'>
-    <a class='left-prev' id="prev-link" href="notebooks/graphem-basics.html" title="previous page">
+    <a class='left-prev' id="prev-link" href="notebooks/graphem-ppe-pages2k.html" title="previous page">
         <i class="fas fa-angle-left"></i>
         <div class="prev-next-info">
             <p class="prev-next-subtitle">previous</p>
-            <p class="prev-next-title">The basic workflows for the GraphEM method</p>
+            <p class="prev-next-title">A Pseudoproxy Experiment with GraphEM and pseudoPAGES2k</p>
         </div>
     </a>
 </div>

@@ -35,9 +35,13 @@ class ClimateField:
             new.time = new.time[key]
         return new
 
-    def refresh(self, time_name='time', lat_name='lat', lon_name='lon'):
+    def refresh(self, time_name=None, lat_name=None, lon_name=None):
         ''' Refresh a bunch of attributes.
         '''
+        time_name = 'time' if time_name is None else time_name
+        lat_name = 'lat' if lat_name is None else lat_name
+        lon_name = 'lon' if lon_name is None else lon_name
+
         self.lat = self.da[lat_name].values
         self.lon = self.da[lon_name].values
         if time_name == 'year':
@@ -164,7 +168,7 @@ class ClimateField:
             da = ds[vn]
 
         new = ClimateField(da=da, time_name=time_name, lat_name=lat_name, lon_name=lon_name)
-        new = new.rename({lat_name: 'lat', lon_name: 'lon'})
+        new = new.rename({lat_name: 'lat', lon_name: 'lon'}, modify_vn=False)  # rename dimension names only
         if load: new.da.load()
         return new
 
@@ -181,11 +185,12 @@ class ClimateField:
         ''' Make a deepcopy of the object. '''
         return copy.deepcopy(self)
 
-    def rename(self, new_vn):
+    def rename(self, new_vn, modify_vn=True):
         ''' Rename the variable name of the climate field.'''
         new = self.copy()
         new.da = self.da.rename(new_vn)
-        new.vn = new_vn
+        if modify_vn:
+            new.vn = new_vn
         return new
 
     # def __add__(self, fields):
@@ -342,16 +347,17 @@ class ClimateField:
 
     def plot(self, it=0, **kwargs):
         ''' Plot the climate field.'''
-        try:
-            if self.da[self.time_name].values.ndim == 0:
-                t = self.da[self.time_name].values
-            else:
-                t = self.da[self.time_name].values[it]
-        except:
+        if self.da[self.time_name].values.ndim == 0:
             t = self.da[self.time_name].values
+        else:
+            t = self.da[self.time_name].values[it]
+
+        try:
             yyyy = str(t)[:4]
             mm = str(t)[5:7]
             t = datetime(year=int(yyyy), month=int(mm), day=1)
+        except:
+            pass
 
         if isinstance(t, np.datetime64):
             # convert to cftime.datetime

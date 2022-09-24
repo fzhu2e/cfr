@@ -989,9 +989,10 @@ class ProxyDatabase:
 
         return fig
 
-    def make_composite(self, obs_nc_path, vn='tas', lat_name=None, lon_name=None, bin_width=10, n_bootstraps=1000, qs=(0.025, 0.975), stat_func=np.nanmean, anom_period=[1951, 1980]):
-        obs = ClimateField().load_nc(obs_nc_path, vn=vn, lat_name=lat_name, lon_name=lon_name)
+    def make_composite(self, obs=None, obs_nc_path=None, vn='tas', lat_name=None, lon_name=None, bin_width=10, n_bootstraps=1000, qs=(0.025, 0.975), stat_func=np.nanmean, anom_period=[1951, 1980]):
         ''' Make composites of the records in the proxy database.'''
+        if obs is None:
+            obs = ClimateField().load_nc(obs_nc_path, vn=vn, lat_name=lat_name, lon_name=lon_name)
 
         for pid, pobj in tqdm(self.records.items(), total=self.nrec, desc='Analyzing ProxyRecord'):
             pobj.get_clim(obs, tag='obs')
@@ -1114,7 +1115,7 @@ class ProxyDatabase:
         ax['var'].set_ylabel('proxy', color=clr_proxy)
         ax['var'].tick_params('y', colors=clr_proxy)
         ax['var'].spines['left'].set_color(clr_proxy)
-        ax['var'].spines['bottom'].set_color(clr_proxy)
+        ax['var'].spines['bottom'].set_color('k')
         ax['var'].spines['bottom'].set_alpha(0.5)
         ax['var'].spines['top'].set_visible(False)
         ax['var'].yaxis.grid(True, color=clr_proxy, alpha=0.5, ls='-')

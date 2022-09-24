@@ -812,7 +812,7 @@ div.rendered_html tbody tr:hover {
 <section id="PSM-for-coral-d18O">
 <h1>PSM for coral d18O<a class="headerlink" href="#PSM-for-coral-d18O" title="Permalink to this headline">#</a></h1>
 <p>In this tutorial, we introduce the PSM for coral d18O in <code class="docutils literal notranslate"><span class="pre">cfr</span></code>.</p>
-<div class="nbinput docutils container">
+<div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
 </div>
@@ -829,35 +829,12 @@ div.rendered_html tbody tr:hover {
 </pre></div>
 </div>
 </div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-Traceback <span class="ansi-cyan-fg">(most recent call last)</span>:
-
-  File <span class="ansi-green-intense-fg ansi-bold">~/Apps/miniconda3/envs/p2k-env/lib/python3.9/site-packages/IPython/core/interactiveshell.py:3369</span> in <span class="ansi-magenta-intense-fg ansi-bold">run_code</span>
-    exec(code_obj, self.user_global_ns, self.user_ns)
-
-  Input <span class="ansi-green-intense-fg ansi-bold">In [1]</span> in <span class="ansi-magenta-intense-fg ansi-bold">&lt;cell line: 4&gt;</span>
-    import cfr
-
-<span class="ansi-cyan-fg">  File </span><span class="ansi-green-fg">~/Github/cfr/cfr/__init__.py:2</span><span class="ansi-cyan-fg"> in </span><span class="ansi-magenta-fg">&lt;module&gt;</span>
-<span class="ansi-red-fg">    from .proxy import *</span>
-
-<span class="ansi-cyan-fg">  File </span><span class="ansi-green-fg">~/Github/cfr/cfr/proxy.py:528</span>
-<span class="ansi-red-fg">    def plot_composite(self, **kws):</span>
-    ^
-<span class="ansi-red-fg">IndentationError</span><span class="ansi-red-fg">:</span> expected an indented block
-
-</pre></div></div>
-</div>
 <section id="Data-preparation">
 <h2>Data preparation<a class="headerlink" href="#Data-preparation" title="Permalink to this headline">#</a></h2>
 <section id="Proxy">
 <h3>Proxy<a class="headerlink" href="#Proxy" title="Permalink to this headline">#</a></h3>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_pickle</span><span class="p">(</span><span class="s1">&#39;./data/pages2k_dataset.pkl&#39;</span><span class="p">)</span>
@@ -866,7 +843,7 @@ Traceback <span class="ansi-cyan-fg">(most recent call last)</span>:
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pdb_sub</span> <span class="o">=</span> <span class="n">pdb</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="s1">&#39;ptype&#39;</span><span class="p">,</span> <span class="n">keys</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;coral.d18O&#39;</span><span class="p">])</span>
@@ -886,11 +863,11 @@ Traceback <span class="ansi-cyan-fg">(most recent call last)</span>:
 <section id="Model">
 <h3>Model<a class="headerlink" href="#Model" title="Permalink to this headline">#</a></h3>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%time</span>
-<span class="n">dirpath</span> <span class="o">=</span> <span class="s1">&#39;/Volumes/ExtraDrive/Data/GCM_sims/icesm_last_millennium_historical&#39;</span>
+<span class="n">dirpath</span> <span class="o">=</span> <span class="s1">&#39;./data/icesm_last_millennium_historical&#39;</span>
 
 <span class="n">model_tos</span> <span class="o">=</span> <span class="n">cfr</span><span class="o">.</span><span class="n">ClimateField</span><span class="p">()</span><span class="o">.</span><span class="n">load_nc</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">dirpath</span><span class="p">,</span> <span class="s1">&#39;tos_sfc_Omon_iCESM_past1000historical_085001-200512_interp.nc&#39;</span><span class="p">))</span>
 <span class="n">model_d18Osw</span> <span class="o">=</span> <span class="n">cfr</span><span class="o">.</span><span class="n">ClimateField</span><span class="p">()</span><span class="o">.</span><span class="n">load_nc</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">dirpath</span><span class="p">,</span> <span class="s1">&#39;d18Osw_sfc_Omon_iCESM_past1000historical_085001-200512_interp.nc&#39;</span><span class="p">))</span>
@@ -902,8 +879,8 @@ Traceback <span class="ansi-cyan-fg">(most recent call last)</span>:
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-CPU times: user 2.87 s, sys: 18.9 ms, total: 2.89 s
-Wall time: 2.9 s
+CPU times: user 1.94 s, sys: 11.3 ms, total: 1.95 s
+Wall time: 2.13 s
 </pre></div></div>
 </div>
 </section>
@@ -911,7 +888,7 @@ Wall time: 2.9 s
 <section id="Get-climate-data-for-a-specific-ProxyRecord">
 <h2>Get climate data for a specific <code class="docutils literal notranslate"><span class="pre">ProxyRecord</span></code><a class="headerlink" href="#Get-climate-data-for-a-specific-ProxyRecord" title="Permalink to this headline">#</a></h2>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%time</span>
@@ -927,18 +904,15 @@ Wall time: 2.9 s
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-<span class="ansi-green-intense-fg ansi-bold">ProxyRecord.clim deleted for Ocn_062.</span>
-<span class="ansi-green-intense-fg ansi-bold">ProxyRecord.clim[&#34;model_tos&#34;] created.</span>
-<span class="ansi-green-intense-fg ansi-bold">ProxyRecord.clim[&#34;model_d18Osw&#34;] created.</span>
-CPU times: user 89.5 ms, sys: 235 ms, total: 324 ms
-Wall time: 324 ms
+CPU times: user 343 ms, sys: 7.56 s, total: 7.9 s
+Wall time: 2min 46s
 </pre></div></div>
 </div>
 </section>
 <section id="Create-a-PSM-object">
 <h2>Create a PSM object<a class="headerlink" href="#Create-a-PSM-object" title="Permalink to this headline">#</a></h2>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mdl</span> <span class="o">=</span> <span class="n">cfr</span><span class="o">.</span><span class="n">psm</span><span class="o">.</span><span class="n">Coral_d18O</span><span class="p">(</span><span class="n">pobj</span><span class="p">)</span>
@@ -946,7 +920,7 @@ Wall time: 324 ms
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%time</span>
@@ -959,12 +933,12 @@ Wall time: 324 ms
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-CPU times: user 486 µs, sys: 267 µs, total: 753 µs
-Wall time: 461 µs
+CPU times: user 382 µs, sys: 207 µs, total: 589 µs
+Wall time: 379 µs
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">pp</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>

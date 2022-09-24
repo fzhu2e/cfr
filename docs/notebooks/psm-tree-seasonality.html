@@ -856,27 +856,27 @@ div.rendered_html tbody tr:hover {
 <section id="Instrumental-observations">
 <h3>Instrumental observations<a class="headerlink" href="#Instrumental-observations" title="Permalink to this headline">#</a></h3>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dirpath</span> <span class="o">=</span> <span class="s1">&#39;/Volumes/ExtraDrive/Data/Analyses/CRUTS&#39;</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dirpath</span> <span class="o">=</span> <span class="s1">&#39;./data/CRUTS&#39;</span>
 
-<span class="n">obs_tas_ds</span> <span class="o">=</span> <span class="n">cfr</span><span class="o">.</span><span class="n">ClimateDataset</span><span class="p">()</span><span class="o">.</span><span class="n">load_nc</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">dirpath</span><span class="p">,</span> <span class="s1">&#39;cru_ts4.05.1901.2020.tmp.dat.nc&#39;</span><span class="p">),</span> <span class="n">vn</span><span class="o">=</span><span class="s1">&#39;tmp&#39;</span><span class="p">,</span> <span class="n">load</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="n">obs_pr_ds</span> <span class="o">=</span> <span class="n">cfr</span><span class="o">.</span><span class="n">ClimateDataset</span><span class="p">()</span><span class="o">.</span><span class="n">load_nc</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">dirpath</span><span class="p">,</span> <span class="s1">&#39;cru_ts4.05.1901.2020.pre.dat.nc&#39;</span><span class="p">),</span> <span class="n">vn</span><span class="o">=</span><span class="s1">&#39;pre&#39;</span><span class="p">,</span> <span class="n">load</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">obs_tas</span> <span class="o">=</span> <span class="n">cfr</span><span class="o">.</span><span class="n">ClimateField</span><span class="p">()</span><span class="o">.</span><span class="n">load_nc</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">dirpath</span><span class="p">,</span> <span class="s1">&#39;cru_ts4.05.1901.2020.tmp.dat.nc&#39;</span><span class="p">),</span> <span class="n">vn</span><span class="o">=</span><span class="s1">&#39;tmp&#39;</span><span class="p">,</span> <span class="n">load</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">obs_pr</span> <span class="o">=</span> <span class="n">cfr</span><span class="o">.</span><span class="n">ClimateField</span><span class="p">()</span><span class="o">.</span><span class="n">load_nc</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">dirpath</span><span class="p">,</span> <span class="s1">&#39;cru_ts4.05.1901.2020.pre.dat.nc&#39;</span><span class="p">),</span> <span class="n">vn</span><span class="o">=</span><span class="s1">&#39;pre&#39;</span><span class="p">,</span> <span class="n">load</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">obs_pr</span> <span class="o">=</span> <span class="n">obs_pr_ds</span><span class="o">.</span><span class="n">fields</span><span class="p">[</span><span class="s1">&#39;pre&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="s1">&#39;pr&#39;</span><span class="p">)</span>
-<span class="n">obs_tas</span> <span class="o">=</span> <span class="n">obs_tas_ds</span><span class="o">.</span><span class="n">fields</span><span class="p">[</span><span class="s1">&#39;tmp&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="s1">&#39;tas&#39;</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">obs_pr</span> <span class="o">=</span> <span class="n">obs_pr</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="s1">&#39;pr&#39;</span><span class="p">)</span>
+<span class="n">obs_tas</span> <span class="o">=</span> <span class="n">obs_tas</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="s1">&#39;tas&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%time</span>
@@ -889,12 +889,12 @@ div.rendered_html tbody tr:hover {
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-CPU times: user 5.9 s, sys: 1.36 s, total: 7.25 s
-Wall time: 7.35 s
+CPU times: user 1.74 s, sys: 341 ms, total: 2.08 s
+Wall time: 2.1 s
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">obs_tas_new</span><span class="o">.</span><span class="n">da</span><span class="o">.</span><span class="n">coords</span>
@@ -902,7 +902,7 @@ Wall time: 7.35 s
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
@@ -914,7 +914,7 @@ Coordinates:
 </pre></div></div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">obs_pr_new</span> <span class="o">=</span> <span class="n">obs_pr</span><span class="o">.</span><span class="n">wrap_lon</span><span class="p">()</span>
@@ -922,7 +922,7 @@ Coordinates:
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">obs_pr_new</span><span class="o">.</span><span class="n">da</span><span class="o">.</span><span class="n">coords</span>
@@ -930,7 +930,7 @@ Coordinates:
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
@@ -946,7 +946,7 @@ Coordinates:
 <section id="Get-climate-data-for-ProxyDatabase">
 <h2>Get climate data for <code class="docutils literal notranslate"><span class="pre">ProxyDatabase</span></code><a class="headerlink" href="#Get-climate-data-for-ProxyDatabase" title="Permalink to this headline">#</a></h2>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%time</span>
@@ -962,11 +962,9 @@ Coordinates:
 </div>
 <div class="output_area stderr docutils container">
 <div class="highlight"><pre>
-Deleting the nearest climate for ProxyRecord: 100%|██████████| 354/354 [00:01&lt;00:00, 205.31it/s]
-Getting the nearest climate for ProxyRecord: 100%|██████████| 354/354 [04:37&lt;00:00,  1.27it/s]
-Getting the nearest climate for ProxyRecord: 100%|██████████| 354/354 [09:17&lt;00:00,  1.58s/it]
-Getting the nearest climate for ProxyRecord: 100%|██████████| 354/354 [09:11&lt;00:00,  1.56s/it]
-Getting the nearest climate for ProxyRecord: 100%|██████████| 354/354 [09:25&lt;00:00,  1.60s/it]
+Deleting the nearest climate for ProxyRecord: 100%|██████████| 354/354 [00:01&lt;00:00, 352.26it/s]
+Getting the nearest climate for ProxyRecord: 100%|██████████| 354/354 [00:11&lt;00:00, 30.77it/s]
+Getting the nearest climate for ProxyRecord: 100%|██████████| 354/354 [00:15&lt;00:00, 22.66it/s]
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
@@ -974,8 +972,8 @@ Getting the nearest climate for ProxyRecord: 100%|██████████
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-CPU times: user 31min 58s, sys: 16.5 s, total: 32min 15s
-Wall time: 32min 35s
+CPU times: user 26.9 s, sys: 1.27 s, total: 28.2 s
+Wall time: 28.2 s
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
@@ -987,16 +985,16 @@ Wall time: 32min 35s
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-&lt;cfr.proxy.ProxyDatabase at 0x7fe88dbf9d00&gt;
+&lt;cfr.proxy.ProxyDatabase at 0x3148ce040&gt;
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pdb_TRW</span><span class="o">.</span><span class="n">records</span><span class="p">[</span><span class="s1">&#39;NAm_153&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">clim</span><span class="p">[</span><span class="s1">&#39;obs_tas&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">da</span>
@@ -1004,7 +1002,7 @@ Wall time: 32min 35s
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
 </pre></div>
 </div>
 <div class="output_area rendered_html docutils container">
@@ -1051,7 +1049,7 @@ body.vscode-dark {
 }
 
 .xr-wrap {
-  display: block !important;
+  display: block;
   min-width: 300px;
   max-width: 700px;
 }
@@ -1369,14 +1367,14 @@ Coordinates:
 Attributes:
     long_name:                   near-surface temperature
     units:                       degrees Celsius
-    correlation_decay_distance:  1200.0</pre><div class='xr-wrap' style='display:none'><div class='xr-header'><div class='xr-obj-type'>xarray.DataArray</div><div class='xr-array-name'>'tas'</div><ul class='xr-dim-list'><li><span class='xr-has-index'>time</span>: 1440</li></ul></div><ul class='xr-sections'><li class='xr-section-item'><div class='xr-array-wrap'><input id='section-b8cb1320-72f0-4708-b321-14d83e3129c1' class='xr-array-in' type='checkbox' checked><label for='section-b8cb1320-72f0-4708-b321-14d83e3129c1' title='Show/hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-array-preview xr-preview'><span>-12.0 -11.7 -5.8 -2.4 4.1 4.9 8.7 ... 7.4 10.3 10.1 7.0 -1.2 -7.2 -7.8</span></div><div class='xr-array-data'><pre>array([-12.       , -11.7      ,  -5.8      , ...,  -1.2      ,
-        -7.2000003,  -7.8      ], dtype=float32)</pre></div></div></li><li class='xr-section-item'><input id='section-2ffa7210-cc73-47bd-8fd7-566f94ea6588' class='xr-section-summary-in' type='checkbox'  checked><label for='section-2ffa7210-cc73-47bd-8fd7-566f94ea6588' class='xr-section-summary' >Coordinates: <span>(3)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><ul class='xr-var-list'><li class='xr-var-item'><div class='xr-var-name'><span>lon</span></div><div class='xr-var-dims'>()</div><div class='xr-var-dtype'>float32</div><div class='xr-var-preview xr-preview'>241.8</div><input id='attrs-4d50477b-a6a7-47e2-92af-c62b431736b1' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-4d50477b-a6a7-47e2-92af-c62b431736b1' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-0e0ccc83-e594-4541-9c14-db6cfd1a721d' class='xr-var-data-in' type='checkbox'><label for='data-0e0ccc83-e594-4541-9c14-db6cfd1a721d' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>long_name :</span></dt><dd>longitude</dd><dt><span>units :</span></dt><dd>degrees_east</dd></dl></div><div class='xr-var-data'><pre>array(241.75, dtype=float32)</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>lat</span></div><div class='xr-var-dims'>()</div><div class='xr-var-dtype'>float32</div><div class='xr-var-preview xr-preview'>52.75</div><input id='attrs-0ccdd266-5f89-4ace-8e29-9332d183ecb2' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-0ccdd266-5f89-4ace-8e29-9332d183ecb2' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-788d0723-cf50-46f5-8c71-979aac57f041' class='xr-var-data-in' type='checkbox'><label for='data-788d0723-cf50-46f5-8c71-979aac57f041' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>long_name :</span></dt><dd>latitude</dd><dt><span>units :</span></dt><dd>degrees_north</dd></dl></div><div class='xr-var-data'><pre>array(52.75, dtype=float32)</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span class='xr-has-index'>time</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>datetime64[ns]</div><div class='xr-var-preview xr-preview'>1901-01-16 ... 2020-12-16</div><input id='attrs-482a11d2-5879-43cd-b155-2f963d2fcc3c' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-482a11d2-5879-43cd-b155-2f963d2fcc3c' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-9ecfea06-e1db-4c58-a68c-03340389606f' class='xr-var-data-in' type='checkbox'><label for='data-9ecfea06-e1db-4c58-a68c-03340389606f' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>long_name :</span></dt><dd>time</dd></dl></div><div class='xr-var-data'><pre>array([&#x27;1901-01-16T00:00:00.000000000&#x27;, &#x27;1901-02-15T00:00:00.000000000&#x27;,
+    correlation_decay_distance:  1200.0</pre><div class='xr-wrap' hidden><div class='xr-header'><div class='xr-obj-type'>xarray.DataArray</div><div class='xr-array-name'>'tas'</div><ul class='xr-dim-list'><li><span class='xr-has-index'>time</span>: 1440</li></ul></div><ul class='xr-sections'><li class='xr-section-item'><div class='xr-array-wrap'><input id='section-4ff97e14-fa5a-4a45-9f4c-05ad5bd054b5' class='xr-array-in' type='checkbox' checked><label for='section-4ff97e14-fa5a-4a45-9f4c-05ad5bd054b5' title='Show/hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-array-preview xr-preview'><span>-12.0 -11.7 -5.8 -2.4 4.1 4.9 8.7 ... 7.4 10.3 10.1 7.0 -1.2 -7.2 -7.8</span></div><div class='xr-array-data'><pre>array([-12.       , -11.7      ,  -5.8      , ...,  -1.2      ,
+        -7.2000003,  -7.8      ], dtype=float32)</pre></div></div></li><li class='xr-section-item'><input id='section-8a556d6c-5404-40af-8205-aa8c58401c6c' class='xr-section-summary-in' type='checkbox'  checked><label for='section-8a556d6c-5404-40af-8205-aa8c58401c6c' class='xr-section-summary' >Coordinates: <span>(3)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><ul class='xr-var-list'><li class='xr-var-item'><div class='xr-var-name'><span>lon</span></div><div class='xr-var-dims'>()</div><div class='xr-var-dtype'>float32</div><div class='xr-var-preview xr-preview'>241.8</div><input id='attrs-9425c4bf-009d-4473-bfca-ce3131adc7c7' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-9425c4bf-009d-4473-bfca-ce3131adc7c7' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-dff06338-92c0-480a-94a0-d03ccc8851d4' class='xr-var-data-in' type='checkbox'><label for='data-dff06338-92c0-480a-94a0-d03ccc8851d4' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>long_name :</span></dt><dd>longitude</dd><dt><span>units :</span></dt><dd>degrees_east</dd></dl></div><div class='xr-var-data'><pre>array(241.75, dtype=float32)</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>lat</span></div><div class='xr-var-dims'>()</div><div class='xr-var-dtype'>float32</div><div class='xr-var-preview xr-preview'>52.75</div><input id='attrs-6afe51de-700f-461d-803c-a6c8d900fecf' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-6afe51de-700f-461d-803c-a6c8d900fecf' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-ffde604e-542d-4e2c-8ca8-cbac78d41aa3' class='xr-var-data-in' type='checkbox'><label for='data-ffde604e-542d-4e2c-8ca8-cbac78d41aa3' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>long_name :</span></dt><dd>latitude</dd><dt><span>units :</span></dt><dd>degrees_north</dd></dl></div><div class='xr-var-data'><pre>array(52.75, dtype=float32)</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span class='xr-has-index'>time</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>datetime64[ns]</div><div class='xr-var-preview xr-preview'>1901-01-16 ... 2020-12-16</div><input id='attrs-b41b9860-1523-47e2-abfc-4826b8441e8e' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-b41b9860-1523-47e2-abfc-4826b8441e8e' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-abc3d27f-1b15-41bf-b321-a15c78a747cc' class='xr-var-data-in' type='checkbox'><label for='data-abc3d27f-1b15-41bf-b321-a15c78a747cc' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>long_name :</span></dt><dd>time</dd></dl></div><div class='xr-var-data'><pre>array([&#x27;1901-01-16T00:00:00.000000000&#x27;, &#x27;1901-02-15T00:00:00.000000000&#x27;,
        &#x27;1901-03-16T00:00:00.000000000&#x27;, ..., &#x27;2020-10-16T00:00:00.000000000&#x27;,
        &#x27;2020-11-16T00:00:00.000000000&#x27;, &#x27;2020-12-16T00:00:00.000000000&#x27;],
-      dtype=&#x27;datetime64[ns]&#x27;)</pre></div></li></ul></div></li><li class='xr-section-item'><input id='section-8afddaa5-cb40-481e-95ee-e7bd6d25748b' class='xr-section-summary-in' type='checkbox'  checked><label for='section-8afddaa5-cb40-481e-95ee-e7bd6d25748b' class='xr-section-summary' >Attributes: <span>(3)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><dl class='xr-attrs'><dt><span>long_name :</span></dt><dd>near-surface temperature</dd><dt><span>units :</span></dt><dd>degrees Celsius</dd><dt><span>correlation_decay_distance :</span></dt><dd>1200.0</dd></dl></div></li></ul></div></div></div>
+      dtype=&#x27;datetime64[ns]&#x27;)</pre></div></li></ul></div></li><li class='xr-section-item'><input id='section-8b2c08c6-b77d-462d-a6d5-dabb46b82b70' class='xr-section-summary-in' type='checkbox'  checked><label for='section-8b2c08c6-b77d-462d-a6d5-dabb46b82b70' class='xr-section-summary' >Attributes: <span>(3)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><dl class='xr-attrs'><dt><span>long_name :</span></dt><dd>near-surface temperature</dd><dt><span>units :</span></dt><dd>degrees Celsius</dd><dt><span>correlation_decay_distance :</span></dt><dd>1200.0</dd></dl></div></li></ul></div></div></div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pd</span><span class="o">.</span><span class="n">to_pickle</span><span class="p">(</span><span class="n">pdb_TRW</span><span class="p">,</span> <span class="s1">&#39;./data/pdb_TRW_clim.pkl&#39;</span><span class="p">)</span>
@@ -1387,7 +1385,7 @@ Attributes:
 <section id="Create-a-PSM-object">
 <h2>Create a PSM object<a class="headerlink" href="#Create-a-PSM-object" title="Permalink to this headline">#</a></h2>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pdb_TRW</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_pickle</span><span class="p">(</span><span class="s1">&#39;./data/pdb_TRW_clim.pkl&#39;</span><span class="p">)</span>
@@ -1395,7 +1393,7 @@ Attributes:
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[38]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%time</span>
@@ -1422,7 +1420,7 @@ Attributes:
 </div>
 <div class="output_area stderr docutils container">
 <div class="highlight"><pre>
-100%|██████████| 354/354 [13:44&lt;00:00,  2.33s/it]
+100%|██████████| 354/354 [06:25&lt;00:00,  1.09s/it]
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
@@ -1430,8 +1428,8 @@ Attributes:
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-CPU times: user 13min 34s, sys: 4.79 s, total: 13min 38s
-Wall time: 13min 44s
+CPU times: user 6min 16s, sys: 8.9 s, total: 6min 25s
+Wall time: 6min 25s
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
@@ -1443,7 +1441,7 @@ Wall time: 13min 44s
 </pre></div></div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[39]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pd</span><span class="o">.</span><span class="n">to_pickle</span><span class="p">(</span><span class="n">mdl</span><span class="p">,</span> <span class="s1">&#39;./data/TRW_bilinear_PSMs.pkl&#39;</span><span class="p">)</span>
@@ -1451,7 +1449,7 @@ Wall time: 13min 44s
 </div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mdl</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_pickle</span><span class="p">(</span><span class="s1">&#39;./data/TRW_bilinear_PSMs.pkl&#39;</span><span class="p">)</span>
@@ -1459,7 +1457,7 @@ Wall time: 13min 44s
 </div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sn_list</span> <span class="o">=</span> <span class="p">[</span>
@@ -1492,7 +1490,7 @@ Wall time: 13min 44s
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cmap</span> <span class="o">=</span> <span class="s1">&#39;tab10&#39;</span>

@@ -469,11 +469,11 @@ title="Print to PDF"
     <nav id="bd-toc-nav" aria-label="Page">
         <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#Load-test-data-to-ClimateDataset">
-   Load test data to
+  <a class="reference internal nav-link" href="#Load-test-data-as-ClimateField">
+   Load test data as
    <code class="docutils literal notranslate">
     <span class="pre">
-     ClimateDataset
+     ClimateField
     </span>
    </code>
   </a>
@@ -489,16 +489,6 @@ title="Print to PDF"
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#Get-the-anomly-from-a-ClimateDataset">
-   Get the anomly from a
-   <code class="docutils literal notranslate">
-    <span class="pre">
-     ClimateDataset
-    </span>
-   </code>
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#Annualize-a-ClimateField">
    Annualize a
    <code class="docutils literal notranslate">
@@ -509,31 +499,11 @@ title="Print to PDF"
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#Annualize-a-ClimateDataset">
-   Annualize a
-   <code class="docutils literal notranslate">
-    <span class="pre">
-     ClimateDataset
-    </span>
-   </code>
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#Regrid-a-ClimateField">
    Regrid a
    <code class="docutils literal notranslate">
     <span class="pre">
      ClimateField
-    </span>
-   </code>
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#Regrid-a-ClimateDataset">
-   Regrid a
-   <code class="docutils literal notranslate">
-    <span class="pre">
-     ClimateDataset
     </span>
    </code>
   </a>
@@ -558,11 +528,11 @@ title="Print to PDF"
                         <nav aria-label="Page">
                             <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#Load-test-data-to-ClimateDataset">
-   Load test data to
+  <a class="reference internal nav-link" href="#Load-test-data-as-ClimateField">
+   Load test data as
    <code class="docutils literal notranslate">
     <span class="pre">
-     ClimateDataset
+     ClimateField
     </span>
    </code>
   </a>
@@ -578,16 +548,6 @@ title="Print to PDF"
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#Get-the-anomly-from-a-ClimateDataset">
-   Get the anomly from a
-   <code class="docutils literal notranslate">
-    <span class="pre">
-     ClimateDataset
-    </span>
-   </code>
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#Annualize-a-ClimateField">
    Annualize a
    <code class="docutils literal notranslate">
@@ -598,31 +558,11 @@ title="Print to PDF"
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#Annualize-a-ClimateDataset">
-   Annualize a
-   <code class="docutils literal notranslate">
-    <span class="pre">
-     ClimateDataset
-    </span>
-   </code>
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#Regrid-a-ClimateField">
    Regrid a
    <code class="docutils literal notranslate">
     <span class="pre">
      ClimateField
-    </span>
-   </code>
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#Regrid-a-ClimateDataset">
-   Regrid a
-   <code class="docutils literal notranslate">
-    <span class="pre">
-     ClimateDataset
     </span>
    </code>
   </a>
@@ -906,16 +846,16 @@ div.rendered_html tbody tr:hover {
 </pre></div>
 </div>
 </div>
-<section id="Load-test-data-to-ClimateDataset">
-<h2>Load test data to <code class="docutils literal notranslate"><span class="pre">ClimateDataset</span></code><a class="headerlink" href="#Load-test-data-to-ClimateDataset" title="Permalink to this headline">#</a></h2>
+<section id="Load-test-data-as-ClimateField">
+<h2>Load test data as <code class="docutils literal notranslate"><span class="pre">ClimateField</span></code><a class="headerlink" href="#Load-test-data-as-ClimateField" title="Permalink to this headline">#</a></h2>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dirpath</span> <span class="o">=</span> <span class="s1">&#39;/Volumes/ExtraDrive/Data/GCM_sims/icesm_last_millennium_historical&#39;</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dirpath</span> <span class="o">=</span> <span class="s1">&#39;./data/icesm_last_millennium_historical&#39;</span>
 
-<span class="n">ds_tas</span> <span class="o">=</span> <span class="n">cfr</span><span class="o">.</span><span class="n">ClimateDataset</span><span class="p">()</span><span class="o">.</span><span class="n">load_nc</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">dirpath</span><span class="p">,</span> <span class="s1">&#39;tas_sfc_Amon_iCESM_past1000historical_085001-200512.nc&#39;</span><span class="p">))</span>
-<span class="n">ds_pr</span> <span class="o">=</span> <span class="n">cfr</span><span class="o">.</span><span class="n">ClimateDataset</span><span class="p">()</span><span class="o">.</span><span class="n">load_nc</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">dirpath</span><span class="p">,</span> <span class="s1">&#39;pr_sfc_Amon_iCESM_past1000historical_085001-200512.nc&#39;</span><span class="p">))</span>
+<span class="n">fd_tas</span> <span class="o">=</span> <span class="n">cfr</span><span class="o">.</span><span class="n">ClimateField</span><span class="p">()</span><span class="o">.</span><span class="n">load_nc</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">dirpath</span><span class="p">,</span> <span class="s1">&#39;tas_sfc_Amon_iCESM_past1000historical_085001-200512.nc&#39;</span><span class="p">))</span>
+<span class="n">fd_pr</span> <span class="o">=</span> <span class="n">cfr</span><span class="o">.</span><span class="n">ClimateField</span><span class="p">()</span><span class="o">.</span><span class="n">load_nc</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">dirpath</span><span class="p">,</span> <span class="s1">&#39;pr_sfc_Amon_iCESM_past1000historical_085001-200512.nc&#39;</span><span class="p">))</span>
 </pre></div>
 </div>
 </div>
@@ -926,8 +866,7 @@ div.rendered_html tbody tr:hover {
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fd_tas</span> <span class="o">=</span> <span class="n">ds_tas</span><span class="o">.</span><span class="n">fields</span><span class="p">[</span><span class="s1">&#39;tas&#39;</span><span class="p">]</span>
-<span class="n">fd_tas_anom</span> <span class="o">=</span> <span class="n">fd_tas</span><span class="o">.</span><span class="n">get_anom</span><span class="p">(</span><span class="n">ref_period</span><span class="o">=</span><span class="p">[</span><span class="mi">1951</span><span class="p">,</span> <span class="mi">1980</span><span class="p">])</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fd_tas_anom</span> <span class="o">=</span> <span class="n">fd_tas</span><span class="o">.</span><span class="n">get_anom</span><span class="p">(</span><span class="n">ref_period</span><span class="o">=</span><span class="p">[</span><span class="mi">1951</span><span class="p">,</span> <span class="mi">1980</span><span class="p">])</span>
 <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">fd_tas_anom</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">it</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -940,119 +879,64 @@ div.rendered_html tbody tr:hover {
 </div>
 </div>
 </section>
-<section id="Get-the-anomly-from-a-ClimateDataset">
-<h2>Get the anomly from a <code class="docutils literal notranslate"><span class="pre">ClimateDataset</span></code><a class="headerlink" href="#Get-the-anomly-from-a-ClimateDataset" title="Permalink to this headline">#</a></h2>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ds_tas_anom</span> <span class="o">=</span> <span class="n">ds_tas</span><span class="o">.</span><span class="n">get_anom</span><span class="p">(</span><span class="n">ref_period</span><span class="o">=</span><span class="p">[</span><span class="mi">1951</span><span class="p">,</span> <span class="mi">1980</span><span class="p">])</span>
-</pre></div>
-</div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area stderr docutils container">
-<div class="highlight"><pre>
-Getting anomaly from ClimateField: 100%|██████████| 1/1 [00:02&lt;00:00,  2.04s/it]
-</pre></div></div>
-</div>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">ds_tas_anom</span><span class="o">.</span><span class="n">fields</span><span class="p">[</span><span class="s1">&#39;tas&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">it</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<img alt="../_images/notebooks_climate-analysis_9_0.png" src="../_images/notebooks_climate-analysis_9_0.png" />
-</div>
-</div>
-</section>
 <section id="Annualize-a-ClimateField">
 <h2>Annualize a <code class="docutils literal notranslate"><span class="pre">ClimateField</span></code><a class="headerlink" href="#Annualize-a-ClimateField" title="Permalink to this headline">#</a></h2>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fd_tas</span> <span class="o">=</span> <span class="n">ds_tas</span><span class="o">.</span><span class="n">fields</span><span class="p">[</span><span class="s1">&#39;tas&#39;</span><span class="p">]</span>
-<span class="n">fd_tas</span><span class="o">.</span><span class="n">time</span>
-</pre></div>
-</div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
-</pre></div>
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-array([ 850.04383562,  850.12054795,  850.20547945, ..., 2005.79178082,
-       2005.8739726 , 2005.95890411])
-</pre></div></div>
-</div>
-<div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">da_ann</span> <span class="o">=</span> <span class="n">cfr</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">annualize</span><span class="p">(</span><span class="n">da</span><span class="o">=</span><span class="n">fd_tas</span><span class="o">.</span><span class="n">da</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">da_ann</span><span class="o">.</span><span class="n">time</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fd_tas</span><span class="o">.</span><span class="n">time</span>
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-&lt;xarray.DataArray &#39;time&#39; (time: 1156)&gt;
-array([cftime.DatetimeNoLeap(850, 12, 31, 0, 0, 0, 0, has_year_zero=True),
-       cftime.DatetimeNoLeap(851, 12, 31, 0, 0, 0, 0, has_year_zero=True),
-       cftime.DatetimeNoLeap(852, 12, 31, 0, 0, 0, 0, has_year_zero=True), ...,
-       cftime.DatetimeNoLeap(2003, 12, 31, 0, 0, 0, 0, has_year_zero=True),
-       cftime.DatetimeNoLeap(2004, 12, 31, 0, 0, 0, 0, has_year_zero=True),
-       cftime.DatetimeNoLeap(2005, 12, 31, 0, 0, 0, 0, has_year_zero=True)],
-      dtype=object)
-Coordinates:
-  * time     (time) object 0850-12-31 00:00:00 ... 2005-12-31 00:00:00
+array([ 850.        ,  850.08493151,  850.16164384, ..., 2005.74794521,
+       2005.83287671, 2005.91506849])
 </pre></div></div>
 </div>
-</section>
-<section id="Annualize-a-ClimateDataset">
-<h2>Annualize a <code class="docutils literal notranslate"><span class="pre">ClimateDataset</span></code><a class="headerlink" href="#Annualize-a-ClimateDataset" title="Permalink to this headline">#</a></h2>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fd_tas_djf</span> <span class="o">=</span> <span class="n">fd_tas</span><span class="o">.</span><span class="n">annualize</span><span class="p">(</span><span class="n">months</span><span class="o">=</span><span class="p">[</span><span class="mi">12</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ds_all</span> <span class="o">=</span> <span class="n">ds_tas</span> <span class="o">+</span> <span class="n">ds_pr</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">ds_all</span><span class="o">.</span><span class="n">nv</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">fd_tas_djf</span><span class="o">.</span><span class="n">time</span><span class="p">)</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">fd_tas_djf</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">it</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
 </pre></div>
 </div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[ 850  851  852 ... 2004 2005 2006]
+</pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<div class="highlight"><pre>
-2
-</pre></div></div>
+<img alt="../_images/notebooks_climate-analysis_10_1.png" src="../_images/notebooks_climate-analysis_10_1.png" />
+</div>
 </div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">ds_all</span><span class="o">.</span><span class="n">fields</span><span class="p">[</span><span class="s1">&#39;tas&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">time</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fd_pr_djf</span> <span class="o">=</span> <span class="n">fd_pr</span><span class="o">.</span><span class="n">annualize</span><span class="p">(</span><span class="n">months</span><span class="o">=</span><span class="p">[</span><span class="mi">12</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">fd_pr_djf</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">it</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1060,622 +944,34 @@ Coordinates:
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<div class="highlight"><pre>
-[ 850.04383562  850.12054795  850.20547945 ... 2005.79178082 2005.8739726
- 2005.95890411]
-</pre></div></div>
-</div>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ds_ann</span> <span class="o">=</span> <span class="n">ds_all</span><span class="o">.</span><span class="n">annualize</span><span class="p">()</span>
-</pre></div>
-</div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area stderr docutils container">
-<div class="highlight"><pre>
-Annualizing ClimateField: 100%|███████████████████| 2/2 [00:03&lt;00:00,  1.72s/it]
-</pre></div></div>
-</div>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ds_ann</span><span class="o">.</span><span class="n">ds</span>
-</pre></div>
-</div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
-</pre></div>
-</div>
-<div class="output_area rendered_html docutils container">
-<div><svg style="position: absolute; width: 0; height: 0; overflow: hidden">
-<defs>
-<symbol id="icon-database" viewBox="0 0 32 32">
-<path d="M16 0c-8.837 0-16 2.239-16 5v4c0 2.761 7.163 5 16 5s16-2.239 16-5v-4c0-2.761-7.163-5-16-5z"></path>
-<path d="M16 17c-8.837 0-16-2.239-16-5v6c0 2.761 7.163 5 16 5s16-2.239 16-5v-6c0 2.761-7.163 5-16 5z"></path>
-<path d="M16 26c-8.837 0-16-2.239-16-5v6c0 2.761 7.163 5 16 5s16-2.239 16-5v-6c0 2.761-7.163 5-16 5z"></path>
-</symbol>
-<symbol id="icon-file-text2" viewBox="0 0 32 32">
-<path d="M28.681 7.159c-0.694-0.947-1.662-2.053-2.724-3.116s-2.169-2.030-3.116-2.724c-1.612-1.182-2.393-1.319-2.841-1.319h-15.5c-1.378 0-2.5 1.121-2.5 2.5v27c0 1.378 1.122 2.5 2.5 2.5h23c1.378 0 2.5-1.122 2.5-2.5v-19.5c0-0.448-0.137-1.23-1.319-2.841zM24.543 5.457c0.959 0.959 1.712 1.825 2.268 2.543h-4.811v-4.811c0.718 0.556 1.584 1.309 2.543 2.268zM28 29.5c0 0.271-0.229 0.5-0.5 0.5h-23c-0.271 0-0.5-0.229-0.5-0.5v-27c0-0.271 0.229-0.5 0.5-0.5 0 0 15.499-0 15.5 0v7c0 0.552 0.448 1 1 1h7v19.5z"></path>
-<path d="M23 26h-14c-0.552 0-1-0.448-1-1s0.448-1 1-1h14c0.552 0 1 0.448 1 1s-0.448 1-1 1z"></path>
-<path d="M23 22h-14c-0.552 0-1-0.448-1-1s0.448-1 1-1h14c0.552 0 1 0.448 1 1s-0.448 1-1 1z"></path>
-<path d="M23 18h-14c-0.552 0-1-0.448-1-1s0.448-1 1-1h14c0.552 0 1 0.448 1 1s-0.448 1-1 1z"></path>
-</symbol>
-</defs>
-</svg>
-<style>/* CSS stylesheet for displaying xarray objects in jupyterlab.
- *
- */
-
-:root {
-  --xr-font-color0: var(--jp-content-font-color0, rgba(0, 0, 0, 1));
-  --xr-font-color2: var(--jp-content-font-color2, rgba(0, 0, 0, 0.54));
-  --xr-font-color3: var(--jp-content-font-color3, rgba(0, 0, 0, 0.38));
-  --xr-border-color: var(--jp-border-color2, #e0e0e0);
-  --xr-disabled-color: var(--jp-layout-color3, #bdbdbd);
-  --xr-background-color: var(--jp-layout-color0, white);
-  --xr-background-color-row-even: var(--jp-layout-color1, white);
-  --xr-background-color-row-odd: var(--jp-layout-color2, #eeeeee);
-}
-
-html[theme=dark],
-body.vscode-dark {
-  --xr-font-color0: rgba(255, 255, 255, 1);
-  --xr-font-color2: rgba(255, 255, 255, 0.54);
-  --xr-font-color3: rgba(255, 255, 255, 0.38);
-  --xr-border-color: #1F1F1F;
-  --xr-disabled-color: #515151;
-  --xr-background-color: #111111;
-  --xr-background-color-row-even: #111111;
-  --xr-background-color-row-odd: #313131;
-}
-
-.xr-wrap {
-  display: block !important;
-  min-width: 300px;
-  max-width: 700px;
-}
-
-.xr-text-repr-fallback {
-  /* fallback to plain text repr when CSS is not injected (untrusted notebook) */
-  display: none;
-}
-
-.xr-header {
-  padding-top: 6px;
-  padding-bottom: 6px;
-  margin-bottom: 4px;
-  border-bottom: solid 1px var(--xr-border-color);
-}
-
-.xr-header > div,
-.xr-header > ul {
-  display: inline;
-  margin-top: 0;
-  margin-bottom: 0;
-}
-
-.xr-obj-type,
-.xr-array-name {
-  margin-left: 2px;
-  margin-right: 10px;
-}
-
-.xr-obj-type {
-  color: var(--xr-font-color2);
-}
-
-.xr-sections {
-  padding-left: 0 !important;
-  display: grid;
-  grid-template-columns: 150px auto auto 1fr 20px 20px;
-}
-
-.xr-section-item {
-  display: contents;
-}
-
-.xr-section-item input {
-  display: none;
-}
-
-.xr-section-item input + label {
-  color: var(--xr-disabled-color);
-}
-
-.xr-section-item input:enabled + label {
-  cursor: pointer;
-  color: var(--xr-font-color2);
-}
-
-.xr-section-item input:enabled + label:hover {
-  color: var(--xr-font-color0);
-}
-
-.xr-section-summary {
-  grid-column: 1;
-  color: var(--xr-font-color2);
-  font-weight: 500;
-}
-
-.xr-section-summary > span {
-  display: inline-block;
-  padding-left: 0.5em;
-}
-
-.xr-section-summary-in:disabled + label {
-  color: var(--xr-font-color2);
-}
-
-.xr-section-summary-in + label:before {
-  display: inline-block;
-  content: '►';
-  font-size: 11px;
-  width: 15px;
-  text-align: center;
-}
-
-.xr-section-summary-in:disabled + label:before {
-  color: var(--xr-disabled-color);
-}
-
-.xr-section-summary-in:checked + label:before {
-  content: '▼';
-}
-
-.xr-section-summary-in:checked + label > span {
-  display: none;
-}
-
-.xr-section-summary,
-.xr-section-inline-details {
-  padding-top: 4px;
-  padding-bottom: 4px;
-}
-
-.xr-section-inline-details {
-  grid-column: 2 / -1;
-}
-
-.xr-section-details {
-  display: none;
-  grid-column: 1 / -1;
-  margin-bottom: 5px;
-}
-
-.xr-section-summary-in:checked ~ .xr-section-details {
-  display: contents;
-}
-
-.xr-array-wrap {
-  grid-column: 1 / -1;
-  display: grid;
-  grid-template-columns: 20px auto;
-}
-
-.xr-array-wrap > label {
-  grid-column: 1;
-  vertical-align: top;
-}
-
-.xr-preview {
-  color: var(--xr-font-color3);
-}
-
-.xr-array-preview,
-.xr-array-data {
-  padding: 0 5px !important;
-  grid-column: 2;
-}
-
-.xr-array-data,
-.xr-array-in:checked ~ .xr-array-preview {
-  display: none;
-}
-
-.xr-array-in:checked ~ .xr-array-data,
-.xr-array-preview {
-  display: inline-block;
-}
-
-.xr-dim-list {
-  display: inline-block !important;
-  list-style: none;
-  padding: 0 !important;
-  margin: 0;
-}
-
-.xr-dim-list li {
-  display: inline-block;
-  padding: 0;
-  margin: 0;
-}
-
-.xr-dim-list:before {
-  content: '(';
-}
-
-.xr-dim-list:after {
-  content: ')';
-}
-
-.xr-dim-list li:not(:last-child):after {
-  content: ',';
-  padding-right: 5px;
-}
-
-.xr-has-index {
-  font-weight: bold;
-}
-
-.xr-var-list,
-.xr-var-item {
-  display: contents;
-}
-
-.xr-var-item > div,
-.xr-var-item label,
-.xr-var-item > .xr-var-name span {
-  background-color: var(--xr-background-color-row-even);
-  margin-bottom: 0;
-}
-
-.xr-var-item > .xr-var-name:hover span {
-  padding-right: 5px;
-}
-
-.xr-var-list > li:nth-child(odd) > div,
-.xr-var-list > li:nth-child(odd) > label,
-.xr-var-list > li:nth-child(odd) > .xr-var-name span {
-  background-color: var(--xr-background-color-row-odd);
-}
-
-.xr-var-name {
-  grid-column: 1;
-}
-
-.xr-var-dims {
-  grid-column: 2;
-}
-
-.xr-var-dtype {
-  grid-column: 3;
-  text-align: right;
-  color: var(--xr-font-color2);
-}
-
-.xr-var-preview {
-  grid-column: 4;
-}
-
-.xr-var-name,
-.xr-var-dims,
-.xr-var-dtype,
-.xr-preview,
-.xr-attrs dt {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  padding-right: 10px;
-}
-
-.xr-var-name:hover,
-.xr-var-dims:hover,
-.xr-var-dtype:hover,
-.xr-attrs dt:hover {
-  overflow: visible;
-  width: auto;
-  z-index: 1;
-}
-
-.xr-var-attrs,
-.xr-var-data {
-  display: none;
-  background-color: var(--xr-background-color) !important;
-  padding-bottom: 5px !important;
-}
-
-.xr-var-attrs-in:checked ~ .xr-var-attrs,
-.xr-var-data-in:checked ~ .xr-var-data {
-  display: block;
-}
-
-.xr-var-data > table {
-  float: right;
-}
-
-.xr-var-name span,
-.xr-var-data,
-.xr-attrs {
-  padding-left: 25px !important;
-}
-
-.xr-attrs,
-.xr-var-attrs,
-.xr-var-data {
-  grid-column: 1 / -1;
-}
-
-dl.xr-attrs {
-  padding: 0;
-  margin: 0;
-  display: grid;
-  grid-template-columns: 125px auto;
-}
-
-.xr-attrs dt,
-.xr-attrs dd {
-  padding: 0;
-  margin: 0;
-  float: left;
-  padding-right: 10px;
-  width: auto;
-}
-
-.xr-attrs dt {
-  font-weight: normal;
-  grid-column: 1;
-}
-
-.xr-attrs dt:hover span {
-  display: inline-block;
-  background: var(--xr-background-color);
-  padding-right: 10px;
-}
-
-.xr-attrs dd {
-  grid-column: 2;
-  white-space: pre-wrap;
-  word-break: break-all;
-}
-
-.xr-icon-database,
-.xr-icon-file-text2 {
-  display: inline-block;
-  vertical-align: middle;
-  width: 1em;
-  height: 1.5em !important;
-  stroke-width: 0;
-  stroke: currentColor;
-  fill: currentColor;
-}
-</style><pre class='xr-text-repr-fallback'>&lt;xarray.Dataset&gt;
-Dimensions:  (time: 1156, lat: 96, lon: 144)
-Coordinates:
-  * time     (time) object 0850-12-31 00:00:00 ... 2005-12-31 00:00:00
-  * lat      (lat) float32 -90.0 -88.11 -86.21 -84.32 ... 84.32 86.21 88.11 90.0
-  * lon      (lon) float32 0.0 2.5 5.0 7.5 10.0 ... 350.0 352.5 355.0 357.5
-Data variables:
-    tas      (time, lat, lon) float32 224.6 224.8 224.5 ... 251.5 251.5 251.5
-    pr       (time, lat, lon) float32 1.331e-06 1.332e-06 ... 4.08e-06 4.079e-06</pre><div class='xr-wrap' style='display:none'><div class='xr-header'><div class='xr-obj-type'>xarray.Dataset</div></div><ul class='xr-sections'><li class='xr-section-item'><input id='section-a23cb71c-e570-4dcd-9698-6a31156b2c00' class='xr-section-summary-in' type='checkbox' disabled ><label for='section-a23cb71c-e570-4dcd-9698-6a31156b2c00' class='xr-section-summary'  title='Expand/collapse section'>Dimensions:</label><div class='xr-section-inline-details'><ul class='xr-dim-list'><li><span class='xr-has-index'>time</span>: 1156</li><li><span class='xr-has-index'>lat</span>: 96</li><li><span class='xr-has-index'>lon</span>: 144</li></ul></div><div class='xr-section-details'></div></li><li class='xr-section-item'><input id='section-0fe63c90-bcae-4434-a88a-143f2001c78e' class='xr-section-summary-in' type='checkbox'  checked><label for='section-0fe63c90-bcae-4434-a88a-143f2001c78e' class='xr-section-summary' >Coordinates: <span>(3)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><ul class='xr-var-list'><li class='xr-var-item'><div class='xr-var-name'><span class='xr-has-index'>time</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>object</div><div class='xr-var-preview xr-preview'>0850-12-31 00:00:00 ... 2005-12-...</div><input id='attrs-81550b30-c609-4607-9599-13ca4cf30a5b' class='xr-var-attrs-in' type='checkbox' disabled><label for='attrs-81550b30-c609-4607-9599-13ca4cf30a5b' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-56d3beed-6947-4ebc-b45d-31d729453bc5' class='xr-var-data-in' type='checkbox'><label for='data-56d3beed-6947-4ebc-b45d-31d729453bc5' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'></dl></div><div class='xr-var-data'><pre>array([cftime.DatetimeNoLeap(850, 12, 31, 0, 0, 0, 0, has_year_zero=True),
-       cftime.DatetimeNoLeap(851, 12, 31, 0, 0, 0, 0, has_year_zero=True),
-       cftime.DatetimeNoLeap(852, 12, 31, 0, 0, 0, 0, has_year_zero=True), ...,
-       cftime.DatetimeNoLeap(2003, 12, 31, 0, 0, 0, 0, has_year_zero=True),
-       cftime.DatetimeNoLeap(2004, 12, 31, 0, 0, 0, 0, has_year_zero=True),
-       cftime.DatetimeNoLeap(2005, 12, 31, 0, 0, 0, 0, has_year_zero=True)],
-      dtype=object)</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span class='xr-has-index'>lat</span></div><div class='xr-var-dims'>(lat)</div><div class='xr-var-dtype'>float32</div><div class='xr-var-preview xr-preview'>-90.0 -88.11 -86.21 ... 88.11 90.0</div><input id='attrs-a1f19810-26fb-43c9-867d-ae61fe340c7e' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-a1f19810-26fb-43c9-867d-ae61fe340c7e' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-9aebdb3b-002f-4e61-926a-62c257a232b1' class='xr-var-data-in' type='checkbox'><label for='data-9aebdb3b-002f-4e61-926a-62c257a232b1' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>description :</span></dt><dd>latitude</dd><dt><span>long_name :</span></dt><dd>latitude coordinate</dd><dt><span>standard_name :</span></dt><dd>latitude</dd><dt><span>units :</span></dt><dd>degrees_north</dd></dl></div><div class='xr-var-data'><pre>array([-90.      , -88.10526 , -86.210526, -84.31579 , -82.42105 , -80.52631 ,
-       -78.63158 , -76.73684 , -74.8421  , -72.947365, -71.052635, -69.1579  ,
-       -67.26316 , -65.36842 , -63.473682, -61.57895 , -59.68421 , -57.789474,
-       -55.894737, -54.      , -52.105263, -50.210526, -48.31579 , -46.42105 ,
-       -44.526318, -42.63158 , -40.736843, -38.842106, -36.94737 , -35.05263 ,
-       -33.157894, -31.263159, -29.368422, -27.473684, -25.578947, -23.68421 ,
-       -21.789474, -19.894737, -18.      , -16.105263, -14.210526, -12.315789,
-       -10.421053,  -8.526316,  -6.631579,  -4.736842,  -2.842105,  -0.947368,
-         0.947368,   2.842105,   4.736842,   6.631579,   8.526316,  10.421053,
-        12.315789,  14.210526,  16.105263,  18.      ,  19.894737,  21.789474,
-        23.68421 ,  25.578947,  27.473684,  29.368422,  31.263159,  33.157894,
-        35.05263 ,  36.94737 ,  38.842106,  40.736843,  42.63158 ,  44.526318,
-        46.42105 ,  48.31579 ,  50.210526,  52.105263,  54.      ,  55.894737,
-        57.789474,  59.68421 ,  61.57895 ,  63.473682,  65.36842 ,  67.26316 ,
-        69.1579  ,  71.052635,  72.947365,  74.8421  ,  76.73684 ,  78.63158 ,
-        80.52631 ,  82.42105 ,  84.31579 ,  86.210526,  88.10526 ,  90.      ],
-      dtype=float32)</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span class='xr-has-index'>lon</span></div><div class='xr-var-dims'>(lon)</div><div class='xr-var-dtype'>float32</div><div class='xr-var-preview xr-preview'>0.0 2.5 5.0 ... 352.5 355.0 357.5</div><input id='attrs-6ebbaaaa-ed53-414e-ac21-8e42e199c3ba' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-6ebbaaaa-ed53-414e-ac21-8e42e199c3ba' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-76a1780c-5f0a-42c1-88c5-378fdba20ad3' class='xr-var-data-in' type='checkbox'><label for='data-76a1780c-5f0a-42c1-88c5-378fdba20ad3' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>description :</span></dt><dd>longitude</dd><dt><span>long_name :</span></dt><dd>longitude coordinate</dd><dt><span>standard_name :</span></dt><dd>longitude</dd><dt><span>units :</span></dt><dd>degrees_east</dd></dl></div><div class='xr-var-data'><pre>array([  0. ,   2.5,   5. ,   7.5,  10. ,  12.5,  15. ,  17.5,  20. ,  22.5,
-        25. ,  27.5,  30. ,  32.5,  35. ,  37.5,  40. ,  42.5,  45. ,  47.5,
-        50. ,  52.5,  55. ,  57.5,  60. ,  62.5,  65. ,  67.5,  70. ,  72.5,
-        75. ,  77.5,  80. ,  82.5,  85. ,  87.5,  90. ,  92.5,  95. ,  97.5,
-       100. , 102.5, 105. , 107.5, 110. , 112.5, 115. , 117.5, 120. , 122.5,
-       125. , 127.5, 130. , 132.5, 135. , 137.5, 140. , 142.5, 145. , 147.5,
-       150. , 152.5, 155. , 157.5, 160. , 162.5, 165. , 167.5, 170. , 172.5,
-       175. , 177.5, 180. , 182.5, 185. , 187.5, 190. , 192.5, 195. , 197.5,
-       200. , 202.5, 205. , 207.5, 210. , 212.5, 215. , 217.5, 220. , 222.5,
-       225. , 227.5, 230. , 232.5, 235. , 237.5, 240. , 242.5, 245. , 247.5,
-       250. , 252.5, 255. , 257.5, 260. , 262.5, 265. , 267.5, 270. , 272.5,
-       275. , 277.5, 280. , 282.5, 285. , 287.5, 290. , 292.5, 295. , 297.5,
-       300. , 302.5, 305. , 307.5, 310. , 312.5, 315. , 317.5, 320. , 322.5,
-       325. , 327.5, 330. , 332.5, 335. , 337.5, 340. , 342.5, 345. , 347.5,
-       350. , 352.5, 355. , 357.5], dtype=float32)</pre></div></li></ul></div></li><li class='xr-section-item'><input id='section-d730ccb2-b542-47d3-bb17-b72e0094bf9c' class='xr-section-summary-in' type='checkbox'  checked><label for='section-d730ccb2-b542-47d3-bb17-b72e0094bf9c' class='xr-section-summary' >Data variables: <span>(2)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><ul class='xr-var-list'><li class='xr-var-item'><div class='xr-var-name'><span>tas</span></div><div class='xr-var-dims'>(time, lat, lon)</div><div class='xr-var-dtype'>float32</div><div class='xr-var-preview xr-preview'>224.6 224.8 224.5 ... 251.5 251.5</div><input id='attrs-9e4d6a80-50a6-413c-9047-c2bd730e1ea2' class='xr-var-attrs-in' type='checkbox' disabled><label for='attrs-9e4d6a80-50a6-413c-9047-c2bd730e1ea2' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-6e7c4288-5485-478a-9b2c-f3f998c75e49' class='xr-var-data-in' type='checkbox'><label for='data-6e7c4288-5485-478a-9b2c-f3f998c75e49' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'></dl></div><div class='xr-var-data'><pre>array([[[224.58626, 224.79619, 224.54677, ..., 224.79369, 224.58391,
-         224.5473 ],
-        [224.3965 , 224.24239, 224.11034, ..., 224.87152, 224.48079,
-         224.56303],
-        [223.38763, 223.35394, 223.34985, ..., 223.8651 , 223.58235,
-         223.48384],
-        ...,
-        [250.01631, 250.13008, 250.2216 , ..., 249.63884, 249.76128,
-         249.88599],
-        [249.29488, 249.339  , 249.37286, ..., 249.08305, 249.15758,
-         249.2288 ],
-        [248.65773, 248.65465, 248.65332, ..., 248.64693, 248.65399,
-         248.65834]],
-
-       [[224.35252, 224.55788, 224.31679, ..., 224.55481, 224.35143,
-         224.31633],
-        [223.758  , 223.57924, 223.42255, ..., 224.28021, 223.87129,
-         223.94348],
-        [222.23975, 222.19524, 222.18129, ..., 222.78026, 222.47974,
-         222.35686],
-...
-        [250.39006, 250.4859 , 250.56401, ..., 250.06181, 250.17052,
-         250.27824],
-        [250.13286, 250.17076, 250.20074, ..., 249.98991, 250.0356 ,
-         250.08418],
-        [249.8728 , 249.87451, 249.87721, ..., 249.86244, 249.86699,
-         249.87035]],
-
-       [[225.09233, 225.28691, 225.13788, ..., 225.28477, 225.08888,
-         225.15779],
-        [224.63904, 224.48363, 224.22687, ..., 225.1523 , 224.8449 ,
-         224.75987],
-        [223.03809, 223.02678, 222.9886 , ..., 223.40004, 223.26726,
-         222.98067],
-        ...,
-        [251.71155, 251.81163, 251.88155, ..., 251.40157, 251.50069,
-         251.60162],
-        [251.55139, 251.59511, 251.63684, ..., 251.43517, 251.46942,
-         251.5082 ],
-        [251.54405, 251.55042, 251.55818, ..., 251.52948, 251.5338 ,
-         251.53839]]], dtype=float32)</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>pr</span></div><div class='xr-var-dims'>(time, lat, lon)</div><div class='xr-var-dtype'>float32</div><div class='xr-var-preview xr-preview'>1.331e-06 1.332e-06 ... 4.079e-06</div><input id='attrs-e290522d-c71f-4308-b7cf-d9bf365f092e' class='xr-var-attrs-in' type='checkbox' disabled><label for='attrs-e290522d-c71f-4308-b7cf-d9bf365f092e' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-72c4ad95-a9a3-483f-9bf2-12da8af33a61' class='xr-var-data-in' type='checkbox'><label for='data-72c4ad95-a9a3-483f-9bf2-12da8af33a61' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'></dl></div><div class='xr-var-data'><pre>array([[[1.3312733e-06, 1.3315461e-06, 1.3312509e-06, ...,
-         1.3315430e-06, 1.3312746e-06, 1.3312524e-06],
-        [1.4483895e-06, 1.4089154e-06, 1.3776054e-06, ...,
-         1.5524889e-06, 1.5228285e-06, 1.4838521e-06],
-        [1.9309607e-06, 1.8087630e-06, 1.6986614e-06, ...,
-         2.2574839e-06, 2.1752439e-06, 2.0692619e-06],
-        ...,
-        [6.3034349e-06, 6.3974148e-06, 6.4756209e-06, ...,
-         6.0751222e-06, 6.1235296e-06, 6.2199956e-06],
-        [5.3876115e-06, 5.4451903e-06, 5.4959328e-06, ...,
-         5.1429429e-06, 5.2237319e-06, 5.3203380e-06],
-        [3.3815959e-06, 3.3810604e-06, 3.3810677e-06, ...,
-         3.3816652e-06, 3.3815859e-06, 3.3816450e-06]],
-
-       [[1.6305597e-06, 1.6306363e-06, 1.6305435e-06, ...,
-         1.6306277e-06, 1.6305606e-06, 1.6305427e-06],
-        [1.3954408e-06, 1.3554663e-06, 1.3210157e-06, ...,
-         1.5155032e-06, 1.4744328e-06, 1.4319535e-06],
-        [1.6414446e-06, 1.5439732e-06, 1.4525161e-06, ...,
-         1.8834727e-06, 1.8139222e-06, 1.7222682e-06],
-...
-        [5.8770183e-06, 5.9827580e-06, 6.1516416e-06, ...,
-         5.6762078e-06, 5.6741860e-06, 5.7385346e-06],
-        [5.2070591e-06, 5.2969294e-06, 5.4513025e-06, ...,
-         5.0158756e-06, 5.0761378e-06, 5.0997623e-06],
-        [4.6358045e-06, 4.6358005e-06, 4.6358309e-06, ...,
-         4.6352357e-06, 4.6352666e-06, 4.6352102e-06]],
-
-       [[1.4540474e-06, 1.4542279e-06, 1.4540759e-06, ...,
-         1.4542256e-06, 1.4540469e-06, 1.4540842e-06],
-        [1.2275154e-06, 1.1812364e-06, 1.1389037e-06, ...,
-         1.3800327e-06, 1.3284611e-06, 1.2786164e-06],
-        [1.2009424e-06, 1.1209689e-06, 1.0519780e-06, ...,
-         1.4345211e-06, 1.3581670e-06, 1.2885490e-06],
-        ...,
-        [6.2599324e-06, 6.3336756e-06, 6.3747248e-06, ...,
-         6.1484934e-06, 6.1625865e-06, 6.1640735e-06],
-        [5.7624970e-06, 5.8743249e-06, 5.9592990e-06, ...,
-         5.4793068e-06, 5.5676605e-06, 5.6481854e-06],
-        [4.0801019e-06, 4.0790460e-06, 4.0794507e-06, ...,
-         4.0794830e-06, 4.0795580e-06, 4.0790414e-06]]], dtype=float32)</pre></div></li></ul></div></li><li class='xr-section-item'><input id='section-00ec1785-925d-4285-9afb-b26954113fa8' class='xr-section-summary-in' type='checkbox' disabled ><label for='section-00ec1785-925d-4285-9afb-b26954113fa8' class='xr-section-summary'  title='Expand/collapse section'>Attributes: <span>(0)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><dl class='xr-attrs'></dl></div></li></ul></div></div></div>
-</div>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">ds_ann</span><span class="o">.</span><span class="n">fields</span><span class="p">[</span><span class="s1">&#39;tas&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">time</span><span class="p">)</span>
-<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">ds_ann</span><span class="o">.</span><span class="n">fields</span><span class="p">[</span><span class="s1">&#39;tas&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">it</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-[ 850.  851.  852. ... 2003. 2004. 2005.]
-</pre></div></div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<img alt="../_images/notebooks_climate-analysis_19_1.png" src="../_images/notebooks_climate-analysis_19_1.png" />
-</div>
-</div>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ds_djf</span> <span class="o">=</span> <span class="n">ds_all</span><span class="o">.</span><span class="n">annualize</span><span class="p">(</span><span class="n">months</span><span class="o">=</span><span class="p">[</span><span class="mi">12</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
-</pre></div>
-</div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area stderr docutils container">
-<div class="highlight"><pre>
-Annualizing ClimateField: 100%|███████████████████| 2/2 [00:02&lt;00:00,  1.11s/it]
-</pre></div></div>
-</div>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">ds_djf</span><span class="o">.</span><span class="n">fields</span><span class="p">[</span><span class="s1">&#39;tas&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">time</span><span class="p">)</span>
-<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">ds_djf</span><span class="o">.</span><span class="n">fields</span><span class="p">[</span><span class="s1">&#39;tas&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">it</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-[ 850.  851.  852. ... 2003. 2004. 2005.]
-</pre></div></div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<img alt="../_images/notebooks_climate-analysis_21_1.png" src="../_images/notebooks_climate-analysis_21_1.png" />
-</div>
-</div>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">ds_djf</span><span class="o">.</span><span class="n">fields</span><span class="p">[</span><span class="s1">&#39;pr&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">it</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<img alt="../_images/notebooks_climate-analysis_22_0.png" src="../_images/notebooks_climate-analysis_22_0.png" />
+<img alt="../_images/notebooks_climate-analysis_11_0.png" src="../_images/notebooks_climate-analysis_11_0.png" />
 </div>
 </div>
 </section>
 <section id="Regrid-a-ClimateField">
 <h2>Regrid a <code class="docutils literal notranslate"><span class="pre">ClimateField</span></code><a class="headerlink" href="#Regrid-a-ClimateField" title="Permalink to this headline">#</a></h2>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fd_tas</span> <span class="o">=</span> <span class="n">ds_djf</span><span class="o">.</span><span class="n">fields</span><span class="p">[</span><span class="s1">&#39;tas&#39;</span><span class="p">]</span>
-<span class="n">fd_tas</span><span class="o">.</span><span class="n">da</span><span class="o">.</span><span class="n">coords</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fd_tas</span><span class="o">.</span><span class="n">da</span><span class="o">.</span><span class="n">coords</span>
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
 Coordinates:
-  * time     (time) object 0850-02-28 00:00:00 ... 2005-02-28 00:00:00
+  * time     (time) object 0850-01-17 00:00:00 ... 2005-12-17 00:00:00
   * lat      (lat) float32 -90.0 -88.11 -86.21 -84.32 ... 84.32 86.21 88.11 90.0
   * lon      (lon) float32 0.0 2.5 5.0 7.5 10.0 ... 350.0 352.5 355.0 357.5
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">fd_tas</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">it</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
@@ -1686,11 +982,11 @@ Coordinates:
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_climate-analysis_25_0.png" src="../_images/notebooks_climate-analysis_25_0.png" />
+<img alt="../_images/notebooks_climate-analysis_14_0.png" src="../_images/notebooks_climate-analysis_14_0.png" />
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fd_regrid</span> <span class="o">=</span> <span class="n">fd_tas</span><span class="o">.</span><span class="n">regrid</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="o">-</span><span class="mi">90</span><span class="p">,</span> <span class="mf">90.1</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">360</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
@@ -1699,19 +995,19 @@ Coordinates:
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
 Coordinates:
-  * time     (time) object 0850-02-28 00:00:00 ... 2005-02-28 00:00:00
+  * time     (time) object 0850-01-17 00:00:00 ... 2005-12-17 00:00:00
   * lon      (lon) int64 0 5 10 15 20 25 30 35 ... 325 330 335 340 345 350 355
   * lat      (lat) float64 -90.0 -85.0 -80.0 -75.0 -70.0 ... 75.0 80.0 85.0 90.0
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">fd_regrid</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">it</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
@@ -1722,52 +1018,8 @@ Coordinates:
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_climate-analysis_27_0.png" src="../_images/notebooks_climate-analysis_27_0.png" />
+<img alt="../_images/notebooks_climate-analysis_16_0.png" src="../_images/notebooks_climate-analysis_16_0.png" />
 </div>
-</div>
-</section>
-<section id="Regrid-a-ClimateDataset">
-<h2>Regrid a <code class="docutils literal notranslate"><span class="pre">ClimateDataset</span></code><a class="headerlink" href="#Regrid-a-ClimateDataset" title="Permalink to this headline">#</a></h2>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ds_djf</span><span class="o">.</span><span class="n">ds</span><span class="o">.</span><span class="n">coords</span>
-</pre></div>
-</div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
-</pre></div>
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-Coordinates:
-  * time     (time) object 0850-02-28 00:00:00 ... 2005-02-28 00:00:00
-  * lat      (lat) float32 -90.0 -88.11 -86.21 -84.32 ... 84.32 86.21 88.11 90.0
-  * lon      (lon) float32 0.0 2.5 5.0 7.5 10.0 ... 350.0 352.5 355.0 357.5
-</pre></div></div>
-</div>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[23]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ds_regrid</span> <span class="o">=</span> <span class="n">ds_djf</span><span class="o">.</span><span class="n">regrid</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="o">-</span><span class="mi">90</span><span class="p">,</span> <span class="mf">90.1</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">360</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
-<span class="n">ds_regrid</span><span class="o">.</span><span class="n">ds</span><span class="o">.</span><span class="n">coords</span>
-</pre></div>
-</div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[23]:
-</pre></div>
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-Coordinates:
-  * time     (time) object 0850-02-28 00:00:00 ... 2005-02-28 00:00:00
-  * lon      (lon) int64 0 5 10 15 20 25 30 35 ... 325 330 335 340 345 350 355
-  * lat      (lat) float64 -90.0 -85.0 -80.0 -75.0 -70.0 ... 75.0 80.0 85.0 90.0
-</pre></div></div>
 </div>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:

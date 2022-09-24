@@ -124,6 +124,11 @@
     </a>
    </li>
    <li class="toctree-l2">
+    <a class="reference internal" href="proxy-viz.html">
+     Visualizations
+    </a>
+   </li>
+   <li class="toctree-l2">
     <a class="reference internal" href="proxy-analysis.html">
      Analysis
     </a>
@@ -469,13 +474,14 @@ title="Print to PDF"
     <nav id="bd-toc-nav" aria-label="Page">
         <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#Load-test-data-to-ClimateDataset">
-   Load test data to
+  <a class="reference internal nav-link" href="#Load-test-data-as-ClimateFields">
+   Load test data as
    <code class="docutils literal notranslate">
     <span class="pre">
-     ClimateDataset
+     ClimateField
     </span>
    </code>
+   s
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
@@ -503,13 +509,14 @@ title="Print to PDF"
                         <nav aria-label="Page">
                             <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#Load-test-data-to-ClimateDataset">
-   Load test data to
+  <a class="reference internal nav-link" href="#Load-test-data-as-ClimateFields">
+   Load test data as
    <code class="docutils literal notranslate">
     <span class="pre">
-     ClimateDataset
+     ClimateField
     </span>
    </code>
+   s
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
@@ -792,15 +799,16 @@ div.rendered_html tbody tr:hover {
 </pre></div>
 </div>
 </div>
-<section id="Load-test-data-to-ClimateDataset">
-<h2>Load test data to <code class="docutils literal notranslate"><span class="pre">ClimateDataset</span></code><a class="headerlink" href="#Load-test-data-to-ClimateDataset" title="Permalink to this headline">#</a></h2>
+<section id="Load-test-data-as-ClimateFields">
+<h2>Load test data as <code class="docutils literal notranslate"><span class="pre">ClimateField</span></code>s<a class="headerlink" href="#Load-test-data-as-ClimateFields" title="Permalink to this headline">#</a></h2>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dirpath</span> <span class="o">=</span> <span class="s1">&#39;./data/&#39;</span>
-<span class="n">ds_tas</span> <span class="o">=</span> <span class="n">cfr</span><span class="o">.</span><span class="n">ClimateDataset</span><span class="p">()</span><span class="o">.</span><span class="n">load_nc</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">dirpath</span><span class="p">,</span> <span class="s1">&#39;tas_sfc_Amon_iCESM_past1000historical_085001-200512.nc&#39;</span><span class="p">))</span>
-<span class="n">ds_pr</span> <span class="o">=</span> <span class="n">cfr</span><span class="o">.</span><span class="n">ClimateDataset</span><span class="p">()</span><span class="o">.</span><span class="n">load_nc</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">dirpath</span><span class="p">,</span> <span class="s1">&#39;pr_sfc_Amon_iCESM_past1000historical_085001-200512.nc&#39;</span><span class="p">))</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dirpath</span> <span class="o">=</span> <span class="s1">&#39;./data/icesm_last_millennium_historical&#39;</span>
+
+<span class="n">fd_tas</span> <span class="o">=</span> <span class="n">cfr</span><span class="o">.</span><span class="n">ClimateField</span><span class="p">()</span><span class="o">.</span><span class="n">load_nc</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">dirpath</span><span class="p">,</span> <span class="s1">&#39;tas_sfc_Amon_iCESM_past1000historical_085001-200512.nc&#39;</span><span class="p">))</span>
+<span class="n">fd_pr</span> <span class="o">=</span> <span class="n">cfr</span><span class="o">.</span><span class="n">ClimateField</span><span class="p">()</span><span class="o">.</span><span class="n">load_nc</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">dirpath</span><span class="p">,</span> <span class="s1">&#39;pr_sfc_Amon_iCESM_past1000historical_085001-200512.nc&#39;</span><span class="p">))</span>
 </pre></div>
 </div>
 </div>
@@ -811,7 +819,7 @@ div.rendered_html tbody tr:hover {
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">ds_tas</span><span class="o">.</span><span class="n">fields</span><span class="p">[</span><span class="s1">&#39;tas&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">it</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">fd_tas</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">it</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -823,11 +831,11 @@ div.rendered_html tbody tr:hover {
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[33]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># another to slice the data</span>
-<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">ds_tas</span><span class="o">.</span><span class="n">fields</span><span class="p">[</span><span class="s1">&#39;tas&#39;</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># slice the data by index</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">fd_tas</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>

@@ -1060,6 +1060,7 @@ class ProxyDatabase:
             'obs_comp': obs_comp,
             'obs_comp_time': obs_comp_time,
             'obs_comp_value': obs_comp_value,
+            'bin_width': bin_width,
             'intercept': intercept,
             'slope': slope,
             'r2': r2,
@@ -1112,7 +1113,7 @@ class ProxyDatabase:
         ax['var'].set_xticks(np.linspace(np.min(xlim), np.max(xlim), 5))
         ax['var'].set_yticks(np.linspace(-2, 2, 5))
         ax['var'].set_xlabel('Year (CE)')
-        ax['var'].set_ylabel('proxy', color=clr_proxy)
+        ax['var'].set_ylabel('Composite', color=clr_proxy)
         ax['var'].tick_params('y', colors=clr_proxy)
         ax['var'].spines['left'].set_color(clr_proxy)
         ax['var'].spines['bottom'].set_color('k')
@@ -1120,7 +1121,7 @@ class ProxyDatabase:
         ax['var'].spines['top'].set_visible(False)
         ax['var'].yaxis.grid(True, color=clr_proxy, alpha=0.5, ls='-')
         ax['var'].xaxis.grid(False)
-        ax['var'].set_title(f'{archive}, {self.nrec} records, bin_width={bin_width}')
+        ax['var'].set_title(f'{archive}, {self.nrec} records, bin_width={self.composite["bin_width"]}')
         ax['var'].legend(loc='upper left', frameon=False)
 
         ax['count'] = ax['var'].twinx()
@@ -1128,7 +1129,7 @@ class ProxyDatabase:
         ax['count'].bar(
             self.composite['proxy_comp'].index,
             self.composite['proxy_num'],
-            bin_width*0.9, color=clr_count, alpha=0.2)
+            self.composite['bin_width']*0.9, color=clr_count, alpha=0.2)
 
         if right_ylim is None:
             count_max = int((np.max(self.composite['proxy_num']) // base_n + 1) * base_n)

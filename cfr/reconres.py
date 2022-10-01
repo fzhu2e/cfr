@@ -106,9 +106,26 @@ class EnsTS:
         self.value_name = value_name
 
         if self.value is not None:
-            self.nt = np.shape(self.value)[0]
-            self.nEns = np.shape(self.value)[-1]
-            self.median = np.median(self.value, axis=-1)
+            self.refresh()
+
+    def refresh(self):
+        self.nt = np.shape(self.value)[0]
+        self.nEns = np.shape(self.value)[1]
+        self.median = np.nanmedian(self.value, axis=1)
+        self.mean = np.nanmean(self.value, axis=1)
+        self.std = np.nanstd(self.value, axis=1)
+
+    def get_mean(self):
+        mean = EnsTS(time=self.time, value=self.mean)
+        return mean
+
+    def get_median(self):
+        med = EnsTS(time=self.time, value=self.median)
+        return med
+
+    def get_std(self):
+        std = EnsTS(time=self.time, value=self.std)
+        return std
 
     def __getitem__(self, key):
         ''' This makes the object subscriptable. '''
@@ -118,19 +135,102 @@ class EnsTS:
             new.time = new.time[key[0]]
         else:
             new.time = new.time[key]
-        new.nt = np.shape(new.value)[0]
-        new.nEns = np.shape(new.value)[-1]
-        new.median = np.median(new.value, axis=-1)
+
+        new.refresh()
+        return new
+
+    def __add__(self, series):
+        ''' Add a series to the ensembles.
+
+        Parameters
+        ----------
+        series : int, float, array, EnsTS
+            A series to be added to the value field of each ensemble member.
+            Can be a constant int/float value, an array, or another EnsTS object with only one member.
+            If it's an EnsembleTS that has multiple members, the median will be used as the series.
+
+        '''
+        new = self.copy()
+        if isinstance(series, EnsTS):
+            series = series.median
+
+        if np.ndim(series) > 0:
+            series = np.array(series)[:, np.newaxis]
+
+        new.value += series
+        new.refresh()
+        return new
+
+    def __sub__(self, series):
+        ''' Substract a series from the ensembles.
+
+        Parameters
+        ----------
+        series : int, float, array, EnsTS
+            A series to be substracted from the value field of each ensemble member.
+            Can be a constant int/float value, an array, or another EnsTS object with only one member.
+            If it's an EnsembleTS that has multiple members, the median will be used as the series.
+        '''
+        new = self.copy()
+        if isinstance(series, EnsTS):
+            series = series.median
+
+        if np.ndim(series) > 0:
+            series = np.array(series)[:, np.newaxis]
+
+        new.value -= series
+        new.refresh()
+        return new
+
+    def __mul__(self, series):
+        ''' Element-wise multiplication. The multiplier should have the same length as self.nt.
+
+        Parameters
+        ----------
+        series : int, float, array, EnsTS
+            A series to be element-wise multiplied by for the value field of each ensemble member.
+            Can be a constant int/float value, an array, or another EnsTS object with only one member.
+            If it's an EnsembleTS that has multiple members, the median will be used as the series.
+        '''
+        new = self.copy()
+        if isinstance(series, EnsTS):
+            series = series.median
+
+        if np.ndim(series) > 0:
+            for i in range(self.nt):
+                new.value[i] *= series[i]
+        else:
+            new.value *= series
+
+        new.refresh()
+        return new
+
+    def __truediv__(self, series):
+        ''' Element-wise division. The divider should have the same length as self.nt.
+
+        Parameters
+        ----------
+        series : int, float, array, EnsTS
+            A series to be element-wise divided by for the value field of each ensemble member.
+            Can be a constant int/float value, an array, or another EnsTS object with only one member.
+            If it's an EnsembleTS that has multiple members, the median will be used as the series.
+        '''
+        new = self.copy()
+        if isinstance(series, EnsTS):
+            series = series.median
+
+        if np.ndim(series) > 0:
+            for i in range(self.nt):
+                new.value[i] /= series[i]
+        else:
+            new.value /= series
+
+        new.refresh()
         return new
 
     def copy(self):
         ''' Make a deepcopy of the object. '''
         return copy.deepcopy(self)
-
-    def get_median(self):
-        ''' Get the median, returning an EnsTS object. '''
-        med = EnsTS(time=self.time, value=self.median)
-        return med
 
     def plot(self, figsize=[12, 4], color='indianred',
         xlabel='Year (CE)', ylabel=None, title=None, ylim=None, xlim=None,

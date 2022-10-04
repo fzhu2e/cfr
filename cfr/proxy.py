@@ -27,6 +27,8 @@ from .utils import (
 def get_ptype(archive_type, proxy_type):
     '''Get proxy type string based on archive and proxy strings
 
+    If not predefined, it will return in the format `archive_type.proxy_type` with blanks replaced with underscores.
+
     Args:
         archive_type (str): archive string
         proxy_type (str): proxy string
@@ -64,7 +66,7 @@ def get_ptype(archive_type, proxy_type):
         ('marine sediment', 'alkenone'): 'marine.alkenone',
         ('marine sediment', 'planktonic foraminifera'): 'marine.foram',
         ('marine sediment', 'foraminifera'): 'marine.foram',
-        ('marine sediment', 'foram d18O'): 'marine.foram',
+        ('marine sediment', 'foram d18O'): 'marine.d18O',
         ('marine sediment', 'diatom'): 'marine.diatom',
         ('lake sediment', 'varve thickness'): 'lake.varve_thickness',
         ('lake sediment', 'varve property'): 'lake.varve_property',
@@ -84,7 +86,12 @@ def get_ptype(archive_type, proxy_type):
         ('documents', 'historic'): 'documents',
     }
 
-    return ptype_dict[(archive_type, proxy_type)]
+    if (archive_type, proxy_type) in ptype_dict:
+        ptype = ptype_dict[(archive_type, proxy_type)]
+    else:
+        ptype = f'{archive_type.replace(" ", "_")}.{proxy_type.replace(" ", "_")}'
+
+    return ptype
 
 class ProxyRecord:
     ''' The class for a proxy record.
@@ -991,13 +998,11 @@ class ProxyDatabase:
 
     def make_composite(self, obs=None, obs_nc_path=None, vn='tas', lat_name=None, lon_name=None, bin_width=10, n_bootstraps=1000, qs=(0.025, 0.975), stat_func=np.nanmean, anom_period=[1951, 1980]):
         ''' Make composites of the records in the proxy database.'''
-        if obs is None:
+        if obs is None and obs_nc_path is not None:
             obs = ClimateField().load_nc(obs_nc_path, vn=vn, lat_name=lat_name, lon_name=lon_name)
 
         for pid, pobj in tqdm(self.records.items(), total=self.nrec, desc='Analyzing ProxyRecord'):
-            pobj.get_clim(obs, tag='obs')
             pobj_stdd = pobj.standardize()
-
             proxy_time, proxy_value, _ = utils.smooth_ts(pobj_stdd.time, pobj_stdd.value, bin_width=bin_width)
 
             ts_proxy = pd.Series(index=proxy_time, data=proxy_value, name=pid)
@@ -1006,27 +1011,45 @@ class ProxyDatabase:
             else:
                 df_proxy = pd.merge(df_proxy, ts_proxy, left_index=True, right_index=True, how='outer')
 
-            pobj.clim[f'obs_{vn}'].center(ref_period=anom_period)
-            obs_time, obs_value, _ = utils.smooth_ts(pobj.clim[f'obs_{vn}'].time, pobj.clim[f'obs_{vn}'].da.values, bin_width=bin_width)
-            ts_obs = pd.Series(index=obs_time, data=obs_value, name=pid)
-            if 'df_obs' not in locals():
-                df_obs = ts_obs.to_frame()
+            if obs is not None:
+                pobj.get_clim(obs, tag='obs')
+                pobj.clim[f'obs_{vn}'].center(ref_period=anom_period)
+                obs_time, obs_value, _ = utils.smooth_ts(pobj.clim[f'obs_{vn}'].time, pobj.clim[f'obs_{vn}'].da.values, bin_width=bin_width)
+                ts_obs = pd.Series(index=obs_time, data=obs_value, name=pid)
+
+                if 'df_obs' not in locals():
+                    df_obs = ts_obs.to_frame()
+                else:
+                    df_obs = pd.merge(df_obs, ts_obs, left_index=True, right_index=True, how='outer')
             else:
-                df_obs = pd.merge(df_obs, ts_obs, left_index=True, right_index=True, how='outer')
+                df_obs = None
 
         proxy_comp = df_proxy.apply(stat_func, axis=1)
-        obs_comp = df_obs.apply(stat_func, axis=1)
-        ols_model = utils.ols_ts(proxy_comp.index, proxy_comp.values, obs_comp.index, obs_comp.values)
-        results = ols_model.fit()
-        intercept = results.params[0]
-        slope = results.params[1]
-        r2 = results.rsquared
+
+        if obs is not None:
+            obs_comp = df_obs.apply(stat_func, axis=1)
+            ols_model = utils.ols_ts(proxy_comp.index, proxy_comp.values, obs_comp.index, obs_comp.values)
+            results = ols_model.fit()
+            intercept = results.params[0]
+            slope = results.params[1]
+            r2 = results.rsquared
+        else:
+            obs_comp = None
+            r2 = None
+            slope = 1 / np.nanstd(proxy_comp.values)
+            intercept = - np.nanmean(proxy_comp.values) * slope
+
         proxy_comp_scaled = proxy_comp.values*slope + intercept
 
         proxy_bin_vector = utils.make_bin_vector(proxy_comp.index, bin_width=bin_width)
-        obs_bin_vector = utils.make_bin_vector(obs_comp.index, bin_width=bin_width)
         proxy_comp_time, proxy_comp_value = utils.bin_ts(proxy_comp.index, proxy_comp_scaled, bin_vector=proxy_bin_vector, smoothed=True)
-        obs_comp_time, obs_comp_value = utils.bin_ts(obs_comp.index, obs_comp.values, bin_vector=obs_bin_vector, smoothed=True)
+
+        if obs is not None:
+            obs_bin_vector = utils.make_bin_vector(obs_comp.index, bin_width=bin_width)
+            obs_comp_time, obs_comp_value = utils.bin_ts(obs_comp.index, obs_comp.values, bin_vector=obs_bin_vector, smoothed=True)
+        else:
+            obs_comp_time = None
+            obs_comp_value = None
 
         proxy_sq_low = np.empty_like(proxy_comp.index)
         proxy_sq_high = np.empty_like(proxy_comp.index)
@@ -1070,7 +1093,7 @@ class ProxyDatabase:
 
 
     def plot_composite(self, figsize=[10, 4], clr_proxy=None, clr_count='tab:gray', clr_obs='tab:red',
-                       left_ylim=[-2, 2], right_ylim=None, xlim=[0, 2000], base_n=60,
+                       left_ylim=[-2, 2], right_ylim=None, ylim_num=5, xlim=[0, 2000], base_n=60,
                        ax=None, bin_width=10):
         ''' Plot the composites of the records in the proxy database.'''
         if clr_proxy is None:
@@ -1097,10 +1120,15 @@ class ProxyDatabase:
         #     'weight': 'normal',
         #     'verticalalignment': 'bottom',
         # }
-        lb_proxy = fr'proxy, conversion factor = {np.abs(self.composite["slope"]):.3f}, $R^2$ = {self.composite["r2"]:.3f}'
+        if self.composite['df_obs'] is not None:
+            lb_proxy = fr'proxy, conversion factor = {np.abs(self.composite["slope"]):.3f}, $R^2$ = {self.composite["r2"]:.3f}'
+        else:
+            lb_proxy = f'proxy, conversion factor = {np.abs(self.composite["slope"]):.3f}'
+
         ax['var'] = fig.add_subplot()
         ax['var'].plot(self.composite['proxy_comp_time'], self.composite['proxy_comp_value'], color=clr_proxy, lw=1, label=lb_proxy)
-        ax['var'].plot(self.composite['obs_comp_time'], self.composite['obs_comp_value'], color=clr_obs, lw=1, label='instrumental')
+        if self.composite['df_obs'] is not None:
+            ax['var'].plot(self.composite['obs_comp_time'], self.composite['obs_comp_value'], color=clr_obs, lw=1, label='instrumental')
         ax['var'].fill_between(
             self.composite['proxy_sq_low_time'],
             self.composite['proxy_sq_low_value'],
@@ -1109,9 +1137,9 @@ class ProxyDatabase:
         )
         ax['var'].set_xlim(xlim)
         ax['var'].set_ylim(left_ylim)
-        ax['var'].set_yticks(np.linspace(np.min(left_ylim), np.max(left_ylim), 5))
+        ax['var'].set_yticks(np.linspace(np.min(left_ylim), np.max(left_ylim), ylim_num))
         ax['var'].set_xticks(np.linspace(np.min(xlim), np.max(xlim), 5))
-        ax['var'].set_yticks(np.linspace(-2, 2, 5))
+        ax['var'].set_yticks(np.linspace(left_ylim[0], left_ylim[1], ylim_num))
         ax['var'].set_xlabel('Year (CE)')
         ax['var'].set_ylabel('Composite', color=clr_proxy)
         ax['var'].tick_params('y', colors=clr_proxy)
@@ -1136,7 +1164,7 @@ class ProxyDatabase:
             right_ylim = [0, count_max]
 
         ax['count'].set_ylim(right_ylim)
-        ax['count'].set_yticks(np.linspace(np.min(right_ylim), np.max(right_ylim), 5))
+        ax['count'].set_yticks(np.linspace(np.min(right_ylim), np.max(right_ylim), ylim_num))
         ax['count'].grid(False)
         ax['count'].spines['bottom'].set_visible(False)
         ax['count'].spines['right'].set_visible(True)

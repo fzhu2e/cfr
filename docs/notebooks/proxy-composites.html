@@ -503,6 +503,18 @@ title="Print to PDF"
   <a class="reference internal nav-link" href="#Create-composites-for-each-proxy-type">
    Create composites for each proxy type
   </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#Without-calibration-to-an-instrumental-target">
+     Without calibration to an instrumental target
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#With-calibration-to-an-instrumental-target">
+     With calibration to an instrumental target
+    </a>
+   </li>
+  </ul>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#The-composite-of-ice-core-records">
@@ -558,6 +570,18 @@ title="Print to PDF"
   <a class="reference internal nav-link" href="#Create-composites-for-each-proxy-type">
    Create composites for each proxy type
   </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#Without-calibration-to-an-instrumental-target">
+     Without calibration to an instrumental target
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#With-calibration-to-an-instrumental-target">
+     With calibration to an instrumental target
+    </a>
+   </li>
+  </ul>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#The-composite-of-ice-core-records">
@@ -901,9 +925,62 @@ Index([&#39;paleoData_pages2kID&#39;, &#39;dataSetName&#39;, &#39;archiveType&#3
 <img alt="../_images/notebooks_proxy-composites_9_0.png" src="../_images/notebooks_proxy-composites_9_0.png" />
 </div>
 </div>
+<section id="Without-calibration-to-an-instrumental-target">
+<h3>Without calibration to an instrumental target<a class="headerlink" href="#Without-calibration-to-an-instrumental-target" title="Permalink to this headline">#</a></h3>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pdb_corals</span><span class="o">.</span><span class="n">make_composite</span><span class="p">(</span><span class="n">bin_width</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+Analyzing ProxyRecord:   0%|          | 0/104 [00:00&lt;?, ?it/s]/Users/fzhu/Apps/miniconda3/envs/cfr-env/lib/python3.9/site-packages/numpy/lib/function_base.py:495: RuntimeWarning: Mean of empty slice.
+  avg = a.mean(axis)
+/Users/fzhu/Apps/miniconda3/envs/cfr-env/lib/python3.9/site-packages/numpy/core/_methods.py:189: RuntimeWarning: invalid value encountered in double_scalars
+  ret = ret.dtype.type(ret / rcount)
+/Users/fzhu/Apps/miniconda3/envs/cfr-env/lib/python3.9/site-packages/numpy/lib/function_base.py:495: RuntimeWarning: Mean of empty slice.
+  avg = a.mean(axis)
+/Users/fzhu/Apps/miniconda3/envs/cfr-env/lib/python3.9/site-packages/numpy/core/_methods.py:189: RuntimeWarning: invalid value encountered in double_scalars
+  ret = ret.dtype.type(ret / rcount)
+/Users/fzhu/Apps/miniconda3/envs/cfr-env/lib/python3.9/site-packages/numpy/lib/function_base.py:495: RuntimeWarning: Mean of empty slice.
+  avg = a.mean(axis)
+/Users/fzhu/Apps/miniconda3/envs/cfr-env/lib/python3.9/site-packages/numpy/core/_methods.py:189: RuntimeWarning: invalid value encountered in double_scalars
+  ret = ret.dtype.type(ret / rcount)
+Analyzing ProxyRecord: 100%|██████████| 104/104 [00:00&lt;00:00, 1412.43it/s]
+/Users/fzhu/Apps/miniconda3/envs/cfr-env/lib/python3.9/site-packages/pandas/core/apply.py:867: RuntimeWarning: Mean of empty slice
+  results[i] = self.f(v)
+Bootstrapping:   0%|          | 0/110 [00:00&lt;?, ?it/s]/Users/fzhu/Github/cfr/cfr/utils.py:127: RuntimeWarning: Mean of empty slice
+  stats[i] = stat_func(samples[rand_ind])
+Bootstrapping: 100%|██████████| 110/110 [00:01&lt;00:00, 65.14it/s]
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">pdb_corals</span><span class="o">.</span><span class="n">plot_composite</span><span class="p">(</span><span class="n">left_ylim</span><span class="o">=</span><span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="o">-</span><span class="mi">4</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/notebooks_proxy-composites_12_0.png" src="../_images/notebooks_proxy-composites_12_0.png" />
+</div>
+</div>
+</section>
+<section id="With-calibration-to-an-instrumental-target">
+<h3>With calibration to an instrumental target<a class="headerlink" href="#With-calibration-to-an-instrumental-target" title="Permalink to this headline">#</a></h3>
 <p>We load instrumental temperature observations as a target for scaling the proxy values.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># check the variable and dimension names</span>
@@ -915,7 +992,7 @@ Index([&#39;paleoData_pages2kID&#39;, &#39;dataSetName&#39;, &#39;archiveType&#3
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
 </pre></div>
 </div>
 <div class="output_area rendered_html docutils container">
@@ -1293,27 +1370,27 @@ Attributes:
     source:       CRUTEM.5.0.1.0 HadSST.4.0.0.0
     title:        HadCRUT.5.0.1.0 blended land air temperature and sea-surfac...
     version:      HadCRUT.5.0.1.0
-    Conventions:  CF-1.7</pre><div class='xr-wrap' hidden><div class='xr-header'><div class='xr-obj-type'>xarray.Dataset</div></div><ul class='xr-sections'><li class='xr-section-item'><input id='section-fc08aa35-c65e-4759-b0c5-c615bc9ca533' class='xr-section-summary-in' type='checkbox' disabled ><label for='section-fc08aa35-c65e-4759-b0c5-c615bc9ca533' class='xr-section-summary'  title='Expand/collapse section'>Dimensions:</label><div class='xr-section-inline-details'><ul class='xr-dim-list'><li><span class='xr-has-index'>time</span>: 2052</li><li><span class='xr-has-index'>latitude</span>: 36</li><li><span class='xr-has-index'>longitude</span>: 72</li><li><span>bnds</span>: 2</li></ul></div><div class='xr-section-details'></div></li><li class='xr-section-item'><input id='section-44f5b3f4-752e-46e7-95b9-c95e25275815' class='xr-section-summary-in' type='checkbox'  checked><label for='section-44f5b3f4-752e-46e7-95b9-c95e25275815' class='xr-section-summary' >Coordinates: <span>(4)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><ul class='xr-var-list'><li class='xr-var-item'><div class='xr-var-name'><span class='xr-has-index'>time</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>datetime64[ns]</div><div class='xr-var-preview xr-preview'>1850-01-16T12:00:00 ... 2020-12-...</div><input id='attrs-a92ae570-b907-46dc-b824-a9da7f70573f' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-a92ae570-b907-46dc-b824-a9da7f70573f' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-1caf6e76-b9ae-41fe-bc8c-edc6f5b7547c' class='xr-var-data-in' type='checkbox'><label for='data-1caf6e76-b9ae-41fe-bc8c-edc6f5b7547c' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>axis :</span></dt><dd>T</dd><dt><span>bounds :</span></dt><dd>time_bnds</dd><dt><span>standard_name :</span></dt><dd>time</dd><dt><span>long_name :</span></dt><dd>time</dd></dl></div><div class='xr-var-data'><pre>array([&#x27;1850-01-16T12:00:00.000000000&#x27;, &#x27;1850-02-15T00:00:00.000000000&#x27;,
+    Conventions:  CF-1.7</pre><div class='xr-wrap' hidden><div class='xr-header'><div class='xr-obj-type'>xarray.Dataset</div></div><ul class='xr-sections'><li class='xr-section-item'><input id='section-37f5dbfa-fd90-4ac9-a053-284cfc7f192d' class='xr-section-summary-in' type='checkbox' disabled ><label for='section-37f5dbfa-fd90-4ac9-a053-284cfc7f192d' class='xr-section-summary'  title='Expand/collapse section'>Dimensions:</label><div class='xr-section-inline-details'><ul class='xr-dim-list'><li><span class='xr-has-index'>time</span>: 2052</li><li><span class='xr-has-index'>latitude</span>: 36</li><li><span class='xr-has-index'>longitude</span>: 72</li><li><span>bnds</span>: 2</li></ul></div><div class='xr-section-details'></div></li><li class='xr-section-item'><input id='section-bb6df865-9dca-4a91-8a18-cf1dd72d9373' class='xr-section-summary-in' type='checkbox'  checked><label for='section-bb6df865-9dca-4a91-8a18-cf1dd72d9373' class='xr-section-summary' >Coordinates: <span>(4)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><ul class='xr-var-list'><li class='xr-var-item'><div class='xr-var-name'><span class='xr-has-index'>time</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>datetime64[ns]</div><div class='xr-var-preview xr-preview'>1850-01-16T12:00:00 ... 2020-12-...</div><input id='attrs-c59041c4-e911-4545-9d5d-4abb46ba7e36' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-c59041c4-e911-4545-9d5d-4abb46ba7e36' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-3d567062-d4ef-4d21-900d-0dbc3d3791b8' class='xr-var-data-in' type='checkbox'><label for='data-3d567062-d4ef-4d21-900d-0dbc3d3791b8' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>axis :</span></dt><dd>T</dd><dt><span>bounds :</span></dt><dd>time_bnds</dd><dt><span>standard_name :</span></dt><dd>time</dd><dt><span>long_name :</span></dt><dd>time</dd></dl></div><div class='xr-var-data'><pre>array([&#x27;1850-01-16T12:00:00.000000000&#x27;, &#x27;1850-02-15T00:00:00.000000000&#x27;,
        &#x27;1850-03-16T12:00:00.000000000&#x27;, ..., &#x27;2020-10-16T12:00:00.000000000&#x27;,
        &#x27;2020-11-16T00:00:00.000000000&#x27;, &#x27;2020-12-16T12:00:00.000000000&#x27;],
-      dtype=&#x27;datetime64[ns]&#x27;)</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span class='xr-has-index'>latitude</span></div><div class='xr-var-dims'>(latitude)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>-87.5 -82.5 -77.5 ... 82.5 87.5</div><input id='attrs-f4607939-859e-490e-8bed-c89077f0ba4d' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-f4607939-859e-490e-8bed-c89077f0ba4d' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-f77aeb81-f461-4a97-b966-2ba21f3cd6f4' class='xr-var-data-in' type='checkbox'><label for='data-f77aeb81-f461-4a97-b966-2ba21f3cd6f4' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>axis :</span></dt><dd>Y</dd><dt><span>bounds :</span></dt><dd>latitude_bnds</dd><dt><span>units :</span></dt><dd>degrees_north</dd><dt><span>standard_name :</span></dt><dd>latitude</dd><dt><span>long_name :</span></dt><dd>latitude</dd></dl></div><div class='xr-var-data'><pre>array([-87.5, -82.5, -77.5, -72.5, -67.5, -62.5, -57.5, -52.5, -47.5, -42.5,
+      dtype=&#x27;datetime64[ns]&#x27;)</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span class='xr-has-index'>latitude</span></div><div class='xr-var-dims'>(latitude)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>-87.5 -82.5 -77.5 ... 82.5 87.5</div><input id='attrs-cf5bed0e-d0d3-4a94-bc4f-e6dadc530a33' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-cf5bed0e-d0d3-4a94-bc4f-e6dadc530a33' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-1cad6ed5-19fa-4404-b78f-6fa57ea3f21a' class='xr-var-data-in' type='checkbox'><label for='data-1cad6ed5-19fa-4404-b78f-6fa57ea3f21a' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>axis :</span></dt><dd>Y</dd><dt><span>bounds :</span></dt><dd>latitude_bnds</dd><dt><span>units :</span></dt><dd>degrees_north</dd><dt><span>standard_name :</span></dt><dd>latitude</dd><dt><span>long_name :</span></dt><dd>latitude</dd></dl></div><div class='xr-var-data'><pre>array([-87.5, -82.5, -77.5, -72.5, -67.5, -62.5, -57.5, -52.5, -47.5, -42.5,
        -37.5, -32.5, -27.5, -22.5, -17.5, -12.5,  -7.5,  -2.5,   2.5,   7.5,
         12.5,  17.5,  22.5,  27.5,  32.5,  37.5,  42.5,  47.5,  52.5,  57.5,
-        62.5,  67.5,  72.5,  77.5,  82.5,  87.5])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span class='xr-has-index'>longitude</span></div><div class='xr-var-dims'>(longitude)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>-177.5 -172.5 ... 172.5 177.5</div><input id='attrs-fc39f045-7c17-418e-89b0-96bd04f7e80f' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-fc39f045-7c17-418e-89b0-96bd04f7e80f' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-71edb51f-1bb8-4d63-9ff0-7fad9c982a80' class='xr-var-data-in' type='checkbox'><label for='data-71edb51f-1bb8-4d63-9ff0-7fad9c982a80' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>axis :</span></dt><dd>X</dd><dt><span>bounds :</span></dt><dd>longitude_bnds</dd><dt><span>units :</span></dt><dd>degrees_east</dd><dt><span>standard_name :</span></dt><dd>longitude</dd><dt><span>long_name :</span></dt><dd>longitude</dd></dl></div><div class='xr-var-data'><pre>array([-177.5, -172.5, -167.5, -162.5, -157.5, -152.5, -147.5, -142.5, -137.5,
+        62.5,  67.5,  72.5,  77.5,  82.5,  87.5])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span class='xr-has-index'>longitude</span></div><div class='xr-var-dims'>(longitude)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>-177.5 -172.5 ... 172.5 177.5</div><input id='attrs-8c3dcac4-5480-4d4d-aaed-8e429e4f6eb5' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-8c3dcac4-5480-4d4d-aaed-8e429e4f6eb5' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-1afe1608-01c4-4a4b-bd95-0c8172394478' class='xr-var-data-in' type='checkbox'><label for='data-1afe1608-01c4-4a4b-bd95-0c8172394478' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>axis :</span></dt><dd>X</dd><dt><span>bounds :</span></dt><dd>longitude_bnds</dd><dt><span>units :</span></dt><dd>degrees_east</dd><dt><span>standard_name :</span></dt><dd>longitude</dd><dt><span>long_name :</span></dt><dd>longitude</dd></dl></div><div class='xr-var-data'><pre>array([-177.5, -172.5, -167.5, -162.5, -157.5, -152.5, -147.5, -142.5, -137.5,
        -132.5, -127.5, -122.5, -117.5, -112.5, -107.5, -102.5,  -97.5,  -92.5,
         -87.5,  -82.5,  -77.5,  -72.5,  -67.5,  -62.5,  -57.5,  -52.5,  -47.5,
         -42.5,  -37.5,  -32.5,  -27.5,  -22.5,  -17.5,  -12.5,   -7.5,   -2.5,
           2.5,    7.5,   12.5,   17.5,   22.5,   27.5,   32.5,   37.5,   42.5,
          47.5,   52.5,   57.5,   62.5,   67.5,   72.5,   77.5,   82.5,   87.5,
          92.5,   97.5,  102.5,  107.5,  112.5,  117.5,  122.5,  127.5,  132.5,
-        137.5,  142.5,  147.5,  152.5,  157.5,  162.5,  167.5,  172.5,  177.5])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>realization</span></div><div class='xr-var-dims'>()</div><div class='xr-var-dtype'>int64</div><div class='xr-var-preview xr-preview'>...</div><input id='attrs-67850a21-8ace-4388-98de-43456f77b4bf' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-67850a21-8ace-4388-98de-43456f77b4bf' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-5890a428-ecd8-4607-a9af-248242f9642e' class='xr-var-data-in' type='checkbox'><label for='data-5890a428-ecd8-4607-a9af-248242f9642e' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>bounds :</span></dt><dd>realization_bnds</dd><dt><span>units :</span></dt><dd>1</dd><dt><span>standard_name :</span></dt><dd>realization</dd></dl></div><div class='xr-var-data'><pre>array(100)</pre></div></li></ul></div></li><li class='xr-section-item'><input id='section-740539d0-bb31-43cb-a027-e0f87700fbbe' class='xr-section-summary-in' type='checkbox'  checked><label for='section-740539d0-bb31-43cb-a027-e0f87700fbbe' class='xr-section-summary' >Data variables: <span>(5)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><ul class='xr-var-list'><li class='xr-var-item'><div class='xr-var-name'><span>tas_mean</span></div><div class='xr-var-dims'>(time, latitude, longitude)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>...</div><input id='attrs-3e629608-7760-40df-bbb7-899f7f66dcce' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-3e629608-7760-40df-bbb7-899f7f66dcce' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-a0d5fbdd-9f1e-4630-9bf3-2d59b692afbc' class='xr-var-data-in' type='checkbox'><label for='data-a0d5fbdd-9f1e-4630-9bf3-2d59b692afbc' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>long_name :</span></dt><dd>blended air_temperature_anomaly over land with sea_water_temperature_anomaly</dd><dt><span>units :</span></dt><dd>K</dd><dt><span>cell_methods :</span></dt><dd>area: mean (interval: 5.0 degrees_north 5.0 degrees_east) time: mean (interval: 1 month) realization: mean</dd></dl></div><div class='xr-var-data'><pre>[5318784 values with dtype=float64]</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>time_bnds</span></div><div class='xr-var-dims'>(time, bnds)</div><div class='xr-var-dtype'>datetime64[ns]</div><div class='xr-var-preview xr-preview'>...</div><input id='attrs-250c5e55-0534-4f3e-af96-3f8e7d076347' class='xr-var-attrs-in' type='checkbox' disabled><label for='attrs-250c5e55-0534-4f3e-af96-3f8e7d076347' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-b2dfd8ac-6e60-4e2c-b1a7-8552d087e2e2' class='xr-var-data-in' type='checkbox'><label for='data-b2dfd8ac-6e60-4e2c-b1a7-8552d087e2e2' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'></dl></div><div class='xr-var-data'><pre>array([[&#x27;1850-01-01T00:00:00.000000000&#x27;, &#x27;1850-02-01T00:00:00.000000000&#x27;],
+        137.5,  142.5,  147.5,  152.5,  157.5,  162.5,  167.5,  172.5,  177.5])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>realization</span></div><div class='xr-var-dims'>()</div><div class='xr-var-dtype'>int64</div><div class='xr-var-preview xr-preview'>...</div><input id='attrs-c422ea7a-c1e9-4a1e-99b7-139f9b478b01' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-c422ea7a-c1e9-4a1e-99b7-139f9b478b01' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-dd393b86-10c9-45c5-a6ff-413be7067520' class='xr-var-data-in' type='checkbox'><label for='data-dd393b86-10c9-45c5-a6ff-413be7067520' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>bounds :</span></dt><dd>realization_bnds</dd><dt><span>units :</span></dt><dd>1</dd><dt><span>standard_name :</span></dt><dd>realization</dd></dl></div><div class='xr-var-data'><pre>array(100)</pre></div></li></ul></div></li><li class='xr-section-item'><input id='section-3387ed0c-91c0-4d84-ad09-7a21cc3bc3e6' class='xr-section-summary-in' type='checkbox'  checked><label for='section-3387ed0c-91c0-4d84-ad09-7a21cc3bc3e6' class='xr-section-summary' >Data variables: <span>(5)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><ul class='xr-var-list'><li class='xr-var-item'><div class='xr-var-name'><span>tas_mean</span></div><div class='xr-var-dims'>(time, latitude, longitude)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>...</div><input id='attrs-42ec22bc-6791-445c-ad2c-70a99b21775a' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-42ec22bc-6791-445c-ad2c-70a99b21775a' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-2d600f9b-bd06-49e5-925e-ae302d39ef7b' class='xr-var-data-in' type='checkbox'><label for='data-2d600f9b-bd06-49e5-925e-ae302d39ef7b' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>long_name :</span></dt><dd>blended air_temperature_anomaly over land with sea_water_temperature_anomaly</dd><dt><span>units :</span></dt><dd>K</dd><dt><span>cell_methods :</span></dt><dd>area: mean (interval: 5.0 degrees_north 5.0 degrees_east) time: mean (interval: 1 month) realization: mean</dd></dl></div><div class='xr-var-data'><pre>[5318784 values with dtype=float64]</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>time_bnds</span></div><div class='xr-var-dims'>(time, bnds)</div><div class='xr-var-dtype'>datetime64[ns]</div><div class='xr-var-preview xr-preview'>...</div><input id='attrs-38364383-9c98-4a6f-87b0-3d94c8aceb31' class='xr-var-attrs-in' type='checkbox' disabled><label for='attrs-38364383-9c98-4a6f-87b0-3d94c8aceb31' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-4c570566-2f34-497f-8ca8-1c68dcf5cc00' class='xr-var-data-in' type='checkbox'><label for='data-4c570566-2f34-497f-8ca8-1c68dcf5cc00' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'></dl></div><div class='xr-var-data'><pre>array([[&#x27;1850-01-01T00:00:00.000000000&#x27;, &#x27;1850-02-01T00:00:00.000000000&#x27;],
        [&#x27;1850-02-01T00:00:00.000000000&#x27;, &#x27;1850-03-01T00:00:00.000000000&#x27;],
        [&#x27;1850-03-01T00:00:00.000000000&#x27;, &#x27;1850-04-01T00:00:00.000000000&#x27;],
        ...,
        [&#x27;2020-10-01T00:00:00.000000000&#x27;, &#x27;2020-11-01T00:00:00.000000000&#x27;],
        [&#x27;2020-11-01T00:00:00.000000000&#x27;, &#x27;2020-12-01T00:00:00.000000000&#x27;],
        [&#x27;2020-12-01T00:00:00.000000000&#x27;, &#x27;2021-01-01T00:00:00.000000000&#x27;]],
-      dtype=&#x27;datetime64[ns]&#x27;)</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>latitude_bnds</span></div><div class='xr-var-dims'>(latitude, bnds)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>...</div><input id='attrs-c4e8711e-b79c-43ab-baa8-d4608cccdb1a' class='xr-var-attrs-in' type='checkbox' disabled><label for='attrs-c4e8711e-b79c-43ab-baa8-d4608cccdb1a' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-24c6d267-c46b-43f9-af5e-0567d2f78b43' class='xr-var-data-in' type='checkbox'><label for='data-24c6d267-c46b-43f9-af5e-0567d2f78b43' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'></dl></div><div class='xr-var-data'><pre>array([[-90., -85.],
+      dtype=&#x27;datetime64[ns]&#x27;)</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>latitude_bnds</span></div><div class='xr-var-dims'>(latitude, bnds)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>...</div><input id='attrs-701d8d03-240c-4da5-9afe-c6c8078e5f5e' class='xr-var-attrs-in' type='checkbox' disabled><label for='attrs-701d8d03-240c-4da5-9afe-c6c8078e5f5e' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-79d69a57-d10e-4908-9c3f-91f7ae427e3d' class='xr-var-data-in' type='checkbox'><label for='data-79d69a57-d10e-4908-9c3f-91f7ae427e3d' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'></dl></div><div class='xr-var-data'><pre>array([[-90., -85.],
        [-85., -80.],
        [-80., -75.],
        [-75., -70.],
@@ -1348,7 +1425,7 @@ Attributes:
        [ 70.,  75.],
        [ 75.,  80.],
        [ 80.,  85.],
-       [ 85.,  90.]])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>longitude_bnds</span></div><div class='xr-var-dims'>(longitude, bnds)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>...</div><input id='attrs-c2b553dd-b7be-4b1c-b2df-4b42daaae8d5' class='xr-var-attrs-in' type='checkbox' disabled><label for='attrs-c2b553dd-b7be-4b1c-b2df-4b42daaae8d5' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-aa3dd8ca-44fb-46c9-bb25-5ecc313b7463' class='xr-var-data-in' type='checkbox'><label for='data-aa3dd8ca-44fb-46c9-bb25-5ecc313b7463' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'></dl></div><div class='xr-var-data'><pre>array([[-180., -175.],
+       [ 85.,  90.]])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>longitude_bnds</span></div><div class='xr-var-dims'>(longitude, bnds)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>...</div><input id='attrs-cac5ee0d-a88f-4430-867c-12eb65be7e39' class='xr-var-attrs-in' type='checkbox' disabled><label for='attrs-cac5ee0d-a88f-4430-867c-12eb65be7e39' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-feaf57e7-d96d-4f74-bbfe-6ce7460292e5' class='xr-var-data-in' type='checkbox'><label for='data-feaf57e7-d96d-4f74-bbfe-6ce7460292e5' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'></dl></div><div class='xr-var-data'><pre>array([[-180., -175.],
        [-175., -170.],
        [-170., -165.],
        [-165., -160.],
@@ -1419,10 +1496,10 @@ Attributes:
        [ 160.,  165.],
        [ 165.,  170.],
        [ 170.,  175.],
-       [ 175.,  180.]])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>realization_bnds</span></div><div class='xr-var-dims'>(bnds)</div><div class='xr-var-dtype'>int64</div><div class='xr-var-preview xr-preview'>...</div><input id='attrs-b3ffd6ba-025f-45c4-8902-6c541103baee' class='xr-var-attrs-in' type='checkbox' disabled><label for='attrs-b3ffd6ba-025f-45c4-8902-6c541103baee' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-b565c1ec-dea0-4ff9-ab1c-c1e6a553f128' class='xr-var-data-in' type='checkbox'><label for='data-b565c1ec-dea0-4ff9-ab1c-c1e6a553f128' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'></dl></div><div class='xr-var-data'><pre>array([  1, 200])</pre></div></li></ul></div></li><li class='xr-section-item'><input id='section-87a1a700-653e-4d22-a57e-3fabd93d0a03' class='xr-section-summary-in' type='checkbox'  checked><label for='section-87a1a700-653e-4d22-a57e-3fabd93d0a03' class='xr-section-summary' >Attributes: <span>(9)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><dl class='xr-attrs'><dt><span>comment :</span></dt><dd>2m air temperature over land blended with sea water temperature at a depth of 20cm expressed as monthly anomalies relative to 1961-1990 climatology.</dd><dt><span>history :</span></dt><dd></dd><dt><span>institution :</span></dt><dd>Met Office Hadley Centre / Climatic Research Unit, University of East Anglia</dd><dt><span>licence :</span></dt><dd>HadCRUT5 is licensed under the Open Government Licence v3.0 except where otherwise stated. To view this licence, visit https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3</dd><dt><span>reference :</span></dt><dd>C. P. Morice, J. J. Kennedy, N. A. Rayner, J. P. Winn, E. Hogan, R. E. Killick, R. J. H. Dunn, T. J. Osborn, P. D. Jones and I. R. Simpson (2020), An updated assessment of near-surface temperature change from 1850: the HadCRUT5 dataset, Submitted to J. Geophys. Res.</dd><dt><span>source :</span></dt><dd>CRUTEM.5.0.1.0 HadSST.4.0.0.0</dd><dt><span>title :</span></dt><dd>HadCRUT.5.0.1.0 blended land air temperature and sea-surface temperature anomaly data set</dd><dt><span>version :</span></dt><dd>HadCRUT.5.0.1.0</dd><dt><span>Conventions :</span></dt><dd>CF-1.7</dd></dl></div></li></ul></div></div></div>
+       [ 175.,  180.]])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>realization_bnds</span></div><div class='xr-var-dims'>(bnds)</div><div class='xr-var-dtype'>int64</div><div class='xr-var-preview xr-preview'>...</div><input id='attrs-2472a891-b142-4ab1-ae52-e7a22d2bd82f' class='xr-var-attrs-in' type='checkbox' disabled><label for='attrs-2472a891-b142-4ab1-ae52-e7a22d2bd82f' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-b2a36473-a714-411e-8c9c-c3f56453b424' class='xr-var-data-in' type='checkbox'><label for='data-b2a36473-a714-411e-8c9c-c3f56453b424' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'></dl></div><div class='xr-var-data'><pre>array([  1, 200])</pre></div></li></ul></div></li><li class='xr-section-item'><input id='section-7596940d-4e25-4504-8bd0-299f3a622925' class='xr-section-summary-in' type='checkbox'  checked><label for='section-7596940d-4e25-4504-8bd0-299f3a622925' class='xr-section-summary' >Attributes: <span>(9)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><dl class='xr-attrs'><dt><span>comment :</span></dt><dd>2m air temperature over land blended with sea water temperature at a depth of 20cm expressed as monthly anomalies relative to 1961-1990 climatology.</dd><dt><span>history :</span></dt><dd></dd><dt><span>institution :</span></dt><dd>Met Office Hadley Centre / Climatic Research Unit, University of East Anglia</dd><dt><span>licence :</span></dt><dd>HadCRUT5 is licensed under the Open Government Licence v3.0 except where otherwise stated. To view this licence, visit https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3</dd><dt><span>reference :</span></dt><dd>C. P. Morice, J. J. Kennedy, N. A. Rayner, J. P. Winn, E. Hogan, R. E. Killick, R. J. H. Dunn, T. J. Osborn, P. D. Jones and I. R. Simpson (2020), An updated assessment of near-surface temperature change from 1850: the HadCRUT5 dataset, Submitted to J. Geophys. Res.</dd><dt><span>source :</span></dt><dd>CRUTEM.5.0.1.0 HadSST.4.0.0.0</dd><dt><span>title :</span></dt><dd>HadCRUT.5.0.1.0 blended land air temperature and sea-surface temperature anomaly data set</dd><dt><span>version :</span></dt><dd>HadCRUT.5.0.1.0</dd><dt><span>Conventions :</span></dt><dd>CF-1.7</dd></dl></div></li></ul></div></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">obs</span> <span class="o">=</span> <span class="n">cfr</span><span class="o">.</span><span class="n">ClimateField</span><span class="p">()</span><span class="o">.</span><span class="n">load_nc</span><span class="p">(</span>
@@ -1438,14 +1515,14 @@ Attributes:
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_proxy-composites_12_0.png" src="../_images/notebooks_proxy-composites_12_0.png" />
+<img alt="../_images/notebooks_proxy-composites_16_0.png" src="../_images/notebooks_proxy-composites_16_0.png" />
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pdb_corals</span><span class="o">.</span><span class="n">make_composite</span><span class="p">(</span><span class="n">obs</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pdb_corals</span><span class="o">.</span><span class="n">make_composite</span><span class="p">(</span><span class="n">obs</span><span class="p">,</span> <span class="n">bin_width</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1454,41 +1531,38 @@ Attributes:
 </div>
 <div class="output_area stderr docutils container">
 <div class="highlight"><pre>
-Analyzing ProxyRecord:  13%|█▎        | 14/104 [00:00&lt;00:01, 46.99it/s]/Users/fzhu/Apps/miniconda3/envs/cfr-env/lib/python3.9/site-packages/numpy/lib/function_base.py:495: RuntimeWarning: Mean of empty slice.
+Analyzing ProxyRecord:  14%|█▍        | 15/104 [00:00&lt;00:01, 49.67it/s]/Users/fzhu/Apps/miniconda3/envs/cfr-env/lib/python3.9/site-packages/numpy/lib/function_base.py:495: RuntimeWarning: Mean of empty slice.
   avg = a.mean(axis)
 /Users/fzhu/Apps/miniconda3/envs/cfr-env/lib/python3.9/site-packages/numpy/core/_methods.py:189: RuntimeWarning: invalid value encountered in double_scalars
   ret = ret.dtype.type(ret / rcount)
-Analyzing ProxyRecord:  20%|██        | 21/104 [00:00&lt;00:01, 54.02it/s]/Users/fzhu/Apps/miniconda3/envs/cfr-env/lib/python3.9/site-packages/numpy/lib/function_base.py:495: RuntimeWarning: Mean of empty slice.
+/Users/fzhu/Apps/miniconda3/envs/cfr-env/lib/python3.9/site-packages/numpy/lib/function_base.py:495: RuntimeWarning: Mean of empty slice.
   avg = a.mean(axis)
 /Users/fzhu/Apps/miniconda3/envs/cfr-env/lib/python3.9/site-packages/numpy/core/_methods.py:189: RuntimeWarning: invalid value encountered in double_scalars
   ret = ret.dtype.type(ret / rcount)
-Analyzing ProxyRecord:  34%|███▎      | 35/104 [00:00&lt;00:01, 61.80it/s]/Users/fzhu/Apps/miniconda3/envs/cfr-env/lib/python3.9/site-packages/numpy/lib/function_base.py:495: RuntimeWarning: Mean of empty slice.
+Analyzing ProxyRecord:  35%|███▍      | 36/104 [00:00&lt;00:01, 63.17it/s]/Users/fzhu/Apps/miniconda3/envs/cfr-env/lib/python3.9/site-packages/numpy/lib/function_base.py:495: RuntimeWarning: Mean of empty slice.
   avg = a.mean(axis)
 /Users/fzhu/Apps/miniconda3/envs/cfr-env/lib/python3.9/site-packages/numpy/core/_methods.py:189: RuntimeWarning: invalid value encountered in double_scalars
   ret = ret.dtype.type(ret / rcount)
-Analyzing ProxyRecord: 100%|██████████| 104/104 [00:01&lt;00:00, 59.08it/s]
+Analyzing ProxyRecord: 100%|██████████| 104/104 [00:01&lt;00:00, 60.26it/s]
 /Users/fzhu/Apps/miniconda3/envs/cfr-env/lib/python3.9/site-packages/pandas/core/apply.py:867: RuntimeWarning: Mean of empty slice
   results[i] = self.f(v)
 Bootstrapping:   0%|          | 0/110 [00:00&lt;?, ?it/s]/Users/fzhu/Github/cfr/cfr/utils.py:127: RuntimeWarning: Mean of empty slice
   stats[i] = stat_func(samples[rand_ind])
-Bootstrapping: 100%|██████████| 110/110 [00:01&lt;00:00, 65.39it/s]
+Bootstrapping: 100%|██████████| 110/110 [00:01&lt;00:00, 66.07it/s]
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">pdb_corals</span><span class="o">.</span><span class="n">plot_composite</span><span class="p">()</span>
-<span class="n">cfr</span><span class="o">.</span><span class="n">showfig</span><span class="p">(</span><span class="n">fig</span><span class="p">)</span>
-<span class="n">cfr</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">fig</span><span class="p">,</span> <span class="s1">&#39;./figs/coral_composites.pdf&#39;</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Check the composite infomation:</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;proxy_comp:</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">pdb_corals</span><span class="o">.</span><span class="n">composite</span><span class="p">[</span><span class="s1">&#39;proxy_comp&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;proxy_num:</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">pdb_corals</span><span class="o">.</span><span class="n">composite</span><span class="p">[</span><span class="s1">&#39;proxy_num&#39;</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;df_obs:</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">pdb_corals</span><span class="o">.</span><span class="n">composite</span><span class="p">[</span><span class="s1">&#39;df_obs&#39;</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;slope:</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">pdb_corals</span><span class="o">.</span><span class="n">composite</span><span class="p">[</span><span class="s1">&#39;slope&#39;</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;intercept:</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">pdb_corals</span><span class="o">.</span><span class="n">composite</span><span class="p">[</span><span class="s1">&#39;intercept&#39;</span><span class="p">])</span>
 </pre></div>
-</div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<img alt="../_images/notebooks_proxy-composites_14_0.png" src="../_images/notebooks_proxy-composites_14_0.png" />
 </div>
 </div>
 <div class="nboutput nblast docutils container">
@@ -1496,105 +1570,97 @@ Bootstrapping: 100%|██████████| 110/110 [00:01&lt;00:00, 65.
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Figure saved at: &#34;figs/coral_composites.pdf&#34;
+proxy_comp:
+ Float64Index([ 925.0,  935.0,  945.0,  955.0,  965.0,  975.0,  985.0,  995.0,
+              1005.0, 1015.0,
+              ...
+              1925.0, 1935.0, 1945.0, 1955.0, 1965.0, 1975.0, 1985.0, 1995.0,
+              2005.0, 2015.0],
+             dtype=&#39;float64&#39;, length=110)
+proxy_num:
+ [  1.   1.   1.   1.   1.   0.   0.   0.   0.   0.   0.   0.   0.   0.
+   0.   0.   0.   0.   0.   0.   0.   0.   1.   1.   1.   1.   1.   1.
+   1.   1.   1.   0.   0.   0.   0.   0.   0.   0.   0.   1.   1.   1.
+   2.   3.   3.   3.   5.   5.   5.   5.   5.   5.   5.   5.   5.   4.
+   4.   4.   4.   5.   5.   5.   5.   6.   7.   7.   7.   7.   8.   8.
+   9.  11.  12.  13.  13.  13.  13.  13.  16.  15.  17.  17.  17.  21.
+  21.  22.  29.  34.  38.  38.  41.  43.  48.  51.  56.  62.  71.  84.
+  93.  93.  98. 100. 101. 101.  99.  99.  98.  88.  26.   8.]
+df_obs:
+          Ocn_065   Ocn_075   Ocn_078   Ocn_167   Ocn_091   Ocn_093   Ocn_096  \
+1855.0       NaN       NaN       NaN -0.205589       NaN       NaN       NaN
+1865.0       NaN -0.411357       NaN       NaN       NaN       NaN       NaN
+1875.0       NaN       NaN       NaN       NaN       NaN       NaN       NaN
+1885.0       NaN -0.293635       NaN -0.343136       NaN       NaN       NaN
+1895.0       NaN -0.263564       NaN -0.357457 -0.017921 -0.017921       NaN
+1905.0       NaN -0.295720 -0.477541 -0.336948 -0.499484 -0.499484       NaN
+1915.0 -0.409030 -0.353642 -0.404239 -0.303997 -0.385642 -0.385642       NaN
+1925.0 -0.326301 -0.215696 -0.231768 -0.243615 -0.203692 -0.203692 -0.295812
+1935.0 -0.219341 -0.230150 -0.178130 -0.255383 -0.181764 -0.181764       NaN
+1945.0  0.050894  0.067905  0.041306 -0.134179 -0.115930 -0.115930       NaN
+1955.0  0.165398 -0.150163 -0.095860  0.028338 -0.069165 -0.069165 -0.056503
+1965.0 -0.020170 -0.232314 -0.147204 -0.099432 -0.175826 -0.175826 -0.215575
+1975.0  0.073728  0.003847 -0.015949 -0.021495  0.127029  0.127029  0.194500
+1985.0 -0.013573  0.173390  0.118942  0.151294  0.117000  0.117000  0.062425
+1995.0  0.078321  0.336906  0.236005  0.367082  0.125404  0.125404  0.114688
+2005.0  0.524196  0.536344  0.339151  0.470025  0.545965  0.545965  0.489652
+2015.0  0.594656  0.831119  0.576251  0.745144  0.560249  0.560249  0.492643
+2025.0  0.721700  0.598944  1.014098  0.902159  0.786555  0.786555  0.606045
+
+         Ocn_086   Ocn_101   Ocn_070  ...   Ocn_090   Ocn_119   Ocn_109  \
+1855.0       NaN       NaN       NaN  ...       NaN       NaN       NaN
+1865.0       NaN       NaN       NaN  ...       NaN       NaN       NaN
+1875.0       NaN       NaN       NaN  ...       NaN       NaN       NaN
+1885.0 -0.156775       NaN       NaN  ...       NaN       NaN       NaN
+1895.0 -0.307884       NaN       NaN  ...       NaN       NaN -0.017921
+1905.0 -0.297574       NaN       NaN  ...       NaN       NaN -0.499484
+1915.0 -0.258138 -0.441400 -0.475493  ... -0.282402       NaN -0.385642
+1925.0 -0.026011 -0.340216 -0.261950  ... -0.157599 -0.254639 -0.203692
+1935.0  0.118868 -0.342152 -0.157990  ... -0.046964 -0.233436 -0.181764
+1945.0 -0.142440 -0.016425  0.060123  ... -0.142528       NaN -0.115930
+1955.0  0.033336  0.007120 -0.041880  ... -0.087915 -0.211131 -0.069165
+1965.0 -0.105926 -0.221945 -0.045443  ... -0.176294 -0.034219 -0.175826
+1975.0 -0.037005  0.085508 -0.030004  ... -0.044368 -0.184235  0.127029
+1985.0  0.080488  0.091893  0.050631  ...  0.149136  0.134095  0.117000
+1995.0  0.111560  0.228314  0.082739  ...  0.226947  0.194516  0.125404
+2005.0  0.230500  0.345507  0.559948  ...  0.463342  0.311364  0.545965
+2015.0  0.516225  0.439639  0.541845  ...  0.614403  0.492854  0.560249
+2025.0  0.682405  0.737460  0.646357  ...  1.018375  0.681892  0.786555
+
+         Ocn_097   Ocn_159   Ocn_087   Ocn_153   Ocn_169   Ocn_071   Ocn_072
+1855.0       NaN       NaN       NaN       NaN       NaN       NaN       NaN
+1865.0       NaN       NaN       NaN       NaN       NaN       NaN       NaN
+1875.0       NaN       NaN       NaN       NaN       NaN       NaN       NaN
+1885.0       NaN       NaN       NaN -0.650625       NaN       NaN       NaN
+1895.0       NaN       NaN       NaN -0.448504       NaN       NaN       NaN
+1905.0       NaN       NaN       NaN -0.590030       NaN       NaN       NaN
+1915.0 -0.296292       NaN       NaN -0.428159       NaN       NaN       NaN
+1925.0 -0.154915 -0.254639       NaN -0.389576 -0.254639 -0.239705 -0.239705
+1935.0 -0.034458 -0.233436       NaN -0.284132 -0.233436 -0.186442 -0.186442
+1945.0 -0.157033       NaN       NaN -0.023910       NaN       NaN       NaN
+1955.0 -0.120586 -0.211131       NaN -0.269210 -0.211131 -0.184902 -0.184902
+1965.0 -0.196732 -0.034219 -0.042081 -0.183740 -0.034219 -0.027577 -0.027577
+1975.0 -0.043380 -0.184235 -0.123280 -0.019263 -0.184235 -0.148386 -0.148386
+1985.0  0.154048  0.134095  0.150367  0.164937  0.134095  0.099159  0.099159
+1995.0  0.145717  0.194516  0.432526  0.244548  0.194516  0.105454  0.105454
+2005.0  0.398888  0.311364  0.556371  0.227715  0.311364  0.456239  0.456239
+2015.0  0.561737  0.492854  0.708399  0.569747  0.492854  0.495962  0.495962
+2025.0  0.891832  0.681892  0.744754  0.744560  0.681892  0.622959  0.622959
+
+[18 rows x 104 columns]
+slope:
+ -0.7047097538255472
+intercept:
+ -0.2321439372057043
 </pre></div></div>
-</div>
-</section>
-<section id="The-composite-of-ice-core-records">
-<h2>The composite of ice core records<a class="headerlink" href="#The-composite-of-ice-core-records" title="Permalink to this headline">#</a></h2>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pdb_ice</span> <span class="o">=</span> <span class="n">pdb</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="s1">&#39;ptype&#39;</span><span class="p">,</span> <span class="n">keys</span><span class="o">=</span><span class="s1">&#39;ice&#39;</span><span class="p">)</span>
-<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">pdb_ice</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
-</pre></div>
-</div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<img alt="../_images/notebooks_proxy-composites_16_0.png" src="../_images/notebooks_proxy-composites_16_0.png" />
-</div>
 </div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pdb_ice</span><span class="o">.</span><span class="n">make_composite</span><span class="p">(</span>
-    <span class="n">obs_nc_path</span><span class="o">=</span><span class="s1">&#39;./data/HadCRUT.5.0.1.0.analysis.anomalies.ensemble_mean.nc&#39;</span><span class="p">,</span>
-    <span class="n">vn</span><span class="o">=</span><span class="s1">&#39;tas_mean&#39;</span><span class="p">,</span>
-    <span class="n">lat_name</span><span class="o">=</span><span class="s1">&#39;latitude&#39;</span><span class="p">,</span> <span class="n">lon_name</span><span class="o">=</span><span class="s1">&#39;longitude&#39;</span><span class="p">,</span>
-<span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area stderr docutils container">
-<div class="highlight"><pre>
-Analyzing ProxyRecord:  18%|█▊        | 9/49 [00:01&lt;00:07,  5.09it/s]/Users/fzhu/Apps/miniconda3/envs/cfr-env/lib/python3.9/site-packages/numpy/lib/function_base.py:495: RuntimeWarning: Mean of empty slice.
-  avg = a.mean(axis)
-/Users/fzhu/Apps/miniconda3/envs/cfr-env/lib/python3.9/site-packages/numpy/core/_methods.py:189: RuntimeWarning: invalid value encountered in double_scalars
-  ret = ret.dtype.type(ret / rcount)
-Analyzing ProxyRecord:  43%|████▎     | 21/49 [00:04&lt;00:05,  5.07it/s]/Users/fzhu/Apps/miniconda3/envs/cfr-env/lib/python3.9/site-packages/numpy/lib/function_base.py:495: RuntimeWarning: Mean of empty slice.
-  avg = a.mean(axis)
-/Users/fzhu/Apps/miniconda3/envs/cfr-env/lib/python3.9/site-packages/numpy/core/_methods.py:189: RuntimeWarning: invalid value encountered in double_scalars
-  ret = ret.dtype.type(ret / rcount)
-Analyzing ProxyRecord:  63%|██████▎   | 31/49 [00:06&lt;00:03,  5.02it/s]/Users/fzhu/Apps/miniconda3/envs/cfr-env/lib/python3.9/site-packages/numpy/lib/function_base.py:495: RuntimeWarning: Mean of empty slice.
-  avg = a.mean(axis)
-/Users/fzhu/Apps/miniconda3/envs/cfr-env/lib/python3.9/site-packages/numpy/core/_methods.py:189: RuntimeWarning: invalid value encountered in double_scalars
-  ret = ret.dtype.type(ret / rcount)
-Analyzing ProxyRecord:  65%|██████▌   | 32/49 [00:06&lt;00:03,  5.03it/s]/Users/fzhu/Apps/miniconda3/envs/cfr-env/lib/python3.9/site-packages/numpy/lib/function_base.py:495: RuntimeWarning: Mean of empty slice.
-  avg = a.mean(axis)
-/Users/fzhu/Apps/miniconda3/envs/cfr-env/lib/python3.9/site-packages/numpy/core/_methods.py:189: RuntimeWarning: invalid value encountered in double_scalars
-  ret = ret.dtype.type(ret / rcount)
-Analyzing ProxyRecord:  73%|███████▎  | 36/49 [00:07&lt;00:02,  5.07it/s]/Users/fzhu/Apps/miniconda3/envs/cfr-env/lib/python3.9/site-packages/numpy/lib/function_base.py:495: RuntimeWarning: Mean of empty slice.
-  avg = a.mean(axis)
-/Users/fzhu/Apps/miniconda3/envs/cfr-env/lib/python3.9/site-packages/numpy/core/_methods.py:189: RuntimeWarning: invalid value encountered in double_scalars
-  ret = ret.dtype.type(ret / rcount)
-Analyzing ProxyRecord:  88%|████████▊ | 43/49 [00:08&lt;00:01,  5.17it/s]/Users/fzhu/Apps/miniconda3/envs/cfr-env/lib/python3.9/site-packages/numpy/lib/function_base.py:495: RuntimeWarning: Mean of empty slice.
-  avg = a.mean(axis)
-/Users/fzhu/Apps/miniconda3/envs/cfr-env/lib/python3.9/site-packages/numpy/core/_methods.py:189: RuntimeWarning: invalid value encountered in double_scalars
-  ret = ret.dtype.type(ret / rcount)
-Analyzing ProxyRecord: 100%|██████████| 49/49 [00:09&lt;00:00,  5.08it/s]
-Bootstrapping:   0%|          | 0/207 [00:00&lt;?, ?it/s]/Users/fzhu/Github/cfr/cfr/utils.py:127: RuntimeWarning: Mean of empty slice
-  stats[i] = stat_func(samples[rand_ind])
-Bootstrapping: 100%|██████████| 207/207 [00:03&lt;00:00, 66.11it/s]
-</pre></div></div>
-</div>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Check the composite infomation:</span>
-
-<span class="c1"># pdb_ice.composite[&#39;proxy_comp&#39;].index</span>
-<span class="c1"># pdb_ice.composite[&#39;proxy_num&#39;]</span>
-<span class="c1"># pdb_ice.composite[&#39;df_obs&#39;]</span>
-<span class="n">pdb_ice</span><span class="o">.</span><span class="n">composite</span><span class="p">[</span><span class="s1">&#39;slope&#39;</span><span class="p">]</span>
-<span class="c1"># pdb_ice.composite[&#39;intercept&#39;]</span>
-</pre></div>
-</div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
-</pre></div>
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-2.0593226894261307
-</pre></div></div>
-</div>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">pdb_ice</span><span class="o">.</span><span class="n">plot_composite</span><span class="p">()</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">pdb_corals</span><span class="o">.</span><span class="n">plot_composite</span><span class="p">()</span>
 <span class="n">cfr</span><span class="o">.</span><span class="n">showfig</span><span class="p">(</span><span class="n">fig</span><span class="p">)</span>
-<span class="n">cfr</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">fig</span><span class="p">,</span> <span class="s1">&#39;./figs/composite.pdf&#39;</span><span class="p">)</span>
+<span class="n">cfr</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">fig</span><span class="p">,</span> <span class="s1">&#39;./figs/coral_composites.pdf&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1610,7 +1676,207 @@ Bootstrapping: 100%|██████████| 207/207 [00:03&lt;00:00, 66.
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Figure saved at: &#34;figs/composite.pdf&#34;
+Figure saved at: &#34;figs/coral_composites.pdf&#34;
+</pre></div></div>
+</div>
+</section>
+</section>
+<section id="The-composite-of-ice-core-records">
+<h2>The composite of ice core records<a class="headerlink" href="#The-composite-of-ice-core-records" title="Permalink to this headline">#</a></h2>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pdb_ice</span> <span class="o">=</span> <span class="n">pdb</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="s1">&#39;ptype&#39;</span><span class="p">,</span> <span class="n">keys</span><span class="o">=</span><span class="s1">&#39;ice&#39;</span><span class="p">)</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">pdb_ice</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/notebooks_proxy-composites_21_0.png" src="../_images/notebooks_proxy-composites_21_0.png" />
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pdb_ice</span><span class="o">.</span><span class="n">make_composite</span><span class="p">(</span>
+    <span class="n">obs_nc_path</span><span class="o">=</span><span class="s1">&#39;./data/HadCRUT.5.0.1.0.analysis.anomalies.ensemble_mean.nc&#39;</span><span class="p">,</span>
+    <span class="n">vn</span><span class="o">=</span><span class="s1">&#39;tas_mean&#39;</span><span class="p">,</span>
+    <span class="n">lat_name</span><span class="o">=</span><span class="s1">&#39;latitude&#39;</span><span class="p">,</span> <span class="n">lon_name</span><span class="o">=</span><span class="s1">&#39;longitude&#39;</span><span class="p">,</span>
+    <span class="n">bin_width</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+Analyzing ProxyRecord:  18%|█▊        | 9/49 [00:01&lt;00:07,  5.16it/s]/Users/fzhu/Apps/miniconda3/envs/cfr-env/lib/python3.9/site-packages/numpy/lib/function_base.py:495: RuntimeWarning: Mean of empty slice.
+  avg = a.mean(axis)
+/Users/fzhu/Apps/miniconda3/envs/cfr-env/lib/python3.9/site-packages/numpy/core/_methods.py:189: RuntimeWarning: invalid value encountered in double_scalars
+  ret = ret.dtype.type(ret / rcount)
+Analyzing ProxyRecord:  43%|████▎     | 21/49 [00:04&lt;00:05,  5.18it/s]/Users/fzhu/Apps/miniconda3/envs/cfr-env/lib/python3.9/site-packages/numpy/lib/function_base.py:495: RuntimeWarning: Mean of empty slice.
+  avg = a.mean(axis)
+/Users/fzhu/Apps/miniconda3/envs/cfr-env/lib/python3.9/site-packages/numpy/core/_methods.py:189: RuntimeWarning: invalid value encountered in double_scalars
+  ret = ret.dtype.type(ret / rcount)
+Analyzing ProxyRecord:  63%|██████▎   | 31/49 [00:06&lt;00:03,  5.03it/s]/Users/fzhu/Apps/miniconda3/envs/cfr-env/lib/python3.9/site-packages/numpy/lib/function_base.py:495: RuntimeWarning: Mean of empty slice.
+  avg = a.mean(axis)
+/Users/fzhu/Apps/miniconda3/envs/cfr-env/lib/python3.9/site-packages/numpy/core/_methods.py:189: RuntimeWarning: invalid value encountered in double_scalars
+  ret = ret.dtype.type(ret / rcount)
+Analyzing ProxyRecord:  65%|██████▌   | 32/49 [00:06&lt;00:03,  5.05it/s]/Users/fzhu/Apps/miniconda3/envs/cfr-env/lib/python3.9/site-packages/numpy/lib/function_base.py:495: RuntimeWarning: Mean of empty slice.
+  avg = a.mean(axis)
+/Users/fzhu/Apps/miniconda3/envs/cfr-env/lib/python3.9/site-packages/numpy/core/_methods.py:189: RuntimeWarning: invalid value encountered in double_scalars
+  ret = ret.dtype.type(ret / rcount)
+Analyzing ProxyRecord:  73%|███████▎  | 36/49 [00:07&lt;00:02,  5.12it/s]/Users/fzhu/Apps/miniconda3/envs/cfr-env/lib/python3.9/site-packages/numpy/lib/function_base.py:495: RuntimeWarning: Mean of empty slice.
+  avg = a.mean(axis)
+/Users/fzhu/Apps/miniconda3/envs/cfr-env/lib/python3.9/site-packages/numpy/core/_methods.py:189: RuntimeWarning: invalid value encountered in double_scalars
+  ret = ret.dtype.type(ret / rcount)
+Analyzing ProxyRecord:  88%|████████▊ | 43/49 [00:08&lt;00:01,  5.15it/s]/Users/fzhu/Apps/miniconda3/envs/cfr-env/lib/python3.9/site-packages/numpy/lib/function_base.py:495: RuntimeWarning: Mean of empty slice.
+  avg = a.mean(axis)
+/Users/fzhu/Apps/miniconda3/envs/cfr-env/lib/python3.9/site-packages/numpy/core/_methods.py:189: RuntimeWarning: invalid value encountered in double_scalars
+  ret = ret.dtype.type(ret / rcount)
+Analyzing ProxyRecord: 100%|██████████| 49/49 [00:09&lt;00:00,  5.11it/s]
+Bootstrapping:   0%|          | 0/207 [00:00&lt;?, ?it/s]/Users/fzhu/Github/cfr/cfr/utils.py:127: RuntimeWarning: Mean of empty slice
+  stats[i] = stat_func(samples[rand_ind])
+Bootstrapping: 100%|██████████| 207/207 [00:03&lt;00:00, 67.77it/s]
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Check the composite infomation:</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;proxy_comp:</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">pdb_ice</span><span class="o">.</span><span class="n">composite</span><span class="p">[</span><span class="s1">&#39;proxy_comp&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;proxy_num:</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">pdb_ice</span><span class="o">.</span><span class="n">composite</span><span class="p">[</span><span class="s1">&#39;proxy_num&#39;</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;df_obs:</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">pdb_ice</span><span class="o">.</span><span class="n">composite</span><span class="p">[</span><span class="s1">&#39;df_obs&#39;</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;slope:</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">pdb_ice</span><span class="o">.</span><span class="n">composite</span><span class="p">[</span><span class="s1">&#39;slope&#39;</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;intercept:</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">pdb_ice</span><span class="o">.</span><span class="n">composite</span><span class="p">[</span><span class="s1">&#39;intercept&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+proxy_comp:
+ Float64Index([ -45.0,  -35.0,  -25.0,  -15.0,   -5.0,    5.0,   15.0,   25.0,
+                35.0,   45.0,
+              ...
+              1925.0, 1935.0, 1945.0, 1955.0, 1965.0, 1975.0, 1985.0, 1995.0,
+              2005.0, 2015.0],
+             dtype=&#39;float64&#39;, length=207)
+proxy_num:
+ [ 2.  2.  3.  3.  3. 18. 16. 13. 18. 14. 17. 16. 14. 18. 13. 18. 14. 16.
+ 17. 14. 19. 16. 18. 21. 17. 21. 16. 20. 22. 17. 22. 18. 20. 21. 18. 22.
+ 18. 19. 22. 18. 22. 17. 20. 22. 18. 22. 19. 19. 23. 19. 22. 21. 19. 23.
+ 20. 21. 21. 18. 23. 21. 24. 20. 22. 24. 19. 24. 22. 20. 24. 22. 22. 22.
+ 21. 22. 23. 25. 20. 23. 25. 20. 25. 23. 22. 27. 25. 24. 26. 25. 26. 26.
+ 28. 26. 24. 29. 27. 28. 28. 28. 28. 28. 29. 26. 28. 30. 26. 33. 31. 28.
+ 33. 31. 33. 29. 30. 33. 30. 31. 30. 31. 32. 30. 34. 31. 30. 34. 32. 34.
+ 29. 34. 37. 34. 38. 35. 34. 38. 36. 38. 36. 34. 38. 36. 38. 34. 36. 38.
+ 37. 37. 39. 39. 41. 39. 40. 40. 41. 42. 39. 43. 41. 41. 44. 40. 44. 42.
+ 41. 42. 43. 45. 43. 43. 45. 41. 45. 44. 45. 47. 45. 46. 46. 46. 48. 46.
+ 48. 46. 46. 48. 46. 48. 46. 46. 48. 46. 48. 46. 46. 47. 45. 47. 45. 43.
+ 45. 42. 44. 42. 41. 38. 31. 11.  2.]
+df_obs:
+          Ant_023   Ant_024   Asi_243   Ant_012   Ant_020   Arc_029   Arc_035  \
+1855.0       NaN       NaN       NaN       NaN       NaN       NaN       NaN
+1865.0       NaN       NaN       NaN       NaN       NaN       NaN       NaN
+1875.0       NaN       NaN       NaN       NaN       NaN       NaN       NaN
+1885.0       NaN       NaN  0.139995       NaN       NaN       NaN       NaN
+1895.0       NaN       NaN -0.118933       NaN       NaN       NaN       NaN
+1905.0       NaN       NaN -0.369459       NaN       NaN       NaN -0.603498
+1915.0       NaN       NaN -0.175235       NaN       NaN       NaN -0.614646
+1925.0       NaN       NaN -0.018831       NaN       NaN       NaN  0.086704
+1935.0       NaN       NaN -0.057067       NaN       NaN  0.538414 -0.021455
+1945.0       NaN       NaN  0.236839       NaN       NaN  0.776661  0.112016
+1955.0       NaN       NaN  0.168506       NaN       NaN  0.521945  0.135299
+1965.0 -0.313322 -0.253688 -0.196634 -0.292372 -0.292372 -0.137939  0.101147
+1975.0 -0.048645  0.021360  0.050542 -0.048588 -0.048588 -0.119113 -0.159988
+1985.0  0.250237  0.113763  0.159978  0.290649  0.290649  0.253296  0.086987
+1995.0  0.113013 -0.020191  0.513645  0.224178  0.224178  0.953670  0.585728
+2005.0  0.299738  0.400907  1.225578  0.383425  0.383425  1.852015  1.665739
+2015.0  0.581113  0.715279  1.341981       NaN       NaN  3.126605  2.677361
+2025.0  0.778325  1.112580  0.937778       NaN       NaN  3.614207  3.113754
+
+         Ant_001   Ant_006   Ant_022  ...   Ant_017   Arc_072   Arc_005  \
+1855.0       NaN       NaN       NaN  ...       NaN -0.280897       NaN
+1865.0       NaN       NaN       NaN  ...       NaN -0.670608       NaN
+1875.0       NaN       NaN       NaN  ...       NaN -0.585217       NaN
+1885.0       NaN       NaN       NaN  ...       NaN -0.660067       NaN
+1895.0       NaN       NaN       NaN  ...       NaN -0.562983       NaN
+1905.0       NaN       NaN       NaN  ...       NaN -0.417878       NaN
+1915.0       NaN       NaN       NaN  ...       NaN -1.320367       NaN
+1925.0       NaN       NaN       NaN  ...       NaN  0.060131       NaN
+1935.0       NaN       NaN       NaN  ...       NaN  0.981169  0.264023
+1945.0       NaN       NaN       NaN  ...       NaN  0.236257  0.627976
+1955.0       NaN       NaN       NaN  ...       NaN  0.802106  0.365638
+1965.0 -0.267722 -0.292372 -0.267722  ... -0.278118 -0.407866 -0.090010
+1975.0 -0.075961 -0.048588 -0.075961  ... -0.099375  0.204257 -0.116037
+1985.0  0.228602  0.290649  0.228602  ...  0.254905  0.049942  0.205072
+1995.0  0.067558  0.224178  0.067558  ...  0.233954  0.754574  0.925490
+2005.0  0.158230  0.383425  0.158230  ...  0.343302  1.515841  1.965930
+2015.0  0.323441       NaN  0.323441  ...       NaN  2.208421  3.132025
+2025.0  0.494990       NaN  0.494990  ...       NaN  2.283274  3.490996
+
+         Ant_019   Ant_014   Arc_018   Ant_025   Ant_004   Ant_021   Ant_026
+1855.0       NaN       NaN -0.292929       NaN       NaN       NaN       NaN
+1865.0       NaN       NaN -0.650675       NaN       NaN       NaN       NaN
+1875.0       NaN       NaN -0.600465       NaN       NaN       NaN       NaN
+1885.0       NaN       NaN -0.653229       NaN       NaN       NaN       NaN
+1895.0       NaN       NaN -0.552476       NaN       NaN       NaN       NaN
+1905.0       NaN       NaN -0.400410       NaN       NaN       NaN       NaN
+1915.0       NaN       NaN -1.298685       NaN       NaN       NaN       NaN
+1925.0       NaN       NaN  0.085491       NaN       NaN       NaN       NaN
+1935.0       NaN       NaN  0.992762       NaN       NaN       NaN       NaN
+1945.0       NaN       NaN  0.266806       NaN       NaN       NaN       NaN
+1955.0       NaN       NaN  0.835667       NaN       NaN       NaN       NaN
+1965.0 -0.298497 -0.385644 -0.436804 -0.312661 -0.352912 -0.298170 -0.379588
+1975.0 -0.056960 -0.006243  0.231445 -0.049492 -0.018038  0.052657  0.015876
+1985.0  0.276860  0.211112  0.051274  0.254946  0.203027  0.095440  0.139570
+1995.0  0.165074 -0.073291  0.760437  0.137430  0.219234  0.015530 -0.135029
+2005.0  0.334288  0.415313  1.557320  0.312354  0.203737  0.088824  0.516788
+2015.0       NaN  0.428496  2.293309       NaN  0.279991  0.308260  0.388682
+2025.0       NaN  1.066092  2.478646       NaN  0.496328  0.500786  1.201178
+
+[18 rows x 49 columns]
+slope:
+ 2.0593226894261307
+intercept:
+ -0.31291868333382383
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">pdb_ice</span><span class="o">.</span><span class="n">plot_composite</span><span class="p">()</span>
+<span class="n">cfr</span><span class="o">.</span><span class="n">showfig</span><span class="p">(</span><span class="n">fig</span><span class="p">)</span>
+<span class="n">cfr</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">fig</span><span class="p">,</span> <span class="s1">&#39;./figs/ice_composite.pdf&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/notebooks_proxy-composites_24_0.png" src="../_images/notebooks_proxy-composites_24_0.png" />
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Figure saved at: &#34;figs/ice_composite.pdf&#34;
 </pre></div></div>
 </div>
 <div class="nbinput nblast docutils container">

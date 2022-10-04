@@ -86,10 +86,23 @@ def get_ptype(archive_type, proxy_type):
         ('documents', 'historic'): 'documents',
     }
 
-    if (archive_type, proxy_type) in ptype_dict:
-        ptype = ptype_dict[(archive_type, proxy_type)]
+    ptype_dict_fuzzy = {}
+    for k, v in ptype_dict.items():
+        archive_str, proxy_str = k
+        ptype_dict_fuzzy[(
+            archive_str.lower().replace(' ', '').replace('/', ''),
+            proxy_str.lower().replace(' ', '').replace('/', ''),
+        )] = v
+
+    archive_type_fuzzy = archive_type.lower().replace(' ', '').replace('/', '')
+    proxy_type_fuzzy = proxy_type.lower().replace(' ', '').replace('/', '')
+
+    input_pair_fuzzy = (archive_type_fuzzy, proxy_type_fuzzy)
+
+    if input_pair_fuzzy in ptype_dict_fuzzy:
+        ptype = ptype_dict_fuzzy[(archive_type_fuzzy, proxy_type_fuzzy)]
     else:
-        ptype = f'{archive_type.replace(" ", "_")}.{proxy_type.replace(" ", "_")}'
+        ptype = f"{archive_type_fuzzy}.{proxy_type_fuzzy}"
 
     return ptype
 

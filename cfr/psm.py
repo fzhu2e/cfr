@@ -38,7 +38,7 @@ class TempPlusNoise:
         self.pobj = pobj
         self.climate_required = climate_required
 
-    def calibrate(self, SNR=10, seasonality=list(range(1, 13)), vn='model_tas',
+    def calibrate(self, SNR=10, seasonality=list(range(1, 13)), vn='model.tas',
                   seed=None, noise='white', colored_noise_kws=None):
         ''' Calibrate the PSM.'''
         sigma = np.nanstd(self.pobj.clim[vn].da.values) / SNR
@@ -58,7 +58,7 @@ class TempPlusNoise:
         }
         self.calib_details = calib_details
 
-    def forward(self, vn='model_tas', no_noise=False):
+    def forward(self, vn='model.tas', no_noise=False):
         ''' Forward the PSM.'''
         if no_noise:
             value = self.pobj.clim[vn].da.values 
@@ -93,7 +93,7 @@ class Linear:
         self.climate_required = climate_required
 
     def calibrate(self, calib_period=None, nobs_lb=25, metric='fitR2adj',
-        season_list=[list(range(1, 13))], annualize_exog=True, exog_name='obs_tas', **fit_args):
+        season_list=[list(range(1, 13))], annualize_exog=True, exog_name='obs.tas', **fit_args):
         exog = self.pobj.clim[exog_name]
 
         if type(season_list[0]) is not list:
@@ -162,7 +162,7 @@ class Linear:
             self.calib_details = None
             self.model = None
 
-    def forward(self, exog_name='model_tas'):
+    def forward(self, exog_name='model.tas'):
         sn = self.calib_details['seasonality']
         exog = self.pobj.clim[exog_name]
         if sn != 'monthly':
@@ -202,7 +202,7 @@ class Bilinear:
 
     def calibrate(self, calib_period=None, nobs_lb=25, metric='fitR2adj',
         season_list1=[list(range(1, 13))], season_list2=[list(range(1, 13))],
-        annualize_exog=True, exog1_name='obs_tas', exog2_name='obs_pr', **fit_args):
+        annualize_exog=True, exog1_name='obs.tas', exog2_name='obs.pr', **fit_args):
         exog1 = self.pobj.clim[exog1_name]
         exog2 = self.pobj.clim[exog2_name]
 
@@ -279,7 +279,7 @@ class Bilinear:
             self.calib_details = None
             self.model = None
 
-    def forward(self, exog1_name='model_tas', exog2_name='model_pr'):
+    def forward(self, exog1_name='model.tas', exog2_name='model.pr'):
         exog1 = self.pobj.clim[exog1_name]
         exog2 = self.pobj.clim[exog2_name]
         sn1, sn2 = self.calib_details['seasonality']
@@ -319,7 +319,7 @@ class Ice_d18O():
         pobj (cfr.proxy.ProxyRecord): the proxy record object
         climate_required (cfr.climate.ClimateField): the required climate field object for running this PSM
     '''
-    def __init__(self, pobj=None, tas_name='model_tas', pr_name='model_pr', psl_name='model_psl', d18O_name='model_d18O',
+    def __init__(self, pobj=None, tas_name='model.tas', pr_name='model.pr', psl_name='model.psl', d18O_name='model.d18O',
                  climate_required=['tas', 'pr', 'psl', 'd18O']):
         self.pobj = pobj
         self.tas_name = tas_name
@@ -693,7 +693,7 @@ class Lake_VarveThickness():
 
     It takes summer temperature as input (JJA for NH and DJF for SH).
     '''
-    def __init__(self, pobj=None, model_tas_name='model_tas', H=None, shape=None, mean=None, SNR=None, seed=None,
+    def __init__(self, pobj=None, model_tas_name='model.tas', H=None, shape=None, mean=None, SNR=None, seed=None,
                  climate_required=['tas']):
         self.pobj = pobj
         self.H = H
@@ -813,7 +813,7 @@ class Lake_VarveThickness():
 class Coral_SrCa:
     ''' The coral Sr/Ca model
     '''
-    def __init__(self, pobj=None, model_tos_name='model_tos', b=10.553, a=None, seed=None, climate_required='tos'):
+    def __init__(self, pobj=None, model_tos_name='model.tos', b=10.553, a=None, seed=None, climate_required='tos'):
         self.pobj = pobj
         self.model_tos_name = model_tos_name
         self.b = b
@@ -856,7 +856,7 @@ class Coral_d18O:
        model of coral \u03b418O, Geophys.Res.Lett., 38, L14706, doi:10.1029/2011GL048224.>
        Returns a numpy array that is the same size and shape as the input vectors for SST, SSS.
     '''
-    def __init__(self, pobj=None, model_tos_name='model_tos', model_d18Osw_name='model_d18Osw',
+    def __init__(self, pobj=None, model_tos_name='model.tos', model_d18Osw_name='model.d18Osw',
         climate_required=['tos', 'd18Osw'], species='default',
         b1=0.3007062, b2=0.2619054, b3=0.436509, b4=0.1552032, b5=0.15):
         self.pobj = pobj
@@ -1027,8 +1027,8 @@ class VSLite:
     ''' The VS-Lite tree-ring width model that takes monthly tas, pr as input.
     '''
     def __init__(self, pobj=None,
-            obs_tas_name='obs_tas', obs_pr_name='obs_pr',
-            model_tas_name='model_tas', model_pr_name='model_pr',
+            obs_tas_name='obs.tas', obs_pr_name='obs.pr',
+            model_tas_name='model.tas', model_pr_name='model.pr',
             climate_required=['tas', 'pr'],
         ):
         self.pobj = pobj

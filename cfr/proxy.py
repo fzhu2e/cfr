@@ -331,7 +331,7 @@ class ProxyRecord:
         for field in fields:
             name = field.da.name
             if tag is not None:
-                name = f'{tag}_{name}'
+                name = f'{tag}.{name}'
 
             nda = field.da.sel(lat=self.lat, lon=self.lon, **_kwargs)
             if np.all(np.isnan(nda.values)):

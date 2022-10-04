@@ -369,11 +369,11 @@ class ReconJob:
 
             if psm_name in ['TempPlusNoise']:
                 for vn in psm.__dict__[psm_name]().climate_required:
-                    if 'clim' not in pobj.__dict__ or f'model_{vn}' not in pobj.clim:
+                    if 'clim' not in pobj.__dict__ or f'model.{vn}' not in pobj.clim:
                         pobj.get_clim(self.prior[vn], tag='model')
             else:
                 for vn in psm.__dict__[psm_name]().climate_required:
-                    if 'clim' not in pobj.__dict__ or f'obs_{vn}' not in pobj.clim:
+                    if 'clim' not in pobj.__dict__ or f'obs.{vn}' not in pobj.clim:
                         pobj.get_clim(self.obs[vn], tag='obs')
 
 
@@ -409,7 +409,7 @@ class ReconJob:
             
         for pid, pobj in tqdm(pdb_calib.records.items(), total=pdb_calib.nrec, desc='Forwarding the PSMs'):
             for vn in pobj.psm.climate_required:
-                if 'clim' not in pobj.__dict__ or f'model_{vn}' not in pobj.clim:
+                if 'clim' not in pobj.__dict__ or f'model.{vn}' not in pobj.clim:
                     pobj.get_clim(self.prior[vn], tag='model')
 
             pobj.pseudo = pobj.psm.forward(**kwargs)

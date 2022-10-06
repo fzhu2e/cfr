@@ -67,6 +67,9 @@ class STYLE:
         'ice.melt': sns.xkcd_rgb['pale blue'],
         'ice.d18O': sns.xkcd_rgb['light blue'],
         'ice.dD': sns.xkcd_rgb['sky blue'],
+        'ice.d-excess': sns.xkcd_rgb['sky blue'],
+        'ice.isotope_diffusion': sns.xkcd_rgb['sky blue'],
+        'ice.hybrid': sns.xkcd_rgb['sky blue'],
         'tree.TRW': sns.xkcd_rgb['green'],
         'tree.MXD': sns.xkcd_rgb['forest green'],
         'tree.ENSO': sns.xkcd_rgb['sea green'],
@@ -76,6 +79,7 @@ class STYLE:
         'tas': sns.xkcd_rgb['pale red'],
         'pr': sns.xkcd_rgb['aqua'],
         'speleothem.d18O': sns.xkcd_rgb['light brown'],
+        'speleothem.dD': sns.xkcd_rgb['brown'],
         'bivalve.d18O': sns.xkcd_rgb['gold'],
         'marine.TEX86': sns.xkcd_rgb['brown'],
         'marine.MgCa': sns.xkcd_rgb['brown'],
@@ -84,6 +88,9 @@ class STYLE:
         'marine.alkenone': sns.xkcd_rgb['brown'],
         'marine.foram': sns.xkcd_rgb['brown'],
         'marine.diatom': sns.xkcd_rgb['brown'],
+        'marine.dinocyst': sns.xkcd_rgb['brown'],
+        'marine.radiolaria': sns.xkcd_rgb['brown'],
+        'marine.GDGT': sns.xkcd_rgb['brown'],
         'lake.varve_thickness': sns.xkcd_rgb['dark blue'],
         'lake.varve_property': sns.xkcd_rgb['dark blue'],
         'lake.accumulation': sns.xkcd_rgb['dark blue'],
@@ -98,6 +105,7 @@ class STYLE:
         'borehole': sns.xkcd_rgb['peach'],
         'hybrid': sns.xkcd_rgb['maroon'],
         'documents': sns.xkcd_rgb['mauve'],
+        'peat.pollen': sns.xkcd_rgb['brown'],
     }
 
     markers_dict = {
@@ -108,6 +116,9 @@ class STYLE:
         'ice.melt': '<',
         'ice.d18O': 'd',
         'ice.dD': '>',
+        'ice.d-excess': 'o',
+        'ice.isotope_diffusion': 'h',
+        'ice.hybrid': '8',
         'tree.TRW': '^',
         'tree.MXD': 'v',
         'tree.ENSO': '^',
@@ -117,6 +128,7 @@ class STYLE:
         'tas': '^',
         'pr': 'o',
         'speleothem.d18O': 'o',
+        'speleothem.dD': '>',
         'bivalve.d18O': 'o',
         'marine.TEX86': '*',
         'marine.MgCa': 'v',
@@ -125,6 +137,9 @@ class STYLE:
         'marine.alkenone': 'h',
         'marine.foram': '8',
         'marine.diatom': '^',
+        'marine.dinocyst': '>',
+        'marine.radiolaria': '<',
+        'marine.GDGT': 's',
         'lake.varve_thickness': 'H',
         'lake.varve_property': 's',
         'lake.accumulation': 'v',
@@ -139,6 +154,7 @@ class STYLE:
         'borehole': '8',
         'hybrid': 'P',
         'documents': 'X',
+        'peat.pollen': 'o',
     }
 
 class CartopySettings:
@@ -393,10 +409,20 @@ def plot_field_map(field_var, lat, lon, levels=50, add_cyclic_point=True,
 
         s_plots = []
         for ptype in ptypes:
+            if ptype in STYLE.markers_dict:
+                marker = STYLE.markers_dict[ptype]
+            else:
+                marker = 'o'
+
+            if ptype in STYLE.colors_dict:
+                color = STYLE.colors_dict[ptype]
+            else:
+                color = sns.xkcd_rgb['amber']
+
             s_plots.append(
                 ax.scatter(
-                    site_lons[ptype], site_lats[ptype], marker=STYLE.markers_dict[ptype],
-                    c=STYLE.colors_dict[ptype], edgecolor='k', s=site_markersize, transform=ccrs.PlateCarree()
+                    site_lons[ptype], site_lats[ptype], marker=marker,
+                    c=color, edgecolor='k', s=site_markersize, transform=ccrs.PlateCarree()
                 )
             )
 

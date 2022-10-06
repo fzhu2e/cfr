@@ -43,7 +43,6 @@ def get_ptype(archive_type, proxy_type):
         ('tree', 'TRW'): 'tree.TRW',
         ('tree', 'ENSO'): 'tree.ENSO',
         ('coral', 'Sr/Ca'): 'coral.SrCa',
-        ('coral', 'SrCa'): 'coral.SrCa',
         ('coral', 'SrCa_annual'): 'coral.SrCa',
         ('coral', 'Coral Sr/Ca'): 'coral.SrCa',
         ('coral', 'd18O'): 'coral.d18O',
@@ -102,12 +101,12 @@ def get_ptype(archive_type, proxy_type):
     for k, v in ptype_dict.items():
         archive_str, proxy_str = k
         ptype_dict_fuzzy[(
-            archive_str.lower().replace(' ', '').replace('/', ''),
-            proxy_str.lower().replace(' ', '').replace('/', ''),
+            archive_str.lower().replace(' ', '').replace('/', '').replace('_', ''),
+            proxy_str.lower().replace(' ', '').replace('/', '').replace('_', ''),
         )] = v
 
-    archive_type_fuzzy = archive_type.lower().replace(' ', '').replace('/', '')
-    proxy_type_fuzzy = proxy_type.lower().replace(' ', '').replace('/', '')
+    archive_type_fuzzy = archive_type.lower().replace(' ', '').replace('/', '').replace('_', '')
+    proxy_type_fuzzy = proxy_type.lower().replace(' ', '').replace('/', '').replace('_', '')
 
     input_pair_fuzzy = (archive_type_fuzzy, proxy_type_fuzzy)
 

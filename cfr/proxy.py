@@ -1026,8 +1026,8 @@ class ProxyDatabase:
 
             if obs is not None:
                 pobj.get_clim(obs, tag='obs')
-                pobj.clim[f'obs_{vn}'].center(ref_period=anom_period)
-                obs_time, obs_value, _ = utils.smooth_ts(pobj.clim[f'obs_{vn}'].time, pobj.clim[f'obs_{vn}'].da.values, bin_width=bin_width)
+                pobj.clim[f'obs.{vn}'].center(ref_period=anom_period)
+                obs_time, obs_value, _ = utils.smooth_ts(pobj.clim[f'obs.{vn}'].time, pobj.clim[f'obs.{vn}'].da.values, bin_width=bin_width)
                 ts_obs = pd.Series(index=obs_time, data=obs_value, name=pid)
 
                 if 'df_obs' not in locals():

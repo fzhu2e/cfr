@@ -146,13 +146,15 @@ class EnKF:
         self.Xb_aug_coords = np.append(self.Xb_coords, self.Ye_coords['assim'], axis=0)
         self.Xb_aug_coords = np.append(self.Xb_aug_coords, self.Ye_coords['eval'], axis=0)
 
-    def update_yr(self, target_yr, recon_loc_rad=25000, recon_timescale=1, debug=False):
+    def update_yr(self, target_yr, recon_loc_rad=25000, recon_timescale=1, debug=False, verbose=False, allownan=False):
         start_yr = target_yr - recon_timescale/2
         end_yr = target_yr + recon_timescale/2
         Xb = np.copy(self.Xb_aug)
 
         i = 0
         for pid, pobj in self.pdb_assim.records.items():
+            if verbose: print(f'Scanning record: {pobj.pid} ...')
+
             mask = (pobj.time >= start_yr) & (pobj.time <= end_yr)
             nYobs = np.sum(mask)
             if nYobs == 0:
@@ -180,11 +182,12 @@ class EnKF:
                     print(f'\tXb_mean: {Xb_mean:.2f}, Xa_mean: {Xa_mean:.2f}')
                     print(f'\tInnovation: {innov:.2f}, ob_err: {ob_err:.2f}, Yobs: {Yobs:.2f}, Ye_mean: {Ye.mean():.2f}')
 
-            Xbvar = Xb.var(axis=1, ddof=1)
-            Xavar = Xa.var(axis=1, ddof=1)
-            vardiff = Xavar - Xbvar
-            if (not np.isfinite(np.min(vardiff))) or (not np.isfinite(np.max(vardiff))):
-                raise ValueError('Reconstruction has blown-up. Exiting!')
+            if not allownan:
+                Xbvar = Xb.var(axis=1, ddof=1)
+                Xavar = Xa.var(axis=1, ddof=1)
+                vardiff = Xavar - Xbvar
+                if (not np.isfinite(np.min(vardiff))) or (not np.isfinite(np.max(vardiff))):
+                    raise ValueError('Reconstruction has blown-up. Exiting!')
 
             if debug: print('min/max change in variance: ('+str(np.min(vardiff))+','+str(np.max(vardiff))+')')
             i += 1
@@ -195,7 +198,7 @@ class EnKF:
 
     def run(self, recon_yrs=np.arange(1, 2001), recon_loc_rad=25000, recon_timescale=1,recon_sampling_mode='fixed',
             recon_sampling_dist='normal', normal_sampling_sigma=None, normal_sampling_cutoff_factor=3,
-            trim_prior=True, verbose=False, debug=False):
+            trim_prior=True, verbose=False, debug=False, allownan=False):
 
         nt = np.size(recon_yrs)
         nrow = 0
@@ -213,7 +216,7 @@ class EnKF:
             self.gen_Ye()
             self.gen_Xb()
             for yr_idx, target_yr in enumerate(tqdm(recon_yrs, desc='KF updating')):
-                self.Xa[yr_idx] = self.update_yr(target_yr, recon_loc_rad, recon_timescale, debug=debug)
+                self.Xa[yr_idx] = self.update_yr(target_yr, recon_loc_rad, recon_timescale, debug=debug, verbose=verbose, allownan=allownan)
 
         elif recon_sampling_mode == 'rolling':
             if verbose: p_header(f'>>> Rolling prior sampling with normal distribution ...')

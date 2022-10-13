@@ -420,7 +420,8 @@ class ReconJob:
     def run_da(self, recon_period=None, recon_loc_rad=None, recon_timescale=None,
                recon_sampling_mode=None, recon_sampling_dist=None,
                normal_sampling_sigma=None, normal_sampling_cutoff_factor=None,
-               trim_prior=None, nens=None, seed=0, verbose=False, debug=False):
+               trim_prior=None, nens=None, seed=0, verbose=False, debug=False,
+               allownan=None):
         ''' Run the data assimilation workflows.
 
         Args:
@@ -431,6 +432,7 @@ class ReconJob:
             recon_sampling_dist (str): 'normal' or 'uniform' distribution for prior sampling.
             normal_sampling_sigma (str): the standard deviation of the normal distribution for prior sampling.
             normal_sampling_cutoff_factor (int): the cutoff factor for the window for prior sampling.
+            allownan (bool): if True, NaNs in prior is allowed.
             nens (int): the ensemble size.
             seed (int): the random seed.
             verbose (bool, optional): print verbose information. Defaults to False.
@@ -441,6 +443,7 @@ class ReconJob:
         recon_timescale = self.io_cfg('recon_timescale', recon_timescale, default=1, verbose=verbose)  # unit: yr
         recon_sampling_mode = self.io_cfg('recon_sampling_mode', recon_sampling_mode, default='fixed', verbose=verbose)
         trim_prior = self.io_cfg('trim_prior', trim_prior, default=True, verbose=verbose)
+        allownan = self.io_cfg('allownan', allownan, default=False, verbose=verbose)
         if recon_sampling_mode == 'rolling':
             recon_sampling_dist = self.io_cfg('recon_sampling_dist', recon_sampling_dist, default='normal', verbose=verbose)
             normal_sampling_sigma = self.io_cfg('normal_sampling_sigma', normal_sampling_sigma, verbose=verbose)
@@ -460,7 +463,7 @@ class ReconJob:
             trim_prior=trim_prior,
             normal_sampling_sigma=normal_sampling_sigma,
             normal_sampling_cutoff_factor=normal_sampling_cutoff_factor,
-            verbose=verbose, debug=debug)
+            verbose=verbose, debug=debug, allownan=allownan)
 
         self.recon_fields = self.da_solver.recon_fields
         if verbose: p_success(f'>>> job.recon_fields created')
@@ -468,7 +471,8 @@ class ReconJob:
     def run_da_mc(self, recon_period=None, recon_loc_rad=None, recon_timescale=None, nens=None,
                output_full_ens=None, recon_sampling_mode=None, recon_sampling_dist=None,
                normal_sampling_sigma=None, normal_sampling_cutoff_factor=None, trim_prior=None,
-               recon_seeds=None, assim_frac=None, save_dirpath=None, compress_params=None, verbose=False):
+               recon_seeds=None, assim_frac=None, save_dirpath=None, compress_params=None,
+               allownan=None, verbose=False):
         ''' Run the Monte-Carlo iterations of data assimilation workflows.
 
         Args:
@@ -482,6 +486,7 @@ class ReconJob:
             output_full_ens (bool): if True, the full ensemble fields will be stored to netCDF files.
             nens (int): the ensemble size.
             recon_seed (int): the random seeds.
+            allownan (bool): if True, NaNs in prior is allowed.
             assim_frac (float, optional): the fraction of proxies for assimilation. Defaults to None.
             verbose (bool, optional): print verbose information. Defaults to False.
             save_dirpath (str): the directory path for saving the reconstruction results.
@@ -501,6 +506,7 @@ class ReconJob:
         output_full_ens = self.io_cfg('output_full_ens', output_full_ens, default=False, verbose=verbose)
         recon_sampling_mode = self.io_cfg('recon_sampling_mode', recon_sampling_mode, default='fixed', verbose=verbose)
         trim_prior = self.io_cfg('trim_prior', trim_prior, default=True, verbose=verbose)
+        allownan = self.io_cfg('allownan', allownan, default=False, verbose=verbose)
         if recon_sampling_mode == 'rolling':
             normal_sampling_sigma = self.io_cfg('normal_sampling_sigma', normal_sampling_sigma, verbose=verbose)
             normal_sampling_cutoff_factor = self.io_cfg('normal_sampling_cutoff_factor', normal_sampling_cutoff_factor, default=3, verbose=verbose)
@@ -516,7 +522,8 @@ class ReconJob:
                         recon_sampling_dist=recon_sampling_dist,
                         normal_sampling_sigma=normal_sampling_sigma,
                         normal_sampling_cutoff_factor=normal_sampling_cutoff_factor,
-                        recon_timescale=recon_timescale, seed=seed, verbose=False)
+                        recon_timescale=recon_timescale, seed=seed,
+                        allownan=allownan, verbose=verbose)
 
             recon_savepath = os.path.join(save_dirpath, f'job_r{seed:02d}_recon.nc')
             self.save_recon(recon_savepath, compress_params=compress_params, mark_assim_pids=True,

@@ -207,7 +207,7 @@ def setlabel(ax, label, loc=2, borderpad=0.6, **kwargs):
     ax.add_artist(label_legend)
     line.remove()
 
-def plot_field_map(field_var, lat, lon, levels=50, add_cyclic_point=True,
+def plot_field_map(field_var, lat, lon, levels=50, add_cyclic_point=False,
                    title=None, title_size=20, title_weight='normal', figsize=[10, 8],
                    plot_proxydb=False, proxydb=None, proxydb_lgd_kws=None,
                    site_lats=None, site_lons=None, site_marker='o',

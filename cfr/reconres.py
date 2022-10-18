@@ -116,16 +116,74 @@ class EnsTS:
         self.std = np.nanstd(self.value, axis=1)
 
     def get_mean(self):
-        mean = EnsTS(time=self.time, value=self.mean)
-        return mean
+        res = self.copy() # copy object to get metadata
+        res.value = self.mean[:, np.newaxis]
+        res.refresh()
+        return res
 
     def get_median(self):
-        med = EnsTS(time=self.time, value=self.median)
-        return med
+        res = self.copy() # copy object to get metadata
+        res.value = self.median[:, np.newaxis]
+        res.refresh()
+        return res
 
     def get_std(self):
-        std = EnsTS(time=self.time, value=self.std)
-        return std
+        res = self.copy() # copy object to get metadata
+        res.value = self.std[:, np.newaxis]
+        res.refresh()
+        return res
+
+    def from_df(self, df, time_column=None, value_columns=None):
+        ''' Load data from a pandas.DataFrame
+
+        Parameters
+        ----------
+        df : pandas.DataFrame
+            The pandas.DataFrame object.
+
+        time_column : str
+            The label of the column for the time axis.
+
+        value_columns : list of str
+            The list of the labels for the value axis of the ensemble members.
+
+        '''
+        if time_column is None:
+            raise ValueError('`time_column` must be specified!')
+
+        if value_columns is None:
+            value_columns = list(set(df.columns) - {time_column})
+            
+        arr = df[value_columns].values
+        time = df[time_column].values
+        nt = len(time)
+        value = np.reshape(arr, (nt, -1))
+
+        ens = EnsTS(time=time, value=value)
+        return ens
+
+    def to_df(self, time_column=None, value_column='ens'):
+        ''' Convert an EnsTS to a pandas.DataFrame
+
+        Parameters
+        ----------
+        time_column : str
+            The label of the column for the time axis.
+
+        value_column : str
+            The base column label for the ensemble members.
+            By default, the columns for the members will be labeled as "ens.0", "ens.1", "ens.2", etc.
+
+        '''
+        time_column = 'time' if time_column is None else time_column
+        data_dict = {}
+        data_dict[time_column] = self.time
+        nt, nEns = np.shape(self.value)
+        for i in range(nEns):
+            data_dict[f'{value_column}.{i}'] = self.value[:, i]
+
+        df = pd.DataFrame(data_dict)
+        return df
 
     def __getitem__(self, key):
         ''' This makes the object subscriptable. '''

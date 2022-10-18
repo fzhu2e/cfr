@@ -210,6 +210,21 @@ class ClimateField:
     #     new.refresh()
     #     return new
 
+    def __add__(self, ref):
+        ''' Add the reference field.
+        '''
+        new = self.copy()
+        if isinstance(ref, ClimateField):
+            new.da = self.da + ref.da
+        elif isinstance(ref, float):
+            new.da = self.da + ref
+        elif isinstance(ref, int):
+            new.da = self.da + ref
+        else:
+            raise ValueError('`ref` should be a `ClimateField` object or a float like value.')
+
+        return new
+
     def __sub__(self, ref):
         ''' Substract the reference field.
         '''

@@ -1,5 +1,4 @@
 from .climate import ClimateField
-from .ocean import OceanField
 from .proxy import ProxyRecord, ProxyDatabase
 from .reconjob import ReconJob
 from .reconres import ReconRes

@@ -2,7 +2,7 @@
  "cells": [
   {
    "cell_type": "code",
-   "execution_count": 2,
+   "execution_count": 13,
    "metadata": {},
    "outputs": [],
    "source": [
@@ -15,42 +15,62 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 6,
+   "execution_count": 18,
    "metadata": {},
    "outputs": [
     {
      "data": {
       "text/plain": [
-       "'foram_d18O'"
+       "'coral.SrCa'"
       ]
      },
-     "execution_count": 6,
+     "execution_count": 18,
      "metadata": {},
      "output_type": "execute_result"
     }
    ],
    "source": [
-    "'foram d18O'.replace(' ', '_')"
+    "cfr.proxy.get_ptype('coral', 'srca')"
    ]
   },
   {
    "cell_type": "code",
-   "execution_count": 7,
+   "execution_count": 17,
    "metadata": {},
    "outputs": [
     {
      "data": {
       "text/plain": [
-       "'foramd18O'"
+       "'coral.SrCa'"
       ]
      },
-     "execution_count": 7,
+     "execution_count": 17,
      "metadata": {},
      "output_type": "execute_result"
     }
    ],
    "source": [
-    "'foramd18O'.replace(' ', '_')"
+    "cfr.proxy.get_ptype('coral', 'sr/ca')"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 19,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "'coral.SrCa'"
+      ]
+     },
+     "execution_count": 19,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "cfr.proxy.get_ptype('coral', 'coral sr/ca')"
    ]
   },
   {

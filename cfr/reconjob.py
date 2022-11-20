@@ -523,7 +523,7 @@ class ReconJob:
                         normal_sampling_sigma=normal_sampling_sigma,
                         normal_sampling_cutoff_factor=normal_sampling_cutoff_factor,
                         recon_timescale=recon_timescale, seed=seed,
-                        allownan=allownan, verbose=verbose)
+                        allownan=allownan, verbose=False)
 
             recon_savepath = os.path.join(save_dirpath, f'job_r{seed:02d}_recon.nc')
             self.save_recon(recon_savepath, compress_params=compress_params, mark_assim_pids=True,

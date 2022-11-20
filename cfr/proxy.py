@@ -256,6 +256,8 @@ class ProxyRecord:
             new.time = da.year.values
 
         new.value = da.values
+        new.time, new.value = utils.clean_ts(new.time, new.value)
+
         new.pid = da.name
         new.lat = da.attrs['lat'] if 'lat' in da.attrs else None
         new.lon = da.attrs['lon'] if 'lon' in da.attrs else None

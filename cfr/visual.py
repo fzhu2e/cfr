@@ -210,6 +210,7 @@ def setlabel(ax, label, loc=2, borderpad=0.6, **kwargs):
 def plot_field_map(field_var, lat, lon, levels=50, add_cyclic_point=True,
                    title=None, title_size=20, title_weight='normal', figsize=[10, 8],
                    plot_proxydb=False, proxydb=None, proxydb_lgd_kws=None,
+                   proxy_marker=None, proxy_color=None,
                    site_lats=None, site_lons=None, site_marker='o',
                    site_markersize=50, site_color=sns.xkcd_rgb['amber'],
                    projection='Robinson', transform=ccrs.PlateCarree(),
@@ -409,15 +410,15 @@ def plot_field_map(field_var, lat, lon, levels=50, add_cyclic_point=True,
 
         s_plots = []
         for ptype in ptypes:
-            if ptype in STYLE.markers_dict:
+            if ptype in STYLE.markers_dict and proxy_marker is None:
                 marker = STYLE.markers_dict[ptype]
             else:
-                marker = 'o'
+                marker = proxy_marker
 
-            if ptype in STYLE.colors_dict:
+            if ptype in STYLE.colors_dict and proxy_color is None:
                 color = STYLE.colors_dict[ptype]
             else:
-                color = sns.xkcd_rgb['amber']
+                color = proxy_color
 
             s_plots.append(
                 ax.scatter(

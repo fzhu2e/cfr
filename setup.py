@@ -21,7 +21,7 @@ class NoSuffixBuilder(build_ext):
 
 setup(
     name='cfr',  # required
-    version='0.1.3',
+    version='0.1.4',
     description='cfr: the library for climate field reconstruction',
     long_description=long_description,
     long_description_content_type='text/x-rst',

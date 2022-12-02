@@ -670,12 +670,12 @@ class ProxyRecord:
             ax['ts'].set_title(title)
 
         ax['ts'].plot(ref.time, ref.value, color=ref_color, label=ref_label, zorder=ref_zorder)
-        transform=ccrs.PlateCarree()
-        ax['map'].scatter(
-            ref.lon, ref.lat, marker=visual.STYLE.markers_dict[ref.ptype],
-            s=ms, edgecolor=edge_clr, transform=transform,
-            zorder=ref_zorder, 
-        )
+        # transform=ccrs.PlateCarree()
+        # ax['map'].scatter(
+        #     ref.lon, ref.lat, marker=visual.STYLE.markers_dict[ref.ptype],
+        #     s=ms, edgecolor=edge_clr, transform=transform,
+        #     zorder=ref_zorder, 
+        # )
 
         if label is not None or ref_label is not None:
             _lgd_kws = {'ncol': 2}

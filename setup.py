@@ -1,3 +1,4 @@
+import os
 from setuptools import setup, find_packages
 from distutils.core import setup, Extension
 from distutils import sysconfig
@@ -21,7 +22,7 @@ class NoSuffixBuilder(build_ext):
 
 setup(
     name='cfr',  # required
-    version='0.1.4',
+    version='0.1.5',
     description='cfr: the library for climate field reconstruction',
     long_description=long_description,
     long_description_content_type='text/x-rst',

@@ -92,10 +92,16 @@ If you'd like to also enable the usage of proxy system models, which requires so
 
     pip install "cfr[psm]"
 
-and you are ready to
+and, you are ready to
 
 .. code-block:: python
 
     from cfr import psm
 
 in python.
+
+Similarly, if you'd like to enable the usage of the GraphEM algorithm, simply
+
+.. code-block:: bash
+
+    pip install "cfr[graphem]"

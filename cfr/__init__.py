@@ -2,9 +2,15 @@ from .climate import ClimateField
 from .proxy import ProxyRecord, ProxyDatabase
 from .reconjob import ReconJob
 from .reconres import ReconRes
-from . import graphem, utils
+from . import utils
+
 try:
     from . import ml
+except:
+    pass
+
+try:
+    import graphem
 except:
     pass
 

@@ -22,7 +22,7 @@ class NoSuffixBuilder(build_ext):
 
 setup(
     name='cfr',  # required
-    version='0.1.5',
+    version='0.1.6',
     description='cfr: the library for climate field reconstruction',
     long_description=long_description,
     long_description_content_type='text/x-rst',
@@ -44,6 +44,7 @@ setup(
         'Programming Language :: Python :: 3.10',
     ],
     install_requires=[
+        'cython',
         'termcolor',
         'seaborn',
         'pandas',

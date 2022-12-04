@@ -8,16 +8,21 @@ from tqdm import tqdm
 import pandas as pd
 import random
 import glob
-from sklearn.model_selection import KFold
 from .climate import ClimateField
 from .proxy import ProxyDatabase, ProxyRecord
-from .graphem import GraphEM, Graph
-from .graphem.solver import verif_stats as graphem_verif_stats
-from .graphem.solver import KCV
+try:
+    from graphem import GraphEM, Graph
+    from graphem.solver import verif_stats as graphem_verif_stats
+    from graphem.solver import KCV
+    from sklearn.model_selection import KFold
+except:
+    pass
+
 try:
     from . import psm
 except:
     pass
+
 import xarray as xr
 from . import utils
 from . import da

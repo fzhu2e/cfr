@@ -1251,8 +1251,8 @@ class ProxyDatabase:
     def to_df(self):
         ''' Convert the proxy database to a `pandas.DataFrame`.'''
         df = pd.DataFrame(columns=['pid', 'lat', 'lon', 'ptype', 'time', 'value'])
-        df['time'] = df['time'].astype(object)
-        df['value'] = df['value'].astype(object)
+        # df['time'] = df['time'].astype(object)  # not necessary after pandas 1.5.2
+        # df['value'] = df['value'].astype(object) # not necessary after pandas 1.5.2
 
         i = 0
         for pid, pobj in self.records.items():

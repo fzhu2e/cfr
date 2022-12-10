@@ -16,6 +16,7 @@ import cartopy.crs as ccrs
 from cartopy.util import add_cyclic_point
 from multiprocessing import Pool, cpu_count
 from functools import partial
+import seaborn as sns
 from . import utils, visual
 from .utils import (
     p_warning,
@@ -509,7 +510,112 @@ class ProxyRecord:
 
         return fig, ax
 
-    def dashboard(self, clim_units=None, clim_colors=None, figsize=[14, 8], scaled_pr=False, ms=200, stock_img=True, edge_clr='w',
+    def dashboard(self, figsize=[10, 8], ms=200, stock_img=True, edge_clr='w',
+        wspace=0.1, hspace=0.3, spec_method='wwz', **kwargs):
+        ''' Plot a dashboard of the proxy/pseudoproxy.
+        '''
+
+        if not hasattr(self, 'pseudo'):
+            raise ValueError('Need to get the pseudoproxy data.')
+
+        if 'color' not in kwargs and 'c' not in kwargs:
+            kwargs['color'] = visual.STYLE.colors_dict[self.ptype]
+
+        fig = plt.figure(figsize=figsize)
+
+        gs = gridspec.GridSpec(2, 3)
+        gs.update(wspace=wspace, hspace=hspace)
+        ax = {}
+
+        # plot proxy/pseudoproxy timeseries
+        ax['ts'] = plt.subplot(gs[0, :2])
+
+        _kwargs = {'label': 'real', 'zorder': 3}
+        _kwargs.update(kwargs)
+        ax['ts'].plot(self.time, self.value, **_kwargs)
+
+        time_lb = visual.make_lb(self.time_name, self.time_unit)
+        value_lb = visual.make_lb(self.value_name, self.value_unit)
+
+        ax['ts'].set_ylabel(value_lb)
+        ax['ts'].set_xlabel(time_lb)
+        ax['ts'].plot(self.pseudo.time, self.pseudo.value, label='pseudo')
+        ax['ts'].legend(loc='upper left', ncol=2)
+        title = f'{self.pid} ({self.ptype})'
+        if self.seasonality is not None:
+            title += f'\nSeasonality: {self.seasonality}'
+        ax['ts'].set_title(title)
+
+        # plot probability density
+        ax['pd'] = plt.subplot(gs[0, 2], sharey=ax['ts'])
+        df_real = pd.DataFrame()
+        df_real['value'] = self.value
+        df_real['year'] = [int(t) for t in self.time]
+        df_real['dataset'] = 'real'
+
+        df_pseudo = pd.DataFrame()
+        df_pseudo['value'] = self.pseudo.value
+        df_pseudo['year'] = [int(t) for t in self.pseudo.time]
+        df_pseudo['dataset'] = 'pseudo'
+
+        df = pd.concat([df_real, df_pseudo])
+        df['all'] = ''
+        sns.violinplot(
+            data=df, x='all', y='value', ax=ax['pd'],
+            split=True, hue='dataset', inner='quart',
+            palette={'real': ax['ts'].lines[0].get_color(), 'pseudo': ax['ts'].lines[1].get_color()},
+        )
+        ax['pd'].set_ylabel('')
+        ax['pd'].set_xlabel('')
+        ax['pd'].tick_params(axis='y', colors='none')
+        ax['pd'].yaxis.set_ticks_position('none') 
+        ax['pd'].tick_params(axis='x', colors='none')
+        ax['pd'].xaxis.set_ticks_position('none') 
+        ax['pd'].set_title('Probability Distribution')
+        ax['pd'].legend_ = None
+            
+        # plot map
+        ax['map'] = plt.subplot(gs[1, 2], projection=ccrs.Orthographic(central_longitude=self.lon, central_latitude=self.lat))
+        ax['map'].set_global()
+        if stock_img:
+            ax['map'].stock_img()
+
+        transform=ccrs.PlateCarree()
+        ax['map'].scatter(
+            self.lon, self.lat, marker=visual.STYLE.markers_dict[self.ptype],
+            s=ms, c=kwargs['color'], edgecolor=edge_clr, transform=transform,
+        )
+        ax['map'].set_title(f'lat: {self.lat:.2f}, lon: {self.lon:.2f}')
+
+        # plot spectral analysis
+        try:
+            import pyleoclim as pyleo
+        except:
+            raise ImportError('Need to install pyleoclim: `pip install pyleoclim`.')
+
+        ax['psd'] = plt.subplot(gs[1, :2])
+
+        ts, psd = {}, {}
+        ts['real'] = pyleo.Series(time=self.time, value=self.value)
+        psd['real'] = ts['real'].spectral(method=spec_method)
+        psd['real'].plot(ax=ax['psd'], **_kwargs)
+
+        ts['pseudo'] = pyleo.Series(time=self.pseudo.time, value=self.pseudo.value)
+        psd['pseudo'] = ts['pseudo'].slice([self.time.min(), self.time.max()]).spectral(method=spec_method)
+        psd['pseudo'].plot(ax=ax['psd'], label='pseudo')
+
+        ax['psd'].legend_ = None
+        ax['psd'].text(
+            x=0.95, y=0.97, s=f'Timespan: {int(self.time.min())}-{int(self.time.max())}',
+            horizontalalignment='right',
+            verticalalignment='top',
+            transform=ax['psd'].transAxes,
+        )
+        ax['psd'].set_xlabel('Period [yrs]')
+
+        return fig, ax
+
+    def dashboard_clim(self, clim_units=None, clim_colors=None, figsize=[14, 8], scaled_pr=False, ms=200, stock_img=True, edge_clr='w',
         wspace=0.3, hspace=0.5, spec_method='wwz', **kwargs):
         ''' Plot a dashboard of the proxy/pseudoproxy along with the climate signal.
 
@@ -585,7 +691,6 @@ class ProxyRecord:
             self.lon, self.lat, marker=visual.STYLE.markers_dict[self.ptype],
             s=ms, c=kwargs['color'], edgecolor=edge_clr, transform=transform,
         )
-        ax['map'] = plt.subplot(gs[nclim:, 2])
 
         # plot spectral analysis
         try:

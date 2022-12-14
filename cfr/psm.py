@@ -288,6 +288,10 @@ class Bilinear:
         if sn2 != 'monthly':
             exog2 = exog2.annualize(months=sn2)
 
+        common_yrs = np.intersect1d(exog1.da.year, exog2.da.year)
+        exog1.da = exog1.da.sel(year=common_yrs)
+        exog2.da = exog2.da.sel(year=common_yrs)
+
         exog1_colname = exog1_name.split('.')[-1]
         exog2_colname = exog2_name.split('.')[-1]
         exog_dict = {

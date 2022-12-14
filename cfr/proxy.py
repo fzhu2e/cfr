@@ -396,7 +396,7 @@ class ProxyRecord:
     def get_pseudo(self, psm, model_vars=None,
                    add_noise=False, noise='white', SNR=10, seed=None,
                    match_mean=False, match_var=False, verbose=False,
-                   calib_kws=None, forward_kws=None):
+                   calib_kws=None, forward_kws=None, colored_noise_kws=None):
         calib_kws = {} if calib_kws is None else calib_kws
         forward_kws = {} if forward_kws is None else forward_kws
 
@@ -412,17 +412,17 @@ class ProxyRecord:
         if verbose: utils.p_success(f'>>> ProxyRecord.pseudo created.')
 
         if add_noise:
-            sigma = np.nanstd(self.value) / SNR
+            sigma = np.nanstd(self.pseudo.value) / SNR
             if noise == 'white':
                 rng = np.random.default_rng(seed)
-                noise = rng.normal(0, sigma, np.size(self.value))
+                noise = rng.normal(0, sigma, np.size(self.pseudo.value))
             elif noise == 'colored':
                 colored_noise_kws = {} if colored_noise_kws is None else colored_noise_kws
-                _colored_noise_kws = {'seed': seed, 'alpha': 1, 't': self.time}
+                _colored_noise_kws = {'seed': seed, 'alpha': 1, 't': self.pseudo.time}
                 _colored_noise_kws.update(colored_noise_kws)
                 noise = utils.colored_noise(**_colored_noise_kws)
 
-            self.pseudo += noise
+            self.pseudo.value += noise / np.std(noise) * sigma
             if verbose: utils.p_success(f'>>> ProxyRecord.pseudo added with {noise} noise (SNR={SNR}).')
 
         if match_var or match_mean:

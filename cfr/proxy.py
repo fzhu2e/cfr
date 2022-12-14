@@ -511,7 +511,7 @@ class ProxyRecord:
         return fig, ax
 
     def dashboard(self, figsize=[10, 8], ms=200, stock_img=True, edge_clr='w',
-        wspace=0.1, hspace=0.3, spec_method='wwz', **kwargs):
+        wspace=0.1, hspace=0.3, spec_method='wwz', pseudo_clr=None, **kwargs):
         ''' Plot a dashboard of the proxy/pseudoproxy.
         '''
 
@@ -530,7 +530,7 @@ class ProxyRecord:
         # plot proxy/pseudoproxy timeseries
         ax['ts'] = plt.subplot(gs[0, :2])
 
-        _kwargs = {'label': 'real', 'zorder': 3}
+        _kwargs = {'label': 'real', 'zorder': 3, 'alpha': 0.7}
         _kwargs.update(kwargs)
         ax['ts'].plot(self.time, self.value, **_kwargs)
 
@@ -539,7 +539,9 @@ class ProxyRecord:
 
         ax['ts'].set_ylabel(value_lb)
         ax['ts'].set_xlabel(time_lb)
-        ax['ts'].plot(self.pseudo.time, self.pseudo.value, label='pseudo')
+        ax['ts'].plot(
+            self.pseudo.time, self.pseudo.value,
+            color=pseudo_clr, label='pseudo')
         ax['ts'].legend(loc='upper left', ncol=2)
         title = f'{self.pid} ({self.ptype})'
         if self.seasonality is not None:
@@ -583,7 +585,7 @@ class ProxyRecord:
         transform=ccrs.PlateCarree()
         ax['map'].scatter(
             self.lon, self.lat, marker=visual.STYLE.markers_dict[self.ptype],
-            s=ms, c=kwargs['color'], edgecolor=edge_clr, transform=transform,
+            s=ms, c=visual.STYLE.colors_dict[self.ptype], edgecolor=edge_clr, transform=transform,
         )
         ax['map'].set_title(f'lat: {self.lat:.2f}, lon: {self.lon:.2f}')
 
@@ -602,7 +604,7 @@ class ProxyRecord:
 
         ts['pseudo'] = pyleo.Series(time=self.pseudo.time, value=self.pseudo.value)
         psd['pseudo'] = ts['pseudo'].slice([self.time.min(), self.time.max()]).spectral(method=spec_method)
-        psd['pseudo'].plot(ax=ax['psd'], label='pseudo')
+        psd['pseudo'].plot(ax=ax['psd'], color=pseudo_clr, label='pseudo')
 
         ax['psd'].legend_ = None
         ax['psd'].text(

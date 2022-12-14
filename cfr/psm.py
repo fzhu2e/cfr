@@ -103,7 +103,7 @@ class Linear:
         mdl_list = []
         df_list = []
         sn_list = []
-        exog_colname = exog_name.split('_')[-1]
+        exog_colname = exog_name.split('.')[-1]
         if not annualize_exog:
             season_list = ['monthly']
 
@@ -167,7 +167,7 @@ class Linear:
         exog = self.pobj.clim[exog_name]
         if sn != 'monthly':
             exog = exog.annualize(months=sn)
-        exog_colname = exog_name.split('_')[-1]
+        exog_colname = exog_name.split('.')[-1]
         exog_dict = {
             exog_colname: exog.da.values,
         }
@@ -210,8 +210,8 @@ class Bilinear:
         mdl_list = []
         df_list = []
         sn_list = []
-        exog1_colname = exog1_name.split('_')[-1]
-        exog2_colname = exog2_name.split('_')[-1]
+        exog1_colname = exog1_name.split('.')[-1]
+        exog2_colname = exog2_name.split('.')[-1]
         if not annualize_exog:
             season_list1 = ['monthly']
             season_list2 = ['monthly']
@@ -288,8 +288,8 @@ class Bilinear:
         if sn2 != 'monthly':
             exog2 = exog2.annualize(months=sn2)
 
-        exog1_colname = exog1_name.split('_')[-1]
-        exog2_colname = exog2_name.split('_')[-1]
+        exog1_colname = exog1_name.split('.')[-1]
+        exog2_colname = exog2_name.split('.')[-1]
         exog_dict = {
             exog1_colname: exog1.da.values,
             exog2_colname: exog2.da.values,

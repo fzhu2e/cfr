@@ -301,7 +301,7 @@ class Bilinear:
 
         pp = ProxyRecord(
             pid=self.pobj.pid,
-            time=exog1.time,
+            time=exog1.da.year,
             value=np.array(self.model.predict(exog=exog_dict).values),
             lat=self.pobj.lat,
             lon=self.pobj.lon,

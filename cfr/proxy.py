@@ -1110,9 +1110,13 @@ class ProxyDatabase:
             time_list.append(pobj.time)
 
         df = pd.DataFrame({'lat': self.lats, 'lon': self.lons, 'type': self.type_list, 'time': time_list, 'pid': self.pids})
-        fig, ax = visual.plot_proxies(df, **kws)
 
-        return fig, ax
+        if 'return_gs' in kws and kws['return_gs'] is True:
+            fig, ax, gs = visual.plot_proxies(df, **kws)
+            return fig, ax, gs
+        else:
+            fig, ax = visual.plot_proxies(df, **kws)
+            return fig, ax
 
 
     def plotly(self, **kwargs):

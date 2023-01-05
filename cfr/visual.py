@@ -439,10 +439,10 @@ def plot_proxies(df, year=np.arange(2001), lon_col='lon', lat_col='lat', type_co
                  title=None, title_weight='normal', markers_dict=None, colors_dict=None,
                  plot_timespan=None,  plot_xticks=[850, 1000, 1200, 1400, 1600, 1800, 2000],
                  figsize=[10, 10], projection='Robinson', proj_args=None, central_longitude=180, markersize=50,
-                 plot_count=False, nrow=2, ncol=1, wspace=0.5, hspace=0.3,
+                 plot_count=False, nrow=2, ncol=1, wspace=0.5, hspace=0.3, return_gs=False,
                  lgd_ncol=None, lgd_anchor_upper=(1, 0), lgd_anchor_lower=(1, -0.05),lgd_frameon=False,
                  enumerate_ax=False, enumerate_prop={'weight': 'bold', 'size': 30}, p=STYLE, stock_img=True,
-                 enumerate_anchor_map=[0, 1], enumerate_anchor_count=[0, 1], map_grid_idx=0, count_grid_idx=-1):
+                 enumerate_anchor_map=[0, 1], enumerate_anchor_count=[0, 1], map_grid_idx=0, count_grid_idx=1):
     ''' Visualize proxies.
 
     Args:
@@ -555,7 +555,10 @@ def plot_proxies(df, year=np.arange(2001), lon_col='lon', lat_col='lat', type_co
             setlabel(ax['map'], '(a)', prop=enumerate_prop, bbox_to_anchor=enumerate_anchor_map)
             setlabel(ax['count'], '(b)', prop=enumerate_prop, bbox_to_anchor=enumerate_anchor_count)
 
-    return fig, ax
+    if not return_gs:
+        return fig, ax
+    else:
+        return fig, ax, gs
 
 def plot_proxy_age_map(df, lon_col='lon', lat_col='lat', type_col='type', time_col='time',
                        title=None, title_weight='normal', font_scale=1.5,

@@ -1381,7 +1381,7 @@ class ProxyDatabase:
         ''' Convert the proxy database to a `xarray.Dataset`
 
         Args:
-            annaulize (bool): annaulize the proxy records with `months`
+            annualize (bool): annualize the proxy records with `months`
             months (list): months for annulization
             verbose (bool, optional): print verbose information. Defaults to False.
         '''
@@ -1423,7 +1423,7 @@ class ProxyDatabase:
 
         Args:
             path (str): the path to save the file.
-            annaulize (bool): annaulize the proxy records with `months`
+            annualize (bool): annualize the proxy records with `months`
             months (list): months for annulization
             verbose (bool, optional): print verbose information. Defaults to False.
         '''

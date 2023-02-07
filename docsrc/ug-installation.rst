@@ -5,7 +5,7 @@ Installation
 Install the Conda environment
 -----------------------------
 
-You may skip this step if your Conda environment has been setup already.
+You may skip this step if your Conda environment has been installed already.
 
 Step 1: Download the installation script for miniconda3
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -17,7 +17,7 @@ macOS (Intel)
 
   wget https://repo.anaconda.com/miniconda/Miniconda3-latest-MacOSX-x86_64.sh
 
-macOS (M1)
+macOS (Apple Silicone)
 ''''''''''
 
 .. code-block:: bash
@@ -59,14 +59,14 @@ Install `cfr`
 ---------------
 
 
-Taking a clean install as example, first let's create a new environment named :code:`cfr-env` via :code:`conda`
+Taking a clean installation as example, first let's create a new environment named :code:`cfr-env` via :code:`conda`
 
 .. code-block:: bash
 
-    conda create -n cfr-env python=3.9
+    conda create -n cfr-env python=3.10
     conda activate cfr-env
 
-Then install several dependencies that is not able to be installed via :code:`pip`:
+Then install some dependencies via :code:`conda`:
 
 .. code-block:: bash
 
@@ -84,9 +84,9 @@ and you are ready to
 
     import cfr
 
-in python.
+in Python.
 
-If you'd like to also enable the usage of proxy system models, which requires some extra dependencies, simply
+If you'd like to also enable the usage of the Proxy System Models, which requires some extra dependencies, simply
 
 .. code-block:: bash
 
@@ -98,7 +98,7 @@ and, you are ready to
 
     from cfr import psm
 
-in python.
+in Python.
 
 Similarly, if you'd like to enable the usage of the GraphEM algorithm, simply
 

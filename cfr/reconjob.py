@@ -395,7 +395,7 @@ class ReconJob:
         # give the calibrated records a tag
         for pid, pobj in self.proxydb.records.items():
             if pobj.psm.calib_details is None:
-                if verbose: p_warning(f'>>> The PSM for {pid} failed to calibrate.')
+                if verbose: p_warning(f'>>> PSM for {pid} failed to be calibrated.')
             else:
                 self.proxydb.records[pid].tags.add('calibrated')
                 if not use_predefined_R:

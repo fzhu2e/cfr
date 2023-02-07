@@ -5,12 +5,12 @@ with open('README.rst', 'r') as fh:
 
 setup(
     name='cfr',  # required
-    version='0.1.9',
-    description='cfr: the library for climate field reconstruction',
+    version='0.2.0',
+    description='cfr: the Python package for Climate Field Reconstruction',
     long_description=long_description,
     long_description_content_type='text/x-rst',
     author='Feng Zhu, Julien Emile-Geay',
-    author_email='fengzhu@usc.edu, julieneg@usc.edu',
+    author_email='fengzhu@ucar.edu, julieneg@usc.edu',
     url='https://github.com/fzhu2e/cfr',
     packages=find_packages(),
     include_package_data=True,
@@ -20,7 +20,6 @@ setup(
     scripts=['bin/cfr'],
     classifiers=[
         'Natural Language :: English',
-        'Programming Language :: Python :: 3.8',
         'Programming Language :: Python :: 3.9',
         'Programming Language :: Python :: 3.10',
     ],

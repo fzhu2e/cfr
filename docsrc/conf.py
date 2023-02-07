@@ -16,8 +16,9 @@
 # -- Project information -----------------------------------------------------
 
 project = 'cfr'
-author = 'Feng Zhu'
-copyright = f'2022, {author}'
+# author = 'Feng Zhu, Julien Emile-Geay'
+# copyright = f'2023, {author}'
+copyright = f'2023, Feng Zhu, Julien Emile-Geay'
 
 
 # -- General configuration ---------------------------------------------------
@@ -35,10 +36,10 @@ templates_path = ['_templates']
 exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 
 extensions = [
-    'sphinx.ext.autodoc',
     'nbsphinx',
+    'sphinx.ext.autodoc',
+    'sphinx.ext.napoleon',
     'sphinx_copybutton',
-    'sphinxcontrib.napoleon',                                                   
     # 'sphinx.ext.mathjax',
     # 'sphinxcontrib.bibtex',
     # 'sphinxcontrib.rsvgconverter',

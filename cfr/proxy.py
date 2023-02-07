@@ -869,7 +869,7 @@ class ProxyDatabase:
         if not isinstance(df, pd.DataFrame):
             err_msg = 'the input df should be a Pandas DataFrame.'
             if verbose:
-                utils.p_fail(f'ProxyDatabase.load_df() >>> {err_msg}')
+                utils.p_fail(f'ProxyDatabase.from_df() >>> {err_msg}')
             raise TypeError(err_msg)
 
         records = OrderedDict()
@@ -1391,12 +1391,20 @@ class ProxyDatabase:
             if np.min(pobj.time) <= 0:
                 pid_truncated.append(pobj.pid)
                 pobj = pobj.slice([1, np.max(pobj.time)])
+
             if annualize:
                 pobj = pobj.annualize(months=months)
+
             da = pobj.to_da()
+
+            # remove potential duplicated indexes
+            _, index = np.unique(da['time'], return_index=True)
+            da = da.isel(time=index)
+
             if annualize:
                 da = da.rename({'time': 'year'})
                 da['year'] = np.array([int(t) for t in pobj.time])
+
             da_dict[pobj.pid] = da
 
         if verbose:

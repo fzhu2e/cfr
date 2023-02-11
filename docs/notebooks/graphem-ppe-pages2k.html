@@ -4,43 +4,44 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
     <title>A Pseudoproxy Experiment with GraphEM and pseudoPAGES2k &#8212; cfr  documentation</title>
     
-  <!-- Loaded before other Sphinx assets -->
-  <link href="../_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+    <link href="../_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
 <link href="../_static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
-
+  
     
-  <link rel="stylesheet"
-    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
-  <link rel="preload" as="font" type="font/woff2" crossorigin
-    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
-  <link rel="preload" as="font" type="font/woff2" crossorigin
-    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
-
-    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
-    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=62ba249389abaaa9ffc34bf36a076bdc1d65ee18" type="text/css" />
+    <link rel="stylesheet"
+      href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+    <link rel="preload" as="font" type="font/woff2" crossorigin
+      href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+    <link rel="preload" as="font" type="font/woff2" crossorigin
+      href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+  
+    
+      
+  
+    
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
     
-  <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
-
-    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
+  
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?digest=9c920249402e914e316237a7dbc6769907cce411"></script>
     <script src="../_static/jquery.js"></script>
     <script src="../_static/underscore.js"></script>
     <script src="../_static/doctools.js"></script>
     <script src="../_static/clipboard.min.js"></script>
     <script src="../_static/copybutton.js"></script>
-    <script src="../_static/scripts/sphinx-book-theme.js?digest=f31d14ad54b65d19161ba51d4ffff3a77ae00456"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-    <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
-    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "tex2jax_ignore|mathjax_ignore|document", "processClass": "tex2jax_process|mathjax_process|math|output_area"}})</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="API Reference" href="../ug-api.html" />
-    <link rel="prev" title="GraphEM: basic workflow" href="graphem-quickstart.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="None">
     
@@ -48,7 +49,7 @@
     <!-- Google Analytics -->
     
   </head>
-  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
 <!-- Checkboxes to toggle the left sidebar -->
 <input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle navigation sidebar">
 <label class="overlay overlay-navbar" for="__navigation">
@@ -92,12 +93,12 @@
   <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
 </form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item active">
-        <p aria-level="2" class="caption" role="heading">
+        <p>
  <span class="caption-text">
   User Guide
  </span>
 </p>
-<ul class="current nav bd-sidenav">
+<ul class="nav bd-sidenav">
  <li class="toctree-l1">
   <a class="reference internal" href="../ug-installation.html">
    Installation
@@ -115,32 +116,7 @@
   <ul>
    <li class="toctree-l2">
     <a class="reference internal" href="proxy-io.html">
-     Input/Output
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="proxy-ops.html">
-     Basic Operations
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="proxy-viz.html">
-     Visualizations
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="proxy-analysis.html">
-     Analysis
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="proxy-get-nearest-climate.html">
-     Get the nearest climate for proxies
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="proxy-composites.html">
-     Proxy Composites
+     Input/Output of the Proxy Records
     </a>
    </li>
   </ul>
@@ -154,27 +130,7 @@
    <i class="fas fa-chevron-down">
    </i>
   </label>
-  <ul>
-   <li class="toctree-l2">
-    <a class="reference internal" href="climate-io.html">
-     Input/Output
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="climate-ops.html">
-     Basic Operations
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="climate-viz.html">
-     Visualizations
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="climate-analysis.html">
-     Analysis
-    </a>
-   </li>
+  <ul class="simple">
   </ul>
  </li>
  <li class="toctree-l1 has-children">
@@ -186,52 +142,7 @@
    <i class="fas fa-chevron-down">
    </i>
   </label>
-  <ul>
-   <li class="toctree-l2">
-    <a class="reference internal" href="psm-linear.html">
-     Univariate linear regression
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="psm-bilinear.html">
-     Bivariate linear regression
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="psm-ice-d18O.html">
-     PSM for ice core d18O
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="psm-lake-VarveThickness.html">
-     PSM for lake varve thickness
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="psm-coral-SrCa.html">
-     PSM for coral Sr/Ca
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="psm-coral-d18O.html">
-     PSM for coral d18O
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="psm-tree-TRW.html">
-     PSM for tree TRW (VS-Lite)
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="psm-tree-seasonality.html">
-     Detecting the seasonality of the trees
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="psm-tree-memory.html">
-     Detecting the biological memory in the trees
-    </a>
-   </li>
+  <ul class="simple">
   </ul>
  </li>
  <li class="toctree-l1 has-children">
@@ -245,47 +156,22 @@
   </label>
   <ul>
    <li class="toctree-l2">
-    <a class="reference internal" href="lmr-basics.html">
-     Basic workflows
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="lmr-cfg.html">
-     Run the job based on the configurations in a YAML file
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="lmr-mc.html">
-     Monte-Carlo iterations
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="lmr-post.html">
-     Post-processing
+    <a class="reference internal" href="lmr-ppe-pages2k.html">
+     A Pseudoproxy Experiment with “pseudoPAGES2k”
     </a>
    </li>
   </ul>
  </li>
- <li class="toctree-l1 current active has-children">
+ <li class="toctree-l1 has-children">
   <a class="reference internal" href="../ug-graphem.html">
    GraphEM
   </a>
-  <input checked="" class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/>
+  <input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/>
   <label for="toctree-checkbox-5">
    <i class="fas fa-chevron-down">
    </i>
   </label>
-  <ul class="current">
-   <li class="toctree-l2">
-    <a class="reference internal" href="graphem-quickstart.html">
-     GraphEM: basic workflow
-    </a>
-   </li>
-   <li class="toctree-l2 current active">
-    <a class="current reference internal" href="#">
-     A Pseudoproxy Experiment with GraphEM and pseudoPAGES2k
-    </a>
-   </li>
+  <ul class="simple">
   </ul>
  </li>
  <li class="toctree-l1">
@@ -545,19 +431,19 @@ title="Print to PDF"
     </a>
     <ul class="nav section-nav flex-column">
      <li class="toc-h4 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#id1">
+      <a class="reference internal nav-link" href="#spatially-averaged-statistics-1">
        Spatially-averaged Statistics
       </a>
      </li>
      <li class="toc-h4 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#id2">
+      <a class="reference internal nav-link" href="#map-of-ce-1">
        Map of CE
       </a>
      </li>
     </ul>
    </li>
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#id3">
+    <a class="reference internal nav-link" href="#timeseries-comparison-1">
      Timeseries comparison
     </a>
    </li>
@@ -654,19 +540,19 @@ title="Print to PDF"
     </a>
     <ul class="nav section-nav flex-column">
      <li class="toc-h4 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#id1">
+      <a class="reference internal nav-link" href="#spatially-averaged-statistics-1">
        Spatially-averaged Statistics
       </a>
      </li>
      <li class="toc-h4 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#id2">
+      <a class="reference internal nav-link" href="#map-of-ce-1">
        Map of CE
       </a>
      </li>
     </ul>
    </li>
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#id3">
+    <a class="reference internal nav-link" href="#timeseries-comparison-1">
      Timeseries comparison
     </a>
    </li>
@@ -792,10 +678,11 @@ div.nboutput.container div.prompt > div {
     }
 }
 
-/* disable scrollbars on prompts */
+/* disable scrollbars and line breaks on prompts */
 div.nbinput.container div.prompt pre,
 div.nboutput.container div.prompt pre {
     overflow: hidden;
+    white-space: pre;
 }
 
 /* input/output area */
@@ -897,6 +784,7 @@ div.nboutput.container div.output_area > div[class^='highlight']{
 }
 
 /* Some additional styling taken form the Jupyter notebook CSS */
+.jp-RenderedHTMLCommon table,
 div.rendered_html table {
   border: none;
   border-collapse: collapse;
@@ -905,10 +793,14 @@ div.rendered_html table {
   font-size: 12px;
   table-layout: fixed;
 }
+.jp-RenderedHTMLCommon thead,
 div.rendered_html thead {
   border-bottom: 1px solid black;
   vertical-align: bottom;
 }
+.jp-RenderedHTMLCommon tr,
+.jp-RenderedHTMLCommon th,
+.jp-RenderedHTMLCommon td,
 div.rendered_html tr,
 div.rendered_html th,
 div.rendered_html td {
@@ -920,18 +812,21 @@ div.rendered_html td {
   max-width: none;
   border: none;
 }
+.jp-RenderedHTMLCommon th,
 div.rendered_html th {
   font-weight: bold;
 }
+.jp-RenderedHTMLCommon tbody tr:nth-child(odd),
 div.rendered_html tbody tr:nth-child(odd) {
   background: #f5f5f5;
 }
+.jp-RenderedHTMLCommon tbody tr:hover,
 div.rendered_html tbody tr:hover {
   background: rgba(66, 165, 245, 0.2);
 }
 </style>
 <section id="A-Pseudoproxy-Experiment-with-GraphEM-and-pseudoPAGES2k">
-<h1>A Pseudoproxy Experiment with GraphEM and pseudoPAGES2k<a class="headerlink" href="#A-Pseudoproxy-Experiment-with-GraphEM-and-pseudoPAGES2k" title="Permalink to this headline">#</a></h1>
+<h1>A Pseudoproxy Experiment with GraphEM and pseudoPAGES2k<a class="headerlink" href="#A-Pseudoproxy-Experiment-with-GraphEM-and-pseudoPAGES2k" title="Permalink to this headline">¶</a></h1>
 <p><strong>Expected time to run through: TBD mins</strong></p>
 <p>This tutorial demonstrates how to get a reconstruction using GraphEM, leveraging a simple pseudoproxy dataset generated from iCESM gridded, with the realistic spatial availability but full temporal availablity of the PAGES 2k version 2 dataset. The pseudoproxies are generated based on the original iCESM simulated surface temperature (<code class="docutils literal notranslate"><span class="pre">tas</span></code>) plus white noise with <code class="docutils literal notranslate"><span class="pre">SNR=10</span></code>. While with LMR it is advantageous to have many redundant proxies (as long as they are unbiased, which is the case here),
 with GraphEM this can lead to some counter-intuitive difficulties, which we explain below.</p>
@@ -951,7 +846,7 @@ with GraphEM this can lead to some counter-intuitive difficulties, which we expl
 </div>
 </div>
 <section id="Data-Preparation">
-<h2>Data Preparation<a class="headerlink" href="#Data-Preparation" title="Permalink to this headline">#</a></h2>
+<h2>Data Preparation<a class="headerlink" href="#Data-Preparation" title="Permalink to this headline">¶</a></h2>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
 </pre></div>
@@ -1538,7 +1433,7 @@ Coordinates:
 </div>
 </section>
 <section id="Graph-estimation">
-<h2>Graph estimation<a class="headerlink" href="#Graph-estimation" title="Permalink to this headline">#</a></h2>
+<h2>Graph estimation<a class="headerlink" href="#Graph-estimation" title="Permalink to this headline">¶</a></h2>
 <p>In GraphEM, the selection of the covariance model used for inferring missing values is based on a <a class="reference external" href="http://ir.hit.edu.cn/~jguo/docs/notes/report-in-princeton-research.pdf">graph</a>. Two types of graphs are supported: 1. Neighborhood graphs 2. Empirical graphs (graphical lasso)</p>
 <p>Neighborhoood graphs as implemented here depend on a single parameter, the cutoff radius <span class="math notranslate nohighlight">\(R_c\)</span>. Every grid point or proxy within a great circle distance <span class="math notranslate nohighlight">\(R_c\)</span> of a given grid point or proxy is declared a “neighbor”, and the adjency matrix betweens those two points <span class="math notranslate nohighlight">\((i,j)\)</span> is <span class="math notranslate nohighlight">\(A_{ij} = A_{ji} = 1\)</span> (it is 0 otherwise). The graphical lasso is a much more complicated, data-driven method that pulls conditional independence relations between variables from the data themselves,
 resulting in much more realistic covariance estimation that can detect coastlines, mountain ranges, currents or teleconnection patterns. While a neighborhood graph can always be specified, that is not the case for the graphical lasso: in our implementation it can only be applied to a gap-free data matrix. We recommend using a neighborhood graph <span class="math notranslate nohighlight">\(G_{R_c}\)</span> with GraphEM to fill the gaps in the data matrix, then apply the graphical lasso to this clean matrix over the instrumental interval to
@@ -1549,7 +1444,7 @@ damped. In the limit of <span class="math notranslate nohighlight">\(R_c=0\)</sp
 <a class="reference external" href="https://scikit-learn.org/stable/modules/cross_validation.html">cross-validation</a>.</p>
 <p>In the second section, we will do the same for the graphical lasso to choose an optimal combination of sparsity parameters.</p>
 <section id="1a)-Cross-validation">
-<h3>1a) Cross-validation<a class="headerlink" href="#1a)-Cross-validation" title="Permalink to this headline">#</a></h3>
+<h3>1a) Cross-validation<a class="headerlink" href="#1a)-Cross-validation" title="Permalink to this headline">¶</a></h3>
 <p>For this exercise we will use the same terminology as <a class="reference external" href="https://scikit-learn.org/stable/modules/cross_validation.html">scikit-learn</a>. Cross-validation is fundamental to model fitting, and is the most time-tested way to tune the parameters of a regression model such as GraphEM. Indeed, we can fit any graph to the data. The graph we want is the one that gives the “best” result. Best is in quotes because it may not always be possible to locate a unique optimum, so we may need to add other
 considerations.</p>
 <p>There are various <a class="reference external" href="https://towardsdatascience.com/flavors-of-cross-validation-edfee24e8916">flavors of cross-validation</a> one can use. <em>k-fold cross-validation</em> (typically with <span class="math notranslate nohighlight">\(k=5\)</span>) is a popular choice and what GraphEM implements (note: we could use the same approach to choose the localization radius in DA). This is what it looks like: the data are split in 5 groups. In each group, one withhold <span class="math notranslate nohighlight">\(1/k\)</span> of the data for validation, using the remaining <span class="math notranslate nohighlight">\((k-1)/k\)</span> for calibration.</p>
@@ -1700,7 +1595,7 @@ The 1SD rule selects R = 1500 km.
 <p>We must caution that the 1SD rule is a bit like statistical folklore: in wide use but without strong theoretical justification. Nevertheless, we have found it to yield fairly reliable results.</p>
 </section>
 <section id="1b-Reconstruction">
-<h3>1b Reconstruction<a class="headerlink" href="#1b-Reconstruction" title="Permalink to this headline">#</a></h3>
+<h3>1b Reconstruction<a class="headerlink" href="#1b-Reconstruction" title="Permalink to this headline">¶</a></h3>
 <p>Now that we have objectively chosen the graph, we can use the method <code class="docutils literal notranslate"><span class="pre">prep_graphem()</span></code> to weave everything into an object that the code can work with:</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[34]:
@@ -2240,7 +2135,7 @@ has achieved what we wanted: reducing the number of parameters to be estimated w
 </section>
 </section>
 <section id="running-GraphEM">
-<h2>running GraphEM<a class="headerlink" href="#running-GraphEM" title="Permalink to this headline">#</a></h2>
+<h2>running GraphEM<a class="headerlink" href="#running-GraphEM" title="Permalink to this headline">¶</a></h2>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[28]:
 </pre></div>
@@ -2362,7 +2257,7 @@ Wall time: 20.9 s
 </pre></div></div>
 </div>
 <section id="1.c-Validation">
-<h3>1.c Validation<a class="headerlink" href="#1.c-Validation" title="Permalink to this headline">#</a></h3>
+<h3>1.c Validation<a class="headerlink" href="#1.c-Validation" title="Permalink to this headline">¶</a></h3>
 <p>Now we have a reconstruction ; let’s see how well it compares to the target:</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[78]:
@@ -2419,7 +2314,7 @@ Wall time: 20.9 s
 </pre></div></div>
 </div>
 <section id="Spatially-averaged-Statistics">
-<h4>Spatially-averaged Statistics<a class="headerlink" href="#Spatially-averaged-Statistics" title="Permalink to this headline">#</a></h4>
+<h4>Spatially-averaged Statistics<a class="headerlink" href="#Spatially-averaged-Statistics" title="Permalink to this headline">¶</a></h4>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[81]:
 </pre></div>
@@ -2442,7 +2337,7 @@ Mean MSE = 0.1018, Mean RE = 0.5506, Mean CE = 0.4918, Mean R2 = 0.5691
 </div>
 </section>
 <section id="Map-of-CE">
-<h4>Map of CE<a class="headerlink" href="#Map-of-CE" title="Permalink to this headline">#</a></h4>
+<h4>Map of CE<a class="headerlink" href="#Map-of-CE" title="Permalink to this headline">¶</a></h4>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[82]:
 </pre></div>
@@ -2537,7 +2432,7 @@ Text(0.5, 1.0, &#39;CE&#39;)
 </section>
 </section>
 <section id="Timeseries-comparison">
-<h3>Timeseries comparison<a class="headerlink" href="#Timeseries-comparison" title="Permalink to this headline">#</a></h3>
+<h3>Timeseries comparison<a class="headerlink" href="#Timeseries-comparison" title="Permalink to this headline">¶</a></h3>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[84]:
 </pre></div>
@@ -2622,12 +2517,12 @@ Text(0.5, 1.0, &#39;CE&#39;)
 </section>
 </section>
 <section id="2.-Graphical-Lasso">
-<h2>2. Graphical Lasso<a class="headerlink" href="#2.-Graphical-Lasso" title="Permalink to this headline">#</a></h2>
+<h2>2. Graphical Lasso<a class="headerlink" href="#2.-Graphical-Lasso" title="Permalink to this headline">¶</a></h2>
 <p>The graphical LASSO <a class="reference external" href="https://doi.org/10.1093/biostatistics/kxm045">(Friedman et al, 2008)</a> is a convex optimization algorithm that uses least angles regression to obtain the adjacency matrix.</p>
 <p>In GraphEM, GLASSO is controlled by 2 sparsity parameters: - target_FF: Target sparsity of the in-field part of the graph (%) - target_FP: Target sparsity of the field/proxy part of the graph (%)</p>
 <p>As before, the sparser the graph, the fewer variables are estimated, and the better conditioned the covariance matrices are, but a good compromise must be found so as not to over-regularize. As a rule of thumb, target sparsities should be on the order of a few % (1-10) to give reasonable results. Let us first look at the case where these numbers are 3% and 3%, respectively:</p>
 <section id="2a.-Greedy-Search">
-<h3>2a. Greedy Search<a class="headerlink" href="#2a.-Greedy-Search" title="Permalink to this headline">#</a></h3>
+<h3>2a. Greedy Search<a class="headerlink" href="#2a.-Greedy-Search" title="Permalink to this headline">¶</a></h3>
 <p>The code uses a greedy algorithm to obtain a graph whose sparsity approaches that of the target:</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[43]:
@@ -2772,7 +2667,7 @@ Text(0.5, 1.0, &#39;Number of neighbors for each proxy&#39;)
 <p>Now, as before, we must optimize to find parameters that maxmimize reconstruction skill.</p>
 </section>
 <section id="2b.-Cross-Validation">
-<h3>2b. Cross-Validation<a class="headerlink" href="#2b.-Cross-Validation" title="Permalink to this headline">#</a></h3>
+<h3>2b. Cross-Validation<a class="headerlink" href="#2b.-Cross-Validation" title="Permalink to this headline">¶</a></h3>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[53]:
 </pre></div>
@@ -2847,7 +2742,7 @@ executing.executing.NotOneValueFound: Expected one value, found 0
 </div>
 </section>
 <section id="2c.-Reconstruction">
-<h3>2c. Reconstruction<a class="headerlink" href="#2c.-Reconstruction" title="Permalink to this headline">#</a></h3>
+<h3>2c. Reconstruction<a class="headerlink" href="#2c.-Reconstruction" title="Permalink to this headline">¶</a></h3>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[55]:
 </pre></div>
@@ -2956,8 +2851,8 @@ Iter     dXmis     rdXmis
 <span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; ReconRes.da[&#34;tas&#34;] created</span>
 </pre></div></div>
 </div>
-<section id="id1">
-<h4>Spatially-averaged Statistics<a class="headerlink" href="#id1" title="Permalink to this headline">#</a></h4>
+<section id="spatially-averaged-statistics-1">
+<h4>Spatially-averaged Statistics<a class="headerlink" href="#spatially-averaged-statistics-1" title="Permalink to this headline">¶</a></h4>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[58]:
 </pre></div>
@@ -2989,8 +2884,8 @@ Mean MSE = 0.0953, Mean RE = 0.5975, Mean CE = 0.5423, Mean R2 = nan
 </pre></div></div>
 </div>
 </section>
-<section id="id2">
-<h4>Map of CE<a class="headerlink" href="#id2" title="Permalink to this headline">#</a></h4>
+<section id="map-of-ce-1">
+<h4>Map of CE<a class="headerlink" href="#map-of-ce-1" title="Permalink to this headline">¶</a></h4>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[60]:
 </pre></div>
@@ -3070,8 +2965,8 @@ Text(0.5, 1.0, &#39;CE&#39;)
 </div>
 </section>
 </section>
-<section id="id3">
-<h3>Timeseries comparison<a class="headerlink" href="#id3" title="Permalink to this headline">#</a></h3>
+<section id="timeseries-comparison-1">
+<h3>Timeseries comparison<a class="headerlink" href="#timeseries-comparison-1" title="Permalink to this headline">¶</a></h3>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[62]:
 </pre></div>
@@ -3193,20 +3088,6 @@ Text(0.5, 1.0, &#39;CE&#39;)
                 
     <!-- Previous / next buttons -->
 <div class='prev-next-area'>
-    <a class='left-prev' id="prev-link" href="graphem-quickstart.html" title="previous page">
-        <i class="fas fa-angle-left"></i>
-        <div class="prev-next-info">
-            <p class="prev-next-subtitle">previous</p>
-            <p class="prev-next-title">GraphEM: basic workflow</p>
-        </div>
-    </a>
-    <a class='right-next' id="next-link" href="../ug-api.html" title="next page">
-    <div class="prev-next-info">
-        <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">API Reference</p>
-    </div>
-    <i class="fas fa-angle-right"></i>
-    </a>
 </div>
             </footer>
         </div>
@@ -3214,9 +3095,7 @@ Text(0.5, 1.0, &#39;CE&#39;)
     <div class="footer-content row">
         <footer class="col footer"><p>
   
-    By Feng Zhu<br/>
-  
-      &copy; Copyright 2022, Feng Zhu.<br/>
+      &copy; Copyright 2023, Feng Zhu, Julien Emile-Geay.<br/>
 </p>
         </footer>
     </div>
@@ -3227,9 +3106,8 @@ Text(0.5, 1.0, &#39;CE&#39;)
       </div>
     </div>
   
-  <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
-
+    <script src="../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
+  
 
   </body>
 </html>

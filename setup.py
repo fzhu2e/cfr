@@ -33,7 +33,6 @@ setup(
         'nc-time-axis',
         'dask',
         'statsmodels',
-        'sklearn',
         'pathos',
         'eofs',
         'plotly',
@@ -45,11 +44,13 @@ setup(
             'pyvsl',
         ],
         'ml': [
+            'sklearn',
             'torch',
             'torchvision',
         ],
         'graphem': [
-            'Cython',
+            'cython',
+            'sklearn',
             'cfr-graphem',
         ]
     }

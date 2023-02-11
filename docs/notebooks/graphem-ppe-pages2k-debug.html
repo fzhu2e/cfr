@@ -4,39 +4,42 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
     <title>A Pseudoproxy Experiment with GraphEM and pseudoPAGES2k &#8212; cfr  documentation</title>
     
-  <!-- Loaded before other Sphinx assets -->
-  <link href="../_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+    <link href="../_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
 <link href="../_static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
-
+  
     
-  <link rel="stylesheet"
-    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
-  <link rel="preload" as="font" type="font/woff2" crossorigin
-    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
-  <link rel="preload" as="font" type="font/woff2" crossorigin
-    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
-
-    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
-    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=62ba249389abaaa9ffc34bf36a076bdc1d65ee18" type="text/css" />
+    <link rel="stylesheet"
+      href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+    <link rel="preload" as="font" type="font/woff2" crossorigin
+      href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+    <link rel="preload" as="font" type="font/woff2" crossorigin
+      href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+  
+    
+      
+  
+    
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
     
-  <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
-
-    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
+  
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?digest=9c920249402e914e316237a7dbc6769907cce411"></script>
     <script src="../_static/jquery.js"></script>
     <script src="../_static/underscore.js"></script>
     <script src="../_static/doctools.js"></script>
     <script src="../_static/clipboard.min.js"></script>
     <script src="../_static/copybutton.js"></script>
-    <script src="../_static/scripts/sphinx-book-theme.js?digest=f31d14ad54b65d19161ba51d4ffff3a77ae00456"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-    <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
-    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "tex2jax_ignore|mathjax_ignore|document", "processClass": "tex2jax_process|mathjax_process|math|output_area"}})</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -46,7 +49,7 @@
     <!-- Google Analytics -->
     
   </head>
-  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
 <!-- Checkboxes to toggle the left sidebar -->
 <input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle navigation sidebar">
 <label class="overlay overlay-navbar" for="__navigation">
@@ -90,7 +93,7 @@
   <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
 </form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item active">
-        <p aria-level="2" class="caption" role="heading">
+        <p>
  <span class="caption-text">
   User Guide
  </span>
@@ -113,32 +116,7 @@
   <ul>
    <li class="toctree-l2">
     <a class="reference internal" href="proxy-io.html">
-     Input/Output
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="proxy-ops.html">
-     Basic Operations
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="proxy-viz.html">
-     Visualizations
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="proxy-analysis.html">
-     Analysis
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="proxy-get-nearest-climate.html">
-     Get the nearest climate for proxies
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="proxy-composites.html">
-     Proxy Composites
+     Input/Output of the Proxy Records
     </a>
    </li>
   </ul>
@@ -152,27 +130,7 @@
    <i class="fas fa-chevron-down">
    </i>
   </label>
-  <ul>
-   <li class="toctree-l2">
-    <a class="reference internal" href="climate-io.html">
-     Input/Output
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="climate-ops.html">
-     Basic Operations
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="climate-viz.html">
-     Visualizations
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="climate-analysis.html">
-     Analysis
-    </a>
-   </li>
+  <ul class="simple">
   </ul>
  </li>
  <li class="toctree-l1 has-children">
@@ -184,52 +142,7 @@
    <i class="fas fa-chevron-down">
    </i>
   </label>
-  <ul>
-   <li class="toctree-l2">
-    <a class="reference internal" href="psm-linear.html">
-     Univariate linear regression
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="psm-bilinear.html">
-     Bivariate linear regression
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="psm-ice-d18O.html">
-     PSM for ice core d18O
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="psm-lake-VarveThickness.html">
-     PSM for lake varve thickness
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="psm-coral-SrCa.html">
-     PSM for coral Sr/Ca
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="psm-coral-d18O.html">
-     PSM for coral d18O
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="psm-tree-TRW.html">
-     PSM for tree TRW (VS-Lite)
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="psm-tree-seasonality.html">
-     Detecting the seasonality of the trees
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="psm-tree-memory.html">
-     Detecting the biological memory in the trees
-    </a>
-   </li>
+  <ul class="simple">
   </ul>
  </li>
  <li class="toctree-l1 has-children">
@@ -243,23 +156,8 @@
   </label>
   <ul>
    <li class="toctree-l2">
-    <a class="reference internal" href="lmr-basics.html">
-     Basic workflows
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="lmr-cfg.html">
-     Run the job based on the configurations in a YAML file
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="lmr-mc.html">
-     Monte-Carlo iterations
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="lmr-post.html">
-     Post-processing
+    <a class="reference internal" href="lmr-ppe-pages2k.html">
+     A Pseudoproxy Experiment with “pseudoPAGES2k”
     </a>
    </li>
   </ul>
@@ -273,17 +171,7 @@
    <i class="fas fa-chevron-down">
    </i>
   </label>
-  <ul>
-   <li class="toctree-l2">
-    <a class="reference internal" href="graphem-quickstart.html">
-     GraphEM: basic workflow
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="graphem-ppe-pages2k.html">
-     A Pseudoproxy Experiment with GraphEM and pseudoPAGES2k
-    </a>
-   </li>
+  <ul class="simple">
   </ul>
  </li>
  <li class="toctree-l1">
@@ -674,10 +562,11 @@ div.nboutput.container div.prompt > div {
     }
 }
 
-/* disable scrollbars on prompts */
+/* disable scrollbars and line breaks on prompts */
 div.nbinput.container div.prompt pre,
 div.nboutput.container div.prompt pre {
     overflow: hidden;
+    white-space: pre;
 }
 
 /* input/output area */
@@ -779,6 +668,7 @@ div.nboutput.container div.output_area > div[class^='highlight']{
 }
 
 /* Some additional styling taken form the Jupyter notebook CSS */
+.jp-RenderedHTMLCommon table,
 div.rendered_html table {
   border: none;
   border-collapse: collapse;
@@ -787,10 +677,14 @@ div.rendered_html table {
   font-size: 12px;
   table-layout: fixed;
 }
+.jp-RenderedHTMLCommon thead,
 div.rendered_html thead {
   border-bottom: 1px solid black;
   vertical-align: bottom;
 }
+.jp-RenderedHTMLCommon tr,
+.jp-RenderedHTMLCommon th,
+.jp-RenderedHTMLCommon td,
 div.rendered_html tr,
 div.rendered_html th,
 div.rendered_html td {
@@ -802,18 +696,21 @@ div.rendered_html td {
   max-width: none;
   border: none;
 }
+.jp-RenderedHTMLCommon th,
 div.rendered_html th {
   font-weight: bold;
 }
+.jp-RenderedHTMLCommon tbody tr:nth-child(odd),
 div.rendered_html tbody tr:nth-child(odd) {
   background: #f5f5f5;
 }
+.jp-RenderedHTMLCommon tbody tr:hover,
 div.rendered_html tbody tr:hover {
   background: rgba(66, 165, 245, 0.2);
 }
 </style>
 <section id="A-Pseudoproxy-Experiment-with-GraphEM-and-pseudoPAGES2k">
-<h1>A Pseudoproxy Experiment with GraphEM and pseudoPAGES2k<a class="headerlink" href="#A-Pseudoproxy-Experiment-with-GraphEM-and-pseudoPAGES2k" title="Permalink to this headline">#</a></h1>
+<h1>A Pseudoproxy Experiment with GraphEM and pseudoPAGES2k<a class="headerlink" href="#A-Pseudoproxy-Experiment-with-GraphEM-and-pseudoPAGES2k" title="Permalink to this headline">¶</a></h1>
 <p><strong>Expected time to run through: TBD mins</strong></p>
 <p>This tutorial demonstrates how to get a reconstruction using GraphEM, leveraging a simple pseudoproxy dataset generated from iCESM gridded, with the realistic spatial availability but full temporal availablity of the PAGES 2k version 2 dataset. The pseudoproxies are generated based on the original iCESM simulated surface temperature (<code class="docutils literal notranslate"><span class="pre">tas</span></code>) plus white noise with <code class="docutils literal notranslate"><span class="pre">SNR=10</span></code>. While with LMR it is advantageous to have many redundant proxies (as long as they are unbiased, which is the case here),
 with GraphEM this can lead to some counter-intuitive difficulties, which we explain below.</p>
@@ -832,7 +729,7 @@ with GraphEM this can lead to some counter-intuitive difficulties, which we expl
 </div>
 </div>
 <section id="Data-Preparation">
-<h2>Data Preparation<a class="headerlink" href="#Data-Preparation" title="Permalink to this headline">#</a></h2>
+<h2>Data Preparation<a class="headerlink" href="#Data-Preparation" title="Permalink to this headline">¶</a></h2>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
@@ -1899,11 +1796,11 @@ array([[       nan,        nan,        nan, ...,        nan,        nan,
 </div>
 </section>
 <section id="Graph-estimation">
-<h2>Graph estimation<a class="headerlink" href="#Graph-estimation" title="Permalink to this headline">#</a></h2>
+<h2>Graph estimation<a class="headerlink" href="#Graph-estimation" title="Permalink to this headline">¶</a></h2>
 <p>In GraphEM, the selection of the covariance model used for inferring missing values is based on a <a class="reference external" href="http://ir.hit.edu.cn/~jguo/docs/notes/report-in-princeton-research.pdf">graph</a>. Two types of graphs are supported: 1. Neighborhood graphs 2. Empirical graphs (graphical lasso)</p>
 </section>
 <section id="1.-Neighborhood-graph-as-initial-guess">
-<h2>1. Neighborhood graph as initial guess<a class="headerlink" href="#1.-Neighborhood-graph-as-initial-guess" title="Permalink to this headline">#</a></h2>
+<h2>1. Neighborhood graph as initial guess<a class="headerlink" href="#1.-Neighborhood-graph-as-initial-guess" title="Permalink to this headline">¶</a></h2>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[50]:
 </pre></div>
@@ -2014,7 +1911,7 @@ good estimate? Or have we thrown out the rubber duckies with the bath water and 
 reconstruction, before refining the choice of cutoff-radius via a process called <a class="reference external" href="https://scikit-learn.org/stable/modules/cross_validation.html">cross-validation</a>.</p>
 </section>
 <section id="Preliminary-reconstruction">
-<h2>Preliminary reconstruction<a class="headerlink" href="#Preliminary-reconstruction" title="Permalink to this headline">#</a></h2>
+<h2>Preliminary reconstruction<a class="headerlink" href="#Preliminary-reconstruction" title="Permalink to this headline">¶</a></h2>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[38]:
 </pre></div>
@@ -2169,7 +2066,7 @@ File <span class="ansi-green-fg">~/opt/miniconda3/envs/cfr-env/lib/python3.9/sit
 </section>
 </section>
 <section id="Bug-Hunting">
-<h1>Bug Hunting<a class="headerlink" href="#Bug-Hunting" title="Permalink to this headline">#</a></h1>
+<h1>Bug Hunting<a class="headerlink" href="#Bug-Hunting" title="Permalink to this headline">¶</a></h1>
 <p>The key to this error message is to realize that a subset of a correlation matrix called W11_star is singular; this happens most often because predictors are colinear (i.e. columns of the data matrix are the same, so the information is redundant, which chokes up this algorithm). This situation is an artifact of this pseudoproxy case with dream-like SNR, and is extremely unlikely to arise with real proxies. Nevertheless, we need to deal with it numerically to ensure a solution.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[112]:
@@ -2265,9 +2162,7 @@ There are 1.25 % duplicate pairs among this proxy set
     <div class="footer-content row">
         <footer class="col footer"><p>
   
-    By Feng Zhu<br/>
-  
-      &copy; Copyright 2022, Feng Zhu.<br/>
+      &copy; Copyright 2023, Feng Zhu, Julien Emile-Geay.<br/>
 </p>
         </footer>
     </div>
@@ -2278,9 +2173,8 @@ There are 1.25 % duplicate pairs among this proxy set
       </div>
     </div>
   
-  <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
-
+    <script src="../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
+  
 
   </body>
 </html>

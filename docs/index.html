@@ -4,36 +4,39 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>cfr: a universal framework for climate field reconstruction &#8212; cfr  documentation</title>
+    <title>cfr: a Python package for Climate Field Reconstruction &#8212; cfr  documentation</title>
     
-  <!-- Loaded before other Sphinx assets -->
-  <link href="_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+    <link href="_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
 <link href="_static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
-
+  
     
-  <link rel="stylesheet"
-    href="_static/vendor/fontawesome/5.13.0/css/all.min.css">
-  <link rel="preload" as="font" type="font/woff2" crossorigin
-    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
-  <link rel="preload" as="font" type="font/woff2" crossorigin
-    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
-
-    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
-    <link rel="stylesheet" href="_static/styles/sphinx-book-theme.css?digest=62ba249389abaaa9ffc34bf36a076bdc1d65ee18" type="text/css" />
+    <link rel="stylesheet"
+      href="_static/vendor/fontawesome/5.13.0/css/all.min.css">
+    <link rel="preload" as="font" type="font/woff2" crossorigin
+      href="_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+    <link rel="preload" as="font" type="font/woff2" crossorigin
+      href="_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+  
+    
+      
+  
+    
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/styles/sphinx-book-theme.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
     
-  <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
-
-    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
+  
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?digest=9c920249402e914e316237a7dbc6769907cce411"></script>
     <script src="_static/jquery.js"></script>
     <script src="_static/underscore.js"></script>
     <script src="_static/doctools.js"></script>
     <script src="_static/clipboard.min.js"></script>
     <script src="_static/copybutton.js"></script>
-    <script src="_static/scripts/sphinx-book-theme.js?digest=f31d14ad54b65d19161ba51d4ffff3a77ae00456"></script>
+    <script src="_static/scripts/sphinx-book-theme.js"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -45,7 +48,7 @@
     <!-- Google Analytics -->
     
   </head>
-  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
 <!-- Checkboxes to toggle the left sidebar -->
 <input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle navigation sidebar">
 <label class="overlay overlay-navbar" for="__navigation">
@@ -89,7 +92,7 @@
   <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
 </form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item active">
-        <p aria-level="2" class="caption" role="heading">
+        <p>
  <span class="caption-text">
   User Guide
  </span>
@@ -112,32 +115,7 @@
   <ul>
    <li class="toctree-l2">
     <a class="reference internal" href="notebooks/proxy-io.html">
-     Input/Output
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="notebooks/proxy-ops.html">
-     Basic Operations
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="notebooks/proxy-viz.html">
-     Visualizations
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="notebooks/proxy-analysis.html">
-     Analysis
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="notebooks/proxy-get-nearest-climate.html">
-     Get the nearest climate for proxies
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="notebooks/proxy-composites.html">
-     Proxy Composites
+     Input/Output of the Proxy Records
     </a>
    </li>
   </ul>
@@ -151,27 +129,7 @@
    <i class="fas fa-chevron-down">
    </i>
   </label>
-  <ul>
-   <li class="toctree-l2">
-    <a class="reference internal" href="notebooks/climate-io.html">
-     Input/Output
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="notebooks/climate-ops.html">
-     Basic Operations
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="notebooks/climate-viz.html">
-     Visualizations
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="notebooks/climate-analysis.html">
-     Analysis
-    </a>
-   </li>
+  <ul class="simple">
   </ul>
  </li>
  <li class="toctree-l1 has-children">
@@ -183,52 +141,7 @@
    <i class="fas fa-chevron-down">
    </i>
   </label>
-  <ul>
-   <li class="toctree-l2">
-    <a class="reference internal" href="notebooks/psm-linear.html">
-     Univariate linear regression
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="notebooks/psm-bilinear.html">
-     Bivariate linear regression
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="notebooks/psm-ice-d18O.html">
-     PSM for ice core d18O
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="notebooks/psm-lake-VarveThickness.html">
-     PSM for lake varve thickness
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="notebooks/psm-coral-SrCa.html">
-     PSM for coral Sr/Ca
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="notebooks/psm-coral-d18O.html">
-     PSM for coral d18O
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="notebooks/psm-tree-TRW.html">
-     PSM for tree TRW (VS-Lite)
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="notebooks/psm-tree-seasonality.html">
-     Detecting the seasonality of the trees
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="notebooks/psm-tree-memory.html">
-     Detecting the biological memory in the trees
-    </a>
-   </li>
+  <ul class="simple">
   </ul>
  </li>
  <li class="toctree-l1 has-children">
@@ -242,23 +155,8 @@
   </label>
   <ul>
    <li class="toctree-l2">
-    <a class="reference internal" href="notebooks/lmr-basics.html">
-     Basic workflows
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="notebooks/lmr-cfg.html">
-     Run the job based on the configurations in a YAML file
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="notebooks/lmr-mc.html">
-     Monte-Carlo iterations
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="notebooks/lmr-post.html">
-     Post-processing
+    <a class="reference internal" href="notebooks/lmr-ppe-pages2k.html">
+     A Pseudoproxy Experiment with “pseudoPAGES2k”
     </a>
    </li>
   </ul>
@@ -272,17 +170,7 @@
    <i class="fas fa-chevron-down">
    </i>
   </label>
-  <ul>
-   <li class="toctree-l2">
-    <a class="reference internal" href="notebooks/graphem-quickstart.html">
-     GraphEM: basic workflow
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="notebooks/graphem-ppe-pages2k.html">
-     A Pseudoproxy Experiment with GraphEM and pseudoPAGES2k
-    </a>
-   </li>
+  <ul class="simple">
   </ul>
  </li>
  <li class="toctree-l1">
@@ -484,7 +372,7 @@ title="Print to PDF"
         <div class="col pl-md-3 pl-lg-5 content-container">
             <!-- Table of contents that is only displayed when printing the page -->
             <div id="jb-print-docs-body" class="onlyprint">
-                <h1>cfr: a universal framework for climate field reconstruction</h1>
+                <h1>cfr: a Python package for Climate Field Reconstruction</h1>
                 <!-- Table of contents -->
                 <div id="print-main-content">
                     <div id="jb-print-toc">
@@ -509,11 +397,20 @@ title="Print to PDF"
                 
               <div>
                 
-  <section id="cfr-a-universal-framework-for-climate-field-reconstruction">
-<h1>cfr: a universal framework for climate field reconstruction<a class="headerlink" href="#cfr-a-universal-framework-for-climate-field-reconstruction" title="Permalink to this headline">#</a></h1>
-<p><cite>cfr</cite> aims to provide a universal framework for climate field reconstruction (CFR).</p>
+  <section id="cfr-a-python-package-for-climate-field-reconstruction">
+<h1><cite>cfr</cite>: a Python package for Climate Field Reconstruction<a class="headerlink" href="#cfr-a-python-package-for-climate-field-reconstruction" title="Permalink to this headline">¶</a></h1>
+<p><cite>cfr</cite> aims to provide a universal framework for climate field reconstruction (CFR).
+It provides a toolkit for</p>
+<ul class="simple">
+<li><p>the analysis/visualization of the proxy records,</p></li>
+<li><p>the processing of the climate model simulations and instrumental observations,</p></li>
+<li><p>the calibration and running of the proxy system models (PSMs, <a class="reference external" href="https://doi.org/10.1016/j.quascirev.2013.05.024">Evans et al., 2013</a>),</p></li>
+<li><p>the preparation and running of the multiple reconstruction frameworks/algorithms, such as LMR (<a class="reference external" href="https://doi.org/10.1002/2016JD024751">Hakim et al., 2016</a>; <a class="reference external" href="https://doi.org/https://doi.org/10.5194/cp-15-1251-2019">Tardif et al., 2019</a>) and GraphEM (<a class="reference external" href="https://doi.org/10.1214/14-AOAS794">Guillot et al., 2015</a>), and</p></li>
+<li><p>the validation of the reconstructions, etc.</p></li>
+</ul>
+<p>For more details, please refer to the documentation linked below.</p>
 <section id="documentation">
-<h2>Documentation<a class="headerlink" href="#documentation" title="Permalink to this headline">#</a></h2>
+<h2>Documentation<a class="headerlink" href="#documentation" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li><p>Homepage: <a class="reference external" href="https://fzhu2e.github.io/cfr">https://fzhu2e.github.io/cfr</a></p></li>
 <li><p>Installation: <a class="reference external" href="https://fzhu2e.github.io/cfr/ug-installation.html">https://fzhu2e.github.io/cfr/ug-installation.html</a></p></li>
@@ -522,7 +419,7 @@ title="Print to PDF"
 <div class="line"><br /></div>
 </div>
 <div class="toctree-wrapper compound">
-<p aria-level="2" class="caption" role="heading"><span class="caption-text">User Guide</span></p>
+<p><span class="caption-text">User Guide</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="ug-installation.html">Installation</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="ug-installation.html#install-the-conda-environment">Install the Conda environment</a><ul>
@@ -535,195 +432,32 @@ title="Print to PDF"
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="ug-proxy.html">Proxy</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="notebooks/proxy-io.html">Input/Output</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="notebooks/proxy-io.html#Load-the-PAGES2k-network-stored-in-a-pandas-DataFrame">Load the PAGES2k network stored in a pandas <code class="docutils literal notranslate"><span class="pre">DataFrame</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="notebooks/proxy-io.html#Create-a-ProxyDatabase-and-load-from-the-pandas-DataFrame">Create a <code class="docutils literal notranslate"><span class="pre">ProxyDatabase</span></code> and load from the pandas <code class="docutils literal notranslate"><span class="pre">DataFrame</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="notebooks/proxy-io.html#Save-a-ProxyRecord-to-a-NetCDF-file">Save a <code class="docutils literal notranslate"><span class="pre">ProxyRecord</span></code> to a NetCDF file</a></li>
-<li class="toctree-l3"><a class="reference internal" href="notebooks/proxy-io.html#Save-a-ProxyDatabase-to-a-NetCDF-files">Save a <code class="docutils literal notranslate"><span class="pre">ProxyDatabase</span></code> to a NetCDF files</a></li>
-<li class="toctree-l3"><a class="reference internal" href="notebooks/proxy-io.html#Load-multiple-NetCDF-files-and-save-to-a-ProxyDatabase">Load multiple NetCDF files and save to a <code class="docutils literal notranslate"><span class="pre">ProxyDatabase</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="notebooks/proxy-ops.html">Basic Operations</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="notebooks/proxy-ops.html#Load-the-PAGES2k-network-stored-in-a-pandas-DataFrame">Load the PAGES2k network stored in a pandas <code class="docutils literal notranslate"><span class="pre">DataFrame</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="notebooks/proxy-ops.html#Create-a-ProxyDatabase-and-load-from-the-pandas-DataFrame">Create a <code class="docutils literal notranslate"><span class="pre">ProxyDatabase</span></code> and load from the pandas <code class="docutils literal notranslate"><span class="pre">DataFrame</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="notebooks/proxy-ops.html#Slice-a-ProxyDatabase-by-index">Slice a <code class="docutils literal notranslate"><span class="pre">ProxyDatabase</span></code> by index</a></li>
-<li class="toctree-l3"><a class="reference internal" href="notebooks/proxy-ops.html#Slice-a-ProxyRecord">Slice a <code class="docutils literal notranslate"><span class="pre">ProxyRecord</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="notebooks/proxy-ops.html#Add-several-ProxyRecords-together-to-form-a-ProxyDatabase">Add several <code class="docutils literal notranslate"><span class="pre">ProxyRecord</span></code>s together to form a <code class="docutils literal notranslate"><span class="pre">ProxyDatabase</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="notebooks/proxy-ops.html#Add-a-list-of-ProxyRecords-into-an-existing-ProxyDatabase">Add a list of <code class="docutils literal notranslate"><span class="pre">ProxyRecord</span></code>s into an existing <code class="docutils literal notranslate"><span class="pre">ProxyDatabase</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="notebooks/proxy-ops.html#Merge-several-ProxyDatabases">Merge several <code class="docutils literal notranslate"><span class="pre">ProxyDatabase</span></code>s</a></li>
-<li class="toctree-l3"><a class="reference internal" href="notebooks/proxy-ops.html#Substract-a-list-of-ProxyRecords-from-a-ProxyDatabase">Substract a list of <code class="docutils literal notranslate"><span class="pre">ProxyRecord</span></code>s from a <code class="docutils literal notranslate"><span class="pre">ProxyDatabase</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="notebooks/proxy-ops.html#Substract-a-ProxyDatabase-from-another">Substract a <code class="docutils literal notranslate"><span class="pre">ProxyDatabase</span></code> from another</a></li>
-<li class="toctree-l3"><a class="reference internal" href="notebooks/proxy-ops.html#Filter-a-ProxyDatabase">Filter a <code class="docutils literal notranslate"><span class="pre">ProxyDatabase</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="notebooks/proxy-ops.html#Convert-a-ProxyRecord-to-an-xarray.DataArray">Convert a <code class="docutils literal notranslate"><span class="pre">ProxyRecord</span></code> to an <code class="docutils literal notranslate"><span class="pre">xarray.DataArray</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="notebooks/proxy-ops.html#Save-a-ProxyRecord-to-a-NetCDF-file">Save a <code class="docutils literal notranslate"><span class="pre">ProxyRecord</span></code> to a NetCDF file</a></li>
-<li class="toctree-l3"><a class="reference internal" href="notebooks/proxy-ops.html#Load-the-NetCDF-file-and-create-a-ProxyRecord-from-it">Load the NetCDF file and create a <code class="docutils literal notranslate"><span class="pre">ProxyRecord</span></code> from it</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="notebooks/proxy-viz.html">Visualizations</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="notebooks/proxy-viz.html#Load-the-PAGES2k-network-stored-in-a-pandas-DataFrame">Load the PAGES2k network stored in a pandas <code class="docutils literal notranslate"><span class="pre">DataFrame</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="notebooks/proxy-viz.html#Create-a-ProxyDatabase-and-load-from-the-pandas-DataFrame">Create a <code class="docutils literal notranslate"><span class="pre">ProxyDatabase</span></code> and load from the pandas <code class="docutils literal notranslate"><span class="pre">DataFrame</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="notebooks/proxy-viz.html#Visualize-a-ProxyRecord">Visualize a <code class="docutils literal notranslate"><span class="pre">ProxyRecord</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="notebooks/proxy-viz.html#Visualize-a-ProxyDatabase">Visualize a <code class="docutils literal notranslate"><span class="pre">ProxyDatabase</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="notebooks/proxy-analysis.html">Analysis</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="notebooks/proxy-analysis.html#Load-the-PAGES2k-network-stored-in-a-pandas-DataFrame">Load the PAGES2k network stored in a pandas <code class="docutils literal notranslate"><span class="pre">DataFrame</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="notebooks/proxy-analysis.html#Create-a-ProxyDatabase-and-load-from-the-pandas-DataFrame">Create a <code class="docutils literal notranslate"><span class="pre">ProxyDatabase</span></code> and load from the pandas <code class="docutils literal notranslate"><span class="pre">DataFrame</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="notebooks/proxy-analysis.html#Annualize-a-ProxyRecord">Annualize a <code class="docutils literal notranslate"><span class="pre">ProxyRecord</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="notebooks/proxy-analysis.html#Annualize-a-ProxyDatabase">Annualize a <code class="docutils literal notranslate"><span class="pre">ProxyDatabase</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="notebooks/proxy-analysis.html#A-test-of-the-cfr.utils.annualize()-function">A test of the <code class="docutils literal notranslate"><span class="pre">cfr.utils.annualize()</span></code> function</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="notebooks/proxy-get-nearest-climate.html">Get the nearest climate for proxies</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="notebooks/proxy-get-nearest-climate.html#Load-the-PAGES2k-network-stored-in-a-pandas-DataFrame">Load the PAGES2k network stored in a pandas <code class="docutils literal notranslate"><span class="pre">DataFrame</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="notebooks/proxy-get-nearest-climate.html#Create-a-ProxyDatabase-and-load-from-the-pandas-DataFrame">Create a <code class="docutils literal notranslate"><span class="pre">ProxyDatabase</span></code> and load from the pandas <code class="docutils literal notranslate"><span class="pre">DataFrame</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="notebooks/proxy-get-nearest-climate.html#Load-climate-data-to-ClimateFields">Load climate data to <code class="docutils literal notranslate"><span class="pre">ClimateField</span></code>s</a></li>
-<li class="toctree-l3"><a class="reference internal" href="notebooks/proxy-get-nearest-climate.html#Get-the-nearest-climate-from-a-ClimateField-for-a-ProxyRecord">Get the nearest climate from a <code class="docutils literal notranslate"><span class="pre">ClimateField</span></code> for a <code class="docutils literal notranslate"><span class="pre">ProxyRecord</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="notebooks/proxy-get-nearest-climate.html#Get-the-nearest-climate-from-a-ClimateField-for-a-ProxyDatabase">Get the nearest climate from a <code class="docutils literal notranslate"><span class="pre">ClimateField</span></code> for a <code class="docutils literal notranslate"><span class="pre">ProxyDatabase</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="notebooks/proxy-composites.html">Proxy Composites</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="notebooks/proxy-composites.html#Load-the-PAGES2k-network-stored-in-a-pandas-DataFrame">Load the PAGES2k network stored in a pandas <code class="docutils literal notranslate"><span class="pre">DataFrame</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="notebooks/proxy-composites.html#Create-a-ProxyDatabase-and-load-from-the-pandas-DataFrame">Create a <code class="docutils literal notranslate"><span class="pre">ProxyDatabase</span></code> and load from the pandas <code class="docutils literal notranslate"><span class="pre">DataFrame</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="notebooks/proxy-composites.html#Create-composites-for-each-proxy-type">Create composites for each proxy type</a></li>
-<li class="toctree-l3"><a class="reference internal" href="notebooks/proxy-composites.html#The-composite-of-ice-core-records">The composite of ice core records</a></li>
+<li class="toctree-l2"><a class="reference internal" href="notebooks/proxy-io.html">Input/Output of the Proxy Records</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/proxy-io.html#pandas.DataFrame-=&gt;-ProxyDatabase"><code class="docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code> =&gt; <code class="docutils literal notranslate"><span class="pre">ProxyDatabase</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/proxy-io.html#ProxyDatabase-=&gt;-pandas.DataFrame"><code class="docutils literal notranslate"><span class="pre">ProxyDatabase</span></code> =&gt; <code class="docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/proxy-io.html#ProxyDatabase-=&gt;-a-netCDF-file"><code class="docutils literal notranslate"><span class="pre">ProxyDatabase</span></code> =&gt; a netCDF file</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/proxy-io.html#a-netCDF-file-=&gt;-ProxyDatabase">a netCDF file =&gt; <code class="docutils literal notranslate"><span class="pre">ProxyDatabase</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/proxy-io.html#ProxyRecord-=&gt;-a-netCDF-file"><code class="docutils literal notranslate"><span class="pre">ProxyRecord</span></code> =&gt; a netCDF file</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/proxy-io.html#a-netCDF-file-=&gt;-ProxyRecord">a netCDF file =&gt; <code class="docutils literal notranslate"><span class="pre">ProxyRecord</span></code></a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="ug-climate.html">Climate</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="notebooks/climate-io.html">Input/Output</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="notebooks/climate-io.html#Load-test-data-to-ClimateField">Load test data to <code class="docutils literal notranslate"><span class="pre">ClimateField</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="notebooks/climate-io.html#Save-ClimateField-to-a-NetCDF-file">Save <code class="docutils literal notranslate"><span class="pre">ClimateField</span></code> to a NetCDF file</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ug-climate.html">Climate</a><ul class="simple">
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="notebooks/climate-ops.html">Basic Operations</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="notebooks/climate-ops.html#Generate-random-data-and-form-a-ClimateField">Generate random data and form a <code class="docutils literal notranslate"><span class="pre">ClimateField</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="notebooks/climate-ops.html#Load-test-data-to-ClimateField">Load test data to <code class="docutils literal notranslate"><span class="pre">ClimateField</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="notebooks/climate-ops.html#Rename-the-variable-name-of-a-ClimateField">Rename the variable name of a <code class="docutils literal notranslate"><span class="pre">ClimateField</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="notebooks/climate-viz.html">Visualizations</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="notebooks/climate-viz.html#Load-test-data-as-ClimateFields">Load test data as <code class="docutils literal notranslate"><span class="pre">ClimateField</span></code>s</a></li>
-<li class="toctree-l3"><a class="reference internal" href="notebooks/climate-viz.html#Plot-a-field-map-with-a-given-time-index">Plot a field map with a given time index</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="notebooks/climate-analysis.html">Analysis</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="notebooks/climate-analysis.html#Load-test-data-as-ClimateFields">Load test data as <code class="docutils literal notranslate"><span class="pre">ClimateField</span></code>s</a></li>
-<li class="toctree-l3"><a class="reference internal" href="notebooks/climate-analysis.html#Get-the-anomaly-from-a-ClimateField">Get the anomaly from a <code class="docutils literal notranslate"><span class="pre">ClimateField</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="notebooks/climate-analysis.html#Annualize-a-ClimateField">Annualize a <code class="docutils literal notranslate"><span class="pre">ClimateField</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="notebooks/climate-analysis.html#Regrid-a-ClimateField">Regrid a <code class="docutils literal notranslate"><span class="pre">ClimateField</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="ug-psm.html">PSM</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="notebooks/psm-linear.html">Univariate linear regression</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="notebooks/psm-linear.html#Data-preparation">Data preparation</a></li>
-<li class="toctree-l3"><a class="reference internal" href="notebooks/psm-linear.html#Get-climate-data-for-a-specific-ProxyRecord">Get climate data for a specific <code class="docutils literal notranslate"><span class="pre">ProxyRecord</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="notebooks/psm-linear.html#Create-a-PSM-object">Create a PSM object</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="notebooks/psm-bilinear.html">Bivariate linear regression</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="notebooks/psm-bilinear.html#Data-preparation">Data preparation</a></li>
-<li class="toctree-l3"><a class="reference internal" href="notebooks/psm-bilinear.html#Get-climate-data-for-a-specific-ProxyRecord">Get climate data for a specific <code class="docutils literal notranslate"><span class="pre">ProxyRecord</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="notebooks/psm-bilinear.html#Create-a-PSM-object">Create a PSM object</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="notebooks/psm-ice-d18O.html">PSM for ice core d18O</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="notebooks/psm-ice-d18O.html#Data-preparation">Data preparation</a></li>
-<li class="toctree-l3"><a class="reference internal" href="notebooks/psm-ice-d18O.html#Get-climate-data-for-a-specific-ProxyRecord">Get climate data for a specific <code class="docutils literal notranslate"><span class="pre">ProxyRecord</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="notebooks/psm-ice-d18O.html#Create-a-PSM-object">Create a PSM object</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="notebooks/psm-lake-VarveThickness.html">PSM for lake varve thickness</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="notebooks/psm-lake-VarveThickness.html#Data-preparation">Data preparation</a></li>
-<li class="toctree-l3"><a class="reference internal" href="notebooks/psm-lake-VarveThickness.html#Get-climate-data-for-a-specific-ProxyRecord">Get climate data for a specific <code class="docutils literal notranslate"><span class="pre">ProxyRecord</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="notebooks/psm-lake-VarveThickness.html#Create-a-PSM-object">Create a PSM object</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="notebooks/psm-coral-SrCa.html">PSM for coral Sr/Ca</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="notebooks/psm-coral-SrCa.html#Data-preparation">Data preparation</a></li>
-<li class="toctree-l3"><a class="reference internal" href="notebooks/psm-coral-SrCa.html#Get-climate-data-for-a-specific-ProxyRecord">Get climate data for a specific <code class="docutils literal notranslate"><span class="pre">ProxyRecord</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="notebooks/psm-coral-SrCa.html#Create-a-PSM-object">Create a PSM object</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="notebooks/psm-coral-d18O.html">PSM for coral d18O</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="notebooks/psm-coral-d18O.html#Data-preparation">Data preparation</a></li>
-<li class="toctree-l3"><a class="reference internal" href="notebooks/psm-coral-d18O.html#Get-climate-data-for-a-specific-ProxyRecord">Get climate data for a specific <code class="docutils literal notranslate"><span class="pre">ProxyRecord</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="notebooks/psm-coral-d18O.html#Create-a-PSM-object">Create a PSM object</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="notebooks/psm-tree-TRW.html">PSM for tree TRW (VS-Lite)</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="notebooks/psm-tree-TRW.html#Data-preparation">Data preparation</a></li>
-<li class="toctree-l3"><a class="reference internal" href="notebooks/psm-tree-TRW.html#Get-climate-data-for-a-specific-ProxyRecord">Get climate data for a specific <code class="docutils literal notranslate"><span class="pre">ProxyRecord</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="notebooks/psm-tree-TRW.html#Create-a-PSM-object">Create a PSM object</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="notebooks/psm-tree-seasonality.html">Detecting the seasonality of the trees</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="notebooks/psm-tree-seasonality.html#Data-preparation">Data preparation</a></li>
-<li class="toctree-l3"><a class="reference internal" href="notebooks/psm-tree-seasonality.html#Get-climate-data-for-ProxyDatabase">Get climate data for <code class="docutils literal notranslate"><span class="pre">ProxyDatabase</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="notebooks/psm-tree-seasonality.html#Create-a-PSM-object">Create a PSM object</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="notebooks/psm-tree-memory.html">Detecting the biological memory in the trees</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="notebooks/psm-tree-memory.html#Data-preparation">Data preparation</a></li>
-<li class="toctree-l3"><a class="reference internal" href="notebooks/psm-tree-memory.html#Calculate-the-PACF-for-each-site">Calculate the PACF for each site</a></li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="ug-psm.html">PSM</a><ul class="simple">
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="ug-lmr.html">LMR</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="notebooks/lmr-basics.html">Basic workflows</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="notebooks/lmr-basics.html#Create-a-reconstruction-job-object">Create a reconstruction job object</a></li>
-<li class="toctree-l3"><a class="reference internal" href="notebooks/lmr-basics.html#Load-a-proxy-database">Load a proxy database</a></li>
-<li class="toctree-l3"><a class="reference internal" href="notebooks/lmr-basics.html#Filter-a-proxy-database">Filter a proxy database</a></li>
-<li class="toctree-l3"><a class="reference internal" href="notebooks/lmr-basics.html#Annualize/seasonalize-the-proxy-database">Annualize/seasonalize the proxy database</a></li>
-<li class="toctree-l3"><a class="reference internal" href="notebooks/lmr-basics.html#Load-climate-model-priors">Load climate model priors</a></li>
-<li class="toctree-l3"><a class="reference internal" href="notebooks/lmr-basics.html#Load-instrumental-observations">Load instrumental observations</a></li>
-<li class="toctree-l3"><a class="reference internal" href="notebooks/lmr-basics.html#Calibrate-the-PSMs">Calibrate the PSMs</a></li>
-<li class="toctree-l3"><a class="reference internal" href="notebooks/lmr-basics.html#Forward-the-PSMs">Forward the PSMs</a></li>
-<li class="toctree-l3"><a class="reference internal" href="notebooks/lmr-basics.html#Annualize/seasonalize-the-climate-model-prior">Annualize/seasonalize the climate model prior</a></li>
-<li class="toctree-l3"><a class="reference internal" href="notebooks/lmr-basics.html#Crop-the-prior">Crop the prior</a></li>
-<li class="toctree-l3"><a class="reference internal" href="notebooks/lmr-basics.html#Saving-the-job-object">Saving the <code class="docutils literal notranslate"><span class="pre">job</span></code> object</a></li>
-<li class="toctree-l3"><a class="reference internal" href="notebooks/lmr-basics.html#Load-the-job-object">Load the <code class="docutils literal notranslate"><span class="pre">job</span></code> object</a></li>
-<li class="toctree-l3"><a class="reference internal" href="notebooks/lmr-basics.html#Data-assimilation">Data assimilation</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="notebooks/lmr-cfg.html">Run the job based on the configurations in a YAML file</a></li>
-<li class="toctree-l2"><a class="reference internal" href="notebooks/lmr-mc.html">Monte-Carlo iterations</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="notebooks/lmr-mc.html#Create-a-reconstruction-job-object">Create a reconstruction job object</a></li>
-<li class="toctree-l3"><a class="reference internal" href="notebooks/lmr-mc.html#Load-a-proxy-database">Load a proxy database</a></li>
-<li class="toctree-l3"><a class="reference internal" href="notebooks/lmr-mc.html#Filter-a-proxy-database">Filter a proxy database</a></li>
-<li class="toctree-l3"><a class="reference internal" href="notebooks/lmr-mc.html#Annualize/seasonalize-the-proxy-database">Annualize/seasonalize the proxy database</a></li>
-<li class="toctree-l3"><a class="reference internal" href="notebooks/lmr-mc.html#Load-climate-model-priors">Load climate model priors</a></li>
-<li class="toctree-l3"><a class="reference internal" href="notebooks/lmr-mc.html#Load-instrumental-observations">Load instrumental observations</a></li>
-<li class="toctree-l3"><a class="reference internal" href="notebooks/lmr-mc.html#Calibrate-the-PSMs">Calibrate the PSMs</a></li>
-<li class="toctree-l3"><a class="reference internal" href="notebooks/lmr-mc.html#Forward-the-PSMs">Forward the PSMs</a></li>
-<li class="toctree-l3"><a class="reference internal" href="notebooks/lmr-mc.html#Annualize/seasonalize-the-climate-model-prior">Annualize/seasonalize the climate model prior</a></li>
-<li class="toctree-l3"><a class="reference internal" href="notebooks/lmr-mc.html#Saving-the-job-object">Saving the <code class="docutils literal notranslate"><span class="pre">job</span></code> object</a></li>
-<li class="toctree-l3"><a class="reference internal" href="notebooks/lmr-mc.html#Load-the-job-object">Load the <code class="docutils literal notranslate"><span class="pre">job</span></code> object</a></li>
-<li class="toctree-l3"><a class="reference internal" href="notebooks/lmr-mc.html#Data-assimilation">Data assimilation</a></li>
-<li class="toctree-l3"><a class="reference internal" href="notebooks/lmr-mc.html#Save-the-configurations-to-a-YAML-file">Save the configurations to a YAML file</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="notebooks/lmr-post.html">Post-processing</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="notebooks/lmr-post.html#Create-a-reconstruction-result-object">Create a reconstruction result object</a></li>
-<li class="toctree-l3"><a class="reference internal" href="notebooks/lmr-post.html#Load-reconstructed-variables">Load reconstructed variables</a></li>
-<li class="toctree-l3"><a class="reference internal" href="notebooks/lmr-post.html#Validation">Validation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="notebooks/lmr-ppe-pages2k.html">A Pseudoproxy Experiment with “pseudoPAGES2k”</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/lmr-ppe-pages2k.html#Paleoclimate-data-assimilation-(PDA)-steps">Paleoclimate data assimilation (PDA) steps</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/lmr-ppe-pages2k.html#Validation-steps">Validation steps</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="ug-graphem.html">GraphEM</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="notebooks/graphem-quickstart.html">GraphEM: basic workflow</a></li>
-<li class="toctree-l2"><a class="reference internal" href="notebooks/graphem-ppe-pages2k.html">A Pseudoproxy Experiment with GraphEM and pseudoPAGES2k</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="notebooks/graphem-ppe-pages2k.html#Data-Preparation">Data Preparation</a></li>
-<li class="toctree-l3"><a class="reference internal" href="notebooks/graphem-ppe-pages2k.html#Graph-estimation">Graph estimation</a></li>
-<li class="toctree-l3"><a class="reference internal" href="notebooks/graphem-ppe-pages2k.html#running-GraphEM">running GraphEM</a></li>
-<li class="toctree-l3"><a class="reference internal" href="notebooks/graphem-ppe-pages2k.html#2.-Graphical-Lasso">2. Graphical Lasso</a></li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="ug-graphem.html">GraphEM</a><ul class="simple">
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="ug-api.html">API Reference</a><ul>
@@ -763,9 +497,7 @@ title="Print to PDF"
     <div class="footer-content row">
         <footer class="col footer"><p>
   
-    By Feng Zhu<br/>
-  
-      &copy; Copyright 2022, Feng Zhu.<br/>
+      &copy; Copyright 2023, Feng Zhu, Julien Emile-Geay.<br/>
 </p>
         </footer>
     </div>
@@ -776,9 +508,8 @@ title="Print to PDF"
       </div>
     </div>
   
-  <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
-
+    <script src="_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
+  
 
   </body>
 </html>

@@ -4,41 +4,44 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
     <title>Installation &#8212; cfr  documentation</title>
     
-  <!-- Loaded before other Sphinx assets -->
-  <link href="_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+    <link href="_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
 <link href="_static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
-
+  
     
-  <link rel="stylesheet"
-    href="_static/vendor/fontawesome/5.13.0/css/all.min.css">
-  <link rel="preload" as="font" type="font/woff2" crossorigin
-    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
-  <link rel="preload" as="font" type="font/woff2" crossorigin
-    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
-
-    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
-    <link rel="stylesheet" href="_static/styles/sphinx-book-theme.css?digest=62ba249389abaaa9ffc34bf36a076bdc1d65ee18" type="text/css" />
+    <link rel="stylesheet"
+      href="_static/vendor/fontawesome/5.13.0/css/all.min.css">
+    <link rel="preload" as="font" type="font/woff2" crossorigin
+      href="_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+    <link rel="preload" as="font" type="font/woff2" crossorigin
+      href="_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+  
+    
+      
+  
+    
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/styles/sphinx-book-theme.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
     
-  <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
-
-    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
+  
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?digest=9c920249402e914e316237a7dbc6769907cce411"></script>
     <script src="_static/jquery.js"></script>
     <script src="_static/underscore.js"></script>
     <script src="_static/doctools.js"></script>
     <script src="_static/clipboard.min.js"></script>
     <script src="_static/copybutton.js"></script>
-    <script src="_static/scripts/sphinx-book-theme.js?digest=f31d14ad54b65d19161ba51d4ffff3a77ae00456"></script>
+    <script src="_static/scripts/sphinx-book-theme.js"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Proxy" href="ug-proxy.html" />
-    <link rel="prev" title="cfr: a universal framework for climate field reconstruction" href="index.html" />
+    <link rel="prev" title="cfr: a Python package for Climate Field Reconstruction" href="index.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="None">
     
@@ -46,7 +49,7 @@
     <!-- Google Analytics -->
     
   </head>
-  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
 <!-- Checkboxes to toggle the left sidebar -->
 <input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle navigation sidebar">
 <label class="overlay overlay-navbar" for="__navigation">
@@ -90,7 +93,7 @@
   <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
 </form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item active">
-        <p aria-level="2" class="caption" role="heading">
+        <p>
  <span class="caption-text">
   User Guide
  </span>
@@ -113,32 +116,7 @@
   <ul>
    <li class="toctree-l2">
     <a class="reference internal" href="notebooks/proxy-io.html">
-     Input/Output
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="notebooks/proxy-ops.html">
-     Basic Operations
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="notebooks/proxy-viz.html">
-     Visualizations
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="notebooks/proxy-analysis.html">
-     Analysis
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="notebooks/proxy-get-nearest-climate.html">
-     Get the nearest climate for proxies
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="notebooks/proxy-composites.html">
-     Proxy Composites
+     Input/Output of the Proxy Records
     </a>
    </li>
   </ul>
@@ -152,27 +130,7 @@
    <i class="fas fa-chevron-down">
    </i>
   </label>
-  <ul>
-   <li class="toctree-l2">
-    <a class="reference internal" href="notebooks/climate-io.html">
-     Input/Output
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="notebooks/climate-ops.html">
-     Basic Operations
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="notebooks/climate-viz.html">
-     Visualizations
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="notebooks/climate-analysis.html">
-     Analysis
-    </a>
-   </li>
+  <ul class="simple">
   </ul>
  </li>
  <li class="toctree-l1 has-children">
@@ -184,52 +142,7 @@
    <i class="fas fa-chevron-down">
    </i>
   </label>
-  <ul>
-   <li class="toctree-l2">
-    <a class="reference internal" href="notebooks/psm-linear.html">
-     Univariate linear regression
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="notebooks/psm-bilinear.html">
-     Bivariate linear regression
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="notebooks/psm-ice-d18O.html">
-     PSM for ice core d18O
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="notebooks/psm-lake-VarveThickness.html">
-     PSM for lake varve thickness
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="notebooks/psm-coral-SrCa.html">
-     PSM for coral Sr/Ca
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="notebooks/psm-coral-d18O.html">
-     PSM for coral d18O
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="notebooks/psm-tree-TRW.html">
-     PSM for tree TRW (VS-Lite)
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="notebooks/psm-tree-seasonality.html">
-     Detecting the seasonality of the trees
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="notebooks/psm-tree-memory.html">
-     Detecting the biological memory in the trees
-    </a>
-   </li>
+  <ul class="simple">
   </ul>
  </li>
  <li class="toctree-l1 has-children">
@@ -243,23 +156,8 @@
   </label>
   <ul>
    <li class="toctree-l2">
-    <a class="reference internal" href="notebooks/lmr-basics.html">
-     Basic workflows
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="notebooks/lmr-cfg.html">
-     Run the job based on the configurations in a YAML file
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="notebooks/lmr-mc.html">
-     Monte-Carlo iterations
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="notebooks/lmr-post.html">
-     Post-processing
+    <a class="reference internal" href="notebooks/lmr-ppe-pages2k.html">
+     A Pseudoproxy Experiment with “pseudoPAGES2k”
     </a>
    </li>
   </ul>
@@ -273,17 +171,7 @@
    <i class="fas fa-chevron-down">
    </i>
   </label>
-  <ul>
-   <li class="toctree-l2">
-    <a class="reference internal" href="notebooks/graphem-quickstart.html">
-     GraphEM: basic workflow
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="notebooks/graphem-ppe-pages2k.html">
-     A Pseudoproxy Experiment with GraphEM and pseudoPAGES2k
-    </a>
-   </li>
+  <ul class="simple">
   </ul>
  </li>
  <li class="toctree-l1">
@@ -487,8 +375,8 @@ title="Print to PDF"
       </a>
      </li>
      <li class="toc-h4 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#macos-m1">
-       macOS (M1)
+      <a class="reference internal nav-link" href="#macos-apple-silicone">
+       macOS (Apple Silicone)
       </a>
      </li>
      <li class="toc-h4 nav-item toc-entry">
@@ -553,8 +441,8 @@ title="Print to PDF"
       </a>
      </li>
      <li class="toc-h4 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#macos-m1">
-       macOS (M1)
+      <a class="reference internal nav-link" href="#macos-apple-silicone">
+       macOS (Apple Silicone)
       </a>
      </li>
      <li class="toc-h4 nav-item toc-entry">
@@ -595,83 +483,83 @@ title="Print to PDF"
               <div>
                 
   <section id="installation">
-<h1>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">#</a></h1>
+<h1>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h1>
 <section id="install-the-conda-environment">
-<h2>Install the Conda environment<a class="headerlink" href="#install-the-conda-environment" title="Permalink to this headline">#</a></h2>
-<p>You may skip this step if your Conda environment has been setup already.</p>
+<h2>Install the Conda environment<a class="headerlink" href="#install-the-conda-environment" title="Permalink to this headline">¶</a></h2>
+<p>You may skip this step if your Conda environment has been installed already.</p>
 <section id="step-1-download-the-installation-script-for-miniconda3">
-<h3>Step 1: Download the installation script for miniconda3<a class="headerlink" href="#step-1-download-the-installation-script-for-miniconda3" title="Permalink to this headline">#</a></h3>
+<h3>Step 1: Download the installation script for miniconda3<a class="headerlink" href="#step-1-download-the-installation-script-for-miniconda3" title="Permalink to this headline">¶</a></h3>
 <section id="macos-intel">
-<h4>macOS (Intel)<a class="headerlink" href="#macos-intel" title="Permalink to this headline">#</a></h4>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>wget https://repo.anaconda.com/miniconda/Miniconda3-latest-MacOSX-x86_64.sh
+<h4>macOS (Intel)<a class="headerlink" href="#macos-intel" title="Permalink to this headline">¶</a></h4>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>wget<span class="w"> </span>https://repo.anaconda.com/miniconda/Miniconda3-latest-MacOSX-x86_64.sh
 </pre></div>
 </div>
 </section>
-<section id="macos-m1">
-<h4>macOS (M1)<a class="headerlink" href="#macos-m1" title="Permalink to this headline">#</a></h4>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>wget https://repo.anaconda.com/miniconda/Miniconda3-latest-MacOSX-arm64.sh
+<section id="macos-apple-silicone">
+<h4>macOS (Apple Silicone)<a class="headerlink" href="#macos-apple-silicone" title="Permalink to this headline">¶</a></h4>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>wget<span class="w"> </span>https://repo.anaconda.com/miniconda/Miniconda3-latest-MacOSX-arm64.sh
 </pre></div>
 </div>
 </section>
 <section id="linux">
-<h4>Linux<a class="headerlink" href="#linux" title="Permalink to this headline">#</a></h4>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
+<h4>Linux<a class="headerlink" href="#linux" title="Permalink to this headline">¶</a></h4>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>wget<span class="w"> </span>https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
 </pre></div>
 </div>
 </section>
 </section>
 <section id="step-2-install-miniconda3">
-<h3>Step 2: Install Miniconda3<a class="headerlink" href="#step-2-install-miniconda3" title="Permalink to this headline">#</a></h3>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>chmod +x Miniconda3-latest-*.sh <span class="o">&amp;&amp;</span> ./Miniconda3-latest-*.sh
+<h3>Step 2: Install Miniconda3<a class="headerlink" href="#step-2-install-miniconda3" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>chmod<span class="w"> </span>+x<span class="w"> </span>Miniconda3-latest-*.sh<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>./Miniconda3-latest-*.sh
 </pre></div>
 </div>
 <p>During the installation, a path <code class="code docutils literal notranslate"><span class="pre">&lt;base-path&gt;</span></code> needs to be specified as the base location of the python environment.
 After the installation is done, we need to add the two lines into your shell environment (e.g., <code class="code docutils literal notranslate"><span class="pre">~/.bashrc</span></code> or <code class="code docutils literal notranslate"><span class="pre">~/.zshrc</span></code>) as below to enable the <code class="code docutils literal notranslate"><span class="pre">conda</span></code> package manager (remember to change <code class="code docutils literal notranslate"><span class="pre">&lt;base-path&gt;</span></code> with your real location):</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span> <span class="nv">PATH</span><span class="o">=</span><span class="s2">&quot;&lt;base-path&gt;/bin:</span><span class="nv">$PATH</span><span class="s2">&quot;</span>
-. &lt;base-path&gt;/etc/profile.d/conda.sh
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span><span class="nv">PATH</span><span class="o">=</span><span class="s2">&quot;&lt;base-path&gt;/bin:</span><span class="nv">$PATH</span><span class="s2">&quot;</span>
+.<span class="w"> </span>&lt;base-path&gt;/etc/profile.d/conda.sh
 </pre></div>
 </div>
 </section>
 <section id="step-3-test-your-installation">
-<h3>Step 3: Test your Installation<a class="headerlink" href="#step-3-test-your-installation" title="Permalink to this headline">#</a></h3>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">source</span> ~/.bashrc  <span class="c1"># assume you are using Bash shell</span>
-which python  <span class="c1"># should return a path under &lt;base-path&gt;</span>
-which conda  <span class="c1"># should return a path under &lt;base-path&gt;</span>
+<h3>Step 3: Test your Installation<a class="headerlink" href="#step-3-test-your-installation" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">source</span><span class="w"> </span>~/.bashrc<span class="w">  </span><span class="c1"># assume you are using Bash shell</span>
+which<span class="w"> </span>python<span class="w">  </span><span class="c1"># should return a path under &lt;base-path&gt;</span>
+which<span class="w"> </span>conda<span class="w">  </span><span class="c1"># should return a path under &lt;base-path&gt;</span>
 </pre></div>
 </div>
 </section>
 </section>
 <section id="install-cfr">
-<h2>Install <cite>cfr</cite><a class="headerlink" href="#install-cfr" title="Permalink to this headline">#</a></h2>
-<p>Taking a clean install as example, first let’s create a new environment named <code class="code docutils literal notranslate"><span class="pre">cfr-env</span></code> via <code class="code docutils literal notranslate"><span class="pre">conda</span></code></p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>conda create -n cfr-env <span class="nv">python</span><span class="o">=</span><span class="m">3</span>.9
-conda activate cfr-env
+<h2>Install <cite>cfr</cite><a class="headerlink" href="#install-cfr" title="Permalink to this headline">¶</a></h2>
+<p>Taking a clean installation as example, first let’s create a new environment named <code class="code docutils literal notranslate"><span class="pre">cfr-env</span></code> via <code class="code docutils literal notranslate"><span class="pre">conda</span></code></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>conda<span class="w"> </span>create<span class="w"> </span>-n<span class="w"> </span>cfr-env<span class="w"> </span><span class="nv">python</span><span class="o">=</span><span class="m">3</span>.9
+conda<span class="w"> </span>activate<span class="w"> </span>cfr-env
 </pre></div>
 </div>
-<p>Then install several dependencies that is not able to be installed via <code class="code docutils literal notranslate"><span class="pre">pip</span></code>:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>conda install -c conda-forge cartopy jupyterlab
+<p>Then install some dependencies via <code class="code docutils literal notranslate"><span class="pre">conda</span></code>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>conda<span class="w"> </span>install<span class="w"> </span>jupyter<span class="w"> </span>notebook<span class="w"> </span>cartopy
 </pre></div>
 </div>
 <p>Once the above dependencies have been installed, simply</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip install cfr
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>cfr
 </pre></div>
 </div>
 <p>and you are ready to</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">cfr</span>
 </pre></div>
 </div>
-<p>in python.</p>
-<p>If you’d like to also enable the usage of proxy system models, which requires some extra dependencies, simply</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip install <span class="s2">&quot;cfr[psm]&quot;</span>
+<p>in Python.</p>
+<p>If you’d like to also enable the usage of the Proxy System Models, which requires some extra dependencies, simply</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span><span class="s2">&quot;cfr[psm]&quot;</span>
 </pre></div>
 </div>
 <p>and, you are ready to</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">cfr</span> <span class="kn">import</span> <span class="n">psm</span>
 </pre></div>
 </div>
-<p>in python.</p>
+<p>in Python.</p>
 <p>Similarly, if you’d like to enable the usage of the GraphEM algorithm, simply</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip install <span class="s2">&quot;cfr[graphem]&quot;</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span><span class="s2">&quot;cfr[graphem]&quot;</span>
 </pre></div>
 </div>
 </section>
@@ -689,7 +577,7 @@ conda activate cfr-env
         <i class="fas fa-angle-left"></i>
         <div class="prev-next-info">
             <p class="prev-next-subtitle">previous</p>
-            <p class="prev-next-title">cfr: a universal framework for climate field reconstruction</p>
+            <p class="prev-next-title"><cite>cfr</cite>: a Python package for Climate Field Reconstruction</p>
         </div>
     </a>
     <a class='right-next' id="next-link" href="ug-proxy.html" title="next page">
@@ -706,9 +594,7 @@ conda activate cfr-env
     <div class="footer-content row">
         <footer class="col footer"><p>
   
-    By Feng Zhu<br/>
-  
-      &copy; Copyright 2022, Feng Zhu.<br/>
+      &copy; Copyright 2023, Feng Zhu, Julien Emile-Geay.<br/>
 </p>
         </footer>
     </div>
@@ -719,9 +605,8 @@ conda activate cfr-env
       </div>
     </div>
   
-  <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
-
+    <script src="_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
+  
 
   </body>
 </html>

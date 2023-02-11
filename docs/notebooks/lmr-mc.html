@@ -4,43 +4,44 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
     <title>Monte-Carlo iterations &#8212; cfr  documentation</title>
     
-  <!-- Loaded before other Sphinx assets -->
-  <link href="../_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+    <link href="../_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
 <link href="../_static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
-
+  
     
-  <link rel="stylesheet"
-    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
-  <link rel="preload" as="font" type="font/woff2" crossorigin
-    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
-  <link rel="preload" as="font" type="font/woff2" crossorigin
-    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
-
-    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
-    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=62ba249389abaaa9ffc34bf36a076bdc1d65ee18" type="text/css" />
+    <link rel="stylesheet"
+      href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+    <link rel="preload" as="font" type="font/woff2" crossorigin
+      href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+    <link rel="preload" as="font" type="font/woff2" crossorigin
+      href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+  
+    
+      
+  
+    
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
     
-  <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
-
-    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
+  
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?digest=9c920249402e914e316237a7dbc6769907cce411"></script>
     <script src="../_static/jquery.js"></script>
     <script src="../_static/underscore.js"></script>
     <script src="../_static/doctools.js"></script>
     <script src="../_static/clipboard.min.js"></script>
     <script src="../_static/copybutton.js"></script>
-    <script src="../_static/scripts/sphinx-book-theme.js?digest=f31d14ad54b65d19161ba51d4ffff3a77ae00456"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-    <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
-    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "tex2jax_ignore|mathjax_ignore|document", "processClass": "tex2jax_process|mathjax_process|math|output_area"}})</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Post-processing" href="lmr-post.html" />
-    <link rel="prev" title="Run the job based on the configurations in a YAML file" href="lmr-cfg.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="None">
     
@@ -48,7 +49,7 @@
     <!-- Google Analytics -->
     
   </head>
-  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
 <!-- Checkboxes to toggle the left sidebar -->
 <input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle navigation sidebar">
 <label class="overlay overlay-navbar" for="__navigation">
@@ -92,12 +93,12 @@
   <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
 </form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item active">
-        <p aria-level="2" class="caption" role="heading">
+        <p>
  <span class="caption-text">
   User Guide
  </span>
 </p>
-<ul class="current nav bd-sidenav">
+<ul class="nav bd-sidenav">
  <li class="toctree-l1">
   <a class="reference internal" href="../ug-installation.html">
    Installation
@@ -115,32 +116,7 @@
   <ul>
    <li class="toctree-l2">
     <a class="reference internal" href="proxy-io.html">
-     Input/Output
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="proxy-ops.html">
-     Basic Operations
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="proxy-viz.html">
-     Visualizations
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="proxy-analysis.html">
-     Analysis
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="proxy-get-nearest-climate.html">
-     Get the nearest climate for proxies
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="proxy-composites.html">
-     Proxy Composites
+     Input/Output of the Proxy Records
     </a>
    </li>
   </ul>
@@ -154,27 +130,7 @@
    <i class="fas fa-chevron-down">
    </i>
   </label>
-  <ul>
-   <li class="toctree-l2">
-    <a class="reference internal" href="climate-io.html">
-     Input/Output
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="climate-ops.html">
-     Basic Operations
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="climate-viz.html">
-     Visualizations
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="climate-analysis.html">
-     Analysis
-    </a>
-   </li>
+  <ul class="simple">
   </ul>
  </li>
  <li class="toctree-l1 has-children">
@@ -186,82 +142,22 @@
    <i class="fas fa-chevron-down">
    </i>
   </label>
-  <ul>
-   <li class="toctree-l2">
-    <a class="reference internal" href="psm-linear.html">
-     Univariate linear regression
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="psm-bilinear.html">
-     Bivariate linear regression
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="psm-ice-d18O.html">
-     PSM for ice core d18O
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="psm-lake-VarveThickness.html">
-     PSM for lake varve thickness
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="psm-coral-SrCa.html">
-     PSM for coral Sr/Ca
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="psm-coral-d18O.html">
-     PSM for coral d18O
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="psm-tree-TRW.html">
-     PSM for tree TRW (VS-Lite)
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="psm-tree-seasonality.html">
-     Detecting the seasonality of the trees
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="psm-tree-memory.html">
-     Detecting the biological memory in the trees
-    </a>
-   </li>
+  <ul class="simple">
   </ul>
  </li>
- <li class="toctree-l1 current active has-children">
+ <li class="toctree-l1 has-children">
   <a class="reference internal" href="../ug-lmr.html">
    LMR
   </a>
-  <input checked="" class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/>
+  <input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/>
   <label for="toctree-checkbox-4">
    <i class="fas fa-chevron-down">
    </i>
   </label>
-  <ul class="current">
+  <ul>
    <li class="toctree-l2">
-    <a class="reference internal" href="lmr-basics.html">
-     Basic workflows
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="lmr-cfg.html">
-     Run the job based on the configurations in a YAML file
-    </a>
-   </li>
-   <li class="toctree-l2 current active">
-    <a class="current reference internal" href="#">
-     Monte-Carlo iterations
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="lmr-post.html">
-     Post-processing
+    <a class="reference internal" href="lmr-ppe-pages2k.html">
+     A Pseudoproxy Experiment with “pseudoPAGES2k”
     </a>
    </li>
   </ul>
@@ -275,17 +171,7 @@
    <i class="fas fa-chevron-down">
    </i>
   </label>
-  <ul>
-   <li class="toctree-l2">
-    <a class="reference internal" href="graphem-quickstart.html">
-     GraphEM: basic workflow
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="graphem-ppe-pages2k.html">
-     A Pseudoproxy Experiment with GraphEM and pseudoPAGES2k
-    </a>
-   </li>
+  <ul class="simple">
   </ul>
  </li>
  <li class="toctree-l1">
@@ -766,10 +652,11 @@ div.nboutput.container div.prompt > div {
     }
 }
 
-/* disable scrollbars on prompts */
+/* disable scrollbars and line breaks on prompts */
 div.nbinput.container div.prompt pre,
 div.nboutput.container div.prompt pre {
     overflow: hidden;
+    white-space: pre;
 }
 
 /* input/output area */
@@ -871,6 +758,7 @@ div.nboutput.container div.output_area > div[class^='highlight']{
 }
 
 /* Some additional styling taken form the Jupyter notebook CSS */
+.jp-RenderedHTMLCommon table,
 div.rendered_html table {
   border: none;
   border-collapse: collapse;
@@ -879,10 +767,14 @@ div.rendered_html table {
   font-size: 12px;
   table-layout: fixed;
 }
+.jp-RenderedHTMLCommon thead,
 div.rendered_html thead {
   border-bottom: 1px solid black;
   vertical-align: bottom;
 }
+.jp-RenderedHTMLCommon tr,
+.jp-RenderedHTMLCommon th,
+.jp-RenderedHTMLCommon td,
 div.rendered_html tr,
 div.rendered_html th,
 div.rendered_html td {
@@ -894,18 +786,21 @@ div.rendered_html td {
   max-width: none;
   border: none;
 }
+.jp-RenderedHTMLCommon th,
 div.rendered_html th {
   font-weight: bold;
 }
+.jp-RenderedHTMLCommon tbody tr:nth-child(odd),
 div.rendered_html tbody tr:nth-child(odd) {
   background: #f5f5f5;
 }
+.jp-RenderedHTMLCommon tbody tr:hover,
 div.rendered_html tbody tr:hover {
   background: rgba(66, 165, 245, 0.2);
 }
 </style>
 <section id="Monte-Carlo-iterations">
-<h1>Monte-Carlo iterations<a class="headerlink" href="#Monte-Carlo-iterations" title="Permalink to this headline">#</a></h1>
+<h1>Monte-Carlo iterations<a class="headerlink" href="#Monte-Carlo-iterations" title="Permalink to this headline">¶</a></h1>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
@@ -918,7 +813,7 @@ div.rendered_html tbody tr:hover {
 </div>
 </div>
 <section id="Create-a-reconstruction-job-object">
-<h2>Create a reconstruction job object<a class="headerlink" href="#Create-a-reconstruction-job-object" title="Permalink to this headline">#</a></h2>
+<h2>Create a reconstruction job object<a class="headerlink" href="#Create-a-reconstruction-job-object" title="Permalink to this headline">¶</a></h2>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
@@ -940,7 +835,7 @@ div.rendered_html tbody tr:hover {
 </div>
 </section>
 <section id="Load-a-proxy-database">
-<h2>Load a proxy database<a class="headerlink" href="#Load-a-proxy-database" title="Permalink to this headline">#</a></h2>
+<h2>Load a proxy database<a class="headerlink" href="#Load-a-proxy-database" title="Permalink to this headline">¶</a></h2>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[37]:
 </pre></div>
@@ -1103,7 +998,7 @@ div.rendered_html tbody tr:hover {
 </div>
 </section>
 <section id="Filter-a-proxy-database">
-<h2>Filter a proxy database<a class="headerlink" href="#Filter-a-proxy-database" title="Permalink to this headline">#</a></h2>
+<h2>Filter a proxy database<a class="headerlink" href="#Filter-a-proxy-database" title="Permalink to this headline">¶</a></h2>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
 </pre></div>
@@ -1146,7 +1041,7 @@ div.rendered_html tbody tr:hover {
 </div>
 </section>
 <section id="Annualize/seasonalize-the-proxy-database">
-<h2>Annualize/seasonalize the proxy database<a class="headerlink" href="#Annualize/seasonalize-the-proxy-database" title="Permalink to this headline">#</a></h2>
+<h2>Annualize/seasonalize the proxy database<a class="headerlink" href="#Annualize/seasonalize-the-proxy-database" title="Permalink to this headline">¶</a></h2>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
 </pre></div>
@@ -1192,7 +1087,7 @@ Annualizing ProxyRecord: 100%|██████████| 13/13 [00:01&lt;00
 </div>
 </section>
 <section id="Load-climate-model-priors">
-<h2>Load climate model priors<a class="headerlink" href="#Load-climate-model-priors" title="Permalink to this headline">#</a></h2>
+<h2>Load climate model priors<a class="headerlink" href="#Load-climate-model-priors" title="Permalink to this headline">¶</a></h2>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
 </pre></div>
@@ -1222,7 +1117,7 @@ Annualizing ProxyRecord: 100%|██████████| 13/13 [00:01&lt;00
 </div>
 </section>
 <section id="Load-instrumental-observations">
-<h2>Load instrumental observations<a class="headerlink" href="#Load-instrumental-observations" title="Permalink to this headline">#</a></h2>
+<h2>Load instrumental observations<a class="headerlink" href="#Load-instrumental-observations" title="Permalink to this headline">¶</a></h2>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
 </pre></div>
@@ -1254,7 +1149,7 @@ Annualizing ProxyRecord: 100%|██████████| 13/13 [00:01&lt;00
 </div>
 </section>
 <section id="Calibrate-the-PSMs">
-<h2>Calibrate the PSMs<a class="headerlink" href="#Calibrate-the-PSMs" title="Permalink to this headline">#</a></h2>
+<h2>Calibrate the PSMs<a class="headerlink" href="#Calibrate-the-PSMs" title="Permalink to this headline">¶</a></h2>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
 </pre></div>
@@ -1326,7 +1221,7 @@ Calibrating the PSMs:: 100%|██████████| 13/13 [00:00&lt;00:0
 </div>
 </section>
 <section id="Forward-the-PSMs">
-<h2>Forward the PSMs<a class="headerlink" href="#Forward-the-PSMs" title="Permalink to this headline">#</a></h2>
+<h2>Forward the PSMs<a class="headerlink" href="#Forward-the-PSMs" title="Permalink to this headline">¶</a></h2>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
 </pre></div>
@@ -1378,7 +1273,7 @@ Forwarding the PSMs:: 100%|██████████| 12/12 [00:03&lt;00:00
 </div>
 </section>
 <section id="Annualize/seasonalize-the-climate-model-prior">
-<h2>Annualize/seasonalize the climate model prior<a class="headerlink" href="#Annualize/seasonalize-the-climate-model-prior" title="Permalink to this headline">#</a></h2>
+<h2>Annualize/seasonalize the climate model prior<a class="headerlink" href="#Annualize/seasonalize-the-climate-model-prior" title="Permalink to this headline">¶</a></h2>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
 </pre></div>
@@ -1418,7 +1313,7 @@ Forwarding the PSMs:: 100%|██████████| 12/12 [00:03&lt;00:00
 </div>
 </section>
 <section id="Saving-the-job-object">
-<h2>Saving the <code class="docutils literal notranslate"><span class="pre">job</span></code> object<a class="headerlink" href="#Saving-the-job-object" title="Permalink to this headline">#</a></h2>
+<h2>Saving the <code class="docutils literal notranslate"><span class="pre">job</span></code> object<a class="headerlink" href="#Saving-the-job-object" title="Permalink to this headline">¶</a></h2>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
 </pre></div>
@@ -1438,7 +1333,7 @@ Forwarding the PSMs:: 100%|██████████| 12/12 [00:03&lt;00:00
 </div>
 </section>
 <section id="Load-the-job-object">
-<h2>Load the <code class="docutils literal notranslate"><span class="pre">job</span></code> object<a class="headerlink" href="#Load-the-job-object" title="Permalink to this headline">#</a></h2>
+<h2>Load the <code class="docutils literal notranslate"><span class="pre">job</span></code> object<a class="headerlink" href="#Load-the-job-object" title="Permalink to this headline">¶</a></h2>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
 </pre></div>
@@ -1450,7 +1345,7 @@ Forwarding the PSMs:: 100%|██████████| 12/12 [00:03&lt;00:00
 </div>
 </section>
 <section id="Data-assimilation">
-<h2>Data assimilation<a class="headerlink" href="#Data-assimilation" title="Permalink to this headline">#</a></h2>
+<h2>Data assimilation<a class="headerlink" href="#Data-assimilation" title="Permalink to this headline">¶</a></h2>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
 </pre></div>
@@ -1816,7 +1711,7 @@ KF updating: 100%|██████████| 2001/2001 [00:31&lt;00:00, 62.
 </div>
 </section>
 <section id="Save-the-configurations-to-a-YAML-file">
-<h2>Save the configurations to a YAML file<a class="headerlink" href="#Save-the-configurations-to-a-YAML-file" title="Permalink to this headline">#</a></h2>
+<h2>Save the configurations to a YAML file<a class="headerlink" href="#Save-the-configurations-to-a-YAML-file" title="Permalink to this headline">¶</a></h2>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
 </pre></div>
@@ -1844,20 +1739,6 @@ KF updating: 100%|██████████| 2001/2001 [00:31&lt;00:00, 62.
                 
     <!-- Previous / next buttons -->
 <div class='prev-next-area'>
-    <a class='left-prev' id="prev-link" href="lmr-cfg.html" title="previous page">
-        <i class="fas fa-angle-left"></i>
-        <div class="prev-next-info">
-            <p class="prev-next-subtitle">previous</p>
-            <p class="prev-next-title">Run the job based on the configurations in a YAML file</p>
-        </div>
-    </a>
-    <a class='right-next' id="next-link" href="lmr-post.html" title="next page">
-    <div class="prev-next-info">
-        <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Post-processing</p>
-    </div>
-    <i class="fas fa-angle-right"></i>
-    </a>
 </div>
             </footer>
         </div>
@@ -1865,9 +1746,7 @@ KF updating: 100%|██████████| 2001/2001 [00:31&lt;00:00, 62.
     <div class="footer-content row">
         <footer class="col footer"><p>
   
-    By Feng Zhu<br/>
-  
-      &copy; Copyright 2022, Feng Zhu.<br/>
+      &copy; Copyright 2023, Feng Zhu, Julien Emile-Geay.<br/>
 </p>
         </footer>
     </div>
@@ -1878,9 +1757,8 @@ KF updating: 100%|██████████| 2001/2001 [00:31&lt;00:00, 62.
       </div>
     </div>
   
-  <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
-
+    <script src="../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
+  
 
   </body>
 </html>

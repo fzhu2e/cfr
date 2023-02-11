@@ -585,11 +585,12 @@ class ReconJob:
             paths = sorted(glob.glob(os.path.join(save_dirpath, f'{tag}_*.nc')))
             for p in paths:
                 if os.path.exists(p):
-                    vn = os.path.basename(p).split('prior_')[-1].split('.nc')[0]
+                    vn = os.path.basename(p).split(f'{tag}_')[-1].split('.nc')[0]
                     job.__dict__[tag][vn].da = xr.load_dataarray(p)
                     if verbose: p_success(f'>>> job.{tag}["{vn}"].da is loaded')
 
-        return job
+        for k, v in job.__dict__.items():
+            self.__dict__[k] = v
     
     def save_recon(self, save_path, compress_params=None, verbose=False, output_full_ens=False,
                    mark_assim_pids=False, output_indices=None, grid='prior'):

@@ -3,23 +3,28 @@ import pandas as pd
 import numpy as np
 from datetime import datetime, timedelta
 import cftime
-from termcolor import cprint
+import colorama as ca
 import statsmodels.api as sm
 
 def p_header(text):
-    return cprint(text, 'cyan', attrs=['bold'])
+    # return cprint(text, 'cyan', attrs=['bold'])  # lib: termcolor
+    return print(ca.Fore.CYAN + ca.Style.BRIGHT + text)
 
 def p_hint(text):
-    return cprint(text, 'grey', attrs=['bold'])
+    # return cprint(text, 'grey', attrs=['bold'])  # lib: termcolor
+    return print(ca.Fore.LIGHTBLACK_EX + ca.Style.BRIGHT + text)
 
 def p_success(text):
-    return cprint(text, 'green', attrs=['bold'])
+    # return cprint(text, 'green', attrs=['bold'])  # lib: termcolor
+    return print(ca.Fore.GREEN + ca.Style.BRIGHT + text)
 
 def p_fail(text):
-    return cprint(text, 'red', attrs=['bold'])
+    # return cprint(text, 'red', attrs=['bold'])  # lib: termcolor
+    return print(ca.Fore.RED + ca.Style.BRIGHT + text)
 
 def p_warning(text):
-    return cprint(text, 'yellow', attrs=['bold'])
+    # return cprint(text, 'yellow', attrs=['bold'])  # lib: termcolor
+    return print(ca.Fore.YELLOW + ca.Style.BRIGHT + text)
 
 def make_bin_vector(ts, bin_width=10):
     bin_vector = np.arange(

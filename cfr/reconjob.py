@@ -423,7 +423,7 @@ class ReconJob:
             p_success(f'>>> ProxyRecord.pseudo created for {pdb_calib.nrec} records')
 
     def run_da(self, recon_period=None, recon_loc_rad=None, recon_timescale=None,
-               recon_sampling_mode=None, recon_sampling_dist=None,
+               recon_sampling_mode=None, recon_sampling_dist=None, recon_vars=None,
                normal_sampling_sigma=None, normal_sampling_cutoff_factor=None,
                trim_prior=None, nens=None, seed=0, verbose=False, debug=False,
                allownan=None):
@@ -435,6 +435,7 @@ class ReconJob:
             recon_timescale (int or float): the timescale for reconstruction.
             recon_sampling_mode (str): 'fixed' or 'rolling' window for prior sampling.
             recon_sampling_dist (str): 'normal' or 'uniform' distribution for prior sampling.
+            recon_vars (list): the list of variables to reconstruct. Defaults to ['tas'].
             normal_sampling_sigma (str): the standard deviation of the normal distribution for prior sampling.
             normal_sampling_cutoff_factor (int): the cutoff factor for the window for prior sampling.
             allownan (bool): if True, NaNs in prior is allowed.
@@ -447,6 +448,7 @@ class ReconJob:
         recon_loc_rad = self.io_cfg('recon_loc_rad', recon_loc_rad, default=25000, verbose=verbose)  # unit: km
         recon_timescale = self.io_cfg('recon_timescale', recon_timescale, default=1, verbose=verbose)  # unit: yr
         recon_sampling_mode = self.io_cfg('recon_sampling_mode', recon_sampling_mode, default='fixed', verbose=verbose)
+        recon_vars = self.io_cfg('recon_vars', recon_vars, default=['tas'], verbose=verbose)
         trim_prior = self.io_cfg('trim_prior', trim_prior, default=True, verbose=verbose)
         allownan = self.io_cfg('allownan', allownan, default=False, verbose=verbose)
         if recon_sampling_mode == 'rolling':
@@ -458,7 +460,7 @@ class ReconJob:
 
         recon_yrs = np.arange(recon_period[0], recon_period[-1]+1, recon_timescale)
 
-        self.da_solver = da.EnKF(self.prior, self.proxydb, nens=nens,seed=seed)
+        self.da_solver = da.EnKF(self.prior, self.proxydb, recon_vars=recon_vars, nens=nens, seed=seed)
         self.da_solver.run(
             recon_yrs=recon_yrs,
             recon_loc_rad=recon_loc_rad,
@@ -474,7 +476,7 @@ class ReconJob:
         if verbose: p_success(f'>>> job.recon_fields created')
 
     def run_da_mc(self, recon_period=None, recon_loc_rad=None, recon_timescale=None, nens=None,
-               output_full_ens=None, recon_sampling_mode=None, recon_sampling_dist=None,
+               output_full_ens=None, recon_sampling_mode=None, recon_sampling_dist=None, recon_vars=None,
                normal_sampling_sigma=None, normal_sampling_cutoff_factor=None, trim_prior=None,
                recon_seeds=None, assim_frac=None, save_dirpath=None, compress_params=None,
                allownan=None, verbose=False):
@@ -486,6 +488,7 @@ class ReconJob:
             recon_timescale (int or float): the timescale for reconstruction.
             recon_sampling_mode (str): 'fixed' or 'rolling' window for prior sampling.
             recon_sampling_dist (str): 'normal' or 'uniform' distribution for prior sampling.
+            recon_vars (list): the list of variables to reconstruct. Defaults to ['tas'].
             normal_sampling_sigma (str): the standard deviation of the normal distribution for prior sampling.
             normal_sampling_cutoff_factor (int): the cutoff factor for the window for prior sampling.
             output_full_ens (bool): if True, the full ensemble fields will be stored to netCDF files.
@@ -502,6 +505,7 @@ class ReconJob:
         recon_period = self.io_cfg('recon_period', recon_period, default=[0, 2000], verbose=verbose)
         recon_loc_rad = self.io_cfg('recon_loc_rad', recon_loc_rad, default=25000, verbose=verbose)  # unit: km
         recon_timescale = self.io_cfg('recon_timescale', recon_timescale, default=1, verbose=verbose)  # unit: yr
+        recon_vars = self.io_cfg('recon_vars', recon_vars, default=['tas'], verbose=verbose)
         nens = self.io_cfg('nens', nens, default=100, verbose=verbose)
         recon_seeds = self.io_cfg('recon_seeds', recon_seeds, default=np.arange(0, 20), verbose=verbose)
         assim_frac = self.io_cfg('assim_frac', assim_frac, default=0.75, verbose=verbose)

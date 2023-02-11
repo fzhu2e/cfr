@@ -242,7 +242,7 @@ class ClimateField:
 
         return new
 
-    def validate(self, ref, stat='corr', interp_direction='to-ref', valid_period=(1880, 2000)):
+    def validate(self, ref, stat='corr', interp_direction='to-ref', time_name='year', valid_period=(1880, 2000)):
         ''' Validate against a reference field.
 
         Args:
@@ -258,8 +258,8 @@ class ClimateField:
                 * 'R2': coefficient of determination
                 * 'CE': coefficient of efficiency
         '''
-        fd_slice = self.da.loc[f'{valid_period[0]}':f'{valid_period[-1]}']
-        ref_slice = ref.da.loc[f'{valid_period[0]}':f'{valid_period[-1]}']
+        fd_slice = self.da.sel({time_name: slice(valid_period[0], valid_period[-1])})
+        ref_slice = ref.da.sel({time_name: slice(valid_period[0], valid_period[-1])})
 
         if interp_direction == 'to-ref':
             fd_slice = fd_slice.interp({'lat': ref_slice.lat, 'lon': ref_slice.lon})

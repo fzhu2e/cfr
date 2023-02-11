@@ -18,5 +18,3 @@ Documentation
 
 + Homepage: https://fzhu2e.github.io/cfr
 + Installation: https://fzhu2e.github.io/cfr/ug-installation.html
-
------------

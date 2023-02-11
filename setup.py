@@ -5,7 +5,7 @@ with open('README.rst', 'r') as fh:
 
 setup(
     name='cfr',  # required
-    version='0.2.0',
+    version='0.2.1',
     description='cfr: the Python package for Climate Field Reconstruction',
     long_description=long_description,
     long_description_content_type='text/x-rst',
@@ -24,7 +24,7 @@ setup(
         'Programming Language :: Python :: 3.10',
     ],
     install_requires=[
-        'termcolor',
+        'colorama',
         'seaborn',
         'pandas',
         'tqdm',
@@ -49,6 +49,7 @@ setup(
             'torchvision',
         ],
         'graphem': [
+            'Cython',
             'cfr-graphem',
         ]
     }

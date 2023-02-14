@@ -144,7 +144,52 @@
    <i class="fas fa-chevron-down">
    </i>
   </label>
-  <ul class="simple">
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="psm-linear.html">
+     Univariate linear regression
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="psm-bilinear.html">
+     Bivariate linear regression
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="psm-ice-d18O.html">
+     PSM for ice core d18O
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="psm-lake-VarveThickness.html">
+     PSM for lake varve thickness
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="psm-coral-SrCa.html">
+     PSM for coral Sr/Ca
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="psm-coral-d18O.html">
+     PSM for coral d18O
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="psm-tree-TRW.html">
+     PSM for tree TRW (VS-Lite)
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="psm-tree-seasonality.html">
+     Detecting the seasonality of the trees
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="psm-tree-memory.html">
+     Detecting the biological memory in the trees
+    </a>
+   </li>
   </ul>
  </li>
  <li class="toctree-l1 current active has-children">
@@ -173,7 +218,17 @@
    <i class="fas fa-chevron-down">
    </i>
   </label>
-  <ul class="simple">
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="graphem-quickstart.html">
+     GraphEM: basic workflow
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="graphem-ppe-pages2k.html">
+     A Pseudoproxy Experiment with GraphEM and pseudoPAGES2k
+    </a>
+   </li>
   </ul>
  </li>
  <li class="toctree-l1">
@@ -839,7 +894,13 @@ div.rendered_html tbody tr:hover {
 </style>
 <section id="A-Pseudoproxy-Experiment-with-“pseudoPAGES2k”">
 <h1>A Pseudoproxy Experiment with “pseudoPAGES2k”<a class="headerlink" href="#A-Pseudoproxy-Experiment-with-“pseudoPAGES2k”" title="Permalink to this headline">¶</a></h1>
-<p>In this section, we illustrate the basic paleoclimate data assimilation (PDA) workflow with <code class="docutils literal notranslate"><span class="pre">cfr</span></code>, conducting a pseudoproxy experiment with “pseudoPAGES2k”.</p>
+<p>In this section, we illustrate the basic paleoclimate data assimilation (PDA) workflow with <code class="docutils literal notranslate"><span class="pre">cfr</span></code>, conducting a pseudoproxy experiment with “pseudoPAGES2k”</p>
+<p>Required data to complete this tutorial:</p>
+<ul class="simple">
+<li><p>iCESM simulated air surface temperature: <a class="reference external" href="https://atmos.washington.edu/~rtardif/LMR/prior/tas_sfc_Amon_iCESM_past1000historical_085001-200512.nc">tas_sfc_Amon_iCESM_past1000historical_085001-200512.nc</a></p></li>
+<li><p>iCESM simulated precipitation rate: <a class="reference external" href="https://atmos.washington.edu/~rtardif/LMR/prior/pr_sfc_Amon_iCESM_past1000historical_085001-200512.nc">pr_sfc_Amon_iCESM_past1000historical_085001-200512.nc</a></p></li>
+<li><p>pseudoPAGES2k: <a class="reference external" href="https://github.com/fzhu2e/cfr/raw/main/docsrc/notebooks/data/pp2k_nc/ppwn_SNR10_rta.nc">ppwn_SNR10_rta.nc</a></p></li>
+</ul>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
@@ -1462,7 +1523,7 @@ KF updating: 100%|██████████| 1201/1201 [40:57&lt;00:00,  2.
 </section>
 <section id="Load-the-reconstructed-variables">
 <h3>Load the reconstructed variables<a class="headerlink" href="#Load-the-reconstructed-variables" title="Permalink to this headline">¶</a></h3>
-<p>Here we validate <code class="docutils literal notranslate"><span class="pre">tas</span></code> and NINO3.4 index as an example. We will load the <code class="docutils literal notranslate"><span class="pre">pr</span></code> fields anyway only to have a check.</p>
+<p>Here we validate <code class="docutils literal notranslate"><span class="pre">tas</span></code> and <code class="docutils literal notranslate"><span class="pre">pr</span></code> fields, as well as the NINO3.4 index as an example.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
 </pre></div>

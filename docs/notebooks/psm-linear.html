@@ -42,6 +42,8 @@
     <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "tex2jax_ignore|mathjax_ignore|document", "processClass": "tex2jax_process|mathjax_process|math|output_area"}})</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Bivariate linear regression" href="psm-bilinear.html" />
+    <link rel="prev" title="PSM" href="../ug-psm.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="None">
     
@@ -98,7 +100,7 @@
   User Guide
  </span>
 </p>
-<ul class="nav bd-sidenav">
+<ul class="current nav bd-sidenav">
  <li class="toctree-l1">
   <a class="reference internal" href="../ug-installation.html">
    Installation
@@ -133,16 +135,61 @@
   <ul class="simple">
   </ul>
  </li>
- <li class="toctree-l1 has-children">
+ <li class="toctree-l1 current active has-children">
   <a class="reference internal" href="../ug-psm.html">
    PSM
   </a>
-  <input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/>
+  <input checked="" class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/>
   <label for="toctree-checkbox-3">
    <i class="fas fa-chevron-down">
    </i>
   </label>
-  <ul class="simple">
+  <ul class="current">
+   <li class="toctree-l2 current active">
+    <a class="current reference internal" href="#">
+     Univariate linear regression
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="psm-bilinear.html">
+     Bivariate linear regression
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="psm-ice-d18O.html">
+     PSM for ice core d18O
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="psm-lake-VarveThickness.html">
+     PSM for lake varve thickness
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="psm-coral-SrCa.html">
+     PSM for coral Sr/Ca
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="psm-coral-d18O.html">
+     PSM for coral d18O
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="psm-tree-TRW.html">
+     PSM for tree TRW (VS-Lite)
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="psm-tree-seasonality.html">
+     Detecting the seasonality of the trees
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="psm-tree-memory.html">
+     Detecting the biological memory in the trees
+    </a>
+   </li>
   </ul>
  </li>
  <li class="toctree-l1 has-children">
@@ -171,7 +218,17 @@
    <i class="fas fa-chevron-down">
    </i>
   </label>
-  <ul class="simple">
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="graphem-quickstart.html">
+     GraphEM: basic workflow
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="graphem-ppe-pages2k.html">
+     A Pseudoproxy Experiment with GraphEM and pseudoPAGES2k
+    </a>
+   </li>
   </ul>
  </li>
  <li class="toctree-l1">
@@ -721,7 +778,8 @@ div.rendered_html tbody tr:hover {
 </style>
 <section id="Univariate-linear-regression">
 <h1>Univariate linear regression<a class="headerlink" href="#Univariate-linear-regression" title="Permalink to this headline">¶</a></h1>
-<p>In this tutorial, we introduce the univariate linear regression based PSM in <code class="docutils literal notranslate"><span class="pre">cfr</span></code>.</p>
+<p>In this section, we introduce the default PSM in <code class="docutils literal notranslate"><span class="pre">cfr</span></code> based on univariate linear regression. It can be applied to any proxy type that is believed to have a univariate linear relationship with a certain climate variable. It also supports a seasonality searching procedure to help determine the seasonality of a specific site.</p>
+<p>For instance, this PSM can be applied to the <code class="docutils literal notranslate"><span class="pre">tree.MXD</span></code> records, which we believe have high linear correlation with the local temperature condition over a growing season.</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
@@ -733,9 +791,6 @@ div.rendered_html tbody tr:hover {
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">os</span>
-
-<span class="kn">import</span> <span class="nn">warnings</span>
-<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s1">&#39;ignore&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -747,16 +802,16 @@ div.rendered_html tbody tr:hover {
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_pickle</span><span class="p">(</span><span class="s1">&#39;./data/pages2k_dataset.pkl&#39;</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_pickle</span><span class="p">(</span><span class="s1">&#39;./data/pages2k_updated_Palmyra_dataset.pkl&#39;</span><span class="p">)</span>
 <span class="n">pdb</span> <span class="o">=</span> <span class="n">cfr</span><span class="o">.</span><span class="n">ProxyDatabase</span><span class="p">()</span><span class="o">.</span><span class="n">from_df</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pobj</span> <span class="o">=</span> <span class="n">pdb</span><span class="o">.</span><span class="n">records</span><span class="p">[</span><span class="s1">&#39;NAm_018&#39;</span><span class="p">]</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pobj</span> <span class="o">=</span> <span class="n">pdb</span><span class="o">.</span><span class="n">records</span><span class="p">[</span><span class="s1">&#39;NAm_164&#39;</span><span class="p">]</span>
 <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">pobj</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -775,7 +830,7 @@ div.rendered_html tbody tr:hover {
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dirpath</span> <span class="o">=</span> <span class="s1">&#39;./data/icesm_last_millennium_historical&#39;</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dirpath</span> <span class="o">=</span> <span class="s1">&#39;./data/&#39;</span>
 
 <span class="n">model_tas</span> <span class="o">=</span> <span class="n">cfr</span><span class="o">.</span><span class="n">ClimateField</span><span class="p">()</span><span class="o">.</span><span class="n">load_nc</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">dirpath</span><span class="p">,</span> <span class="s1">&#39;tas_sfc_Amon_iCESM_past1000historical_085001-200512.nc&#39;</span><span class="p">))</span>
 <span class="n">model_pr</span> <span class="o">=</span> <span class="n">cfr</span><span class="o">.</span><span class="n">ClimateField</span><span class="p">()</span><span class="o">.</span><span class="n">load_nc</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">dirpath</span><span class="p">,</span> <span class="s1">&#39;pr_sfc_Amon_iCESM_past1000historical_085001-200512.nc&#39;</span><span class="p">))</span>
@@ -1895,6 +1950,20 @@ Wall time: 77.8 ms
                 
     <!-- Previous / next buttons -->
 <div class='prev-next-area'>
+    <a class='left-prev' id="prev-link" href="../ug-psm.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title">PSM</p>
+        </div>
+    </a>
+    <a class='right-next' id="next-link" href="psm-bilinear.html" title="next page">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Bivariate linear regression</p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
 </div>
             </footer>
         </div>

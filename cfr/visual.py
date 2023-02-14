@@ -531,7 +531,7 @@ def plot_proxies(df, year=np.arange(2001), lon_col='lon', lat_col='lat', type_co
         for ptype in df_count.keys():
             proxy_count[ptype] = df_count[ptype].sum(axis=1)
 
-        cumu_count = np.zeros_like(year)
+        cumu_count = np.zeros_like(year, dtype=int)
         cumu_last = np.copy(cumu_count)
         for ptype in type_set:
             cumu_count += proxy_count[ptype]

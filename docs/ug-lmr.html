@@ -40,8 +40,6 @@
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="A Pseudoproxy Experiment with “pseudoPAGES2k”" href="notebooks/lmr-ppe-pages2k.html" />
-    <link rel="prev" title="Detecting the biological memory in the trees" href="notebooks/psm-tree-memory.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="None">
     
@@ -98,15 +96,15 @@
   User Guide
  </span>
 </p>
-<ul class="current nav bd-sidenav">
+<ul class="nav bd-sidenav">
  <li class="toctree-l1">
   <a class="reference internal" href="ug-installation.html">
    Installation
   </a>
  </li>
  <li class="toctree-l1 has-children">
-  <a class="reference internal" href="ug-proxy.html">
-   Proxy
+  <a class="reference internal" href="ug-pp2k.html">
+   Illustration: pseudoPAGES2k
   </a>
   <input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
   <label for="toctree-checkbox-1">
@@ -115,124 +113,21 @@
   </label>
   <ul>
    <li class="toctree-l2">
-    <a class="reference internal" href="notebooks/proxy-io.html">
-     Input/Output of the Proxy Records
+    <a class="reference internal" href="notebooks/pp2k-pdb-load-viz.html">
+     Load and visualize the pseudoPAGES2k dataset
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="notebooks/pp2k-pdb-filter.html">
+     Filter the pseudoPAGES2k dataset
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="notebooks/pp2k-ppe.html">
+     PPE: A PDA-based reconstruction with pseudoPAGES2k
     </a>
    </li>
   </ul>
- </li>
- <li class="toctree-l1 has-children">
-  <a class="reference internal" href="ug-climate.html">
-   Climate
-  </a>
-  <input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/>
-  <label for="toctree-checkbox-2">
-   <i class="fas fa-chevron-down">
-   </i>
-  </label>
-  <ul class="simple">
-  </ul>
- </li>
- <li class="toctree-l1 has-children">
-  <a class="reference internal" href="ug-psm.html">
-   PSM
-  </a>
-  <input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/>
-  <label for="toctree-checkbox-3">
-   <i class="fas fa-chevron-down">
-   </i>
-  </label>
-  <ul>
-   <li class="toctree-l2">
-    <a class="reference internal" href="notebooks/psm-linear.html">
-     Univariate linear regression
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="notebooks/psm-bilinear.html">
-     Bivariate linear regression
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="notebooks/psm-ice-d18O.html">
-     PSM for ice core d18O
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="notebooks/psm-lake-VarveThickness.html">
-     PSM for lake varve thickness
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="notebooks/psm-coral-SrCa.html">
-     PSM for coral Sr/Ca
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="notebooks/psm-coral-d18O.html">
-     PSM for coral d18O
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="notebooks/psm-tree-TRW.html">
-     PSM for tree TRW (VS-Lite)
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="notebooks/psm-tree-seasonality.html">
-     Detecting the seasonality of the trees
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="notebooks/psm-tree-memory.html">
-     Detecting the biological memory in the trees
-    </a>
-   </li>
-  </ul>
- </li>
- <li class="toctree-l1 current active has-children">
-  <a class="current reference internal" href="#">
-   LMR
-  </a>
-  <input checked="" class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/>
-  <label for="toctree-checkbox-4">
-   <i class="fas fa-chevron-down">
-   </i>
-  </label>
-  <ul>
-   <li class="toctree-l2">
-    <a class="reference internal" href="notebooks/lmr-ppe-pages2k.html">
-     A Pseudoproxy Experiment with “pseudoPAGES2k”
-    </a>
-   </li>
-  </ul>
- </li>
- <li class="toctree-l1 has-children">
-  <a class="reference internal" href="ug-graphem.html">
-   GraphEM
-  </a>
-  <input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/>
-  <label for="toctree-checkbox-5">
-   <i class="fas fa-chevron-down">
-   </i>
-  </label>
-  <ul>
-   <li class="toctree-l2">
-    <a class="reference internal" href="notebooks/graphem-quickstart.html">
-     GraphEM: basic workflow
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="notebooks/graphem-ppe-pages2k.html">
-     A Pseudoproxy Experiment with GraphEM and pseudoPAGES2k
-    </a>
-   </li>
-  </ul>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="ug-api.html">
-   API Reference
-  </a>
  </li>
 </ul>
 
@@ -420,9 +315,6 @@ title="Print to PDF"
 <h1>LMR<a class="headerlink" href="#lmr" title="Permalink to this headline">¶</a></h1>
 <p><cite>cfr</cite> provides convenient workflows for a typical paleoclimate data assimilation (PDA) framework, the last millennium reanalysis (LMR, <a class="reference external" href="https://doi.org/10.1002/2016JD024751">Hakim et al., 2016</a>; <a class="reference external" href="https://doi.org/https://doi.org/10.5194/cp-15-1251-2019">Tardif et al., 2019</a>).</p>
 <div class="toctree-wrapper compound">
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="notebooks/lmr-ppe-pages2k.html">A Pseudoproxy Experiment with “pseudoPAGES2k”</a></li>
-</ul>
 </div>
 </section>
 
@@ -434,20 +326,6 @@ title="Print to PDF"
                 
     <!-- Previous / next buttons -->
 <div class='prev-next-area'>
-    <a class='left-prev' id="prev-link" href="notebooks/psm-tree-memory.html" title="previous page">
-        <i class="fas fa-angle-left"></i>
-        <div class="prev-next-info">
-            <p class="prev-next-subtitle">previous</p>
-            <p class="prev-next-title">Detecting the biological memory in the trees</p>
-        </div>
-    </a>
-    <a class='right-next' id="next-link" href="notebooks/lmr-ppe-pages2k.html" title="next page">
-    <div class="prev-next-info">
-        <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">A Pseudoproxy Experiment with “pseudoPAGES2k”</p>
-    </div>
-    <i class="fas fa-angle-right"></i>
-    </a>
 </div>
             </footer>
         </div>

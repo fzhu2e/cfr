@@ -105,8 +105,8 @@
   </a>
  </li>
  <li class="toctree-l1 has-children">
-  <a class="reference internal" href="../ug-proxy.html">
-   Proxy
+  <a class="reference internal" href="../ug-pp2k.html">
+   Illustration: pseudoPAGES2k
   </a>
   <input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
   <label for="toctree-checkbox-1">
@@ -115,124 +115,21 @@
   </label>
   <ul>
    <li class="toctree-l2">
-    <a class="reference internal" href="proxy-io.html">
-     Input/Output of the Proxy Records
+    <a class="reference internal" href="pp2k-pdb-load-viz.html">
+     Load and visualize the pseudoPAGES2k dataset
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="pp2k-pdb-filter.html">
+     Filter the pseudoPAGES2k dataset
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="pp2k-ppe.html">
+     PPE: A PDA-based reconstruction with pseudoPAGES2k
     </a>
    </li>
   </ul>
- </li>
- <li class="toctree-l1 has-children">
-  <a class="reference internal" href="../ug-climate.html">
-   Climate
-  </a>
-  <input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/>
-  <label for="toctree-checkbox-2">
-   <i class="fas fa-chevron-down">
-   </i>
-  </label>
-  <ul class="simple">
-  </ul>
- </li>
- <li class="toctree-l1 has-children">
-  <a class="reference internal" href="../ug-psm.html">
-   PSM
-  </a>
-  <input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/>
-  <label for="toctree-checkbox-3">
-   <i class="fas fa-chevron-down">
-   </i>
-  </label>
-  <ul>
-   <li class="toctree-l2">
-    <a class="reference internal" href="psm-linear.html">
-     Univariate linear regression
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="psm-bilinear.html">
-     Bivariate linear regression
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="psm-ice-d18O.html">
-     PSM for ice core d18O
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="psm-lake-VarveThickness.html">
-     PSM for lake varve thickness
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="psm-coral-SrCa.html">
-     PSM for coral Sr/Ca
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="psm-coral-d18O.html">
-     PSM for coral d18O
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="psm-tree-TRW.html">
-     PSM for tree TRW (VS-Lite)
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="psm-tree-seasonality.html">
-     Detecting the seasonality of the trees
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="psm-tree-memory.html">
-     Detecting the biological memory in the trees
-    </a>
-   </li>
-  </ul>
- </li>
- <li class="toctree-l1 has-children">
-  <a class="reference internal" href="../ug-lmr.html">
-   LMR
-  </a>
-  <input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/>
-  <label for="toctree-checkbox-4">
-   <i class="fas fa-chevron-down">
-   </i>
-  </label>
-  <ul>
-   <li class="toctree-l2">
-    <a class="reference internal" href="lmr-ppe-pages2k.html">
-     A Pseudoproxy Experiment with “pseudoPAGES2k”
-    </a>
-   </li>
-  </ul>
- </li>
- <li class="toctree-l1 has-children">
-  <a class="reference internal" href="../ug-graphem.html">
-   GraphEM
-  </a>
-  <input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/>
-  <label for="toctree-checkbox-5">
-   <i class="fas fa-chevron-down">
-   </i>
-  </label>
-  <ul>
-   <li class="toctree-l2">
-    <a class="reference internal" href="graphem-quickstart.html">
-     GraphEM: basic workflow
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="graphem-ppe-pages2k.html">
-     A Pseudoproxy Experiment with GraphEM and pseudoPAGES2k
-    </a>
-   </li>
-  </ul>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../ug-api.html">
-   API Reference
-  </a>
  </li>
 </ul>
 
@@ -799,6 +696,10 @@ div.rendered_html tbody tr:hover {
 <section id="Proxy-Composites">
 <h1>Proxy Composites<a class="headerlink" href="#Proxy-Composites" title="Permalink to this headline">¶</a></h1>
 <p>In this tutorial, we introduce how to generate composites of proxies with <code class="docutils literal notranslate"><span class="pre">cfr</span></code>.</p>
+<p>Required data to complete this tutorial:</p>
+<ul class="simple">
+<li><p>HadCRUT5 analysis gridded data: <a class="reference external" href="https://www.metoffice.gov.uk/hadobs/hadcrut5/data/current/analysis/HadCRUT.5.0.1.0.analysis.anomalies.ensemble_mean.nc">HadCRUT.5.0.1.0.analysis.anomalies.ensemble_mean.nc</a></p></li>
+</ul>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
@@ -808,7 +709,6 @@ div.rendered_html tbody tr:hover {
 
 <span class="kn">import</span> <span class="nn">cfr</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 </pre></div>
 </div>
 </div>
@@ -890,24 +790,24 @@ Index([&#39;paleoData_pages2kID&#39;, &#39;dataSetName&#39;, &#39;archiveType&#3
 </div>
 <div class="output_area stderr docutils container">
 <div class="highlight"><pre>
-Analyzing ProxyRecord:   0%|          | 0/104 [00:00&lt;?, ?it/s]/Users/fzhu/Apps/miniconda3/envs/cfr-env/lib/python3.9/site-packages/numpy/lib/function_base.py:495: RuntimeWarning: Mean of empty slice.
-  avg = a.mean(axis)
-/Users/fzhu/Apps/miniconda3/envs/cfr-env/lib/python3.9/site-packages/numpy/core/_methods.py:189: RuntimeWarning: invalid value encountered in double_scalars
+Analyzing ProxyRecord:   0%|          | 0/104 [00:00&lt;?, ?it/s]/Users/fzhu/Apps/miniconda3/envs/cfr-env-py309/lib/python3.9/site-packages/numpy/lib/function_base.py:518: RuntimeWarning: Mean of empty slice.
+  avg = a.mean(axis, **keepdims_kw)
+/Users/fzhu/Apps/miniconda3/envs/cfr-env-py309/lib/python3.9/site-packages/numpy/core/_methods.py:190: RuntimeWarning: invalid value encountered in double_scalars
   ret = ret.dtype.type(ret / rcount)
-/Users/fzhu/Apps/miniconda3/envs/cfr-env/lib/python3.9/site-packages/numpy/lib/function_base.py:495: RuntimeWarning: Mean of empty slice.
-  avg = a.mean(axis)
-/Users/fzhu/Apps/miniconda3/envs/cfr-env/lib/python3.9/site-packages/numpy/core/_methods.py:189: RuntimeWarning: invalid value encountered in double_scalars
+/Users/fzhu/Apps/miniconda3/envs/cfr-env-py309/lib/python3.9/site-packages/numpy/lib/function_base.py:518: RuntimeWarning: Mean of empty slice.
+  avg = a.mean(axis, **keepdims_kw)
+/Users/fzhu/Apps/miniconda3/envs/cfr-env-py309/lib/python3.9/site-packages/numpy/core/_methods.py:190: RuntimeWarning: invalid value encountered in double_scalars
   ret = ret.dtype.type(ret / rcount)
-/Users/fzhu/Apps/miniconda3/envs/cfr-env/lib/python3.9/site-packages/numpy/lib/function_base.py:495: RuntimeWarning: Mean of empty slice.
-  avg = a.mean(axis)
-/Users/fzhu/Apps/miniconda3/envs/cfr-env/lib/python3.9/site-packages/numpy/core/_methods.py:189: RuntimeWarning: invalid value encountered in double_scalars
+/Users/fzhu/Apps/miniconda3/envs/cfr-env-py309/lib/python3.9/site-packages/numpy/lib/function_base.py:518: RuntimeWarning: Mean of empty slice.
+  avg = a.mean(axis, **keepdims_kw)
+/Users/fzhu/Apps/miniconda3/envs/cfr-env-py309/lib/python3.9/site-packages/numpy/core/_methods.py:190: RuntimeWarning: invalid value encountered in double_scalars
   ret = ret.dtype.type(ret / rcount)
-Analyzing ProxyRecord: 100%|██████████| 104/104 [00:00&lt;00:00, 1561.96it/s]
-/Users/fzhu/Apps/miniconda3/envs/cfr-env/lib/python3.9/site-packages/pandas/core/apply.py:867: RuntimeWarning: Mean of empty slice
+Analyzing ProxyRecord: 100%|██████████| 104/104 [00:00&lt;00:00, 530.67it/s]
+/Users/fzhu/Apps/miniconda3/envs/cfr-env-py309/lib/python3.9/site-packages/pandas/core/apply.py:907: RuntimeWarning: Mean of empty slice
   results[i] = self.f(v)
-Bootstrapping:   0%|          | 0/110 [00:00&lt;?, ?it/s]/Users/fzhu/Github/cfr/cfr/utils.py:127: RuntimeWarning: Mean of empty slice
+Bootstrapping:   0%|          | 0/110 [00:00&lt;?, ?it/s]/Users/fzhu/Github/cfr/cfr/utils.py:132: RuntimeWarning: Mean of empty slice
   stats[i] = stat_func(samples[rand_ind])
-Bootstrapping: 100%|██████████| 110/110 [00:01&lt;00:00, 65.35it/s]
+Bootstrapping: 100%|██████████| 110/110 [00:02&lt;00:00, 41.96it/s]
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
@@ -930,7 +830,7 @@ Bootstrapping: 100%|██████████| 110/110 [00:01&lt;00:00, 65.
 <h3>With calibration to an instrumental target<a class="headerlink" href="#With-calibration-to-an-instrumental-target" title="Permalink to this headline">¶</a></h3>
 <p>We load instrumental temperature observations as a target for scaling the proxy values.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># check the variable and dimension names</span>
@@ -942,7 +842,7 @@ Bootstrapping: 100%|██████████| 110/110 [00:01&lt;00:00, 65.
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
 </pre></div>
 </div>
 <div class="output_area rendered_html docutils container">
@@ -977,6 +877,7 @@ Bootstrapping: 100%|██████████| 110/110 [00:01&lt;00:00, 65.
 }
 
 html[theme=dark],
+body[data-theme=dark],
 body.vscode-dark {
   --xr-font-color0: rgba(255, 255, 255, 1);
   --xr-font-color2: rgba(255, 255, 255, 0.54);
@@ -989,7 +890,7 @@ body.vscode-dark {
 }
 
 .xr-wrap {
-  display: block;
+  display: block !important;
   min-width: 300px;
   max-width: 700px;
 }
@@ -1206,6 +1107,11 @@ body.vscode-dark {
   grid-column: 4;
 }
 
+.xr-index-preview {
+  grid-column: 2 / 5;
+  color: var(--xr-font-color2);
+}
+
 .xr-var-name,
 .xr-var-dims,
 .xr-var-dtype,
@@ -1227,14 +1133,16 @@ body.vscode-dark {
 }
 
 .xr-var-attrs,
-.xr-var-data {
+.xr-var-data,
+.xr-index-data {
   display: none;
   background-color: var(--xr-background-color) !important;
   padding-bottom: 5px !important;
 }
 
 .xr-var-attrs-in:checked ~ .xr-var-attrs,
-.xr-var-data-in:checked ~ .xr-var-data {
+.xr-var-data-in:checked ~ .xr-var-data,
+.xr-index-data-in:checked ~ .xr-index-data {
   display: block;
 }
 
@@ -1244,13 +1152,16 @@ body.vscode-dark {
 
 .xr-var-name span,
 .xr-var-data,
+.xr-index-name div,
+.xr-index-data,
 .xr-attrs {
   padding-left: 25px !important;
 }
 
 .xr-attrs,
 .xr-var-attrs,
-.xr-var-data {
+.xr-var-data,
+.xr-index-data {
   grid-column: 1 / -1;
 }
 
@@ -1288,7 +1199,8 @@ dl.xr-attrs {
 }
 
 .xr-icon-database,
-.xr-icon-file-text2 {
+.xr-icon-file-text2,
+.xr-no-icon {
   display: inline-block;
   vertical-align: middle;
   width: 1em;
@@ -1298,158 +1210,69 @@ dl.xr-attrs {
   fill: currentColor;
 }
 </style><pre class='xr-text-repr-fallback'>&lt;xarray.Dataset&gt;
-Dimensions:           (time: 2052, latitude: 36, longitude: 72, bnds: 2)
+Dimensions:           (time: 2076, latitude: 36, longitude: 72, bnds: 2)
 Coordinates:
-  * time              (time) datetime64[ns] 1850-01-16T12:00:00 ... 2020-12-1...
+  * time              (time) datetime64[ns] 1850-01-16T12:00:00 ... 2022-12-1...
   * latitude          (latitude) float64 -87.5 -82.5 -77.5 ... 77.5 82.5 87.5
   * longitude         (longitude) float64 -177.5 -172.5 -167.5 ... 172.5 177.5
-    realization       int64 100
+    realization       int64 ...
 Dimensions without coordinates: bnds
 Data variables:
     tas_mean          (time, latitude, longitude) float64 ...
-    time_bnds         (time, bnds) datetime64[ns] 1850-01-01 ... 2021-01-01
-    latitude_bnds     (latitude, bnds) float64 -90.0 -85.0 -85.0 ... 85.0 90.0
-    longitude_bnds    (longitude, bnds) float64 -180.0 -175.0 ... 175.0 180.0
-    realization_bnds  (bnds) int64 1 200
+    time_bnds         (time, bnds) datetime64[ns] ...
+    latitude_bnds     (latitude, bnds) float64 ...
+    longitude_bnds    (longitude, bnds) float64 ...
+    realization_bnds  (bnds) int64 ...
 Attributes:
     comment:      2m air temperature over land blended with sea water tempera...
-    history:
+    history:      Data set built at: 2023-01-10T22:32:59+00:00
     institution:  Met Office Hadley Centre / Climatic Research Unit, Universi...
     licence:      HadCRUT5 is licensed under the Open Government Licence v3.0...
     reference:    C. P. Morice, J. J. Kennedy, N. A. Rayner, J. P. Winn, E. H...
     source:       CRUTEM.5.0.1.0 HadSST.4.0.0.0
     title:        HadCRUT.5.0.1.0 blended land air temperature and sea-surfac...
     version:      HadCRUT.5.0.1.0
-    Conventions:  CF-1.7</pre><div class='xr-wrap' hidden><div class='xr-header'><div class='xr-obj-type'>xarray.Dataset</div></div><ul class='xr-sections'><li class='xr-section-item'><input id='section-1c36edfb-9142-4f94-9829-be4fa0f2007b' class='xr-section-summary-in' type='checkbox' disabled ><label for='section-1c36edfb-9142-4f94-9829-be4fa0f2007b' class='xr-section-summary'  title='Expand/collapse section'>Dimensions:</label><div class='xr-section-inline-details'><ul class='xr-dim-list'><li><span class='xr-has-index'>time</span>: 2052</li><li><span class='xr-has-index'>latitude</span>: 36</li><li><span class='xr-has-index'>longitude</span>: 72</li><li><span>bnds</span>: 2</li></ul></div><div class='xr-section-details'></div></li><li class='xr-section-item'><input id='section-8a1e214e-f5ae-4220-97a6-3da8dd9960c7' class='xr-section-summary-in' type='checkbox'  checked><label for='section-8a1e214e-f5ae-4220-97a6-3da8dd9960c7' class='xr-section-summary' >Coordinates: <span>(4)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><ul class='xr-var-list'><li class='xr-var-item'><div class='xr-var-name'><span class='xr-has-index'>time</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>datetime64[ns]</div><div class='xr-var-preview xr-preview'>1850-01-16T12:00:00 ... 2020-12-...</div><input id='attrs-4a9b53bf-5e7a-410d-9b42-7c29ffdd6a6e' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-4a9b53bf-5e7a-410d-9b42-7c29ffdd6a6e' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-9635afd5-7254-4b34-b559-a216723a0b20' class='xr-var-data-in' type='checkbox'><label for='data-9635afd5-7254-4b34-b559-a216723a0b20' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>axis :</span></dt><dd>T</dd><dt><span>bounds :</span></dt><dd>time_bnds</dd><dt><span>standard_name :</span></dt><dd>time</dd><dt><span>long_name :</span></dt><dd>time</dd></dl></div><div class='xr-var-data'><pre>array([&#x27;1850-01-16T12:00:00.000000000&#x27;, &#x27;1850-02-15T00:00:00.000000000&#x27;,
-       &#x27;1850-03-16T12:00:00.000000000&#x27;, ..., &#x27;2020-10-16T12:00:00.000000000&#x27;,
-       &#x27;2020-11-16T00:00:00.000000000&#x27;, &#x27;2020-12-16T12:00:00.000000000&#x27;],
-      dtype=&#x27;datetime64[ns]&#x27;)</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span class='xr-has-index'>latitude</span></div><div class='xr-var-dims'>(latitude)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>-87.5 -82.5 -77.5 ... 82.5 87.5</div><input id='attrs-49543831-b5ed-4a3b-aaef-3bd23650c74b' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-49543831-b5ed-4a3b-aaef-3bd23650c74b' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-722b7958-33a2-4e4d-b07d-5693e8d18adc' class='xr-var-data-in' type='checkbox'><label for='data-722b7958-33a2-4e4d-b07d-5693e8d18adc' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>axis :</span></dt><dd>Y</dd><dt><span>bounds :</span></dt><dd>latitude_bnds</dd><dt><span>units :</span></dt><dd>degrees_north</dd><dt><span>standard_name :</span></dt><dd>latitude</dd><dt><span>long_name :</span></dt><dd>latitude</dd></dl></div><div class='xr-var-data'><pre>array([-87.5, -82.5, -77.5, -72.5, -67.5, -62.5, -57.5, -52.5, -47.5, -42.5,
+    Conventions:  CF-1.7</pre><div class='xr-wrap' style='display:none'><div class='xr-header'><div class='xr-obj-type'>xarray.Dataset</div></div><ul class='xr-sections'><li class='xr-section-item'><input id='section-5b370382-aac9-4a4c-8223-612f6b09f20f' class='xr-section-summary-in' type='checkbox' disabled ><label for='section-5b370382-aac9-4a4c-8223-612f6b09f20f' class='xr-section-summary'  title='Expand/collapse section'>Dimensions:</label><div class='xr-section-inline-details'><ul class='xr-dim-list'><li><span class='xr-has-index'>time</span>: 2076</li><li><span class='xr-has-index'>latitude</span>: 36</li><li><span class='xr-has-index'>longitude</span>: 72</li><li><span>bnds</span>: 2</li></ul></div><div class='xr-section-details'></div></li><li class='xr-section-item'><input id='section-ab8276bb-f0f7-4fcd-9e52-8d6b2f393f06' class='xr-section-summary-in' type='checkbox'  checked><label for='section-ab8276bb-f0f7-4fcd-9e52-8d6b2f393f06' class='xr-section-summary' >Coordinates: <span>(4)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><ul class='xr-var-list'><li class='xr-var-item'><div class='xr-var-name'><span class='xr-has-index'>time</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>datetime64[ns]</div><div class='xr-var-preview xr-preview'>1850-01-16T12:00:00 ... 2022-12-...</div><input id='attrs-0612562f-a054-4f0a-aeee-45cbd10eec5a' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-0612562f-a054-4f0a-aeee-45cbd10eec5a' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-e9fbcaaf-39de-4158-ac2c-d423abfc3ec6' class='xr-var-data-in' type='checkbox'><label for='data-e9fbcaaf-39de-4158-ac2c-d423abfc3ec6' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>axis :</span></dt><dd>T</dd><dt><span>bounds :</span></dt><dd>time_bnds</dd><dt><span>standard_name :</span></dt><dd>time</dd><dt><span>long_name :</span></dt><dd>time</dd></dl></div><div class='xr-var-data'><pre>array([&#x27;1850-01-16T12:00:00.000000000&#x27;, &#x27;1850-02-15T00:00:00.000000000&#x27;,
+       &#x27;1850-03-16T12:00:00.000000000&#x27;, ..., &#x27;2022-10-16T12:00:00.000000000&#x27;,
+       &#x27;2022-11-16T00:00:00.000000000&#x27;, &#x27;2022-12-16T12:00:00.000000000&#x27;],
+      dtype=&#x27;datetime64[ns]&#x27;)</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span class='xr-has-index'>latitude</span></div><div class='xr-var-dims'>(latitude)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>-87.5 -82.5 -77.5 ... 82.5 87.5</div><input id='attrs-1adf4bce-a41f-4b70-88ca-bafb21df8363' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-1adf4bce-a41f-4b70-88ca-bafb21df8363' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-8a808962-769f-4c38-9fed-4a68c848cb13' class='xr-var-data-in' type='checkbox'><label for='data-8a808962-769f-4c38-9fed-4a68c848cb13' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>axis :</span></dt><dd>Y</dd><dt><span>bounds :</span></dt><dd>latitude_bnds</dd><dt><span>units :</span></dt><dd>degrees_north</dd><dt><span>standard_name :</span></dt><dd>latitude</dd><dt><span>long_name :</span></dt><dd>latitude</dd></dl></div><div class='xr-var-data'><pre>array([-87.5, -82.5, -77.5, -72.5, -67.5, -62.5, -57.5, -52.5, -47.5, -42.5,
        -37.5, -32.5, -27.5, -22.5, -17.5, -12.5,  -7.5,  -2.5,   2.5,   7.5,
         12.5,  17.5,  22.5,  27.5,  32.5,  37.5,  42.5,  47.5,  52.5,  57.5,
-        62.5,  67.5,  72.5,  77.5,  82.5,  87.5])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span class='xr-has-index'>longitude</span></div><div class='xr-var-dims'>(longitude)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>-177.5 -172.5 ... 172.5 177.5</div><input id='attrs-ea38fae2-44b2-48d9-994a-9f56e3a61cf5' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-ea38fae2-44b2-48d9-994a-9f56e3a61cf5' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-e220edb6-1d46-408b-a49e-3d8238c33b32' class='xr-var-data-in' type='checkbox'><label for='data-e220edb6-1d46-408b-a49e-3d8238c33b32' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>axis :</span></dt><dd>X</dd><dt><span>bounds :</span></dt><dd>longitude_bnds</dd><dt><span>units :</span></dt><dd>degrees_east</dd><dt><span>standard_name :</span></dt><dd>longitude</dd><dt><span>long_name :</span></dt><dd>longitude</dd></dl></div><div class='xr-var-data'><pre>array([-177.5, -172.5, -167.5, -162.5, -157.5, -152.5, -147.5, -142.5, -137.5,
+        62.5,  67.5,  72.5,  77.5,  82.5,  87.5])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span class='xr-has-index'>longitude</span></div><div class='xr-var-dims'>(longitude)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>-177.5 -172.5 ... 172.5 177.5</div><input id='attrs-88a32da9-95d1-4035-ab9a-9cce884a1ef2' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-88a32da9-95d1-4035-ab9a-9cce884a1ef2' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-2e43eac3-9546-46b1-9582-998101435083' class='xr-var-data-in' type='checkbox'><label for='data-2e43eac3-9546-46b1-9582-998101435083' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>axis :</span></dt><dd>X</dd><dt><span>bounds :</span></dt><dd>longitude_bnds</dd><dt><span>units :</span></dt><dd>degrees_east</dd><dt><span>standard_name :</span></dt><dd>longitude</dd><dt><span>long_name :</span></dt><dd>longitude</dd></dl></div><div class='xr-var-data'><pre>array([-177.5, -172.5, -167.5, -162.5, -157.5, -152.5, -147.5, -142.5, -137.5,
        -132.5, -127.5, -122.5, -117.5, -112.5, -107.5, -102.5,  -97.5,  -92.5,
         -87.5,  -82.5,  -77.5,  -72.5,  -67.5,  -62.5,  -57.5,  -52.5,  -47.5,
         -42.5,  -37.5,  -32.5,  -27.5,  -22.5,  -17.5,  -12.5,   -7.5,   -2.5,
           2.5,    7.5,   12.5,   17.5,   22.5,   27.5,   32.5,   37.5,   42.5,
          47.5,   52.5,   57.5,   62.5,   67.5,   72.5,   77.5,   82.5,   87.5,
          92.5,   97.5,  102.5,  107.5,  112.5,  117.5,  122.5,  127.5,  132.5,
-        137.5,  142.5,  147.5,  152.5,  157.5,  162.5,  167.5,  172.5,  177.5])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>realization</span></div><div class='xr-var-dims'>()</div><div class='xr-var-dtype'>int64</div><div class='xr-var-preview xr-preview'>...</div><input id='attrs-1f33ae08-93cd-4c5e-9ed5-be7d7dec3e1d' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-1f33ae08-93cd-4c5e-9ed5-be7d7dec3e1d' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-3e9629c3-ad1d-4e3b-a0bf-730f9bee86a6' class='xr-var-data-in' type='checkbox'><label for='data-3e9629c3-ad1d-4e3b-a0bf-730f9bee86a6' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>bounds :</span></dt><dd>realization_bnds</dd><dt><span>units :</span></dt><dd>1</dd><dt><span>standard_name :</span></dt><dd>realization</dd></dl></div><div class='xr-var-data'><pre>array(100)</pre></div></li></ul></div></li><li class='xr-section-item'><input id='section-b4e5ac5b-5010-4957-8d53-b2e1bcf00cb6' class='xr-section-summary-in' type='checkbox'  checked><label for='section-b4e5ac5b-5010-4957-8d53-b2e1bcf00cb6' class='xr-section-summary' >Data variables: <span>(5)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><ul class='xr-var-list'><li class='xr-var-item'><div class='xr-var-name'><span>tas_mean</span></div><div class='xr-var-dims'>(time, latitude, longitude)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>...</div><input id='attrs-4c79aead-a215-4442-826d-0960f4dc1b2f' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-4c79aead-a215-4442-826d-0960f4dc1b2f' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-fb4bf56f-41fb-42e2-a77e-df0f6799c5ab' class='xr-var-data-in' type='checkbox'><label for='data-fb4bf56f-41fb-42e2-a77e-df0f6799c5ab' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>long_name :</span></dt><dd>blended air_temperature_anomaly over land with sea_water_temperature_anomaly</dd><dt><span>units :</span></dt><dd>K</dd><dt><span>cell_methods :</span></dt><dd>area: mean (interval: 5.0 degrees_north 5.0 degrees_east) time: mean (interval: 1 month) realization: mean</dd></dl></div><div class='xr-var-data'><pre>[5318784 values with dtype=float64]</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>time_bnds</span></div><div class='xr-var-dims'>(time, bnds)</div><div class='xr-var-dtype'>datetime64[ns]</div><div class='xr-var-preview xr-preview'>...</div><input id='attrs-94abca98-3459-44b3-a3ed-d319ca0190b0' class='xr-var-attrs-in' type='checkbox' disabled><label for='attrs-94abca98-3459-44b3-a3ed-d319ca0190b0' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-56f75e96-e4f7-4b42-87c1-cae7f611d9b4' class='xr-var-data-in' type='checkbox'><label for='data-56f75e96-e4f7-4b42-87c1-cae7f611d9b4' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'></dl></div><div class='xr-var-data'><pre>array([[&#x27;1850-01-01T00:00:00.000000000&#x27;, &#x27;1850-02-01T00:00:00.000000000&#x27;],
-       [&#x27;1850-02-01T00:00:00.000000000&#x27;, &#x27;1850-03-01T00:00:00.000000000&#x27;],
-       [&#x27;1850-03-01T00:00:00.000000000&#x27;, &#x27;1850-04-01T00:00:00.000000000&#x27;],
-       ...,
-       [&#x27;2020-10-01T00:00:00.000000000&#x27;, &#x27;2020-11-01T00:00:00.000000000&#x27;],
-       [&#x27;2020-11-01T00:00:00.000000000&#x27;, &#x27;2020-12-01T00:00:00.000000000&#x27;],
-       [&#x27;2020-12-01T00:00:00.000000000&#x27;, &#x27;2021-01-01T00:00:00.000000000&#x27;]],
-      dtype=&#x27;datetime64[ns]&#x27;)</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>latitude_bnds</span></div><div class='xr-var-dims'>(latitude, bnds)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>...</div><input id='attrs-ecc70bba-2e04-4531-b5e3-d95c9fec242a' class='xr-var-attrs-in' type='checkbox' disabled><label for='attrs-ecc70bba-2e04-4531-b5e3-d95c9fec242a' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-74102e3c-f8f8-417e-b0d0-1494ae3ad1c2' class='xr-var-data-in' type='checkbox'><label for='data-74102e3c-f8f8-417e-b0d0-1494ae3ad1c2' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'></dl></div><div class='xr-var-data'><pre>array([[-90., -85.],
-       [-85., -80.],
-       [-80., -75.],
-       [-75., -70.],
-       [-70., -65.],
-       [-65., -60.],
-       [-60., -55.],
-       [-55., -50.],
-       [-50., -45.],
-       [-45., -40.],
-       [-40., -35.],
-       [-35., -30.],
-       [-30., -25.],
-       [-25., -20.],
-       [-20., -15.],
-       [-15., -10.],
-       [-10.,  -5.],
-       [ -5.,   0.],
-       [  0.,   5.],
-       [  5.,  10.],
-       [ 10.,  15.],
-       [ 15.,  20.],
-       [ 20.,  25.],
-       [ 25.,  30.],
-       [ 30.,  35.],
-       [ 35.,  40.],
-       [ 40.,  45.],
-       [ 45.,  50.],
-       [ 50.,  55.],
-       [ 55.,  60.],
-       [ 60.,  65.],
-       [ 65.,  70.],
-       [ 70.,  75.],
-       [ 75.,  80.],
-       [ 80.,  85.],
-       [ 85.,  90.]])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>longitude_bnds</span></div><div class='xr-var-dims'>(longitude, bnds)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>...</div><input id='attrs-a306bd1a-89ba-4ed2-ba80-41e66a71d2b2' class='xr-var-attrs-in' type='checkbox' disabled><label for='attrs-a306bd1a-89ba-4ed2-ba80-41e66a71d2b2' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-af3a21f9-31f4-4cf0-b822-9524ac2431a2' class='xr-var-data-in' type='checkbox'><label for='data-af3a21f9-31f4-4cf0-b822-9524ac2431a2' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'></dl></div><div class='xr-var-data'><pre>array([[-180., -175.],
-       [-175., -170.],
-       [-170., -165.],
-       [-165., -160.],
-       [-160., -155.],
-       [-155., -150.],
-       [-150., -145.],
-       [-145., -140.],
-       [-140., -135.],
-       [-135., -130.],
-       [-130., -125.],
-       [-125., -120.],
-       [-120., -115.],
-       [-115., -110.],
-       [-110., -105.],
-       [-105., -100.],
-       [-100.,  -95.],
-       [ -95.,  -90.],
-       [ -90.,  -85.],
-       [ -85.,  -80.],
-       [ -80.,  -75.],
-       [ -75.,  -70.],
-       [ -70.,  -65.],
-       [ -65.,  -60.],
-       [ -60.,  -55.],
-       [ -55.,  -50.],
-       [ -50.,  -45.],
-       [ -45.,  -40.],
-       [ -40.,  -35.],
-       [ -35.,  -30.],
-       [ -30.,  -25.],
-       [ -25.,  -20.],
-       [ -20.,  -15.],
-       [ -15.,  -10.],
-       [ -10.,   -5.],
-       [  -5.,    0.],
-       [   0.,    5.],
-       [   5.,   10.],
-       [  10.,   15.],
-       [  15.,   20.],
-       [  20.,   25.],
-       [  25.,   30.],
-       [  30.,   35.],
-       [  35.,   40.],
-       [  40.,   45.],
-       [  45.,   50.],
-       [  50.,   55.],
-       [  55.,   60.],
-       [  60.,   65.],
-       [  65.,   70.],
-       [  70.,   75.],
-       [  75.,   80.],
-       [  80.,   85.],
-       [  85.,   90.],
-       [  90.,   95.],
-       [  95.,  100.],
-       [ 100.,  105.],
-       [ 105.,  110.],
-       [ 110.,  115.],
-       [ 115.,  120.],
-       [ 120.,  125.],
-       [ 125.,  130.],
-       [ 130.,  135.],
-       [ 135.,  140.],
-       [ 140.,  145.],
-       [ 145.,  150.],
-       [ 150.,  155.],
-       [ 155.,  160.],
-       [ 160.,  165.],
-       [ 165.,  170.],
-       [ 170.,  175.],
-       [ 175.,  180.]])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>realization_bnds</span></div><div class='xr-var-dims'>(bnds)</div><div class='xr-var-dtype'>int64</div><div class='xr-var-preview xr-preview'>...</div><input id='attrs-eeb12dc6-1fc5-41b2-97c9-3523c6006067' class='xr-var-attrs-in' type='checkbox' disabled><label for='attrs-eeb12dc6-1fc5-41b2-97c9-3523c6006067' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-be637992-a483-4929-bae9-8979db974d46' class='xr-var-data-in' type='checkbox'><label for='data-be637992-a483-4929-bae9-8979db974d46' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'></dl></div><div class='xr-var-data'><pre>array([  1, 200])</pre></div></li></ul></div></li><li class='xr-section-item'><input id='section-7fec87ce-541f-4a5f-be33-77755be17b4e' class='xr-section-summary-in' type='checkbox'  checked><label for='section-7fec87ce-541f-4a5f-be33-77755be17b4e' class='xr-section-summary' >Attributes: <span>(9)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><dl class='xr-attrs'><dt><span>comment :</span></dt><dd>2m air temperature over land blended with sea water temperature at a depth of 20cm expressed as monthly anomalies relative to 1961-1990 climatology.</dd><dt><span>history :</span></dt><dd></dd><dt><span>institution :</span></dt><dd>Met Office Hadley Centre / Climatic Research Unit, University of East Anglia</dd><dt><span>licence :</span></dt><dd>HadCRUT5 is licensed under the Open Government Licence v3.0 except where otherwise stated. To view this licence, visit https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3</dd><dt><span>reference :</span></dt><dd>C. P. Morice, J. J. Kennedy, N. A. Rayner, J. P. Winn, E. Hogan, R. E. Killick, R. J. H. Dunn, T. J. Osborn, P. D. Jones and I. R. Simpson (2020), An updated assessment of near-surface temperature change from 1850: the HadCRUT5 dataset, Submitted to J. Geophys. Res.</dd><dt><span>source :</span></dt><dd>CRUTEM.5.0.1.0 HadSST.4.0.0.0</dd><dt><span>title :</span></dt><dd>HadCRUT.5.0.1.0 blended land air temperature and sea-surface temperature anomaly data set</dd><dt><span>version :</span></dt><dd>HadCRUT.5.0.1.0</dd><dt><span>Conventions :</span></dt><dd>CF-1.7</dd></dl></div></li></ul></div></div></div>
+        137.5,  142.5,  147.5,  152.5,  157.5,  162.5,  167.5,  172.5,  177.5])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>realization</span></div><div class='xr-var-dims'>()</div><div class='xr-var-dtype'>int64</div><div class='xr-var-preview xr-preview'>...</div><input id='attrs-b01bc1c7-d2bc-4a43-b153-37d50913b524' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-b01bc1c7-d2bc-4a43-b153-37d50913b524' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-5a51563a-c28e-4b1c-ae44-32d3770abff4' class='xr-var-data-in' type='checkbox'><label for='data-5a51563a-c28e-4b1c-ae44-32d3770abff4' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>bounds :</span></dt><dd>realization_bnds</dd><dt><span>units :</span></dt><dd>1</dd><dt><span>standard_name :</span></dt><dd>realization</dd></dl></div><div class='xr-var-data'><pre>[1 values with dtype=int64]</pre></div></li></ul></div></li><li class='xr-section-item'><input id='section-5789a9d5-752a-4f23-a631-479783989a6c' class='xr-section-summary-in' type='checkbox'  checked><label for='section-5789a9d5-752a-4f23-a631-479783989a6c' class='xr-section-summary' >Data variables: <span>(5)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><ul class='xr-var-list'><li class='xr-var-item'><div class='xr-var-name'><span>tas_mean</span></div><div class='xr-var-dims'>(time, latitude, longitude)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>...</div><input id='attrs-1b8c4c05-571d-4ac7-9b61-ddd0d02011a5' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-1b8c4c05-571d-4ac7-9b61-ddd0d02011a5' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-4fedcd70-947d-4375-a82a-a7d19cee7aee' class='xr-var-data-in' type='checkbox'><label for='data-4fedcd70-947d-4375-a82a-a7d19cee7aee' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>long_name :</span></dt><dd>blended air_temperature_anomaly over land with sea_water_temperature_anomaly</dd><dt><span>units :</span></dt><dd>K</dd><dt><span>cell_methods :</span></dt><dd>area: mean (interval: 5.0 degrees_north 5.0 degrees_east) time: mean (interval: 1 month) realization: mean</dd></dl></div><div class='xr-var-data'><pre>[5380992 values with dtype=float64]</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>time_bnds</span></div><div class='xr-var-dims'>(time, bnds)</div><div class='xr-var-dtype'>datetime64[ns]</div><div class='xr-var-preview xr-preview'>...</div><input id='attrs-a872f593-f1ee-464e-a492-2accfe06dd15' class='xr-var-attrs-in' type='checkbox' disabled><label for='attrs-a872f593-f1ee-464e-a492-2accfe06dd15' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-957bb37b-23a8-4092-9451-84defecd5c03' class='xr-var-data-in' type='checkbox'><label for='data-957bb37b-23a8-4092-9451-84defecd5c03' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'></dl></div><div class='xr-var-data'><pre>[4152 values with dtype=datetime64[ns]]</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>latitude_bnds</span></div><div class='xr-var-dims'>(latitude, bnds)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>...</div><input id='attrs-bfa4ac8a-f5c6-4973-9fc2-f5b4aa2c1ebf' class='xr-var-attrs-in' type='checkbox' disabled><label for='attrs-bfa4ac8a-f5c6-4973-9fc2-f5b4aa2c1ebf' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-ab2205e4-7be9-45b6-abc7-8ac3f6a93814' class='xr-var-data-in' type='checkbox'><label for='data-ab2205e4-7be9-45b6-abc7-8ac3f6a93814' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'></dl></div><div class='xr-var-data'><pre>[72 values with dtype=float64]</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>longitude_bnds</span></div><div class='xr-var-dims'>(longitude, bnds)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>...</div><input id='attrs-784cefda-9c34-4d7b-a49e-019cb087a31d' class='xr-var-attrs-in' type='checkbox' disabled><label for='attrs-784cefda-9c34-4d7b-a49e-019cb087a31d' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-9c9a594d-f85a-43e3-87db-7cf6e3df5ba9' class='xr-var-data-in' type='checkbox'><label for='data-9c9a594d-f85a-43e3-87db-7cf6e3df5ba9' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'></dl></div><div class='xr-var-data'><pre>[144 values with dtype=float64]</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>realization_bnds</span></div><div class='xr-var-dims'>(bnds)</div><div class='xr-var-dtype'>int64</div><div class='xr-var-preview xr-preview'>...</div><input id='attrs-f38189ea-019f-4bdf-b3a3-c4fa3acc16e1' class='xr-var-attrs-in' type='checkbox' disabled><label for='attrs-f38189ea-019f-4bdf-b3a3-c4fa3acc16e1' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-0943c6c8-6703-4ef4-a051-fbc9c60d7d98' class='xr-var-data-in' type='checkbox'><label for='data-0943c6c8-6703-4ef4-a051-fbc9c60d7d98' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'></dl></div><div class='xr-var-data'><pre>[2 values with dtype=int64]</pre></div></li></ul></div></li><li class='xr-section-item'><input id='section-20219442-99cb-4b90-a902-d61b431abd97' class='xr-section-summary-in' type='checkbox'  ><label for='section-20219442-99cb-4b90-a902-d61b431abd97' class='xr-section-summary' >Indexes: <span>(3)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><ul class='xr-var-list'><li class='xr-var-item'><div class='xr-index-name'><div>time</div></div><div class='xr-index-preview'>PandasIndex</div><div></div><input id='index-10db816e-43ec-46fb-8640-ef59bc82b755' class='xr-index-data-in' type='checkbox'/><label for='index-10db816e-43ec-46fb-8640-ef59bc82b755' title='Show/Hide index repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-index-data'><pre>PandasIndex(DatetimeIndex([&#x27;1850-01-16 12:00:00&#x27;, &#x27;1850-02-15 00:00:00&#x27;,
+               &#x27;1850-03-16 12:00:00&#x27;, &#x27;1850-04-16 00:00:00&#x27;,
+               &#x27;1850-05-16 12:00:00&#x27;, &#x27;1850-06-16 00:00:00&#x27;,
+               &#x27;1850-07-16 12:00:00&#x27;, &#x27;1850-08-16 12:00:00&#x27;,
+               &#x27;1850-09-16 00:00:00&#x27;, &#x27;1850-10-16 12:00:00&#x27;,
+               ...
+               &#x27;2022-03-16 12:00:00&#x27;, &#x27;2022-04-16 00:00:00&#x27;,
+               &#x27;2022-05-16 12:00:00&#x27;, &#x27;2022-06-16 00:00:00&#x27;,
+               &#x27;2022-07-16 12:00:00&#x27;, &#x27;2022-08-16 12:00:00&#x27;,
+               &#x27;2022-09-16 00:00:00&#x27;, &#x27;2022-10-16 12:00:00&#x27;,
+               &#x27;2022-11-16 00:00:00&#x27;, &#x27;2022-12-16 12:00:00&#x27;],
+              dtype=&#x27;datetime64[ns]&#x27;, name=&#x27;time&#x27;, length=2076, freq=None))</pre></div></li><li class='xr-var-item'><div class='xr-index-name'><div>latitude</div></div><div class='xr-index-preview'>PandasIndex</div><div></div><input id='index-b8c469b1-b16b-4d07-ba86-7081d3833381' class='xr-index-data-in' type='checkbox'/><label for='index-b8c469b1-b16b-4d07-ba86-7081d3833381' title='Show/Hide index repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-index-data'><pre>PandasIndex(Float64Index([-87.5, -82.5, -77.5, -72.5, -67.5, -62.5, -57.5, -52.5, -47.5,
+              -42.5, -37.5, -32.5, -27.5, -22.5, -17.5, -12.5,  -7.5,  -2.5,
+                2.5,   7.5,  12.5,  17.5,  22.5,  27.5,  32.5,  37.5,  42.5,
+               47.5,  52.5,  57.5,  62.5,  67.5,  72.5,  77.5,  82.5,  87.5],
+             dtype=&#x27;float64&#x27;, name=&#x27;latitude&#x27;))</pre></div></li><li class='xr-var-item'><div class='xr-index-name'><div>longitude</div></div><div class='xr-index-preview'>PandasIndex</div><div></div><input id='index-6c6ca7f8-9864-44e0-b811-10a530ddf6e8' class='xr-index-data-in' type='checkbox'/><label for='index-6c6ca7f8-9864-44e0-b811-10a530ddf6e8' title='Show/Hide index repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-index-data'><pre>PandasIndex(Float64Index([-177.5, -172.5, -167.5, -162.5, -157.5, -152.5, -147.5, -142.5,
+              -137.5, -132.5, -127.5, -122.5, -117.5, -112.5, -107.5, -102.5,
+               -97.5,  -92.5,  -87.5,  -82.5,  -77.5,  -72.5,  -67.5,  -62.5,
+               -57.5,  -52.5,  -47.5,  -42.5,  -37.5,  -32.5,  -27.5,  -22.5,
+               -17.5,  -12.5,   -7.5,   -2.5,    2.5,    7.5,   12.5,   17.5,
+                22.5,   27.5,   32.5,   37.5,   42.5,   47.5,   52.5,   57.5,
+                62.5,   67.5,   72.5,   77.5,   82.5,   87.5,   92.5,   97.5,
+               102.5,  107.5,  112.5,  117.5,  122.5,  127.5,  132.5,  137.5,
+               142.5,  147.5,  152.5,  157.5,  162.5,  167.5,  172.5,  177.5],
+             dtype=&#x27;float64&#x27;, name=&#x27;longitude&#x27;))</pre></div></li></ul></div></li><li class='xr-section-item'><input id='section-9a606ca4-b3f8-41d8-ad1b-6396b4132f08' class='xr-section-summary-in' type='checkbox'  checked><label for='section-9a606ca4-b3f8-41d8-ad1b-6396b4132f08' class='xr-section-summary' >Attributes: <span>(9)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><dl class='xr-attrs'><dt><span>comment :</span></dt><dd>2m air temperature over land blended with sea water temperature at a depth of 20cm expressed as monthly anomalies relative to 1961-1990 climatology.</dd><dt><span>history :</span></dt><dd>Data set built at: 2023-01-10T22:32:59+00:00</dd><dt><span>institution :</span></dt><dd>Met Office Hadley Centre / Climatic Research Unit, University of East Anglia</dd><dt><span>licence :</span></dt><dd>HadCRUT5 is licensed under the Open Government Licence v3.0 except where otherwise stated. To view this licence, visit https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3</dd><dt><span>reference :</span></dt><dd>C. P. Morice, J. J. Kennedy, N. A. Rayner, J. P. Winn, E. Hogan, R. E. Killick, R. J. H. Dunn, T. J. Osborn, P. D. Jones and I. R. Simpson (2021), An updated assessment of near-surface temperature change from 1850: the HadCRUT5 data set, Journal of Geophysical Research: Atmospheres, 126, e2019JD032361. https://doi.org/10.1029/2019JD032361</dd><dt><span>source :</span></dt><dd>CRUTEM.5.0.1.0 HadSST.4.0.0.0</dd><dt><span>title :</span></dt><dd>HadCRUT.5.0.1.0 blended land air temperature and sea-surface temperature anomaly data set</dd><dt><span>version :</span></dt><dd>HadCRUT.5.0.1.0</dd><dt><span>Conventions :</span></dt><dd>CF-1.7</dd></dl></div></li></ul></div></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">obs</span> <span class="o">=</span> <span class="n">cfr</span><span class="o">.</span><span class="n">ClimateField</span><span class="p">()</span><span class="o">.</span><span class="n">load_nc</span><span class="p">(</span>
@@ -1469,7 +1292,7 @@ Attributes:
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pdb_corals</span><span class="o">.</span><span class="n">make_composite</span><span class="p">(</span><span class="n">obs</span><span class="p">,</span> <span class="n">bin_width</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
@@ -1481,28 +1304,28 @@ Attributes:
 </div>
 <div class="output_area stderr docutils container">
 <div class="highlight"><pre>
-Analyzing ProxyRecord:  14%|█▍        | 15/104 [00:00&lt;00:01, 48.97it/s]/Users/fzhu/Apps/miniconda3/envs/cfr-env/lib/python3.9/site-packages/numpy/lib/function_base.py:495: RuntimeWarning: Mean of empty slice.
-  avg = a.mean(axis)
-/Users/fzhu/Apps/miniconda3/envs/cfr-env/lib/python3.9/site-packages/numpy/core/_methods.py:189: RuntimeWarning: invalid value encountered in double_scalars
+Analyzing ProxyRecord:  15%|█▌        | 16/104 [00:00&lt;00:01, 79.92it/s]/Users/fzhu/Apps/miniconda3/envs/cfr-env-py309/lib/python3.9/site-packages/numpy/lib/function_base.py:518: RuntimeWarning: Mean of empty slice.
+  avg = a.mean(axis, **keepdims_kw)
+/Users/fzhu/Apps/miniconda3/envs/cfr-env-py309/lib/python3.9/site-packages/numpy/core/_methods.py:190: RuntimeWarning: invalid value encountered in double_scalars
   ret = ret.dtype.type(ret / rcount)
-/Users/fzhu/Apps/miniconda3/envs/cfr-env/lib/python3.9/site-packages/numpy/lib/function_base.py:495: RuntimeWarning: Mean of empty slice.
-  avg = a.mean(axis)
-/Users/fzhu/Apps/miniconda3/envs/cfr-env/lib/python3.9/site-packages/numpy/core/_methods.py:189: RuntimeWarning: invalid value encountered in double_scalars
+/Users/fzhu/Apps/miniconda3/envs/cfr-env-py309/lib/python3.9/site-packages/numpy/lib/function_base.py:518: RuntimeWarning: Mean of empty slice.
+  avg = a.mean(axis, **keepdims_kw)
+/Users/fzhu/Apps/miniconda3/envs/cfr-env-py309/lib/python3.9/site-packages/numpy/core/_methods.py:190: RuntimeWarning: invalid value encountered in double_scalars
   ret = ret.dtype.type(ret / rcount)
-Analyzing ProxyRecord:  35%|███▍      | 36/104 [00:00&lt;00:01, 60.52it/s]/Users/fzhu/Apps/miniconda3/envs/cfr-env/lib/python3.9/site-packages/numpy/lib/function_base.py:495: RuntimeWarning: Mean of empty slice.
-  avg = a.mean(axis)
-/Users/fzhu/Apps/miniconda3/envs/cfr-env/lib/python3.9/site-packages/numpy/core/_methods.py:189: RuntimeWarning: invalid value encountered in double_scalars
+Analyzing ProxyRecord:  34%|███▎      | 35/104 [00:00&lt;00:00, 85.83it/s]/Users/fzhu/Apps/miniconda3/envs/cfr-env-py309/lib/python3.9/site-packages/numpy/lib/function_base.py:518: RuntimeWarning: Mean of empty slice.
+  avg = a.mean(axis, **keepdims_kw)
+/Users/fzhu/Apps/miniconda3/envs/cfr-env-py309/lib/python3.9/site-packages/numpy/core/_methods.py:190: RuntimeWarning: invalid value encountered in double_scalars
   ret = ret.dtype.type(ret / rcount)
-Analyzing ProxyRecord: 100%|██████████| 104/104 [00:01&lt;00:00, 57.72it/s]
-/Users/fzhu/Apps/miniconda3/envs/cfr-env/lib/python3.9/site-packages/pandas/core/apply.py:867: RuntimeWarning: Mean of empty slice
+Analyzing ProxyRecord: 100%|██████████| 104/104 [00:01&lt;00:00, 77.01it/s]
+/Users/fzhu/Apps/miniconda3/envs/cfr-env-py309/lib/python3.9/site-packages/pandas/core/apply.py:907: RuntimeWarning: Mean of empty slice
   results[i] = self.f(v)
-Bootstrapping:   0%|          | 0/110 [00:00&lt;?, ?it/s]/Users/fzhu/Github/cfr/cfr/utils.py:127: RuntimeWarning: Mean of empty slice
+Bootstrapping:   0%|          | 0/110 [00:00&lt;?, ?it/s]/Users/fzhu/Github/cfr/cfr/utils.py:132: RuntimeWarning: Mean of empty slice
   stats[i] = stat_func(samples[rand_ind])
-Bootstrapping: 100%|██████████| 110/110 [00:01&lt;00:00, 64.64it/s]
+Bootstrapping: 100%|██████████| 110/110 [00:02&lt;00:00, 42.23it/s]
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Check the composite infomation:</span>
@@ -1555,7 +1378,7 @@ df_obs:
 1995.0  0.078321  0.336906  0.236005  0.367082  0.125404  0.125404  0.114688
 2005.0  0.524196  0.536344  0.339151  0.470025  0.545965  0.545965  0.489652
 2015.0  0.594656  0.831119  0.576251  0.745144  0.560249  0.560249  0.492643
-2025.0  0.721700  0.598944  1.014098  0.902159  0.786555  0.786555  0.606045
+2025.0  0.907844  0.689554  0.780034  0.861928  0.825713  0.825713  0.846633
 
          Ocn_086   Ocn_101   Ocn_070  ...   Ocn_090   Ocn_119   Ocn_109  \
 1855.0       NaN       NaN       NaN  ...       NaN       NaN       NaN
@@ -1575,7 +1398,7 @@ df_obs:
 1995.0  0.111560  0.228314  0.082739  ...  0.226947  0.194516  0.125404
 2005.0  0.230500  0.345507  0.559948  ...  0.463342  0.311364  0.545965
 2015.0  0.516225  0.439639  0.541845  ...  0.614403  0.492854  0.560249
-2025.0  0.682405  0.737460  0.646357  ...  1.018375  0.681892  0.786555
+2025.0  0.625364  0.899565  0.754819  ...  0.892957  0.493672  0.825713
 
          Ocn_097   Ocn_159   Ocn_087   Ocn_153   Ocn_169   Ocn_071   Ocn_072
 1855.0       NaN       NaN       NaN       NaN       NaN       NaN       NaN
@@ -1595,7 +1418,7 @@ df_obs:
 1995.0  0.145717  0.194516  0.432526  0.244548  0.194516  0.105454  0.105454
 2005.0  0.398888  0.311364  0.556371  0.227715  0.311364  0.456239  0.456239
 2015.0  0.561737  0.492854  0.708399  0.569747  0.492854  0.495962  0.495962
-2025.0  0.891832  0.681892  0.744754  0.744560  0.681892  0.622959  0.622959
+2025.0  0.977092  0.493672  0.254096  0.533054  0.493672  0.606433  0.606433
 
 [18 rows x 104 columns]
 slope:
@@ -1605,7 +1428,7 @@ intercept:
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">pdb_corals</span><span class="o">.</span><span class="n">plot_composite</span><span class="p">()</span>
@@ -1634,7 +1457,7 @@ Figure saved at: &#34;figs/coral_composites.pdf&#34;
 <section id="The-composite-of-ice-core-records">
 <h2>The composite of ice core records<a class="headerlink" href="#The-composite-of-ice-core-records" title="Permalink to this headline">¶</a></h2>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pdb_ice</span> <span class="o">=</span> <span class="n">pdb</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="s1">&#39;ptype&#39;</span><span class="p">,</span> <span class="n">keys</span><span class="o">=</span><span class="s1">&#39;ice&#39;</span><span class="p">)</span>
@@ -1650,7 +1473,7 @@ Figure saved at: &#34;figs/coral_composites.pdf&#34;
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pdb_ice</span><span class="o">.</span><span class="n">make_composite</span><span class="p">(</span>
@@ -1667,38 +1490,38 @@ Figure saved at: &#34;figs/coral_composites.pdf&#34;
 </div>
 <div class="output_area stderr docutils container">
 <div class="highlight"><pre>
-Analyzing ProxyRecord:  18%|█▊        | 9/49 [00:01&lt;00:07,  5.16it/s]/Users/fzhu/Apps/miniconda3/envs/cfr-env/lib/python3.9/site-packages/numpy/lib/function_base.py:495: RuntimeWarning: Mean of empty slice.
-  avg = a.mean(axis)
-/Users/fzhu/Apps/miniconda3/envs/cfr-env/lib/python3.9/site-packages/numpy/core/_methods.py:189: RuntimeWarning: invalid value encountered in double_scalars
+Analyzing ProxyRecord:  18%|█▊        | 9/49 [00:02&lt;00:11,  3.47it/s]/Users/fzhu/Apps/miniconda3/envs/cfr-env-py309/lib/python3.9/site-packages/numpy/lib/function_base.py:518: RuntimeWarning: Mean of empty slice.
+  avg = a.mean(axis, **keepdims_kw)
+/Users/fzhu/Apps/miniconda3/envs/cfr-env-py309/lib/python3.9/site-packages/numpy/core/_methods.py:190: RuntimeWarning: invalid value encountered in double_scalars
   ret = ret.dtype.type(ret / rcount)
-Analyzing ProxyRecord:  43%|████▎     | 21/49 [00:04&lt;00:05,  5.18it/s]/Users/fzhu/Apps/miniconda3/envs/cfr-env/lib/python3.9/site-packages/numpy/lib/function_base.py:495: RuntimeWarning: Mean of empty slice.
-  avg = a.mean(axis)
-/Users/fzhu/Apps/miniconda3/envs/cfr-env/lib/python3.9/site-packages/numpy/core/_methods.py:189: RuntimeWarning: invalid value encountered in double_scalars
+Analyzing ProxyRecord:  43%|████▎     | 21/49 [00:06&lt;00:08,  3.46it/s]/Users/fzhu/Apps/miniconda3/envs/cfr-env-py309/lib/python3.9/site-packages/numpy/lib/function_base.py:518: RuntimeWarning: Mean of empty slice.
+  avg = a.mean(axis, **keepdims_kw)
+/Users/fzhu/Apps/miniconda3/envs/cfr-env-py309/lib/python3.9/site-packages/numpy/core/_methods.py:190: RuntimeWarning: invalid value encountered in double_scalars
   ret = ret.dtype.type(ret / rcount)
-Analyzing ProxyRecord:  63%|██████▎   | 31/49 [00:06&lt;00:03,  5.03it/s]/Users/fzhu/Apps/miniconda3/envs/cfr-env/lib/python3.9/site-packages/numpy/lib/function_base.py:495: RuntimeWarning: Mean of empty slice.
-  avg = a.mean(axis)
-/Users/fzhu/Apps/miniconda3/envs/cfr-env/lib/python3.9/site-packages/numpy/core/_methods.py:189: RuntimeWarning: invalid value encountered in double_scalars
+Analyzing ProxyRecord:  63%|██████▎   | 31/49 [00:09&lt;00:05,  3.40it/s]/Users/fzhu/Apps/miniconda3/envs/cfr-env-py309/lib/python3.9/site-packages/numpy/lib/function_base.py:518: RuntimeWarning: Mean of empty slice.
+  avg = a.mean(axis, **keepdims_kw)
+/Users/fzhu/Apps/miniconda3/envs/cfr-env-py309/lib/python3.9/site-packages/numpy/core/_methods.py:190: RuntimeWarning: invalid value encountered in double_scalars
   ret = ret.dtype.type(ret / rcount)
-Analyzing ProxyRecord:  65%|██████▌   | 32/49 [00:06&lt;00:03,  5.05it/s]/Users/fzhu/Apps/miniconda3/envs/cfr-env/lib/python3.9/site-packages/numpy/lib/function_base.py:495: RuntimeWarning: Mean of empty slice.
-  avg = a.mean(axis)
-/Users/fzhu/Apps/miniconda3/envs/cfr-env/lib/python3.9/site-packages/numpy/core/_methods.py:189: RuntimeWarning: invalid value encountered in double_scalars
+Analyzing ProxyRecord:  65%|██████▌   | 32/49 [00:09&lt;00:04,  3.42it/s]/Users/fzhu/Apps/miniconda3/envs/cfr-env-py309/lib/python3.9/site-packages/numpy/lib/function_base.py:518: RuntimeWarning: Mean of empty slice.
+  avg = a.mean(axis, **keepdims_kw)
+/Users/fzhu/Apps/miniconda3/envs/cfr-env-py309/lib/python3.9/site-packages/numpy/core/_methods.py:190: RuntimeWarning: invalid value encountered in double_scalars
   ret = ret.dtype.type(ret / rcount)
-Analyzing ProxyRecord:  73%|███████▎  | 36/49 [00:07&lt;00:02,  5.12it/s]/Users/fzhu/Apps/miniconda3/envs/cfr-env/lib/python3.9/site-packages/numpy/lib/function_base.py:495: RuntimeWarning: Mean of empty slice.
-  avg = a.mean(axis)
-/Users/fzhu/Apps/miniconda3/envs/cfr-env/lib/python3.9/site-packages/numpy/core/_methods.py:189: RuntimeWarning: invalid value encountered in double_scalars
+Analyzing ProxyRecord:  73%|███████▎  | 36/49 [00:10&lt;00:03,  3.45it/s]/Users/fzhu/Apps/miniconda3/envs/cfr-env-py309/lib/python3.9/site-packages/numpy/lib/function_base.py:518: RuntimeWarning: Mean of empty slice.
+  avg = a.mean(axis, **keepdims_kw)
+/Users/fzhu/Apps/miniconda3/envs/cfr-env-py309/lib/python3.9/site-packages/numpy/core/_methods.py:190: RuntimeWarning: invalid value encountered in double_scalars
   ret = ret.dtype.type(ret / rcount)
-Analyzing ProxyRecord:  88%|████████▊ | 43/49 [00:08&lt;00:01,  5.15it/s]/Users/fzhu/Apps/miniconda3/envs/cfr-env/lib/python3.9/site-packages/numpy/lib/function_base.py:495: RuntimeWarning: Mean of empty slice.
-  avg = a.mean(axis)
-/Users/fzhu/Apps/miniconda3/envs/cfr-env/lib/python3.9/site-packages/numpy/core/_methods.py:189: RuntimeWarning: invalid value encountered in double_scalars
+Analyzing ProxyRecord:  88%|████████▊ | 43/49 [00:12&lt;00:01,  3.50it/s]/Users/fzhu/Apps/miniconda3/envs/cfr-env-py309/lib/python3.9/site-packages/numpy/lib/function_base.py:518: RuntimeWarning: Mean of empty slice.
+  avg = a.mean(axis, **keepdims_kw)
+/Users/fzhu/Apps/miniconda3/envs/cfr-env-py309/lib/python3.9/site-packages/numpy/core/_methods.py:190: RuntimeWarning: invalid value encountered in double_scalars
   ret = ret.dtype.type(ret / rcount)
-Analyzing ProxyRecord: 100%|██████████| 49/49 [00:09&lt;00:00,  5.11it/s]
-Bootstrapping:   0%|          | 0/207 [00:00&lt;?, ?it/s]/Users/fzhu/Github/cfr/cfr/utils.py:127: RuntimeWarning: Mean of empty slice
+Analyzing ProxyRecord: 100%|██████████| 49/49 [00:14&lt;00:00,  3.42it/s]
+Bootstrapping:   0%|          | 0/207 [00:00&lt;?, ?it/s]/Users/fzhu/Github/cfr/cfr/utils.py:132: RuntimeWarning: Mean of empty slice
   stats[i] = stat_func(samples[rand_ind])
-Bootstrapping: 100%|██████████| 207/207 [00:03&lt;00:00, 67.77it/s]
+Bootstrapping: 100%|██████████| 207/207 [00:04&lt;00:00, 44.46it/s]
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Check the composite infomation:</span>
@@ -1755,7 +1578,7 @@ df_obs:
 1995.0  0.113013 -0.020191  0.513645  0.224178  0.224178  0.953670  0.585728
 2005.0  0.299738  0.400907  1.225578  0.383425  0.383425  1.852015  1.665739
 2015.0  0.581113  0.715279  1.341981       NaN       NaN  3.126605  2.677361
-2025.0  0.778325  1.112580  0.937778       NaN       NaN  3.614207  3.113754
+2025.0  0.595227  0.442840  1.180095       NaN       NaN  3.074302  2.037046
 
          Ant_001   Ant_006   Ant_022  ...   Ant_017   Arc_072   Arc_005  \
 1855.0       NaN       NaN       NaN  ...       NaN -0.280897       NaN
@@ -1775,7 +1598,7 @@ df_obs:
 1995.0  0.067558  0.224178  0.067558  ...  0.233954  0.754574  0.925490
 2005.0  0.158230  0.383425  0.158230  ...  0.343302  1.515841  1.965930
 2015.0  0.323441       NaN  0.323441  ...       NaN  2.208421  3.132025
-2025.0  0.494990       NaN  0.494990  ...       NaN  2.283274  3.490996
+2025.0  0.420035       NaN  0.420035  ...       NaN  2.383328  2.713339
 
          Ant_019   Ant_014   Arc_018   Ant_025   Ant_004   Ant_021   Ant_026
 1855.0       NaN       NaN -0.292929       NaN       NaN       NaN       NaN
@@ -1795,7 +1618,7 @@ df_obs:
 1995.0  0.165074 -0.073291  0.760437  0.137430  0.219234  0.015530 -0.135029
 2005.0  0.334288  0.415313  1.557320  0.312354  0.203737  0.088824  0.516788
 2015.0       NaN  0.428496  2.293309       NaN  0.279991  0.308260  0.388682
-2025.0       NaN  1.066092  2.478646       NaN  0.496328  0.500786  1.201178
+2025.0       NaN  0.667534  2.463304       NaN  0.326596  0.245133  0.709142
 
 [18 rows x 49 columns]
 slope:
@@ -1805,7 +1628,7 @@ intercept:
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">pdb_ice</span><span class="o">.</span><span class="n">plot_composite</span><span class="p">()</span>

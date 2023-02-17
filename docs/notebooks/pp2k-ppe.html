@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>A Pseudoproxy Experiment with “pseudoPAGES2k” &#8212; cfr  documentation</title>
+    <title>PPE: A PDA-based reconstruction with pseudoPAGES2k &#8212; cfr  documentation</title>
     
     <link href="../_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
 <link href="../_static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
@@ -42,8 +42,7 @@
     <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "tex2jax_ignore|mathjax_ignore|document", "processClass": "tex2jax_process|mathjax_process|math|output_area"}})</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="GraphEM" href="../ug-graphem.html" />
-    <link rel="prev" title="LMR" href="../ug-lmr.html" />
+    <link rel="prev" title="Filter the pseudoPAGES2k dataset" href="pp2k-pdb-filter.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="None">
     
@@ -106,135 +105,32 @@
    Installation
   </a>
  </li>
- <li class="toctree-l1 has-children">
-  <a class="reference internal" href="../ug-proxy.html">
-   Proxy
+ <li class="toctree-l1 current active has-children">
+  <a class="reference internal" href="../ug-pp2k.html">
+   Illustration: pseudoPAGES2k
   </a>
-  <input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
+  <input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
   <label for="toctree-checkbox-1">
    <i class="fas fa-chevron-down">
    </i>
   </label>
-  <ul>
-   <li class="toctree-l2">
-    <a class="reference internal" href="proxy-io.html">
-     Input/Output of the Proxy Records
-    </a>
-   </li>
-  </ul>
- </li>
- <li class="toctree-l1 has-children">
-  <a class="reference internal" href="../ug-climate.html">
-   Climate
-  </a>
-  <input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/>
-  <label for="toctree-checkbox-2">
-   <i class="fas fa-chevron-down">
-   </i>
-  </label>
-  <ul class="simple">
-  </ul>
- </li>
- <li class="toctree-l1 has-children">
-  <a class="reference internal" href="../ug-psm.html">
-   PSM
-  </a>
-  <input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/>
-  <label for="toctree-checkbox-3">
-   <i class="fas fa-chevron-down">
-   </i>
-  </label>
-  <ul>
-   <li class="toctree-l2">
-    <a class="reference internal" href="psm-linear.html">
-     Univariate linear regression
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="psm-bilinear.html">
-     Bivariate linear regression
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="psm-ice-d18O.html">
-     PSM for ice core d18O
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="psm-lake-VarveThickness.html">
-     PSM for lake varve thickness
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="psm-coral-SrCa.html">
-     PSM for coral Sr/Ca
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="psm-coral-d18O.html">
-     PSM for coral d18O
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="psm-tree-TRW.html">
-     PSM for tree TRW (VS-Lite)
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="psm-tree-seasonality.html">
-     Detecting the seasonality of the trees
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="psm-tree-memory.html">
-     Detecting the biological memory in the trees
-    </a>
-   </li>
-  </ul>
- </li>
- <li class="toctree-l1 current active has-children">
-  <a class="reference internal" href="../ug-lmr.html">
-   LMR
-  </a>
-  <input checked="" class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/>
-  <label for="toctree-checkbox-4">
-   <i class="fas fa-chevron-down">
-   </i>
-  </label>
   <ul class="current">
+   <li class="toctree-l2">
+    <a class="reference internal" href="pp2k-pdb-load-viz.html">
+     Load and visualize the pseudoPAGES2k dataset
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="pp2k-pdb-filter.html">
+     Filter the pseudoPAGES2k dataset
+    </a>
+   </li>
    <li class="toctree-l2 current active">
     <a class="current reference internal" href="#">
-     A Pseudoproxy Experiment with “pseudoPAGES2k”
+     PPE: A PDA-based reconstruction with pseudoPAGES2k
     </a>
    </li>
   </ul>
- </li>
- <li class="toctree-l1 has-children">
-  <a class="reference internal" href="../ug-graphem.html">
-   GraphEM
-  </a>
-  <input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/>
-  <label for="toctree-checkbox-5">
-   <i class="fas fa-chevron-down">
-   </i>
-  </label>
-  <ul>
-   <li class="toctree-l2">
-    <a class="reference internal" href="graphem-quickstart.html">
-     GraphEM: basic workflow
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="graphem-ppe-pages2k.html">
-     A Pseudoproxy Experiment with GraphEM and pseudoPAGES2k
-    </a>
-   </li>
-  </ul>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../ug-api.html">
-   API Reference
-  </a>
  </li>
 </ul>
 
@@ -312,7 +208,7 @@ title="Source repository"
       </li>
       
       <li>
-        <a href="https://github.com/fzhu2e/cfr/issues/new?title=Issue%20on%20page%20%2Fnotebooks/lmr-ppe-pages2k.html&body=Your%20issue%20content%20here."
+        <a href="https://github.com/fzhu2e/cfr/issues/new?title=Issue%20on%20page%20%2Fnotebooks/pp2k-ppe.html&body=Your%20issue%20content%20here."
    class="headerbtn"
    data-toggle="tooltip"
 data-placement="left"
@@ -329,7 +225,7 @@ title="Open an issue"
       </li>
       
       <li>
-        <a href="https://github.com/fzhu2e/cfr/edit/master/notebooks/lmr-ppe-pages2k.ipynb"
+        <a href="https://github.com/fzhu2e/cfr/edit/master/notebooks/pp2k-ppe.ipynb"
    class="headerbtn"
    data-toggle="tooltip"
 data-placement="left"
@@ -357,7 +253,7 @@ title="Edit this page"
   <div class="menu-dropdown__content">
     <ul>
       <li>
-        <a href="../_sources/notebooks/lmr-ppe-pages2k.ipynb.txt"
+        <a href="../_sources/notebooks/pp2k-ppe.ipynb.txt"
    class="headerbtn"
    data-toggle="tooltip"
 data-placement="left"
@@ -433,13 +329,13 @@ title="Print to PDF"
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#Load-the-model-prior-(iCESM-simulated-tas-&amp;-pr-fields)-from-two-netCDF-files">
-     Load the model prior (iCESM simulated tas &amp; pr fields) from two netCDF files
+    <a class="reference internal nav-link" href="#Load-the-model-prior-(iCESM-simulated-tas-&amp;-pr-fields)">
+     Load the model prior (iCESM simulated tas &amp; pr fields)
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#Load-the-instrumental-observations-from-two-netCDF-files">
-     Load the instrumental observations from two netCDF files
+    <a class="reference internal nav-link" href="#Load-the-instrumental-observations">
+     Load the instrumental observations
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
@@ -520,7 +416,7 @@ title="Print to PDF"
         <div class="col pl-md-3 pl-lg-5 content-container">
             <!-- Table of contents that is only displayed when printing the page -->
             <div id="jb-print-docs-body" class="onlyprint">
-                <h1>A Pseudoproxy Experiment with “pseudoPAGES2k”</h1>
+                <h1>PPE: A PDA-based reconstruction with pseudoPAGES2k</h1>
                 <!-- Table of contents -->
                 <div id="print-main-content">
                     <div id="jb-print-toc">
@@ -547,13 +443,13 @@ title="Print to PDF"
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#Load-the-model-prior-(iCESM-simulated-tas-&amp;-pr-fields)-from-two-netCDF-files">
-     Load the model prior (iCESM simulated tas &amp; pr fields) from two netCDF files
+    <a class="reference internal nav-link" href="#Load-the-model-prior-(iCESM-simulated-tas-&amp;-pr-fields)">
+     Load the model prior (iCESM simulated tas &amp; pr fields)
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#Load-the-instrumental-observations-from-two-netCDF-files">
-     Load the instrumental observations from two netCDF files
+    <a class="reference internal nav-link" href="#Load-the-instrumental-observations">
+     Load the instrumental observations
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
@@ -892,9 +788,9 @@ div.rendered_html tbody tr:hover {
   background: rgba(66, 165, 245, 0.2);
 }
 </style>
-<section id="A-Pseudoproxy-Experiment-with-“pseudoPAGES2k”">
-<h1>A Pseudoproxy Experiment with “pseudoPAGES2k”<a class="headerlink" href="#A-Pseudoproxy-Experiment-with-“pseudoPAGES2k”" title="Permalink to this headline">¶</a></h1>
-<p>In this section, we illustrate the basic paleoclimate data assimilation (PDA) workflow with <code class="docutils literal notranslate"><span class="pre">cfr</span></code>, conducting a pseudoproxy experiment with “pseudoPAGES2k”</p>
+<section id="PPE:-A-PDA-based-reconstruction-with-pseudoPAGES2k">
+<h1>PPE: A PDA-based reconstruction with pseudoPAGES2k<a class="headerlink" href="#PPE:-A-PDA-based-reconstruction-with-pseudoPAGES2k" title="Permalink to this headline">¶</a></h1>
+<p>In this section, we illustrate the basic paleoclimate data assimilation (PDA) workflow with <code class="docutils literal notranslate"><span class="pre">cfr</span></code>, conducting a pseudoproxy experiment with the pseudoPAGES2k dataset.</p>
 <p>Required data to complete this tutorial:</p>
 <ul class="simple">
 <li><p>iCESM simulated air surface temperature: <a class="reference external" href="https://atmos.washington.edu/~rtardif/LMR/prior/tas_sfc_Amon_iCESM_past1000historical_085001-200512.nc">tas_sfc_Amon_iCESM_past1000historical_085001-200512.nc</a></p></li>
@@ -909,7 +805,6 @@ div.rendered_html tbody tr:hover {
 <span class="o">%</span><span class="k">autoreload</span> 2
 
 <span class="kn">import</span> <span class="nn">cfr</span>
-<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 </pre></div>
 </div>
@@ -947,12 +842,12 @@ div.rendered_html tbody tr:hover {
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_lmr-ppe-pages2k_3_1.png" src="../_images/notebooks_lmr-ppe-pages2k_3_1.png" />
+<img alt="../_images/notebooks_pp2k-ppe_3_1.png" src="../_images/notebooks_pp2k-ppe_3_1.png" />
 </div>
 </div>
 </section>
-<section id="Load-the-model-prior-(iCESM-simulated-tas-&amp;-pr-fields)-from-two-netCDF-files">
-<h3>Load the model prior (iCESM simulated tas &amp; pr fields) from two netCDF files<a class="headerlink" href="#Load-the-model-prior-(iCESM-simulated-tas-&-pr-fields)-from-two-netCDF-files" title="Permalink to this headline">¶</a></h3>
+<section id="Load-the-model-prior-(iCESM-simulated-tas-&amp;-pr-fields)">
+<h3>Load the model prior (iCESM simulated tas &amp; pr fields)<a class="headerlink" href="#Load-the-model-prior-(iCESM-simulated-tas-&-pr-fields)" title="Permalink to this headline">¶</a></h3>
 <p>The <code class="docutils literal notranslate"><span class="pre">job.load_clim()</span></code> method loads gridded climate data from netCDF files and calculate anomalies based on given reference time interval (<code class="docutils literal notranslate"><span class="pre">anom_period</span></code>). <code class="docutils literal notranslate"><span class="pre">tag='prior'</span></code> denotes that the loaded data will be used as the model prior.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
@@ -984,8 +879,8 @@ div.rendered_html tbody tr:hover {
 </pre></div></div>
 </div>
 </section>
-<section id="Load-the-instrumental-observations-from-two-netCDF-files">
-<h3>Load the instrumental observations from two netCDF files<a class="headerlink" href="#Load-the-instrumental-observations-from-two-netCDF-files" title="Permalink to this headline">¶</a></h3>
+<section id="Load-the-instrumental-observations">
+<h3>Load the instrumental observations<a class="headerlink" href="#Load-the-instrumental-observations" title="Permalink to this headline">¶</a></h3>
 <p>As a perfect model prior pseudoproxy experiment (PPE), we use the iCESM simulated fields as instrumental observations. Therefore, this step looks similar to the previous one, except for <code class="docutils literal notranslate"><span class="pre">tag='obs'</span></code>.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
@@ -1584,7 +1479,7 @@ KF updating: 100%|██████████| 1201/1201 [40:57&lt;00:00,  2.
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_lmr-ppe-pages2k_34_1.png" src="../_images/notebooks_lmr-ppe-pages2k_34_1.png" />
+<img alt="../_images/notebooks_pp2k-ppe_34_1.png" src="../_images/notebooks_pp2k-ppe_34_1.png" />
 </div>
 </div>
 </section>
@@ -1642,7 +1537,7 @@ KF updating: 100%|██████████| 1201/1201 [40:57&lt;00:00,  2.
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_lmr-ppe-pages2k_38_1.png" src="../_images/notebooks_lmr-ppe-pages2k_38_1.png" />
+<img alt="../_images/notebooks_pp2k-ppe_38_1.png" src="../_images/notebooks_pp2k-ppe_38_1.png" />
 </div>
 </div>
 <p>Calculate and visualize the coefficient of determination (<span class="math notranslate nohighlight">\(R^2\)</span>) between reconstructed and true pr fields.</p>
@@ -1681,7 +1576,7 @@ KF updating: 100%|██████████| 1201/1201 [40:57&lt;00:00,  2.
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_lmr-ppe-pages2k_40_1.png" src="../_images/notebooks_lmr-ppe-pages2k_40_1.png" />
+<img alt="../_images/notebooks_pp2k-ppe_40_1.png" src="../_images/notebooks_pp2k-ppe_40_1.png" />
 </div>
 </div>
 <div class="nbinput nblast docutils container">
@@ -1704,19 +1599,12 @@ KF updating: 100%|██████████| 1201/1201 [40:57&lt;00:00,  2.
                 
     <!-- Previous / next buttons -->
 <div class='prev-next-area'>
-    <a class='left-prev' id="prev-link" href="../ug-lmr.html" title="previous page">
+    <a class='left-prev' id="prev-link" href="pp2k-pdb-filter.html" title="previous page">
         <i class="fas fa-angle-left"></i>
         <div class="prev-next-info">
             <p class="prev-next-subtitle">previous</p>
-            <p class="prev-next-title">LMR</p>
+            <p class="prev-next-title">Filter the pseudoPAGES2k dataset</p>
         </div>
-    </a>
-    <a class='right-next' id="next-link" href="../ug-graphem.html" title="next page">
-    <div class="prev-next-info">
-        <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">GraphEM</p>
-    </div>
-    <i class="fas fa-angle-right"></i>
     </a>
 </div>
             </footer>

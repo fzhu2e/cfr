@@ -104,4 +104,5 @@ Similarly, if you'd like to enable the usage of the GraphEM algorithm, simply
 
 .. code-block:: bash
 
+    pip install Cython  # in case it's not installed yet
     pip install "cfr[graphem]"

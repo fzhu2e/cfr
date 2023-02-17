@@ -7,9 +7,10 @@
    :caption: User Guide
 
    ug-installation
-   ug-proxy
-   ug-climate
-   ug-psm
-   ug-lmr
-   ug-graphem
+   ug-pp2k
+..    ug-proxy
+..    ug-climate
+..    ug-psm
+..    ug-lmr
+..    ug-graphem
    ug-api

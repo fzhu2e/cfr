@@ -1,11 +1,12 @@
 {
  "cells": [
   {
+   "attachments": {},
    "cell_type": "markdown",
    "id": "dc8db0df-27bf-479a-ac6f-9d4bcd07f9b7",
    "metadata": {},
    "source": [
-    "# Proxy Composites"
+    "# Composites"
    ]
   },
   {

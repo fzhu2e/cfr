@@ -18,7 +18,11 @@
     "It can be applied to any proxy type that is believed to have a univariate linear relationship with a certain climate variable.\n",
     "It also supports a seasonality searching procedure to help determine the seasonality of a specific site.\n",
     "\n",
-    "For instance, this PSM can be applied to the `tree.MXD` records, which we believe have high linear correlation with the local temperature condition over a growing season."
+    "For instance, this PSM can be applied to the `tree.MXD` records, which we believe have high linear correlation with the local temperature condition over a growing season.\n",
+    "\n",
+    "Required data to complete this tutorial:\n",
+    "\n",
+    "- pseudoPAGES2k: [ppwn_SNR10_rta.nc](https://github.com/fzhu2e/cfr/raw/main/docsrc/notebooks/data/pp2k_nc/ppwn_SNR10_rta.nc)"
    ]
   },
   {
@@ -60,7 +64,7 @@
    "metadata": {},
    "outputs": [],
    "source": [
-    "df = pd.read_pickle('./data/pages2k_updated_Palmyra_dataset.pkl')\n",
+    "df = pd.read_pickle('./data/pages2k_dataset.pkl')\n",
     "pdb = cfr.ProxyDatabase().from_df(df)"
    ]
   },

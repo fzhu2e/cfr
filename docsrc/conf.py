@@ -13,8 +13,6 @@
 # import os
 # import sys
 # sys.path.insert(0, os.path.abspath('.'))
-import plotly.io as pio
-pio.renderers.default = 'sphinx_gallery'
 # -- Project information -----------------------------------------------------
 
 project = 'cfr'

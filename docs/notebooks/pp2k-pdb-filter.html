@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>Filter the pseudoPAGES2k dataset &#8212; cfr  documentation</title>
+    <title>Database Filtering &#8212; cfr  documentation</title>
     
     <link href="../_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
 <link href="../_static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
@@ -42,8 +42,8 @@
     <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "tex2jax_ignore|mathjax_ignore|document", "processClass": "tex2jax_process|mathjax_process|math|output_area"}})</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Dashboards" href="pp2k-pdb-dashboards.html" />
-    <link rel="prev" title="Load and visualize the pseudoPAGES2k dataset" href="pp2k-pdb-load-viz.html" />
+    <link rel="next" title="Validation Dashboards" href="pp2k-dashboards.html" />
+    <link rel="prev" title="Loading and Visualization" href="pp2k-pdb-load-viz.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="None">
     
@@ -118,25 +118,165 @@
   <ul class="current">
    <li class="toctree-l2">
     <a class="reference internal" href="pp2k-pdb-load-viz.html">
-     Load and visualize the pseudoPAGES2k dataset
+     Loading and Visualization
     </a>
    </li>
    <li class="toctree-l2 current active">
     <a class="current reference internal" href="#">
-     Filter the pseudoPAGES2k dataset
+     Database Filtering
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="pp2k-pdb-dashboards.html">
-     Dashboards
+    <a class="reference internal" href="pp2k-dashboards.html">
+     Validation Dashboards
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="pp2k-ppe.html">
-     PPE: A PDA-based reconstruction with pseudoPAGES2k
+    <a class="reference internal" href="pp2k-ppe-pda.html">
+     PPE: A PDA-based Reconstruction
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="pp2k-ppe-graphem.html">
+     PPE: A GraphEM-based Reconstruction
     </a>
    </li>
   </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../ug-proxy.html">
+   Proxy
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/>
+  <label for="toctree-checkbox-2">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="proxy-io.html">
+     Input/Output
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="proxy-composites.html">
+     Composites
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../ug-climate.html">
+   Climate
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/>
+  <label for="toctree-checkbox-3">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="climate-io.html">
+     Input/Output
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../ug-psm.html">
+   PSM
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/>
+  <label for="toctree-checkbox-4">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="psm-linear.html">
+     Univariate linear regression
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="psm-bilinear.html">
+     Bivariate linear regression
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="psm-ice-d18O.html">
+     PSM for ice core d18O
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="psm-lake-VarveThickness.html">
+     PSM for lake varve thickness
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="psm-coral-SrCa.html">
+     PSM for coral Sr/Ca
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="psm-coral-d18O.html">
+     PSM for coral d18O
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="psm-tree-TRW.html">
+     PSM for tree TRW (VS-Lite)
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="psm-tree-seasonality.html">
+     Detecting the seasonality of the trees
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="psm-tree-memory.html">
+     Detecting the biological memory in the trees
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../ug-lmr.html">
+   LMR
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/>
+  <label for="toctree-checkbox-5">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="lmr-basics.html">
+     Basic workflows
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../ug-graphem.html">
+   GraphEM
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/>
+  <label for="toctree-checkbox-6">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="graphem-quickstart.html">
+     GraphEM: basic workflow
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../ug-api.html">
+   API Reference
+  </a>
  </li>
 </ul>
 
@@ -324,7 +464,7 @@ title="Print to PDF"
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#filter-the-pseudopages2k-dataset-1">
+  <a class="reference internal nav-link" href="#Filter-the-pseudoPAGES2k-dataset">
    Filter the pseudoPAGES2k dataset
   </a>
   <ul class="nav section-nav flex-column">
@@ -369,7 +509,7 @@ title="Print to PDF"
         <div class="col pl-md-3 pl-lg-5 content-container">
             <!-- Table of contents that is only displayed when printing the page -->
             <div id="jb-print-docs-body" class="onlyprint">
-                <h1>Filter the pseudoPAGES2k dataset</h1>
+                <h1>Database Filtering</h1>
                 <!-- Table of contents -->
                 <div id="print-main-content">
                     <div id="jb-print-toc">
@@ -385,7 +525,7 @@ title="Print to PDF"
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#filter-the-pseudopages2k-dataset-1">
+  <a class="reference internal nav-link" href="#Filter-the-pseudoPAGES2k-dataset">
    Filter the pseudoPAGES2k dataset
   </a>
   <ul class="nav section-nav flex-column">
@@ -688,12 +828,12 @@ div.rendered_html tbody tr:hover {
   background: rgba(66, 165, 245, 0.2);
 }
 </style>
-<section id="Filter-the-pseudoPAGES2k-dataset">
-<h1>Filter the pseudoPAGES2k dataset<a class="headerlink" href="#Filter-the-pseudoPAGES2k-dataset" title="Permalink to this headline">¶</a></h1>
+<section id="Database-Filtering">
+<h1>Database Filtering<a class="headerlink" href="#Database-Filtering" title="Permalink to this headline">¶</a></h1>
 <p>In this section, we illustrate how to filter the pseudoPAGES2k dataset in various ways with <code class="docutils literal notranslate"><span class="pre">cfr</span></code>.</p>
 <p>Required data to complete this tutorial:</p>
 <ul class="simple">
-<li><p>pseudoPAGES2k: <a class="reference external" href="https://github.com/fzhu2e/cfr/raw/main/docsrc/notebooks/data/pp2k_nc/ppwn_SNR10_rta.nc">ppwn_SNR10_rta.nc</a></p></li>
+<li><p>pseudoPAGES2k: <a class="reference external" href="https://github.com/fzhu2e/paper-pseudoPAGES2k/raw/main/data/ppwn_SNR10_rta.nc">ppwn_SNR10_rta.nc</a></p></li>
 </ul>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
@@ -728,8 +868,8 @@ div.rendered_html tbody tr:hover {
 </div>
 </div>
 </section>
-<section id="filter-the-pseudopages2k-dataset-1">
-<h2>Filter the pseudoPAGES2k dataset<a class="headerlink" href="#filter-the-pseudopages2k-dataset-1" title="Permalink to this headline">¶</a></h2>
+<section id="Filter-the-pseudoPAGES2k-dataset">
+<h2>Filter the pseudoPAGES2k dataset<a class="headerlink" href="#Filter-the-pseudoPAGES2k-dataset" title="Permalink to this headline">¶</a></h2>
 <p>The <code class="docutils literal notranslate"><span class="pre">cfr.ProxyDatabase</span></code> class comes with a <code class="docutils literal notranslate"><span class="pre">.filter()</span></code> method that can help us filter the database in various ways.</p>
 <section id="By-proxy-types">
 <h3>By proxy types<a class="headerlink" href="#By-proxy-types" title="Permalink to this headline">¶</a></h3>
@@ -958,13 +1098,13 @@ div.rendered_html tbody tr:hover {
         <i class="fas fa-angle-left"></i>
         <div class="prev-next-info">
             <p class="prev-next-subtitle">previous</p>
-            <p class="prev-next-title">Load and visualize the pseudoPAGES2k dataset</p>
+            <p class="prev-next-title">Loading and Visualization</p>
         </div>
     </a>
-    <a class='right-next' id="next-link" href="pp2k-pdb-dashboards.html" title="next page">
+    <a class='right-next' id="next-link" href="pp2k-dashboards.html" title="next page">
     <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Dashboards</p>
+        <p class="prev-next-title">Validation Dashboards</p>
     </div>
     <i class="fas fa-angle-right"></i>
     </a>

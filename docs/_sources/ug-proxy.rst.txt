@@ -11,4 +11,4 @@ Topics include:
     .. notebooks/proxy-viz
     .. notebooks/proxy-analysis
     .. notebooks/proxy-get-nearest-climate
-    .. notebooks/proxy-composites
+    notebooks/proxy-composites

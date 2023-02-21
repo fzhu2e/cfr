@@ -5,7 +5,7 @@ LMR
 .. toctree::
     :maxdepth: 1
 
-    .. notebooks/lmr-basics
+    notebooks/lmr-basics
     .. notebooks/lmr-post
     .. notebooks/lmr-cfg
     .. notebooks/lmr-mc

@@ -42,6 +42,8 @@
     <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "tex2jax_ignore|mathjax_ignore|document", "processClass": "tex2jax_process|mathjax_process|math|output_area"}})</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Bivariate linear regression" href="psm-bilinear.html" />
+    <link rel="prev" title="PSM" href="../ug-psm.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="None">
     
@@ -98,7 +100,7 @@
   User Guide
  </span>
 </p>
-<ul class="nav bd-sidenav">
+<ul class="current nav bd-sidenav">
  <li class="toctree-l1">
   <a class="reference internal" href="../ug-installation.html">
    Installation
@@ -116,25 +118,165 @@
   <ul>
    <li class="toctree-l2">
     <a class="reference internal" href="pp2k-pdb-load-viz.html">
-     Load and visualize the pseudoPAGES2k dataset
+     Loading and Visualization
     </a>
    </li>
    <li class="toctree-l2">
     <a class="reference internal" href="pp2k-pdb-filter.html">
-     Filter the pseudoPAGES2k dataset
+     Database Filtering
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="pp2k-pdb-dashboards.html">
-     Dashboards
+    <a class="reference internal" href="pp2k-dashboards.html">
+     Validation Dashboards
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="pp2k-ppe.html">
-     PPE: A PDA-based reconstruction with pseudoPAGES2k
+    <a class="reference internal" href="pp2k-ppe-pda.html">
+     PPE: A PDA-based Reconstruction
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="pp2k-ppe-graphem.html">
+     PPE: A GraphEM-based Reconstruction
     </a>
    </li>
   </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../ug-proxy.html">
+   Proxy
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/>
+  <label for="toctree-checkbox-2">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="proxy-io.html">
+     Input/Output
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="proxy-composites.html">
+     Composites
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../ug-climate.html">
+   Climate
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/>
+  <label for="toctree-checkbox-3">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="climate-io.html">
+     Input/Output
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 current active has-children">
+  <a class="reference internal" href="../ug-psm.html">
+   PSM
+  </a>
+  <input checked="" class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/>
+  <label for="toctree-checkbox-4">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul class="current">
+   <li class="toctree-l2 current active">
+    <a class="current reference internal" href="#">
+     Univariate linear regression
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="psm-bilinear.html">
+     Bivariate linear regression
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="psm-ice-d18O.html">
+     PSM for ice core d18O
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="psm-lake-VarveThickness.html">
+     PSM for lake varve thickness
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="psm-coral-SrCa.html">
+     PSM for coral Sr/Ca
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="psm-coral-d18O.html">
+     PSM for coral d18O
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="psm-tree-TRW.html">
+     PSM for tree TRW (VS-Lite)
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="psm-tree-seasonality.html">
+     Detecting the seasonality of the trees
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="psm-tree-memory.html">
+     Detecting the biological memory in the trees
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../ug-lmr.html">
+   LMR
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/>
+  <label for="toctree-checkbox-5">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="lmr-basics.html">
+     Basic workflows
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../ug-graphem.html">
+   GraphEM
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/>
+  <label for="toctree-checkbox-6">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="graphem-quickstart.html">
+     GraphEM: basic workflow
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../ug-api.html">
+   API Reference
+  </a>
  </li>
 </ul>
 
@@ -680,6 +822,10 @@ div.rendered_html tbody tr:hover {
 <h1>Univariate linear regression<a class="headerlink" href="#Univariate-linear-regression" title="Permalink to this headline">¶</a></h1>
 <p>In this section, we introduce the default PSM in <code class="docutils literal notranslate"><span class="pre">cfr</span></code> based on univariate linear regression. It can be applied to any proxy type that is believed to have a univariate linear relationship with a certain climate variable. It also supports a seasonality searching procedure to help determine the seasonality of a specific site.</p>
 <p>For instance, this PSM can be applied to the <code class="docutils literal notranslate"><span class="pre">tree.MXD</span></code> records, which we believe have high linear correlation with the local temperature condition over a growing season.</p>
+<p>Required data to complete this tutorial:</p>
+<ul class="simple">
+<li><p>pseudoPAGES2k: <a class="reference external" href="https://github.com/fzhu2e/cfr/raw/main/docsrc/notebooks/data/pp2k_nc/ppwn_SNR10_rta.nc">ppwn_SNR10_rta.nc</a></p></li>
+</ul>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
@@ -702,7 +848,7 @@ div.rendered_html tbody tr:hover {
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_pickle</span><span class="p">(</span><span class="s1">&#39;./data/pages2k_updated_Palmyra_dataset.pkl&#39;</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_pickle</span><span class="p">(</span><span class="s1">&#39;./data/pages2k_dataset.pkl&#39;</span><span class="p">)</span>
 <span class="n">pdb</span> <span class="o">=</span> <span class="n">cfr</span><span class="o">.</span><span class="n">ProxyDatabase</span><span class="p">()</span><span class="o">.</span><span class="n">from_df</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -1927,6 +2073,20 @@ Wall time: 256 ms
                 
     <!-- Previous / next buttons -->
 <div class='prev-next-area'>
+    <a class='left-prev' id="prev-link" href="../ug-psm.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title">PSM</p>
+        </div>
+    </a>
+    <a class='right-next' id="next-link" href="psm-bilinear.html" title="next page">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Bivariate linear regression</p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
 </div>
             </footer>
         </div>

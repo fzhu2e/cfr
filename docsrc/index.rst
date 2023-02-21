@@ -8,9 +8,9 @@
 
    ug-installation
    ug-pp2k
-..    ug-proxy
-..    ug-climate
-..    ug-psm
-..    ug-lmr
-..    ug-graphem
+   ug-proxy
+   ug-climate
+   ug-psm
+   ug-lmr
+   ug-graphem
    ug-api

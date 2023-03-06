@@ -348,7 +348,7 @@ class Ice_d18O():
                 year (1d array: time): time axis [year in float]
                 d18Op (2d array: location, time): d18O of precipitation [permil]
                 pr (2d array: location, time): precipitation rate [kg m-2 s-1]
-                alt_diff 12d array: location): actual Altitude-Model Altitude [meters]
+                alt_diff (2d array: location): actual Altitude-Model Altitude [meters]
 
             Returns:
                 d18Oice (2d array: location, year in int): annualizd d18O of ice [permil]
@@ -857,7 +857,7 @@ class Coral_d18O:
     ''' The PSM is based on the forward model published by [Thompson, 2011]:
        <Thompson, D. M., T. R. Ault, M. N. Evans, J. E. Cole, and J. Emile-Geay (2011),
        Comparison of observed and simulated tropical climate trends using a forward
-       model of coral \u03b418O, Geophys.Res.Lett., 38, L14706, doi:10.1029/2011GL048224.>
+       model of coral d18O, Geophys.Res.Lett., 38, L14706, doi:10.1029/2011GL048224.>
        Returns a numpy array that is the same size and shape as the input vectors for SST, SSS.
     '''
     def __init__(self, pobj=None, model_tos_name='model.tos', model_d18Osw_name='model.d18Osw',
@@ -1042,7 +1042,7 @@ class VSLite:
         self.model_pr_name = model_pr_name
         self.climate_required = climate_required
 
-    def calibrate(self, calib_period=[1901, 2000], method='Bayesian'):
+    def calibrate(self, calib_period=[1901, 2000], method='Bayesian', **kwargs):
         proxy_time = self.pobj.time
         proxy_value = self.pobj.value
 
@@ -1077,7 +1077,7 @@ class VSLite:
             TRW = proxy_value
 
         if method == 'Bayesian':
-            res_dict = PyVSL.est_params(T, P, self.pobj.lat, TRW)
+            res_dict = PyVSL.est_params(T, P, self.pobj.lat, TRW, **kwargs)
         else:
             raise ValueError('Wrong estimation method for VSLite!')
 

@@ -78,6 +78,11 @@ class ClimateField:
         ''' Load data from a `xarray.DataArray`.
         '''
         new = self.copy()
+
+        if time_name not in da.dims:
+            # 2D array; add the time dimention
+            da = da.expand_dims({time_name: [np.datetime64('2000-01-01')]})
+            
         new.da = da
         new.refresh(time_name=time_name, lat_name=lat_name, lon_name=lon_name)
         return new

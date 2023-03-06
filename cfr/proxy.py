@@ -138,13 +138,14 @@ class ProxyRecord:
         tags (a set of str):
             the tags for the record, to enable tag filtering
     '''
-    def __init__(self, pid=None, time=None, value=None, lat=None, lon=None, ptype=None, tags=None,
+    def __init__(self, pid=None, time=None, value=None, lat=None, lon=None, elev=None, ptype=None, tags=None,
         value_name=None, value_unit=None, time_name=None, time_unit=None, seasonality=None):
         self.pid = pid
         self.time = time
         self.value = value
         self.lat = lat
         self.lon = np.mod(lon, 360) if lon is not None else None
+        self.elev = elev
         self.ptype = ptype
         self.tags = set() if tags is None else tags
 
@@ -237,6 +238,7 @@ class ProxyRecord:
             attrs={
                 'lat': self.lat,
                 'lon': self.lon,
+                'elev': self.elev,
                 'ptype': self.ptype,
                 'dt': self.dt,
                 'time_name': self.time_name,
@@ -262,6 +264,7 @@ class ProxyRecord:
         new.pid = da.name
         new.lat = da.attrs['lat'] if 'lat' in da.attrs else None
         new.lon = da.attrs['lon'] if 'lon' in da.attrs else None
+        new.elev = da.attrs['elev'] if 'elev' in da.attrs else None
         new.ptype = da.attrs['ptype'] if 'ptype' in da.attrs else None
 
         new.dt = np.median(np.diff(new.time))
@@ -343,7 +346,7 @@ class ProxyRecord:
         if verbose: utils.p_success(f'ProxyRecord.clim deleted for {self.pid}.')
 
     def get_clim(self, fields, tag=None, verbose=False, search_dist=5, load=True, **kwargs):
-        ''' Get the nearest climate from cliamte fields
+        ''' Get the nearest climate from climate fields
 
         Args:
             fields (list of cfr.climate.ClimateField): the climate fields
@@ -389,6 +392,16 @@ class ProxyRecord:
             if load: self.clim[name].da.load()
             if verbose: utils.p_success(f'{self.pid} >>> ProxyRecord.clim["{name}"] created.')
 
+    def correct_elev_tas(self, t_rate=-9.8, verbose=False):
+        ''' Correct the tas with t_rate = -9.8 degC/km upward by default.
+        '''
+        elev_diff = self.elev - self.clim['model.elev'].da.values[0]
+        self.clim['model.tas'] += t_rate * elev_diff/1e3
+
+        if verbose:
+            utils.p_hint(f'tas correction due to elevation difference (proxy - model): {elev_diff:.2f} meters.')
+            utils.p_success(f'{self.pid} >>> ProxyRecord.clim["model.tas"] corrected by: {t_rate * elev_diff/1e3:.2f} degC.')
+
     def del_pseudo(self, verbose=False):
         if hasattr(self, 'pseudo'): del self.pseudo
         if verbose: utils.p_success(f'ProxyRecord.pseudo deleted for {self.pid}.')
@@ -403,6 +416,7 @@ class ProxyRecord:
         if not hasattr(self, 'clim'):
             for var in model_vars:
                 self.get_clim(var, tag='model', verbose=verbose)
+
 
         mdl = psm(self)
         if hasattr(mdl, 'calibrate'):
@@ -854,7 +868,7 @@ class ProxyDatabase:
             else:
                 self.type_dict[t] += 1
 
-    def from_df(self, df, pid_column='paleoData_pages2kID', lat_column='geo_meanLat', lon_column='geo_meanLon',
+    def from_df(self, df, pid_column='paleoData_pages2kID', lat_column='geo_meanLat', lon_column='geo_meanLon', elev_column='geo_meanElev',
                 time_column='year', value_column='paleoData_values', proxy_type_column='paleoData_proxy', archive_type_column='archiveType',
                 value_name_column='paleoData_variableName', value_unit_column='paleoData_units',
                 verbose=False):
@@ -881,6 +895,7 @@ class ProxyDatabase:
             pid = row[pid_column]
             lat = row[lat_column]
             lon = np.mod(row[lon_column], 360)
+            elev = row[elev_column]
             time = np.array(row[time_column])
             value = np.array(row[value_column])
             time, value = utils.clean_ts(time, value)
@@ -888,7 +903,7 @@ class ProxyDatabase:
             value_unit=row[value_unit_column] if value_name_column in row else None
 
             record = ProxyRecord(
-                pid=pid, lat=lat, lon=lon,
+                pid=pid, lat=lat, lon=lon, elev=elev,
                 time=time, value=value, ptype=ptype,
                 value_name=value_name, value_unit=value_unit,
             )
@@ -1361,7 +1376,7 @@ class ProxyDatabase:
 
     def to_df(self):
         ''' Convert the proxy database to a `pandas.DataFrame`.'''
-        df = pd.DataFrame(columns=['pid', 'lat', 'lon', 'ptype', 'time', 'value'])
+        df = pd.DataFrame(columns=['pid', 'lat', 'lon', 'elev', 'ptype', 'time', 'value'])
         # df['time'] = df['time'].astype(object)  # not necessary after pandas 1.5.2
         # df['value'] = df['value'].astype(object) # not necessary after pandas 1.5.2
 
@@ -1370,6 +1385,7 @@ class ProxyDatabase:
             df.loc[i, 'pid'] = pobj.pid
             df.loc[i, 'lat'] = pobj.lat
             df.loc[i, 'lon'] = pobj.lon
+            df.loc[i, 'elev'] = pobj.elev
             df.loc[i, 'ptype'] = pobj.ptype
             df.loc[i, 'time'] = pobj.time
             df.loc[i, 'value'] = pobj.value

@@ -167,6 +167,20 @@ class ReconJob:
             pdb = self.proxydb.filter(*args, **kwargs)
             return pdb
 
+    def slice_proxydb(self, timespan=None, inplace=True, verbose=False):
+        ''' Slice the proxy database over a timespan.'''
+        timespan = self.io_cfg('slice_proxydb_timespan', timespan, default=(1000, 2000), verbose=verbose)
+        pdb_sliced = self.proxydb.slice(timespan=timespan)
+
+        if inplace:
+            self.proxydb = pdb_sliced
+        else:
+            return pdb_sliced
+                
+        if verbose and inplace:
+            p_success(f'>>> job.proxydb updated')
+
+
     def annualize_proxydb(self, months=None, ptypes=None, inplace=True, verbose=False, **kwargs):
         ''' Annualize the proxy database.
         
@@ -177,7 +191,7 @@ class ReconJob:
             verbose (bool, optional): print verbose information. Defaults to False.
         '''
         months = self.io_cfg('annualize_proxydb_months', months, default=list(range(1, 13)), verbose=verbose)
-        ptypes = self.io_cfg('annualize_proxydb_ptypes', ptypes, verbose=verbose)
+        ptypes = self.io_cfg('annualize_proxydb_ptypes', ptypes, default=set(self.proxydb.type_dict), verbose=verbose)
 
         if ptypes is None:
             if inplace:
@@ -196,7 +210,7 @@ class ReconJob:
                 pdb = pdb_ann + pdb_left
                 return pdb
                 
-        if verbose:
+        if verbose and inplace:
             p_success(f'>>> {self.proxydb.nrec} records remaining')
             p_success(f'>>> job.proxydb updated')
 
@@ -348,20 +362,23 @@ class ReconJob:
         ''' Calibrate the PSMs.
 
         Args:
-            ptype_psm_dict (dict): the dictionary to denote the PSM for each proxy type.
-            ptype_season_dict (dict): the dictionary to denote the seasonality for each proxy type.
+            ptype_psm_dict (dict): the dictionary to denote the PSM for each proxy type; 'Linear' for all by default.
+            ptype_season_dict (dict): the dictionary to denote the seasonality for each proxy type; calendar annual for all by default.
             calib_period (tuple or list): the time period for calibration.
             use_predefined_R (bool): use the predefined observation error covariance instead of by calibration.
             verbose (bool, optional): print verbose information. Defaults to False.
         '''
+        ptype_psm_dict_default = {ptype: 'Linear' for ptype in set(self.proxydb.type_list)}
+        ptype_season_dict_default={ptype: list(range(1, 13)) for ptype in set(self.proxydb.type_list)}
+        if ptype_psm_dict is not None: ptype_psm_dict_default.update(ptype_psm_dict)
+        if ptype_season_dict is not None: ptype_season_dict_default.update(ptype_season_dict)
+
         ptype_psm_dict = self.io_cfg(
-            'ptype_psm_dict', ptype_psm_dict,
-            default={ptype: 'Linear' for ptype in set(self.proxydb.type_list)},
+            'ptype_psm_dict', ptype_psm_dict_default,
             verbose=verbose)
 
         ptype_season_dict = self.io_cfg(
-            'ptype_season_dict', ptype_season_dict,
-            default={ptype: list(range(13)) for ptype in set(self.proxydb.type_list)},
+            'ptype_season_dict', ptype_season_dict_default,
             verbose=verbose)
 
         calib_period = self.io_cfg(

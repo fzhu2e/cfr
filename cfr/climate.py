@@ -176,7 +176,11 @@ class ClimateField:
         if lat_name != 'lat' or lon_name != 'lon':
             new = new.rename({lat_name: 'lat', lon_name: 'lon'}, modify_vn=False)  # rename dimension names only
 
+        if np.min(new.da.lon) < 0:
+            new = new.wrap_lon()
+
         if load: new.da.load()
+
         return new
 
     def to_nc(self, path, verbose=True, **kwargs):

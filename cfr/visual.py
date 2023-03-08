@@ -1240,7 +1240,7 @@ def make_lb(name, unit, wrap=False):
 
 def plot_scatter_map(values, lats, lons, levels=None,
     figsize=(12, 6), projection='Robinson', transform=ccrs.PlateCarree(),
-    ax=None, proj_args=None, central_longitude=0, stock_img=True, marker='o', ms=200, edge_clr='w', title=None, title_fs=20,
+    ax=None, proj_args=None, central_longitude=180, stock_img=True, marker='o', ms=200, edge_clr='w', title=None, title_fs=20,
     cmap='Reds', vmin=None, vmax=None, clim=None, cmap_under=None, cmap_over=None, cbar=True, cbar_ticks=None, cbar_labels=None, cbar_orientation='vertical',
     cbar_pad=0.05, cbar_extend='neither', cbar_fraction=0.15, cbar_shrink=0.5,
     cbar_title=None, cbar_title_x=0.5, cbar_title_y=1.05, cbar_aspect=10,

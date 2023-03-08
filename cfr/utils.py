@@ -150,8 +150,8 @@ def clean_ts(ts, ys):
     ys : array
         The time series without NaNs
     '''
-    ys = np.array(ys, dtype=np.float)
-    ts = np.array(ts, dtype=np.float)
+    ys = np.array(ys, dtype=float)
+    ts = np.array(ts, dtype=float)
     assert ys.size == ts.size, 'The size of time axis and data value should be equal!'
 
     ys_tmp = np.copy(ys)

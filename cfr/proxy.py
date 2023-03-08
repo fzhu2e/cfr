@@ -406,23 +406,32 @@ class ProxyRecord:
         if hasattr(self, 'pseudo'): del self.pseudo
         if verbose: utils.p_success(f'ProxyRecord.pseudo deleted for {self.pid}.')
 
-    def get_pseudo(self, psm, model_vars=None,
+    def get_pseudo(self, psm=None, signal=None, calibrate=True,
                    add_noise=False, noise='white', SNR=10, seed=None,
                    match_mean=False, match_var=False, verbose=False,
                    calib_kws=None, forward_kws=None, colored_noise_kws=None):
-        calib_kws = {} if calib_kws is None else calib_kws
-        forward_kws = {} if forward_kws is None else forward_kws
+        ''' Generate the pseudoproxy
 
-        if not hasattr(self, 'clim'):
-            for var in model_vars:
-                self.get_clim(var, tag='model', verbose=verbose)
+        Args:
+            psm (object): the PSM objects in `cfr.psm`
+            signal (cfr.ProxyRecord): the signal part for the pseudoproxy.
+                If not provided, it will be generated using the specified `psm`;
+                if provided, the PSM part will be skipped.
+            calibrate (bool): if True and the PSM supports calibration, then the PSM will be calibrated.
+            add_noise (bool): if True, noise will be added onto the `signal`.
+        '''
+        if signal is None:
+            calib_kws = {} if calib_kws is None else calib_kws
+            forward_kws = {} if forward_kws is None else forward_kws
 
+            mdl = psm(self)
+            if hasattr(mdl, 'calibrate') and calibrate:
+                mdl.calibrate(**calib_kws)
 
-        mdl = psm(self)
-        if hasattr(mdl, 'calibrate'):
-            mdl.calibrate(**calib_kws)
+            self.pseudo = mdl.forward(**forward_kws)
+        else:
+            self.pseudo = signal
 
-        self.pseudo = mdl.forward(**forward_kws)
         if verbose: utils.p_success(f'>>> ProxyRecord.pseudo created.')
 
         if add_noise:
@@ -1511,3 +1520,12 @@ class ProxyDatabase:
             new += pobj
 
         return new
+
+    def correct_elev_tas(self, t_rate=-9.8, verbose=False):
+        ''' Correct the tas with t_rate = -9.8 degC/km upward by default.
+        '''
+        for pobj in tqdm(self, total=self.nrec, desc='Performing elevation correction for tas for each ProxyRecord'):
+            pobj.correct_elev_tas(t_rate=t_rate)
+
+        if verbose:
+            utils.p_success(f'>>> ProxyDatabase updated with tas corrected for elevation bias.')

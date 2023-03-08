@@ -1086,6 +1086,8 @@ class VSLite:
             'T2': res_dict['T2'],
             'M1': res_dict['M1'],
             'M2': res_dict['M2'],
+            'Rhats': res_dict['Rhats'],
+            'convwarning': res_dict['convwarning'],
         }
 
     def forward(self, **vsl_kwargs):

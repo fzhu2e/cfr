@@ -238,7 +238,7 @@ class ProxyRecord:
             attrs={
                 'lat': self.lat,
                 'lon': self.lon,
-                'elev': self.elev,
+                'elev': np.nan if self.elev is None else self.elev,
                 'ptype': self.ptype,
                 'dt': self.dt,
                 'time_name': self.time_name,

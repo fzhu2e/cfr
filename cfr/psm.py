@@ -332,7 +332,7 @@ class Ice_d18O():
         self.d18O_name = d18O_name
         self.climate_required = climate_required
 
-    def forward(self, nproc=None):
+    def forward(self, alt_diff=0, nproc=None):
         ''' The ice d18O model
 
         It takes model simulated montly tas, pr, psl, d18O as input.
@@ -671,7 +671,12 @@ class Ice_d18O():
         psl_ann = self.pobj.clim[self.psl_name].annualize()
 
         # sensor model
-        d18O_ice = ice_sensor(self.pobj.clim[self.pr_name].time, self.pobj.clim[self.d18O_name].da.values, self.pobj.clim[self.pr_name].da.values)
+        d18O_ice = ice_sensor(
+            self.pobj.clim[self.pr_name].time,
+            self.pobj.clim[self.d18O_name].da.values,
+            self.pobj.clim[self.pr_name].da.values,
+            alt_diff=alt_diff,
+        )
 
         # diffuse model
         if nproc is None: nproc = cpu_count()
@@ -697,18 +702,12 @@ class Lake_VarveThickness():
 
     It takes summer temperature as input (JJA for NH and DJF for SH).
     '''
-    def __init__(self, pobj=None, model_tas_name='model.tas', H=None, shape=None, mean=None, SNR=None, seed=None,
-                 climate_required=['tas']):
+    def __init__(self, pobj=None, model_tas_name='model.tas', climate_required=['tas']):
         self.pobj = pobj
-        self.H = H
-        self.shape = shape
-        self.mean = mean
-        self.SNR = SNR
-        self.seed = seed
         self.model_tas_name = model_tas_name
         self.climate_required = climate_required
 
-    def forward(self):
+    def forward(self, H=None, shape=None, mean=None, SNR=None, seed=None, season=None):
 
         def simpleVarveModel(signal, H=0.75, shape=1.5, mean=1, SNR=.25, seed=0):
             ''' The python version of the simple varve model (in R lang) by Nick McKay
@@ -745,14 +744,16 @@ class Lake_VarveThickness():
 
             return res
 
-        def gammify(X, shape=1.5, mean=1, jitter=False, seed=0):
+        def gammify(X, shape=1.5, mean=1, jitter=False, seed=None):
             ''' Transform each **row** of data matrix X to a gaussian distribution using the inverse Rosenblatt transform
             '''
             X = np.matrix(X)
             n = np.shape(X)[0]  # number of rows
             p = np.shape(X)[1]  # number of columns
 
-            np.random.seed(seed)
+            if seed is not None:
+                np.random.seed(seed)
+
             if jitter:
                 # add tiny random numbers to aviod ties
                 X += np.random.normal(0, np.std(X)/1e6, n*p).reshape(n, p)
@@ -776,15 +777,17 @@ class Lake_VarveThickness():
             'shape': 1.5,
             'mean': 1,
             'SNR': 0.25,
-            'seed': 0,
+            'seed': None,
+            'season': [6, 7, 8]
         }
 
         input_args = {
-            'H': self.H,
-            'shape': self.shape,
-            'mean': self.mean,
-            'SNR': self.SNR,
-            'seed': self.seed,
+            'H': H,
+            'shape': shape,
+            'mean': mean,
+            'SNR': SNR,
+            'seed': seed,
+            'season': season,
         }
 
         for k, v in kwargs.items():
@@ -792,12 +795,15 @@ class Lake_VarveThickness():
                 kwargs[k] = input_args[k]
 
         # run the model
-        if self.pobj.lat > 0:
-            tas_ann = self.pobj.clim[self.model_tas_name].annualize(months=[6, 7, 8])
-        else:
-            tas_ann = self.pobj.clim[self.model_tas_name].annualize(months=[12, 1, 2])
-
-        varve_res = simpleVarveModel(tas_ann.da.values, **kwargs)
+        tas_ann = self.pobj.clim[self.model_tas_name].annualize(kwargs['season'])
+        varve_res = simpleVarveModel(
+            tas_ann.da.values,
+            H=kwargs['H'],
+            shape=kwargs['shape'],
+            mean=kwargs['mean'],
+            SNR=kwargs['SNR'],
+            seed=kwargs['seed'],
+        )
 
         pp = ProxyRecord(
             pid=self.pobj.pid,
@@ -817,26 +823,23 @@ class Lake_VarveThickness():
 class Coral_SrCa:
     ''' The coral Sr/Ca model
     '''
-    def __init__(self, pobj=None, model_tos_name='model.tos', b=10.553, a=None, seed=None, climate_required='tos'):
+    def __init__(self, pobj=None, model_tos_name='model.tos', climate_required='tos'):
         self.pobj = pobj
         self.model_tos_name = model_tos_name
-        self.b = b
-        self.a = a
-        self.seed = seed
         self.climate_required = climate_required
 
-    def forward(self):
+    def forward(self, b=10.553, a=None, seed=None):
         ''' Sensor model for Coral Sr/Ca = a * tos + b
 
         Args:
             tos (1-D array): sea surface temperature in [degC]
         '''
-        if self.a is None:
+        if a is None:
             mu = -0.06
             std = 0.01
-            self.a = stats.norm.rvs(loc=mu, scale=std, random_state=self.seed)
+            a = stats.norm.rvs(loc=mu, scale=std, random_state=seed)
 
-        SrCa = self.a*self.pobj.clim[self.model_tos_name].da.values + self.b
+        SrCa = a*self.pobj.clim[self.model_tos_name].da.values + b
 
         pp = ProxyRecord(
             pid=self.pobj.pid,
@@ -861,22 +864,15 @@ class Coral_d18O:
        Returns a numpy array that is the same size and shape as the input vectors for SST, SSS.
     '''
     def __init__(self, pobj=None, model_tos_name='model.tos', model_d18Osw_name='model.d18Osw',
-        climate_required=['tos', 'd18Osw'], species='default',
-        b1=0.3007062, b2=0.2619054, b3=0.436509, b4=0.1552032, b5=0.15):
+        climate_required=['tos', 'd18Osw'], species='default'):
         self.pobj = pobj
         self.model_tos_name = model_tos_name
         self.model_d18Osw_name = model_d18Osw_name
         self.species = species
-        self.b1 = b1
-        self.b2 = b2
-        self.b3 = b3
-        self.b4 = b4
-        self.b5 = b5
         self.climate_required = climate_required
 
-    def forward(self):
-        def pseudocoral(sst, sss=None, d18O=None, species="default", lat=None, lon=None, 
-                b1=0.3007062, b2=0.2619054, b3=0.436509, b4=0.1552032, b5=0.15):
+    def forward(self, b1=0.3007062, b2=0.2619054, b3=0.436509, b4=0.1552032, b5=0.15):
+        def pseudocoral(sst, sss=None, d18O=None, species="default", lat=None, lon=None):
 
             """
             DOCSTRING: Function 'pseudocoral' produces a d18O-coral record given SST, SSS, and global position.

@@ -60,6 +60,9 @@ class ClimateField:
         except:
             self.unit = None
 
+    def __len__(self):
+        return len(self.time)
+
     def wrap_lon(self, mode='360', time_name='time', lon_name='lon'):
         ''' Convert longitude values from the range (-180, 180) to (0, 360).
         '''
@@ -267,8 +270,8 @@ class ClimateField:
                 * 'R2': coefficient of determination
                 * 'CE': coefficient of efficiency
         '''
-        fd_slice = self.da.sel({time_name: slice(valid_period[0], valid_period[-1])})
-        ref_slice = ref.da.sel({time_name: slice(valid_period[0], valid_period[-1])})
+        fd_slice = self.da.sel({time_name: slice(str(valid_period[0]), str(valid_period[-1]))})
+        ref_slice = ref.da.sel({time_name: slice(str(valid_period[0]), str(valid_period[-1]))})
 
         if interp_direction == 'to-ref':
             fd_slice = fd_slice.interp({'lat': ref_slice.lat, 'lon': ref_slice.lon})
@@ -287,8 +290,8 @@ class ClimateField:
 
         if stat == 'corr':
             stat_da = xr.corr(fd_slice, ref_slice, dim=time_name)
-            stat_da = stat_da.expand_dims({'year': 1})
-            stat_fd = ClimateField().from_da(da=stat_da, time_name='year')
+            stat_da = stat_da.assign_coords({time_name: 1})
+            stat_fd = ClimateField().from_da(da=stat_da, time_name=time_name)
             stat_fd.vn = stat
             stat_fd.plot_kwargs = {
                 'cmap': 'RdBu_r',
@@ -299,8 +302,8 @@ class ClimateField:
             }
         elif stat == 'R2':
             stat_da = xr.corr(fd_slice, ref_slice, dim=time_name)
-            stat_da = stat_da.expand_dims({'year': 1})
-            stat_fd = ClimateField().from_da(da=stat_da**2, time_name='year')
+            stat_da = stat_da.assign_coords({time_name: 1})
+            stat_fd = ClimateField().from_da(da=stat_da**2, time_name=time_name)
             stat_fd.vn = stat
             stat_fd.plot_kwargs = {
                 'cmap': 'Reds',
@@ -311,8 +314,14 @@ class ClimateField:
             }
         elif stat == 'CE':
             ce = utils.coefficient_efficiency(ref_slice.values, fd_slice.values)
-            stat_da = xr.DataArray(ce[np.newaxis], coords={'year': [1], 'lat': fd_slice.lat, 'lon': fd_slice.lon})
-            stat_fd = ClimateField().from_da(da=stat_da, time_name='year')
+            stat_da = xr.DataArray(
+                ce[np.newaxis],
+                coords={
+                    time_name: [1],
+                    'lat': fd_slice.lat,
+                    'lon': fd_slice.lon,
+                })
+            stat_fd = ClimateField().from_da(da=stat_da, time_name=time_name)
             stat_fd.vn = stat
             stat_fd.plot_kwargs = {
                 'cmap': 'RdBu_r',

@@ -255,7 +255,7 @@ class ReconJob:
             p_success(f'>>> {target_pdb.nrec_tags(keys=["assim"])} records tagged "assim"')
             p_success(f'>>> {target_pdb.nrec_tags(keys=["eval"])} records tagged "eval"')
 
-    def load_clim(self, tag, path_dict=None, rename_dict=None, anom_period=None, time_name=None, lon_name=None, verbose=False):
+    def load_clim(self, tag, path_dict=None, rename_dict=None, anom_period=None, time_name=None, load=False, lon_name=None, verbose=False):
         ''' Load grided climate data, either model simulations or instrumental observations.
 
         Args:
@@ -265,6 +265,7 @@ class ReconJob:
             rename_dict (dict): the dictionary for renaming the variable names in the climate data files.
             anom_period (tuple or list): the time period for computing the anomaly.
             time_name (str): the name of the time dimension in the climate data files.
+            load (bool): if True, the data will be loaded into the memory instead of lazy-loading.
             lon_name (str): the name of the longitude dimension in the climate data files.
             verbose (bool, optional): print verbose information. Defaults to False.
         '''
@@ -282,12 +283,12 @@ class ReconJob:
                 vn_in_file = rename_dict[vn]
 
             if anom_period == 'null':
-                self.__dict__[tag][vn] = ClimateField().load_nc(path, vn=vn_in_file, time_name=time_name).wrap_lon(lon_name=lon_name, time_name=time_name)
+                self.__dict__[tag][vn] = ClimateField().load_nc(path, vn=vn_in_file, time_name=time_name, load=load).wrap_lon(lon_name=lon_name, time_name=time_name)
             else:
                 if time_name == 'time':
-                    self.__dict__[tag][vn] = ClimateField().load_nc(path, vn=vn_in_file, time_name=time_name).get_anom(ref_period=anom_period).wrap_lon(lon_name=lon_name, time_name=time_name)
+                    self.__dict__[tag][vn] = ClimateField().load_nc(path, vn=vn_in_file, time_name=time_name, load=load).get_anom(ref_period=anom_period).wrap_lon(lon_name=lon_name, time_name=time_name)
                 elif time_name == 'year':
-                    self.__dict__[tag][vn] = ClimateField().load_nc(path, vn=vn_in_file, time_name=time_name).center(ref_period=anom_period, time_name=time_name).wrap_lon(lon_name=lon_name, time_name=time_name)
+                    self.__dict__[tag][vn] = ClimateField().load_nc(path, vn=vn_in_file, time_name=time_name, load=load).center(ref_period=anom_period, time_name=time_name).wrap_lon(lon_name=lon_name, time_name=time_name)
 
             self.__dict__[tag][vn].da.name = vn
 

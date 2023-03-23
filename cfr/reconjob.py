@@ -304,7 +304,7 @@ class ReconJob:
             months (list): the list of months for annualization.
             verbose (bool, optional): print verbose information. Defaults to False.
         '''
-        months = self.io_cfg('prior_annualize_months', months, default=list(range(1, 13)), verbose=verbose)
+        months = self.io_cfg(f'{tag}_annualize_months', months, default=list(range(1, 13)), verbose=verbose)
 
         for vn, fd in self.__dict__[tag].items():
             if verbose: p_header(f'>>> Processing {vn} ...')
@@ -325,13 +325,13 @@ class ReconJob:
             periodic_lon (bool): if True, then assume the original longitudes form a loop.
         '''
         if lats is None and lons is None:
-            nlat = self.io_cfg('prior_regrid_nlat', nlat, default=42, verbose=verbose)
-            nlon = self.io_cfg('prior_regrid_nlon', nlon, default=63, verbose=verbose)
+            nlat = self.io_cfg(f'{tag}_regrid_nlat', nlat, default=42, verbose=verbose)
+            nlon = self.io_cfg(f'{tag}_regrid_nlon', nlon, default=63, verbose=verbose)
             lats = np.linspace(-90, 90, nlat)
             lons = np.linspace(0, 360, nlon)
         else:
-            lats = self.io_cfg('prior_regrid_lats', lats, verbose=verbose)
-            lons = self.io_cfg('prior_regrid_lons', lons, verbose=verbose)
+            lats = self.io_cfg(f'{tag}_regrid_lats', lats, verbose=verbose)
+            lons = self.io_cfg(f'{tag}_regrid_lons', lons, verbose=verbose)
 
         for vn, fd in self.__dict__[tag].items():
             if verbose: p_header(f'>>> Processing {vn} ...')

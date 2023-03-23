@@ -701,7 +701,7 @@ class ReconJob:
                 'pids_eval': pdb_eval.pids,
             }
 
-        # save to netCDF files
+        # save to a netCDF file
         ds.to_netcdf(save_path, encoding=encoding_dict)
 
         if verbose: p_success(f'>>> Reconstructed fields saved to: {save_path}')

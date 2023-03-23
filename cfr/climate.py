@@ -178,6 +178,8 @@ class ClimateField:
         new = ClimateField(da=da, time_name=time_name, lat_name=lat_name, lon_name=lon_name)
         if lat_name != 'lat' or lon_name != 'lon':
             new = new.rename({lat_name: 'lat', lon_name: 'lon'}, modify_vn=False)  # rename dimension names only
+            new.lat_name = 'lat'
+            new.lon_name = 'lon'
 
         if np.min(new.da.lon) < 0:
             new = new.wrap_lon()

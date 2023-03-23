@@ -1,3 +1,4 @@
+import os
 from datetime import datetime
 import xarray as xr
 import pandas as pd
@@ -7,6 +8,7 @@ import plotly.express as px
 from tqdm import tqdm
 from . import visual
 from . import utils
+from .ts import EnsTS
 import eofs
 
 
@@ -188,14 +190,22 @@ class ClimateField:
 
         return new
 
-    def to_nc(self, path, verbose=True, **kwargs):
+    def to_nc(self, path, verbose=True, compress_params=None):
         ''' Convert the climate field to a netCDF file.
 
         Args:
             path (str): the path where to save
         '''
-        self.da.to_netcdf(path, **kwargs)
-        if verbose: utils.p_success(f'ClimateField saved to: {path}')
+        _comp_params = {'zlib': True, 'least_significant_digit': 2}
+        encoding_dict = {}
+        if compress_params is not None:
+            _comp_params.update(compress_params)
+        encoding_dict[self.da.name] = _comp_params
+
+        dirpath = os.path.dirname(path)
+        os.makedirs(dirpath, exist_ok=True)
+        self.da.to_netcdf(path, encoding=encoding_dict)
+        if verbose: utils.p_success(f'ClimateField.da["{self.da.name}"] saved to: {path}')
 
     def copy(self):
         ''' Make a deepcopy of the object. '''
@@ -541,11 +551,12 @@ class ClimateField:
 
         return  new
 
-    def geo_mean(self, lat_min=-90, lat_max=90, lon_min=0, lon_max=360, lat_name='lat', lon_name='lon'):
+    def geo_mean(self, lat_min=-90, lat_max=90, lon_min=0, lon_max=360, lat_name='lat', lon_name='lon', time_name='year'):
         ''' Calculate the geographical mean value of the climate field. '''
         m = utils.geo_mean(self.da, lat_min=lat_min, lat_max=lat_max, lon_min=lon_min, lon_max=lon_max,
                            lat_name=lat_name, lon_name=lon_name)
-        return m
+        ts = EnsTS(time=m[time_name], value=m.values)
+        return ts
 
 
 # Not very useful at this moment.

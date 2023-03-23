@@ -270,8 +270,8 @@ class ClimateField:
                 * 'R2': coefficient of determination
                 * 'CE': coefficient of efficiency
         '''
-        fd_slice = self.da.sel({time_name: slice(str(valid_period[0]), str(valid_period[-1]))})
-        ref_slice = ref.da.sel({time_name: slice(str(valid_period[0]), str(valid_period[-1]))})
+        fd_slice = self.da.sel({time_name: slice(valid_period[0], valid_period[-1])})
+        ref_slice = ref.da.sel({time_name: slice(valid_period[0], valid_period[-1])})
 
         if interp_direction == 'to-ref':
             fd_slice = fd_slice.interp({'lat': ref_slice.lat, 'lon': ref_slice.lon})
@@ -325,7 +325,7 @@ class ClimateField:
             stat_fd.vn = stat
             stat_fd.plot_kwargs = {
                 'cmap': 'RdBu_r',
-                'extend': 'both',
+                'extend': 'min',
                 'levels': np.linspace(-1, 1, 21),
                 'cbar_labels': np.linspace(-1, 1, 11),
                 'cbar_title': r'$CE$',
@@ -416,6 +416,10 @@ class ClimateField:
             'cbar_title': cbar_title,
             'cmap': cmap,
         }
+
+        if hasattr(self, 'plot_kwargs'):
+            _kwargs.update(self.plot_kwargs)
+            
         _kwargs.update(kwargs)
         if len(self.da.dims) == 3:
             fig, ax =  visual.plot_field_map(self.da.values[it], self.lat, self.lon, **_kwargs)

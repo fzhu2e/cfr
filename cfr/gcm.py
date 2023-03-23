@@ -24,26 +24,36 @@ class CESMarchive:
         verbose (bool, optional): print verbose information. Defaults to False.
     '''
 
-    def __init__(self, dirpath, load_num=None, tag='h', exclude_tags=['nday', 'once'], verbose=False):
+    def __init__(self, dirpath, load_num=None, include_tags=['h'], exclude_tags=['nday', 'once'], verbose=False):
+        if type(include_tags) is str:
+            include_tags = [include_tags]
         if type(exclude_tags) is str:
             exclude_tags = [exclude_tags]
 
         try:
-            fpaths = sorted(glob.glob(os.path.join(dirpath, f'*{tag}*.nc')))
-            if load_num is not None:
-                fpaths = fpaths[:load_num]
+            fpaths = glob.glob(os.path.join(dirpath, '*.nc'))
             
             self.paths = []
             for path in fpaths:
+                fname = os.path.basename(path)
                 include = True
+
+                for in_tag in include_tags:
+                    if in_tag not in fname:
+                        include = False
+
                 for ex_tag in exclude_tags:
-                    if ex_tag in path:
+                    if ex_tag in fname:
                         include = False
 
                 if include:
                     self.paths.append(path)
+
+            self.paths = sorted(self.paths)
+            if load_num is not None:
+                self.paths = self.paths[:load_num]
         except:
-            raise ValueError('No CESM archive files available at `dirpath`!')
+            raise ValueError('No CESM archive files available in `dirpath`!')
 
         if verbose:
             p_header(f'>>> {len(self.paths)} CESMarchive.paths:')

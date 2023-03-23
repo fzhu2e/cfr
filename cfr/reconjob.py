@@ -214,6 +214,25 @@ class ReconJob:
             p_success(f'>>> {self.proxydb.nrec} records remaining')
             p_success(f'>>> job.proxydb updated')
 
+    def center_proxydb(self, ref_period=None, inplace=True, verbose=False):
+        ''' Center the proxy timeseries against a reference time period.
+
+        Args:
+            ref_period (tuple or list): the reference time period in the form or (start_yr, end_yr)
+            inplace (bool): if True, the annualized proxy database will replace the current `self.proxydb`.
+            verbose (bool, optional): print verbose information. Defaults to False.
+        '''
+        ref_period = self.io_cfg('proxydb_center_ref_period', ref_period, default=[1951, 1980], verbose=verbose)
+
+        centered_pdb = self.proxydb.center(ref_period)
+        if inplace:
+            self.proxydb = centered_pdb
+        else:
+            return centered_pdb
+
+        if verbose and inplace:
+            p_success(f'>>> job.proxydb updated')
+
     def clear_proxydb_tags(self, verbose=False):
         ''' Clear the tags for each proxy record in the proxy database.
         

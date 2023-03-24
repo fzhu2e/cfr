@@ -424,6 +424,7 @@ document.write(`
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.reconjob.ReconJob.annualize_clim"><code class="docutils literal notranslate"><span class="pre">ReconJob.annualize_clim()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.reconjob.ReconJob.annualize_proxydb"><code class="docutils literal notranslate"><span class="pre">ReconJob.annualize_proxydb()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.reconjob.ReconJob.calib_psms"><code class="docutils literal notranslate"><span class="pre">ReconJob.calib_psms()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.reconjob.ReconJob.center_proxydb"><code class="docutils literal notranslate"><span class="pre">ReconJob.center_proxydb()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.reconjob.ReconJob.clear_proxydb_tags"><code class="docutils literal notranslate"><span class="pre">ReconJob.clear_proxydb_tags()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.reconjob.ReconJob.copy"><code class="docutils literal notranslate"><span class="pre">ReconJob.copy()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.reconjob.ReconJob.crop_clim"><code class="docutils literal notranslate"><span class="pre">ReconJob.crop_clim()</span></code></a></li>
@@ -891,7 +892,7 @@ the default is by multiprocessing.cpu_count()</p></li>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="cfr.climate.ClimateField.geo_mean">
-<span class="sig-name descname"><span class="pre">geo_mean</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lat_min</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">-90</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lat_max</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">90</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lon_min</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lon_max</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">360</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lat_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'lat'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lon_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'lon'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.climate.ClimateField.geo_mean" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">geo_mean</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lat_min</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">-90</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lat_max</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">90</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lon_min</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lon_max</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">360</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lat_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'lat'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lon_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'lon'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'year'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.climate.ClimateField.geo_mean" title="Permalink to this definition">#</a></dt>
 <dd><p>Calculate the geographical mean value of the climate field.</p>
 </dd></dl>
 
@@ -960,7 +961,7 @@ the default is by multiprocessing.cpu_count()</p></li>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="cfr.climate.ClimateField.to_nc">
-<span class="sig-name descname"><span class="pre">to_nc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.climate.ClimateField.to_nc" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">to_nc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">compress_params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.climate.ClimateField.to_nc" title="Permalink to this definition">#</a></dt>
 <dd><p>Convert the climate field to a netCDF file.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -1176,6 +1177,21 @@ Returns a numpy array that is the same size and shape as the input vectors for S
 <li><p><strong>ptype_season_dict</strong> (<em>dict</em>) – the dictionary to denote the seasonality for each proxy type; calendar annual for all by default.</p></li>
 <li><p><strong>calib_period</strong> (<em>tuple</em><em> or </em><em>list</em>) – the time period for calibration.</p></li>
 <li><p><strong>use_predefined_R</strong> (<em>bool</em>) – use the predefined observation error covariance instead of by calibration.</p></li>
+<li><p><strong>verbose</strong> (<em>bool</em><em>, </em><em>optional</em>) – print verbose information. Defaults to False.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cfr.reconjob.ReconJob.center_proxydb">
+<span class="sig-name descname"><span class="pre">center_proxydb</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ref_period</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inplace</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.reconjob.ReconJob.center_proxydb" title="Permalink to this definition">#</a></dt>
+<dd><p>Center the proxy timeseries against a reference time period.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ref_period</strong> (<em>tuple</em><em> or </em><em>list</em>) – the reference time period in the form or (start_yr, end_yr)</p></li>
+<li><p><strong>inplace</strong> (<em>bool</em>) – if True, the annualized proxy database will replace the current <cite>self.proxydb</cite>.</p></li>
 <li><p><strong>verbose</strong> (<em>bool</em><em>, </em><em>optional</em>) – print verbose information. Defaults to False.</p></li>
 </ul>
 </dd>
@@ -1712,6 +1728,7 @@ The filename will be <cite>configs.yml</cite>.</p></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.reconjob.ReconJob.annualize_clim"><code class="docutils literal notranslate"><span class="pre">ReconJob.annualize_clim()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.reconjob.ReconJob.annualize_proxydb"><code class="docutils literal notranslate"><span class="pre">ReconJob.annualize_proxydb()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.reconjob.ReconJob.calib_psms"><code class="docutils literal notranslate"><span class="pre">ReconJob.calib_psms()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.reconjob.ReconJob.center_proxydb"><code class="docutils literal notranslate"><span class="pre">ReconJob.center_proxydb()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.reconjob.ReconJob.clear_proxydb_tags"><code class="docutils literal notranslate"><span class="pre">ReconJob.clear_proxydb_tags()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.reconjob.ReconJob.copy"><code class="docutils literal notranslate"><span class="pre">ReconJob.copy()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.reconjob.ReconJob.crop_clim"><code class="docutils literal notranslate"><span class="pre">ReconJob.crop_clim()</span></code></a></li>

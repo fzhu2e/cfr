@@ -63,7 +63,7 @@ class Case:
                 raise ValueError('No CESM archive files available in `dirpath`!')
 
             if verbose:
-                p_header(f'>>> {len(self.paths)} CESMarchive.paths:')
+                p_header(f'>>> {len(self.paths)} Case.paths:')
                 print(self.paths)
 
         elif mode == 'vars':
@@ -74,7 +74,7 @@ class Case:
                 self.fd[vn] = fd_tmp
 
             if verbose:
-                p_success(f'>>> CESMarchive loaded with vars: {list(self.fd.keys())}')
+                p_success(f'>>> Case loaded with vars: {list(self.fd.keys())}')
 
         else:
             raise ValueError('Wrong `mode` specified! Options: "archive" or "vars".')
@@ -123,7 +123,7 @@ class Case:
                 self.fd[vn].to_nc(save_path, compress_params=compress_params)
 
             if verbose:
-                p_success(f'>>> CESMarchive.fd["{vn}"] created')
+                p_success(f'>>> Case.fd["{vn}"] created')
 
     def plot_atm_gm(self, figsize=[10, 6], nrow=2, ncol=2, wspace=0.3, hspace=0.2, xlim=(0, 100), lw=2,
                     xlabel='Time [yr]', ylable_dict=None, color_dict=None, ylim_dict=None):

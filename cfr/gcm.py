@@ -74,7 +74,7 @@ class GCMCase:
                 self.fd[vn] = fd_tmp
 
             if verbose:
-                p_success(f'>>> Case loaded with vars: {list(self.fd.keys())}')
+                p_success(f'>>> GCMCase loaded with vars: {list(self.fd.keys())}')
 
         else:
             raise ValueError('Wrong `mode` specified! Options: "archive" or "vars".')
@@ -119,68 +119,67 @@ class GCMCase:
                 self.fd[vn].to_nc(save_path, compress_params=compress_params)
 
             if verbose:
-                p_success(f'>>> Case.fd["{vn}"] created')
+                p_success(f'>>> GCMCase.fd["{vn}"] created')
+
+    def calc_atm_gm(self, vns=['GMST', 'RESTOM', 'LWCF', 'SWCF'], verbose=False):
+        self.vars = {}
+
+        for vn in vns:
+            if vn == 'GMST':
+                v = 'TS' if 'TS' in self.fd else 'TREFHT'
+                gmst = self.fd[v].annualize().geo_mean()
+                self.vars[vn] = gmst - 273.15
+
+            elif vn == 'RESTOM':
+                restom = (self.fd['FSNT'] - self.fd['FLNT']).annualize().geo_mean()
+                self.vars[vn] = restom
+            
+            else:
+                self.vars[vn] = self.fd[vn].annualize().geo_mean()
+
+            if verbose:
+                p_success(f'>>> GCMCase.vars["{vn}"] created')
 
     def plot_atm_gm(self, figsize=[10, 6], ncol=2, wspace=0.3, hspace=0.2, xlim=(0, 100), lw=2, title=None,
                     label=None, xlabel='Time [yr]', ylable_dict=None, color_dict=None, ylim_dict=None, ax=None):
-        vars = {}
-        if 'TS' in self.fd:
-            gmst = self.fd['TS'].annualize().geo_mean()
-            vars['GMST'] = gmst - 273.15
-        elif 'TREFHT' in self.fd:
-            gmst = self.fd['TREFHT'].annualize().geo_mean()
-            vars['GMST'] = gmst
-
-        if 'FSNT' in self.fd and 'FLNT' in self.fd:
-            gmrestom = (self.fd['FSNT'] - self.fd['FLNT']).annualize().geo_mean()
-            vars['GMRESTOM'] = gmrestom
-
-        if 'LWCF' in self.fd:
-            gmlwcf = self.fd['LWCF'].annualize().geo_mean()
-            vars['GMLWCF'] = gmlwcf
-
-        if 'SWCF' in self.fd:
-            gmswcf = self.fd['SWCF'].annualize().geo_mean()
-            vars['GMSWCF'] = gmswcf
-
         if ax is None:
             fig = plt.figure(figsize=figsize)
             ax = {}
 
-        nrow = int(np.ceil(len(vars)/ncol))
+        nrow = int(np.ceil(len(self.vars)/ncol))
         gs = gridspec.GridSpec(nrow, ncol)
         gs.update(wspace=wspace, hspace=hspace)
 
         _ylim_dict = {
             'GMST': (13.5, 15.5),
-            'GMRESTOM': (-1, 3),
-            'GMLWCF': (24, 26),
-            'GMSWCF': (-54, -44),
+            'RESTOM': (-1, 3),
+            'LWCF': (24, 26),
+            'SWCF': (-54, -44),
         }
         if ylim_dict is not None:
             _ylim_dict.update(ylim_dict)
 
         _ylb_dict = {
             'GMST': r'GMST [$^\circ$C]',
-            'GMRESTOM': r'GMRESTOM [W/m$^2$]',
-            'GMLWCF': r'GMLWCF [W/m$^2$]',
-            'GMSWCF': r'GMSWCF [W/m$^2$]',
+            'RESTOM': r'RESTOM [W/m$^2$]',
+            'LWCF': r'LWCF [W/m$^2$]',
+            'SWCF': r'SWCF [W/m$^2$]',
         }
         if ylable_dict is not None:
             _ylb_dict.update(ylable_dict)
 
         _clr_dict = {
             'GMST': 'tab:red',
-            'GMRESTOM': 'tab:blue',
-            'GMLWCF': 'tab:green',
-            'GMSWCF': 'tab:orange',
+            'RESTOM': 'tab:blue',
+            'LWCF': 'tab:green',
+            'SWCF': 'tab:orange',
         }
         if color_dict is not None:
             _clr_dict.update(color_dict)
 
         i = 0
         i_row, i_col = 0, 0
-        for k, v in vars.items():
+        for k, v in self.vars.items():
             if 'fig' in locals():
                 ax[k] = fig.add_subplot(gs[i_row, i_col])
 
@@ -190,11 +189,11 @@ class GCMCase:
                 _xlb = None
 
 
-            if k == 'GMRESTOM':
+            if k == 'RESTOM':
                 ax[k].axhline(y=0, linestyle='--', color='tab:grey')
-            elif k == 'GMLWCF':
+            elif k == 'LWCF':
                 ax[k].axhline(y=25, linestyle='--', color='tab:grey')
-            elif k == 'GMSWCF':
+            elif k == 'SWCF':
                 ax[k].axhline(y=-47, linestyle='--', color='tab:grey')
 
             v.plot(
@@ -230,12 +229,17 @@ class GCMCases:
         for k, v in self.case_dict.items():
             v.name = k
 
-    def plot_atm_gm(self, lgd_kws=None, lgd_idx=0):
+    def calc_atm_gm(self, vns=['GMST', 'RESTOM', 'LWCF', 'SWCF'], verbose=False):
+        for k, v in self.case_dict.items():
+            p_header(f'Processing case: {k} ...')
+            v.calc_atm_gm(vns=vns, verbose=verbose)
+
+    def plot_atm_gm(self, lgd_kws=None, lgd_idx=1):
         _clr_dict = {
             'GMST': None,
-            'GMRESTOM': None,
-            'GMLWCF': None,
-            'GMSWCF': None,
+            'RESTOM': None,
+            'LWCF': None,
+            'SWCF': None,
         }
         for k, v in self.case_dict.items():
             if 'fig' not in locals():
@@ -246,6 +250,7 @@ class GCMCases:
         _lgd_kws = {
             'frameon': False,
             'loc': 'upper left',
+            'bbox_to_anchor': [1.1, 1],
         }
         if lgd_kws is not None:
             _lgd_kws.update(lgd_kws)

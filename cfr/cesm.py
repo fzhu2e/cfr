@@ -17,8 +17,8 @@ from .utils import (
     p_warning,
 )
 
-class ArchiveCESM:
-    ''' The class for postprocessing a CESM archive
+class Case:
+    ''' The class for postprocessing a CESM case
     
     Args:
         dirpath (str): the directory path where the reconstruction results are stored.

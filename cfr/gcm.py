@@ -18,7 +18,7 @@ from .utils import (
 )
 
 class Case:
-    ''' The class for postprocessing a CESM case
+    ''' The class for postprocessing a GCM simulation case (e.g., CESM)
     
     Args:
         dirpath (str): the directory path where the reconstruction results are stored.

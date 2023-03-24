@@ -63,7 +63,7 @@ class GCMCase:
                 raise ValueError('No CESM archive files available in `dirpath`!')
 
             if verbose:
-                p_header(f'>>> {len(self.paths)} Case.paths:')
+                p_header(f'>>> {len(self.paths)} GCMCase.paths:')
                 print(self.paths)
 
         elif mode == 'vars':

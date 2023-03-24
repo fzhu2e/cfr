@@ -243,9 +243,11 @@ class EnsTS:
         ax.margins(0)
         # plot timeseries
         _plot_kwargs = {'linewidth': 1}
+        if 'label' not in plot_kws:
+            plot_kws['label'] = self.value_name
         _plot_kwargs.update(plot_kws)
 
-        ax.plot(self.time, self.value, color=color, label=self.value_name, **_plot_kwargs)
+        ax.plot(self.time, self.value, color=color, **_plot_kwargs)
         ax.set_xlabel(xlabel)
         if ylabel is None: ylabel = self.value_name
         ax.set_ylabel(ylabel)

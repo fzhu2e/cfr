@@ -3,7 +3,7 @@ from .proxy import ProxyRecord, ProxyDatabase
 from .reconjob import ReconJob
 from .reconres import ReconRes
 from .ts import EnsTS
-from .gcm import Case
+from .gcm import GCMCase, GCMCases
 from . import utils
 
 try:

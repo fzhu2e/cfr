@@ -17,7 +17,7 @@ from .utils import (
     p_warning,
 )
 
-class Case:
+class GCMCase:
     ''' The class for postprocessing a GCM simulation case (e.g., CESM)
     
     Args:
@@ -121,8 +121,8 @@ class Case:
             if verbose:
                 p_success(f'>>> Case.fd["{vn}"] created')
 
-    def plot_atm_gm(self, figsize=[10, 6], ncol=2, wspace=0.3, hspace=0.2, xlim=(0, 100), lw=2,
-                    xlabel='Time [yr]', ylable_dict=None, color_dict=None, ylim_dict=None):
+    def plot_atm_gm(self, figsize=[10, 6], ncol=2, wspace=0.3, hspace=0.2, xlim=(0, 100), lw=2, title=None,
+                    label=None, xlabel='Time [yr]', ylable_dict=None, color_dict=None, ylim_dict=None, ax=None):
         vars = {}
         if 'TS' in self.fd:
             gmst = self.fd['TS'].annualize().geo_mean()
@@ -143,7 +143,10 @@ class Case:
             gmswcf = self.fd['SWCF'].annualize().geo_mean()
             vars['GMSWCF'] = gmswcf
 
-        fig = plt.figure(figsize=figsize)
+        if ax is None:
+            fig = plt.figure(figsize=figsize)
+            ax = {}
+
         nrow = int(np.ceil(len(vars)/ncol))
         gs = gridspec.GridSpec(nrow, ncol)
         gs.update(wspace=wspace, hspace=hspace)
@@ -175,11 +178,12 @@ class Case:
         if color_dict is not None:
             _clr_dict.update(color_dict)
 
-        ax = {}
         i = 0
         i_row, i_col = 0, 0
         for k, v in vars.items():
-            ax[k] = fig.add_subplot(gs[i_row, i_col])
+            if 'fig' in locals():
+                ax[k] = fig.add_subplot(gs[i_row, i_col])
+
             if i_row == nrow-1:
                 _xlb = xlabel
             else:
@@ -196,7 +200,7 @@ class Case:
             v.plot(
                 ax=ax[k], xlim=xlim, ylim=_ylim_dict[k],
                 linewidth=lw, xlabel=_xlb, ylabel=_ylb_dict[k],
-                color=_clr_dict[k],
+                color=_clr_dict[k], label=label,
             )
 
             i += 1
@@ -208,12 +212,46 @@ class Case:
             if i_col == ncol:
                 i_col = 0
 
-        if self.name is not None:
-            fig.suptitle(self.name)
+        if title is not None:
+            fig.suptitle(title)
 
-        return fig, ax
+        if 'fig' in locals():
+            return fig, ax
+        else:
+            return ax
             
                 
 
+class GCMCases:
+    ''' The class for postprocessing multiple GCM simulation cases (e.g., CESM)
+    '''
+    def __init__(self, case_dict=None):
+        self.case_dict = case_dict
+        for k, v in self.case_dict.items():
+            v.name = k
 
+    def plot_atm_gm(self, lgd_kws=None, lgd_idx=0):
+        _clr_dict = {
+            'GMST': None,
+            'GMRESTOM': None,
+            'GMLWCF': None,
+            'GMSWCF': None,
+        }
+        for k, v in self.case_dict.items():
+            if 'fig' not in locals():
+                fig, ax = v.plot_atm_gm(color_dict=_clr_dict, label=v.name)
+            else:
+                ax = v.plot_atm_gm(ax=ax, color_dict=_clr_dict, label=v.name)
+
+        _lgd_kws = {
+            'frameon': False,
+            'loc': 'upper left',
+        }
+        if lgd_kws is not None:
+            _lgd_kws.update(lgd_kws)
+
+        vn = list(ax.keys())[lgd_idx]
+        ax[vn].legend(**_lgd_kws)
+
+        return fig, ax
             

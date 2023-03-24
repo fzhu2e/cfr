@@ -449,7 +449,7 @@ document.write(`
 <div class="output_area docutils container">
 <div class="highlight"><pre>
 <span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;annualize_proxydb_months&#34;] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
-</span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;annualize_proxydb_ptypes&#34;] = {&#39;coral.SrCa&#39;, &#39;coral.d18O&#39;}
+</span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;annualize_proxydb_ptypes&#34;] = {&#39;coral.d18O&#39;, &#39;coral.SrCa&#39;}
 </span>
 </pre></div></div>
 </div>
@@ -458,7 +458,7 @@ document.write(`
 </div>
 <div class="output_area stderr docutils container">
 <div class="highlight"><pre>
-Annualizing ProxyRecord: 100%|██████████| 96/96 [00:02&lt;00:00, 46.47it/s]
+Annualizing ProxyRecord: 100%|██████████| 96/96 [00:01&lt;00:00, 48.44it/s]
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
@@ -486,11 +486,20 @@ Annualizing ProxyRecord: 100%|██████████| 96/96 [00:02&lt;00
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">job</span><span class="o">.</span><span class="n">proxydb</span> <span class="o">=</span> <span class="n">job</span><span class="o">.</span><span class="n">proxydb</span><span class="o">.</span><span class="n">center</span><span class="p">([</span><span class="mi">1951</span><span class="p">,</span> <span class="mi">1980</span><span class="p">])</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">job</span><span class="o">.</span><span class="n">center_proxydb</span><span class="p">(</span><span class="n">ref_period</span><span class="o">=</span><span class="p">[</span><span class="mi">1951</span><span class="p">,</span> <span class="mi">1980</span><span class="p">],</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
-<div class="nboutput nblast docutils container">
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+<span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;proxydb_center_ref_period&#34;] = [1951, 1980]
+</span>
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area stderr docutils container">
@@ -499,7 +508,24 @@ Centering each of the ProxyRecord:   0%|          | 0/96 [00:00&lt;?, ?it/s]/Use
   return _methods._mean(a, axis=axis, dtype=dtype,
 /Users/fengzhu/Apps/miniconda3/envs/cfr-env/lib/python3.9/site-packages/numpy/core/_methods.py:190: RuntimeWarning: invalid value encountered in double_scalars
   ret = ret.dtype.type(ret / rcount)
-Centering each of the ProxyRecord: 100%|██████████| 96/96 [00:00&lt;00:00, 10223.52it/s]
+Centering each of the ProxyRecord: 100%|██████████| 96/96 [00:00&lt;00:00, 9260.87it/s]
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+<span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; job.proxydb updated
+</span>
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+
 </pre></div></div>
 </div>
 <p>GraphEM requires that the proxy availability to be as uniform as possible, we thus filter the proxy database further to achieve that.</p>

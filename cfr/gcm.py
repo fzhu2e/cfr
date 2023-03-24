@@ -4,6 +4,8 @@ import xarray as xr
 import numpy as np
 from tqdm import tqdm
 import datetime
+import matplotlib.pyplot as plt
+from matplotlib import gridspec
 from . import visual
 from .climate import ClimateField
 from .utils import (
@@ -15,51 +17,68 @@ from .utils import (
     p_warning,
 )
 
-class CESMarchive:
-    ''' The class for postprocessing the CESM archives
+class ArchiveCESM:
+    ''' The class for postprocessing a CESM archive
     
     Args:
         dirpath (str): the directory path where the reconstruction results are stored.
         load_num (int): the number of ensembles to load
+        mode (str): if 'archive', then assume files are loaded from the archive director;
+            if 'vars', then assume files are loaded from the director for the processed variables.
         verbose (bool, optional): print verbose information. Defaults to False.
     '''
 
-    def __init__(self, dirpath, load_num=None, include_tags=['h'], exclude_tags=['nday', 'once'], verbose=False):
-        if type(include_tags) is str:
-            include_tags = [include_tags]
-        if type(exclude_tags) is str:
-            exclude_tags = [exclude_tags]
-
-        try:
-            fpaths = glob.glob(os.path.join(dirpath, '*.nc'))
-            
-            self.paths = []
-            for path in fpaths:
-                fname = os.path.basename(path)
-                include = True
-
-                for in_tag in include_tags:
-                    if in_tag not in fname:
-                        include = False
-
-                for ex_tag in exclude_tags:
-                    if ex_tag in fname:
-                        include = False
-
-                if include:
-                    self.paths.append(path)
-
-            self.paths = sorted(self.paths)
-            if load_num is not None:
-                self.paths = self.paths[:load_num]
-        except:
-            raise ValueError('No CESM archive files available in `dirpath`!')
-
-        if verbose:
-            p_header(f'>>> {len(self.paths)} CESMarchive.paths:')
-            print(self.paths)
-
+    def __init__(self, dirpath=None, load_num=None, name=None, include_tags=['h'], exclude_tags=['nday', 'once'], mode='archive', verbose=False):
         self.fd = {}
+        self.name = name
+        if mode == 'archive':
+            if type(include_tags) is str:
+                include_tags = [include_tags]
+            if type(exclude_tags) is str:
+                exclude_tags = [exclude_tags]
+
+            try:
+                fpaths = glob.glob(os.path.join(dirpath, '*.nc'))
+
+                self.paths = []
+                for path in fpaths:
+                    fname = os.path.basename(path)
+                    include = True
+
+                    for in_tag in include_tags:
+                        if in_tag not in fname:
+                            include = False
+
+                    for ex_tag in exclude_tags:
+                        if ex_tag in fname:
+                            include = False
+
+                    if include:
+                        self.paths.append(path)
+
+                self.paths = sorted(self.paths)
+                if load_num is not None:
+                    self.paths = self.paths[:load_num]
+            except:
+                raise ValueError('No CESM archive files available in `dirpath`!')
+
+            if verbose:
+                p_header(f'>>> {len(self.paths)} CESMarchive.paths:')
+                print(self.paths)
+
+        elif mode == 'vars':
+            fpaths = glob.glob(os.path.join(dirpath, '*.nc'))
+            for path in fpaths:
+                fd_tmp = ClimateField().load_nc(path)
+                vn = fd_tmp.da.name
+                self.fd[vn] = fd_tmp
+
+            if verbose:
+                p_success(f'>>> CESMarchive loaded with vars: {list(self.fd.keys())}')
+
+        else:
+            raise ValueError('Wrong `mode` specified! Options: "archive" or "vars".')
+
 
     def get_ds(self, fid=0):
         ''' Get a `xarray.Dataset` from a certain file
@@ -105,5 +124,99 @@ class CESMarchive:
 
             if verbose:
                 p_success(f'>>> CESMarchive.fd["{vn}"] created')
+
+    def plot_atm_gm(self, figsize=[10, 6], nrow=2, ncol=2, wspace=0.3, hspace=0.2, xlim=(0, 100), lw=2,
+                    xlabel='Time [yr]', ylable_dict=None, color_dict=None, ylim_dict=None):
+        vars = {}
+        if 'TS' in self.fd:
+            gmst = self.fd['TS'].annualize().geo_mean()
+            vars['GMST'] = gmst - 273.15
+        elif 'TREFHT' in self.fd:
+            gmst = self.fd['TREFHT'].annualize().geo_mean()
+            vars['GMST'] = gmst
+
+        if 'FSNT' in self.fd and 'FLNT' in self.fd:
+            gmrestom = (self.fd['FSNT'] - self.fd['FLNT']).annualize().geo_mean()
+            vars['GMRESTOM'] = gmrestom
+
+        if 'LWCF' in self.fd:
+            gmlwcf = self.fd['LWCF'].annualize().geo_mean()
+            vars['GMLWCF'] = gmlwcf
+
+        if 'SWCF' in self.fd:
+            gmswcf = self.fd['SWCF'].annualize().geo_mean()
+            vars['GMSWCF'] = gmswcf
+
+        fig = plt.figure(figsize=figsize)
+        gs = gridspec.GridSpec(nrow, ncol)
+        gs.update(wspace=wspace, hspace=hspace)
+
+        _ylim_dict = {
+            'GMST': (13.5, 15.5),
+            'GMRESTOM': (-1, 3),
+            'GMLWCF': (24, 26),
+            'GMSWCF': (-54, -44),
+        }
+        if ylim_dict is not None:
+            _ylim_dict.update(ylim_dict)
+
+        _ylb_dict = {
+            'GMST': r'GMST [$^\circ$C]',
+            'GMRESTOM': r'GMRESTOM [W/m$^2$]',
+            'GMLWCF': r'GMLWCF [W/m$^2$]',
+            'GMSWCF': r'GMSWCF [W/m$^2$]',
+        }
+        if ylable_dict is not None:
+            _ylb_dict.update(ylable_dict)
+
+        _clr_dict = {
+            'GMST': 'tab:red',
+            'GMRESTOM': 'tab:blue',
+            'GMLWCF': 'tab:green',
+            'GMSWCF': 'tab:orange',
+        }
+        if color_dict is not None:
+            _clr_dict.update(color_dict)
+
+        ax = {}
+        i = 0
+        i_row, i_col = 0, 0
+        for k, v in vars.items():
+            ax[k] = fig.add_subplot(gs[i_row, i_col])
+            if i_row == nrow-1:
+                _xlb = xlabel
+            else:
+                _xlb = None
+
+
+            if k == 'GMRESTOM':
+                ax[k].axhline(y=0, linestyle='--', color='tab:grey')
+            elif k == 'GMLWCF':
+                ax[k].axhline(y=25, linestyle='--', color='tab:grey')
+            elif k == 'GMSWCF':
+                ax[k].axhline(y=-47, linestyle='--', color='tab:grey')
+
+            v.plot(
+                ax=ax[k], xlim=xlim, ylim=_ylim_dict[k],
+                linewidth=lw, xlabel=_xlb, ylabel=_ylb_dict[k],
+                color=_clr_dict[k],
+            )
+
+            i += 1
+            i_col += 1
+
+            if i % 2 == 0:
+                i_row += 1
+
+            if i_col == ncol:
+                i_col = 0
+
+        if self.name is not None:
+            fig.suptitle(self.name)
+
+        return fig, ax
+            
+                
+
 
             

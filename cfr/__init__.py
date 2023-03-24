@@ -1,5 +1,5 @@
 from .climate import ClimateField
-from .gcm import CESMarchive
+from .gcm import ArchiveCESM
 from .proxy import ProxyRecord, ProxyDatabase
 from .reconjob import ReconJob
 from .reconres import ReconRes

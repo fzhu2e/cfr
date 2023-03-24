@@ -1,5 +1,4 @@
 from .climate import ClimateField
-from .gcm import CaCasC
 from .proxy import ProxyRecord, ProxyDatabase
 from .reconjob import ReconJob
 from .reconres import ReconRes

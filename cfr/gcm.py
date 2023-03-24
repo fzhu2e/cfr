@@ -67,7 +67,7 @@ class GCMCase:
                 print(self.paths)
 
         elif mode == 'vars':
-            fpaths = glob.glob(os.path.join(dirpath, '*.nc'))
+            fpaths = sorted(glob.glob(os.path.join(dirpath, '*.nc')))
             for path in fpaths:
                 fd_tmp = ClimateField().load_nc(path)
                 vn = fd_tmp.da.name
@@ -140,8 +140,10 @@ class GCMCase:
             if verbose:
                 p_success(f'>>> GCMCase.vars["{vn}"] created')
 
-    def plot_atm_gm(self, figsize=[10, 6], ncol=2, wspace=0.3, hspace=0.2, xlim=(0, 100), lw=2, title=None,
-                    label=None, xlabel='Time [yr]', ylable_dict=None, color_dict=None, ylim_dict=None, ax=None):
+    def plot_atm_gm(self, figsize=[10, 6], ncol=2, wspace=0.3, hspace=0.2, xlim=(0, 100), title=None,
+                    xlabel='Time [yr]', ylable_dict=None, color_dict=None, ylim_dict=None,
+                    ax=None, **plot_kws):
+
         if ax is None:
             fig = plt.figure(figsize=figsize)
             ax = {}
@@ -196,10 +198,17 @@ class GCMCase:
             elif k == 'SWCF':
                 ax[k].axhline(y=-47, linestyle='--', color='tab:grey')
 
+            _plot_kws = {
+                'linewidth': 2,
+            }
+            if plot_kws is not None:
+                _plot_kws.update(plot_kws)
+            
+
             v.plot(
                 ax=ax[k], xlim=xlim, ylim=_ylim_dict[k],
-                linewidth=lw, xlabel=_xlb, ylabel=_ylb_dict[k],
-                color=_clr_dict[k], label=label,
+                xlabel=_xlb, ylabel=_ylb_dict[k],
+                color=_clr_dict[k], **_plot_kws,
             )
 
             i += 1

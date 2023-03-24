@@ -114,18 +114,14 @@ class Case:
             self.fd[vn] = ClimateField().from_da(da)
 
             if save_dirpath is not None:
-                year_start = da[time_name].values[0].year
-                month_start = da[time_name].values[0].month
-                year_end = da[time_name].values[-1].year
-                month_end = da[time_name].values[-1].month
-                fname = f'{vn}.{year_start:04d}{month_start:02d}-{year_end:04d}{month_end:02d}.nc'
+                fname = f'{vn}.nc'
                 save_path = os.path.join(save_dirpath, fname)
                 self.fd[vn].to_nc(save_path, compress_params=compress_params)
 
             if verbose:
                 p_success(f'>>> Case.fd["{vn}"] created')
 
-    def plot_atm_gm(self, figsize=[10, 6], nrow=2, ncol=2, wspace=0.3, hspace=0.2, xlim=(0, 100), lw=2,
+    def plot_atm_gm(self, figsize=[10, 6], ncol=2, wspace=0.3, hspace=0.2, xlim=(0, 100), lw=2,
                     xlabel='Time [yr]', ylable_dict=None, color_dict=None, ylim_dict=None):
         vars = {}
         if 'TS' in self.fd:
@@ -148,6 +144,7 @@ class Case:
             vars['GMSWCF'] = gmswcf
 
         fig = plt.figure(figsize=figsize)
+        nrow = int(np.ceil(len(vars)/ncol))
         gs = gridspec.GridSpec(nrow, ncol)
         gs.update(wspace=wspace, hspace=hspace)
 

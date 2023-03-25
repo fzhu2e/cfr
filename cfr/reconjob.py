@@ -310,6 +310,7 @@ class ReconJob:
                     self.__dict__[tag][vn] = ClimateField().load_nc(path, vn=vn_in_file, time_name=time_name, load=load).center(ref_period=anom_period, time_name=time_name).wrap_lon(lon_name=lon_name, time_name=time_name)
 
             self.__dict__[tag][vn].da.name = vn
+            self.__dict__[tag][vn].vn = vn
 
         if verbose:
             p_success(f'>>> {tag} variables {list(self.__dict__[tag].keys())} loaded')
@@ -824,7 +825,7 @@ class ReconJob:
         obs_2d = obs.da.values.reshape(obs_nt, -1)
         obs_npos = np.shape(obs_2d)[-1]
 
-        recon_idx = [list(obs.time).index(t) for t in recon_time]
+        recon_idx = [list(obs.time).index(t) for t in recon_time if t in obs.time]
         self.graphem_params['obs_2d'] = obs_2d[recon_idx]
         if verbose: p_success(f'>>> job.graphem_params["field_obs"] created')
 
@@ -832,11 +833,11 @@ class ReconJob:
         field = np.ndarray((nt, obs_npos)) 
         field[:] = np.nan
 
-        field_calib_idx = [list(recon_time).index(t) for t in calib_time]  
+        field_calib_idx = [list(recon_time).index(t) for t in calib_time if t in recon_time]  
         self.graphem_params['calib_idx'] = field_calib_idx
         if verbose: p_success(f'>>> job.graphem_params["calib_idx"] created')
 
-        obs_calib_idx = [list(obs.time).index(t) for t in calib_time]
+        obs_calib_idx = [list(obs.time).index(t) for t in calib_time if t in obs.time]
         field[field_calib_idx] = obs_2d[obs_calib_idx] #align matrices
         self.graphem_params['field'] = field  
         if verbose: p_success(f'>>> job.graphem_params["field"] created')

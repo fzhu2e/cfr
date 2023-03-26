@@ -10,6 +10,4 @@ In this section, we will cover the below topics:
     :maxdepth: 1
 
     notebooks/climate-io
-    .. notebooks/climate-ops
-    .. notebooks/climate-viz
-    .. notebooks/climate-analysis
+    notebooks/climate-ops

@@ -218,7 +218,7 @@ def plot_field_map(field_var, lat, lon, levels=50, add_cyclic_point=True,
                    lon_ticks=[60, 120, 180, 240, 300], lat_ticks=[-90, -45, 0, 45, 90],
                    land_color=sns.xkcd_rgb['light grey'], ocean_color=sns.xkcd_rgb['light grey'],
                    land_zorder=None, ocean_zorder=None, signif_values=None, signif_range=[0.05, 9999], hatch='..',
-                   clim=None, cmap=None, cmap_under=None, cmap_over=None, cmap_bad=None, extend=None, mode='latlon', add_gridlines=False,
+                   clim=None, cmap=None, cmap_under=None, cmap_over=None, cmap_bad=None, extend='both', mode='latlon', add_gridlines=False,
                    plot_cbar=True, cbar_labels=None, cbar_pad=0.05, cbar_orientation='vertical', cbar_aspect=10,
                    cbar_fraction=0.15, cbar_shrink=0.5, cbar_title=None, cbar_title_x=0.5, cbar_title_y=1.05,
                    fig=None, ax=None):

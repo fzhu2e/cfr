@@ -26,7 +26,10 @@ class ClimateField:
         try:
             da = self.da[key]
         except:
-            da = self.da.loc[key]
+            if type(key) is str:
+                da = self.da.loc[key:key]
+            else:
+                da = self.da.loc[key]
 
         fd = ClimateField(da)
 

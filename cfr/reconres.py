@@ -61,13 +61,13 @@ class ReconRes:
             da = xr.concat(da_list, dim='ens')
             if 'ens' not in da.coords:
                 da.coords['ens'] = np.arange(len(self.paths))
-            da = da.transpose('year', 'ens', ...)
+            da = da.transpose('time', 'ens', ...)
 
             self.da[vn] = da
             if 'lat' not in da.coords and 'lon' not in da.coords:
-                self.recons[vn] = EnsTS(time=da['year'], value=da.values, value_name=vn)
+                self.recons[vn] = EnsTS(time=da.time, value=da.values, value_name=vn)
             else:
-                self.recons[vn] = ClimateField().from_da(da.mean(dim='ens'), time_name='year')
+                self.recons[vn] = ClimateField(da.mean(dim='ens'))
 
             if verbose:
                 p_success(f'>>> ReconRes.recons["{vn}"] created')

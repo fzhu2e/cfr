@@ -274,7 +274,7 @@ class ReconJob:
             p_success(f'>>> {target_pdb.nrec_tags(keys=["assim"])} records tagged "assim"')
             p_success(f'>>> {target_pdb.nrec_tags(keys=["eval"])} records tagged "eval"')
 
-    def load_clim(self, tag, path_dict=None, rename_dict=None, anom_period=None, time_name=None, load=False, lon_name=None, verbose=False):
+    def load_clim(self, tag, path_dict=None, rename_dict=None, anom_period=None, time_name=None, load=False, lat_name=None, lon_name=None, verbose=False):
         ''' Load grided climate data, either model simulations or instrumental observations.
 
         Args:
@@ -291,6 +291,7 @@ class ReconJob:
         path_dict = self.io_cfg(f'{tag}_path', path_dict, verbose=verbose)
         if rename_dict is not None: rename_dict = self.io_cfg(f'{tag}_rename_dict', rename_dict, verbose=verbose)
         anom_period = self.io_cfg(f'{tag}_anom_period', anom_period, verbose=verbose)
+        lat_name = self.io_cfg(f'{tag}_lat_name', lat_name, default='lat', verbose=verbose)
         lon_name = self.io_cfg(f'{tag}_lon_name', lon_name, default='lon', verbose=verbose)
         time_name = self.io_cfg(f'{tag}_time_name', time_name, default='time', verbose=verbose)
 
@@ -302,15 +303,29 @@ class ReconJob:
                 vn_in_file = rename_dict[vn]
 
             if anom_period == 'null':
-                self.__dict__[tag][vn] = ClimateField().load_nc(path, vn=vn_in_file, time_name=time_name, load=load).wrap_lon(lon_name=lon_name, time_name=time_name)
+                self.__dict__[tag][vn] = ClimateField().load_nc(
+                    path, vn=vn_in_file,
+                    time_name=time_name,
+                    lat_name=lat_name,
+                    lon_name=lon_name,
+                    load=load).wrap_lon()
             else:
-                if time_name == 'time':
-                    self.__dict__[tag][vn] = ClimateField().load_nc(path, vn=vn_in_file, time_name=time_name, load=load).get_anom(ref_period=anom_period).wrap_lon(lon_name=lon_name, time_name=time_name)
-                elif time_name == 'year':
-                    self.__dict__[tag][vn] = ClimateField().load_nc(path, vn=vn_in_file, time_name=time_name, load=load).center(ref_period=anom_period, time_name=time_name).wrap_lon(lon_name=lon_name, time_name=time_name)
+                try:
+                    self.__dict__[tag][vn] = ClimateField().load_nc(
+                        path, vn=vn_in_file,
+                        time_name=time_name,
+                        lat_name=lat_name,
+                        lon_name=lon_name,
+                        load=load).get_anom(ref_period=anom_period).wrap_lon()
+                except:
+                    self.__dict__[tag][vn] = ClimateField().load_nc(
+                        path, vn=vn_in_file,
+                        time_name=time_name,
+                        lat_name=lat_name,
+                        lon_name=lon_name,
+                        load=load).center(ref_period=anom_period).wrap_lon()
 
             self.__dict__[tag][vn].da.name = vn
-            self.__dict__[tag][vn].vn = vn
 
         if verbose:
             p_success(f'>>> {tag} variables {list(self.__dict__[tag].keys())} loaded')
@@ -676,12 +691,12 @@ class ReconJob:
             nyr, nens, nlat, nlon = np.shape(fd)
 
             da = xr.DataArray(fd,
-                dims=['year', 'ens', 'lat', 'lon'],
+                dims=['time', 'ens', 'lat', 'lon'],
                 coords={
-                    'year': year,
+                    'time': year,
                     'ens': np.arange(nens),
-                    'lat': self.prior[vn].lat if grid == 'prior' else self.obs[vn].lat,
-                    'lon': self.prior[vn].lon if grid == 'prior' else self.obs[vn].lon,
+                    'lat': self.prior[vn].da.lat if grid == 'prior' else self.obs[vn].da.lat,
+                    'lon': self.prior[vn].da.lon if grid == 'prior' else self.obs[vn].da.lon,
                 })
 
             # output indices
@@ -825,7 +840,7 @@ class ReconJob:
         obs_2d = obs.da.values.reshape(obs_nt, -1)
         obs_npos = np.shape(obs_2d)[-1]
 
-        recon_idx = [list(obs.time).index(t) for t in recon_time if t in obs.time]
+        recon_idx = [list(obs.da.time).index(t) for t in recon_time if t in obs.da.time]
         self.graphem_params['obs_2d'] = obs_2d[recon_idx]
         if verbose: p_success(f'>>> job.graphem_params["field_obs"] created')
 
@@ -837,7 +852,7 @@ class ReconJob:
         self.graphem_params['calib_idx'] = field_calib_idx
         if verbose: p_success(f'>>> job.graphem_params["calib_idx"] created')
 
-        obs_calib_idx = [list(obs.time).index(t) for t in calib_time if t in obs.time]
+        obs_calib_idx = [list(obs.da.time).index(t) for t in calib_time if t in obs.da.time]
         field[field_calib_idx] = obs_2d[obs_calib_idx] #align matrices
         self.graphem_params['field'] = field  
         if verbose: p_success(f'>>> job.graphem_params["field"] created')
@@ -847,7 +862,7 @@ class ReconJob:
         k = 0
         for i in range(np.size(obs.da.lon)):
             for j in range(np.size(obs.da.lat)):
-                lonlat[k] = [np.mod(obs.lon[i], 360), obs.lat[j]]
+                lonlat[k] = [np.mod(obs.da.lon[i], 360), obs.da.lat[j]]
                 k += 1
 
         df_proxy = pd.DataFrame(index=recon_time)

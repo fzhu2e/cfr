@@ -93,7 +93,7 @@ class Linear:
         self.climate_required = climate_required
 
     def calibrate(self, calib_period=None, nobs_lb=25, metric='fitR2adj',
-        season_list=[list(range(1, 13))], annualize_exog=True, exog_name='obs.tas', **fit_args):
+        season_list=[list(range(1, 13))], exog_name='obs.tas', **fit_args):
         exog = self.pobj.clim[exog_name]
 
         if type(season_list[0]) is not list:
@@ -104,12 +104,10 @@ class Linear:
         df_list = []
         sn_list = []
         exog_colname = exog_name.split('.')[-1]
-        if not annualize_exog:
-            season_list = ['monthly']
 
         for sn in season_list:
-            exog_ann = exog.annualize(months=sn) if annualize_exog else exog
-            df_exog = pd.DataFrame({'time': exog_ann.time, exog_colname: exog_ann.da.values})
+            exog_ann = exog.annualize(months=sn)
+            df_exog = pd.DataFrame({'time': exog_ann.da.time.values, exog_colname: exog_ann.da.values})
             df_proxy = pd.DataFrame({'time': self.pobj.time, 'proxy': self.pobj.value})
             df = df_proxy.dropna().merge(df_exog.dropna(), how='inner', on='time')
             df.set_index('time', drop=True, inplace=True)
@@ -165,8 +163,7 @@ class Linear:
     def forward(self, exog_name='model.tas'):
         sn = self.calib_details['seasonality']
         exog = self.pobj.clim[exog_name]
-        if sn != 'monthly':
-            exog = exog.annualize(months=sn)
+        exog = exog.annualize(months=sn)
         exog_colname = exog_name.split('.')[-1]
         exog_dict = {
             exog_colname: exog.da.values,
@@ -174,7 +171,7 @@ class Linear:
 
         pp = ProxyRecord(
             pid=self.pobj.pid,
-            time=exog.time,
+            time=exog.da.time.values,
             value=np.array(self.model.predict(exog=exog_dict).values),
             lat=self.pobj.lat,
             lon=self.pobj.lon,
@@ -202,7 +199,7 @@ class Bilinear:
 
     def calibrate(self, calib_period=None, nobs_lb=25, metric='fitR2adj',
         season_list1=[list(range(1, 13))], season_list2=[list(range(1, 13))],
-        annualize_exog=True, exog1_name='obs.tas', exog2_name='obs.pr', **fit_args):
+        exog1_name='obs.tas', exog2_name='obs.pr', **fit_args):
         exog1 = self.pobj.clim[exog1_name]
         exog2 = self.pobj.clim[exog2_name]
 
@@ -212,19 +209,16 @@ class Bilinear:
         sn_list = []
         exog1_colname = exog1_name.split('.')[-1]
         exog2_colname = exog2_name.split('.')[-1]
-        if not annualize_exog:
-            season_list1 = ['monthly']
-            season_list2 = ['monthly']
 
         for sn1 in season_list1:
-            exog1_ann = exog1.annualize(months=sn1) if annualize_exog else exog1
-            df_exog1 = pd.DataFrame({'time': exog1_ann.time, exog1_colname: exog1_ann.da.values})
+            exog1_ann = exog1.annualize(months=sn1)
+            df_exog1 = pd.DataFrame({'time': exog1_ann.da.time.values, exog1_colname: exog1_ann.da.values})
             df_proxy = pd.DataFrame({'time': self.pobj.time, 'proxy': self.pobj.value})
             df = df_proxy.dropna().merge(df_exog1.dropna(), how='inner', on='time')
             df_copy = df.copy()
             for sn2 in season_list2:
-                exog2_ann = exog2.annualize(months=sn2) if annualize_exog else exog2
-                df_exog2 = pd.DataFrame({'time': exog2_ann.time, exog2_colname: exog2_ann.da.values})
+                exog2_ann = exog2.annualize(months=sn2)
+                df_exog2 = pd.DataFrame({'time': exog2_ann.da.time.values, exog2_colname: exog2_ann.da.values})
                 df = df.merge(df_exog2.dropna(), how='inner', on='time')
                 df.set_index('time', drop=True, inplace=True)
                 df.sort_index(inplace=True)
@@ -283,12 +277,10 @@ class Bilinear:
         exog1 = self.pobj.clim[exog1_name]
         exog2 = self.pobj.clim[exog2_name]
         sn1, sn2 = self.calib_details['seasonality']
-        if sn1 != 'monthly':
-            exog1 = exog1.annualize(months=sn1)
-        if sn2 != 'monthly':
-            exog2 = exog2.annualize(months=sn2)
+        exog1 = exog1.annualize(months=sn1)
+        exog2 = exog2.annualize(months=sn2)
 
-        common_yrs = np.intersect1d(exog1.da.year, exog2.da.year)
+        common_yrs = np.intersect1d(exog1.da.time.values, exog2.da.time.values)
         exog1.da = exog1.da.sel(year=common_yrs)
         exog2.da = exog2.da.sel(year=common_yrs)
 
@@ -301,7 +293,7 @@ class Bilinear:
 
         pp = ProxyRecord(
             pid=self.pobj.pid,
-            time=exog1.da.year,
+            time=exog1.da.time.values,
             value=np.array(self.model.predict(exog=exog_dict).values),
             lat=self.pobj.lat,
             lon=self.pobj.lon,
@@ -672,7 +664,7 @@ class Ice_d18O():
 
         # sensor model
         d18O_ice = ice_sensor(
-            self.pobj.clim[self.pr_name].time,
+            self.pobj.clim[self.pr_name].da.time,
             self.pobj.clim[self.d18O_name].da.values,
             self.pobj.clim[self.pr_name].da.values,
             alt_diff=alt_diff,
@@ -684,7 +676,7 @@ class Ice_d18O():
 
         pp = ProxyRecord(
             pid=self.pobj.pid,
-            time=tas_ann.time,
+            time=tas_ann.da.time.values,
             value=ice_diffused[::-1],
             lat=self.pobj.lat,
             lon=self.pobj.lon,
@@ -807,7 +799,7 @@ class Lake_VarveThickness():
 
         pp = ProxyRecord(
             pid=self.pobj.pid,
-            time=tas_ann.time,
+            time=tas_ann.da.time.values,
             value=np.array(varve_res['varves'])[0],
             lat=self.pobj.lat,
             lon=self.pobj.lon,
@@ -1042,13 +1034,13 @@ class VSLite:
         proxy_time = self.pobj.time
         proxy_value = self.pobj.value
 
-        obs_tas_time = self.pobj.clim[self.obs_tas_name].time
+        obs_tas_time = utils.datetime2year_float(self.pobj.clim[self.obs_tas_name].da.time)
         obs_tas_value = self.pobj.clim[self.obs_tas_name].da.values
         if np.min(obs_tas_value) > 200:
             # if in [K], convert to [degC]
             obs_tas_value -= 273.15
 
-        obs_pr_time = self.pobj.clim[self.obs_pr_name].time
+        obs_pr_time = utils.datetime2year_float(self.pobj.clim[self.obs_pr_name].da.time)
         obs_pr_value = self.pobj.clim[self.obs_pr_name].da.values
         if np.max(obs_pr_value) < 1:
             # if in [kg m-2 s-1], convert to [mm/month]
@@ -1087,7 +1079,7 @@ class VSLite:
         }
 
     def forward(self, **vsl_kwargs):
-        tas_time = self.pobj.clim[self.model_tas_name].time
+        tas_time = utils.datetime2year_float(self.pobj.clim[self.model_tas_name].da.time)
         syear = np.min(np.floor(tas_time))
         eyear = np.max(np.floor(tas_time))
 

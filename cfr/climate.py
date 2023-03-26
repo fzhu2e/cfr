@@ -27,7 +27,9 @@ class ClimateField:
             da = self.da[key]
         except:
             da = self.da.loc[key]
+
         fd = ClimateField(da)
+
         return fd
 
     def __len__(self):
@@ -177,7 +179,7 @@ class ClimateField:
 
         return new
 
-    def validate(self, ref, stat='corr', interp_target='ref'):
+    def validate(self, ref, valid_period=None, stat='corr', interp_target='ref'):
         ''' Validate against a reference field.
 
         Args:
@@ -198,6 +200,10 @@ class ClimateField:
         elif interp_target == 'self':
             fd_rg = self.copy()
             ref_rg = ref.regrid(self.da.lat, self.da.lon)
+
+        if valid_period is not None:
+            fd_rg = fd_rg[str(valid_period[0]):str(valid_period[-1])]
+            ref_rg = ref_rg[str(valid_period[0]):str(valid_period[-1])]
 
         fd_rg.da = xr.DataArray(
             fd_rg.da.values,
@@ -324,11 +330,25 @@ class ClimateField:
             _kwargs.update(self.plot_kwargs)
 
         if 'title' not in kwargs and 'title' not in _kwargs:
-            date_str = '-'.join(str(self.da.time.values[0]).split('-')[:2])
+            if len(self.da.dims) == 3:
+                t_value = self.da.time.values[0]
+            elif len(self.da.dims) == 2:
+                t_value = self.da.time.values
+
+            try:
+                date_str = '-'.join(str(t_value).split('-')[:2])
+            except:
+                date_str = str(t_value)
+
             kwargs['title'] = f'{self.da.name}, {date_str}' 
             
         _kwargs.update(kwargs)
-        fig, ax = visual.plot_field_map(self.da.values[0], self.da.lat, self.da.lon, **_kwargs)
+        if len(self.da.dims) == 3:
+            vals = self.da.values[0]
+        elif len(self.da.dims) == 2:
+            vals = self.da.values
+
+        fig, ax = visual.plot_field_map(vals, self.da.lat, self.da.lon, **_kwargs)
 
         return fig, ax
 
@@ -381,7 +401,13 @@ class ClimateField:
         Args:
             months (list): the months based on which for annualization; e.g., [6, 7, 8] means JJA annualization
         '''
-        da = utils.annualize(da=self.da, months=months)
+        if 'annualized' in self.da.attrs and self.da.attrs['annualized']==1:
+            da = self.da
+        else:
+            da = utils.annualize(da=self.da, months=months)
+            yrs = np.floor(utils.datetime2year_float(da.time.values))
+            da = da.assign_coords({'time': [int(y) for y in yrs]})
+            da.attrs['annualized'] = 1
         fd = ClimateField(da)
         return fd
 

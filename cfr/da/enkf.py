@@ -31,7 +31,7 @@ class EnKF:
 
     def gen_prior_samples(self, recon_period=None, sigma=None, dist='uniform', trim_prior=True):
         vn = list(self.prior.keys())[0]
-        prior_time = self.prior[vn].time
+        prior_time = self.prior[vn].da.time.values
 
         if recon_period is not None and trim_prior:
             time_mask = (prior_time>=np.min(recon_period)) & (prior_time<=np.max(recon_period))
@@ -91,7 +91,7 @@ class EnKF:
         vn = list(self.prior.keys())[0]
         for tag in ['assim', 'eval']:
             target_pdb = self.__dict__[f'pdb_{tag}']
-            self.Ye_df[tag] = pd.DataFrame(index=self.prior[vn].time)
+            self.Ye_df[tag] = pd.DataFrame(index=self.prior[vn].da.time.values)
             self.Ye_lat[tag] = []
             self.Ye_lon[tag] = []
             self.Ye_coords[tag] = np.ndarray((target_pdb.nrec, 2))

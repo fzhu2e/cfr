@@ -380,15 +380,7 @@ class ProxyRecord:
             if not hasattr(self, 'clim'):
                 self.clim = {}
 
-            if 'time' in field.da.dims:
-                time_name = 'time'
-            elif 'year' in field.da.dims:
-                time_name = 'year'
-            else:
-                raise ValueError(f'Incorrect name for the time dimension in {tag}.')
-
-            self.clim[name] = ClimateField().from_da(nda, time_name=time_name)
-            self.clim[name].time = field.time
+            self.clim[name] = ClimateField(nda)
             if load: self.clim[name].da.load()
             if verbose: utils.p_success(f'{self.pid} >>> ProxyRecord.clim["{name}"] created.')
 

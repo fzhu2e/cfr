@@ -101,7 +101,7 @@ class GCMCase:
                 da = xr.concat([ds[vn] for ds in ds_list], dim=time_name)
                 if adjust_month:
                     da[time_name] = da[time_name].get_index('time') - datetime.timedelta(days=1)
-                self.fd[vn] = ClimateField().from_da(da)
+                self.fd[vn] = ClimateField(da)
 
                 if save_dirpath is not None:
                     fname = f'{vn}.nc'
@@ -195,7 +195,7 @@ class GCMCase:
                 if verbose:
                     p_success(f'>>> GCMCase.ts["{vn}"] created')
             else:
-                case.fd[vn] = ClimateField().from_da(da=ds[vn])
+                case.fd[vn] = ClimateField(ds[vn])
                 if verbose:
                     p_success(f'>>> GCMCase.fd["{vn}"] created')
 

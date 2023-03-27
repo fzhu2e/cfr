@@ -36,6 +36,7 @@ setup(
         'pathos',
         'eofs',
         'plotly',
+        'pyresample',
     ],
     extras_require={
         'psm': [

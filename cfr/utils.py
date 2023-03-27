@@ -5,6 +5,9 @@ from datetime import datetime, timedelta
 import cftime
 import colorama as ca
 import statsmodels.api as sm
+import pyresample
+from tqdm import tqdm
+
 
 def p_header(text):
     # return cprint(text, 'cyan', attrs=['bold'])  # lib: termcolor
@@ -432,19 +435,18 @@ def regrid_field_curv_rect(field, lat_curv, lon_curv,
         roi=None, roi_factor=1e6):
     ''' Regrid a curvilinear grid to a linear rectilinear grid
 
+    Args:
+        field (np.ndarray): assuming shape in (..., nlat, nlon)
+
     Note: lon_curv should be in range (-180, 180)!
     '''
-    import pyresample
-
-    ndim_curv = np.size(np.shape(lat_curv))
-    if ndim_curv == 1:
-        lon_curv, lat_curv = np.meshgrid(lon_curv, lat_curv)
-
     if lons is None:
         if lon_range is not None:
             lons = np.arange(lon_range[0], lon_range[-1]+dlon, dlon)
         else:
             lons = np.arange(np.min(lon_curv), np.max(lon_curv)+dlon, dlon)
+
+    dlon = np.abs(np.median(np.diff(lons)))
 
     if lats is None:
         if lat_range is not None:
@@ -456,19 +458,19 @@ def regrid_field_curv_rect(field, lat_curv, lon_curv,
     lon_rect = pyresample.utils.wrap_longitudes(lon_rect)
 
     if roi is None:
-        roi = roi_factor * np.abs(dlon)
+        roi = roi_factor * dlon
 
     old_grid = pyresample.geometry.SwathDefinition(lons=lon_curv, lats=lat_curv)
     new_grid = pyresample.geometry.SwathDefinition(lons=lon_rect, lats=lat_rect)
 
-    nt, nlat, nlon = np.shape(field)
-    rgd_data = np.ndarray(shape=(nt, np.size(lats), np.size(lons)))
-    for i, d in enumerate(field):
-        rgd_data[i] = pyresample.kd_tree.resample_nearest(
-            old_grid, d, new_grid,
-            radius_of_influence=roi,
-            fill_value=np.nan
-        )
+    fd_shape = field.shape
+    field_resh = field.reshape(-1, fd_shape[-2], fd_shape[-1]).transpose(1, 2, 0)
+    res = pyresample.kd_tree.resample_nearest(
+        old_grid, field_resh, new_grid,
+        radius_of_influence=roi,
+        fill_value=np.nan,
+    )
+    rgd_data = res.transpose(2, 0, 1).reshape(*fd_shape[:-2], len(lats), len(lons))
 
     return rgd_data, lats, lons
 

@@ -139,13 +139,19 @@ class ClimateField:
         '''
         # _comp_params = {'zlib': True, 'least_significant_digit': 2}
         _comp_params = {'zlib': True}
+
         encoding_dict = {}
         if compress_params is not None:
             _comp_params.update(compress_params)
+
         encoding_dict[self.da.name] = _comp_params
 
-        dirpath = os.path.dirname(path)
-        os.makedirs(dirpath, exist_ok=True)
+        try:
+            dirpath = os.path.dirname(path)
+            os.makedirs(dirpath, exist_ok=True)
+        except:
+            pass
+
         if os.path.exists(path):
             os.remove(path)
 
@@ -478,9 +484,26 @@ class ClimateField:
     def regrid(self, lats, lons, periodic_lon=False):
         ''' Regrid the climate field.'''
 
-        lat_da = xr.DataArray(lats, dims=['lat'], coords={'lat': lats})
-        lon_da = xr.DataArray(lons, dims=['lon'], coords={'lon': lons})
-        da = self.da.interp(coords={'lat': lat_da, 'lon': lon_da})
+        if len(self.da.lat.values.shape) == 1:
+            lat_da = xr.DataArray(lats, dims=['lat'], coords={'lat': lats})
+            lon_da = xr.DataArray(lons, dims=['lon'], coords={'lon': lons})
+            da = self.da.interp(coords={'lat': lat_da, 'lon': lon_da})
+
+        elif len(self.da.lon.values.shape) == 2:
+            rgd_data, lats, lons = utils.regrid_field_curv_rect(
+                self.da.values, self.da.lat.values, (self.da.lon.values+180)%360-180,
+                lats=lats, lons=lons,
+            )
+            da = xr.DataArray(
+                rgd_data, dims=['time', 'lat', 'lon'],
+                coords={
+                    'time': self.da.time,
+                    'lat': lats,
+                    'lon': lons,
+                },
+                name=self.da.name,
+            )
+
         if periodic_lon:
             da[..., -1] = da[..., 0]
 

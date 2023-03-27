@@ -426,25 +426,31 @@ def regrid_field(field, lat, lon, lat_new, lon_new):
     field_new = np.array(field_new)
     return field_new
 
-def regrid_field_curv_rect(field, lat_curv, lon_curv, dlat=1, lon_range=None, lat_range=None, dlon=1, roi=None, roi_factor=1e6, fill_value=np.nan):
-    import pyresample
+def regrid_field_curv_rect(field, lat_curv, lon_curv,
+        lats=None, lons=None,
+        dlat=1, dlon=1, lon_range=None, lat_range=None,
+        roi=None, roi_factor=1e6):
     ''' Regrid a curvilinear grid to a linear rectilinear grid
 
-    Note that the range of lon_curve should be (-180, 180)
+    Note: lon_curv should be in range (-180, 180)!
     '''
+    import pyresample
+
     ndim_curv = np.size(np.shape(lat_curv))
     if ndim_curv == 1:
         lon_curv, lat_curv = np.meshgrid(lon_curv, lat_curv)
 
-    if lon_range is not None:
-        lons = np.arange(lon_range[0], lon_range[-1]+dlon, dlon)
-    else:
-        lons = np.arange(np.min(lon_curv), np.max(lon_curv)+dlon, dlon)
+    if lons is None:
+        if lon_range is not None:
+            lons = np.arange(lon_range[0], lon_range[-1]+dlon, dlon)
+        else:
+            lons = np.arange(np.min(lon_curv), np.max(lon_curv)+dlon, dlon)
 
-    if lat_range is not None:
-        lats = np.arange(lat_range[0], lat_range[-1]+dlat, dlat)
-    else:
-        lats = np.arange(np.min(lat_curv), np.max(lat_curv)+dlat, dlat)
+    if lats is None:
+        if lat_range is not None:
+            lats = np.arange(lat_range[0], lat_range[-1]+dlat, dlat)
+        else:
+            lats = np.arange(np.min(lat_curv), np.max(lat_curv)+dlat, dlat)
 
     lon_rect, lat_rect = np.meshgrid(lons, lats)
     lon_rect = pyresample.utils.wrap_longitudes(lon_rect)

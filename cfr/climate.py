@@ -102,7 +102,7 @@ class ClimateField:
 
         return fd
 
-    def load_nc(self, path, vn=None, time_name='time', lat_name='lat', lon_name='lon', load=False, **kwargs):
+    def load_nc(self, path, vn=None, time_name='time', lat_name='lat', lon_name='lon', load=False, return_da=False, **kwargs):
         ''' Load the climate field from a netCDF file.
 
         Args:
@@ -113,16 +113,22 @@ class ClimateField:
         else:
             ds = xr.open_dataset(path, **kwargs)
             da = ds[vn]
+        
+        if return_da:
+            return da
+        else:
+            fd = ClimateField(da)
+            if time_name != 'time':
+                fd.da = fd.da.rename({time_name: 'time'})
+            if lat_name != 'lat':
+                fd.da = fd.da.rename({lat_name: 'lat'})
+            if lon_name != 'lon':
+                fd.da = fd.da.rename({lon_name: 'lon'})
 
-        fd = ClimateField(da=da)
-        if time_name != 'time' or lat_name != 'lat' or lon_name != 'lon':
-            fd.da = fd.da.rename({time_name: 'time', lat_name: 'lat', lon_name: 'lon'})
+            if np.min(fd.da.lon) < 0:
+                fd = fd.wrap_lon()
 
-        if np.min(fd.da.lon) < 0:
-            fd = fd.wrap_lon()
-
-        if load: fd.da.load()
-
+            if load: fd.da.load()
         return fd
 
     def to_nc(self, path, verbose=True, compress_params=None):
@@ -131,7 +137,8 @@ class ClimateField:
         Args:
             path (str): the path where to save
         '''
-        _comp_params = {'zlib': True, 'least_significant_digit': 2}
+        # _comp_params = {'zlib': True, 'least_significant_digit': 2}
+        _comp_params = {'zlib': True}
         encoding_dict = {}
         if compress_params is not None:
             _comp_params.update(compress_params)
@@ -139,6 +146,9 @@ class ClimateField:
 
         dirpath = os.path.dirname(path)
         os.makedirs(dirpath, exist_ok=True)
+        if os.path.exists(path):
+            os.remove(path)
+
         self.da.to_netcdf(path, encoding=encoding_dict)
         if verbose: utils.p_success(f'ClimateField.da["{self.da.name}"] saved to: {path}')
 
@@ -153,36 +163,81 @@ class ClimateField:
         return fd
 
     def __add__(self, ref):
-        ''' Add the reference field.
+        ''' Add a reference.
         '''
-        new = self.copy()
         if isinstance(ref, ClimateField):
-            new.da = self.da + ref.da
+            da = self.da + ref.da
         elif isinstance(ref, float):
-            new.da = self.da + ref
+            da = self.da + ref
         elif isinstance(ref, int):
-            new.da = self.da + ref
+            da = self.da + ref
         else:
             raise ValueError('`ref` should be a `ClimateField` object or a float like value.')
 
-        return new
+        fd = ClimateField(da)
+        return fd
 
     def __sub__(self, ref):
-        ''' Substract the reference field.
+        ''' Substract a reference.
         '''
-        new = self.copy()
         if isinstance(ref, ClimateField):
-            new.da = self.da - ref.da
+            da = self.da - ref.da
         elif isinstance(ref, float):
-            new.da = self.da - ref
+            da = self.da - ref
         elif isinstance(ref, int):
-            new.da = self.da - ref
+            da = self.da - ref
         else:
             raise ValueError('`ref` should be a `ClimateField` object or a float like value.')
 
-        return new
+        fd = ClimateField(da)
+        return fd
 
-    def validate(self, ref, valid_period=None, stat='corr', interp_target='ref'):
+    def __mul__(self, ref):
+        ''' Multiply a scaler.
+        '''
+        if isinstance(ref, ClimateField):
+            da = self.da * ref.da
+        elif isinstance(ref, float):
+            da = self.da * ref
+        elif isinstance(ref, int):
+            da = self.da * ref
+        else:
+            raise ValueError('`ref` should be a `ClimateField` object or a float like value.')
+
+        fd = ClimateField(da)
+        return fd
+
+    def __truediv__(self, ref):
+        ''' Divide a scaler.
+        '''
+        if isinstance(ref, ClimateField):
+            da = self.da / ref.da
+        elif isinstance(ref, float):
+            da = self.da / ref
+        elif isinstance(ref, int):
+            da = self.da / ref
+        else:
+            raise ValueError('`ref` should be a `ClimateField` object or a float like value.')
+
+        fd = ClimateField(da)
+        return fd
+    
+    def __floordiv__(self, ref):
+        ''' Floor-divide a scaler.
+        '''
+        if isinstance(ref, ClimateField):
+            da = self.da // ref.da
+        elif isinstance(ref, float):
+            da = self.da // ref
+        elif isinstance(ref, int):
+            da = self.da // ref
+        else:
+            raise ValueError('`ref` should be a `ClimateField` object or a float like value.')
+
+        fd = ClimateField(da)
+        return fd
+
+    def validate(self, ref, valid_period=None, stat='corr', interp_target='ref', interp=False):
         ''' Validate against a reference field.
 
         Args:
@@ -197,25 +252,30 @@ class ClimateField:
                 * 'R2': coefficient of determination
                 * 'CE': coefficient of efficiency
         '''
-        if interp_target == 'ref':
-            fd_rg = self.regrid(ref.da.lat, ref.da.lon)
-            ref_rg = ref.copy()
-        elif interp_target == 'self':
+        if interp:
+            if interp_target == 'ref':
+                fd_rg = self.regrid(ref.da.lat, ref.da.lon)
+                ref_rg = ref.copy()
+            elif interp_target == 'self':
+                fd_rg = self.copy()
+                ref_rg = ref.regrid(self.da.lat, self.da.lon)
+        else:
             fd_rg = self.copy()
-            ref_rg = ref.regrid(self.da.lat, self.da.lon)
+            ref_rg = self.copy()
 
         if valid_period is not None:
             fd_rg = fd_rg[str(valid_period[0]):str(valid_period[-1])]
             ref_rg = ref_rg[str(valid_period[0]):str(valid_period[-1])]
 
-        fd_rg.da = xr.DataArray(
-            fd_rg.da.values,
-            coords={'time': ref_rg.da.time, 'lat': fd_rg.da.lat, 'lon': fd_rg.da.lon}
-        )
+        if len(fd_rg.da.lat.shape) == 1:
+            fd_rg.da = xr.DataArray(
+                fd_rg.da.values,
+                coords={'time': ref_rg.da.time, 'lat': fd_rg.da.lat, 'lon': fd_rg.da.lon}
+            )
 
         if stat == 'corr':
             stat_da = xr.corr(fd_rg.da, ref_rg.da, dim='time')
-            stat_da = stat_da.expand_dims({'time': [np.datetime64('2000-01-01')]})
+            stat_da = stat_da.expand_dims({'time': [1]})
             stat_da.name = stat
             stat_fd = ClimateField(stat_da)
             stat_fd.plot_kwargs = {
@@ -229,7 +289,7 @@ class ClimateField:
             }
         elif stat == 'R2':
             stat_da = xr.corr(fd_rg.da, ref_rg.da, dim='time')
-            stat_da = stat_da.expand_dims({'time': [np.datetime64('2000-01-01')]})
+            stat_da = stat_da.expand_dims({'time': [1]})
             stat_da.name = stat
             stat_fd = ClimateField(stat_da**2)
             stat_fd.plot_kwargs = {
@@ -247,7 +307,7 @@ class ClimateField:
                 ce[np.newaxis],
                 name=stat,
                 coords={
-                    'time': [np.datetime64('2000-01-01')],
+                    'time': [1],
                     'lat': fd_rg.da.lat,
                     'lon': fd_rg.da.lon,
                 })
@@ -320,6 +380,7 @@ class ClimateField:
         cmap_dict = {
             'tas': 'RdBu_r',
             'tos': 'RdBu_r',
+            'sst': 'RdBu_r',
             'pr': 'BrBG',
         }
         cmap = cmap_dict[self.da.name] if self.da.name in cmap_dict else 'viridis'

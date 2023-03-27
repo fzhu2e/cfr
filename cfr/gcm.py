@@ -65,19 +65,21 @@ class GCMCase:
             p_header(f'>>> {len(self.paths)} GCMCase.paths:')
             print(self.paths)
 
-    def get_ds(self, fid=0):
+    def get_ds(self, idx=0):
         ''' Get a `xarray.Dataset` from a certain file
         '''
-        with xr.open_dataset(self.paths[fid]) as ds:
+        with xr.open_dataset(self.paths[idx]) as ds:
             return ds
 
-    def load(self, vars=None, time_name='time', adjust_month=False, mode='archive',
+    def load(self, vars=None, time_name='time', z_name='z_t', z_val=None, adjust_month=False, mode='archive',
              save_dirpath=None, compress_params=None, verbose=False):
         ''' Load variables.
 
         Args:
             vars (list): list of variable names.
             time_name (str): the name of the time dimension.
+            z_name (str): the name of the z dimension (e.g., for ocean output).
+            z_val (float, int, list): the value(s) of the z dimension to pick (e.g., for ocean output).
             adjust_month (bool): the current CESM version has a bug that the output
                 has a time stamp inconsistent with the filename with 1 months off, hence
                 requires an adjustment.
@@ -98,9 +100,12 @@ class GCMCase:
 
             for vn in vars:
                 p_header(f'>>> Extracting {vn} ...')
-                da = xr.concat([ds[vn] for ds in ds_list], dim=time_name)
+                if z_val is None:
+                    da = xr.concat([ds[vn] for ds in ds_list], dim=time_name)
+                else:
+                    da = xr.concat([ds[vn].sel({z_name: z_val}) for ds in ds_list], dim=time_name)
                 if adjust_month:
-                    da[time_name] = da[time_name].get_index('time') - datetime.timedelta(days=1)
+                    da[time_name] = da[time_name].get_index(time_name) - datetime.timedelta(days=1)
                 self.fd[vn] = ClimateField(da)
 
                 if save_dirpath is not None:

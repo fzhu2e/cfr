@@ -243,15 +243,16 @@ class ClimateField:
         fd = ClimateField(da)
         return fd
 
-    def validate(self, ref, valid_period=None, stat='corr', interp_target='ref', interp=False):
+    def validate(self, ref, valid_period=None, stat='corr', interp_target='ref', interp=True):
         ''' Validate against a reference field.
 
         Args:
             ref (cfr.climate.ClimateField): the reference to compare against, assuming the first dimension to be time
-            interp_direction (str, optional): the direction to interpolate the fields:
+            interp_target (str, optional): the direction to interpolate the fields:
             
-                * 'to-ref': interpolate from `self` to `ref`
-                * 'from-ref': interpolate from `ref` to `self`
+                * 'ref': interpolate from `self` to `ref`
+                * 'self': interpolate from `ref` to `self`
+
             stat (str): the statistics to calculate. Supported quantaties:
 
                 * 'corr': correlation coefficient

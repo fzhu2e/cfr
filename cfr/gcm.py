@@ -71,7 +71,7 @@ class GCMCase:
         with xr.open_dataset(self.paths[idx]) as ds:
             return ds
 
-    def load(self, vars=None, time_name='time', z_name='z_t', z_val=None, adjust_month=False, mode='archive',
+    def load(self, vars=None, time_name='time', z_name='z_t', z_val=None, adjust_month=False, mode='time-slice',
              save_dirpath=None, compress_params=None, verbose=False):
         ''' Load variables.
 
@@ -83,16 +83,14 @@ class GCMCase:
             adjust_month (bool): the current CESM version has a bug that the output
                 has a time stamp inconsistent with the filename with 1 months off, hence
                 requires an adjustment.
-            mode (str): if 'archive', then assume files are loaded from the archive director;
-                if 'vars', then assume files are loaded from the director for the processed variables.
             verbose (bool, optional): print verbose information. Defaults to False.
         '''
         if type(vars) is str:
             vars = [vars]
 
-        if mode == 'archive':
+        if mode == 'timeslice':
             if vars is None:
-                raise ValueError('Should specify `vars` if mode is "archive".')
+                raise ValueError('Should specify `vars` if mode is "timeslice".')
             ds_list = []
             for path in tqdm(self.paths, desc='Loading files'):
                 with xr.open_dataset(path) as ds_tmp:
@@ -116,7 +114,7 @@ class GCMCase:
                 if verbose:
                     p_success(f'>>> GCMCase.fd["{vn}"] created')
 
-        elif mode == 'vars':
+        elif mode == 'timeseries':
             for path in self.paths:
                 fd_tmp = ClimateField().load_nc(path)
                 vn = fd_tmp.da.name

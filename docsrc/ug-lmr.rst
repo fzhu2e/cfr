@@ -7,7 +7,8 @@ In this section, we will cover the below topics:
 .. toctree::
     :maxdepth: 1
 
-    notebooks/lmr-basics
+    notebooks/lmr-real-pages2k
+    .. notebooks/lmr-basics
     .. notebooks/lmr-post
     .. notebooks/lmr-cfg
     .. notebooks/lmr-mc

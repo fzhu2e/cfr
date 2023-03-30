@@ -50,6 +50,8 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'notebooks/proxy-io';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Composites" href="proxy-composites.html" />
+    <link rel="prev" title="Proxy" href="../ug-proxy.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -133,9 +135,19 @@
         <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item navbar-nav active">
         <p aria-level="2" class="caption" role="heading"><span class="caption-text">User Guide</span></p>
-<ul class="nav bd-sidenav">
+<ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../ug-installation.html">Installation</a></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../ug-pp2k.html">Illustration: pseudoPAGES2k</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="../ug-proxy.html">Proxy</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">Input/Output</a></li>
+<li class="toctree-l2"><a class="reference internal" href="proxy-composites.html">Composites</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../ug-climate.html">Climate</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="climate-io.html">Input/Output</a></li>
+<li class="toctree-l2"><a class="reference internal" href="climate-ops.html">Basic Operations</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../ug-pp2k.html">Illustration: pseudoPAGES2k</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="pp2k-pdb-load-viz.html">Loading and Visualization</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pp2k-pdb-filter.html">Database Filtering</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pp2k-dashboards.html">Validation Dashboards</a></li>
@@ -337,16 +349,16 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pandas.DataFrame-=&gt;-ProxyDatabase"><code class="docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code> =&gt; <code class="docutils literal notranslate"><span class="pre">ProxyDatabase</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pandas.DataFrame-=&gt;-cfr.ProxyDatabase"><code class="docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code> =&gt; <code class="docutils literal notranslate"><span class="pre">cfr.ProxyDatabase</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Load-the-PAGES2k-network-stored-in-a-pandas.DataFrame">Load the PAGES2k network stored in a <code class="docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Create-a-ProxyDatabase-and-load-from-the-pandas.DataFrame">Create a <code class="docutils literal notranslate"><span class="pre">ProxyDatabase</span></code> and load from the <code class="docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Create-a-cfr.ProxyDatabase-and-load-from-the-pandas.DataFrame">Create a <code class="docutils literal notranslate"><span class="pre">cfr.ProxyDatabase</span></code> and load from the <code class="docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code></a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ProxyDatabase-=&gt;-pandas.DataFrame"><code class="docutils literal notranslate"><span class="pre">ProxyDatabase</span></code> =&gt; <code class="docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code></a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ProxyDatabase-=&gt;-a-netCDF-file"><code class="docutils literal notranslate"><span class="pre">ProxyDatabase</span></code> =&gt; a netCDF file</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#a-netCDF-file-=&gt;-ProxyDatabase">a netCDF file =&gt; <code class="docutils literal notranslate"><span class="pre">ProxyDatabase</span></code></a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ProxyRecord-=&gt;-a-netCDF-file"><code class="docutils literal notranslate"><span class="pre">ProxyRecord</span></code> =&gt; a netCDF file</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#a-netCDF-file-=&gt;-ProxyRecord">a netCDF file =&gt; <code class="docutils literal notranslate"><span class="pre">ProxyRecord</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.ProxyDatabase-=&gt;-pandas.DataFrame"><code class="docutils literal notranslate"><span class="pre">cfr.ProxyDatabase</span></code> =&gt; <code class="docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.ProxyDatabase-=&gt;-a-netCDF-file"><code class="docutils literal notranslate"><span class="pre">cfr.ProxyDatabase</span></code> =&gt; a netCDF file</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#a-netCDF-file-=&gt;-cfr.ProxyDatabase">a netCDF file =&gt; <code class="docutils literal notranslate"><span class="pre">cfr.ProxyDatabase</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.ProxyRecord-=&gt;-a-netCDF-file"><code class="docutils literal notranslate"><span class="pre">cfr.ProxyRecord</span></code> =&gt; a netCDF file</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#a-netCDF-file-=&gt;-cfr.ProxyRecord">a netCDF file =&gt; <code class="docutils literal notranslate"><span class="pre">cfr.ProxyRecord</span></code></a></li>
 </ul>
             </nav>
         </div>
@@ -362,15 +374,15 @@ document.write(`
 <h1>Input/Output<a class="headerlink" href="#Input/Output" title="Permalink to this heading">#</a></h1>
 <p>In this section, we introduce how to input and output proxy data with <code class="docutils literal notranslate"><span class="pre">cfr</span></code>.</p>
 <p><code class="docutils literal notranslate"><span class="pre">cfr</span></code> provides a useful class called <code class="docutils literal notranslate"><span class="pre">ProxyDatabase</span></code> to conveniently store a collection of proxy records. Each record is stored in the form of a class called <code class="docutils literal notranslate"><span class="pre">ProxyRecord</span></code>. Here, we take the PAGES 2k global multiproxy database (<a class="reference external" href="https://doi.org/10.1038/sdata.2017.88">PAGES2k Consortium, 2017</a>) as an example to illustrate the basic usage of these two classes regarding data input/output.</p>
-<p>Essentially, there are below supported conversions:</p>
+<p>Essentially, <code class="docutils literal notranslate"><span class="pre">cfr</span></code> supports below conversions:</p>
 <ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code> &lt;=&gt; <code class="docutils literal notranslate"><span class="pre">ProxyDatabase</span></code></p></li>
-<li><p>a netCDF file &lt;=&gt; <code class="docutils literal notranslate"><span class="pre">ProxyDatabase</span></code></p></li>
-<li><p>a netCDF file &lt;=&gt; <code class="docutils literal notranslate"><span class="pre">ProxyRecord</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code> &lt;=&gt; <code class="docutils literal notranslate"><span class="pre">cfr.ProxyDatabase</span></code></p></li>
+<li><p>a netCDF file &lt;=&gt; <code class="docutils literal notranslate"><span class="pre">cfr.ProxyDatabase</span></code></p></li>
+<li><p>a netCDF file &lt;=&gt; <code class="docutils literal notranslate"><span class="pre">cfr.ProxyRecord</span></code></p></li>
 </ul>
 <p>Required data to complete this tutorial:</p>
 <ul class="simple">
-<li><p>PAGES2k Phase 2 database: <a class="reference external" href="https://github.com/fzhu2e/cfr/raw/main/docsrc/notebooks/data/pages2k_dataset.pkl">pages2k_dataset.pkl</a></p></li>
+<li><p>PAGES2k Phase 2 database: <a class="reference external" href="https://github.com/fzhu2e/cfr/raw/main/docsrc/notebooks/data/pages2k_updated_Palmyra_dataset.pkl">pages2k_updated_Palmyra_dataset.pkl</a></p></li>
 </ul>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
@@ -389,15 +401,15 @@ document.write(`
 </pre></div>
 </div>
 </div>
-<section id="pandas.DataFrame-=&gt;-ProxyDatabase">
-<h2><code class="docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code> =&gt; <code class="docutils literal notranslate"><span class="pre">ProxyDatabase</span></code><a class="headerlink" href="#pandas.DataFrame-=>-ProxyDatabase" title="Permalink to this heading">#</a></h2>
+<section id="pandas.DataFrame-=&gt;-cfr.ProxyDatabase">
+<h2><code class="docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code> =&gt; <code class="docutils literal notranslate"><span class="pre">cfr.ProxyDatabase</span></code><a class="headerlink" href="#pandas.DataFrame-=>-cfr.ProxyDatabase" title="Permalink to this heading">#</a></h2>
 <section id="Load-the-PAGES2k-network-stored-in-a-pandas.DataFrame">
 <h3>Load the PAGES2k network stored in a <code class="docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code><a class="headerlink" href="#Load-the-PAGES2k-network-stored-in-a-pandas.DataFrame" title="Permalink to this heading">#</a></h3>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_pickle</span><span class="p">(</span><span class="s1">&#39;./data/pages2k_dataset.pkl&#39;</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_pickle</span><span class="p">(</span><span class="s1">&#39;./data/pages2k_updated_Palmyra_dataset.pkl&#39;</span><span class="p">)</span>
 <span class="n">df</span><span class="o">.</span><span class="n">columns</span>
 </pre></div>
 </div>
@@ -416,8 +428,8 @@ Index([&#39;paleoData_pages2kID&#39;, &#39;dataSetName&#39;, &#39;archiveType&#3
 </pre></div></div>
 </div>
 </section>
-<section id="Create-a-ProxyDatabase-and-load-from-the-pandas.DataFrame">
-<h3>Create a <code class="docutils literal notranslate"><span class="pre">ProxyDatabase</span></code> and load from the <code class="docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code><a class="headerlink" href="#Create-a-ProxyDatabase-and-load-from-the-pandas.DataFrame" title="Permalink to this heading">#</a></h3>
+<section id="Create-a-cfr.ProxyDatabase-and-load-from-the-pandas.DataFrame">
+<h3>Create a <code class="docutils literal notranslate"><span class="pre">cfr.ProxyDatabase</span></code> and load from the <code class="docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code><a class="headerlink" href="#Create-a-cfr.ProxyDatabase-and-load-from-the-pandas.DataFrame" title="Permalink to this heading">#</a></h3>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
@@ -445,9 +457,9 @@ Index([&#39;paleoData_pages2kID&#39;, &#39;dataSetName&#39;, &#39;archiveType&#3
 </div>
 </section>
 </section>
-<section id="ProxyDatabase-=&gt;-pandas.DataFrame">
-<h2><code class="docutils literal notranslate"><span class="pre">ProxyDatabase</span></code> =&gt; <code class="docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code><a class="headerlink" href="#ProxyDatabase-=>-pandas.DataFrame" title="Permalink to this heading">#</a></h2>
-<p>Any <code class="docutils literal notranslate"><span class="pre">ProxyDatabase</span></code> can be converted to a <code class="docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code>.</p>
+<section id="cfr.ProxyDatabase-=&gt;-pandas.DataFrame">
+<h2><code class="docutils literal notranslate"><span class="pre">cfr.ProxyDatabase</span></code> =&gt; <code class="docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code><a class="headerlink" href="#cfr.ProxyDatabase-=>-pandas.DataFrame" title="Permalink to this heading">#</a></h2>
+<p>Any <code class="docutils literal notranslate"><span class="pre">cfr.ProxyDatabase</span></code> can be converted to a <code class="docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code>.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
 </pre></div>
@@ -539,9 +551,9 @@ Index([&#39;paleoData_pages2kID&#39;, &#39;dataSetName&#39;, &#39;archiveType&#3
 </div></div>
 </div>
 </section>
-<section id="ProxyDatabase-=&gt;-a-netCDF-file">
-<h2><code class="docutils literal notranslate"><span class="pre">ProxyDatabase</span></code> =&gt; a netCDF file<a class="headerlink" href="#ProxyDatabase-=>-a-netCDF-file" title="Permalink to this heading">#</a></h2>
-<p>Note that converting a <code class="docutils literal notranslate"><span class="pre">ProxyDatabase</span></code> to a netCDF file comes with the limitation that the time axis prior to 1 CE will be truncated since that is not supported yet.</p>
+<section id="cfr.ProxyDatabase-=&gt;-a-netCDF-file">
+<h2><code class="docutils literal notranslate"><span class="pre">cfr.ProxyDatabase</span></code> =&gt; a netCDF file<a class="headerlink" href="#cfr.ProxyDatabase-=>-a-netCDF-file" title="Permalink to this heading">#</a></h2>
+<p>Note that converting a <code class="docutils literal notranslate"><span class="pre">cfr.ProxyDatabase</span></code> to a netCDF file comes with the limitation that the time axis prior to 1 CE will be truncated since that is not supported yet.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
 </pre></div>
@@ -978,9 +990,9 @@ Data variables: (12/692)
             dtype=&#x27;object&#x27;, length=24096, calendar=&#x27;standard&#x27;, freq=&#x27;None&#x27;))</pre></div></li></ul></div></li><li class='xr-section-item'><input id='section-744d8292-cd84-4d2d-bcde-f9c58f2eedd6' class='xr-section-summary-in' type='checkbox' disabled ><label for='section-744d8292-cd84-4d2d-bcde-f9c58f2eedd6' class='xr-section-summary'  title='Expand/collapse section'>Attributes: <span>(0)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><dl class='xr-attrs'></dl></div></li></ul></div></div></div>
 </div>
 </section>
-<section id="a-netCDF-file-=&gt;-ProxyDatabase">
-<h2>a netCDF file =&gt; <code class="docutils literal notranslate"><span class="pre">ProxyDatabase</span></code><a class="headerlink" href="#a-netCDF-file-=>-ProxyDatabase" title="Permalink to this heading">#</a></h2>
-<p>Now we load the generated netCDF file into a <code class="docutils literal notranslate"><span class="pre">ProxyDatabase</span></code>.</p>
+<section id="a-netCDF-file-=&gt;-cfr.ProxyDatabase">
+<h2>a netCDF file =&gt; <code class="docutils literal notranslate"><span class="pre">cfr.ProxyDatabase</span></code><a class="headerlink" href="#a-netCDF-file-=>-cfr.ProxyDatabase" title="Permalink to this heading">#</a></h2>
+<p>Now we load the generated netCDF file into a <code class="docutils literal notranslate"><span class="pre">cfr.ProxyDatabase</span></code>.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
 </pre></div>
@@ -1007,9 +1019,9 @@ Data variables: (12/692)
 </div>
 </div>
 </section>
-<section id="ProxyRecord-=&gt;-a-netCDF-file">
-<h2><code class="docutils literal notranslate"><span class="pre">ProxyRecord</span></code> =&gt; a netCDF file<a class="headerlink" href="#ProxyRecord-=>-a-netCDF-file" title="Permalink to this heading">#</a></h2>
-<p>Each <code class="docutils literal notranslate"><span class="pre">ProxyRecord</span></code> can be saved to a netCDF file as well.</p>
+<section id="cfr.ProxyRecord-=&gt;-a-netCDF-file">
+<h2><code class="docutils literal notranslate"><span class="pre">cfr.ProxyRecord</span></code> =&gt; a netCDF file<a class="headerlink" href="#cfr.ProxyRecord-=>-a-netCDF-file" title="Permalink to this heading">#</a></h2>
+<p>Each <code class="docutils literal notranslate"><span class="pre">cfr.ProxyRecord</span></code> can be saved to a netCDF file as well.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
 </pre></div>
@@ -1027,9 +1039,9 @@ ProxyRecord saved to: ./data/NAm_153.nc
 </pre></div></div>
 </div>
 </section>
-<section id="a-netCDF-file-=&gt;-ProxyRecord">
-<h2>a netCDF file =&gt; <code class="docutils literal notranslate"><span class="pre">ProxyRecord</span></code><a class="headerlink" href="#a-netCDF-file-=>-ProxyRecord" title="Permalink to this heading">#</a></h2>
-<p>Now we load the saved netCDF file to a <code class="docutils literal notranslate"><span class="pre">ProxyRecord</span></code>.</p>
+<section id="a-netCDF-file-=&gt;-cfr.ProxyRecord">
+<h2>a netCDF file =&gt; <code class="docutils literal notranslate"><span class="pre">cfr.ProxyRecord</span></code><a class="headerlink" href="#a-netCDF-file-=>-cfr.ProxyRecord" title="Permalink to this heading">#</a></h2>
+<p>Now we load the saved netCDF file to a <code class="docutils literal notranslate"><span class="pre">cfr.ProxyRecord</span></code>.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
 </pre></div>
@@ -1077,6 +1089,24 @@ ProxyRecord saved to: ./data/NAm_153.nc
                 <footer class="bd-footer-article">
                   <!-- Previous / next buttons -->
 <div class="prev-next-area">
+    <a class="left-prev"
+       href="../ug-proxy.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Proxy</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="proxy-composites.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Composites</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
 </div>
                 </footer>
               
@@ -1092,16 +1122,16 @@ ProxyRecord saved to: ./data/NAm_153.nc
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pandas.DataFrame-=&gt;-ProxyDatabase"><code class="docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code> =&gt; <code class="docutils literal notranslate"><span class="pre">ProxyDatabase</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pandas.DataFrame-=&gt;-cfr.ProxyDatabase"><code class="docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code> =&gt; <code class="docutils literal notranslate"><span class="pre">cfr.ProxyDatabase</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Load-the-PAGES2k-network-stored-in-a-pandas.DataFrame">Load the PAGES2k network stored in a <code class="docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Create-a-ProxyDatabase-and-load-from-the-pandas.DataFrame">Create a <code class="docutils literal notranslate"><span class="pre">ProxyDatabase</span></code> and load from the <code class="docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Create-a-cfr.ProxyDatabase-and-load-from-the-pandas.DataFrame">Create a <code class="docutils literal notranslate"><span class="pre">cfr.ProxyDatabase</span></code> and load from the <code class="docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code></a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ProxyDatabase-=&gt;-pandas.DataFrame"><code class="docutils literal notranslate"><span class="pre">ProxyDatabase</span></code> =&gt; <code class="docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code></a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ProxyDatabase-=&gt;-a-netCDF-file"><code class="docutils literal notranslate"><span class="pre">ProxyDatabase</span></code> =&gt; a netCDF file</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#a-netCDF-file-=&gt;-ProxyDatabase">a netCDF file =&gt; <code class="docutils literal notranslate"><span class="pre">ProxyDatabase</span></code></a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ProxyRecord-=&gt;-a-netCDF-file"><code class="docutils literal notranslate"><span class="pre">ProxyRecord</span></code> =&gt; a netCDF file</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#a-netCDF-file-=&gt;-ProxyRecord">a netCDF file =&gt; <code class="docutils literal notranslate"><span class="pre">ProxyRecord</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.ProxyDatabase-=&gt;-pandas.DataFrame"><code class="docutils literal notranslate"><span class="pre">cfr.ProxyDatabase</span></code> =&gt; <code class="docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.ProxyDatabase-=&gt;-a-netCDF-file"><code class="docutils literal notranslate"><span class="pre">cfr.ProxyDatabase</span></code> =&gt; a netCDF file</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#a-netCDF-file-=&gt;-cfr.ProxyDatabase">a netCDF file =&gt; <code class="docutils literal notranslate"><span class="pre">cfr.ProxyDatabase</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.ProxyRecord-=&gt;-a-netCDF-file"><code class="docutils literal notranslate"><span class="pre">cfr.ProxyRecord</span></code> =&gt; a netCDF file</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#a-netCDF-file-=&gt;-cfr.ProxyRecord">a netCDF file =&gt; <code class="docutils literal notranslate"><span class="pre">cfr.ProxyRecord</span></code></a></li>
 </ul>
   </nav></div>
 

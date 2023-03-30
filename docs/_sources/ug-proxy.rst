@@ -9,7 +9,7 @@ In this section, we will cover the below topics:
     :maxdepth: 1
 
     notebooks/proxy-io
-    .. notebooks/proxy-ops
+    notebooks/proxy-ops
     .. notebooks/proxy-viz
     .. notebooks/proxy-analysis
     .. notebooks/proxy-get-nearest-climate

@@ -664,7 +664,7 @@ class Ice_d18O():
 
         # sensor model
         d18O_ice = ice_sensor(
-            self.pobj.clim[self.pr_name].da.time,
+            self.pobj.clim[self.pr_name].da.time.values,
             self.pobj.clim[self.d18O_name].da.values,
             self.pobj.clim[self.pr_name].da.values,
             alt_diff=alt_diff,
@@ -1034,13 +1034,13 @@ class VSLite:
         proxy_time = self.pobj.time
         proxy_value = self.pobj.value
 
-        obs_tas_time = utils.datetime2year_float(self.pobj.clim[self.obs_tas_name].da.time)
+        obs_tas_time = utils.datetime2year_float(self.pobj.clim[self.obs_tas_name].da.time.values)
         obs_tas_value = self.pobj.clim[self.obs_tas_name].da.values
         if np.min(obs_tas_value) > 200:
             # if in [K], convert to [degC]
             obs_tas_value -= 273.15
 
-        obs_pr_time = utils.datetime2year_float(self.pobj.clim[self.obs_pr_name].da.time)
+        obs_pr_time = utils.datetime2year_float(self.pobj.clim[self.obs_pr_name].da.time.values)
         obs_pr_value = self.pobj.clim[self.obs_pr_name].da.values
         if np.max(obs_pr_value) < 1:
             # if in [kg m-2 s-1], convert to [mm/month]
@@ -1079,7 +1079,7 @@ class VSLite:
         }
 
     def forward(self, **vsl_kwargs):
-        tas_time = utils.datetime2year_float(self.pobj.clim[self.model_tas_name].da.time)
+        tas_time = utils.datetime2year_float(self.pobj.clim[self.model_tas_name].da.time.values)
         syear = np.min(np.floor(tas_time))
         eyear = np.max(np.floor(tas_time))
 

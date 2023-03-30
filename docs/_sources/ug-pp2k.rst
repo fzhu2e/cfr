@@ -1,7 +1,7 @@
 
 Illustration: pseudoPAGES2k
 ===================================
-This section shows the usage of the pseudoPAGES2k dataset with `cfr` as an example.
+This section shows the usage of the pseudoPAGES2k dataset with `cfr` as an example, including the below topics:
 
 .. toctree::
     :maxdepth: 1

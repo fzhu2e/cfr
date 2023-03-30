@@ -157,7 +157,7 @@ class GCMCase:
 
         ds = xr.Dataset(da_dict)
         if self.name is not None:
-            ds.attrs['case_name'] = self.name
+            ds.attrs['casename'] = self.name
 
         return ds
 
@@ -189,8 +189,8 @@ class GCMCase:
     def load_nc(self, path, verbose=False):
         case = GCMCase()
         ds = xr.open_dataset(path)
-        if 'case_name' in ds.attrs:
-            case.name = ds.attrs['case_name']
+        if 'casename' in ds.attrs:
+            case.name = ds.attrs['casename']
 
         for vn in ds.keys():
             if vn[:2] == 'GM':

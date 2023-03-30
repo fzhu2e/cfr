@@ -133,7 +133,17 @@
         <p aria-level="2" class="caption" role="heading"><span class="caption-text">User Guide</span></p>
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="ug-installation.html">Installation</a></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="ug-pp2k.html">Illustration: pseudoPAGES2k</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="ug-proxy.html">Proxy</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="notebooks/proxy-io.html">Input/Output</a></li>
+<li class="toctree-l2"><a class="reference internal" href="notebooks/proxy-composites.html">Composites</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="ug-climate.html">Climate</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="notebooks/climate-io.html">Input/Output</a></li>
+<li class="toctree-l2"><a class="reference internal" href="notebooks/climate-ops.html">Basic Operations</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="ug-pp2k.html">Illustration: pseudoPAGES2k</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="notebooks/pp2k-pdb-load-viz.html">Loading and Visualization</a></li>
 <li class="toctree-l2"><a class="reference internal" href="notebooks/pp2k-pdb-filter.html">Database Filtering</a></li>
 <li class="toctree-l2"><a class="reference internal" href="notebooks/pp2k-dashboards.html">Validation Dashboards</a></li>
@@ -379,6 +389,51 @@ It provides a toolkit for</p>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="ug-installation.html#install-cfr">Install <cite>cfr</cite></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ug-proxy.html">Proxy</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="notebooks/proxy-io.html">Input/Output</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/proxy-io.html#pandas.DataFrame-=&gt;-cfr.ProxyDatabase"><code class="docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code> =&gt; <code class="docutils literal notranslate"><span class="pre">cfr.ProxyDatabase</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/proxy-io.html#cfr.ProxyDatabase-=&gt;-pandas.DataFrame"><code class="docutils literal notranslate"><span class="pre">cfr.ProxyDatabase</span></code> =&gt; <code class="docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/proxy-io.html#cfr.ProxyDatabase-=&gt;-a-netCDF-file"><code class="docutils literal notranslate"><span class="pre">cfr.ProxyDatabase</span></code> =&gt; a netCDF file</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/proxy-io.html#a-netCDF-file-=&gt;-cfr.ProxyDatabase">a netCDF file =&gt; <code class="docutils literal notranslate"><span class="pre">cfr.ProxyDatabase</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/proxy-io.html#cfr.ProxyRecord-=&gt;-a-netCDF-file"><code class="docutils literal notranslate"><span class="pre">cfr.ProxyRecord</span></code> =&gt; a netCDF file</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/proxy-io.html#a-netCDF-file-=&gt;-cfr.ProxyRecord">a netCDF file =&gt; <code class="docutils literal notranslate"><span class="pre">cfr.ProxyRecord</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="notebooks/proxy-composites.html">Composites</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/proxy-composites.html#Load-the-PAGES2k-network-stored-in-a-pandas-DataFrame">Load the PAGES2k network stored in a pandas <code class="docutils literal notranslate"><span class="pre">DataFrame</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/proxy-composites.html#Create-a-ProxyDatabase-and-load-from-the-pandas-DataFrame">Create a <code class="docutils literal notranslate"><span class="pre">ProxyDatabase</span></code> and load from the pandas <code class="docutils literal notranslate"><span class="pre">DataFrame</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/proxy-composites.html#Create-composites-for-each-proxy-type">Create composites for each proxy type</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/proxy-composites.html#The-composite-of-ice-core-records">The composite of ice core records</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ug-climate.html">Climate</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="notebooks/climate-io.html">Input/Output</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/climate-io.html#a-netCDF-file-=&gt;-cfr.ClimateField">a netCDF file =&gt; <code class="docutils literal notranslate"><span class="pre">cfr.ClimateField</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/climate-io.html#cfr.ClimateField-=&gt;-a-netCDF-file"><code class="docutils literal notranslate"><span class="pre">cfr.ClimateField</span></code> =&gt; a netCDF file</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/climate-io.html#xarray.DataArray-=&gt;-cfr.ClimateField"><code class="docutils literal notranslate"><span class="pre">xarray.DataArray</span></code> =&gt; <code class="docutils literal notranslate"><span class="pre">cfr.ClimateField</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/climate-io.html#cfr.ClimateField-=&gt;-xarray.DataArray"><code class="docutils literal notranslate"><span class="pre">cfr.ClimateField</span></code> =&gt; <code class="docutils literal notranslate"><span class="pre">xarray.DataArray</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/climate-io.html#numpy.ndarray-=&gt;-cfr.ClimateField"><code class="docutils literal notranslate"><span class="pre">numpy.ndarray</span></code> =&gt; <code class="docutils literal notranslate"><span class="pre">cfr.ClimateField</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/climate-io.html#cfr.ClimateField-=&gt;-numpy.ndarray"><code class="docutils literal notranslate"><span class="pre">cfr.ClimateField</span></code> =&gt; <code class="docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="notebooks/climate-ops.html">Basic Operations</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/climate-ops.html#Load-the-test-netCDF-file-as-a-ClimateField">Load the test netCDF file as a <code class="docutils literal notranslate"><span class="pre">ClimateField</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/climate-ops.html#Time-slicing">Time slicing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/climate-ops.html#Rename-the-variable">Rename the variable</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/climate-ops.html#Plot-a-field-map-at-a-time-point">Plot a field map at a time point</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/climate-ops.html#Get-the-anomaly-field">Get the anomaly field</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/climate-ops.html#Center-the-field">Center the field</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/climate-ops.html#Annualize/Seasonalize-a-ClimateField">Annualize/Seasonalize a <code class="docutils literal notranslate"><span class="pre">ClimateField</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/climate-ops.html#Regrid-a-ClimateField">Regrid a <code class="docutils literal notranslate"><span class="pre">ClimateField</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/climate-ops.html#Crop-a-cfr.ClimateField">Crop a <code class="docutils literal notranslate"><span class="pre">cfr.ClimateField</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/climate-ops.html#Calculate-the-weighted-mean-of-a-sptial-area">Calculate the weighted mean of a sptial area</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/climate-ops.html#Validate-a-field-against-another">Validate a field against another</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="ug-pp2k.html">Illustration: pseudoPAGES2k</a><ul>

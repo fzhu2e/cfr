@@ -131,7 +131,17 @@
         <p aria-level="2" class="caption" role="heading"><span class="caption-text">User Guide</span></p>
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="ug-installation.html">Installation</a></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="ug-pp2k.html">Illustration: pseudoPAGES2k</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="ug-proxy.html">Proxy</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="notebooks/proxy-io.html">Input/Output</a></li>
+<li class="toctree-l2"><a class="reference internal" href="notebooks/proxy-composites.html">Composites</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="ug-climate.html">Climate</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="notebooks/climate-io.html">Input/Output</a></li>
+<li class="toctree-l2"><a class="reference internal" href="notebooks/climate-ops.html">Basic Operations</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="ug-pp2k.html">Illustration: pseudoPAGES2k</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="notebooks/pp2k-pdb-load-viz.html">Loading and Visualization</a></li>
 <li class="toctree-l2"><a class="reference internal" href="notebooks/pp2k-pdb-filter.html">Database Filtering</a></li>
 <li class="toctree-l2"><a class="reference internal" href="notebooks/pp2k-dashboards.html">Validation Dashboards</a></li>
@@ -317,6 +327,10 @@ document.write(`
       <li><a href="ug-api.html#cfr.psm.Bilinear">Bilinear (class in cfr.psm)</a>
 </li>
   </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="ug-api.html#cfr.graphem.solver.GraphEM.bootstrap">bootstrap() (cfr.graphem.solver.GraphEM method)</a>
+</li>
+  </ul></td>
 </tr></table>
 
 <h2 id="C">C</h2>
@@ -384,10 +398,12 @@ document.write(`
 <h2 id="E">E</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="ug-api.html#cfr.da.EnKF">EnKF (class in cfr.da)</a>
+      <li><a href="ug-api.html#cfr.graphem.solver.GraphEM.EM">EM() (cfr.graphem.solver.GraphEM method)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="ug-api.html#cfr.da.EnKF">EnKF (class in cfr.da)</a>
+</li>
       <li><a href="ug-api.html#cfr.reconjob.ReconJob.erase_cfg">erase_cfg() (cfr.reconjob.ReconJob method)</a>
 </li>
   </ul></td>
@@ -400,6 +416,10 @@ document.write(`
 </li>
       <li><a href="ug-api.html#cfr.reconjob.ReconJob.filter_proxydb">filter_proxydb() (cfr.reconjob.ReconJob method)</a>
 </li>
+      <li><a href="ug-api.html#cfr.graphem.solver.GraphEM.fit">fit() (cfr.graphem.solver.GraphEM method)</a>
+</li>
+      <li><a href="ug-api.html#cfr.graphem.solver.GraphEM.fit_Sigma">fit_Sigma() (cfr.graphem.solver.GraphEM method)</a>
+</li>
       <li><a href="ug-api.html#cfr.psm.Coral_SrCa.forward">forward() (cfr.psm.Coral_SrCa method)</a>
 
       <ul>
@@ -410,12 +430,8 @@ document.write(`
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="ug-api.html#cfr.reconjob.ReconJob.forward_psms">forward_psms() (cfr.reconjob.ReconJob method)</a>
 </li>
-      <li><a href="ug-api.html#cfr.climate.ClimateField.from_da">from_da() (cfr.climate.ClimateField method)</a>
-
-      <ul>
-        <li><a href="ug-api.html#cfr.proxy.ProxyRecord.from_da">(cfr.proxy.ProxyRecord method)</a>
+      <li><a href="ug-api.html#cfr.proxy.ProxyRecord.from_da">from_da() (cfr.proxy.ProxyRecord method)</a>
 </li>
-      </ul></li>
       <li><a href="ug-api.html#cfr.proxy.ProxyDatabase.from_df">from_df() (cfr.proxy.ProxyDatabase method)</a>
 </li>
       <li><a href="ug-api.html#cfr.climate.ClimateField.from_np">from_np() (cfr.climate.ClimateField method)</a>
@@ -439,6 +455,8 @@ document.write(`
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="ug-api.html#cfr.proxy.ProxyRecord.get_pseudo">get_pseudo() (cfr.proxy.ProxyRecord method)</a>
+</li>
+      <li><a href="ug-api.html#cfr.graphem.solver.GraphEM">GraphEM (class in cfr.graphem.solver)</a>
 </li>
       <li><a href="ug-api.html#cfr.reconjob.ReconJob.graphem_kcv">graphem_kcv() (cfr.reconjob.ReconJob method)</a>
 </li>
@@ -526,8 +544,6 @@ document.write(`
 </li>
       <li><a href="ug-api.html#cfr.proxy.ProxyRecord">ProxyRecord (class in cfr.proxy)</a>
 </li>
-      <li><a href="ug-api.html#cfr.climate.ClimateField.pt">pt() (cfr.climate.ClimateField method)</a>
-</li>
   </ul></td>
 </tr></table>
 
@@ -536,18 +552,14 @@ document.write(`
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="ug-api.html#cfr.reconjob.ReconJob">ReconJob (class in cfr.reconjob)</a>
 </li>
-      <li><a href="ug-api.html#cfr.climate.ClimateField.refresh">refresh() (cfr.climate.ClimateField method)</a>
-
-      <ul>
-        <li><a href="ug-api.html#cfr.proxy.ProxyDatabase.refresh">(cfr.proxy.ProxyDatabase method)</a>
+      <li><a href="ug-api.html#cfr.proxy.ProxyDatabase.refresh">refresh() (cfr.proxy.ProxyDatabase method)</a>
 </li>
-      </ul></li>
       <li><a href="ug-api.html#cfr.climate.ClimateField.regrid">regrid() (cfr.climate.ClimateField method)</a>
+</li>
+      <li><a href="ug-api.html#cfr.reconjob.ReconJob.regrid_clim">regrid_clim() (cfr.reconjob.ReconJob method)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="ug-api.html#cfr.reconjob.ReconJob.regrid_clim">regrid_clim() (cfr.reconjob.ReconJob method)</a>
-</li>
       <li><a href="ug-api.html#cfr.climate.ClimateField.rename">rename() (cfr.climate.ClimateField method)</a>
 </li>
       <li><a href="ug-api.html#cfr.reconjob.ReconJob.run_da">run_da() (cfr.reconjob.ReconJob method)</a>

@@ -7,9 +7,9 @@
    :caption: User Guide
 
    ug-installation
-   ug-pp2k
    ug-proxy
-..    ug-climate
+   ug-climate
+   ug-pp2k
 ..    ug-psm
 ..    ug-lmr
 ..    ug-graphem

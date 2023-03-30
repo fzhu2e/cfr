@@ -132,7 +132,17 @@
         <p aria-level="2" class="caption" role="heading"><span class="caption-text">User Guide</span></p>
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="ug-installation.html">Installation</a></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="ug-pp2k.html">Illustration: pseudoPAGES2k</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="ug-proxy.html">Proxy</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="notebooks/proxy-io.html">Input/Output</a></li>
+<li class="toctree-l2"><a class="reference internal" href="notebooks/proxy-composites.html">Composites</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="ug-climate.html">Climate</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="notebooks/climate-io.html">Input/Output</a></li>
+<li class="toctree-l2"><a class="reference internal" href="notebooks/climate-ops.html">Basic Operations</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="ug-pp2k.html">Illustration: pseudoPAGES2k</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="notebooks/pp2k-pdb-load-viz.html">Loading and Visualization</a></li>
 <li class="toctree-l2"><a class="reference internal" href="notebooks/pp2k-pdb-filter.html">Database Filtering</a></li>
 <li class="toctree-l2"><a class="reference internal" href="notebooks/pp2k-dashboards.html">Validation Dashboards</a></li>
@@ -380,15 +390,12 @@ document.write(`
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.climate.ClimateField.center"><code class="docutils literal notranslate"><span class="pre">ClimateField.center()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.climate.ClimateField.copy"><code class="docutils literal notranslate"><span class="pre">ClimateField.copy()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.climate.ClimateField.crop"><code class="docutils literal notranslate"><span class="pre">ClimateField.crop()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.climate.ClimateField.from_da"><code class="docutils literal notranslate"><span class="pre">ClimateField.from_da()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.climate.ClimateField.from_np"><code class="docutils literal notranslate"><span class="pre">ClimateField.from_np()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.climate.ClimateField.geo_mean"><code class="docutils literal notranslate"><span class="pre">ClimateField.geo_mean()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.climate.ClimateField.get_anom"><code class="docutils literal notranslate"><span class="pre">ClimateField.get_anom()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.climate.ClimateField.load_nc"><code class="docutils literal notranslate"><span class="pre">ClimateField.load_nc()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.climate.ClimateField.plot"><code class="docutils literal notranslate"><span class="pre">ClimateField.plot()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.climate.ClimateField.plotly_grid"><code class="docutils literal notranslate"><span class="pre">ClimateField.plotly_grid()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.climate.ClimateField.pt"><code class="docutils literal notranslate"><span class="pre">ClimateField.pt()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.climate.ClimateField.refresh"><code class="docutils literal notranslate"><span class="pre">ClimateField.refresh()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.climate.ClimateField.regrid"><code class="docutils literal notranslate"><span class="pre">ClimateField.regrid()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.climate.ClimateField.rename"><code class="docutils literal notranslate"><span class="pre">ClimateField.rename()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.climate.ClimateField.to_nc"><code class="docutils literal notranslate"><span class="pre">ClimateField.to_nc()</span></code></a></li>
@@ -418,7 +425,16 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.da.EnKF"><code class="docutils literal notranslate"><span class="pre">EnKF</span></code></a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#graphem">GraphEM</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#graphem">GraphEM</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.graphem.solver.GraphEM"><code class="docutils literal notranslate"><span class="pre">GraphEM</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.graphem.solver.GraphEM.EM"><code class="docutils literal notranslate"><span class="pre">GraphEM.EM()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.graphem.solver.GraphEM.bootstrap"><code class="docutils literal notranslate"><span class="pre">GraphEM.bootstrap()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.graphem.solver.GraphEM.fit"><code class="docutils literal notranslate"><span class="pre">GraphEM.fit()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.graphem.solver.GraphEM.fit_Sigma"><code class="docutils literal notranslate"><span class="pre">GraphEM.fit_Sigma()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reconjob">ReconJob</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.reconjob.ReconJob"><code class="docutils literal notranslate"><span class="pre">ReconJob</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.reconjob.ReconJob.annualize_clim"><code class="docutils literal notranslate"><span class="pre">ReconJob.annualize_clim()</span></code></a></li>
@@ -829,16 +845,11 @@ the default is by multiprocessing.cpu_count()</p></li>
 <h2>Climate<a class="headerlink" href="#climate" title="Permalink to this heading">#</a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="cfr.climate.ClimateField">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cfr.climate.</span></span><span class="sig-name descname"><span class="pre">ClimateField</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">da</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lat_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lon_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.climate.ClimateField" title="Permalink to this definition">#</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cfr.climate.</span></span><span class="sig-name descname"><span class="pre">ClimateField</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">da</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.climate.ClimateField" title="Permalink to this definition">#</a></dt>
 <dd><p>The class for the gridded climate field data.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>da</strong> (<em>xarray.DataArray</em>) – the gridded data array.</p></li>
-<li><p><strong>time_name</strong> (<em>str</em>) – the name of the time dimension.</p></li>
-<li><p><strong>lat_name</strong> (<em>str</em>) – the name of the latitude dimension.</p></li>
-<li><p><strong>lon_name</strong> (<em>str</em>) – the name of the longitude dimension.</p></li>
-</ul>
+<dd class="field-odd"><p><strong>da</strong> (<em>xarray.DataArray</em>) – the gridded data array.</p>
 </dd>
 </dl>
 <dl class="py method">
@@ -854,7 +865,7 @@ the default is by multiprocessing.cpu_count()</p></li>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="cfr.climate.ClimateField.center">
-<span class="sig-name descname"><span class="pre">center</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ref_period</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[1951,</span> <span class="pre">1980]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'time'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.climate.ClimateField.center" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">center</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ref_period</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[1951,</span> <span class="pre">1980]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.climate.ClimateField.center" title="Permalink to this definition">#</a></dt>
 <dd><p>Center the climate field against a reference time period.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -874,25 +885,19 @@ the default is by multiprocessing.cpu_count()</p></li>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="cfr.climate.ClimateField.crop">
-<span class="sig-name descname"><span class="pre">crop</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">time_min</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time_max</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lat_min</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lat_max</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lon_min</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lon_max</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.climate.ClimateField.crop" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">crop</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lat_min</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">-90</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lat_max</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">90</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lon_min</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lon_max</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">360</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.climate.ClimateField.crop" title="Permalink to this definition">#</a></dt>
 <dd><p>Crop the climate field.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="cfr.climate.ClimateField.from_da">
-<span class="sig-name descname"><span class="pre">from_da</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">da</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'time'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lat_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'lat'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lon_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'lon'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.climate.ClimateField.from_da" title="Permalink to this definition">#</a></dt>
-<dd><p>Load data from a <cite>xarray.DataArray</cite>.</p>
-</dd></dl>
-
-<dl class="py method">
 <dt class="sig sig-object py" id="cfr.climate.ClimateField.from_np">
-<span class="sig-name descname"><span class="pre">from_np</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">time</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lat</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lon</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'time'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lat_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'lat'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lon_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'lon'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'tas'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.climate.ClimateField.from_np" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">from_np</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">time</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lat</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lon</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.climate.ClimateField.from_np" title="Permalink to this definition">#</a></dt>
 <dd><p>Load data from a <cite>numpy.ndarray</cite>.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="cfr.climate.ClimateField.geo_mean">
-<span class="sig-name descname"><span class="pre">geo_mean</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lat_min</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">-90</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lat_max</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">90</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lon_min</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lon_max</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">360</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lat_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'lat'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lon_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'lon'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'year'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.climate.ClimateField.geo_mean" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">geo_mean</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lat_min</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">-90</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lat_max</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">90</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lon_min</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lon_max</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">360</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.climate.ClimateField.geo_mean" title="Permalink to this definition">#</a></dt>
 <dd><p>Calculate the geographical mean value of the climate field.</p>
 </dd></dl>
 
@@ -909,7 +914,7 @@ the default is by multiprocessing.cpu_count()</p></li>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="cfr.climate.ClimateField.load_nc">
-<span class="sig-name descname"><span class="pre">load_nc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vn</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'time'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lat_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'lat'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lon_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'lon'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">load</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.climate.ClimateField.load_nc" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">load_nc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vn</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'time'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lat_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'lat'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lon_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'lon'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">load</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">return_ds</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.climate.ClimateField.load_nc" title="Permalink to this definition">#</a></dt>
 <dd><p>Load the climate field from a netCDF file.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -920,31 +925,14 @@ the default is by multiprocessing.cpu_count()</p></li>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="cfr.climate.ClimateField.plot">
-<span class="sig-name descname"><span class="pre">plot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">it</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.climate.ClimateField.plot" title="Permalink to this definition">#</a></dt>
-<dd><p>Plot the climate field.</p>
+<span class="sig-name descname"><span class="pre">plot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.climate.ClimateField.plot" title="Permalink to this definition">#</a></dt>
+<dd><p>Plot a climate field at a time point.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="cfr.climate.ClimateField.plotly_grid">
 <span class="sig-name descname"><span class="pre">plotly_grid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">site_lats</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">site_lons</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.climate.ClimateField.plotly_grid" title="Permalink to this definition">#</a></dt>
 <dd><p>Plot the grid on an interactive map utilizing Plotly</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="cfr.climate.ClimateField.pt">
-<span class="sig-name descname"><span class="pre">pt</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">time</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.climate.ClimateField.pt" title="Permalink to this definition">#</a></dt>
-<dd><p>Pick a time point or a time slice.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>time</strong> (<em>float</em><em>, </em><em>int</em><em>, </em><em>list</em>) – a time point or a time range</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="cfr.climate.ClimateField.refresh">
-<span class="sig-name descname"><span class="pre">refresh</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">time_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lat_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lon_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.climate.ClimateField.refresh" title="Permalink to this definition">#</a></dt>
-<dd><p>Refresh a bunch of attributes.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -955,7 +943,7 @@ the default is by multiprocessing.cpu_count()</p></li>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="cfr.climate.ClimateField.rename">
-<span class="sig-name descname"><span class="pre">rename</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">new_vn</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">modify_vn</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.climate.ClimateField.rename" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">rename</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">new_vn</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.climate.ClimateField.rename" title="Permalink to this definition">#</a></dt>
 <dd><p>Rename the variable name of the climate field.</p>
 </dd></dl>
 
@@ -972,17 +960,16 @@ the default is by multiprocessing.cpu_count()</p></li>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="cfr.climate.ClimateField.validate">
-<span class="sig-name descname"><span class="pre">validate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ref</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stat</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'corr'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">interp_direction</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'to-ref'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'year'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">valid_period</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(1880,</span> <span class="pre">2000)</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.climate.ClimateField.validate" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">validate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ref</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">valid_period</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stat</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'corr'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">interp_target</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'ref'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">interp</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.climate.ClimateField.validate" title="Permalink to this definition">#</a></dt>
 <dd><p>Validate against a reference field.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>ref</strong> (<a class="reference internal" href="#cfr.climate.ClimateField" title="cfr.climate.ClimateField"><em>cfr.climate.ClimateField</em></a>) – the reference to compare against, assuming the first dimension to be time</p></li>
-<li><p><strong>valid_period</strong> (<em>tuple</em><em>, </em><em>optional</em>) – the time period for validation. Defaults to None.</p></li>
-<li><p><strong>interp_direction</strong> (<em>str</em><em>, </em><em>optional</em>) – <p>the direction to interpolate the fields:</p>
+<li><p><strong>interp_target</strong> (<em>str</em><em>, </em><em>optional</em>) – <p>the direction to interpolate the fields:</p>
 <ul>
-<li><p>’to-ref’: interpolate from <cite>self</cite> to <cite>ref</cite></p></li>
-<li><p>’from-ref’: interpolate from <cite>ref</cite> to <cite>self</cite></p></li>
+<li><p>’ref’: interpolate from <cite>self</cite> to <cite>ref</cite></p></li>
+<li><p>’self’: interpolate from <cite>ref</cite> to <cite>self</cite></p></li>
 </ul>
 </p></li>
 <li><p><strong>stat</strong> (<em>str</em>) – <p>the statistics to calculate. Supported quantaties:</p>
@@ -999,7 +986,7 @@ the default is by multiprocessing.cpu_count()</p></li>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="cfr.climate.ClimateField.wrap_lon">
-<span class="sig-name descname"><span class="pre">wrap_lon</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'360'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'time'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lon_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'lon'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.climate.ClimateField.wrap_lon" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">wrap_lon</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'360'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.climate.ClimateField.wrap_lon" title="Permalink to this definition">#</a></dt>
 <dd><p>Convert longitude values from the range (-180, 180) to (0, 360).</p>
 </dd></dl>
 
@@ -1120,6 +1107,147 @@ Returns a numpy array that is the same size and shape as the input vectors for S
 </section>
 <section id="graphem">
 <h2>GraphEM<a class="headerlink" href="#graphem" title="Permalink to this heading">#</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="cfr.graphem.solver.GraphEM">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cfr.graphem.solver.</span></span><span class="sig-name descname"><span class="pre">GraphEM</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tol</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.005</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.graphem.solver.GraphEM" title="Permalink to this definition">#</a></dt>
+<dd><p>The class for the GraphEM solver</p>
+<p>Implementation of the GraphEM algorithm</p>
+<dl class="simple">
+<dt>Reference: D. Guillot. B.Rajaratnam. J.Emile-Geay. “Statistical paleoclimate reconstructions via Markov random fields.”</dt><dd><p>Ann. Appl. Stat. 9 (1) 324 - 352, March 2015.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>tol</strong> (<em>float</em>) – convergence tolerence of EM algorithm (default: 5e-3)</p></li>
+<li><p><strong>field_r</strong> (<em>numpy.ndarray</em>) – reconstructed climate field</p></li>
+<li><p><strong>proxy_r</strong> (<em>numpy.ndarray</em>) – reconstructed proxy matrix</p></li>
+<li><p><strong>calib</strong> (<em>numpy.ndarray</em>) – index of calibration period</p></li>
+<li><p><strong>Sigma</strong> (<em>numpy.ndarray</em>) – covariance matrix of the multivariate normal model</p></li>
+<li><p><strong>mu</strong> (<em>numpy.ndarray</em>) – mean of the multivariate normal model</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="cfr.graphem.solver.GraphEM.EM">
+<span class="sig-name descname"><span class="pre">EM</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">graph</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">C0</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">M0</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">maxit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">200</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_iridge</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.graphem.solver.GraphEM.EM" title="Permalink to this definition">#</a></dt>
+<dd><p>Expectation-Maximization (EM) algorithm with Gaussian Graphical Model</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>X</strong> (<em>matrix</em><em> (</em><em>n x p</em><em>)</em><em>, </em><em>time x space</em>) – Temperature + Proxy matrix with missing values (np.na)</p></li>
+<li><p><strong>graph</strong> (<em>matrix</em><em> (</em><em>p x p</em><em>)</em>) – Adjacency matrix of the graph</p></li>
+<li><p><strong>C0</strong> (<em>matrix</em><em> (</em><em>p x p</em><em>)</em>) – Initial covariance matrix of the field (Default = [], uses sample covariance matrix)</p></li>
+<li><p><strong>M0</strong> (<em>vector</em><em> (</em><em>p</em><em>)</em>) – Initial mean of the field (Default = [], uses sample mean)</p></li>
+<li><p><strong>maxit</strong> (<em>int</em>) – Maximum number of iteration of the algorithm (Default = 200)</p></li>
+<li><p><strong>use_iridge</strong> (<em>boolean</em>) – If True, uses Ridge regularization to perform regression (Default = False)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>X</strong> (<em>matrix (n x p)</em>) – Field with reconstructed values</p></li>
+<li><p><strong>C</strong> (<em>matrix (p x p)</em>) – Estimated covariance matrix of the field</p></li>
+<li><p><strong>M</strong> (<em>vector (p)</em>) – Estimate mean vector of the field</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cfr.graphem.solver.GraphEM.bootstrap">
+<span class="sig-name descname"><span class="pre">bootstrap</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">N_boot</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">20</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">blocksize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_proc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">4</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_graphs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.graphem.solver.GraphEM.bootstrap" title="Permalink to this definition">#</a></dt>
+<dd><p>Block bootstrap method for the GraphEM algorithm</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>N_boot</strong> (<em>int</em>) – Number of bootstrap samples to use (Default = 20)</p></li>
+<li><p><strong>blocksize</strong> (<em>int</em>) – Size of the blocks used when constructing bootstrap samples (Default = 2)</p></li>
+<li><p><strong>n_proc</strong> (<em>int</em>) – Number of processors available for distributed computing (not currently implemented).</p></li>
+<li><p><strong>save_graphs</strong> (<em>boolean</em>) – Indicated whether or not to save all the graphs estimated via graph_greedy_search (Default = False)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>self.field_r_all</strong> – Matrix containing the reconstructed climate field for each bootstrap sample</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>matrix (sample x time x space)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cfr.graphem.solver.GraphEM.fit">
+<span class="sig-name descname"><span class="pre">fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">field</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">proxy</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">calib</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">graph</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lonlat</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sp_FF</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sp_FP</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sp_PP</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">N_graph</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">30</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">C0</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">M0</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">maxit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">200</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bootstrap</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">N_boot</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">20</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cutoff_radius</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">graph_method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'neighborhood'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">estimate_graph</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_graphs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.graphem.solver.GraphEM.fit" title="Permalink to this definition">#</a></dt>
+<dd><p>Estimates the parameters of the GraphEM model and reconstruct the missing values of the climate
+and proxy fields.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>field</strong> (<em>matrix</em><em> (</em><em>time x space</em><em>)</em>) – Climate field. Missing values stored as “np.nan”.</p></li>
+<li><p><strong>proxy</strong> (<em>matrix</em><em> (</em><em>time x space</em><em>)</em>) – <dl class="simple">
+<dt>Proxy data. Missing values stored as “np.nan”. The time dimension should be</dt><dd><p>the same as the climate field.</p>
+</dd>
+</dl>
+</p></li>
+<li><p><strong>calib</strong> (<em>vector</em>) – Vector of indices representing the calibration period.</p></li>
+<li><p><strong>graph</strong> (<em>NumPy array</em>) – Adjacency matrix of the climate+proxy data matrix. (Default = [], estimated via graph_greedy_search)</p></li>
+<li><p><strong>lonlat</strong> (<em>matrix</em><em> (</em><em>(</em><em>number</em><em> of </em><em>grid points + number</em><em> of </em><em>proxies</em><em>) </em><em>x 2</em><em>)</em><em>. Default =</em><em> [</em><em>]</em>) – Matrix containing the (longitude, latitude) of the climate field grid points and proxy locations. Only
+used if graph_method = ‘neighborhood’.</p></li>
+<li><p><strong>sp_FF</strong> (<em>float</em>) – <dl class="simple">
+<dt>Target sparsity of the in-field part of the inverse covariance matrix. Only used</dt><dd><p>when the graph is estimated by glasso. Default (3.0%)</p>
+</dd>
+</dl>
+</p></li>
+<li><p><strong>sp_FP</strong> (<em>float</em>) – <dl class="simple">
+<dt>Target sparsity of the climate field/proxy part of the inverse covariance matrix. Only used</dt><dd><p>when the graph is estimated by glasso. Default (3.0%)</p>
+</dd>
+</dl>
+</p></li>
+<li><p><strong>sp_PP</strong> (<em>float</em>) – <dl class="simple">
+<dt>Target sparsity of the proxy/proxy part of the inverse covariance matrix. Only used</dt><dd><p>when the graph is estimated by glasso. Default (3.0%)</p>
+</dd>
+</dl>
+</p></li>
+<li><p><strong>N_graph</strong> (<em>int</em>) – <dl class="simple">
+<dt>Number of graphs to consider in the graph_greedy_search method (Default = 30). Only used</dt><dd><p>if the graph is estimated using glasso.</p>
+</dd>
+</dl>
+</p></li>
+<li><p><strong>C0</strong> (<em>matrix</em>) – Initial estimate of the covariance matrix of the total data matrix (climate + proxies). (Default = []).</p></li>
+<li><p><strong>M0</strong> (<em>vector</em>) – Initial estimate of the mean of the total data matrix (climate + proxies). (Default = []).</p></li>
+<li><p><strong>bootstrap</strong> (<em>boolean</em>) – Indicates whether or not to produce multiple estimates of the reconstructed values via bootstrapping. (Default = False)</p></li>
+<li><p><strong>N_boot</strong> (<em>int</em>) – Number of bootstrap samples to use if using the bootstrap method.</p></li>
+<li><p><strong>cutoff_radius</strong> (<em>float</em>) – Radius of the neighborhood graph. Only used if graph_method = ‘neighborhood’. (Default = 1000 km).</p></li>
+<li><p><strong>graph_method</strong> (<em>&quot;neighborhood&quot;</em><em> or </em><em>&quot;glasso&quot;</em>) – Method to use to estimate the graph. Used only if graph = [] or if estimate_graph = True.</p></li>
+<li><p><strong>save_graphs</strong> (<em>boolean</em>) – Indicates whether or not to save all the graphs return by graph_greedy_search (Default = False).</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cfr.graphem.solver.GraphEM.fit_Sigma">
+<span class="sig-name descname"><span class="pre">fit_Sigma</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">S</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">graph</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.graphem.solver.GraphEM.fit_Sigma" title="Permalink to this definition">#</a></dt>
+<dd><p>Estimates the covariance matrix of the field using the provided graph</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>S</strong> (<em>matrix</em>) – Sample covariance matrix</p></li>
+<li><p><strong>graph</strong> (<em>matrix</em>) – Adjacency matrix of the graph</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>C</strong> – Estimated covariance matrix</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>matrix</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
 </section>
 <section id="reconjob">
 <h2>ReconJob<a class="headerlink" href="#reconjob" title="Permalink to this heading">#</a></h2>
@@ -1323,7 +1451,7 @@ Returns a numpy array that is the same size and shape as the input vectors for S
 
 <dl class="py method">
 <dt class="sig sig-object py" id="cfr.reconjob.ReconJob.load_clim">
-<span class="sig-name descname"><span class="pre">load_clim</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tag</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path_dict</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rename_dict</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">anom_period</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">load</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lon_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.reconjob.ReconJob.load_clim" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">load_clim</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tag</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path_dict</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rename_dict</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">anom_period</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">load</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lat_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lon_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.reconjob.ReconJob.load_clim" title="Permalink to this definition">#</a></dt>
 <dd><p>Load grided climate data, either model simulations or instrumental observations.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -1684,15 +1812,12 @@ The filename will be <cite>configs.yml</cite>.</p></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.climate.ClimateField.center"><code class="docutils literal notranslate"><span class="pre">ClimateField.center()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.climate.ClimateField.copy"><code class="docutils literal notranslate"><span class="pre">ClimateField.copy()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.climate.ClimateField.crop"><code class="docutils literal notranslate"><span class="pre">ClimateField.crop()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.climate.ClimateField.from_da"><code class="docutils literal notranslate"><span class="pre">ClimateField.from_da()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.climate.ClimateField.from_np"><code class="docutils literal notranslate"><span class="pre">ClimateField.from_np()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.climate.ClimateField.geo_mean"><code class="docutils literal notranslate"><span class="pre">ClimateField.geo_mean()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.climate.ClimateField.get_anom"><code class="docutils literal notranslate"><span class="pre">ClimateField.get_anom()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.climate.ClimateField.load_nc"><code class="docutils literal notranslate"><span class="pre">ClimateField.load_nc()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.climate.ClimateField.plot"><code class="docutils literal notranslate"><span class="pre">ClimateField.plot()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.climate.ClimateField.plotly_grid"><code class="docutils literal notranslate"><span class="pre">ClimateField.plotly_grid()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.climate.ClimateField.pt"><code class="docutils literal notranslate"><span class="pre">ClimateField.pt()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.climate.ClimateField.refresh"><code class="docutils literal notranslate"><span class="pre">ClimateField.refresh()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.climate.ClimateField.regrid"><code class="docutils literal notranslate"><span class="pre">ClimateField.regrid()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.climate.ClimateField.rename"><code class="docutils literal notranslate"><span class="pre">ClimateField.rename()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.climate.ClimateField.to_nc"><code class="docutils literal notranslate"><span class="pre">ClimateField.to_nc()</span></code></a></li>
@@ -1722,7 +1847,16 @@ The filename will be <cite>configs.yml</cite>.</p></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.da.EnKF"><code class="docutils literal notranslate"><span class="pre">EnKF</span></code></a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#graphem">GraphEM</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#graphem">GraphEM</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.graphem.solver.GraphEM"><code class="docutils literal notranslate"><span class="pre">GraphEM</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.graphem.solver.GraphEM.EM"><code class="docutils literal notranslate"><span class="pre">GraphEM.EM()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.graphem.solver.GraphEM.bootstrap"><code class="docutils literal notranslate"><span class="pre">GraphEM.bootstrap()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.graphem.solver.GraphEM.fit"><code class="docutils literal notranslate"><span class="pre">GraphEM.fit()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.graphem.solver.GraphEM.fit_Sigma"><code class="docutils literal notranslate"><span class="pre">GraphEM.fit_Sigma()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reconjob">ReconJob</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.reconjob.ReconJob"><code class="docutils literal notranslate"><span class="pre">ReconJob</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.reconjob.ReconJob.annualize_clim"><code class="docutils literal notranslate"><span class="pre">ReconJob.annualize_clim()</span></code></a></li>

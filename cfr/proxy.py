@@ -312,7 +312,6 @@ class ProxyRecord:
                     new.value = new.value[::int(key.step)]
                     new.time = new.time[::int(key.step)]
 
-        new.dt = np.median(np.diff(new.time))
         return new
 
     def __add__(self, records):
@@ -419,6 +418,8 @@ class ProxyRecord:
             mdl = psm(self)
             if hasattr(mdl, 'calibrate') and calibrate:
                 mdl.calibrate(**calib_kws)
+                self.psm = mdl
+                if verbose: utils.p_success(f'>>> ProxyRecord.psm created.')
 
             self.pseudo = mdl.forward(**forward_kws)
         else:
@@ -823,10 +824,10 @@ class ProxyDatabase:
 
     def __getitem__(self, key):
         ''' This makes the object subscriptable. '''
-        new = self.copy()
         if type(key) is str:
-            new = new.records[key]
+            new = self.records[key]
         else:
+            new = self.copy()
             key = new.pids[key]
             new = new.filter(by='pid', keys=key, mode='exact')
             if len(new.records) == 1:

@@ -102,21 +102,23 @@ class ClimateField:
 
         return fd
 
-    def load_nc(self, path, vn=None, time_name='time', lat_name='lat', lon_name='lon', load=False, return_da=False, **kwargs):
+    def load_nc(self, path, vn=None, time_name='time', lat_name='lat', lon_name='lon', load=False, return_ds=False, **kwargs):
         ''' Load the climate field from a netCDF file.
 
         Args:
             path (str): the path where to load data from
         '''
-        if vn is None: 
-            da = xr.open_dataarray(path, **kwargs)
+        ds = xr.open_dataset(path, **kwargs)
+        if return_ds:
+            return ds
         else:
-            ds = xr.open_dataset(path, **kwargs)
+            if len(ds.keys()) == 1:
+                vn = list(ds.keys())[0]
+            else:
+                if vn is None:
+                    raise ValueError('Variable name should be specified with `vn`.')
+
             da = ds[vn]
-        
-        if return_da:
-            return da
-        else:
             fd = ClimateField(da)
             if time_name != 'time':
                 fd.da = fd.da.rename({time_name: 'time'})
@@ -129,6 +131,7 @@ class ClimateField:
                 fd = fd.wrap_lon()
 
             if load: fd.da.load()
+        
         return fd
 
     def to_nc(self, path, verbose=True, compress_params=None):

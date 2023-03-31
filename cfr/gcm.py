@@ -71,7 +71,8 @@ class GCMCase:
         with xr.open_dataset(self.paths[idx]) as ds:
             return ds
 
-    def load(self, vars=None, time_name='time', z_name='z_t', z_val=None, adjust_month=False, mode='time-slice',
+    def load(self, vars=None, time_name='time', z_name='z_t', z_val=None,
+             adjust_month=False, mode='time-slice',
              save_dirpath=None, compress_params=None, verbose=False):
         ''' Load variables.
 
@@ -91,6 +92,7 @@ class GCMCase:
         if mode == 'timeslice':
             if vars is None:
                 raise ValueError('Should specify `vars` if mode is "timeslice".')
+
             ds_list = []
             for path in tqdm(self.paths, desc='Loading files'):
                 with xr.open_dataset(path) as ds_tmp:
@@ -102,8 +104,10 @@ class GCMCase:
                     da = xr.concat([ds[vn] for ds in ds_list], dim=time_name)
                 else:
                     da = xr.concat([ds[vn].sel({z_name: z_val}) for ds in ds_list], dim=time_name)
+
                 if adjust_month:
                     da[time_name] = da[time_name].get_index(time_name) - datetime.timedelta(days=1)
+
                 self.fd[vn] = ClimateField(da)
 
                 if save_dirpath is not None:
@@ -124,7 +128,7 @@ class GCMCase:
                 p_success(f'>>> GCMCase loaded with vars: {list(self.fd.keys())}')
 
         else:
-            raise ValueError('Wrong `mode` specified! Options: "archive" or "vars".')
+            raise ValueError('Wrong `mode` specified! Options: "timeslice" or "timeseries".')
 
     def calc_atm_gm(self, vars=['GMST', 'GMRESTOM', 'GMLWCF', 'GMSWCF'], verbose=False):
 
@@ -178,8 +182,11 @@ class GCMCase:
         for k, v in self.ts.items():
             encoding_dict[k] = _comp_params
 
-        dirpath = os.path.dirname(path)
-        os.makedirs(dirpath, exist_ok=True)
+        try:
+            dirpath = os.path.dirname(path)
+            os.makedirs(dirpath, exist_ok=True)
+        except:
+            pass
 
         ds = self.to_ds()
 

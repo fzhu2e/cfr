@@ -10,7 +10,7 @@ In this section, we will cover the below topics:
 
     notebooks/proxy-io
     notebooks/proxy-ops
-    .. notebooks/proxy-viz
-    .. notebooks/proxy-analysis
-    .. notebooks/proxy-get-nearest-climate
+    notebooks/proxy-analysis
     notebooks/proxy-composites
+    .. notebooks/proxy-viz
+    .. notebooks/proxy-get-nearest-climate

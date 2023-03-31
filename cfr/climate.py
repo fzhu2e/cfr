@@ -159,7 +159,7 @@ class ClimateField:
             os.remove(path)
 
         self.da.to_netcdf(path, encoding=encoding_dict)
-        if verbose: utils.p_success(f'ClimateField.da["{self.da.name}"] saved to: {path}')
+        if verbose: utils.p_success(f'>>> ClimateField.da["{self.da.name}"] saved to: {path}')
 
     def copy(self):
         ''' Make a deepcopy of the object. '''
@@ -246,8 +246,8 @@ class ClimateField:
         fd = ClimateField(da)
         return fd
 
-    def validate(self, ref, valid_period=None, stat='corr', interp_target='ref', interp=True):
-        ''' Validate against a reference field.
+    def compare(self, ref, compare_period=None, stat='corr', interp_target='ref', interp=True):
+        ''' Compare against a reference field.
 
         Args:
             ref (cfr.climate.ClimateField): the reference to compare against, assuming the first dimension to be time
@@ -273,9 +273,9 @@ class ClimateField:
             fd_rg = self.copy()
             ref_rg = self.copy()
 
-        if valid_period is not None:
-            fd_rg = fd_rg[str(valid_period[0]):str(valid_period[-1])]
-            ref_rg = ref_rg[str(valid_period[0]):str(valid_period[-1])]
+        if compare_period is not None:
+            fd_rg = fd_rg[str(compare_period[0]):str(compare_period[-1])]
+            ref_rg = ref_rg[str(compare_period[0]):str(compare_period[-1])]
 
         if len(fd_rg.da.lat.shape) == 1:
             fd_rg.da = xr.DataArray(

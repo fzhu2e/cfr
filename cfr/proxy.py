@@ -221,6 +221,13 @@ class ProxyRecord:
             verbose (bool, optional): print verbose information. Defaults to False.
         '''
         da = self.to_da()
+
+        try:
+            dirpath = os.path.dirname(path)
+            os.makedirs(dirpath, exist_ok=True)
+        except:
+            pass
+
         da.to_netcdf(path=path, **kwargs)
         if verbose: utils.p_success(f'ProxyRecord saved to: {path}')
 
@@ -283,6 +290,7 @@ class ProxyRecord:
             if verbose: p_warning(f'Record {self.pid} cannot be annualized with months {months}. Use calendar year instead.')
 
         new.time, new.value = utils.clean_ts(new.time, new.value)
+        new.dt = np.median(np.diff(new.time))
         return new
             
 
@@ -769,7 +777,6 @@ class ProxyRecord:
         ax['ts'].legend(**_lgd_kws)
 
         return fig, ax
-
 
     def plot_compare(self, ref, label=None, title=None, ref_label=None, ref_color=None, ref_zorder=2,
                     figsize=[12, 4], legend=False, ms=200, stock_img=True, edge_clr='w',
@@ -1335,7 +1342,7 @@ class ProxyDatabase:
     def annualize(self, months=list(range(1, 13)), verbose=False):
         ''' Annualize the records in the proxy database.'''
         new = ProxyDatabase()
-        for pid, pobj in tqdm(self.records.items(), total=self.nrec, desc='Annualizing ProxyRecord'):
+        for pid, pobj in tqdm(self.records.items(), total=self.nrec, desc='Annualizing ProxyDatabase'):
             spobj = pobj.annualize(months=months, verbose=verbose)
             if spobj is not None:
                 new += spobj
@@ -1522,3 +1529,24 @@ class ProxyDatabase:
 
         if verbose:
             utils.p_success(f'>>> ProxyDatabase updated with tas corrected for elevation bias.')
+
+    def count_availability(self, year=np.arange(2001)):
+        df = self.to_df()
+        df_count = {}
+        type_set = np.unique(df['ptype'])
+        for ptype in type_set[::-1]:
+            df_count[ptype] = pd.DataFrame(index=year)
+
+        for index, row in df.iterrows():
+            ptype = row['ptype']
+            time = np.array(row['time']).astype(int)
+            time = time[~np.isnan(time)]
+            time = time[time<np.max(year)+1]
+            time = np.sort(list(set(time)))  # remove the duplicates for monthly data
+            ts = pd.Series(index=time, data=1, name=row['pid'])
+            df_count[ptype] = pd.concat([df_count[ptype], ts], axis=1)
+
+        for ptype in df_count.keys():
+            df_count[ptype]['Sum'] = df_count[ptype].sum(axis=1).astype(int)
+
+        return df_count

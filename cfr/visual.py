@@ -394,11 +394,11 @@ def plot_field_map(field_var, lat, lon, levels=50, add_cyclic_point=True,
     if site_lats is not None and site_lons is not None:
         if type(site_lats) is not dict:
             ax.scatter(site_lons, site_lats, s=site_markersize, c=site_color, marker=site_marker, edgecolors='k',
-                       zorder=99, transform=transform, cmap=cmap)
+                       zorder=99, transform=transform)
         else:
             for name in site_lats.keys():
                 ax.scatter(site_lons[name], site_lats[name], s=site_markersize[name], c=site_color[name],
-                           marker=site_marker[name], edgecolors='k', zorder=99, transform=transform, cmap=cmap)
+                           marker=site_marker[name], edgecolors='k', zorder=99, transform=transform)
 
     if plot_proxydb:
         proxydb_lgd_kws = {} if proxydb_lgd_kws is None else proxydb_lgd_kws

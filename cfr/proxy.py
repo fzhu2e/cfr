@@ -24,6 +24,11 @@ from .utils import (
     p_success,
     p_fail,
 )
+# for spectral analysis
+try:
+    import pyleoclim as pyleo
+except:
+    pass
 
 def get_ptype(archive_type, proxy_type):
     '''Get proxy type string based on archive and proxy strings
@@ -538,7 +543,6 @@ class ProxyRecord:
         wspace=0.1, hspace=0.3, spec_method='wwz', pseudo_clr=None, **kwargs):
         ''' Plot a dashboard of the proxy/pseudoproxy.
         '''
-
         if not hasattr(self, 'pseudo'):
             raise ValueError('Need to get the pseudoproxy data.')
 
@@ -613,14 +617,8 @@ class ProxyRecord:
         )
         ax['map'].set_title(f'lat: {self.lat:.2f}, lon: {self.lon:.2f}')
 
-        # plot spectral analysis
-        try:
-            import pyleoclim as pyleo
-        except:
-            raise ImportError('Need to install pyleoclim: `pip install pyleoclim`.')
-
+        # plot PSD
         ax['psd'] = plt.subplot(gs[1, :2])
-
         ts, psd = {}, {}
         ts['real'] = pyleo.Series(time=self.time, value=self.value)
         psd['real'] = ts['real'].spectral(method=spec_method)
@@ -1468,8 +1466,8 @@ class ProxyDatabase:
         ds.to_netcdf(path=path, encoding=encoding_dict)
         if verbose: utils.p_success(f'ProxyDatabase saved to: {path}')
 
-    def load_nc(self, path):
-        ds = xr.open_dataset(path)
+    def load_nc(self, path, use_cftime=True, **kwargs):
+        ds = xr.open_dataset(path, use_cftime=use_cftime, **kwargs)
         pdb = ProxyDatabase().from_ds(ds)
         return pdb
 

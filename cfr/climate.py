@@ -23,12 +23,17 @@ class ClimateField:
 
     def __getitem__(self, key):
         ''' This makes the object subscriptable. '''
-        try:
+        if type(key) is int or type(key) is list:
             da = self.da[key]
-        except:
-            if type(key) is str:
-                da = self.da.loc[key:key]
-            else:
+        else:
+            if type(key) is str: 
+                key = slice(key, key, None)
+            elif type(key) is not slice:
+                raise TypeError('Wrong type for key!')
+
+            try:
+                da = self.da.sel({'time': slice(float(key.start), float(key.stop), key.step)})
+            except:
                 da = self.da.loc[key]
 
         fd = ClimateField(da)
@@ -102,13 +107,13 @@ class ClimateField:
 
         return fd
 
-    def load_nc(self, path, vn=None, time_name='time', lat_name='lat', lon_name='lon', load=False, return_ds=False, **kwargs):
+    def load_nc(self, path, vn=None, time_name='time', lat_name='lat', lon_name='lon', load=False, return_ds=False, use_cftime=True, **kwargs):
         ''' Load the climate field from a netCDF file.
 
         Args:
             path (str): the path where to load data from
         '''
-        ds = xr.open_dataset(path, **kwargs)
+        ds = xr.open_dataset(path, use_cftime=use_cftime, **kwargs)
         if return_ds:
             return ds
         else:
@@ -246,7 +251,7 @@ class ClimateField:
         fd = ClimateField(da)
         return fd
 
-    def compare(self, ref, compare_period=None, stat='corr', interp_target='ref', interp=True):
+    def compare(self, ref, timespan=None, stat='corr', interp_target='ref', interp=True):
         ''' Compare against a reference field.
 
         Args:
@@ -273,9 +278,9 @@ class ClimateField:
             fd_rg = self.copy()
             ref_rg = self.copy()
 
-        if compare_period is not None:
-            fd_rg = fd_rg[str(compare_period[0]):str(compare_period[-1])]
-            ref_rg = ref_rg[str(compare_period[0]):str(compare_period[-1])]
+        if timespan is not None:
+            fd_rg = fd_rg[str(timespan[0]):str(timespan[-1])]
+            ref_rg = ref_rg[str(timespan[0]):str(timespan[-1])]
 
         if len(fd_rg.da.lat.shape) == 1:
             fd_rg.da = xr.DataArray(

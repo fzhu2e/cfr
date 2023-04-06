@@ -460,14 +460,14 @@ class EnsTS:
         else:
             return ax
 
-    def compare(self, ref_time, ref_value, ref_name='reference', stats=['corr', 'CE'], compare_period=None):
+    def compare(self, ref_time, ref_value, ref_name='reference', stats=['corr', 'CE'], timespan=None):
         ''' Compare against a reference timeseries.
 
         Args:
             ref_time (numpy.array): the time axis of the reference timeseries
             ref_value (numpy.array): the value axis of the reference timeseries
             stats (list, optional): the list of validation statistics to calculate. Defaults to ['corr', 'CE'].
-            compare_period (tuple, optional): the time period for validation. Defaults to None.
+            timespan (tuple, optional): the time period for validation. Defaults to None.
         '''
         new = self.copy()
         new.valid_stats = {}
@@ -478,15 +478,15 @@ class EnsTS:
         recon_value = np.array(self.get_median().value)[:, 0]
         recon_time = np.array(self.get_median().time)
 
-        if compare_period is None:
+        if timespan is None:
             time_min = np.max([np.min(recon_time), np.min(ref_time)])
             time_max = np.min([np.max(recon_time), np.max(ref_time)])
-            compare_period = [time_min, time_max]
+            timespan = [time_min, time_max]
 
-        recon_mask = (recon_time>=compare_period[0])&(recon_time<=compare_period[1])
+        recon_mask = (recon_time>=timespan[0])&(recon_time<=timespan[1])
         recon_slice = recon_value[recon_mask]
 
-        ref_mask = (ref_time>=compare_period[0])&(ref_time<=compare_period[1])
+        ref_mask = (ref_time>=timespan[0])&(ref_time<=timespan[1])
         ref_slice = ref_value[ref_mask]
         new.ref_time = ref_time[ref_mask]
         new.ref_value = ref_value[ref_mask]

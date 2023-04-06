@@ -409,7 +409,7 @@ document.write(`
 <ul class="simple">
 <li><p>iCESM simulated air surface temperature: <a class="reference external" href="https://atmos.washington.edu/~rtardif/LMR/prior/tas_sfc_Amon_iCESM_past1000historical_085001-200512.nc">tas_sfc_Amon_iCESM_past1000historical_085001-200512.nc</a></p></li>
 <li><p>iCESM simulated precipitation rate: <a class="reference external" href="https://atmos.washington.edu/~rtardif/LMR/prior/pr_sfc_Amon_iCESM_past1000historical_085001-200512.nc">pr_sfc_Amon_iCESM_past1000historical_085001-200512.nc</a></p></li>
-<li><p>pseudoPAGES2k: <a class="reference external" href="https://github.com/fzhu2e/paper-pseudoPAGES2k/raw/main/data/ppwn_SNR10_rta.nc">ppwn_SNR10_rta.nc</a></p></li>
+<li><p>pseudoPAGES2k: <a class="reference external" href="https://github.com/fzhu2e/paper-pseudoPAGES2k/raw/main/data/ppwn_SNRinf_rta.nc">ppwn_SNR10_inf.nc</a></p></li>
 </ul>
 <p>Note: <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">&quot;cfr[graphem]&quot;</span></code> to enable the GraphEM method if not done before.</p>
 <div class="nbinput nblast docutils container">
@@ -439,7 +439,7 @@ document.write(`
 <span class="n">job</span> <span class="o">=</span> <span class="n">cfr</span><span class="o">.</span><span class="n">ReconJob</span><span class="p">()</span>
 
 <span class="c1"># load the pseudoPAGES2k database from a netCDF file</span>
-<span class="n">job</span><span class="o">.</span><span class="n">proxydb</span> <span class="o">=</span> <span class="n">cfr</span><span class="o">.</span><span class="n">ProxyDatabase</span><span class="p">()</span><span class="o">.</span><span class="n">load_nc</span><span class="p">(</span><span class="s1">&#39;./data/ppwn_SNR10_rta.nc&#39;</span><span class="p">)</span>
+<span class="n">job</span><span class="o">.</span><span class="n">proxydb</span> <span class="o">=</span> <span class="n">cfr</span><span class="o">.</span><span class="n">ProxyDatabase</span><span class="p">()</span><span class="o">.</span><span class="n">load_nc</span><span class="p">(</span><span class="s1">&#39;./data/ppwn_SNRinf_rta.nc&#39;</span><span class="p">)</span>
 
 <span class="c1"># filter the database</span>
 <span class="n">job</span><span class="o">.</span><span class="n">filter_proxydb</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="s1">&#39;ptype&#39;</span><span class="p">,</span> <span class="n">keys</span><span class="o">=</span><span class="s1">&#39;coral&#39;</span><span class="p">)</span>
@@ -492,7 +492,7 @@ document.write(`
 </div>
 <div class="output_area stderr docutils container">
 <div class="highlight"><pre>
-Annualizing ProxyDatabase: 100%|██████████| 96/96 [00:04&lt;00:00, 22.61it/s]
+Annualizing ProxyDatabase: 100%|██████████| 96/96 [00:04&lt;00:00, 22.53it/s]
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
@@ -542,7 +542,7 @@ Centering each of the ProxyRecord:   0%|          | 0/96 [00:00&lt;?, ?it/s]/gla
   return _methods._mean(a, axis=axis, dtype=dtype,
 /glade/work/fengzhu/conda-envs/cfr-env/lib/python3.9/site-packages/numpy/core/_methods.py:190: RuntimeWarning: invalid value encountered in double_scalars
   ret = ret.dtype.type(ret / rcount)
-Centering each of the ProxyRecord: 100%|██████████| 96/96 [00:00&lt;00:00, 4494.05it/s]
+Centering each of the ProxyRecord: 100%|██████████| 96/96 [00:00&lt;00:00, 2874.16it/s]
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
@@ -605,7 +605,7 @@ Centering each of the ProxyRecord: 100%|██████████| 96/96 [0
 <h3>Load the instrumental observations<a class="headerlink" href="#Load-the-instrumental-observations" title="Permalink to this heading">#</a></h3>
 <p>As a perfect model prior pseudoproxy experiment (PPE), we use the iCESM simulated fields as instrumental observations.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">job</span><span class="o">.</span><span class="n">load_clim</span><span class="p">(</span>
@@ -627,6 +627,7 @@ Centering each of the ProxyRecord: 100%|██████████| 96/96 [0
 <div class="highlight"><pre>
 <span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;obs_path&#34;] = {&#39;tas&#39;: &#39;./data/tas_sfc_Amon_iCESM_past1000historical_085001-200512.nc&#39;}
 </span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;obs_anom_period&#34;] = (1951, 1980)
+</span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;obs_lat_name&#34;] = lat
 </span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;obs_lon_name&#34;] = lon
 </span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;obs_time_name&#34;] = time
 </span><span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; obs variables [&#39;tas&#39;] loaded
@@ -639,7 +640,7 @@ Centering each of the ProxyRecord: 100%|██████████| 96/96 [0
 <h3>Annualize the observation fields<a class="headerlink" href="#Annualize-the-observation-fields" title="Permalink to this heading">#</a></h3>
 <p>This step will determine the temporal resolution of the reconstructed fields.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">job</span><span class="o">.</span><span class="n">annualize_clim</span><span class="p">(</span><span class="n">tag</span><span class="o">=</span><span class="s1">&#39;obs&#39;</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">months</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">13</span><span class="p">)))</span>
@@ -662,7 +663,7 @@ Centering each of the ProxyRecord: 100%|██████████| 96/96 [0
 <h3>Regrid the observation fields<a class="headerlink" href="#Regrid-the-observation-fields" title="Permalink to this heading">#</a></h3>
 <p>This step will determine the spatial resolution of the reconstructed fields.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">job</span><span class="o">.</span><span class="n">regrid_clim</span><span class="p">(</span><span class="n">tag</span><span class="o">=</span><span class="s1">&#39;obs&#39;</span><span class="p">,</span> <span class="n">nlat</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span> <span class="n">nlon</span><span class="o">=</span><span class="mi">63</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
@@ -684,7 +685,7 @@ Centering each of the ProxyRecord: 100%|██████████| 96/96 [0
 <section id="Crop-the-observations-fields-to-make-the-problem-size-smaller">
 <h3>Crop the observations fields to make the problem size smaller<a class="headerlink" href="#Crop-the-observations-fields-to-make-the-problem-size-smaller" title="Permalink to this heading">#</a></h3>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">job</span><span class="o">.</span><span class="n">crop_clim</span><span class="p">(</span><span class="n">tag</span><span class="o">=</span><span class="s1">&#39;obs&#39;</span><span class="p">,</span> <span class="n">lat_min</span><span class="o">=-</span><span class="mi">25</span><span class="p">,</span> <span class="n">lat_max</span><span class="o">=</span><span class="mi">25</span><span class="p">,</span> <span class="n">lon_min</span><span class="o">=</span><span class="mi">120</span><span class="p">,</span> <span class="n">lon_max</span><span class="o">=</span><span class="mi">280</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
@@ -705,7 +706,7 @@ Centering each of the ProxyRecord: 100%|██████████| 96/96 [0
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># check the cropped domain</span>
@@ -725,7 +726,7 @@ Centering each of the ProxyRecord: 100%|██████████| 96/96 [0
 <h3>(Optional) Save the job object for later reload<a class="headerlink" href="#(Optional)-Save-the-job-object-for-later-reload" title="Permalink to this heading">#</a></h3>
 <p>Save the job object before running the DA procedure for a quick reload next time if needed.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">job</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s1">&#39;./cases/pp2k-ppe-graphem&#39;</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
@@ -745,7 +746,7 @@ Centering each of the ProxyRecord: 100%|██████████| 96/96 [0
 </div>
 <p>Now let’s reload the job object from the saved directory.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">job</span> <span class="o">=</span> <span class="n">cfr</span><span class="o">.</span><span class="n">ReconJob</span><span class="p">()</span>
@@ -767,7 +768,7 @@ Centering each of the ProxyRecord: 100%|██████████| 96/96 [0
 <section id="Prepare-the-GraphEM-solver">
 <h3>Prepare the GraphEM solver<a class="headerlink" href="#Prepare-the-GraphEM-solver" title="Permalink to this heading">#</a></h3>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">job</span><span class="o">.</span><span class="n">prep_graphem</span><span class="p">(</span>
@@ -802,7 +803,7 @@ Centering each of the ProxyRecord: 100%|██████████| 96/96 [0
 <h3>Run the GraphEM solver<a class="headerlink" href="#Run-the-GraphEM-solver" title="Permalink to this heading">#</a></h3>
 <p>We will take the Empirical Graphs (graphical lasso, <code class="docutils literal notranslate"><span class="pre">glasso</span></code>) approach.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">job</span><span class="o">.</span><span class="n">run_graphem</span><span class="p">(</span>
@@ -832,7 +833,7 @@ Infilling missing values over the calibration period using RegEM iridge
 </div>
 <div class="output_area stderr docutils container">
 <div class="highlight"><pre>
-EM | dXmis: 0.0015; rdXmis: 0.0127: 100%|██████████| 200/200 [15:22&lt;00:00,  4.61s/it]
+EM | dXmis: 0.0005; rdXmis: 0.0047:  14%|█▍        | 29/200 [02:07&lt;12:30,  4.39s/it]
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
@@ -840,6 +841,7 @@ EM | dXmis: 0.0015; rdXmis: 0.0127: 100%|██████████| 200/200
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
+GraphEM.EM(): Tolerance achieved.
 Solving graphical LASSO using greedy search
 </pre></div></div>
 </div>
@@ -848,7 +850,7 @@ Solving graphical LASSO using greedy search
 </div>
 <div class="output_area stderr docutils container">
 <div class="highlight"><pre>
-graph_greedy_search | FF:  3.660; FP:  4.252; PP:  3.025: 100%|██████████| 500/500 [01:26&lt;00:00,  5.77it/s]
+graph_greedy_search | FF:  3.625; FP:  3.903; PP:  3.529: 100%|██████████| 500/500 [01:46&lt;00:00,  4.69it/s]
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
@@ -865,7 +867,7 @@ Running GraphEM:
 </div>
 <div class="output_area stderr docutils container">
 <div class="highlight"><pre>
-EM | dXmis: 0.0018; rdXmis: 0.0048:  10%|█         | 21/200 [05:02&lt;42:56, 14.39s/it]
+EM | dXmis: 0.0019; rdXmis: 0.0050:  10%|█         | 20/200 [00:18&lt;02:44,  1.09it/s]
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
@@ -896,7 +898,7 @@ GraphEM.EM(): Tolerance achieved.
 <h3>Create the reconstruction result object <code class="docutils literal notranslate"><span class="pre">cfr.ReconRes</span></code>.<a class="headerlink" href="#Create-the-reconstruction-result-object-cfr.ReconRes." title="Permalink to this heading">#</a></h3>
 <p>A <code class="docutils literal notranslate"><span class="pre">cfr.ReconRes</span></code> object takes care of the workflow of postprocessing and analyzing the reconstruction results. It provides handy methods to help the users load, validate, and visualize the reconstruction results.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">res</span> <span class="o">=</span> <span class="n">cfr</span><span class="o">.</span><span class="n">ReconRes</span><span class="p">(</span><span class="s1">&#39;./recons/pp2k-ppe-graphem&#39;</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
@@ -917,7 +919,7 @@ GraphEM.EM(): Tolerance achieved.
 <h3>Load the reconstructed variables<a class="headerlink" href="#Load-the-reconstructed-variables" title="Permalink to this heading">#</a></h3>
 <p>Here we validate the <code class="docutils literal notranslate"><span class="pre">tas</span></code> field and the NINO3.4 index as an example.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">res</span><span class="o">.</span><span class="n">load</span><span class="p">([</span><span class="s1">&#39;tas&#39;</span><span class="p">,</span> <span class="s1">&#39;nino3.4&#39;</span><span class="p">],</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
@@ -941,12 +943,12 @@ GraphEM.EM(): Tolerance achieved.
 <h3>Validate the reconstructed NINO3.4<a class="headerlink" href="#Validate-the-reconstructed-NINO3.4" title="Permalink to this heading">#</a></h3>
 <p>We calculate the annualized NINO3.4 from the “instrumental observations” as a reference for validation.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">da</span> <span class="o">=</span> <span class="n">job</span><span class="o">.</span><span class="n">obs</span><span class="p">[</span><span class="s1">&#39;tas&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">da</span>
 <span class="n">da</span> <span class="o">=</span> <span class="n">cfr</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">geo_mean</span><span class="p">(</span><span class="n">da</span><span class="p">,</span> <span class="n">lat_min</span><span class="o">=-</span><span class="mi">5</span><span class="p">,</span> <span class="n">lat_max</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">lon_min</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">mod</span><span class="p">(</span><span class="o">-</span><span class="mi">170</span><span class="p">,</span> <span class="mi">360</span><span class="p">),</span> <span class="n">lon_max</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">mod</span><span class="p">(</span><span class="o">-</span><span class="mi">120</span><span class="p">,</span> <span class="mi">360</span><span class="p">))</span>
-<span class="n">ref_time</span> <span class="o">=</span> <span class="p">[</span><span class="n">t</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">da</span><span class="o">.</span><span class="n">year</span><span class="p">]</span>
+<span class="n">ref_time</span> <span class="o">=</span> <span class="n">da</span><span class="o">.</span><span class="n">time</span><span class="o">.</span><span class="n">values</span>
 <span class="n">ref_value</span> <span class="o">=</span> <span class="n">da</span><span class="o">.</span><span class="n">values</span>
 <span class="n">ref_name</span> <span class="o">=</span> <span class="s1">&#39;target&#39;</span>
 </pre></div>
@@ -954,17 +956,17 @@ GraphEM.EM(): Tolerance achieved.
 </div>
 <p>We use a chain calling of several methods, including the validation step <code class="docutils literal notranslate"><span class="pre">.validate()</span></code> and the plotting step <code class="docutils literal notranslate"><span class="pre">.plot_qs()</span></code>.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">res</span><span class="o">.</span><span class="n">recons</span><span class="p">[</span><span class="s1">&#39;nino3.4&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">validate</span><span class="p">(</span><span class="n">ref_time</span><span class="p">,</span> <span class="n">ref_value</span><span class="p">,</span> <span class="n">ref_name</span><span class="p">,</span> <span class="n">valid_period</span><span class="o">=</span><span class="p">(</span><span class="mi">1801</span><span class="p">,</span> <span class="mi">1900</span><span class="p">))</span><span class="o">.</span><span class="n">plot_qs</span><span class="p">()</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">res</span><span class="o">.</span><span class="n">recons</span><span class="p">[</span><span class="s1">&#39;nino3.4&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">compare</span><span class="p">(</span><span class="n">ref_time</span><span class="p">,</span> <span class="n">ref_value</span><span class="p">,</span> <span class="n">ref_name</span><span class="p">,</span> <span class="n">timespan</span><span class="o">=</span><span class="p">(</span><span class="mi">1801</span><span class="p">,</span> <span class="mi">1900</span><span class="p">))</span><span class="o">.</span><span class="n">plot_qs</span><span class="p">()</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="mi">1800</span><span class="p">,</span> <span class="mi">2000</span><span class="p">)</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="nboutput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
@@ -983,7 +985,7 @@ GraphEM.EM(): Tolerance achieved.
 <section id="Validate-the-reconstructed-fields">
 <h3>Validate the reconstructed fields<a class="headerlink" href="#Validate-the-reconstructed-fields" title="Permalink to this heading">#</a></h3>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Preparations to add markers representing the sites on the map</span>
@@ -1000,13 +1002,13 @@ GraphEM.EM(): Tolerance achieved.
 </div>
 <p>Calculating and visualizing the coefficient of determination (<span class="math notranslate nohighlight">\(R^2\)</span>) between the reconstructed and target fields, we see overall high skills.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[49]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">stat</span> <span class="o">=</span> <span class="s1">&#39;R2&#39;</span>
-<span class="n">valid_fd</span> <span class="o">=</span> <span class="n">res</span><span class="o">.</span><span class="n">recons</span><span class="p">[</span><span class="s1">&#39;tas&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">validate</span><span class="p">(</span>
+<span class="n">valid_fd</span> <span class="o">=</span> <span class="n">res</span><span class="o">.</span><span class="n">recons</span><span class="p">[</span><span class="s1">&#39;tas&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">compare</span><span class="p">(</span>
     <span class="n">job</span><span class="o">.</span><span class="n">obs</span><span class="p">[</span><span class="s1">&#39;tas&#39;</span><span class="p">],</span> <span class="n">stat</span><span class="o">=</span><span class="n">stat</span><span class="p">,</span>
-    <span class="n">valid_period</span><span class="o">=</span><span class="p">(</span><span class="mi">1801</span><span class="p">,</span> <span class="mi">1900</span><span class="p">),</span>
+    <span class="n">timespan</span><span class="o">=</span><span class="p">(</span><span class="mi">1801</span><span class="p">,</span> <span class="mi">1900</span><span class="p">),</span>
 <span class="p">)</span>
 <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">valid_fd</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
     <span class="n">title</span><span class="o">=</span><span class="sa">fr</span><span class="s1">&#39;tas: $R^2$(recon, target)&#39;</span><span class="p">,</span>
@@ -1020,33 +1022,24 @@ GraphEM.EM(): Tolerance achieved.
 </pre></div>
 </div>
 </div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area stderr docutils container">
-<div class="highlight"><pre>
-/Users/fengzhu/Apps/miniconda3/envs/cfr-env/lib/python3.9/site-packages/cartopy/mpl/geoaxes.py:1700: UserWarning: No data for colormapping provided via &#39;c&#39;. Parameters &#39;cmap&#39; will be ignored
-  result = super().scatter(*args, **kwargs)
-</pre></div></div>
-</div>
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_pp2k-ppe-graphem_40_1.png" src="../_images/notebooks_pp2k-ppe-graphem_40_1.png" />
+<img alt="../_images/notebooks_pp2k-ppe-graphem_40_0.png" src="../_images/notebooks_pp2k-ppe-graphem_40_0.png" />
 </div>
 </div>
 <p>Note that there are regions where color is not filled. The values there are NaNs, and it is caused by the constant values in the reconstruction.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[58]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[24]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">res</span><span class="o">.</span><span class="n">recons</span><span class="p">[</span><span class="s1">&#39;tas&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">da</span><span class="o">.</span><span class="n">sel</span><span class="p">({</span><span class="s1">&#39;year&#39;</span><span class="p">:</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">1801</span><span class="p">,</span> <span class="mi">1900</span><span class="p">)})[:,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">res</span><span class="o">.</span><span class="n">recons</span><span class="p">[</span><span class="s1">&#39;tas&#39;</span><span class="p">][</span><span class="s1">&#39;1801&#39;</span><span class="p">:</span><span class="s1">&#39;1900&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">da</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[58]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[24]:
 </pre></div>
 </div>
 <div class="output_area rendered_html docutils container">
@@ -1413,7 +1406,7 @@ dl.xr-attrs {
   stroke: currentColor;
   fill: currentColor;
 }
-</style><pre class='xr-text-repr-fallback'>&lt;xarray.DataArray &#x27;tas&#x27; (year: 100)&gt;
+</style><pre class='xr-text-repr-fallback'>&lt;xarray.DataArray &#x27;tas&#x27; (time: 100)&gt;
 array([0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
        0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
        0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
@@ -1421,14 +1414,14 @@ array([0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
        0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
        0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.])
 Coordinates:
-  * year     (year) int64 1801 1802 1803 1804 1805 ... 1896 1897 1898 1899 1900
+  * time     (time) int64 1801 1802 1803 1804 1805 ... 1896 1897 1898 1899 1900
     lat      float64 -24.15
-    lon      float64 121.9</pre><div class='xr-wrap' style='display:none'><div class='xr-header'><div class='xr-obj-type'>xarray.DataArray</div><div class='xr-array-name'>'tas'</div><ul class='xr-dim-list'><li><span class='xr-has-index'>year</span>: 100</li></ul></div><ul class='xr-sections'><li class='xr-section-item'><div class='xr-array-wrap'><input id='section-0daae496-d2cd-41ec-9655-af8b3f06cfbd' class='xr-array-in' type='checkbox' checked><label for='section-0daae496-d2cd-41ec-9655-af8b3f06cfbd' title='Show/hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-array-preview xr-preview'><span>0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 ... 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0</span></div><div class='xr-array-data'><pre>array([0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+    lon      float64 121.9</pre><div class='xr-wrap' style='display:none'><div class='xr-header'><div class='xr-obj-type'>xarray.DataArray</div><div class='xr-array-name'>'tas'</div><ul class='xr-dim-list'><li><span class='xr-has-index'>time</span>: 100</li></ul></div><ul class='xr-sections'><li class='xr-section-item'><div class='xr-array-wrap'><input id='section-ddef9a4f-0ca4-454d-b0f8-70cf9cda4c74' class='xr-array-in' type='checkbox' checked><label for='section-ddef9a4f-0ca4-454d-b0f8-70cf9cda4c74' title='Show/hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-array-preview xr-preview'><span>0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 ... 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0</span></div><div class='xr-array-data'><pre>array([0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
        0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
        0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
        0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
        0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
-       0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.])</pre></div></div></li><li class='xr-section-item'><input id='section-a79607c3-d2eb-4014-8788-b7430a8d1a53' class='xr-section-summary-in' type='checkbox'  checked><label for='section-a79607c3-d2eb-4014-8788-b7430a8d1a53' class='xr-section-summary' >Coordinates: <span>(3)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><ul class='xr-var-list'><li class='xr-var-item'><div class='xr-var-name'><span class='xr-has-index'>year</span></div><div class='xr-var-dims'>(year)</div><div class='xr-var-dtype'>int64</div><div class='xr-var-preview xr-preview'>1801 1802 1803 ... 1898 1899 1900</div><input id='attrs-fb332d71-6d97-4662-ad45-44eaddcbe4b0' class='xr-var-attrs-in' type='checkbox' disabled><label for='attrs-fb332d71-6d97-4662-ad45-44eaddcbe4b0' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-e00cc877-2cc7-4767-938a-c0e357f967cf' class='xr-var-data-in' type='checkbox'><label for='data-e00cc877-2cc7-4767-938a-c0e357f967cf' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'></dl></div><div class='xr-var-data'><pre>array([1801, 1802, 1803, 1804, 1805, 1806, 1807, 1808, 1809, 1810, 1811, 1812,
+       0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.])</pre></div></div></li><li class='xr-section-item'><input id='section-bca65c08-5660-4d4d-987c-be9d9f5dd97e' class='xr-section-summary-in' type='checkbox'  checked><label for='section-bca65c08-5660-4d4d-987c-be9d9f5dd97e' class='xr-section-summary' >Coordinates: <span>(3)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><ul class='xr-var-list'><li class='xr-var-item'><div class='xr-var-name'><span class='xr-has-index'>time</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>int64</div><div class='xr-var-preview xr-preview'>1801 1802 1803 ... 1898 1899 1900</div><input id='attrs-5e5f1b67-2c59-4b3e-90e1-f11e679508ee' class='xr-var-attrs-in' type='checkbox' disabled><label for='attrs-5e5f1b67-2c59-4b3e-90e1-f11e679508ee' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-c1448efb-d610-480d-9d06-ccda1892419f' class='xr-var-data-in' type='checkbox'><label for='data-c1448efb-d610-480d-9d06-ccda1892419f' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'></dl></div><div class='xr-var-data'><pre>array([1801, 1802, 1803, 1804, 1805, 1806, 1807, 1808, 1809, 1810, 1811, 1812,
        1813, 1814, 1815, 1816, 1817, 1818, 1819, 1820, 1821, 1822, 1823, 1824,
        1825, 1826, 1827, 1828, 1829, 1830, 1831, 1832, 1833, 1834, 1835, 1836,
        1837, 1838, 1839, 1840, 1841, 1842, 1843, 1844, 1845, 1846, 1847, 1848,
@@ -1436,7 +1429,7 @@ Coordinates:
        1861, 1862, 1863, 1864, 1865, 1866, 1867, 1868, 1869, 1870, 1871, 1872,
        1873, 1874, 1875, 1876, 1877, 1878, 1879, 1880, 1881, 1882, 1883, 1884,
        1885, 1886, 1887, 1888, 1889, 1890, 1891, 1892, 1893, 1894, 1895, 1896,
-       1897, 1898, 1899, 1900])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>lat</span></div><div class='xr-var-dims'>()</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>-24.15</div><input id='attrs-e6ab692b-6a7e-4c75-a874-fe95050260bf' class='xr-var-attrs-in' type='checkbox' disabled><label for='attrs-e6ab692b-6a7e-4c75-a874-fe95050260bf' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-ab88719d-09d4-463f-a8b5-3d5284c44836' class='xr-var-data-in' type='checkbox'><label for='data-ab88719d-09d4-463f-a8b5-3d5284c44836' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'></dl></div><div class='xr-var-data'><pre>array(-24.14634146)</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>lon</span></div><div class='xr-var-dims'>()</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>121.9</div><input id='attrs-7a730218-6631-4e8a-9b1c-b043921b2fbe' class='xr-var-attrs-in' type='checkbox' disabled><label for='attrs-7a730218-6631-4e8a-9b1c-b043921b2fbe' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-94552e25-4fe4-4af1-a40a-56e0e6e4d5f9' class='xr-var-data-in' type='checkbox'><label for='data-94552e25-4fe4-4af1-a40a-56e0e6e4d5f9' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'></dl></div><div class='xr-var-data'><pre>array(121.93548387)</pre></div></li></ul></div></li><li class='xr-section-item'><input id='section-46ae1466-98a2-4cfb-9a6f-b65777d62292' class='xr-section-summary-in' type='checkbox'  ><label for='section-46ae1466-98a2-4cfb-9a6f-b65777d62292' class='xr-section-summary' >Indexes: <span>(1)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><ul class='xr-var-list'><li class='xr-var-item'><div class='xr-index-name'><div>year</div></div><div class='xr-index-preview'>PandasIndex</div><div></div><input id='index-ad4acd4e-2407-4fc3-a0ed-77b34ae80d82' class='xr-index-data-in' type='checkbox'/><label for='index-ad4acd4e-2407-4fc3-a0ed-77b34ae80d82' title='Show/Hide index repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-index-data'><pre>PandasIndex(Int64Index([1801, 1802, 1803, 1804, 1805, 1806, 1807, 1808, 1809, 1810, 1811,
+       1897, 1898, 1899, 1900])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>lat</span></div><div class='xr-var-dims'>()</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>-24.15</div><input id='attrs-1ec32c14-f79a-4b33-81a5-055d13026501' class='xr-var-attrs-in' type='checkbox' disabled><label for='attrs-1ec32c14-f79a-4b33-81a5-055d13026501' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-003b2183-de1d-432b-a19e-4e25ca47bc08' class='xr-var-data-in' type='checkbox'><label for='data-003b2183-de1d-432b-a19e-4e25ca47bc08' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'></dl></div><div class='xr-var-data'><pre>array(-24.14634146)</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>lon</span></div><div class='xr-var-dims'>()</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>121.9</div><input id='attrs-0ebe0684-3e4f-45bf-8d8a-7339bcab3c8a' class='xr-var-attrs-in' type='checkbox' disabled><label for='attrs-0ebe0684-3e4f-45bf-8d8a-7339bcab3c8a' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-99219f3e-bfd7-4b2a-9f66-d76bcee56648' class='xr-var-data-in' type='checkbox'><label for='data-99219f3e-bfd7-4b2a-9f66-d76bcee56648' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'></dl></div><div class='xr-var-data'><pre>array(121.93548387)</pre></div></li></ul></div></li><li class='xr-section-item'><input id='section-41c667cd-6424-48e3-b6f4-b4e3964141f6' class='xr-section-summary-in' type='checkbox'  ><label for='section-41c667cd-6424-48e3-b6f4-b4e3964141f6' class='xr-section-summary' >Indexes: <span>(1)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><ul class='xr-var-list'><li class='xr-var-item'><div class='xr-index-name'><div>time</div></div><div class='xr-index-preview'>PandasIndex</div><div></div><input id='index-6ae223b2-f260-475e-a4d2-52b2e3a08b76' class='xr-index-data-in' type='checkbox'/><label for='index-6ae223b2-f260-475e-a4d2-52b2e3a08b76' title='Show/Hide index repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-index-data'><pre>PandasIndex(Int64Index([1801, 1802, 1803, 1804, 1805, 1806, 1807, 1808, 1809, 1810, 1811,
             1812, 1813, 1814, 1815, 1816, 1817, 1818, 1819, 1820, 1821, 1822,
             1823, 1824, 1825, 1826, 1827, 1828, 1829, 1830, 1831, 1832, 1833,
             1834, 1835, 1836, 1837, 1838, 1839, 1840, 1841, 1842, 1843, 1844,
@@ -1446,17 +1439,17 @@ Coordinates:
             1878, 1879, 1880, 1881, 1882, 1883, 1884, 1885, 1886, 1887, 1888,
             1889, 1890, 1891, 1892, 1893, 1894, 1895, 1896, 1897, 1898, 1899,
             1900],
-           dtype=&#x27;int64&#x27;, name=&#x27;year&#x27;))</pre></div></li></ul></div></li><li class='xr-section-item'><input id='section-7611ff92-75e4-4ead-9840-68300cdc8b7b' class='xr-section-summary-in' type='checkbox' disabled ><label for='section-7611ff92-75e4-4ead-9840-68300cdc8b7b' class='xr-section-summary'  title='Expand/collapse section'>Attributes: <span>(0)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><dl class='xr-attrs'></dl></div></li></ul></div></div></div>
+           dtype=&#x27;int64&#x27;, name=&#x27;time&#x27;))</pre></div></li></ul></div></li><li class='xr-section-item'><input id='section-366613ca-323a-470a-8590-a5418b576750' class='xr-section-summary-in' type='checkbox' disabled ><label for='section-366613ca-323a-470a-8590-a5418b576750' class='xr-section-summary'  title='Expand/collapse section'>Attributes: <span>(0)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><dl class='xr-attrs'></dl></div></li></ul></div></div></div>
 </div>
 <p>In contrast to <span class="math notranslate nohighlight">\(R^2\)</span>, the coefficient of efficiency (<span class="math notranslate nohighlight">\(CE\)</span>) measures not only the linear correlation between two timeseries, but also the bias in amplitude. Calculating and visualizing <span class="math notranslate nohighlight">\(CE\)</span> between the reconstructed and the target fields, we see overall similar spatial patterns of the high and low skill regions.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[41]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[25]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">stat</span> <span class="o">=</span> <span class="s1">&#39;CE&#39;</span>
-<span class="n">valid_fd</span> <span class="o">=</span> <span class="n">res</span><span class="o">.</span><span class="n">recons</span><span class="p">[</span><span class="s1">&#39;tas&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">validate</span><span class="p">(</span>
+<span class="n">valid_fd</span> <span class="o">=</span> <span class="n">res</span><span class="o">.</span><span class="n">recons</span><span class="p">[</span><span class="s1">&#39;tas&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">compare</span><span class="p">(</span>
     <span class="n">job</span><span class="o">.</span><span class="n">obs</span><span class="p">[</span><span class="s1">&#39;tas&#39;</span><span class="p">],</span> <span class="n">stat</span><span class="o">=</span><span class="n">stat</span><span class="p">,</span>
-    <span class="n">valid_period</span><span class="o">=</span><span class="p">(</span><span class="mi">1801</span><span class="p">,</span> <span class="mi">1900</span><span class="p">),</span>
+    <span class="n">timespan</span><span class="o">=</span><span class="p">(</span><span class="mi">1801</span><span class="p">,</span> <span class="mi">1900</span><span class="p">),</span>
 <span class="p">)</span>
 <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">valid_fd</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
     <span class="n">title</span><span class="o">=</span><span class="sa">fr</span><span class="s1">&#39;tas: $CE$(recon, target)&#39;</span><span class="p">,</span>
@@ -1470,20 +1463,11 @@ Coordinates:
 </pre></div>
 </div>
 </div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area stderr docutils container">
-<div class="highlight"><pre>
-/Users/fengzhu/Apps/miniconda3/envs/cfr-env/lib/python3.9/site-packages/cartopy/mpl/geoaxes.py:1700: UserWarning: No data for colormapping provided via &#39;c&#39;. Parameters &#39;cmap&#39; will be ignored
-  result = super().scatter(*args, **kwargs)
-</pre></div></div>
-</div>
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_pp2k-ppe-graphem_44_1.png" src="../_images/notebooks_pp2k-ppe-graphem_44_1.png" />
+<img alt="../_images/notebooks_pp2k-ppe-graphem_44_0.png" src="../_images/notebooks_pp2k-ppe-graphem_44_0.png" />
 </div>
 </div>
 <div class="nbinput nblast docutils container">

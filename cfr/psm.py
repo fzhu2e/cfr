@@ -47,7 +47,7 @@ class TempPlusNoise:
             self.noise = rng.normal(0, sigma, np.size(self.pobj.clim[vn].da.values))
         elif noise == 'colored':
             colored_noise_kws = {} if colored_noise_kws is None else colored_noise_kws
-            _colored_noise_kws = {'seed': seed, 'alpha': 1, 't': self.pobj.clim[vn].time}
+            _colored_noise_kws = {'seed': seed, 'alpha': 1, 't': self.pobj.clim[vn].da.time}
             _colored_noise_kws.update(colored_noise_kws)
             self.noise = utils.colored_noise(**_colored_noise_kws)
 
@@ -67,7 +67,7 @@ class TempPlusNoise:
 
         pp = ProxyRecord(
             pid=self.pobj.pid,
-            time=self.pobj.clim[vn].time,
+            time=self.pobj.clim[vn].da.time,
             value=value,
             lat=self.pobj.lat,
             lon=self.pobj.lon,
@@ -835,7 +835,7 @@ class Coral_SrCa:
 
         pp = ProxyRecord(
             pid=self.pobj.pid,
-            time=self.pobj.clim[self.model_tos_name].time,
+            time=self.pobj.clim[self.model_tos_name].da.time.values,
             value=SrCa,
             lat=self.pobj.lat,
             lon=self.pobj.lon,
@@ -864,7 +864,7 @@ class Coral_d18O:
         self.climate_required = climate_required
 
     def forward(self, b1=0.3007062, b2=0.2619054, b3=0.436509, b4=0.1552032, b5=0.15):
-        def pseudocoral(sst, sss=None, d18O=None, species="default", lat=None, lon=None):
+        def pseudocoral(sst, sss=None, d18O=None, species="default", lat=None, lon=None, b1=b1, b2=b2, b3=b3, b4=b4, b5=b5):
 
             """
             DOCSTRING: Function 'pseudocoral' produces a d18O-coral record given SST, SSS, and global position.
@@ -986,22 +986,25 @@ class Coral_d18O:
         ####################
         # run the model
 
+        sst = self.pobj.clim[self.model_tos_name]
+        d18O = self.pobj.clim[self.model_d18Osw_name]
+
         value = pseudocoral(
-            self.pobj.clim[self.model_tos_name].da.values,
-            d18O=self.pobj.clim[self.model_d18Osw_name].da.values,
+            sst=sst.da.values,
+            d18O=d18O.da.values,
             lat=self.pobj.lat,
             lon=self.pobj.lon,
             species=self.species,
-            b1=self.b1,
-            b2=self.b2,
-            b3=self.b3,
-            b4=self.b4,
-            b5=self.b5,
+            b1=b1,
+            b2=b2,
+            b3=b3,
+            b4=b4,
+            b5=b5,
         )
 
         pp = ProxyRecord(
             pid=self.pobj.pid,
-            time=self.pobj.clim[self.model_tos_name].time,
+            time=sst.da.time.values,
             value=value,
             lat=self.pobj.lat,
             lon=self.pobj.lon,

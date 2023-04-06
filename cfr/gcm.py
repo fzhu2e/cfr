@@ -300,6 +300,165 @@ class GCMCase:
         else:
             return ax
             
+    def calc_slab_ocn_forcing(self, ds_clim, time_name='month', lat_name='TLAT', lon_name='TLONG',
+                              z_name='z_t', hblt_name='HBLT', temp_name='TEMP', salt_name='SALT',
+                              uvel_name='UVEL', vvel_name='VVEL', shf_name='SHF', qflux_name='QFLUX',
+                              anglet_name='ANGLET', region_mask_name='REGION_MASK', save_path=None):
+        ''' Calculate the slab ocean forcing
+        '''
+        ds_clim = ds_clim.rename({time_name: 'time'})
+
+        hbltin = ds_clim[hblt_name]
+        hblt_avg = hbltin.mean('time')
+        hblttmp = hblt_avg.expand_dims({'time': 12})/100
+
+        z_t = ds_clim[z_name]
+        zint = (z_t.values[:-1] + z_t.values[1:])/2/100
+        zint = np.insert(zint, 0, 0)
+        zint = np.append(zint, 2*z_t.values[-1]/100-zint[-1])
+        dz = np.diff(zint)
+
+        xc = ds_clim[lon_name]
+        yc = ds_clim[lat_name]
+        nlat, nlon = xc.shape
+        ntime = 12
+        nz = len(z_t)
+
+        # calculate weighted T and S
+        wgt = np.empty((ntime, nz, nlat, nlon))
+        for i in range(nz):
+            dz_tmp = hblttmp.values - zint[i]
+            dz_tmp = np.where(dz_tmp < 0, np.nan, dz_tmp)
+            dz_tmp = np.where(dz_tmp > dz[i], dz[i], dz_tmp)
+            dz_tmp = dz_tmp / hblttmp
+            wgt[:,i,:,:] = dz_tmp
+
+        Ttmp = ds_clim[temp_name]
+        Stmp = ds_clim[salt_name]
+        Ttmp2 = Ttmp * wgt
+        Stmp2 = Stmp * wgt 
+
+        Tin = Ttmp2.sum(dim=z_name)
+        Sin = Stmp2.sum(dim=z_name)
+
+        # calculate velocities
+        Utmp = ds_clim[uvel_name][:,0,:,:]
+        Vtmp = ds_clim[vvel_name][:,0,:,:]
+        ang = ds_clim[anglet_name]
+
+        Utmp2 = Utmp * 0
+        Vtmp2 = Vtmp * 0
+
+        Utmp2[:,1:,1:] = 0.25*(Utmp[:,1:,1:] + Utmp[:,1:,:-1]+Utmp[:,:-1,1:]+Utmp[:,:-1,:-1])
+        Vtmp2[:,1:,1:] = 0.25*(Vtmp[:,1:,1:] + Vtmp[:,1:,:-1]+Vtmp[:,:-1,1:]+Vtmp[:,:-1,:-1])
+
+        Uin = (Utmp2*np.cos(ang) + Vtmp2*np.sin(-ang))*0.01
+        Vin = (Vtmp2*np.cos(ang) - Utmp2*np.sin(-ang))*0.01
+
+        # calculate ocean heat
+        shf = ds_clim[shf_name]
+        qflux = ds_clim[qflux_name]
+        rcp_sw = 1026.*3996.
+        surf = shf+qflux
+        T1 = Tin.values.copy()
+        T1[:-1] = Tin[1:]
+        T1[-1] = Tin[0]
+        T2 = Tin.values.copy()
+        T2[0] = Tin[-1]
+        T2[1:] = Tin[:-1]
+        dT = T1 - T2
+        release = rcp_sw*dT*hblttmp / (86400.*365./6.)
+        ocnheat = surf-release
+            
+        # area weighted
+        tarea = ds_clim['TAREA']
+        maskt = np.ones((nlat, nlon))
+        maskt = maskt*(~np.isnan(ocnheat[0,:,:]))
+        err = np.empty(12)
+        for i in range(12):
+            oh_tmp = ocnheat.values[i].flatten()
+            oh_tmp[np.isnan(oh_tmp)] = 0
+            err[i] = np.matmul(oh_tmp,tarea.values.flatten())/np.sum(tarea.values*maskt.values)
+
+        glob = np.mean(err)
+        ocnheat -= glob
+
+        # calculate the inverse matrix
+        dhdxin = Tin * 0
+        dhdyin = Tin * 0
+
+        daysinmo = np.array([31.,28.,31.,30.,31.,30.,31.,31.,30.,31.,30.,31.])
+        xnp = np.copy(daysinmo)
+        xnm = np.copy(daysinmo)
+
+        xnm[1:] = daysinmo[1:] + daysinmo[:-1]
+        xnm[0] = daysinmo[0] + daysinmo[-1]
+
+        xnp[:-1] = daysinmo[1:] + daysinmo[:-1]
+        xnp[-1] = daysinmo[0] + daysinmo[-1]
+
+        aa = 2 * daysinmo / xnm
+        cc = 2 * daysinmo / xnp
+        a = aa / 8.
+        c = cc / 8.
+        b = 1 - a - c
+
+        M = [
+            [b[0], c[0], 0, 0, 0, 0, 0, 0, 0, 0, 0, a[0]],
+            [a[1], b[1], c[1], 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, a[2], b[2], c[2], 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, a[3], b[3], c[3], 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, a[4], b[4], c[4], 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, a[5], b[5], c[5], 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, a[6], b[6], c[6], 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, a[7], b[7], c[7], 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, a[8], b[8], c[8], 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, a[9], b[9], c[9], 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, a[10], b[10], c[10]],
+            [c[11], 0, 0, 0, 0, 0, 0, 0, 0, 0, a[11], b[11]],
+        ]
+        invM = np.linalg.inv(M)
+
+        # prepare output vars
+        T = xr.full_like(Tin, 0)
+        S = xr.full_like(Sin, 0)
+        U = xr.full_like(Uin, 0)
+        V = xr.full_like(Vin, 0)
+        dhdx = xr.full_like(dhdxin, 0)
+        dhdy = xr.full_like(dhdyin, 0)
+        hblt = xr.full_like(hbltin, 0)
+        qdp = xr.full_like(shf, 0)
+
+        for j in range(12):
+            for i in range(12):
+                T[j] += invM[j, i]*Tin[i]
+                S[j] += invM[j, i]*Sin[i]
+                U[j] += invM[j, i]*Uin[i]
+                V[j] += invM[j, i]*Vin[i]
+                dhdx[j] += invM[j, i]*dhdxin[i]
+                dhdy[j] += invM[j, i]*dhdyin[i]
+                hblt[j] += invM[j, i]*hblttmp[i]
+                qdp[j] += invM[j, i]*ocnheat[i]
+
+        ds_out = xr.Dataset()
+        ds_out['time'] = ds_clim['time']
+        ds_out['xc'] = xc
+        ds_out['yc'] = yc
+        ds_out['T'] = T.where(~np.isnan(ds_clim['TEMP'][0,0,:,:]))
+        ds_out['S'] = S.where(~np.isnan(ds_clim['TEMP'][0,0,:,:]))
+        ds_out['U'] = U.where(~np.isnan(ds_clim['TEMP'][0,0,:,:]))
+        ds_out['V'] = V.where(~np.isnan(ds_clim['TEMP'][0,0,:,:]))
+        ds_out['dhdx'] = dhdx.where(~np.isnan(ds_clim['TEMP'][0,0,:,:]))
+        ds_out['dhdy'] = dhdy.where(~np.isnan(ds_clim['TEMP'][0,0,:,:]))
+        ds_out['hblt'] = hblt.where(~np.isnan(ds_clim['TEMP'][0,0,:,:]))
+        ds_out['qdp'] = qdp.where(~np.isnan(ds_clim['TEMP'][0,0,:,:]))
+        ds_out['area'] = tarea
+        ds_out['mask'] = ds_clim[region_mask_name]
+
+        if save_path is not None:
+            ds_out.to_netcdf(save_path)
+
+        return ds_out
                 
 
 class GCMCases:
@@ -340,4 +499,3 @@ class GCMCases:
         ax[vn].legend(**_lgd_kws)
 
         return fig, ax
-            

@@ -410,7 +410,7 @@ document.write(`
 <ul class="simple">
 <li><p>iCESM simulated air surface temperature: <a class="reference external" href="https://atmos.washington.edu/~rtardif/LMR/prior/tas_sfc_Amon_iCESM_past1000historical_085001-200512.nc">tas_sfc_Amon_iCESM_past1000historical_085001-200512.nc</a></p></li>
 <li><p>iCESM simulated precipitation rate: <a class="reference external" href="https://atmos.washington.edu/~rtardif/LMR/prior/pr_sfc_Amon_iCESM_past1000historical_085001-200512.nc">pr_sfc_Amon_iCESM_past1000historical_085001-200512.nc</a></p></li>
-<li><p>pseudoPAGES2k: <a class="reference external" href="https://github.com/fzhu2e/paper-pseudoPAGES2k/raw/main/data/ppwn_SNR10_rta.nc">ppwn_SNR10_rta.nc</a></p></li>
+<li><p>pseudoPAGES2k: <a class="reference external" href="https://github.com/fzhu2e/paper-pseudoPAGES2k/raw/main/data/ppwn_SNRinf_rta.nc">ppwn_SNRinf_rta.nc</a></p></li>
 </ul>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
@@ -421,6 +421,9 @@ document.write(`
 
 <span class="kn">import</span> <span class="nn">cfr</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="n">os</span><span class="o">.</span><span class="n">chdir</span><span class="p">(</span><span class="s1">&#39;/glade/u/home/fengzhu/Github/cfr/docsrc/notebooks/&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -437,7 +440,7 @@ document.write(`
 <span class="n">job</span> <span class="o">=</span> <span class="n">cfr</span><span class="o">.</span><span class="n">ReconJob</span><span class="p">()</span>
 
 <span class="c1"># load the pseudoPAGES2k database from a netCDF file</span>
-<span class="n">job</span><span class="o">.</span><span class="n">proxydb</span> <span class="o">=</span> <span class="n">cfr</span><span class="o">.</span><span class="n">ProxyDatabase</span><span class="p">()</span><span class="o">.</span><span class="n">load_nc</span><span class="p">(</span><span class="s1">&#39;./data/ppwn_SNR10_rta.nc&#39;</span><span class="p">)</span>
+<span class="n">job</span><span class="o">.</span><span class="n">proxydb</span> <span class="o">=</span> <span class="n">cfr</span><span class="o">.</span><span class="n">ProxyDatabase</span><span class="p">()</span><span class="o">.</span><span class="n">load_nc</span><span class="p">(</span><span class="s1">&#39;./data/ppwn_SNRinf_rta.nc&#39;</span><span class="p">)</span>
 
 <span class="c1"># plot to have a check of the database</span>
 <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">job</span><span class="o">.</span><span class="n">proxydb</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">plot_count</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
@@ -489,10 +492,12 @@ document.write(`
 <div class="highlight"><pre>
 <span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;prior_path&#34;] = {&#39;tas&#39;: &#39;./data/tas_sfc_Amon_iCESM_past1000historical_085001-200512.nc&#39;, &#39;pr&#39;: &#39;./data/pr_sfc_Amon_iCESM_past1000historical_085001-200512.nc&#39;}
 </span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;prior_anom_period&#34;] = (1951, 1980)
+</span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;prior_lat_name&#34;] = lat
 </span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;prior_lon_name&#34;] = lon
 </span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;prior_time_name&#34;] = time
 </span><span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; prior variables [&#39;tas&#39;, &#39;pr&#39;] loaded
-</span><span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; job.prior created</span>
+</span><span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; job.prior created
+</span>
 </pre></div></div>
 </div>
 </section>
@@ -523,10 +528,12 @@ document.write(`
 <div class="highlight"><pre>
 <span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;obs_path&#34;] = {&#39;tas&#39;: &#39;./data/tas_sfc_Amon_iCESM_past1000historical_085001-200512.nc&#39;, &#39;pr&#39;: &#39;./data/pr_sfc_Amon_iCESM_past1000historical_085001-200512.nc&#39;}
 </span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;obs_anom_period&#34;] = (1951, 1980)
+</span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;obs_lat_name&#34;] = lat
 </span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;obs_lon_name&#34;] = lon
 </span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;obs_time_name&#34;] = time
 </span><span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; obs variables [&#39;tas&#39;, &#39;pr&#39;] loaded
-</span><span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; job.obs created</span>
+</span><span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; job.obs created
+</span>
 </pre></div></div>
 </div>
 </section>
@@ -599,9 +606,10 @@ document.write(`
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-<span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;ptype_psm_dict&#34;] = {&#39;lake.varve_thickness&#39;: &#39;Linear&#39;, &#39;coral.SrCa&#39;: &#39;Linear&#39;, &#39;tree.TRW&#39;: &#39;Bilinear&#39;, &#39;coral.d18O&#39;: &#39;Linear&#39;, &#39;tree.MXD&#39;: &#39;Linear&#39;, &#39;ice.d18O&#39;: &#39;Linear&#39;}
-</span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;ptype_season_dict&#34;] = {&#39;lake.varve_thickness&#39;: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12], &#39;coral.SrCa&#39;: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12], &#39;tree.TRW&#39;: [[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12], [6, 7, 8], [3, 4, 5, 6, 7, 8], [6, 7, 8, 9, 10, 11], [-12, 1, 2], [-9, -10, -11, -12, 1, 2], [-12, 1, 2, 3, 4, 5]], &#39;coral.d18O&#39;: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12], &#39;tree.MXD&#39;: [[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12], [6, 7, 8], [3, 4, 5, 6, 7, 8], [6, 7, 8, 9, 10, 11], [-12, 1, 2], [-9, -10, -11, -12, 1, 2], [-12, 1, 2, 3, 4, 5]], &#39;ice.d18O&#39;: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]}
-</span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;psm_calib_period&#34;] = [1850, 2015]</span>
+<span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;ptype_psm_dict&#34;] = {&#39;lake.varve_thickness&#39;: &#39;Linear&#39;, &#39;ice.d18O&#39;: &#39;Linear&#39;, &#39;coral.d18O&#39;: &#39;Linear&#39;, &#39;coral.SrCa&#39;: &#39;Linear&#39;, &#39;tree.MXD&#39;: &#39;Linear&#39;, &#39;tree.TRW&#39;: &#39;Bilinear&#39;}
+</span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;ptype_season_dict&#34;] = {&#39;lake.varve_thickness&#39;: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12], &#39;ice.d18O&#39;: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12], &#39;coral.d18O&#39;: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12], &#39;coral.SrCa&#39;: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12], &#39;tree.MXD&#39;: [[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12], [6, 7, 8], [3, 4, 5, 6, 7, 8], [6, 7, 8, 9, 10, 11], [-12, 1, 2], [-9, -10, -11, -12, 1, 2], [-12, 1, 2, 3, 4, 5]], &#39;tree.TRW&#39;: [[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12], [6, 7, 8], [3, 4, 5, 6, 7, 8], [6, 7, 8, 9, 10, 11], [-12, 1, 2], [-9, -10, -11, -12, 1, 2], [-12, 1, 2, 3, 4, 5]]}
+</span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;psm_calib_period&#34;] = [1850, 2015]
+</span>
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
@@ -609,7 +617,7 @@ document.write(`
 </div>
 <div class="output_area stderr docutils container">
 <div class="highlight"><pre>
-Calibrating the PSMs:  13%|█▎        | 72/558 [07:17&lt;34:31,  4.26s/it]
+Calibrating the PSMs:  13%|█▎        | 72/558 [16:04&lt;1:14:40,  9.22s/it]
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
@@ -625,7 +633,7 @@ The number of overlapped data points is 15 &lt; 25. Skipping ...
 </div>
 <div class="output_area stderr docutils container">
 <div class="highlight"><pre>
-Calibrating the PSMs:  15%|█▍        | 83/558 [08:09&lt;31:57,  4.04s/it]
+Calibrating the PSMs:  15%|█▍        | 83/558 [18:00&lt;1:10:04,  8.85s/it]
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
@@ -641,7 +649,7 @@ The number of overlapped data points is 23 &lt; 25. Skipping ...
 </div>
 <div class="output_area stderr docutils container">
 <div class="highlight"><pre>
-Calibrating the PSMs:  23%|██▎       | 128/558 [26:28&lt;1:01:18,  8.55s/it]
+Calibrating the PSMs:  23%|██▎       | 128/558 [27:25&lt;1:18:49, 11.00s/it]
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
@@ -657,7 +665,7 @@ The number of overlapped data points is 22 &lt; 25. Skipping ...
 </div>
 <div class="output_area stderr docutils container">
 <div class="highlight"><pre>
-Calibrating the PSMs:  24%|██▍       | 133/558 [27:02&lt;42:42,  6.03s/it]
+Calibrating the PSMs:  24%|██▍       | 133/558 [28:41&lt;1:25:09, 12.02s/it]
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
@@ -673,7 +681,7 @@ The number of overlapped data points is 19 &lt; 25. Skipping ...
 </div>
 <div class="output_area stderr docutils container">
 <div class="highlight"><pre>
-Calibrating the PSMs:  49%|████▊     | 272/558 [38:31&lt;10:17,  2.16s/it]
+Calibrating the PSMs:  49%|████▊     | 272/558 [53:45&lt;22:07,  4.64s/it]
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
@@ -689,7 +697,7 @@ The number of overlapped data points is 0 &lt; 25. Skipping ...
 </div>
 <div class="output_area stderr docutils container">
 <div class="highlight"><pre>
-Calibrating the PSMs:  57%|█████▋    | 319/558 [43:12&lt;15:04,  3.79s/it]
+Calibrating the PSMs:  57%|█████▋    | 318/558 [1:03:59&lt;47:22, 11.84s/it]
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
@@ -698,6 +706,21 @@ Calibrating the PSMs:  57%|█████▋    | 319/558 [43:12&lt;15:04,  3.7
 <div class="output_area docutils container">
 <div class="highlight"><pre>
 The number of overlapped data points is 6 &lt; 25. Skipping ...
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+Calibrating the PSMs:  57%|█████▋    | 319/558 [1:03:59&lt;33:25,  8.39s/it]
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
 The number of overlapped data points is 14 &lt; 25. Skipping ...
 </pre></div></div>
 </div>
@@ -706,7 +729,7 @@ The number of overlapped data points is 14 &lt; 25. Skipping ...
 </div>
 <div class="output_area stderr docutils container">
 <div class="highlight"><pre>
-Calibrating the PSMs:  59%|█████▉    | 332/558 [44:22&lt;12:29,  3.32s/it]
+Calibrating the PSMs:  59%|█████▉    | 332/558 [1:06:34&lt;27:35,  7.33s/it]
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
@@ -722,7 +745,7 @@ The number of overlapped data points is 0 &lt; 25. Skipping ...
 </div>
 <div class="output_area stderr docutils container">
 <div class="highlight"><pre>
-Calibrating the PSMs:  60%|██████    | 336/558 [44:31&lt;06:37,  1.79s/it]
+Calibrating the PSMs:  60%|██████    | 336/558 [1:06:54&lt;14:37,  3.95s/it]
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
@@ -738,7 +761,7 @@ The number of overlapped data points is 4 &lt; 25. Skipping ...
 </div>
 <div class="output_area stderr docutils container">
 <div class="highlight"><pre>
-Calibrating the PSMs:  85%|████████▌ | 476/558 [58:39&lt;07:08,  5.22s/it]
+Calibrating the PSMs:  85%|████████▌ | 476/558 [1:37:29&lt;15:14, 11.15s/it]
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
@@ -754,7 +777,7 @@ The number of overlapped data points is 8 &lt; 25. Skipping ...
 </div>
 <div class="output_area stderr docutils container">
 <div class="highlight"><pre>
-Calibrating the PSMs: 100%|█████████▉| 557/558 [1:06:06&lt;00:03,  3.30s/it]
+Calibrating the PSMs: 100%|█████████▉| 556/558 [1:53:23&lt;00:19,  9.85s/it]
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
@@ -770,7 +793,7 @@ The number of overlapped data points is 0 &lt; 25. Skipping ...
 </div>
 <div class="output_area stderr docutils container">
 <div class="highlight"><pre>
-Calibrating the PSMs: 100%|██████████| 558/558 [1:06:06&lt;00:00,  7.11s/it]
+Calibrating the PSMs: 100%|██████████| 558/558 [1:53:24&lt;00:00, 12.19s/it]
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
@@ -789,7 +812,8 @@ Calibrating the PSMs: 100%|██████████| 558/558 [1:06:06&lt;0
 </span><span class="ansi-yellow-intense-fg ansi-bold">&gt;&gt;&gt; PSM for Ant_015 failed to be calibrated.
 </span><span class="ansi-yellow-intense-fg ansi-bold">&gt;&gt;&gt; PSM for Ant_014 failed to be calibrated.
 </span><span class="ansi-yellow-intense-fg ansi-bold">&gt;&gt;&gt; PSM for Arc_014 failed to be calibrated.
-</span><span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; 547 records tagged &#34;calibrated&#34; with ProxyRecord.psm created</span>
+</span><span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; 547 records tagged &#34;calibrated&#34; with ProxyRecord.psm created
+</span>
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
@@ -817,7 +841,7 @@ Calibrating the PSMs: 100%|██████████| 558/558 [1:06:06&lt;0
 </div>
 <div class="output_area stderr docutils container">
 <div class="highlight"><pre>
-Forwarding the PSMs: 100%|██████████| 547/547 [02:27&lt;00:00,  3.70it/s]
+Forwarding the PSMs: 100%|██████████| 547/547 [04:52&lt;00:00,  1.87it/s]
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
@@ -825,7 +849,8 @@ Forwarding the PSMs: 100%|██████████| 547/547 [02:27&lt;00:0
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-<span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; ProxyRecord.pseudo created for 547 records</span>
+<span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; ProxyRecord.pseudo created for 547 records
+</span>
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
@@ -856,7 +881,8 @@ Forwarding the PSMs: 100%|██████████| 547/547 [02:27&lt;00:0
 <span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;prior_annualize_months&#34;] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
 </span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; Processing tas ...
 </span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; Processing pr ...
-</span><span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; job.prior updated</span>
+</span><span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; job.prior updated
+</span>
 </pre></div></div>
 </div>
 </section>
@@ -879,7 +905,8 @@ Forwarding the PSMs: 100%|██████████| 547/547 [02:27&lt;00:0
 <span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;prior_regrid_nlat&#34;] = 42
 </span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;prior_regrid_nlon&#34;] = 63
 </span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; Processing tas ...
-</span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; Processing pr ...</span>
+</span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; Processing pr ...
+</span>
 </pre></div></div>
 </div>
 </section>
@@ -904,7 +931,8 @@ Forwarding the PSMs: 100%|██████████| 547/547 [02:27&lt;00:0
 </span><span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; prior_pr saved to: ./cases/pp2k-ppe-pda/prior_pr.nc
 </span><span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; obs_tas saved to: ./cases/pp2k-ppe-pda/obs_tas.nc
 </span><span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; obs_pr saved to: ./cases/pp2k-ppe-pda/obs_pr.nc
-</span><span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; job saved to: ./cases/pp2k-ppe-pda/job.pkl</span>
+</span><span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; job saved to: ./cases/pp2k-ppe-pda/job.pkl
+</span>
 </pre></div></div>
 </div>
 <p>Now let’s reload the job object from the saved directory.</p>
@@ -926,7 +954,8 @@ Forwarding the PSMs: 100%|██████████| 547/547 [02:27&lt;00:0
 </span><span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; job.prior[&#34;pr&#34;].da is loaded
 </span><span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; job.prior[&#34;tas&#34;].da is loaded
 </span><span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; job.obs[&#34;pr&#34;].da is loaded
-</span><span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; job.obs[&#34;tas&#34;].da is loaded</span>
+</span><span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; job.obs[&#34;tas&#34;].da is loaded
+</span>
 </pre></div></div>
 </div>
 </section>
@@ -955,19 +984,11 @@ Forwarding the PSMs: 100%|██████████| 547/547 [02:27&lt;00:0
 <div class="output_area docutils container">
 <div class="highlight"><pre>
 <span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;recon_period&#34;] = [800, 2000]
-</span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;recon_loc_rad&#34;] = 25000
-</span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;recon_timescale&#34;] = 1
 </span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;recon_vars&#34;] = [&#39;tas&#39;]
-</span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;nens&#34;] = 100
 </span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;recon_seeds&#34;] = [1, 2]
-</span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;assim_frac&#34;] = 0.75
 </span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;save_dirpath&#34;] = ./recons/pp2k-ppe-pda
-</span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;compress_params&#34;] = {&#39;zlib&#39;: True, &#39;least_significant_digit&#39;: 2}
-</span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;output_full_ens&#34;] = False
-</span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;recon_sampling_mode&#34;] = fixed
-</span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;trim_prior&#34;] = True
-</span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;allownan&#34;] = False
-</span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; seed: 1 | max: 2</span>
+</span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; seed: 1 | max: 2
+</span>
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
@@ -975,7 +996,7 @@ Forwarding the PSMs: 100%|██████████| 547/547 [02:27&lt;00:0
 </div>
 <div class="output_area stderr docutils container">
 <div class="highlight"><pre>
-KF updating: 100%|██████████| 1201/1201 [13:16&lt;00:00,  1.51it/s]
+KF updating: 100%|██████████| 1201/1201 [14:45&lt;00:00,  1.36it/s]
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
@@ -984,7 +1005,8 @@ KF updating: 100%|██████████| 1201/1201 [13:16&lt;00:00,  1.
 <div class="output_area docutils container">
 <div class="highlight"><pre>
 <span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; Reconstructed fields saved to: ./recons/pp2k-ppe-pda/job_r01_recon.nc
-</span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; seed: 2 | max: 2</span>
+</span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; seed: 2 | max: 2
+</span>
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
@@ -992,7 +1014,7 @@ KF updating: 100%|██████████| 1201/1201 [13:16&lt;00:00,  1.
 </div>
 <div class="output_area stderr docutils container">
 <div class="highlight"><pre>
-KF updating: 100%|██████████| 1201/1201 [19:23&lt;00:00,  1.03it/s]
+KF updating: 100%|██████████| 1201/1201 [19:44&lt;00:00,  1.01it/s]
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
@@ -1001,7 +1023,8 @@ KF updating: 100%|██████████| 1201/1201 [19:23&lt;00:00,  1.
 <div class="output_area docutils container">
 <div class="highlight"><pre>
 <span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; Reconstructed fields saved to: ./recons/pp2k-ppe-pda/job_r02_recon.nc
-</span><span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; DONE! Total time used: 32.98 mins.</span>
+</span><span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; DONE! Total time used: 35.16 mins.
+</span>
 </pre></div></div>
 </div>
 </section>
@@ -1025,7 +1048,7 @@ KF updating: 100%|██████████| 1201/1201 [19:23&lt;00:00,  1.
 <div class="output_area docutils container">
 <div class="highlight"><pre>
 <span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; res.paths:
-[&#39;./recons/pp2k-ppe-pda/job_r01_recon.nc&#39;, &#39;./recons/pp2k-ppe-pda/job_r02_recon.nc&#39;]</span>
+</span>[&#39;./recons/pp2k-ppe-pda/job_r01_recon.nc&#39;, &#39;./recons/pp2k-ppe-pda/job_r02_recon.nc&#39;]
 </pre></div></div>
 </div>
 </section>
@@ -1048,7 +1071,8 @@ KF updating: 100%|██████████| 1201/1201 [19:23&lt;00:00,  1.
 <span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; ReconRes.recons[&#34;tas&#34;] created
 </span><span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; ReconRes.da[&#34;tas&#34;] created
 </span><span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; ReconRes.recons[&#34;nino3.4&#34;] created
-</span><span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; ReconRes.da[&#34;nino3.4&#34;] created</span>
+</span><span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; ReconRes.da[&#34;nino3.4&#34;] created
+</span>
 </pre></div></div>
 </div>
 </section>
@@ -1056,12 +1080,12 @@ KF updating: 100%|██████████| 1201/1201 [19:23&lt;00:00,  1.
 <h3>Validate the reconstructed NINO3.4<a class="headerlink" href="#Validate-the-reconstructed-NINO3.4" title="Permalink to this heading">#</a></h3>
 <p>We calculate the annualized NINO3.4 from the “instrumental observations” as a reference for validation.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">da</span> <span class="o">=</span> <span class="n">job</span><span class="o">.</span><span class="n">obs</span><span class="p">[</span><span class="s1">&#39;tas&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">annualize</span><span class="p">()</span><span class="o">.</span><span class="n">da</span>
 <span class="n">da</span> <span class="o">=</span> <span class="n">cfr</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">geo_mean</span><span class="p">(</span><span class="n">da</span><span class="p">,</span> <span class="n">lat_min</span><span class="o">=-</span><span class="mi">5</span><span class="p">,</span> <span class="n">lat_max</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">lon_min</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">mod</span><span class="p">(</span><span class="o">-</span><span class="mi">170</span><span class="p">,</span> <span class="mi">360</span><span class="p">),</span> <span class="n">lon_max</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">mod</span><span class="p">(</span><span class="o">-</span><span class="mi">120</span><span class="p">,</span> <span class="mi">360</span><span class="p">))</span>
-<span class="n">ref_time</span> <span class="o">=</span> <span class="p">[</span><span class="n">t</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">da</span><span class="o">.</span><span class="n">year</span><span class="p">]</span>
+<span class="n">ref_time</span> <span class="o">=</span> <span class="n">da</span><span class="o">.</span><span class="n">time</span><span class="o">.</span><span class="n">values</span>
 <span class="n">ref_value</span> <span class="o">=</span> <span class="n">da</span><span class="o">.</span><span class="n">values</span>
 <span class="n">ref_name</span> <span class="o">=</span> <span class="s1">&#39;truth&#39;</span>
 </pre></div>
@@ -1069,16 +1093,16 @@ KF updating: 100%|██████████| 1201/1201 [19:23&lt;00:00,  1.
 </div>
 <p>We use a chain calling of several methods, including the validation step <code class="docutils literal notranslate"><span class="pre">.validate()</span></code> and the plotting step <code class="docutils literal notranslate"><span class="pre">.plot_qs()</span></code>.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">res</span><span class="o">.</span><span class="n">recons</span><span class="p">[</span><span class="s1">&#39;nino3.4&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">validate</span><span class="p">(</span><span class="n">ref_time</span><span class="p">,</span> <span class="n">ref_value</span><span class="p">,</span> <span class="n">ref_name</span><span class="p">)</span><span class="o">.</span><span class="n">plot_qs</span><span class="p">()</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">res</span><span class="o">.</span><span class="n">recons</span><span class="p">[</span><span class="s1">&#39;nino3.4&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">compare</span><span class="p">(</span><span class="n">ref_time</span><span class="p">,</span> <span class="n">ref_value</span><span class="p">,</span> <span class="n">ref_name</span><span class="p">)</span><span class="o">.</span><span class="n">plot_qs</span><span class="p">()</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="mi">800</span><span class="p">,</span> <span class="mi">2000</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="nboutput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
@@ -1097,7 +1121,7 @@ KF updating: 100%|██████████| 1201/1201 [19:23&lt;00:00,  1.
 <section id="Validate-the-reconstructed-fields">
 <h3>Validate the reconstructed fields<a class="headerlink" href="#Validate-the-reconstructed-fields" title="Permalink to this heading">#</a></h3>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Preparations to add markers representing the sites on the map</span>
@@ -1115,18 +1139,16 @@ KF updating: 100%|██████████| 1201/1201 [19:23&lt;00:00,  1.
 <p>Calculating and visualizing the coefficient of determination (<span class="math notranslate nohighlight">\(R^2\)</span>) between the reconstructed and target fields, we see overall high skills where the proxies are densely located (e.g., the west US), and overall low skill where the proxies are sparsely located (e.g., the southern ocean regions), except for the tropical Pacific regions, where climatic teleconnection helps a lot on the reconstruction quality even if the number of the local proxies are limited.</p>
 <p>Since the majority of the pseudoproxies are generated by process-based PSMs (e.g., <code class="docutils literal notranslate"><span class="pre">tree.TRW</span></code> and <code class="docutils literal notranslate"><span class="pre">ice.d18O</span></code>), applying linear regression based PSMs in the data assimilation cycle introduces biases due to the inaccurate representation of the observation operators (PSMs). This partially explains the low skill regions near the ice core and tree-ring width records.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[24]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[114]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">stat</span> <span class="o">=</span> <span class="s1">&#39;R2&#39;</span>
-<span class="n">valid_fd</span> <span class="o">=</span> <span class="n">res</span><span class="o">.</span><span class="n">recons</span><span class="p">[</span><span class="s1">&#39;tas&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">validate</span><span class="p">(</span>
+<span class="n">valid_fd</span> <span class="o">=</span> <span class="n">res</span><span class="o">.</span><span class="n">recons</span><span class="p">[</span><span class="s1">&#39;tas&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">compare</span><span class="p">(</span>
     <span class="n">job</span><span class="o">.</span><span class="n">obs</span><span class="p">[</span><span class="s1">&#39;tas&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">annualize</span><span class="p">(),</span> <span class="n">stat</span><span class="o">=</span><span class="n">stat</span><span class="p">,</span>
-    <span class="n">valid_period</span><span class="o">=</span><span class="p">(</span><span class="mi">850</span><span class="p">,</span> <span class="mi">1850</span><span class="p">),</span>
+    <span class="n">timespan</span><span class="o">=</span><span class="p">(</span><span class="mi">850</span><span class="p">,</span> <span class="mi">1850</span><span class="p">),</span>
 <span class="p">)</span>
 <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">valid_fd</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
     <span class="n">title</span><span class="o">=</span><span class="sa">fr</span><span class="s1">&#39;tas: $R^2$(recon, target)&#39;</span><span class="p">,</span>
-    <span class="c1"># projection=&#39;PlateCarree&#39;,</span>
-    <span class="c1"># latlon_range=(-18, 18, 152, 248),</span>
     <span class="n">add_cyclic_point</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
     <span class="n">site_lats</span><span class="o">=</span><span class="n">lats</span><span class="p">,</span> <span class="n">site_lons</span><span class="o">=</span><span class="n">lons</span><span class="p">,</span>
     <span class="n">site_markersize</span><span class="o">=</span><span class="n">markersizes</span><span class="p">,</span> <span class="n">site_marker</span><span class="o">=</span><span class="n">markers</span><span class="p">,</span>
@@ -1135,36 +1157,25 @@ KF updating: 100%|██████████| 1201/1201 [19:23&lt;00:00,  1.
 </pre></div>
 </div>
 </div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area stderr docutils container">
-<div class="highlight"><pre>
-/Users/fengzhu/Apps/miniconda3/envs/cfr-env/lib/python3.9/site-packages/cartopy/mpl/geoaxes.py:1700: UserWarning: No data for colormapping provided via &#39;c&#39;. Parameters &#39;cmap&#39; will be ignored
-  result = super().scatter(*args, **kwargs)
-</pre></div></div>
-</div>
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_pp2k-ppe-pda_38_1.png" src="../_images/notebooks_pp2k-ppe-pda_38_1.png" />
+<img alt="../_images/notebooks_pp2k-ppe-pda_38_0.png" src="../_images/notebooks_pp2k-ppe-pda_38_0.png" />
 </div>
 </div>
 <p>In contrast to <span class="math notranslate nohighlight">\(R^2\)</span>, the coefficient of efficiency (<span class="math notranslate nohighlight">\(CE\)</span>) measures not only the linear correlation between two timeseries, but also the bias in amplitude. Calculating and visualizing <span class="math notranslate nohighlight">\(CE\)</span> between the reconstructed and the target fields, we see overall similar spatial patterns of the high and low skill regions.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[35]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[115]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">stat</span> <span class="o">=</span> <span class="s1">&#39;CE&#39;</span>
-<span class="n">valid_fd</span> <span class="o">=</span> <span class="n">res</span><span class="o">.</span><span class="n">recons</span><span class="p">[</span><span class="s1">&#39;tas&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">validate</span><span class="p">(</span>
+<span class="n">valid_fd</span> <span class="o">=</span> <span class="n">res</span><span class="o">.</span><span class="n">recons</span><span class="p">[</span><span class="s1">&#39;tas&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">compare</span><span class="p">(</span>
     <span class="n">job</span><span class="o">.</span><span class="n">obs</span><span class="p">[</span><span class="s1">&#39;tas&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">annualize</span><span class="p">(),</span> <span class="n">stat</span><span class="o">=</span><span class="n">stat</span><span class="p">,</span>
-    <span class="n">valid_period</span><span class="o">=</span><span class="p">(</span><span class="mi">850</span><span class="p">,</span> <span class="mi">1850</span><span class="p">),</span>
+    <span class="n">timespan</span><span class="o">=</span><span class="p">(</span><span class="mi">850</span><span class="p">,</span> <span class="mi">1850</span><span class="p">),</span>
 <span class="p">)</span>
 <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">valid_fd</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
     <span class="n">title</span><span class="o">=</span><span class="sa">fr</span><span class="s1">&#39;tas: $CE$(recon, target)&#39;</span><span class="p">,</span>
-    <span class="c1"># projection=&#39;PlateCarree&#39;,</span>
-    <span class="c1"># latlon_range=(-18, 18, 152, 248),</span>
     <span class="n">add_cyclic_point</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
     <span class="n">site_lats</span><span class="o">=</span><span class="n">lats</span><span class="p">,</span> <span class="n">site_lons</span><span class="o">=</span><span class="n">lons</span><span class="p">,</span>
     <span class="n">site_markersize</span><span class="o">=</span><span class="n">markersizes</span><span class="p">,</span> <span class="n">site_marker</span><span class="o">=</span><span class="n">markers</span><span class="p">,</span>
@@ -1173,20 +1184,11 @@ KF updating: 100%|██████████| 1201/1201 [19:23&lt;00:00,  1.
 </pre></div>
 </div>
 </div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area stderr docutils container">
-<div class="highlight"><pre>
-/Users/fengzhu/Apps/miniconda3/envs/cfr-env/lib/python3.9/site-packages/cartopy/mpl/geoaxes.py:1700: UserWarning: No data for colormapping provided via &#39;c&#39;. Parameters &#39;cmap&#39; will be ignored
-  result = super().scatter(*args, **kwargs)
-</pre></div></div>
-</div>
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_pp2k-ppe-pda_40_1.png" src="../_images/notebooks_pp2k-ppe-pda_40_1.png" />
+<img alt="../_images/notebooks_pp2k-ppe-pda_40_0.png" src="../_images/notebooks_pp2k-ppe-pda_40_0.png" />
 </div>
 </div>
 <div class="nbinput nblast docutils container">

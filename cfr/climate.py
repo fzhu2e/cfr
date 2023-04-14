@@ -145,7 +145,6 @@ class ClimateField:
         Args:
             path (str): the path where to save
         '''
-        # _comp_params = {'zlib': True, 'least_significant_digit': 2}
         _comp_params = {'zlib': True}
 
         encoding_dict = {}

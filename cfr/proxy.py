@@ -1449,7 +1449,7 @@ class ProxyDatabase:
         return new
         
 
-    def to_nc(self, path, annualize=False, months=None, verbose=True, compress_params={'zlib': True, 'least_significant_digit': 2}):
+    def to_nc(self, path, annualize=False, months=None, verbose=True, compress_params={'zlib': True}):
         ''' Convert the database to a netCDF file.
 
         Args:
@@ -1471,7 +1471,7 @@ class ProxyDatabase:
         pdb = ProxyDatabase().from_ds(ds)
         return pdb
 
-    def to_multi_nc(self, dirpath, verbose=True, compress_params={'zlib': True, 'least_significant_digit': 2}):
+    def to_multi_nc(self, dirpath, verbose=True, compress_params={'zlib': True}):
         ''' Convert the proxy database to multiple netCDF files. One for each record.
 
         Args:

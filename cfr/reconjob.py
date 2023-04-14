@@ -564,7 +564,7 @@ class ReconJob:
         assim_frac = self.io_cfg('assim_frac', assim_frac, default=0.75, verbose=verbose)
         save_dirpath = self.io_cfg('save_dirpath', save_dirpath, verbose=verbose)
         os.makedirs(save_dirpath, exist_ok=True)
-        compress_params = self.io_cfg('compress_params', compress_params, default={'zlib': True, 'least_significant_digit': 2}, verbose=verbose)
+        compress_params = self.io_cfg('compress_params', compress_params, default={'zlib': True}, verbose=verbose)
         output_full_ens = self.io_cfg('output_full_ens', output_full_ens, default=False, verbose=verbose)
         recon_sampling_mode = self.io_cfg('recon_sampling_mode', recon_sampling_mode, default='fixed', verbose=verbose)
         trim_prior = self.io_cfg('trim_prior', trim_prior, default=True, verbose=verbose)
@@ -593,7 +593,7 @@ class ReconJob:
 
         t_e = time.time()
         t_used = t_e - t_s
-        p_success(f'>>> DONE! Total time used: {t_used/60:.2f} mins.')
+        p_success(f'>>> DONE! Total time spent: {t_used/60:.2f} mins.')
 
 
     def save(self, save_dirpath=None, filename='job.pkl', verbose=False):
@@ -668,7 +668,7 @@ class ReconJob:
 
         compress_params = self.io_cfg(
             'compress_params', compress_params,
-            default={'zlib': True, 'least_significant_digit': 2},
+            default={'zlib': True},
             verbose=False)
 
         output_indices = self.io_cfg(
@@ -977,7 +977,7 @@ class ReconJob:
             cfr.graphem.solver.GraphEM.fit : fitting the GraphEM method
 
         '''
-        compress_params = self.io_cfg('compress_params', compress_params, default={'zlib': True, 'least_significant_digit': 1}, verbose=verbose)
+        compress_params = self.io_cfg('compress_params', compress_params, default={'zlib': True}, verbose=verbose)
 
         if save_recon:
             save_dirpath = self.io_cfg('save_dirpath', save_dirpath, verbose=verbose)

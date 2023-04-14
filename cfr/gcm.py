@@ -4,6 +4,7 @@ import xarray as xr
 import numpy as np
 from tqdm import tqdm
 import datetime
+import cftime
 import matplotlib.pyplot as plt
 from matplotlib import gridspec
 from . import visual
@@ -72,7 +73,7 @@ class GCMCase:
             return ds
 
     def load(self, vars=None, time_name='time', z_name='z_t', z_val=None,
-             adjust_month=False, mode='time-slice',
+             adjust_month=False, mode='timeslice',
              save_dirpath=None, compress_params=None, verbose=False):
         ''' Load variables.
 
@@ -148,16 +149,18 @@ class GCMCase:
             if verbose:
                 p_success(f'>>> GCMCase.ts["{vn}"] created')
 
-    def to_ds(self):
+    def to_ds(self, mode='ts'):
         ''' Convert to a `xarray.Dataset`
         '''
         da_dict = {}
-        for k, v in self.fd.items():
-            da_dict[k] = v.da
+        if mode == 'fd':
+            for k, v in self.fd.items():
+                da_dict[k] = v.da
 
-        for k, v in self.ts.items():
-            time_name = v.time.name
-            da_dict[k] = xr.DataArray(v.value[:, 0], dims=[time_name], coords={time_name: v.time}, name=k)
+        elif mode == 'ts':
+            for k, v in self.ts.items():
+                time_name = v.time.name
+                da_dict[k] = xr.DataArray(v.value[:, 0], dims=[time_name], coords={time_name: v.time}, name=k)
 
         ds = xr.Dataset(da_dict)
         if self.name is not None:
@@ -165,22 +168,24 @@ class GCMCase:
 
         return ds
 
-    def to_nc(self, path, verbose=True, compress_params=None):
+    def to_nc(self, path, mode='ts', verbose=True, compress_params=None):
         ''' Output the GCM case to a netCDF file.
 
         Args:
             path (str): the path where to save
         '''
-        _comp_params = {'zlib': True, 'least_significant_digit': 2}
+        _comp_params = {'zlib': True}
         encoding_dict = {}
         if compress_params is not None:
             _comp_params.update(compress_params)
 
-        for k, v in self.fd.items():
-            encoding_dict[k] = _comp_params
+        if mode == 'fd':
+            for k, v in self.fd.items():
+                encoding_dict[k] = _comp_params
 
-        for k, v in self.ts.items():
-            encoding_dict[k] = _comp_params
+        elif mode == 'ts':
+            for k, v in self.ts.items():
+                encoding_dict[k] = _comp_params
 
         try:
             dirpath = os.path.dirname(path)
@@ -188,8 +193,11 @@ class GCMCase:
         except:
             pass
 
-        ds = self.to_ds()
+        ds = self.to_ds(mode=mode)
 
+        if os.path.exists(path):
+            os.remove(path)
+            
         ds.to_netcdf(path, encoding=encoding_dict)
         if verbose: p_success(f'>>> GCMCase saved to: {path}')
 
@@ -303,10 +311,12 @@ class GCMCase:
     def calc_slab_ocn_forcing(self, ds_clim, time_name='month', lat_name='TLAT', lon_name='TLONG',
                               z_name='z_t', hblt_name='HBLT', temp_name='TEMP', salt_name='SALT',
                               uvel_name='UVEL', vvel_name='VVEL', shf_name='SHF', qflux_name='QFLUX',
-                              anglet_name='ANGLET', region_mask_name='REGION_MASK', save_path=None):
+                              anglet_name='ANGLET', region_mask_name='REGION_MASK',
+                              save_path=None, save_format='NETCDF4_CLASSIC'):
         ''' Calculate the slab ocean forcing
         '''
-        ds_clim = ds_clim.rename({time_name: 'time'})
+        ds_clim = ds_clim.rename({time_name: 'time', 'nlat': 'nj', 'nlon': 'ni'})
+        ds_clim.coords['time'] = [cftime.DatetimeNoLeap(1,i,1,0,0,0,0, has_year_zero=True) for i in range(1, 13)]
 
         hbltin = ds_clim[hblt_name]
         hblt_avg = hbltin.mean('time')
@@ -442,21 +452,60 @@ class GCMCase:
 
         ds_out = xr.Dataset()
         ds_out['time'] = ds_clim['time']
+        ds_out['time'].attrs['long_name'] = 'days since 0001-01-01 00:00:00'
+        ds_out['time'].attrs['units'] = 'observation time'
+        ds_out['time'].attrs['calendar'] = 'noleap'
+
         ds_out['xc'] = xc
+        ds_out['xc'].attrs['long_name'] = 'longitude of grid cell center'
+        ds_out['xc'].attrs['units'] = 'degrees east'
+
         ds_out['yc'] = yc
+        ds_out['yc'].attrs['long_name'] = 'latitude of grid cell center'
+        ds_out['yc'].attrs['units'] = 'degrees north'
+
         ds_out['T'] = T.where(~np.isnan(ds_clim['TEMP'][0,0,:,:]))
+        ds_out['T'].attrs['long_name'] = 'temperature'
+        ds_out['T'].attrs['units'] = 'degC'
+
         ds_out['S'] = S.where(~np.isnan(ds_clim['TEMP'][0,0,:,:]))
+        ds_out['S'].attrs['long_name'] = 'salinity'
+        ds_out['S'].attrs['units'] = 'ppt'
+
         ds_out['U'] = U.where(~np.isnan(ds_clim['TEMP'][0,0,:,:]))
+        ds_out['U'].attrs['long_name'] = 'u ocean current'
+        ds_out['U'].attrs['units'] = 'm/s'
+
         ds_out['V'] = V.where(~np.isnan(ds_clim['TEMP'][0,0,:,:]))
+        ds_out['V'].attrs['long_name'] = 'v ocean current'
+        ds_out['V'].attrs['units'] = 'm/s'
+
         ds_out['dhdx'] = dhdx.where(~np.isnan(ds_clim['TEMP'][0,0,:,:]))
+        ds_out['dhdx'].attrs['long_name'] = 'ocean surface slope: zonal'
+        ds_out['dhdx'].attrs['units'] = 'm/m'
+
         ds_out['dhdy'] = dhdy.where(~np.isnan(ds_clim['TEMP'][0,0,:,:]))
+        ds_out['dhdy'].attrs['long_name'] = 'ocean surface slope: meridional'
+        ds_out['dhdy'].attrs['units'] = 'm/m'
+
         ds_out['hblt'] = hblt.where(~np.isnan(ds_clim['TEMP'][0,0,:,:]))
+        ds_out['hblt'].attrs['long_name'] = 'boundary layer depth'
+        ds_out['hblt'].attrs['units'] = 'm'
+
         ds_out['qdp'] = qdp.where(~np.isnan(ds_clim['TEMP'][0,0,:,:]))
+        ds_out['qdp'].attrs['long_name'] = 'ocean heat flux convergence'
+        ds_out['qdp'].attrs['units'] = 'W/m^2'
+
         ds_out['area'] = tarea
+        ds_out['area'].attrs['long_name'] = 'area of grid cell in radians squared'
+        ds_out['area'].attrs['units'] = 'area'
+
         ds_out['mask'] = ds_clim[region_mask_name]
+        ds_out['mask'].attrs['long_name'] = 'domain maskr'
+        ds_out['mask'].attrs['units'] = 'unitless'
 
         if save_path is not None:
-            ds_out.to_netcdf(save_path)
+            ds_out.to_netcdf(save_path, format=save_format)
 
         return ds_out
                 

@@ -454,6 +454,10 @@ def regrid_field_curv_rect(field, lat_curv, lon_curv,
         else:
             lats = np.arange(np.min(lat_curv), np.max(lat_curv)+dlat, dlat)
 
+    # convert the longitude from (0, 360) to (-180, 180)
+    if np.min(lon_curv) >= 0:
+        lon_curv = (lon_curv+180) % 360 -180
+
     lon_rect, lat_rect = np.meshgrid(lons, lats)
     lon_rect = pyresample.utils.wrap_longitudes(lon_rect)
 

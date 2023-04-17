@@ -1,5 +1,5 @@
 
-Illustration: pseudoPAGES2k
+pseudoPAGES2k
 ===================================
 This section shows the usage of the pseudoPAGES2k dataset with `cfr` as an example, including the below topics:
 

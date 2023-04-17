@@ -18,6 +18,7 @@ from .utils import (
     p_fail,
     p_warning,
     year_float2datetime,
+    regrid_field_curv_rect,
 )
 
 class GCMCase:
@@ -308,12 +309,14 @@ class GCMCase:
         else:
             return ax
             
-    def calc_slab_ocn_forcing(self, ds_clim, time_name='month', lat_name='TLAT', lon_name='TLONG',
+    def calc_som_forcings(self, ds_clim, time_name='month', lat_name='TLAT', lon_name='TLONG',
                               z_name='z_t', hblt_name='HBLT', temp_name='TEMP', salt_name='SALT',
                               uvel_name='UVEL', vvel_name='VVEL', shf_name='SHF', qflux_name='QFLUX',
                               anglet_name='ANGLET', region_mask_name='REGION_MASK',
-                              save_path=None, save_format='NETCDF4_CLASSIC'):
+                              save_path=None, save_format='NETCDF3_CLASSIC'):
         ''' Calculate the slab ocean forcing
+
+        Reference: NCL scripts by Jiang Zhu (jiangzhu@ucar.edu) at:  /glade/u/home/jiangzhu/notebooks/pop_frc_mlt.b.e21.B1850.f19_g17.PaleoCalibr.PI.02.ncl
         '''
         ds_clim = ds_clim.rename({time_name: 'time', 'nlat': 'nj', 'nlon': 'ni'})
         ds_clim.coords['time'] = [cftime.DatetimeNoLeap(1,i,1,0,0,0,0, has_year_zero=True) for i in range(1, 13)]
@@ -504,10 +507,86 @@ class GCMCase:
         ds_out['mask'].attrs['long_name'] = 'domain maskr'
         ds_out['mask'].attrs['units'] = 'unitless'
 
+        ds_out.attrs['title'] = 'Monthly averaged ocean forcing from POP output'
+        ds_out.attrs['conventions'] = 'CCSM data model domain description'
+        ds_out.attrs['source'] = 'cfr.gcm.GCMCase.calc_slab_ocn_forcing (https://github.com/fzhu2e/cfr)'
+        ds_out.attrs['description'] = 'Input data for DOCN7 mixed layer model'
+        ds_out.attrs['note1'] = 'fields computed from 100-yr monthly means from pop'
+        ds_out.attrs['note2'] = 'all fields interpolated to T-grid'
+        ds_out.attrs['note3'] = 'qdp is computed from depth summed ocean column'
+        ds_out.attrs['author'] = 'Feng Zhu (fengzhu@ucar.edu), Jiang Zhu (jiangzhu@ucar.edu)'
+        ds_out.attrs['calendar'] = 'standard'
+        ds_out.attrs['comment'] = 'This data is on the displaced pole grid gx1v7'
+        ds_out.attrs['creation_date'] = datetime.date.today().strftime('%m/%d/%Y')
+
         if save_path is not None:
             ds_out.to_netcdf(save_path, format=save_format)
 
         return ds_out
+
+    def calc_cam_forcings(self, SST, aice, SST_time_name='time', SST_lat_name='TLAT', SST_lon_name='TLONG',
+                          aice_time_name='time', aice_lat_name='TLAT', aice_lon_name='TLON',
+                          save_path=None, save_format='NETCDF3_CLASSIC'):
+        ''' Calculate the forcings for CAM only simulation (F-case)
+
+        Note that the regridding is implemented by `pyresample` here instead of ESMF.
+
+        Reference: NCL scripts by Cecile Hannay (hannay@ucar.edu) at: /glade/u/home/hannay/ncl_scripts/sst/B1850_cmip6
+        '''
+        ds_out = xr.Dataset(
+            coords={
+                'time': SST[SST_time_name],
+                'lat': np.linspace(-89.5, 89.5, 180),
+                'lon': np.linspace(0.5, 359.5, 360),
+            }
+        )
+        ds_out['time'].attrs['information'] = 'middle of month'
+        ds_out['time'].attrs['calendar'] = 'gregorian'
+        ds_out['time'].attrs['units'] = 'days since 0001-01-01 00:00:00'
+
+        ds_out['lat'].attrs['long_name'] = 'latitude'
+        ds_out['lat'].attrs['units'] = 'degrees_north'
+
+        ds_out['lon'].attrs['long_name'] = 'longitude'
+        ds_out['lon'].attrs['units'] = 'degrees_east'
+
+
+        SST_rgd, _, _ = regrid_field_curv_rect(
+            SST.values, SST[SST_lat_name].values, SST[SST_lon_name].values,
+            ds_out.lat.values, ds_out.lon.values)
+
+        aice_rgd, _, _ = regrid_field_curv_rect(
+            aice.values, aice[aice_lat_name].values, aice[aice_lon_name].values,
+            ds_out.lat.values, ds_out.lon.values)
+
+        ds_out['SST'] = xr.DataArray(SST_rgd, coords=ds_out.coords)
+        ds_out['SST'].attrs['long_name'] = 'Sea-Surface temperature'
+        ds_out['SST'].attrs['units']     = 'deg_C'
+
+        ds_out['SEAICE'] = xr.DataArray(aice_rgd*100, coords=ds_out.coords)
+        ds_out['SEAICE'].attrs['long_name'] = 'Sea Ice Concentration'
+        ds_out['SEAICE'].attrs['units']     = '%'
+
+        # Corrections for data consistency
+        # 1) If SST < -1.8 or ice frac >= 90%, SST = -1.8
+        mask = (ds_out['SST'] < -1.8) | (ds_out['SEAICE'] > 90)
+        ds_out['SST'].values[mask] = -1.8
+        # 2) min ice frac is 0%, max ice_frac is 100%
+        mask = ds_out['SEAICE'] < 0
+        ds_out['SEAICE'].values[mask] = 0
+        mask = ds_out['SEAICE'] > 100
+        ds_out['SEAICE'].values[mask] = 100
+        # 3) No sea ice if SST > 4.97
+        mask = ds_out['SST'] > 4.97
+        ds_out['SEAICE'].values[mask] = 0
+
+        ds_out['ICEFRAC'] = ds_out['SEAICE'] / 100.
+
+        if save_path is not None:
+            ds_out.to_netcdf(save_path, format=save_format)
+
+        return ds_out
+        
                 
 
 class GCMCases:

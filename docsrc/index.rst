@@ -86,7 +86,7 @@ It provides a toolkit for
         :link: ug-api
         :link-type: doc
 
-        Check the essential API.
+        The essential API.
 
 .. toctree::
    :maxdepth: 2

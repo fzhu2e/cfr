@@ -18,7 +18,7 @@
 project = 'cfr'
 # author = 'Feng Zhu, Julien Emile-Geay'
 # copyright = f'2023, {author}'
-copyright = f'2023, Feng Zhu, Julien Emile-Geay.'
+copyright = f'2023, Feng Zhu, Julien Emile-Geay'
 
 
 # -- General configuration ---------------------------------------------------
@@ -33,7 +33,12 @@ templates_path = ['_templates']
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
 # This pattern also affects html_static_path and html_extra_path.
-exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
+exclude_patterns = [
+    '_build',
+    'Thumbs.db',
+    '.DS_Store',
+    'test*.ipynb',  # notebooks starting with test won't be rendered
+]
 
 extensions = [
     'nbsphinx',

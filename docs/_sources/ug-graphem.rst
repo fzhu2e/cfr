@@ -6,4 +6,4 @@ GraphEM
 
     .. notebooks/graphem-quickstart
     notebooks/graphem-real-pages2k
-    .. notebooks/graphem-ppe-pages2k
+    notebooks/graphem-ppe-pages2k

@@ -16,10 +16,6 @@ Climate
 .. autoclass:: cfr.climate.ClimateField
     :members:
 
-
-.. autoclass:: cfr.climate.ClimateDataset
-    :members:
-
 PSM
 ------
 
@@ -62,8 +58,14 @@ ReconJob
 .. autoclass:: cfr.reconjob.ReconJob
     :members:
 
-Visual
+ReconRes
 --------
 
-.. autoclass:: cfr.visual.plot_proxies
-    :members:
+.. autoclass:: cfr.reconres.ReconRes
+   :members:
+
+EnsTS
+--------
+
+.. autoclass:: cfr.ts.EnsTS
+   :members:

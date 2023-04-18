@@ -173,6 +173,7 @@
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="ug-graphem.html">GraphEM</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-6"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="notebooks/graphem-real-pages2k.html">Real-world proxy experiments with GraphEM and PAGES2k</a></li>
+<li class="toctree-l2"><a class="reference internal" href="notebooks/graphem-ppe-pages2k.html">A Pseudoproxy Experiment with GraphEM and pseudoPAGES2k</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="ug-api.html">API Reference</a></li>
@@ -354,6 +355,10 @@ document.write(`
       <li><a href="ug-api.html#cfr.psm.Bilinear">Bilinear (class in cfr.psm)</a>
 </li>
   </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="ug-api.html#cfr.graphem.solver.GraphEM.bootstrap">bootstrap() (cfr.graphem.solver.GraphEM method)</a>
+</li>
+  </ul></td>
 </tr></table>
 
 <h2 id="C">C</h2>
@@ -376,7 +381,11 @@ document.write(`
       <li><a href="ug-api.html#cfr.climate.ClimateField">ClimateField (class in cfr.climate)</a>
 </li>
       <li><a href="ug-api.html#cfr.climate.ClimateField.compare">compare() (cfr.climate.ClimateField method)</a>
+
+      <ul>
+        <li><a href="ug-api.html#cfr.ts.EnsTS.compare">(cfr.ts.EnsTS method)</a>
 </li>
+      </ul></li>
       <li><a href="ug-api.html#cfr.climate.ClimateField.copy">copy() (cfr.climate.ClimateField method)</a>
 
       <ul>
@@ -385,6 +394,8 @@ document.write(`
         <li><a href="ug-api.html#cfr.proxy.ProxyRecord.copy">(cfr.proxy.ProxyRecord method)</a>
 </li>
         <li><a href="ug-api.html#cfr.reconjob.ReconJob.copy">(cfr.reconjob.ReconJob method)</a>
+</li>
+        <li><a href="ug-api.html#cfr.ts.EnsTS.copy">(cfr.ts.EnsTS method)</a>
 </li>
       </ul></li>
   </ul></td>
@@ -423,10 +434,14 @@ document.write(`
 <h2 id="E">E</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="ug-api.html#cfr.graphem.solver.GraphEM.EM">EM() (cfr.graphem.solver.GraphEM method)</a>
+</li>
       <li><a href="ug-api.html#cfr.da.EnKF">EnKF (class in cfr.da)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="ug-api.html#cfr.ts.EnsTS">EnsTS (class in cfr.ts)</a>
+</li>
       <li><a href="ug-api.html#cfr.reconjob.ReconJob.erase_cfg">erase_cfg() (cfr.reconjob.ReconJob method)</a>
 </li>
   </ul></td>
@@ -438,6 +453,10 @@ document.write(`
       <li><a href="ug-api.html#cfr.proxy.ProxyDatabase.filter">filter() (cfr.proxy.ProxyDatabase method)</a>
 </li>
       <li><a href="ug-api.html#cfr.reconjob.ReconJob.filter_proxydb">filter_proxydb() (cfr.reconjob.ReconJob method)</a>
+</li>
+      <li><a href="ug-api.html#cfr.graphem.solver.GraphEM.fit">fit() (cfr.graphem.solver.GraphEM method)</a>
+</li>
+      <li><a href="ug-api.html#cfr.graphem.solver.GraphEM.fit_Sigma">fit_Sigma() (cfr.graphem.solver.GraphEM method)</a>
 </li>
       <li><a href="ug-api.html#cfr.psm.Coral_SrCa.forward">forward() (cfr.psm.Coral_SrCa method)</a>
 
@@ -452,7 +471,11 @@ document.write(`
       <li><a href="ug-api.html#cfr.proxy.ProxyRecord.from_da">from_da() (cfr.proxy.ProxyRecord method)</a>
 </li>
       <li><a href="ug-api.html#cfr.proxy.ProxyDatabase.from_df">from_df() (cfr.proxy.ProxyDatabase method)</a>
+
+      <ul>
+        <li><a href="ug-api.html#cfr.ts.EnsTS.from_df">(cfr.ts.EnsTS method)</a>
 </li>
+      </ul></li>
       <li><a href="ug-api.html#cfr.climate.ClimateField.from_np">from_np() (cfr.climate.ClimateField method)</a>
 </li>
   </ul></td>
@@ -474,6 +497,8 @@ document.write(`
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="ug-api.html#cfr.proxy.ProxyRecord.get_pseudo">get_pseudo() (cfr.proxy.ProxyRecord method)</a>
+</li>
+      <li><a href="ug-api.html#cfr.graphem.solver.GraphEM">GraphEM (class in cfr.graphem.solver)</a>
 </li>
       <li><a href="ug-api.html#cfr.reconjob.ReconJob.graphem_kcv">graphem_kcv() (cfr.reconjob.ReconJob method)</a>
 </li>
@@ -497,10 +522,16 @@ document.write(`
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="ug-api.html#cfr.psm.Lake_VarveThickness">Lake_VarveThickness (class in cfr.psm)</a>
 </li>
+      <li><a href="ug-api.html#cfr.ts.EnsTS.line_density">line_density() (cfr.ts.EnsTS method)</a>
+</li>
       <li><a href="ug-api.html#cfr.psm.Linear">Linear (class in cfr.psm)</a>
 </li>
       <li><a href="ug-api.html#cfr.reconjob.ReconJob.load">load() (cfr.reconjob.ReconJob method)</a>
+
+      <ul>
+        <li><a href="ug-api.html#cfr.reconres.ReconRes.load">(cfr.reconres.ReconRes method)</a>
 </li>
+      </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="ug-api.html#cfr.reconjob.ReconJob.load_clim">load_clim() (cfr.reconjob.ReconJob method)</a>
@@ -523,13 +554,21 @@ document.write(`
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="ug-api.html#cfr.reconjob.ReconJob.mark_pids">mark_pids() (cfr.reconjob.ReconJob method)</a>
 </li>
+      <li><a href="ug-api.html#cfr.ts.EnsTS.median">median (cfr.ts.EnsTS attribute)</a>
+</li>
   </ul></td>
 </tr></table>
 
 <h2 id="N">N</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="ug-api.html#cfr.ts.EnsTS.nEns">nEns (cfr.ts.EnsTS attribute)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="ug-api.html#cfr.proxy.ProxyDatabase.nrec_tags">nrec_tags() (cfr.proxy.ProxyDatabase method)</a>
+</li>
+      <li><a href="ug-api.html#cfr.ts.EnsTS.nt">nt (cfr.ts.EnsTS attribute)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -542,15 +581,17 @@ document.write(`
       <ul>
         <li><a href="ug-api.html#cfr.proxy.ProxyDatabase.plot">(cfr.proxy.ProxyDatabase method)</a>
 </li>
+        <li><a href="ug-api.html#cfr.ts.EnsTS.plot">(cfr.ts.EnsTS method)</a>
+</li>
       </ul></li>
       <li><a href="ug-api.html#cfr.proxy.ProxyDatabase.plot_composite">plot_composite() (cfr.proxy.ProxyDatabase method)</a>
 </li>
-      <li><a href="ug-api.html#cfr.visual.plot_proxies">plot_proxies (class in cfr.visual)</a>
-</li>
-      <li><a href="ug-api.html#cfr.proxy.ProxyDatabase.plotly">plotly() (cfr.proxy.ProxyDatabase method)</a>
+      <li><a href="ug-api.html#cfr.ts.EnsTS.plot_qs">plot_qs() (cfr.ts.EnsTS method)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="ug-api.html#cfr.proxy.ProxyDatabase.plotly">plotly() (cfr.proxy.ProxyDatabase method)</a>
+</li>
       <li><a href="ug-api.html#cfr.climate.ClimateField.plotly_grid">plotly_grid() (cfr.climate.ClimateField method)</a>
 </li>
       <li><a href="ug-api.html#cfr.reconjob.ReconJob.prep_da_cfg">prep_da_cfg() (cfr.reconjob.ReconJob method)</a>
@@ -569,14 +610,16 @@ document.write(`
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="ug-api.html#cfr.reconjob.ReconJob">ReconJob (class in cfr.reconjob)</a>
 </li>
+      <li><a href="ug-api.html#cfr.reconres.ReconRes">ReconRes (class in cfr.reconres)</a>
+</li>
       <li><a href="ug-api.html#cfr.proxy.ProxyDatabase.refresh">refresh() (cfr.proxy.ProxyDatabase method)</a>
 </li>
       <li><a href="ug-api.html#cfr.climate.ClimateField.regrid">regrid() (cfr.climate.ClimateField method)</a>
 </li>
-      <li><a href="ug-api.html#cfr.reconjob.ReconJob.regrid_clim">regrid_clim() (cfr.reconjob.ReconJob method)</a>
-</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="ug-api.html#cfr.reconjob.ReconJob.regrid_clim">regrid_clim() (cfr.reconjob.ReconJob method)</a>
+</li>
       <li><a href="ug-api.html#cfr.climate.ClimateField.rename">rename() (cfr.climate.ClimateField method)</a>
 </li>
       <li><a href="ug-api.html#cfr.reconjob.ReconJob.run_da">run_da() (cfr.reconjob.ReconJob method)</a>
@@ -618,7 +661,11 @@ document.write(`
       <li><a href="ug-api.html#cfr.proxy.ProxyRecord.to_da">to_da() (cfr.proxy.ProxyRecord method)</a>
 </li>
       <li><a href="ug-api.html#cfr.proxy.ProxyDatabase.to_df">to_df() (cfr.proxy.ProxyDatabase method)</a>
+
+      <ul>
+        <li><a href="ug-api.html#cfr.ts.EnsTS.to_df">(cfr.ts.EnsTS method)</a>
 </li>
+      </ul></li>
       <li><a href="ug-api.html#cfr.proxy.ProxyDatabase.to_ds">to_ds() (cfr.proxy.ProxyDatabase method)</a>
 </li>
   </ul></td>
@@ -687,7 +734,7 @@ document.write(`
     
   <p class="copyright">
     
-      © Copyright 2023, Feng Zhu, Julien Emile-Geay..
+      © Copyright 2023, Feng Zhu, Julien Emile-Geay.
       <br/>
     
   </p>

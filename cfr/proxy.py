@@ -10,6 +10,7 @@ import plotly.express as px
 import copy
 from tqdm import tqdm
 from collections import OrderedDict
+from datetime import datetime
 import matplotlib.pyplot as plt
 from matplotlib import gridspec
 import cartopy.crs as ccrs
@@ -146,6 +147,11 @@ class ProxyRecord:
     def __init__(self, pid=None, time=None, value=None, lat=None, lon=None, elev=None, ptype=None, tags=None,
         value_name=None, value_unit=None, time_name=None, time_unit=None, seasonality=None):
         self.pid = pid
+        if time is not None:
+            if len(time) == 1:
+                time = [time]
+            if not utils.is_numeric(time):
+                time = utils.datetime2year_float(time)
         self.time = time
         self.value = value
         self.lat = lat
@@ -463,16 +469,25 @@ class ProxyRecord:
             time_max = np.min([proxy_time_max, pseudo_time_max])
             mask_proxy = (self.time>=time_min)&(self.time<=time_max)
             mask_pseudo = (self.pseudo.time>=time_min)&(self.pseudo.time<=time_max)
+            if verbose:
+                utils.p_header(f'>>> timespan: ({time_min}, {time_max})')
+
 
         value = self.pseudo.value
 
         if match_var:
             value = value / np.nanstd(value[mask_pseudo]) * np.nanstd(self.value[mask_proxy])
-            if verbose: utils.p_success(f'>>> Variance matched.')
+            if verbose:
+                utils.p_header(f'>>> Var(proxy)={np.nanvar(self.value[mask_proxy])}')
+                utils.p_header(f'>>> Var(pseudoproxy)={np.nanvar(value[mask_pseudo])}')
+                utils.p_success(f'>>> Variance matched.')
 
         if match_mean:
             value = value - np.nanmean(value[mask_pseudo]) + np.nanmean(self.value[mask_proxy])
-            if verbose: utils.p_success(f'>>> Mean matched.')
+            if verbose:
+                utils.p_header(f'>>> Mean(proxy)={np.nanmean(self.value[mask_proxy])}')
+                utils.p_header(f'>>> Mean(pseudoproxy)={np.nanmean(value[mask_pseudo])}')
+                utils.p_success(f'>>> Mean matched.')
 
         self.pseudo.value = value
 

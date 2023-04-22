@@ -649,3 +649,7 @@ def colored_noise_2regimes(alpha1, alpha2, f_break, t, f0=None, m=None, seed=Non
         y[j] = np.sum(coeff*sin_func)
 
     return y
+
+def is_numeric(obj):
+    attrs = ['__add__', '__sub__', '__mul__', '__truediv__', '__pow__']
+    return all(hasattr(obj, attr) for attr in attrs)

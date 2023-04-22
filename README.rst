@@ -1,3 +1,5 @@
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.7855587.svg)](https://doi.org/10.5281/zenodo.7855587)
+
 ***********************************************************
 `cfr`: a Python package for Climate Field Reconstruction
 ***********************************************************
@@ -17,3 +19,8 @@ Documentation
 
 + Homepage: https://fzhu2e.github.io/cfr
 + Installation: https://fzhu2e.github.io/cfr/ug-installation.html
+
+How to cite this repo
+=====================
+
+This repo can be cited with DOI: [10.5281/zenodo.7855587](https://doi.org/10.5281/zenodo.7855587)

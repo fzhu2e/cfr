@@ -54,7 +54,7 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'notebooks/lmr-real-pages2k';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="GraphEM" href="../ug-graphem.html" />
+    <link rel="next" title="Assimilating records whose PSMs cannot be calibrated" href="lmr-assim-no-calib.html" />
     <link rel="prev" title="LMR" href="../ug-lmr.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -175,6 +175,7 @@
 </li>
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="../ug-lmr.html">LMR</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-5"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
 <li class="toctree-l2 current active"><a class="current reference internal" href="#">Real-world proxy experiments with LMR and PAGES2k</a></li>
+<li class="toctree-l2"><a class="reference internal" href="lmr-assim-no-calib.html">Assimilating records whose PSMs cannot be calibrated</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../ug-graphem.html">GraphEM</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-6"><i class="fa-solid fa-chevron-down"></i></label><ul>
@@ -1841,8 +1842,8 @@ ref_name = &#39;BC09&#39;
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
 </pre></div>
 </div>
-<div class="input_area highlight-none notranslate"><div class="highlight"><pre><span></span>fig, ax = res.recons[&#39;nino3.4&#39;].validate(
-    ref_time, ref_value, ref_name, valid_period=(1874, 1900)).plot_qs()
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre><span></span>fig, ax = res.recons[&#39;nino3.4&#39;].compare(
+    ref_time, ref_value, ref_name, timespan=(1874, 1900)).plot_qs()
 ax.set_xlim(1800, 2000)
 ax.set_ylabel(&#39;NINO3.4 [K]&#39;)
 cfr.showfig(fig)
@@ -1878,9 +1879,9 @@ Figure saved at: &#34;figs/valid_nino34.lmr_pages2k.20CR.pdf&#34;
 </pre></div>
 </div>
 <div class="input_area highlight-none notranslate"><div class="highlight"><pre><span></span>stat = &#39;corr&#39;
-valid_fd = job.prior[&#39;tas&#39;].validate(
+valid_fd = job.prior[&#39;tas&#39;].compare(
     ref_fd_ann, stat=stat,
-    valid_period=(1874, 1900),
+    timespan=(1874, 1900),
 )
 
 valid_fd.plot_kwargs.update({&#39;cbar_orientation&#39;: &#39;horizontal&#39;, &#39;cbar_pad&#39;: 0.1})
@@ -1927,9 +1928,9 @@ Figure saved at: &#34;figs/valid_tas.iCESM.20CR.{stat}.pdf&#34;
 </pre></div>
 </div>
 <div class="input_area highlight-none notranslate"><div class="highlight"><pre><span></span>stat = &#39;CE&#39;
-valid_fd = job.prior[&#39;tas&#39;].validate(
+valid_fd = job.prior[&#39;tas&#39;].compare(
     ref_fd_ann, stat=stat,
-    valid_period=(1874, 1900),
+    timespan=(1874, 1900),
 )
 
 valid_fd.plot_kwargs.update({&#39;cbar_orientation&#39;: &#39;horizontal&#39;, &#39;cbar_pad&#39;: 0.1})
@@ -1965,9 +1966,9 @@ Figure saved at: &#34;figs/valid_tas.iCESM.20CR.CE.pdf&#34;
 </pre></div>
 </div>
 <div class="input_area highlight-none notranslate"><div class="highlight"><pre><span></span>stat = &#39;corr&#39;
-valid_fd = res.recons[&#39;tas&#39;].validate(
+valid_fd = res.recons[&#39;tas&#39;].compare(
     ref_fd_ann, stat=stat,
-    valid_period=(1874, 1900),
+    timespan=(1874, 1900),
 )
 valid_fd.plot_kwargs.update({&#39;cbar_orientation&#39;: &#39;horizontal&#39;, &#39;cbar_pad&#39;: 0.1})
 
@@ -2015,9 +2016,9 @@ Figure saved at: &#34;figs/valid_tas.lmr_pages2k.20CR.corr.pdf&#34;
 </pre></div>
 </div>
 <div class="input_area highlight-none notranslate"><div class="highlight"><pre><span></span>stat = &#39;CE&#39;
-valid_fd = res.recons[&#39;tas&#39;].validate(
+valid_fd = res.recons[&#39;tas&#39;].compare(
     ref_fd_ann, stat=stat,
-    valid_period=(1874, 1900),
+    timespan=(1874, 1900),
 )
 valid_fd.plot_kwargs.update({&#39;cbar_orientation&#39;: &#39;horizontal&#39;, &#39;cbar_pad&#39;: 0.1})
 
@@ -2079,11 +2080,11 @@ Figure saved at: &#34;figs/valid_tas.lmr_pages2k.20CR.CE.pdf&#34;
       </div>
     </a>
     <a class="right-next"
-       href="../ug-graphem.html"
+       href="lmr-assim-no-calib.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">GraphEM</p>
+        <p class="prev-next-title">Assimilating records whose PSMs cannot be calibrated</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>

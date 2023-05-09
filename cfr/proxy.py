@@ -148,10 +148,10 @@ class ProxyRecord:
         value_name=None, value_unit=None, time_name=None, time_unit=None, seasonality=None):
         self.pid = pid
         if time is not None:
-            if len(time) == 1:
-                time = [time]
-            if not utils.is_numeric(time):
+            try:
                 time = utils.datetime2year_float(time)
+            except:
+                pass
         self.time = time
         self.value = value
         self.lat = lat

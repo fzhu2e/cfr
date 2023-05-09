@@ -5,6 +5,7 @@ import matplotlib.pyplot as plt
 from matplotlib.colors import LogNorm
 from scipy.stats import pearsonr
 import copy
+from . import utils
 from .utils import (
     coefficient_efficiency,
     p_header,
@@ -35,6 +36,12 @@ class EnsTS:
     def __init__(self, time=None, value=None, value_name=None):
         if np.ndim(value) == 1:
             value = value[:, np.newaxis]
+
+        if time is not None:
+            try:
+                time = utils.datetime2year_float(time)
+            except:
+                pass
 
         self.time = time
         self.value = value

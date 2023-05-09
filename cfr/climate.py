@@ -535,5 +535,5 @@ class ClimateField:
     def geo_mean(self, lat_min=-90, lat_max=90, lon_min=0, lon_max=360):
         ''' Calculate the geographical mean value of the climate field. '''
         m = utils.geo_mean(self.da, lat_min=lat_min, lat_max=lat_max, lon_min=lon_min, lon_max=lon_max)
-        ts = EnsTS(time=m['time'], value=m.values)
+        ts = EnsTS(time=m['time'].values, value=m.values)
         return ts

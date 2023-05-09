@@ -549,8 +549,14 @@ Annualizing ProxyDatabase: 100%|██████████| 104/104 [00:05&l
 </section>
 <section id="Forward-modeling-without-calling-the-PSMs">
 <h2>Forward modeling without calling the PSMs<a class="headerlink" href="#Forward-modeling-without-calling-the-PSMs" title="Permalink to this heading">#</a></h2>
-<p>This is the key step of this tutorial. Below we loop over each proxy record and perform forward modeling steps: 1. Get the climate data at the nearest grid point of the record. 2. Annualize the climate data to get the same seasonality as the record. 3. Create the <code class="docutils literal notranslate"><span class="pre">pobj.pseudo</span></code> object for each record, with <code class="docutils literal notranslate"><span class="pre">pobj.pseudo.time</span></code> and <code class="docutils literal notranslate"><span class="pre">pobj.pseudo.value</span></code> specified. The <code class="docutils literal notranslate"><span class="pre">.value</span></code> can be generated based on uncalibrated but known relationships (e.g., linear with a certain slope). 4. Add the tag
-“calibrated” so that the workflow will not complain. 5. Set the observation error based on estimation.</p>
+<p>This is the key step of this tutorial. Below we loop over each proxy record and perform forward modeling steps:</p>
+<ol class="arabic simple">
+<li><p>Get the climate data at the nearest grid point of the record.</p></li>
+<li><p>Annualize the climate data to get the same seasonality as the record.</p></li>
+<li><p>Create the <code class="docutils literal notranslate"><span class="pre">pobj.pseudo</span></code> object for each record, with <code class="docutils literal notranslate"><span class="pre">pobj.pseudo.time</span></code> and <code class="docutils literal notranslate"><span class="pre">pobj.pseudo.value</span></code> specified. The <code class="docutils literal notranslate"><span class="pre">.value</span></code> can be generated based on uncalibrated but known relationships (e.g., linear with a certain slope).</p></li>
+<li><p>Add the tag “calibrated” so that the workflow will not complain.</p></li>
+<li><p>Set the observation error based on estimation.</p></li>
+</ol>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[24]:
 </pre></div>
@@ -560,7 +566,7 @@ Annualizing ProxyDatabase: 100%|██████████| 104/104 [00:05&l
     <span class="n">clim_ann</span> <span class="o">=</span> <span class="n">pobj</span><span class="o">.</span><span class="n">clim</span><span class="p">[</span><span class="s1">&#39;model.tas&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">annualize</span><span class="p">(</span><span class="n">months</span><span class="o">=</span><span class="p">[</span><span class="mi">12</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
     <span class="n">pobj</span><span class="o">.</span><span class="n">pseudo</span> <span class="o">=</span> <span class="n">pobj</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
     <span class="n">pobj</span><span class="o">.</span><span class="n">pseudo</span><span class="o">.</span><span class="n">time</span> <span class="o">=</span> <span class="n">clim_ann</span><span class="o">.</span><span class="n">da</span><span class="o">.</span><span class="n">time</span><span class="o">.</span><span class="n">values</span>
-    <span class="n">pobj</span><span class="o">.</span><span class="n">pseudo</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">clim_ann</span><span class="o">.</span><span class="n">da</span><span class="o">.</span><span class="n">values</span>
+    <span class="n">pobj</span><span class="o">.</span><span class="n">pseudo</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">clim_ann</span><span class="o">.</span><span class="n">da</span><span class="o">.</span><span class="n">values</span> <span class="c1"># can be arbitrary relationship</span>
     <span class="n">pobj</span><span class="o">.</span><span class="n">pseudo</span><span class="o">.</span><span class="n">seasonality</span> <span class="o">=</span> <span class="p">[</span><span class="mi">12</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span>
     <span class="n">pobj</span><span class="o">.</span><span class="n">tags</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="s1">&#39;calibrated&#39;</span><span class="p">)</span>
     <span class="n">pobj</span><span class="o">.</span><span class="n">R</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="c1"># obs err; should be estimated ahead</span>

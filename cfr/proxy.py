@@ -136,11 +136,11 @@ class ProxyRecord:
         ptype (str): the label of proxy type according to archive and proxy information;
             some examples:
 
-            * 'tree.trw' : TRW
-            * 'tree.mxd' : MXD
+            * 'tree.trw' : tree-ring width (TRW)
+            * 'tree.mxd' : maximum latewood density (MXD)
             * 'coral.d18O' : Coral d18O isotopes
             * 'coral.SrCa' : Coral Sr/Ca ratios
-            * 'ice.d18O' : Ice d18O isotopes
+            * 'ice.d18O' : Ice core d18O isotopes
         tags (a set of str):
             the tags for the record, to enable tag filtering
     '''
@@ -882,6 +882,7 @@ class ProxyDatabase:
         self.pids = [pobj.pid for pid, pobj in self.records.items()]
         self.lats = [pobj.lat for pid, pobj in self.records.items()]
         self.lons = [pobj.lon for pid, pobj in self.records.items()]
+        self.elevs = [pobj.elev for pid, pobj in self.records.items()]
         self.type_list = [pobj.ptype for pid, pobj in self.records.items()]
         self.type_dict = {}
         for t in self.type_list:
@@ -998,6 +999,7 @@ class ProxyDatabase:
                 * For `by = 'lat' or 'lon'`, keys = (lat_min, lat_max) or (lon_min, lon_max)
                 * For `by = 'loc-squre'`, keys = (lat_min, lat_max, lon_min, lon_max)
                 * For `by = 'loc-circle'`, keys = (center_lat, center_lon, distance)
+                * For `by = 'tag'`, keys should be a list of tags
 
             mode (str): 'fuzzy' or 'exact' search when `by = 'ptype' or 'pid'`
 

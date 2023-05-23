@@ -653,3 +653,17 @@ def colored_noise_2regimes(alpha1, alpha2, f_break, t, f0=None, m=None, seed=Non
 def is_numeric(obj):
     attrs = ['__add__', '__sub__', '__mul__', '__truediv__', '__pow__']
     return all(hasattr(obj, attr) for attr in attrs)
+
+def replace_str(fpath, d):
+    ''' Replace the string in a given text file according
+    to the dictionary `d`
+    '''
+    with open(fpath, 'r') as f:
+        text = f.read()
+        for k, v in d.items():
+            search_text = k
+            replace_text = v
+            text = text.replace(search_text, replace_text)
+
+    with open(fpath, 'w') as f:
+        f.write(text)

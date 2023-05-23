@@ -198,10 +198,10 @@ def clean_ts(ts, ys):
 
 
 def overlap_ts(ts_proxy, ys_proxy, ts_obs, ys_obs):
-    ys_proxy = np.array(ys_proxy, dtype=np.float)
-    ts_proxy = np.array(ts_proxy, dtype=np.float)
-    ys_obs = np.array(ys_obs, dtype=np.float)
-    ts_obs = np.array(ts_obs, dtype=np.float)
+    ys_proxy = np.array(ys_proxy, dtype=float)
+    ts_proxy = np.array(ts_proxy, dtype=float)
+    ys_obs = np.array(ys_obs, dtype=float)
+    ts_obs = np.array(ts_obs, dtype=float)
 
     overlap_proxy = (ts_proxy >= np.min(ts_obs)) & (ts_proxy <= np.max(ts_obs))
     overlap_obs = (ts_obs >= np.min(ts_proxy)) & (ts_obs <= np.max(ts_proxy))
@@ -218,10 +218,10 @@ def overlap_ts(ts_proxy, ys_proxy, ts_obs, ys_obs):
     return time_overlap, ys_proxy_overlap, ys_obs_overlap
 
 def ols_ts(ts_proxy, ys_proxy, ts_obs, ys_obs):
-    ys_proxy = np.asarray(ys_proxy, dtype=np.float)
-    ts_proxy = np.asarray(ts_proxy, dtype=np.float)
-    ys_obs = np.asarray(ys_obs, dtype=np.float)
-    ts_obs = np.asarray(ts_obs, dtype=np.float)
+    ys_proxy = np.array(ys_proxy, dtype=float)
+    ts_proxy = np.array(ts_proxy, dtype=float)
+    ys_obs = np.array(ys_obs, dtype=float)
+    ts_obs = np.array(ts_obs, dtype=float)
 
     time_overlap, ys_proxy_overlap, ys_obs_overlap = overlap_ts(ts_proxy, ys_proxy, ts_obs, ys_obs)
 

@@ -110,7 +110,7 @@ class EnsTS:
         res.refresh()
         return res
 
-    def from_df(self, df, time_column=None, value_columns=None):
+    def from_df(self, df, time_column='time', value_columns=None):
         ''' Load data from a pandas.DataFrame
 
         Parameters
@@ -125,9 +125,6 @@ class EnsTS:
             The list of the labels for the value axis of the ensemble members.
 
         '''
-        if time_column is None:
-            raise ValueError('`time_column` must be specified!')
-
         if value_columns is None:
             value_columns = list(set(df.columns) - {time_column})
             

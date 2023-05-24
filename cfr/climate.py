@@ -58,36 +58,40 @@ class ClimateField:
         return fd
 
     def fetch(self, name=None, **load_nc_kws):
-        url_dict = {
-            'iCESM_past1000historical/tas': 'https://atmos.washington.edu/~rtardif/LMR/prior/tas_sfc_Amon_iCESM_past1000historical_085001-200512.nc',
-            'iCESM_past1000historical/pr': 'https://atmos.washington.edu/~rtardif/LMR/prior/pr_sfc_Amon_iCESM_past1000historical_085001-200512.nc',
-            'iCESM_past1000historical/d18O': 'https://atmos.washington.edu/~rtardif/LMR/prior/d18O_sfc_Amon_iCESM_past1000historical_085001-200512.nc',
-            'iCESM_past1000historical/psl': 'https://atmos.washington.edu/~rtardif/LMR/prior/psl_sfc_Amon_iCESM_past1000historical_085001-200512.nc',
-            'iCESM_past1000/tas': 'https://atmos.washington.edu/~rtardif/LMR/prior/tas_sfc_Amon_iCESM_past1000_085001-184912.nc',
-            'iCESM_past1000/pr': 'https://atmos.washington.edu/~rtardif/LMR/prior/pr_sfc_Amon_iCESM_past1000_085001-184912.nc',
-            'iCESM_past1000/d18O': 'https://atmos.washington.edu/~rtardif/LMR/prior/d18O_sfc_Amon_iCESM_past1000_085001-184912.nc',
-            'iCESM_past1000/psl': 'https://atmos.washington.edu/~rtardif/LMR/prior/psl_sfc_Amon_iCESM_past1000_085001-184912.nc',
-        }
+        ''' Fetch a gridded climate field from cloud
 
-        if name[:4] != 'http':
-            if name is None:
-                utils.p_warning(f'>>> Choose one from the supported entries: {list(url_dict.keys())}')
-                return None
+        Args:
+            name (str): a predifined name or an URL starting with "http"
+        '''
+        url_dict = utils.climfd_url_dict
 
+        if name is None:
+            utils.p_warning(f'>>> Choose one from the supported entries:')
+            for k in url_dict.keys():
+                utils.p_warning(f'- {k}')
+            return None
+
+        if name in url_dict:
             url = url_dict[name]
         else:
             url = name
 
-        fpath = f'./data/{os.path.basename(url)}'
-        if os.path.exists(fpath):
-            utils.p_hint(f'>>> The target file seems existed at: {fpath} . Loading from it instead of downloading ...')
+        if url[:4] == 'http':
+            # cloud
+            os.makedirs('./data', exist_ok=True)
+            fpath = f'./data/{os.path.basename(url)}'
+            if os.path.exists(fpath):
+                utils.p_hint(f'>>> The target file seems existed at: {fpath} . Loading from it instead of downloading ...')
+            else:
+                utils.download(url, fpath)
+                utils.p_success(f'>>> Downloaded file saved at: {fpath}')
         else:
-            utils.download(url, fpath)
-            utils.p_success(f'>>> Downloaded file saved at: {fpath} .')
+            # local
+            fpath = url
 
-        pdb = self.load_nc(fpath, **load_nc_kws)
+        fd = self.load_nc(fpath, **load_nc_kws)
 
-        return pdb
+        return fd
 
     def from_np(self, time, lat, lon, value):
         ''' Load data from a `numpy.ndarray`.

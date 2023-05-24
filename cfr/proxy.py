@@ -892,52 +892,48 @@ class ProxyDatabase:
             else:
                 self.type_dict[t] += 1
 
-    def fetch(self, db_name=None):
-        url_dict = {
-            'PAGES2k': 'https://github.com/fzhu2e/cfr/raw/main/docsrc/notebooks/data/pages2k.json',
-            'pseudoPAGES2k/ppwn_SNRinf_rta': 'https://github.com/fzhu2e/paper-pseudoPAGES2k/raw/main/data/ppwn_SNRinf_rta.nc',
-            'pseudoPAGES2k/ppwn_SNR10_rta': 'https://github.com/fzhu2e/paper-pseudoPAGES2k/raw/main/data/ppwn_SNR10_rta.nc',
-            'pseudoPAGES2k/ppwn_SNR2_rta': 'https://github.com/fzhu2e/paper-pseudoPAGES2k/raw/main/data/ppwn_SNR2_rta.nc',
-            'pseudoPAGES2k/ppwn_SNR1_rta': 'https://github.com/fzhu2e/paper-pseudoPAGES2k/raw/main/data/ppwn_SNR1_rta.nc',
-            'pseudoPAGES2k/ppwn_SNR0.5_rta': 'https://github.com/fzhu2e/paper-pseudoPAGES2k/raw/main/data/ppwn_SNR0.5_rta.nc',
-            'pseudoPAGES2k/ppwn_SNR0.25_rta': 'https://github.com/fzhu2e/paper-pseudoPAGES2k/raw/main/data/ppwn_SNR0.25_rta.nc',
-            'pseudoPAGES2k/ppwn_SNRinf_fta': 'https://github.com/fzhu2e/paper-pseudoPAGES2k/raw/main/data/ppwn_SNRinf_fta.nc',
-            'pseudoPAGES2k/ppwn_SNR10_fta': 'https://github.com/fzhu2e/paper-pseudoPAGES2k/raw/main/data/ppwn_SNR10_fta.nc',
-            'pseudoPAGES2k/ppwn_SNR2_fta': 'https://github.com/fzhu2e/paper-pseudoPAGES2k/raw/main/data/ppwn_SNR2_fta.nc',
-            'pseudoPAGES2k/ppwn_SNR1_fta': 'https://github.com/fzhu2e/paper-pseudoPAGES2k/raw/main/data/ppwn_SNR1_fta.nc',
-            'pseudoPAGES2k/ppwn_SNR0.5_fta': 'https://github.com/fzhu2e/paper-pseudoPAGES2k/raw/main/data/ppwn_SNR0.5_fta.nc',
-            'pseudoPAGES2k/ppwn_SNR0.25_fta': 'https://github.com/fzhu2e/paper-pseudoPAGES2k/raw/main/data/ppwn_SNR0.25_fta.nc',
-            'pseudoPAGES2k/tpwn_SNR10_rta': 'https://github.com/fzhu2e/paper-pseudoPAGES2k/raw/main/data/tpwn_SNR10_rta.nc',
-            'pseudoPAGES2k/tpwn_SNR2_rta': 'https://github.com/fzhu2e/paper-pseudoPAGES2k/raw/main/data/tpwn_SNR2_rta.nc',
-            'pseudoPAGES2k/tpwn_SNR1_rta': 'https://github.com/fzhu2e/paper-pseudoPAGES2k/raw/main/data/tpwn_SNR1_rta.nc',
-            'pseudoPAGES2k/tpwn_SNR0.5_rta': 'https://github.com/fzhu2e/paper-pseudoPAGES2k/raw/main/data/tpwn_SNR0.5_rta.nc',
-            'pseudoPAGES2k/tpwn_SNR0.25_rta': 'https://github.com/fzhu2e/paper-pseudoPAGES2k/raw/main/data/tpwn_SNR0.25_rta.nc',
-            'pseudoPAGES2k/tpwn_SNR10_fta': 'https://github.com/fzhu2e/paper-pseudoPAGES2k/raw/main/data/tpwn_SNR10_fta.nc',
-            'pseudoPAGES2k/tpwn_SNR2_fta': 'https://github.com/fzhu2e/paper-pseudoPAGES2k/raw/main/data/tpwn_SNR2_fta.nc',
-            'pseudoPAGES2k/tpwn_SNR1_fta': 'https://github.com/fzhu2e/paper-pseudoPAGES2k/raw/main/data/tpwn_SNR1_fta.nc',
-            'pseudoPAGES2k/tpwn_SNR0.5_fta': 'https://github.com/fzhu2e/paper-pseudoPAGES2k/raw/main/data/tpwn_SNR0.5_fta.nc',
-            'pseudoPAGES2k/tpwn_SNR0.25_fta': 'https://github.com/fzhu2e/paper-pseudoPAGES2k/raw/main/data/tpwn_SNR0.25_fta.nc',
-        }
+    def fetch(self, name=None):
+        ''' Fetch a proxy database from cloud
 
-        if db_name is None:
-            p_warning(f'>>> Choose one from the supported databases: {list(url_dict.keys())}')
+        Args:
+            name (str): a predifined database name or an URL starting with "http" 
+        '''
+        url_dict = utils.proxydb_url_dict
+
+        if name is None:
+            p_warning(f'>>> Choose one from the supported databases:')
+            for k in url_dict.keys():
+                p_warning(f'- {k}')
             return None
+
+        if name in url_dict:
+            url = url_dict[name]
+        else:
+            url = name
 
         read_func = {
             '.json': pd.read_json,
             '.csv': pd.read_csv,
+            '.pkl': pd.read_pickle,
         }
-        url = url_dict[db_name]
-        ext = os.path.splitext(url)[-1]
+        ext = os.path.splitext(url)[-1].lower()
         if ext == '.nc':
-            fpath = '.cfr_download_tmp'
-            if os.path.exists(fpath): os.remove(fpath)
-            utils.download(url, fpath)
-            pdb = self.load_nc(fpath)
-            os.remove(fpath)
-        else:
+            if url[:4] == 'http':
+                # cloud
+                fpath = '.cfr_download_tmp'
+                if os.path.exists(fpath): os.remove(fpath)
+                utils.download(url, fpath, show_bar=False)
+                pdb = self.load_nc(fpath)
+                os.remove(fpath)
+            else:
+                # local
+                pdb = self.load_nc(url)
+        elif ext in read_func:
+            # cloud & local
             df = read_func[ext](url)
             pdb = self.from_df(df)
+        else:
+            raise ValueError('Wrong file extention based on the given URL!')
 
         return pdb
 

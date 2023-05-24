@@ -136,13 +136,14 @@ class ReconJob:
         '''
         path = self.io_cfg('proxydb_path', path, verbose=verbose)
 
-        _, ext =  os.path.splitext(path)
-        if ext.lower() == '.pkl':
-            df = pd.read_pickle(path)
-        else:
-            raise ReadError(f'The extention of the file [{ext}] is not supported. Support list: [.pkl, ] .')
+        # _, ext =  os.path.splitext(path)
+        # if ext.lower() == '.pkl':
+        #     df = pd.read_pickle(path)
+        # else:
+        #     raise ReadError(f'The extention of the file [{ext}] is not supported. Support list: [.pkl, ] .')
 
-        self.proxydb = ProxyDatabase().from_df(df, **kwargs)
+        # self.proxydb = ProxyDatabase().from_df(df, **kwargs)
+        self.proxydb = ProxyDatabase().fetch(name=path)
         if verbose:
             p_success(f'>>> {self.proxydb.nrec} records loaded')
             p_success(f'>>> job.proxydb created')
@@ -303,7 +304,7 @@ class ReconJob:
                 vn_in_file = rename_dict[vn]
 
             if anom_period == 'null':
-                self.__dict__[tag][vn] = ClimateField().load_nc(
+                self.__dict__[tag][vn] = ClimateField().fetch(
                     path, vn=vn_in_file,
                     time_name=time_name,
                     lat_name=lat_name,
@@ -311,14 +312,14 @@ class ReconJob:
                     load=load).wrap_lon()
             else:
                 try:
-                    self.__dict__[tag][vn] = ClimateField().load_nc(
+                    self.__dict__[tag][vn] = ClimateField().fetch(
                         path, vn=vn_in_file,
                         time_name=time_name,
                         lat_name=lat_name,
                         lon_name=lon_name,
                         load=load).get_anom(ref_period=anom_period).wrap_lon()
                 except:
-                    self.__dict__[tag][vn] = ClimateField().load_nc(
+                    self.__dict__[tag][vn] = ClimateField().fetch(
                         path, vn=vn_in_file,
                         time_name=time_name,
                         lat_name=lat_name,

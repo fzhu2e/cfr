@@ -1,4 +1,5 @@
-
+import os
+import xarray as xr
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -49,6 +50,40 @@ class EnsTS:
 
         if self.value is not None:
             self.refresh()
+
+    def fetch(self, name=None, **from_df_kws):
+        ''' Fetch a proxy database from cloud
+
+        Args:
+            name (str): a predifined database name or an URL starting with "http" 
+        '''
+        url_dict = utils.ensts_url_dict
+
+        if name is None:
+            p_warning(f'>>> Choose one from the supported databases:')
+            for k in url_dict.keys():
+                p_warning(f'- {k}')
+            return None
+
+        if name in url_dict:
+            url = url_dict[name]
+        else:
+            url = name
+
+        read_func = {
+            '.json': pd.read_json,
+            '.csv': pd.read_csv,
+            '.pkl': pd.read_pickle,
+        }
+        ext = os.path.splitext(url)[-1].lower()
+        if ext in read_func:
+            # cloud & local
+            df = read_func[ext](url)
+            ensts = self.from_df(df, **from_df_kws)
+        else:
+            raise ValueError('Wrong file extention based on the given URL!')
+
+        return ensts
 
     def refresh(self):
         self.nt = np.shape(self.value)[0]

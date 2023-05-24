@@ -1,6 +1,7 @@
 import os
 import xarray as xr
 import numpy as np
+import cftime
 import pandas as pd
 import matplotlib.pyplot as plt
 from matplotlib.colors import LogNorm
@@ -39,6 +40,11 @@ class EnsTS:
             value = value[:, np.newaxis]
 
         if time is not None:
+            try:
+                time = [np.datetime64(t) for t in time]
+            except:
+                pass
+
             try:
                 time = utils.datetime2year_float(time)
             except:

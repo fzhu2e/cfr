@@ -733,5 +733,4 @@ climfd_url_dict = {
 
 ensts_url_dict = {
     'BC09_NINO34': 'https://github.com/fzhu2e/cfr/raw/main/docsrc/notebooks/data/BC09_NINO34.csv',
-    # 'BC09_NINO34': 'https://github.com/fzhu2e/cfr/raw/main/docsrc/notebooks/data/BC09_NINO34.nc',
 }

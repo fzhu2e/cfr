@@ -670,16 +670,67 @@ def replace_str(fpath, d):
         f.write(text)
 
 
-def download(url: str, fname: str, chunk_size=1024):
+def download(url: str, fname: str, chunk_size=1024, show_bar=True):
     resp = requests.get(url, stream=True)
     total = int(resp.headers.get('content-length', 0))
-    with open(fname, 'wb') as file, tqdm(
-        desc='Fetching data',
-        total=total,
-        unit='iB',
-        unit_scale=True,
-        unit_divisor=1024,
-    ) as bar:
-        for data in resp.iter_content(chunk_size=chunk_size):
-            size = file.write(data)
-            bar.update(size)
+    if show_bar:
+        with open(fname, 'wb') as file, tqdm(
+            desc='Fetching data',
+            total=total,
+            unit='iB',
+            unit_scale=True,
+            unit_divisor=1024,
+        ) as bar:
+            for data in resp.iter_content(chunk_size=chunk_size):
+                size = file.write(data)
+                bar.update(size)
+    else:
+        with open(fname, 'wb') as file:
+            for data in resp.iter_content(chunk_size=chunk_size):
+                size = file.write(data)
+
+proxydb_url_dict = {
+    'PAGES2kv2': 'https://github.com/fzhu2e/cfr/raw/main/docsrc/notebooks/data/pages2k.json',
+    'pseudoPAGES2k/ppwn_SNRinf_rta': 'https://github.com/fzhu2e/paper-pseudoPAGES2k/raw/main/data/ppwn_SNRinf_rta.nc',
+    'pseudoPAGES2k/ppwn_SNR10_rta': 'https://github.com/fzhu2e/paper-pseudoPAGES2k/raw/main/data/ppwn_SNR10_rta.nc',
+    'pseudoPAGES2k/ppwn_SNR2_rta': 'https://github.com/fzhu2e/paper-pseudoPAGES2k/raw/main/data/ppwn_SNR2_rta.nc',
+    'pseudoPAGES2k/ppwn_SNR1_rta': 'https://github.com/fzhu2e/paper-pseudoPAGES2k/raw/main/data/ppwn_SNR1_rta.nc',
+    'pseudoPAGES2k/ppwn_SNR0.5_rta': 'https://github.com/fzhu2e/paper-pseudoPAGES2k/raw/main/data/ppwn_SNR0.5_rta.nc',
+    'pseudoPAGES2k/ppwn_SNR0.25_rta': 'https://github.com/fzhu2e/paper-pseudoPAGES2k/raw/main/data/ppwn_SNR0.25_rta.nc',
+    'pseudoPAGES2k/ppwn_SNRinf_fta': 'https://github.com/fzhu2e/paper-pseudoPAGES2k/raw/main/data/ppwn_SNRinf_fta.nc',
+    'pseudoPAGES2k/ppwn_SNR10_fta': 'https://github.com/fzhu2e/paper-pseudoPAGES2k/raw/main/data/ppwn_SNR10_fta.nc',
+    'pseudoPAGES2k/ppwn_SNR2_fta': 'https://github.com/fzhu2e/paper-pseudoPAGES2k/raw/main/data/ppwn_SNR2_fta.nc',
+    'pseudoPAGES2k/ppwn_SNR1_fta': 'https://github.com/fzhu2e/paper-pseudoPAGES2k/raw/main/data/ppwn_SNR1_fta.nc',
+    'pseudoPAGES2k/ppwn_SNR0.5_fta': 'https://github.com/fzhu2e/paper-pseudoPAGES2k/raw/main/data/ppwn_SNR0.5_fta.nc',
+    'pseudoPAGES2k/ppwn_SNR0.25_fta': 'https://github.com/fzhu2e/paper-pseudoPAGES2k/raw/main/data/ppwn_SNR0.25_fta.nc',
+    'pseudoPAGES2k/tpwn_SNR10_rta': 'https://github.com/fzhu2e/paper-pseudoPAGES2k/raw/main/data/tpwn_SNR10_rta.nc',
+    'pseudoPAGES2k/tpwn_SNR2_rta': 'https://github.com/fzhu2e/paper-pseudoPAGES2k/raw/main/data/tpwn_SNR2_rta.nc',
+    'pseudoPAGES2k/tpwn_SNR1_rta': 'https://github.com/fzhu2e/paper-pseudoPAGES2k/raw/main/data/tpwn_SNR1_rta.nc',
+    'pseudoPAGES2k/tpwn_SNR0.5_rta': 'https://github.com/fzhu2e/paper-pseudoPAGES2k/raw/main/data/tpwn_SNR0.5_rta.nc',
+    'pseudoPAGES2k/tpwn_SNR0.25_rta': 'https://github.com/fzhu2e/paper-pseudoPAGES2k/raw/main/data/tpwn_SNR0.25_rta.nc',
+    'pseudoPAGES2k/tpwn_SNR10_fta': 'https://github.com/fzhu2e/paper-pseudoPAGES2k/raw/main/data/tpwn_SNR10_fta.nc',
+    'pseudoPAGES2k/tpwn_SNR2_fta': 'https://github.com/fzhu2e/paper-pseudoPAGES2k/raw/main/data/tpwn_SNR2_fta.nc',
+    'pseudoPAGES2k/tpwn_SNR1_fta': 'https://github.com/fzhu2e/paper-pseudoPAGES2k/raw/main/data/tpwn_SNR1_fta.nc',
+    'pseudoPAGES2k/tpwn_SNR0.5_fta': 'https://github.com/fzhu2e/paper-pseudoPAGES2k/raw/main/data/tpwn_SNR0.5_fta.nc',
+    'pseudoPAGES2k/tpwn_SNR0.25_fta': 'https://github.com/fzhu2e/paper-pseudoPAGES2k/raw/main/data/tpwn_SNR0.25_fta.nc',
+}
+
+climfd_url_dict = {
+    'iCESM_past1000historical/tas': 'https://atmos.washington.edu/~rtardif/LMR/prior/tas_sfc_Amon_iCESM_past1000historical_085001-200512.nc',
+    'iCESM_past1000historical/pr': 'https://atmos.washington.edu/~rtardif/LMR/prior/pr_sfc_Amon_iCESM_past1000historical_085001-200512.nc',
+    'iCESM_past1000historical/d18O': 'https://atmos.washington.edu/~rtardif/LMR/prior/d18O_sfc_Amon_iCESM_past1000historical_085001-200512.nc',
+    'iCESM_past1000historical/psl': 'https://atmos.washington.edu/~rtardif/LMR/prior/psl_sfc_Amon_iCESM_past1000historical_085001-200512.nc',
+    'iCESM_past1000/tas': 'https://atmos.washington.edu/~rtardif/LMR/prior/tas_sfc_Amon_iCESM_past1000_085001-184912.nc',
+    'iCESM_past1000/pr': 'https://atmos.washington.edu/~rtardif/LMR/prior/pr_sfc_Amon_iCESM_past1000_085001-184912.nc',
+    'iCESM_past1000/d18O': 'https://atmos.washington.edu/~rtardif/LMR/prior/d18O_sfc_Amon_iCESM_past1000_085001-184912.nc',
+    'iCESM_past1000/psl': 'https://atmos.washington.edu/~rtardif/LMR/prior/psl_sfc_Amon_iCESM_past1000_085001-184912.nc',
+    'gistemp1200_GHCNv4_ERSSTv5': 'https://data.giss.nasa.gov/pub/gistemp/gistemp1200_GHCNv4_ERSSTv5.nc.gz',
+    'CRUTSv4.07/tas': 'https://crudata.uea.ac.uk/cru/data/hrg/cru_ts_4.07/cruts.2304141047.v4.07/tmp/cru_ts4.07.1901.2022.tmp.dat.nc.gz',
+    'CRUTSv4.07/pr': 'https://crudata.uea.ac.uk/cru/data/hrg/cru_ts_4.07/cruts.2304141047.v4.07/pre/cru_ts4.07.1901.2022.pre.dat.nc.gz',
+    '20CRv3/tas': 'https://downloads.psl.noaa.gov/Datasets/20thC_ReanV3/Monthlies/2mSI-MO/air.2m.mon.mean.nc',
+    '20CRv3/pr': 'https://downloads.psl.noaa.gov/Datasets/20thC_ReanV3/Monthlies/sfcSI-MO/prate.mon.mean.nc',
+}
+
+ensts_url_dict = {
+    'BC09_NINO34': 'https://github.com/fzhu2e/cfr/raw/main/docsrc/notebooks/data/BC09_NINO34.csv',
+}

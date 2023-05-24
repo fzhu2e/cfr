@@ -1,0 +1,2790 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+    <title>A Pseudoproxy Experiment with GraphEM and pseudoPAGES2k &#8212; cfr  documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/theme_overrides.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/style.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/nbsphinx-code-cells.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=12da95d707ffb74b382d" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=12da95d707ffb74b382d" />
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script src="../_static/design-tabs.js"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'notebooks/graphem-ppe-pages2k';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="API Reference" href="../ug-api.html" />
+    <link rel="prev" title="Real-world proxy experiments with GraphEM and PAGES2k" href="graphem-real-pages2k.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/favicon.ico" class="logo__image only-light" alt="Logo image"/>
+    <script>document.write(`<img src="../_static/favicon.ico" class="logo__image only-dark" alt="Logo image"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">User Guide</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../ug-installation.html">Installation</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../ug-pp2k.html">pseudoPAGES2k</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="pp2k-pdb-load-viz.html">Loading and Visualization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pp2k-pdb-filter.html">Database Filtering</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pp2k-dashboards.html">Validation Dashboards</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pp2k-ppe-pda.html">PPE: A PDA-based Reconstruction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pp2k-ppe-graphem.html">PPE: A GraphEM-based Reconstruction</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../ug-climate.html">Climate</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="climate-io.html">Input/Output</a></li>
+<li class="toctree-l2"><a class="reference internal" href="climate-ops.html">Basic Operations</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../ug-proxy.html">Proxy</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="proxy-io.html">Input/Output</a></li>
+<li class="toctree-l2"><a class="reference internal" href="proxy-ops.html">Basic Operations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="proxy-analysis.html">Analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="proxy-composites.html">Composites</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../ug-psm.html">PSM</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="psm-linear.html">Univariate linear regression</a></li>
+<li class="toctree-l2"><a class="reference internal" href="psm-bilinear.html">Bivariate linear regression</a></li>
+<li class="toctree-l2"><a class="reference internal" href="psm-ice-d18O.html">PSM for ice core d18O</a></li>
+<li class="toctree-l2"><a class="reference internal" href="psm-lake-VarveThickness.html">PSM for lake varve thickness</a></li>
+<li class="toctree-l2"><a class="reference internal" href="psm-coral-SrCa.html">PSM for coral Sr/Ca</a></li>
+<li class="toctree-l2"><a class="reference internal" href="psm-coral-d18O.html">PSM for coral d18O</a></li>
+<li class="toctree-l2"><a class="reference internal" href="psm-tree-TRW.html">PSM for tree TRW (VS-Lite)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="psm-tree-seasonality.html">Detecting the seasonality of the trees</a></li>
+<li class="toctree-l2"><a class="reference internal" href="psm-tree-memory.html">Detecting the biological memory in the trees</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../ug-lmr.html">LMR</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-5"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="lmr-real-pages2k.html">Real-world proxy experiments with LMR and PAGES2k</a></li>
+<li class="toctree-l2"><a class="reference internal" href="lmr-assim-no-calib.html">Assimilating records whose PSMs cannot be calibrated</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="../ug-graphem.html">GraphEM</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-6"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="graphem-real-pages2k.html">Real-world proxy experiments with GraphEM and PAGES2k</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">A Pseudoproxy Experiment with GraphEM and pseudoPAGES2k</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../ug-api.html">API Reference</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/fzhu2e/cfr" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/fzhu2e/cfr/edit/main/notebooks/graphem-ppe-pages2k.ipynb" target="_blank"
+   class="btn btn-sm btn-source-edit-button dropdown-item"
+   title="Suggest edit"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-pencil-alt"></i>
+  </span>
+<span class="btn__text-container">Suggest edit</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/fzhu2e/cfr/issues/new?title=Issue%20on%20page%20%2Fnotebooks/graphem-ppe-pages2k.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/notebooks/graphem-ppe-pages2k.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script>
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>A Pseudoproxy Experiment with GraphEM and pseudoPAGES2k</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Data-Preparation">Data Preparation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Graph-estimation">Graph estimation</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#1a)-Cross-validation">1a) Cross-validation</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#1b-Reconstruction">1b Reconstruction</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#running-GraphEM">running GraphEM</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#1.c-Validation">1.c Validation</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#Spatially-averaged-Statistics">Spatially-averaged Statistics</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#Map-of-CE">Map of CE</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Timeseries-comparison">Timeseries comparison</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#2.-Graphical-Lasso">2. Graphical Lasso</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#2a.-Greedy-Search">2a. Greedy Search</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#2b.-Cross-Validation">2b. Cross-Validation</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#2c.-Reconstruction">2c. Reconstruction</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Spatially-averaged Statistics</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">Map of CE</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">Timeseries comparison</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section id="A-Pseudoproxy-Experiment-with-GraphEM-and-pseudoPAGES2k">
+<h1>A Pseudoproxy Experiment with GraphEM and pseudoPAGES2k<a class="headerlink" href="#A-Pseudoproxy-Experiment-with-GraphEM-and-pseudoPAGES2k" title="Permalink to this heading">#</a></h1>
+<p><strong>Expected time to run through: TBD mins</strong></p>
+<p>This tutorial demonstrates how to get a reconstruction using GraphEM, leveraging a simple pseudoproxy dataset generated from iCESM gridded, with the realistic spatial availability but full temporal availablity of the PAGES 2k version 2 dataset. The pseudoproxies are generated based on the original iCESM simulated surface temperature (<code class="docutils literal notranslate"><span class="pre">tas</span></code>) plus white noise with <code class="docutils literal notranslate"><span class="pre">SNR=10</span></code>. While with LMR it is advantageous to have many redundant proxies (as long as they are unbiased, which is the case here),
+with GraphEM this can lead to some counter-intuitive difficulties, which we explain below.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">load_ext</span> autoreload
+<span class="o">%</span><span class="k">autoreload</span> 2
+
+<span class="kn">import</span> <span class="nn">cfr</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">gridspec</span>
+</pre></div>
+</div>
+</div>
+<section id="Data-Preparation">
+<h2>Data Preparation<a class="headerlink" href="#Data-Preparation" title="Permalink to this heading">#</a></h2>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># load a proxy database</span>
+<span class="n">job</span> <span class="o">=</span> <span class="n">cfr</span><span class="o">.</span><span class="n">ReconJob</span><span class="p">()</span>
+<span class="c1"># job.proxydb = pd.read_pickle(&#39;./data/pseudoPAGES2k/pseudo.tpn_SNR10.pkl&#39;)</span>
+<span class="n">job</span><span class="o">.</span><span class="n">proxydb</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_pickle</span><span class="p">(</span><span class="s1">&#39;./data/pseudoPAGES2k/pseudo.tpn_SNR1.pkl&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># filter the database</span>
+<span class="n">job</span><span class="o">.</span><span class="n">proxydb</span> <span class="o">=</span> <span class="n">job</span><span class="o">.</span><span class="n">proxydb</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="s1">&#39;ptype&#39;</span><span class="p">,</span> <span class="n">keys</span><span class="o">=</span><span class="s1">&#39;coral&#39;</span><span class="p">)</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">job</span><span class="o">.</span><span class="n">proxydb</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">plot_count</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="c1"># cfr.savefig(fig, &#39;./figs/coral_network.pdf&#39;)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/notebooks_graphem-ppe-pages2k_5_0.png" src="../_images/notebooks_graphem-ppe-pages2k_5_0.png" />
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">job</span><span class="o">.</span><span class="n">proxydb</span> <span class="o">=</span> <span class="n">job</span><span class="o">.</span><span class="n">proxydb</span><span class="o">.</span><span class="n">center</span><span class="p">([</span><span class="mi">1951</span><span class="p">,</span> <span class="mi">1980</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+Centering each of the ProxyRecord: 100%|██████████| 104/104 [00:00&lt;00:00, 8387.96it/s]
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># load observations</span>
+<span class="c1"># URL: https://atmos.washington.edu/~rtardif/LMR/prior/tas_sfc_Amon_iCESM_past1000historical_085001-200512.nc</span>
+<span class="n">job</span><span class="o">.</span><span class="n">load_clim</span><span class="p">(</span>
+    <span class="n">tag</span><span class="o">=</span><span class="s1">&#39;obs&#39;</span><span class="p">,</span>
+    <span class="n">path_dict</span><span class="o">=</span><span class="p">{</span>
+        <span class="s1">&#39;tas&#39;</span><span class="p">:</span> <span class="s1">&#39;./data/tas_sfc_Amon_iCESM_past1000historical_085001-200512.nc&#39;</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="n">anom_period</span><span class="o">=</span><span class="p">(</span><span class="mi">1951</span><span class="p">,</span> <span class="mi">1980</span><span class="p">),</span>
+    <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+<span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;obs_path&#34;] = {&#39;tas&#39;: &#39;./data/tas_sfc_Amon_iCESM_past1000historical_085001-200512.nc&#39;}</span>
+<span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;obs_anom_period&#34;] = (1951, 1980)</span>
+<span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;obs_lon_name&#34;] = lon</span>
+<span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;obs_time_name&#34;] = time</span>
+<span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; obs variables [&#39;tas&#39;] loaded</span>
+<span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; job.obs created</span>
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># regrid and crop obs to make the problem size smaller</span>
+<span class="n">job</span><span class="o">.</span><span class="n">regrid_clim</span><span class="p">(</span><span class="n">tag</span><span class="o">=</span><span class="s1">&#39;obs&#39;</span><span class="p">,</span> <span class="n">nlat</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span> <span class="n">nlon</span><span class="o">=</span><span class="mi">63</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="c1">#job.regrid_clim(tag=&#39;obs&#39;, nlat=32, nlon=50, verbose=True)</span>
+<span class="n">job</span><span class="o">.</span><span class="n">crop_clim</span><span class="p">(</span><span class="n">tag</span><span class="o">=</span><span class="s1">&#39;obs&#39;</span><span class="p">,</span> <span class="n">lat_min</span><span class="o">=-</span><span class="mi">25</span><span class="p">,</span> <span class="n">lat_max</span><span class="o">=</span><span class="mi">25</span><span class="p">,</span> <span class="n">lon_min</span><span class="o">=</span><span class="mi">120</span><span class="p">,</span> <span class="n">lon_max</span><span class="o">=</span><span class="mi">280</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+<span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;prior_regrid_nlat&#34;] = 42</span>
+<span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;prior_regrid_nlon&#34;] = 63</span>
+<span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; Processing tas ...</span>
+<span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;prior_lat_min&#34;] = -25</span>
+<span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;prior_lat_max&#34;] = 25</span>
+<span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;prior_lon_min&#34;] = 120</span>
+<span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;prior_lon_max&#34;] = 280</span>
+<span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; Processing tas ...</span>
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># annualize the observations</span>
+<span class="n">job</span><span class="o">.</span><span class="n">annualize_clim</span><span class="p">(</span><span class="n">tag</span><span class="o">=</span><span class="s1">&#39;obs&#39;</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">months</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">13</span><span class="p">)))</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">job</span><span class="o">.</span><span class="n">obs</span><span class="p">[</span><span class="s1">&#39;tas&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">it</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+<span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;prior_annualize_months&#34;] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]</span>
+<span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; Processing tas ...</span>
+<span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; job.obs updated</span>
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/notebooks_graphem-ppe-pages2k_9_1.png" src="../_images/notebooks_graphem-ppe-pages2k_9_1.png" />
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">job</span><span class="o">.</span><span class="n">obs</span><span class="p">[</span><span class="s1">&#39;tas&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">da</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div><svg style="position: absolute; width: 0; height: 0; overflow: hidden">
+<defs>
+<symbol id="icon-database" viewBox="0 0 32 32">
+<path d="M16 0c-8.837 0-16 2.239-16 5v4c0 2.761 7.163 5 16 5s16-2.239 16-5v-4c0-2.761-7.163-5-16-5z"></path>
+<path d="M16 17c-8.837 0-16-2.239-16-5v6c0 2.761 7.163 5 16 5s16-2.239 16-5v-6c0 2.761-7.163 5-16 5z"></path>
+<path d="M16 26c-8.837 0-16-2.239-16-5v6c0 2.761 7.163 5 16 5s16-2.239 16-5v-6c0 2.761-7.163 5-16 5z"></path>
+</symbol>
+<symbol id="icon-file-text2" viewBox="0 0 32 32">
+<path d="M28.681 7.159c-0.694-0.947-1.662-2.053-2.724-3.116s-2.169-2.030-3.116-2.724c-1.612-1.182-2.393-1.319-2.841-1.319h-15.5c-1.378 0-2.5 1.121-2.5 2.5v27c0 1.378 1.122 2.5 2.5 2.5h23c1.378 0 2.5-1.122 2.5-2.5v-19.5c0-0.448-0.137-1.23-1.319-2.841zM24.543 5.457c0.959 0.959 1.712 1.825 2.268 2.543h-4.811v-4.811c0.718 0.556 1.584 1.309 2.543 2.268zM28 29.5c0 0.271-0.229 0.5-0.5 0.5h-23c-0.271 0-0.5-0.229-0.5-0.5v-27c0-0.271 0.229-0.5 0.5-0.5 0 0 15.499-0 15.5 0v7c0 0.552 0.448 1 1 1h7v19.5z"></path>
+<path d="M23 26h-14c-0.552 0-1-0.448-1-1s0.448-1 1-1h14c0.552 0 1 0.448 1 1s-0.448 1-1 1z"></path>
+<path d="M23 22h-14c-0.552 0-1-0.448-1-1s0.448-1 1-1h14c0.552 0 1 0.448 1 1s-0.448 1-1 1z"></path>
+<path d="M23 18h-14c-0.552 0-1-0.448-1-1s0.448-1 1-1h14c0.552 0 1 0.448 1 1s-0.448 1-1 1z"></path>
+</symbol>
+</defs>
+</svg>
+<style>/* CSS stylesheet for displaying xarray objects in jupyterlab.
+ *
+ */
+
+:root {
+  --xr-font-color0: var(--jp-content-font-color0, rgba(0, 0, 0, 1));
+  --xr-font-color2: var(--jp-content-font-color2, rgba(0, 0, 0, 0.54));
+  --xr-font-color3: var(--jp-content-font-color3, rgba(0, 0, 0, 0.38));
+  --xr-border-color: var(--jp-border-color2, #e0e0e0);
+  --xr-disabled-color: var(--jp-layout-color3, #bdbdbd);
+  --xr-background-color: var(--jp-layout-color0, white);
+  --xr-background-color-row-even: var(--jp-layout-color1, white);
+  --xr-background-color-row-odd: var(--jp-layout-color2, #eeeeee);
+}
+
+html[theme=dark],
+body.vscode-dark {
+  --xr-font-color0: rgba(255, 255, 255, 1);
+  --xr-font-color2: rgba(255, 255, 255, 0.54);
+  --xr-font-color3: rgba(255, 255, 255, 0.38);
+  --xr-border-color: #1F1F1F;
+  --xr-disabled-color: #515151;
+  --xr-background-color: #111111;
+  --xr-background-color-row-even: #111111;
+  --xr-background-color-row-odd: #313131;
+}
+
+.xr-wrap {
+  display: block;
+  min-width: 300px;
+  max-width: 700px;
+}
+
+.xr-text-repr-fallback {
+  /* fallback to plain text repr when CSS is not injected (untrusted notebook) */
+  display: none;
+}
+
+.xr-header {
+  padding-top: 6px;
+  padding-bottom: 6px;
+  margin-bottom: 4px;
+  border-bottom: solid 1px var(--xr-border-color);
+}
+
+.xr-header > div,
+.xr-header > ul {
+  display: inline;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.xr-obj-type,
+.xr-array-name {
+  margin-left: 2px;
+  margin-right: 10px;
+}
+
+.xr-obj-type {
+  color: var(--xr-font-color2);
+}
+
+.xr-sections {
+  padding-left: 0 !important;
+  display: grid;
+  grid-template-columns: 150px auto auto 1fr 20px 20px;
+}
+
+.xr-section-item {
+  display: contents;
+}
+
+.xr-section-item input {
+  display: none;
+}
+
+.xr-section-item input + label {
+  color: var(--xr-disabled-color);
+}
+
+.xr-section-item input:enabled + label {
+  cursor: pointer;
+  color: var(--xr-font-color2);
+}
+
+.xr-section-item input:enabled + label:hover {
+  color: var(--xr-font-color0);
+}
+
+.xr-section-summary {
+  grid-column: 1;
+  color: var(--xr-font-color2);
+  font-weight: 500;
+}
+
+.xr-section-summary > span {
+  display: inline-block;
+  padding-left: 0.5em;
+}
+
+.xr-section-summary-in:disabled + label {
+  color: var(--xr-font-color2);
+}
+
+.xr-section-summary-in + label:before {
+  display: inline-block;
+  content: '►';
+  font-size: 11px;
+  width: 15px;
+  text-align: center;
+}
+
+.xr-section-summary-in:disabled + label:before {
+  color: var(--xr-disabled-color);
+}
+
+.xr-section-summary-in:checked + label:before {
+  content: '▼';
+}
+
+.xr-section-summary-in:checked + label > span {
+  display: none;
+}
+
+.xr-section-summary,
+.xr-section-inline-details {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+.xr-section-inline-details {
+  grid-column: 2 / -1;
+}
+
+.xr-section-details {
+  display: none;
+  grid-column: 1 / -1;
+  margin-bottom: 5px;
+}
+
+.xr-section-summary-in:checked ~ .xr-section-details {
+  display: contents;
+}
+
+.xr-array-wrap {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: 20px auto;
+}
+
+.xr-array-wrap > label {
+  grid-column: 1;
+  vertical-align: top;
+}
+
+.xr-preview {
+  color: var(--xr-font-color3);
+}
+
+.xr-array-preview,
+.xr-array-data {
+  padding: 0 5px !important;
+  grid-column: 2;
+}
+
+.xr-array-data,
+.xr-array-in:checked ~ .xr-array-preview {
+  display: none;
+}
+
+.xr-array-in:checked ~ .xr-array-data,
+.xr-array-preview {
+  display: inline-block;
+}
+
+.xr-dim-list {
+  display: inline-block !important;
+  list-style: none;
+  padding: 0 !important;
+  margin: 0;
+}
+
+.xr-dim-list li {
+  display: inline-block;
+  padding: 0;
+  margin: 0;
+}
+
+.xr-dim-list:before {
+  content: '(';
+}
+
+.xr-dim-list:after {
+  content: ')';
+}
+
+.xr-dim-list li:not(:last-child):after {
+  content: ',';
+  padding-right: 5px;
+}
+
+.xr-has-index {
+  font-weight: bold;
+}
+
+.xr-var-list,
+.xr-var-item {
+  display: contents;
+}
+
+.xr-var-item > div,
+.xr-var-item label,
+.xr-var-item > .xr-var-name span {
+  background-color: var(--xr-background-color-row-even);
+  margin-bottom: 0;
+}
+
+.xr-var-item > .xr-var-name:hover span {
+  padding-right: 5px;
+}
+
+.xr-var-list > li:nth-child(odd) > div,
+.xr-var-list > li:nth-child(odd) > label,
+.xr-var-list > li:nth-child(odd) > .xr-var-name span {
+  background-color: var(--xr-background-color-row-odd);
+}
+
+.xr-var-name {
+  grid-column: 1;
+}
+
+.xr-var-dims {
+  grid-column: 2;
+}
+
+.xr-var-dtype {
+  grid-column: 3;
+  text-align: right;
+  color: var(--xr-font-color2);
+}
+
+.xr-var-preview {
+  grid-column: 4;
+}
+
+.xr-var-name,
+.xr-var-dims,
+.xr-var-dtype,
+.xr-preview,
+.xr-attrs dt {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding-right: 10px;
+}
+
+.xr-var-name:hover,
+.xr-var-dims:hover,
+.xr-var-dtype:hover,
+.xr-attrs dt:hover {
+  overflow: visible;
+  width: auto;
+  z-index: 1;
+}
+
+.xr-var-attrs,
+.xr-var-data {
+  display: none;
+  background-color: var(--xr-background-color) !important;
+  padding-bottom: 5px !important;
+}
+
+.xr-var-attrs-in:checked ~ .xr-var-attrs,
+.xr-var-data-in:checked ~ .xr-var-data {
+  display: block;
+}
+
+.xr-var-data > table {
+  float: right;
+}
+
+.xr-var-name span,
+.xr-var-data,
+.xr-attrs {
+  padding-left: 25px !important;
+}
+
+.xr-attrs,
+.xr-var-attrs,
+.xr-var-data {
+  grid-column: 1 / -1;
+}
+
+dl.xr-attrs {
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: 125px auto;
+}
+
+.xr-attrs dt,
+.xr-attrs dd {
+  padding: 0;
+  margin: 0;
+  float: left;
+  padding-right: 10px;
+  width: auto;
+}
+
+.xr-attrs dt {
+  font-weight: normal;
+  grid-column: 1;
+}
+
+.xr-attrs dt:hover span {
+  display: inline-block;
+  background: var(--xr-background-color);
+  padding-right: 10px;
+}
+
+.xr-attrs dd {
+  grid-column: 2;
+  white-space: pre-wrap;
+  word-break: break-all;
+}
+
+.xr-icon-database,
+.xr-icon-file-text2 {
+  display: inline-block;
+  vertical-align: middle;
+  width: 1em;
+  height: 1.5em !important;
+  stroke-width: 0;
+  stroke: currentColor;
+  fill: currentColor;
+}
+</style><pre class='xr-text-repr-fallback'>&lt;xarray.DataArray &#x27;tas&#x27; (year: 1156, lat: 12, lon: 28)&gt;
+array([[[-1.43779302, -1.16293697, -1.01732908, ...,  0.39457998,
+          0.52082612,  0.59373487],
+        [-0.44181921, -0.51548275,  0.244261  , ...,  0.74474864,
+          0.77145844,  0.68355714],
+        [ 0.35079578,  0.32100882,  0.55368277, ...,  0.88217642,
+          0.68757142,  0.31475473],
+        ...,
+        [ 0.72816369,  0.71887253,  0.54529944, ...,  0.20676015,
+          0.30845679,  0.2907033 ],
+        [ 1.10758701,  0.98782858,  1.00810014, ...,  0.09055938,
+          0.18384386,  0.24694595],
+        [ 1.31631178,  1.20505177,  1.04198581, ...,  0.14300547,
+          0.29674634,  0.27620213]],
+
+       [[-0.70474708, -0.01598469,  0.13178037, ..., -0.16622394,
+         -0.03184134, -0.0226782 ],
+        [-0.47576783, -0.55773132, -0.46185074, ..., -0.03219556,
+          0.01012642,  0.01045555],
+        [ 0.10615215, -0.04668079, -0.21236786, ...,  0.06428793,
+         -0.00198371, -0.03837104],
+...
+        [ 0.25181528,  0.44903654,  0.61978375, ...,  0.31308888,
+          0.36723991,  0.52567691],
+        [ 0.04978446,  0.04787485,  0.22568625, ...,  0.45198041,
+          0.4664865 ,  0.49749394],
+        [ 0.10458478, -0.10605026, -0.21279729, ...,  0.54345012,
+          0.54446683,  0.52080011]],
+
+       [[ 0.0498074 ,  0.27873075,  0.39957376, ..., -0.03960866,
+         -0.05272122,  0.16753688],
+        [-0.37810031,  0.30122609, -0.0628949 , ..., -0.11026585,
+          0.06519481,  0.26313251],
+        [ 0.08783609, -0.448483  , -0.12010821, ..., -0.0352111 ,
+          0.10163381,  0.12676614],
+        ...,
+        [ 0.09630422,  0.35422082,  0.39387372, ...,  0.24968949,
+          0.3645677 ,  0.26936438],
+        [-0.06625534,  0.26004941,  0.47504105, ...,  0.32676493,
+          0.46907017,  0.4533393 ],
+        [-0.19586628,  0.12946299,  0.54914526, ...,  0.38060853,
+          0.41296104,  0.51346773]]])
+Coordinates:
+  * year     (year) int64 850 851 852 853 854 855 ... 2001 2002 2003 2004 2005
+  * lon      (lon) float64 121.9 127.7 133.5 139.4 ... 261.3 267.1 272.9 278.7
+  * lat      (lat) float64 -24.15 -19.76 -15.37 -10.98 ... 15.37 19.76 24.15</pre><div class='xr-wrap' hidden><div class='xr-header'><div class='xr-obj-type'>xarray.DataArray</div><div class='xr-array-name'>'tas'</div><ul class='xr-dim-list'><li><span class='xr-has-index'>year</span>: 1156</li><li><span class='xr-has-index'>lat</span>: 12</li><li><span class='xr-has-index'>lon</span>: 28</li></ul></div><ul class='xr-sections'><li class='xr-section-item'><div class='xr-array-wrap'><input id='section-fcacdef6-f64e-4132-b9c6-9fed6636dba8' class='xr-array-in' type='checkbox' checked><label for='section-fcacdef6-f64e-4132-b9c6-9fed6636dba8' title='Show/hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-array-preview xr-preview'><span>-1.438 -1.163 -1.017 -0.9146 -0.9414 ... 0.6372 0.3806 0.413 0.5135</span></div><div class='xr-array-data'><pre>array([[[-1.43779302, -1.16293697, -1.01732908, ...,  0.39457998,
+          0.52082612,  0.59373487],
+        [-0.44181921, -0.51548275,  0.244261  , ...,  0.74474864,
+          0.77145844,  0.68355714],
+        [ 0.35079578,  0.32100882,  0.55368277, ...,  0.88217642,
+          0.68757142,  0.31475473],
+        ...,
+        [ 0.72816369,  0.71887253,  0.54529944, ...,  0.20676015,
+          0.30845679,  0.2907033 ],
+        [ 1.10758701,  0.98782858,  1.00810014, ...,  0.09055938,
+          0.18384386,  0.24694595],
+        [ 1.31631178,  1.20505177,  1.04198581, ...,  0.14300547,
+          0.29674634,  0.27620213]],
+
+       [[-0.70474708, -0.01598469,  0.13178037, ..., -0.16622394,
+         -0.03184134, -0.0226782 ],
+        [-0.47576783, -0.55773132, -0.46185074, ..., -0.03219556,
+          0.01012642,  0.01045555],
+        [ 0.10615215, -0.04668079, -0.21236786, ...,  0.06428793,
+         -0.00198371, -0.03837104],
+...
+        [ 0.25181528,  0.44903654,  0.61978375, ...,  0.31308888,
+          0.36723991,  0.52567691],
+        [ 0.04978446,  0.04787485,  0.22568625, ...,  0.45198041,
+          0.4664865 ,  0.49749394],
+        [ 0.10458478, -0.10605026, -0.21279729, ...,  0.54345012,
+          0.54446683,  0.52080011]],
+
+       [[ 0.0498074 ,  0.27873075,  0.39957376, ..., -0.03960866,
+         -0.05272122,  0.16753688],
+        [-0.37810031,  0.30122609, -0.0628949 , ..., -0.11026585,
+          0.06519481,  0.26313251],
+        [ 0.08783609, -0.448483  , -0.12010821, ..., -0.0352111 ,
+          0.10163381,  0.12676614],
+        ...,
+        [ 0.09630422,  0.35422082,  0.39387372, ...,  0.24968949,
+          0.3645677 ,  0.26936438],
+        [-0.06625534,  0.26004941,  0.47504105, ...,  0.32676493,
+          0.46907017,  0.4533393 ],
+        [-0.19586628,  0.12946299,  0.54914526, ...,  0.38060853,
+          0.41296104,  0.51346773]]])</pre></div></div></li><li class='xr-section-item'><input id='section-35c88578-1c20-42c3-9832-3582bf394fdc' class='xr-section-summary-in' type='checkbox'  checked><label for='section-35c88578-1c20-42c3-9832-3582bf394fdc' class='xr-section-summary' >Coordinates: <span>(3)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><ul class='xr-var-list'><li class='xr-var-item'><div class='xr-var-name'><span class='xr-has-index'>year</span></div><div class='xr-var-dims'>(year)</div><div class='xr-var-dtype'>int64</div><div class='xr-var-preview xr-preview'>850 851 852 853 ... 2003 2004 2005</div><input id='attrs-490a741e-a2e9-4817-9ba5-dbaa315024e6' class='xr-var-attrs-in' type='checkbox' disabled><label for='attrs-490a741e-a2e9-4817-9ba5-dbaa315024e6' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-1b45b677-69d7-4916-9a0a-283c8716ff2d' class='xr-var-data-in' type='checkbox'><label for='data-1b45b677-69d7-4916-9a0a-283c8716ff2d' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'></dl></div><div class='xr-var-data'><pre>array([ 850,  851,  852, ..., 2003, 2004, 2005])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span class='xr-has-index'>lon</span></div><div class='xr-var-dims'>(lon)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>121.9 127.7 133.5 ... 272.9 278.7</div><input id='attrs-766b5525-05af-421d-a4ab-4ff846acf07d' class='xr-var-attrs-in' type='checkbox' disabled><label for='attrs-766b5525-05af-421d-a4ab-4ff846acf07d' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-9584334b-f61b-42b6-a12c-66c517def500' class='xr-var-data-in' type='checkbox'><label for='data-9584334b-f61b-42b6-a12c-66c517def500' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'></dl></div><div class='xr-var-data'><pre>array([121.935484, 127.741935, 133.548387, 139.354839, 145.16129 , 150.967742,
+       156.774194, 162.580645, 168.387097, 174.193548, 180.      , 185.806452,
+       191.612903, 197.419355, 203.225806, 209.032258, 214.83871 , 220.645161,
+       226.451613, 232.258065, 238.064516, 243.870968, 249.677419, 255.483871,
+       261.290323, 267.096774, 272.903226, 278.709677])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span class='xr-has-index'>lat</span></div><div class='xr-var-dims'>(lat)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>-24.15 -19.76 ... 19.76 24.15</div><input id='attrs-61fcd8c2-486c-4f7a-a7bc-8edf7fb3a5d8' class='xr-var-attrs-in' type='checkbox' disabled><label for='attrs-61fcd8c2-486c-4f7a-a7bc-8edf7fb3a5d8' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-87883b4c-ee5b-46e6-92b4-6fd94be8ab00' class='xr-var-data-in' type='checkbox'><label for='data-87883b4c-ee5b-46e6-92b4-6fd94be8ab00' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'></dl></div><div class='xr-var-data'><pre>array([-24.146341, -19.756098, -15.365854, -10.97561 ,  -6.585366,  -2.195122,
+         2.195122,   6.585366,  10.97561 ,  15.365854,  19.756098,  24.146341])</pre></div></li></ul></div></li><li class='xr-section-item'><input id='section-f29833f7-a690-4c12-a565-892ce3b55dd1' class='xr-section-summary-in' type='checkbox' disabled ><label for='section-f29833f7-a690-4c12-a565-892ce3b55dd1' class='xr-section-summary'  title='Expand/collapse section'>Attributes: <span>(0)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><dl class='xr-attrs'></dl></div></li></ul></div></div></div>
+</div>
+</section>
+<section id="Graph-estimation">
+<h2>Graph estimation<a class="headerlink" href="#Graph-estimation" title="Permalink to this heading">#</a></h2>
+<p>In GraphEM, the selection of the covariance model used for inferring missing values is based on a <a class="reference external" href="http://ir.hit.edu.cn/~jguo/docs/notes/report-in-princeton-research.pdf">graph</a>. Two types of graphs are supported: 1. Neighborhood graphs 2. Empirical graphs (graphical lasso)</p>
+<p>Neighborhoood graphs as implemented here depend on a single parameter, the cutoff radius <span class="math notranslate nohighlight">\(R_c\)</span>. Every grid point or proxy within a great circle distance <span class="math notranslate nohighlight">\(R_c\)</span> of a given grid point or proxy is declared a “neighbor”, and the adjency matrix betweens those two points <span class="math notranslate nohighlight">\((i,j)\)</span> is <span class="math notranslate nohighlight">\(A_{ij} = A_{ji} = 1\)</span> (it is 0 otherwise). The graphical lasso is a much more complicated, data-driven method that pulls conditional independence relations between variables from the data themselves,
+resulting in much more realistic covariance estimation that can detect coastlines, mountain ranges, currents or teleconnection patterns. While a neighborhood graph can always be specified, that is not the case for the graphical lasso: in our implementation it can only be applied to a gap-free data matrix. We recommend using a neighborhood graph <span class="math notranslate nohighlight">\(G_{R_c}\)</span> with GraphEM to fill the gaps in the data matrix, then apply the graphical lasso to this clean matrix over the instrumental interval to
+estimate the graph <span class="math notranslate nohighlight">\(G_L\)</span>. Then, the GraphEM reconstruction can proceed with <span class="math notranslate nohighlight">\(G_L\)</span>.</p>
+<p>However, the difficulty is that both types of graph are controlled by a parameter whose value is uncertain. For neighborhood graphs, an overly generous <span class="math notranslate nohighlight">\(R_c\)</span> will lead to an under-regularized the model, with too many variables <span class="math notranslate nohighlight">\(p\)</span> to estimate relative to the number of samples <span class="math notranslate nohighlight">\(n\)</span> ; this will yield a numerically unstable solution that may fail to converge. On the other hand, if <span class="math notranslate nohighlight">\(R_c\)</span> is too small, <span class="math notranslate nohighlight">\(A\)</span> is too sparse, the model is over-regularized and the solution very
+damped. In the limit of <span class="math notranslate nohighlight">\(R_c=0\)</span>, <span class="math notranslate nohighlight">\(A\)</span> is the identity matrix and the reconstruction is a flatline.</p>
+<p>What then is the optimal choice? Unfortunately, there is no theoretical criterion on how to choose an appropriate one. At a minimum, it should be larger than the largest spacing between nearby grid points (which tends to be largest at the equator). At most, it should be the circumference of the planet. That leaves quite some room in between. We will first carry out a preliminary reconstruction, before refining the choice of cutoff-radius via a process called
+<a class="reference external" href="https://scikit-learn.org/stable/modules/cross_validation.html">cross-validation</a>.</p>
+<p>In the second section, we will do the same for the graphical lasso to choose an optimal combination of sparsity parameters.</p>
+<section id="1a)-Cross-validation">
+<h3>1a) Cross-validation<a class="headerlink" href="#1a)-Cross-validation" title="Permalink to this heading">#</a></h3>
+<p>For this exercise we will use the same terminology as <a class="reference external" href="https://scikit-learn.org/stable/modules/cross_validation.html">scikit-learn</a>. Cross-validation is fundamental to model fitting, and is the most time-tested way to tune the parameters of a regression model such as GraphEM. Indeed, we can fit any graph to the data. The graph we want is the one that gives the “best” result. Best is in quotes because it may not always be possible to locate a unique optimum, so we may need to add other
+considerations.</p>
+<p>There are various <a class="reference external" href="https://towardsdatascience.com/flavors-of-cross-validation-edfee24e8916">flavors of cross-validation</a> one can use. <em>k-fold cross-validation</em> (typically with <span class="math notranslate nohighlight">\(k=5\)</span>) is a popular choice and what GraphEM implements (note: we could use the same approach to choose the localization radius in DA). This is what it looks like: the data are split in 5 groups. In each group, one withhold <span class="math notranslate nohighlight">\(1/k\)</span> of the data for validation, using the remaining <span class="math notranslate nohighlight">\((k-1)/k\)</span> for calibration.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">Image</span>
+<span class="kn">from</span> <span class="nn">IPython.core.display</span> <span class="kn">import</span> <span class="n">HTML</span>
+<span class="n">Image</span><span class="p">(</span><span class="n">url</span><span class="o">=</span> <span class="s2">&quot;https://scikit-learn.org/stable/_images/grid_search_cross_validation.png&quot;</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">600</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">400</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<img src="https://scikit-learn.org/stable/_images/grid_search_cross_validation.png" width="600" height="400"/></div>
+</div>
+<p>This process is repeated for various values of the tuning parameter (here, the cutoff radius) to construct a curve of some measure of expected prediction error (e.g. the mean square error, or MSE) vs the cutoff radius. That curve should have a U-shape, and the goal is to find the value of R that minimizes it. TO do so, we use the module <code class="docutils literal notranslate"><span class="pre">graphem_kcv()</span></code>, looping over a vector of cutoff radii for the neighborhood graph. One difficulty lies in specifying appropriate bounds for this search:
+numerically, the algorithm will always converge for a very small radius (though the solution will be overregularized, hence very damped in amplitude). At the other end of the spectrum, for large radii the solution is under-regularized, hence numerically unstable. The practical consequence is that GraphEM will fail to converge and throw many error messages along the way. Here we choose to search a space spanning 500 to 5000km in increments of 500km, but finding the upper bound can require some
+trial and error.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[24]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%time</span>
+<span class="n">job_neigh</span> <span class="o">=</span> <span class="n">job</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+
+<span class="c1"># cross validation test</span>
+<span class="c1"># cutoff_radii=np.arange(start=500,stop=5500,step=500)</span>
+<span class="n">cutoff_radii</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">start</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span><span class="n">stop</span><span class="o">=</span><span class="mi">2001</span><span class="p">,</span><span class="n">step</span><span class="o">=</span><span class="mi">500</span><span class="p">)</span>
+<span class="c1"># cutoff_radii=np.arange(start=1000,stop=1001,step=500)</span>
+<span class="c1"># kcv_stats = job_neigh.graphem_kcv(</span>
+<span class="n">kcv_res</span> <span class="o">=</span> <span class="n">job_neigh</span><span class="o">.</span><span class="n">graphem_kcv</span><span class="p">(</span>
+    <span class="n">cv_time</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1850</span><span class="p">,</span> <span class="mi">2001</span><span class="p">),</span> <span class="n">stat</span><span class="o">=</span><span class="s1">&#39;MSE&#39;</span><span class="p">,</span> <span class="n">n_splits</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+    <span class="n">ctrl_params</span><span class="o">=</span><span class="n">cutoff_radii</span><span class="p">,</span>
+    <span class="n">graph_type</span><span class="o">=</span><span class="s1">&#39;neighborhood&#39;</span><span class="p">,</span>
+    <span class="c1"># graph_type=&#39;glasso&#39;,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+<span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; Processing fold 1:</span>
+<span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; parameter = 1000</span>
+<span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; parameter = 1500</span>
+<span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; parameter = 2000</span>
+<span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; Processing fold 2:</span>
+<span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; parameter = 1000</span>
+<span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; parameter = 1500</span>
+<span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; parameter = 2000</span>
+<span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; Processing fold 3:</span>
+<span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; parameter = 1000</span>
+<span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; parameter = 1500</span>
+<span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; parameter = 2000</span>
+<span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; Processing fold 4:</span>
+<span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; parameter = 1000</span>
+<span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; parameter = 1500</span>
+<span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; parameter = 2000</span>
+<span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; Processing fold 5:</span>
+<span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; parameter = 1000</span>
+<span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; parameter = 1500</span>
+<span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; parameter = 2000</span>
+CPU times: user 14min 48s, sys: 57.9 s, total: 15min 45s
+Wall time: 1min 59s
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[28]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">len</span><span class="p">(</span><span class="n">kcv_res</span><span class="o">.</span><span class="n">adjs</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[28]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+15
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[31]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">kcv_res</span><span class="o">.</span><span class="n">plot_adjs</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/notebooks_graphem-ppe-pages2k_16_0.png" src="../_images/notebooks_graphem-ppe-pages2k_16_0.png" />
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[25]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">kcv_res</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Minimum reached for R = 2000 km.
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/notebooks_graphem-ppe-pages2k_17_1.png" src="../_images/notebooks_graphem-ppe-pages2k_17_1.png" />
+</div>
+</div>
+<p>This shows the familiar U-shape mentioned above, and the cutoff radius that appears to minimize the MSE averaged over the 5 folds is 2000 km. However, you might notice that this minimum is rather shallow, so there is no strong reason to prefer this value over 1500 or 2500 km. However, there is an informal principle, known as the “1-SD rule”, which states that in situations like these, one wants to select the least complex model whose MSE is within 1 standard deviation (fold-wise) of the global
+minimum. It looks from the plot that the least complex model (in this case, the one with sparsest graph, hence smallest cutoff radius), is the one corresponding to R = 1500 km. Indeed:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[33]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">optimal_radius</span> <span class="o">=</span> <span class="n">kcv_res</span><span class="o">.</span><span class="n">one_sd_rule</span><span class="p">()</span>
+<span class="c1"># optimal_radius = 1500 # shortcut</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+The 1SD rule selects R = 1500 km.
+</pre></div></div>
+</div>
+<p>We must caution that the 1SD rule is a bit like statistical folklore: in wide use but without strong theoretical justification. Nevertheless, we have found it to yield fairly reliable results.</p>
+</section>
+<section id="1b-Reconstruction">
+<h3>1b Reconstruction<a class="headerlink" href="#1b-Reconstruction" title="Permalink to this heading">#</a></h3>
+<p>Now that we have objectively chosen the graph, we can use the method <code class="docutils literal notranslate"><span class="pre">prep_graphem()</span></code> to weave everything into an object that the code can work with:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[34]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">job_neigh</span><span class="o">.</span><span class="n">prep_graphem</span><span class="p">(</span>
+    <span class="n">recon_period</span><span class="o">=</span><span class="p">(</span><span class="mi">1001</span><span class="p">,</span> <span class="mi">2000</span><span class="p">),</span>
+    <span class="n">calib_period</span><span class="o">=</span><span class="p">(</span><span class="mi">1850</span><span class="p">,</span> <span class="mi">2000</span><span class="p">),</span>
+    <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+<span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;recon_period&#34;] = (1001, 2000)</span>
+<span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;recon_timescale&#34;] = 1</span>
+<span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;calib_period&#34;] = (1850, 2000)</span>
+<span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; job.graphem_params[&#34;recon_time&#34;] created</span>
+<span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; job.graphem_params[&#34;calib_time&#34;] created</span>
+<span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; job.graphem_params[&#34;field_obs&#34;] created</span>
+<span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; job.graphem_params[&#34;calib_idx&#34;] created</span>
+<span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; job.graphem_params[&#34;field&#34;] created</span>
+<span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; job.graphem_params[&#34;df_proxy&#34;] created</span>
+<span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; job.graphem_params[&#34;proxy&#34;] created</span>
+<span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; job.graphem_params[&#34;lonlat&#34;] created</span>
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[35]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">job_neigh</span><span class="o">.</span><span class="n">graphem_params</span><span class="p">[</span><span class="s1">&#39;field&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[35]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+array([[       nan,        nan,        nan, ...,        nan,        nan,
+               nan],
+       [       nan,        nan,        nan, ...,        nan,        nan,
+               nan],
+       [       nan,        nan,        nan, ...,        nan,        nan,
+               nan],
+       ...,
+       [0.70970161, 0.73450522, 0.30319882, ..., 0.34267614, 0.25509715,
+        0.39273508],
+       [0.57543254, 0.4847614 , 0.17716476, ..., 0.26505406, 0.25998264,
+        0.37178005],
+       [0.66133266, 0.97367383, 1.02246066, ..., 0.0466115 , 0.12031657,
+        0.13679344]])
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[36]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">job_neigh</span><span class="o">.</span><span class="n">graphem_params</span><span class="p">[</span><span class="s1">&#39;df_proxy&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[36]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Ocn_065</th>
+      <th>Ocn_075</th>
+      <th>Ocn_078</th>
+      <th>Ocn_167</th>
+      <th>Ocn_091</th>
+      <th>Ocn_093</th>
+      <th>Ocn_096</th>
+      <th>Ocn_086</th>
+      <th>Ocn_101</th>
+      <th>Ocn_070</th>
+      <th>...</th>
+      <th>Ocn_090</th>
+      <th>Ocn_119</th>
+      <th>Ocn_109</th>
+      <th>Ocn_097</th>
+      <th>Ocn_159</th>
+      <th>Ocn_087</th>
+      <th>Ocn_153</th>
+      <th>Ocn_169</th>
+      <th>Ocn_071</th>
+      <th>Ocn_072</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>1001</th>
+      <td>-0.029472</td>
+      <td>-0.079615</td>
+      <td>-0.164675</td>
+      <td>1.136972</td>
+      <td>-0.170487</td>
+      <td>-0.068706</td>
+      <td>0.001636</td>
+      <td>0.265989</td>
+      <td>0.029111</td>
+      <td>-0.060844</td>
+      <td>...</td>
+      <td>-0.016145</td>
+      <td>-0.023198</td>
+      <td>0.026751</td>
+      <td>-0.290637</td>
+      <td>-0.036539</td>
+      <td>-0.121053</td>
+      <td>-0.043656</td>
+      <td>-0.082111</td>
+      <td>-0.135477</td>
+      <td>-0.098504</td>
+    </tr>
+    <tr>
+      <th>1002</th>
+      <td>-0.021149</td>
+      <td>-0.096633</td>
+      <td>-0.120066</td>
+      <td>0.211940</td>
+      <td>-0.247028</td>
+      <td>-0.053001</td>
+      <td>0.014841</td>
+      <td>-0.099275</td>
+      <td>-0.163322</td>
+      <td>-0.069958</td>
+      <td>...</td>
+      <td>-0.651486</td>
+      <td>-0.012971</td>
+      <td>-0.026148</td>
+      <td>-0.209297</td>
+      <td>0.015105</td>
+      <td>0.072593</td>
+      <td>-0.088941</td>
+      <td>0.132871</td>
+      <td>-0.066113</td>
+      <td>-0.025315</td>
+    </tr>
+    <tr>
+      <th>1003</th>
+      <td>0.017044</td>
+      <td>0.177338</td>
+      <td>0.067678</td>
+      <td>-0.201700</td>
+      <td>0.062675</td>
+      <td>0.001354</td>
+      <td>0.009087</td>
+      <td>0.010825</td>
+      <td>0.001898</td>
+      <td>-0.107092</td>
+      <td>...</td>
+      <td>-0.184804</td>
+      <td>-0.250715</td>
+      <td>-0.002932</td>
+      <td>0.198525</td>
+      <td>-0.043845</td>
+      <td>0.095773</td>
+      <td>0.076952</td>
+      <td>0.905556</td>
+      <td>-0.117440</td>
+      <td>0.068865</td>
+    </tr>
+    <tr>
+      <th>1004</th>
+      <td>-0.072836</td>
+      <td>0.050557</td>
+      <td>-0.047072</td>
+      <td>-0.452527</td>
+      <td>-0.251116</td>
+      <td>0.059971</td>
+      <td>0.044815</td>
+      <td>0.041075</td>
+      <td>0.088916</td>
+      <td>-0.177990</td>
+      <td>...</td>
+      <td>-0.192031</td>
+      <td>-0.190020</td>
+      <td>0.028051</td>
+      <td>0.091881</td>
+      <td>-0.070303</td>
+      <td>0.038124</td>
+      <td>-0.014257</td>
+      <td>0.104113</td>
+      <td>0.022662</td>
+      <td>-0.027317</td>
+    </tr>
+    <tr>
+      <th>1005</th>
+      <td>0.036772</td>
+      <td>-0.181680</td>
+      <td>0.057200</td>
+      <td>-0.042987</td>
+      <td>0.042531</td>
+      <td>0.017662</td>
+      <td>-0.011964</td>
+      <td>-0.014553</td>
+      <td>-0.036732</td>
+      <td>0.045409</td>
+      <td>...</td>
+      <td>0.136227</td>
+      <td>-0.204292</td>
+      <td>-0.041819</td>
+      <td>-0.188765</td>
+      <td>-0.051463</td>
+      <td>-0.252486</td>
+      <td>0.095564</td>
+      <td>-0.581049</td>
+      <td>-0.271404</td>
+      <td>0.033542</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>1996</th>
+      <td>0.084822</td>
+      <td>0.202729</td>
+      <td>0.237921</td>
+      <td>-0.680074</td>
+      <td>-0.085530</td>
+      <td>0.000029</td>
+      <td>-0.077145</td>
+      <td>-0.059342</td>
+      <td>0.055956</td>
+      <td>0.283716</td>
+      <td>...</td>
+      <td>0.096534</td>
+      <td>0.287984</td>
+      <td>-0.026136</td>
+      <td>0.299611</td>
+      <td>0.096891</td>
+      <td>-0.002844</td>
+      <td>0.072604</td>
+      <td>0.326452</td>
+      <td>-0.042538</td>
+      <td>0.036153</td>
+    </tr>
+    <tr>
+      <th>1997</th>
+      <td>0.062888</td>
+      <td>0.627227</td>
+      <td>0.257458</td>
+      <td>0.895186</td>
+      <td>0.445891</td>
+      <td>0.036438</td>
+      <td>0.011253</td>
+      <td>0.408338</td>
+      <td>0.012960</td>
+      <td>0.111141</td>
+      <td>...</td>
+      <td>0.227277</td>
+      <td>-0.044239</td>
+      <td>0.068132</td>
+      <td>0.145206</td>
+      <td>-0.044438</td>
+      <td>-0.251896</td>
+      <td>0.106174</td>
+      <td>0.265856</td>
+      <td>-0.095977</td>
+      <td>-0.026760</td>
+    </tr>
+    <tr>
+      <th>1998</th>
+      <td>0.081860</td>
+      <td>0.218101</td>
+      <td>0.092819</td>
+      <td>-2.040758</td>
+      <td>0.530765</td>
+      <td>0.046501</td>
+      <td>0.162912</td>
+      <td>0.195244</td>
+      <td>0.074552</td>
+      <td>0.075628</td>
+      <td>...</td>
+      <td>0.248375</td>
+      <td>0.137352</td>
+      <td>0.128556</td>
+      <td>0.252945</td>
+      <td>0.006005</td>
+      <td>0.192609</td>
+      <td>0.046924</td>
+      <td>0.344340</td>
+      <td>-0.018421</td>
+      <td>0.002962</td>
+    </tr>
+    <tr>
+      <th>1999</th>
+      <td>0.053651</td>
+      <td>-0.316188</td>
+      <td>0.131558</td>
+      <td>0.182525</td>
+      <td>-0.043207</td>
+      <td>0.080396</td>
+      <td>-0.022788</td>
+      <td>0.234294</td>
+      <td>0.170416</td>
+      <td>0.076104</td>
+      <td>...</td>
+      <td>0.071616</td>
+      <td>0.122794</td>
+      <td>-0.010480</td>
+      <td>0.271125</td>
+      <td>0.021608</td>
+      <td>-0.088485</td>
+      <td>-0.014478</td>
+      <td>1.077392</td>
+      <td>0.440469</td>
+      <td>0.000934</td>
+    </tr>
+    <tr>
+      <th>2000</th>
+      <td>0.032117</td>
+      <td>-0.051677</td>
+      <td>0.036500</td>
+      <td>-0.046688</td>
+      <td>0.192880</td>
+      <td>0.004209</td>
+      <td>-0.030575</td>
+      <td>0.142909</td>
+      <td>0.096593</td>
+      <td>0.189709</td>
+      <td>...</td>
+      <td>0.369924</td>
+      <td>-0.111834</td>
+      <td>0.053092</td>
+      <td>0.554461</td>
+      <td>0.064681</td>
+      <td>0.075846</td>
+      <td>0.167034</td>
+      <td>0.317662</td>
+      <td>0.241359</td>
+      <td>0.041970</td>
+    </tr>
+  </tbody>
+</table>
+<p>1000 rows × 104 columns</p>
+</div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[37]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">G_R</span> <span class="o">=</span> <span class="n">cfr</span><span class="o">.</span><span class="n">graphem</span><span class="o">.</span><span class="n">Graph</span><span class="p">(</span>
+    <span class="n">job_neigh</span><span class="o">.</span><span class="n">graphem_params</span><span class="p">[</span><span class="s1">&#39;lonlat&#39;</span><span class="p">],</span>
+    <span class="n">job_neigh</span><span class="o">.</span><span class="n">graphem_params</span><span class="p">[</span><span class="s1">&#39;field&#39;</span><span class="p">],</span>
+    <span class="n">job_neigh</span><span class="o">.</span><span class="n">graphem_params</span><span class="p">[</span><span class="s1">&#39;proxy&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<p>Let us define a neighborhood graph by including only points within a cutoff_radius <span class="math notranslate nohighlight">\(R\)</span> of each grid point or proxy locale. The location takes a bit of time the first time around as the matrix of mutual great- circle distances needs to be computed:</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[38]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">G_R</span><span class="o">.</span><span class="n">neigh_adj</span><span class="p">(</span><span class="n">cutoff_radius</span><span class="o">=</span><span class="n">optimal_radius</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p>Next we plot the temperature neighbors of a particular proxy to show what happened:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[39]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">n_proxy</span> <span class="o">=</span> <span class="n">job_neigh</span><span class="o">.</span><span class="n">graphem_params</span><span class="p">[</span><span class="s1">&#39;df_proxy&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">idcs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">n_proxy</span><span class="p">,</span><span class="mi">4</span><span class="p">)</span> <span class="c1"># randomly pick indices</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
+<span class="n">gs</span> <span class="o">=</span> <span class="n">gridspec</span><span class="o">.</span><span class="n">GridSpec</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="n">gs</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">wspace</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">hspace</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">idx</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">idcs</span><span class="p">):</span>
+    <span class="n">fig_map</span><span class="p">,</span> <span class="n">ax_map</span> <span class="o">=</span> <span class="n">G_R</span><span class="o">.</span><span class="n">plot_neighbors</span><span class="p">(</span><span class="n">idx</span><span class="p">)</span>
+    <span class="n">cfr</span><span class="o">.</span><span class="n">closefig</span><span class="p">(</span><span class="n">fig_map</span><span class="p">)</span>  <span class="c1"># mute the figure</span>
+    <span class="n">ax</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="n">gs</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">projection</span><span class="o">=</span><span class="n">ax_map</span><span class="o">.</span><span class="n">projection</span><span class="p">)</span>
+    <span class="n">G_R</span><span class="o">.</span><span class="n">plot_neighbors</span><span class="p">(</span><span class="n">idx</span><span class="p">,</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">[</span><span class="n">idx</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/notebooks_graphem-ppe-pages2k_29_0.png" src="../_images/notebooks_graphem-ppe-pages2k_29_0.png" />
+</div>
+</div>
+<p>This, however, does not tell us the degree to which this proxy correlates to temperature at nerby grid points over the instrumental era. To do that, we use:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[24]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">G_R</span><span class="o">.</span><span class="n">plot_neighbors_corr</span><span class="p">(</span><span class="n">idcs</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[24]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+(&lt;Figure size 360x360 with 2 Axes&gt;,
+ &lt;GeoAxesSubplot:title={&#39;center&#39;:&#39;Neighbors (r=1500 km)&#39;}&gt;)
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/notebooks_graphem-ppe-pages2k_31_1.png" src="../_images/notebooks_graphem-ppe-pages2k_31_1.png" />
+</div>
+</div>
+<p>This can be instructive for small proxy networks, or for debugging purposes. For instance, we notice one proxy in the tropical Atlantic that has zero neighbors, because the grid is restricted to the Pacific far beyond the cutoff radius.</p>
+<p>For a bird’s eye view of the graph, we instead plot the adjacency matrix itself (dots indicate neighbors):</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[25]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">G_R</span><span class="o">.</span><span class="n">plot_adj</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[25]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+(&lt;Figure size 432x432 with 1 Axes&gt;, &lt;AxesSubplot:xlabel=&#39;Index&#39;&gt;)
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/notebooks_graphem-ppe-pages2k_33_1.png" src="../_images/notebooks_graphem-ppe-pages2k_33_1.png" />
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[26]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># an example of passing axes with map projections</span>
+
+<span class="c1"># we need to first make a plot with map projections to get the specific projection,</span>
+<span class="c1"># otherwise we have ot set it manually later</span>
+<span class="n">i</span> <span class="o">=</span> <span class="mi">20</span> <span class="c1"># proxy index</span>
+<span class="n">fig_map</span><span class="p">,</span> <span class="n">ax_map</span> <span class="o">=</span> <span class="n">G_R</span><span class="o">.</span><span class="n">plot_neighbors</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+<span class="n">cfr</span><span class="o">.</span><span class="n">closefig</span><span class="p">(</span><span class="n">fig_map</span><span class="p">)</span>  <span class="c1"># mute the figure</span>
+
+<span class="c1"># now we make a new figure to include subplots generated by</span>
+<span class="c1"># `plot_neighbors()` or `plot_neighbors_corr()` and `plot_adj()`</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">5</span><span class="p">])</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="n">gs</span> <span class="o">=</span> <span class="n">gridspec</span><span class="o">.</span><span class="n">GridSpec</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="n">gs</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">wspace</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">hspace</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span>
+<span class="c1"># the 1st subplot will use the exact projection we had earlier</span>
+<span class="n">ax</span><span class="p">[</span><span class="s1">&#39;map&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="n">gs</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">projection</span><span class="o">=</span><span class="n">ax_map</span><span class="o">.</span><span class="n">projection</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="s1">&#39;adj&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="n">gs</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+<span class="c1"># we may call `plot_neighbors_corr()` since it has the same projection</span>
+<span class="n">ax</span><span class="p">[</span><span class="s1">&#39;map&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">G_R</span><span class="o">.</span><span class="n">plot_neighbors_corr</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">[</span><span class="s1">&#39;map&#39;</span><span class="p">])</span>
+<span class="n">ax</span><span class="p">[</span><span class="s1">&#39;adj&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">G_R</span><span class="o">.</span><span class="n">plot_adj</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">[</span><span class="s1">&#39;adj&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/notebooks_graphem-ppe-pages2k_34_0.png" src="../_images/notebooks_graphem-ppe-pages2k_34_0.png" />
+</div>
+</div>
+<p>By construction, proxies are assumed conditionally independent of each other, so the proxy-proxy part of the adjacency matrix is diagonal. The climate-climate is block-diagonal, reflecting the fact that nearby indices tend to reflect nearby gridpoints, and nearby gridpoints generally have similar climates*. There are discontinuities that happen when cycling through longitudes (0 –&gt; 360 back to 0), which show up as abrupt breaks in the graph. The climate-proxy part is less regular, reflecting
+the fact that proxy locations are not uniformly spaced (unlike the grid points of the climate field). Notice how the overall matrix is very <strong>sparse</strong>: only a handful of of entries are non-zero (white is the main color on this plot). To be more precise, the <code class="docutils literal notranslate"><span class="pre">sparsity</span></code> property quantifies the fraction of non-zero entries:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[27]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">G_R</span><span class="o">.</span><span class="n">sparsity</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[27]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[0.05653873489694385, 0.03345352564102564, 0.0]
+</pre></div></div>
+</div>
+<p>We see that only a few % of the graph of the climate field and of the climate-proxy graph, have non-zero entries (the diagonal is excluded from this calculation, because a random variable is always conditionally dependent on itself). With this convention, and assuming that proxies are independent of each other (corals from two different islands don’t affect each other’s growth, given the climate). then the proxy-proxy part of the adjacency matrix is diagonal and has a sparsity of 0. This graph
+has achieved what we wanted: reducing the number of parameters to be estimated while computing the covariance matrix, which otherwise would be ill-conditioned.</p>
+</section>
+</section>
+<section id="running-GraphEM">
+<h2>running GraphEM<a class="headerlink" href="#running-GraphEM" title="Permalink to this heading">#</a></h2>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[28]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>job_neigh.run_graphem<span class="o">?</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+<span class="ansi-red-fg">Signature:</span>
+job<span class="ansi-blue-fg">.</span>run_graphem<span class="ansi-blue-fg">(</span>
+    save_recon<span class="ansi-blue-fg">=</span><span class="ansi-green-fg">True</span><span class="ansi-blue-fg">,</span>
+    save_dirpath<span class="ansi-blue-fg">=</span><span class="ansi-green-fg">None</span><span class="ansi-blue-fg">,</span>
+    load_precalc_solver<span class="ansi-blue-fg">=</span><span class="ansi-green-fg">False</span><span class="ansi-blue-fg">,</span>
+    solver_save_path<span class="ansi-blue-fg">=</span><span class="ansi-green-fg">None</span><span class="ansi-blue-fg">,</span>
+    compress_params<span class="ansi-blue-fg">=</span><span class="ansi-green-fg">None</span><span class="ansi-blue-fg">,</span>
+    verbose<span class="ansi-blue-fg">=</span><span class="ansi-green-fg">False</span><span class="ansi-blue-fg">,</span>
+    <span class="ansi-blue-fg">**</span>fit_kws<span class="ansi-blue-fg">,</span>
+<span class="ansi-blue-fg">)</span>
+<span class="ansi-red-fg">Docstring:</span>
+Run the GraphEM solver, essentially the :py:meth: `GraphEM.solver.GraphEM.fit` method
+
+Note that the arguments for :py:meth: `GraphEM.solver.GraphEM.fit` can be appended in the
+argument list of this function directly. For instance, to pass a pre-calculated graph, use
+`estimate_graph=False` and `graph=g.adj`, where `g` is the :py:`Graph` object.
+
+Args:
+    save_dirpath (str): the path to save the related results
+    load_precalculated (bool, optional): load the precalculated `Graph` object. Defaults to False.
+    verbose (bool, optional): print verbose information. Defaults to False.
+    fit_kws (dict): the arguments for :py:meth: `GraphEM.solver.GraphEM.fit`
+
+See also:
+    cfr.graphem.solver.GraphEM.fit : fitting the GraphEM method
+<span class="ansi-red-fg">File:</span>      ~/Documents/GitHub/cfr/cfr/reconjob.py
+<span class="ansi-red-fg">Type:</span>      method
+
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[77]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%time</span>
+<span class="n">job_neigh</span><span class="o">.</span><span class="n">run_graphem</span><span class="p">(</span>
+    <span class="n">save_recon</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">save_dirpath</span><span class="o">=</span><span class="s1">&#39;./results/graphem-ppe-pages2k&#39;</span><span class="p">,</span>
+    <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">estimate_graph</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">graph</span><span class="o">=</span><span class="n">G_R</span><span class="o">.</span><span class="n">adj</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+<span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;save_dirpath&#34;] = ./results/graphem-ppe-pages2k</span>
+Using specified graph
+Running GraphEM:
+
+Iter     dXmis     rdXmis
+
+001     0.0498     0.7232
+002     0.1861     2.1704
+003     0.0904     0.3866
+004     0.0495     0.1568
+005     0.0325     0.0928
+006     0.0238     0.0639
+007     0.0201     0.0516
+008     0.0177     0.0439
+009     0.0163     0.0393
+010     0.0147     0.0346
+011     0.0138     0.0319
+012     0.0125     0.0284
+013     0.0116     0.0259
+014     0.0112     0.0248
+015     0.0103     0.0225
+016     0.0102     0.0221
+017     0.0094     0.0201
+018     0.0088     0.0188
+019     0.0089     0.0190
+020     0.0082     0.0173
+021     0.0077     0.0161
+022     0.0072     0.0152
+023     0.0075     0.0157
+024     0.0069     0.0143
+025     0.0064     0.0133
+026     0.0060     0.0124
+027     0.0057     0.0117
+028     0.0053     0.0110
+029     0.0051     0.0104
+030     0.0048     0.0099
+031     0.0054     0.0111
+032     0.0042     0.0086
+033     0.0048     0.0098
+034     0.0043     0.0088
+035     0.0040     0.0081
+036     0.0037     0.0076
+037     0.0035     0.0072
+038     0.0033     0.0067
+039     0.0031     0.0064
+040     0.0030     0.0060
+041     0.0028     0.0057
+042     0.0026     0.0054
+043     0.0025     0.0051
+044     0.0024     0.0048
+<span class="ansi-green-intense-fg ansi-bold">job.graphem_solver created and saved to: None</span>
+<span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; job.recon_fields created</span>
+<span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; Reconstructed fields saved to: ./results/graphem-ppe-pages2k/job_r01_recon.nc</span>
+CPU times: user 4min 55s, sys: 16.5 s, total: 5min 12s
+Wall time: 20.9 s
+</pre></div></div>
+</div>
+<section id="1.c-Validation">
+<h3>1.c Validation<a class="headerlink" href="#1.c-Validation" title="Permalink to this heading">#</a></h3>
+<p>Now we have a reconstruction ; let’s see how well it compares to the target:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[78]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">neigh_res</span> <span class="o">=</span> <span class="n">cfr</span><span class="o">.</span><span class="n">ReconRes</span><span class="p">(</span><span class="s1">&#39;./results/graphem-ppe-pages2k&#39;</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+<span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; res.paths:</span>
+[&#39;./results/graphem-ppe-pages2k/job_r01_recon.nc&#39;]
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[79]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">neigh_res</span><span class="o">.</span><span class="n">load</span><span class="p">([</span><span class="s1">&#39;nino3.4&#39;</span><span class="p">,</span> <span class="s1">&#39;tas&#39;</span><span class="p">],</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+<span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; ReconRes.recons[&#34;nino3.4&#34;] created</span>
+<span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; ReconRes.da[&#34;nino3.4&#34;] created</span>
+<span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; ReconRes.recons[&#34;tas&#34;] created</span>
+<span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; ReconRes.da[&#34;tas&#34;] created</span>
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[80]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mask</span> <span class="o">=</span> <span class="p">(</span><span class="n">job_neigh</span><span class="o">.</span><span class="n">obs</span><span class="p">[</span><span class="s1">&#39;tas&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">time</span> <span class="o">&gt;=</span> <span class="mi">1001</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">job_neigh</span><span class="o">.</span><span class="n">obs</span><span class="p">[</span><span class="s1">&#39;tas&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">time</span> <span class="o">&lt;=</span> <span class="mi">2000</span><span class="p">)</span>
+<span class="n">target</span> <span class="o">=</span> <span class="n">job_neigh</span><span class="o">.</span><span class="n">obs</span><span class="p">[</span><span class="s1">&#39;tas&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">da</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="n">mask</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">shape</span><span class="p">(</span><span class="n">target</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+(1000, 12, 28)
+</pre></div></div>
+</div>
+<section id="Spatially-averaged-Statistics">
+<h4>Spatially-averaged Statistics<a class="headerlink" href="#Spatially-averaged-Statistics" title="Permalink to this heading">#</a></h4>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[81]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">nt</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="n">neigh_res</span><span class="o">.</span><span class="n">recons</span><span class="p">[</span><span class="s1">&#39;tas&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">time</span><span class="p">)</span>
+<span class="n">field_r</span> <span class="o">=</span> <span class="n">job_neigh</span><span class="o">.</span><span class="n">graphem_solver</span><span class="o">.</span><span class="n">field_r</span>
+<span class="n">inst</span>    <span class="o">=</span> <span class="n">job_neigh</span><span class="o">.</span><span class="n">graphem_params</span><span class="p">[</span><span class="s1">&#39;calib_idx&#39;</span><span class="p">]</span>
+<span class="n">V</span> <span class="o">=</span> <span class="n">cfr</span><span class="o">.</span><span class="n">graphem</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">verif_stats</span><span class="p">(</span><span class="n">field_r</span><span class="p">,</span> <span class="n">target</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="n">nt</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)),</span> <span class="n">inst</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">V</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Mean MSE = 0.1018, Mean RE = 0.5506, Mean CE = 0.4918, Mean R2 = 0.5691
+</pre></div></div>
+</div>
+</section>
+<section id="Map-of-CE">
+<h4>Map of CE<a class="headerlink" href="#Map-of-CE" title="Permalink to this heading">#</a></h4>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[82]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ce</span> <span class="o">=</span> <span class="n">cfr</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">coefficient_efficiency</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="n">neigh_res</span><span class="o">.</span><span class="n">recons</span><span class="p">[</span><span class="s1">&#39;tas&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">da</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">shape</span><span class="p">(</span><span class="n">ce</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+(12, 28)
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[83]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+<span class="kn">import</span> <span class="nn">cartopy.crs</span> <span class="k">as</span> <span class="nn">ccrs</span>
+<span class="kn">import</span> <span class="nn">cartopy.feature</span> <span class="k">as</span> <span class="nn">cfeature</span>
+<span class="kn">from</span> <span class="nn">cartopy.mpl.ticker</span> <span class="kn">import</span> <span class="n">LongitudeFormatter</span><span class="p">,</span> <span class="n">LatitudeFormatter</span>
+
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">[</span><span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="p">])</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="n">projection</span><span class="o">=</span><span class="n">ccrs</span><span class="o">.</span><span class="n">PlateCarree</span><span class="p">(</span><span class="n">central_longitude</span><span class="o">=</span><span class="mi">180</span><span class="p">))</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Coefficient of Efficiency&#39;</span><span class="p">)</span>
+<span class="c1"># latlon_range = [0, 360, -90, 90]</span>
+<span class="n">latlon_range</span> <span class="o">=</span> <span class="p">[</span><span class="mi">122</span><span class="p">,</span> <span class="mi">278</span><span class="p">,</span> <span class="o">-</span><span class="mi">25</span><span class="p">,</span> <span class="mi">25</span><span class="p">]</span>
+<span class="n">transform</span><span class="o">=</span><span class="n">ccrs</span><span class="o">.</span><span class="n">PlateCarree</span><span class="p">()</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">set_extent</span><span class="p">(</span><span class="n">latlon_range</span><span class="p">,</span> <span class="n">crs</span><span class="o">=</span><span class="n">transform</span><span class="p">)</span>
+<span class="n">lon_formatter</span> <span class="o">=</span> <span class="n">LongitudeFormatter</span><span class="p">(</span><span class="n">zero_direction_label</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">lat_formatter</span> <span class="o">=</span> <span class="n">LatitudeFormatter</span><span class="p">()</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">set_major_formatter</span><span class="p">(</span><span class="n">lon_formatter</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">yaxis</span><span class="o">.</span><span class="n">set_major_formatter</span><span class="p">(</span><span class="n">lat_formatter</span><span class="p">)</span>
+
+<span class="n">lon_ticks</span><span class="o">=</span><span class="p">[</span><span class="mi">60</span><span class="p">,</span> <span class="mi">120</span><span class="p">,</span> <span class="mi">180</span><span class="p">,</span> <span class="mi">240</span><span class="p">,</span> <span class="mi">300</span><span class="p">]</span>
+<span class="n">lat_ticks</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mi">90</span><span class="p">,</span> <span class="o">-</span><span class="mi">45</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">45</span><span class="p">,</span> <span class="mi">90</span><span class="p">]</span>
+<span class="n">lon_ticks</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">lon_ticks</span><span class="p">)</span>
+<span class="n">lat_ticks</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">lat_ticks</span><span class="p">)</span>
+<span class="n">lon_min</span><span class="p">,</span> <span class="n">lon_max</span><span class="p">,</span> <span class="n">lat_min</span><span class="p">,</span> <span class="n">lat_max</span> <span class="o">=</span> <span class="n">latlon_range</span>
+<span class="n">mask_lon</span> <span class="o">=</span> <span class="p">(</span><span class="n">lon_ticks</span> <span class="o">&gt;=</span> <span class="n">lon_min</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">lon_ticks</span> <span class="o">&lt;=</span> <span class="n">lon_max</span><span class="p">)</span>
+<span class="n">mask_lat</span> <span class="o">=</span> <span class="p">(</span><span class="n">lat_ticks</span> <span class="o">&gt;=</span> <span class="n">lat_min</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">lat_ticks</span> <span class="o">&lt;=</span> <span class="n">lat_max</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">(</span><span class="n">lon_ticks</span><span class="p">[</span><span class="n">mask_lon</span><span class="p">],</span> <span class="n">crs</span><span class="o">=</span><span class="n">ccrs</span><span class="o">.</span><span class="n">PlateCarree</span><span class="p">())</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_yticks</span><span class="p">(</span><span class="n">lat_ticks</span><span class="p">[</span><span class="n">mask_lat</span><span class="p">],</span> <span class="n">crs</span><span class="o">=</span><span class="n">ccrs</span><span class="o">.</span><span class="n">PlateCarree</span><span class="p">())</span>
+
+<span class="n">levels</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">21</span><span class="p">)</span>
+<span class="n">cbar_labels</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">11</span><span class="p">)</span>
+<span class="n">cbar_title</span> <span class="o">=</span> <span class="s1">&#39;CE&#39;</span>
+<span class="n">extend</span> <span class="o">=</span> <span class="s1">&#39;both&#39;</span>
+<span class="n">cmap</span> <span class="o">=</span> <span class="s1">&#39;RdBu_r&#39;</span>
+<span class="n">cbar_pad</span><span class="o">=</span><span class="mf">0.1</span>
+<span class="n">cbar_orientation</span><span class="o">=</span><span class="s1">&#39;horizontal&#39;</span>
+<span class="n">cbar_aspect</span><span class="o">=</span><span class="mi">10</span>
+<span class="n">cbar_fraction</span><span class="o">=</span><span class="mf">0.35</span>
+<span class="n">cbar_shrink</span><span class="o">=</span><span class="mf">0.8</span>
+<span class="n">font_scale</span><span class="o">=</span><span class="mf">1.5</span>
+<span class="n">land_color</span><span class="o">=</span><span class="n">sns</span><span class="o">.</span><span class="n">xkcd_rgb</span><span class="p">[</span><span class="s1">&#39;light grey&#39;</span><span class="p">]</span>
+<span class="n">ocean_color</span><span class="o">=</span><span class="n">sns</span><span class="o">.</span><span class="n">xkcd_rgb</span><span class="p">[</span><span class="s1">&#39;white&#39;</span><span class="p">]</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">add_feature</span><span class="p">(</span><span class="n">cfeature</span><span class="o">.</span><span class="n">LAND</span><span class="p">,</span> <span class="n">facecolor</span><span class="o">=</span><span class="n">land_color</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="n">land_color</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">add_feature</span><span class="p">(</span><span class="n">cfeature</span><span class="o">.</span><span class="n">OCEAN</span><span class="p">,</span> <span class="n">facecolor</span><span class="o">=</span><span class="n">ocean_color</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="n">ocean_color</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">coastlines</span><span class="p">()</span>
+<span class="n">im</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">contourf</span><span class="p">(</span><span class="n">job_neigh</span><span class="o">.</span><span class="n">obs</span><span class="p">[</span><span class="s1">&#39;tas&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">lon</span><span class="p">,</span> <span class="n">job_neigh</span><span class="o">.</span><span class="n">obs</span><span class="p">[</span><span class="s1">&#39;tas&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">lat</span><span class="p">,</span> <span class="n">ce</span><span class="p">,</span> <span class="n">levels</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="n">transform</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">cmap</span><span class="p">,</span> <span class="n">extend</span><span class="o">=</span><span class="n">extend</span><span class="p">)</span>
+<span class="n">cbar</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span>
+    <span class="n">im</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">orientation</span><span class="o">=</span><span class="n">cbar_orientation</span><span class="p">,</span> <span class="n">pad</span><span class="o">=</span><span class="n">cbar_pad</span><span class="p">,</span> <span class="n">aspect</span><span class="o">=</span><span class="n">cbar_aspect</span><span class="p">,</span>
+    <span class="n">fraction</span><span class="o">=</span><span class="n">cbar_fraction</span><span class="p">,</span> <span class="n">shrink</span><span class="o">=</span><span class="n">cbar_shrink</span><span class="p">)</span>
+<span class="n">cbar</span><span class="o">.</span><span class="n">set_ticks</span><span class="p">(</span><span class="n">cbar_labels</span><span class="p">)</span>
+<span class="n">cbar</span><span class="o">.</span><span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">cbar_title</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[83]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Text(0.5, 1.0, &#39;CE&#39;)
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/notebooks_graphem-ppe-pages2k_48_1.png" src="../_images/notebooks_graphem-ppe-pages2k_48_1.png" />
+</div>
+</div>
+</section>
+</section>
+<section id="Timeseries-comparison">
+<h3>Timeseries comparison<a class="headerlink" href="#Timeseries-comparison" title="Permalink to this heading">#</a></h3>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[84]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">da</span> <span class="o">=</span> <span class="n">cfr</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">geo_mean</span><span class="p">(</span><span class="n">job_neigh</span><span class="o">.</span><span class="n">obs</span><span class="p">[</span><span class="s1">&#39;tas&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">da</span><span class="p">,</span> <span class="n">lat_min</span><span class="o">=-</span><span class="mi">5</span><span class="p">,</span> <span class="n">lat_max</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">lon_min</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">mod</span><span class="p">(</span><span class="o">-</span><span class="mi">170</span><span class="p">,</span> <span class="mi">360</span><span class="p">),</span> <span class="n">lon_max</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">mod</span><span class="p">(</span><span class="o">-</span><span class="mi">120</span><span class="p">,</span> <span class="mi">360</span><span class="p">))</span>
+<span class="n">ref_time</span> <span class="o">=</span> <span class="n">da</span><span class="o">.</span><span class="n">year</span><span class="o">.</span><span class="n">values</span>
+<span class="n">ref_value</span> <span class="o">=</span> <span class="n">da</span><span class="o">.</span><span class="n">values</span>
+<span class="n">ref_name</span> <span class="o">=</span> <span class="s1">&#39;truth&#39;</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[85]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">neigh_res</span><span class="o">.</span><span class="n">recons</span><span class="p">[</span><span class="s1">&#39;nino3.4&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">validate</span><span class="p">(</span>
+    <span class="n">ref_time</span><span class="p">,</span> <span class="n">ref_value</span><span class="p">,</span> <span class="n">ref_name</span><span class="p">,</span> <span class="n">valid_period</span><span class="o">=</span><span class="p">[</span><span class="mi">1001</span><span class="p">,</span> <span class="mi">1850</span><span class="p">])</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="mi">1000</span><span class="p">,</span> <span class="mi">2000</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[85]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+(1000.0, 2000.0)
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/notebooks_graphem-ppe-pages2k_51_1.png" src="../_images/notebooks_graphem-ppe-pages2k_51_1.png" />
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[41]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">lats</span><span class="p">,</span> <span class="n">lons</span><span class="p">,</span> <span class="n">colors</span><span class="p">,</span> <span class="n">markers</span><span class="p">,</span> <span class="n">markersizes</span> <span class="o">=</span> <span class="p">{},</span> <span class="p">{},</span> <span class="p">{},</span> <span class="p">{},</span> <span class="p">{}</span>
+<span class="k">for</span> <span class="n">pobj</span> <span class="ow">in</span> <span class="n">job</span><span class="o">.</span><span class="n">proxydb</span><span class="p">:</span>
+    <span class="n">pid</span> <span class="o">=</span> <span class="n">pobj</span><span class="o">.</span><span class="n">pid</span>
+    <span class="n">lats</span><span class="p">[</span><span class="n">pid</span><span class="p">]</span> <span class="o">=</span> <span class="n">pobj</span><span class="o">.</span><span class="n">lat</span>
+    <span class="n">lons</span><span class="p">[</span><span class="n">pid</span><span class="p">]</span> <span class="o">=</span> <span class="n">pobj</span><span class="o">.</span><span class="n">lon</span>
+    <span class="n">colors</span><span class="p">[</span><span class="n">pid</span><span class="p">]</span> <span class="o">=</span> <span class="n">cfr</span><span class="o">.</span><span class="n">visual</span><span class="o">.</span><span class="n">STYLE</span><span class="o">.</span><span class="n">colors_dict</span><span class="p">[</span><span class="n">pobj</span><span class="o">.</span><span class="n">ptype</span><span class="p">]</span>
+    <span class="n">markers</span><span class="p">[</span><span class="n">pid</span><span class="p">]</span> <span class="o">=</span> <span class="n">cfr</span><span class="o">.</span><span class="n">visual</span><span class="o">.</span><span class="n">STYLE</span><span class="o">.</span><span class="n">markers_dict</span><span class="p">[</span><span class="n">pobj</span><span class="o">.</span><span class="n">ptype</span><span class="p">]</span>
+    <span class="n">markersizes</span><span class="p">[</span><span class="n">pid</span><span class="p">]</span> <span class="o">=</span> <span class="mi">200</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[86]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">stat</span> <span class="o">=</span> <span class="s1">&#39;CE&#39;</span>  <span class="c1"># Bug: colorbad shows R2 instead of CE</span>
+<span class="n">neigh_valid</span> <span class="o">=</span> <span class="n">neigh_res</span><span class="o">.</span><span class="n">recons</span><span class="p">[</span><span class="s1">&#39;tas&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">validate</span><span class="p">(</span>
+    <span class="n">job</span><span class="o">.</span><span class="n">obs</span><span class="p">[</span><span class="s1">&#39;tas&#39;</span><span class="p">],</span> <span class="n">stat</span><span class="o">=</span><span class="n">stat</span><span class="p">,</span>
+    <span class="n">valid_period</span><span class="o">=</span><span class="p">(</span><span class="mi">1750</span><span class="p">,</span> <span class="mi">1850</span><span class="p">),</span>
+    <span class="n">interp_direction</span><span class="o">=</span><span class="s1">&#39;from-ref&#39;</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">neigh_valid</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
+    <span class="n">title</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">stat</span><span class="si">}</span><span class="s1">(posterior, truth)&#39;</span><span class="p">,</span>
+    <span class="n">projection</span><span class="o">=</span><span class="s1">&#39;PlateCarree&#39;</span><span class="p">,</span>
+    <span class="n">latlon_range</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mi">25</span><span class="p">,</span> <span class="mi">25</span><span class="p">,</span> <span class="mi">122</span><span class="p">,</span> <span class="mi">278</span><span class="p">),</span>
+    <span class="n">site_lats</span><span class="o">=</span><span class="n">lats</span><span class="p">,</span> <span class="n">site_lons</span><span class="o">=</span><span class="n">lons</span><span class="p">,</span>
+    <span class="n">site_markersize</span><span class="o">=</span><span class="n">markersizes</span><span class="p">,</span> <span class="n">site_marker</span><span class="o">=</span><span class="n">markers</span><span class="p">,</span>
+    <span class="n">site_color</span><span class="o">=</span><span class="n">colors</span><span class="p">,</span>
+    <span class="o">**</span><span class="n">valid_fd</span><span class="o">.</span><span class="n">plot_kwargs</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/notebooks_graphem-ppe-pages2k_53_0.png" src="../_images/notebooks_graphem-ppe-pages2k_53_0.png" />
+</div>
+</div>
+<p>We see that skill is very high in most regions, particularly in the vicinity of proxy sites, though the SPCZ is less well captured than the central equatorial Pacific, for instance.</p>
+</section>
+</section>
+<section id="2.-Graphical-Lasso">
+<h2>2. Graphical Lasso<a class="headerlink" href="#2.-Graphical-Lasso" title="Permalink to this heading">#</a></h2>
+<p>The graphical LASSO <a class="reference external" href="https://doi.org/10.1093/biostatistics/kxm045">(Friedman et al, 2008)</a> is a convex optimization algorithm that uses least angles regression to obtain the adjacency matrix.</p>
+<p>In GraphEM, GLASSO is controlled by 2 sparsity parameters: - target_FF: Target sparsity of the in-field part of the graph (%) - target_FP: Target sparsity of the field/proxy part of the graph (%)</p>
+<p>As before, the sparser the graph, the fewer variables are estimated, and the better conditioned the covariance matrices are, but a good compromise must be found so as not to over-regularize. As a rule of thumb, target sparsities should be on the order of a few % (1-10) to give reasonable results. Let us first look at the case where these numbers are 3% and 3%, respectively:</p>
+<section id="2a.-Greedy-Search">
+<h3>2a. Greedy Search<a class="headerlink" href="#2a.-Greedy-Search" title="Permalink to this heading">#</a></h3>
+<p>The code uses a greedy algorithm to obtain a graph whose sparsity approaches that of the target:</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[43]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">G_L</span> <span class="o">=</span> <span class="n">cfr</span><span class="o">.</span><span class="n">graphem</span><span class="o">.</span><span class="n">Graph</span><span class="p">(</span>
+    <span class="n">lonlat</span> <span class="o">=</span> <span class="n">job</span><span class="o">.</span><span class="n">graphem_params</span><span class="p">[</span><span class="s1">&#39;lonlat&#39;</span><span class="p">],</span>
+    <span class="n">field</span> <span class="o">=</span> <span class="n">field_r</span><span class="p">[</span><span class="n">inst</span><span class="p">],</span>
+    <span class="n">proxy</span> <span class="o">=</span> <span class="n">job</span><span class="o">.</span><span class="n">graphem_params</span><span class="p">[</span><span class="s1">&#39;proxy&#39;</span><span class="p">][</span><span class="n">inst</span><span class="p">,:])</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[50]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">G_L</span><span class="o">.</span><span class="n">glasso_adj</span><span class="p">(</span><span class="n">target_FF</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span><span class="n">target_FP</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Solving graphical LASSO using greedy search
+Iter    FF      FP      PP
+
+001   0.000   0.000   0.000
+002   0.867   0.000   0.000
+003   2.347   0.000   0.000
+004   3.746   0.000   0.000
+005   3.746   0.000   0.000
+006   3.746   0.000   0.000
+007   3.746   0.000   0.000
+008   3.746   0.000   0.000
+009   3.746   0.000   0.000
+010   3.746   0.103   0.000
+011   3.746   0.358   0.000
+012   3.730   0.793   0.000
+013   3.669   1.540   0.000
+014   3.502   2.802   0.000
+015   3.129   4.006   0.000
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[51]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">G_L</span><span class="o">.</span><span class="n">sparsity</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[51]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+array([3.5021322 , 2.80162546, 0.        ])
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[46]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">5</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">subplots_adjust</span><span class="p">(</span><span class="n">wspace</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span>
+<span class="n">G_R</span><span class="o">.</span><span class="n">plot_adj</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">clr</span><span class="o">=</span><span class="s1">&#39;C0&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Optimal neighborhood graph&quot;</span><span class="p">)</span> <span class="c1"># need to fix vertical spacing</span>
+<span class="n">G_L</span><span class="o">.</span><span class="n">plot_adj</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="n">clr</span><span class="o">=</span><span class="s1">&#39;C1&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Tentative GLASSO graph, sp = </span><span class="si">{:3.2f}</span><span class="s2"> %&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">G_L</span><span class="o">.</span><span class="n">sparsity</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">G_L</span><span class="o">.</span><span class="n">sparsity</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[46]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Text(0.5, 1.0, &#39;Tentative GLASSO graph, sp = 3.50 %&#39;)
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/notebooks_graphem-ppe-pages2k_58_1.png" src="../_images/notebooks_graphem-ppe-pages2k_58_1.png" />
+</div>
+</div>
+<p>Comparing with the previously obtained neighborhood graph, we see that GLASSO, for this particular choice of parameters, led to a similar block-diagonal pattern for the in-field part of the matrix, however the extent of these blocks varies from point to point. This is an indication of anisotopy: the algorithm is able to detect coherent structures that may be irregular in latitude and longitude. Let’s look at those neighbors:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[47]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">n_grid</span> <span class="o">=</span> <span class="n">field_r</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">n_neighbors</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">G_L</span><span class="o">.</span><span class="n">adj</span><span class="p">[</span><span class="n">n_grid</span><span class="p">:,:],</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">n_neighbors</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Number of neighbors for each proxy&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[47]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Text(0.5, 1.0, &#39;Number of neighbors for each proxy&#39;)
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/notebooks_graphem-ppe-pages2k_60_1.png" src="../_images/notebooks_graphem-ppe-pages2k_60_1.png" />
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">rich_proxies</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">n_neighbors</span><span class="o">&gt;</span><span class="mi">20</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+
+<span class="n">four_idcs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">rich_proxies</span><span class="p">),</span><span class="mi">4</span><span class="p">)</span>
+<span class="n">glasso_idcs</span> <span class="o">=</span> <span class="n">rich_proxies</span><span class="p">[</span><span class="n">four_idcs</span><span class="p">]</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
+<span class="n">gs</span> <span class="o">=</span> <span class="n">gridspec</span><span class="o">.</span><span class="n">GridSpec</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="n">gs</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">wspace</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">hspace</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">idx</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">glasso_idcs</span><span class="p">):</span>
+    <span class="n">fig_map</span><span class="p">,</span> <span class="n">ax_map</span> <span class="o">=</span> <span class="n">G_L</span><span class="o">.</span><span class="n">plot_neighbors</span><span class="p">(</span><span class="n">idx</span><span class="p">)</span>
+    <span class="n">cfr</span><span class="o">.</span><span class="n">closefig</span><span class="p">(</span><span class="n">fig_map</span><span class="p">)</span>  <span class="c1"># mute the figure</span>
+    <span class="n">ax</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="n">gs</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">projection</span><span class="o">=</span><span class="n">ax_map</span><span class="o">.</span><span class="n">projection</span><span class="p">)</span>
+    <span class="n">G_L</span><span class="o">.</span><span class="n">plot_neighbors</span><span class="p">(</span><span class="n">idx</span><span class="p">,</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">[</span><span class="n">idx</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<p>We see that some proxies are deemed important by GLASSO, which finds them many neighbors in the climate field. Put another way, those proxies will inform the reconstruction of the climate field at the location of these red dots, though not in equal amount (they will be weighted by covariances, not shown here).</p>
+<p>Now, as before, we must optimize to find parameters that maxmimize reconstruction skill.</p>
+</section>
+<section id="2b.-Cross-Validation">
+<h3>2b. Cross-Validation<a class="headerlink" href="#2b.-Cross-Validation" title="Permalink to this heading">#</a></h3>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[53]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%time</span>
+
+<span class="c1"># cross validation test</span>
+<span class="n">sp_vec</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span><span class="mf">9.0</span><span class="p">)</span>
+<span class="n">kcv_stats</span> <span class="o">=</span> <span class="n">job</span><span class="o">.</span><span class="n">graphem_kcv</span><span class="p">(</span>
+    <span class="n">cv_time</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1850</span><span class="p">,</span> <span class="mi">2001</span><span class="p">),</span> <span class="n">stat</span><span class="o">=</span><span class="s1">&#39;MSE&#39;</span><span class="p">,</span> <span class="n">n_splits</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+    <span class="n">ctrl_params</span> <span class="o">=</span> <span class="n">sp_vec</span><span class="p">,</span> <span class="n">graph_type</span> <span class="o">=</span> <span class="s1">&#39;glasso&#39;</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+<span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; Processing fold 1:</span>
+<span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; parameter = 1.0</span>
+Unexpected exception formatting exception. Falling back to standard exception
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+Traceback (most recent call last):
+  File &#34;/Users/julieneg/opt/miniconda3/envs/cfr-env/lib/python3.9/site-packages/IPython/core/magics/execution.py&#34;, line 1316, in time
+    exec(code, glob, local_ns)
+  File &#34;&lt;timed exec&gt;&#34;, line 3, in &lt;module&gt;
+  File &#34;/Users/julieneg/Documents/GitHub/cfr/cfr/reconjob.py&#34;, line 860, in graphem_kcv
+    g_cv.glasso_adj(target_FF=param, target_FP=param)
+  File &#34;/Users/julieneg/Documents/GitHub/cfr/cfr/graphem/graph.py&#34;, line 135, in glasso_adj
+    [adj, sp] = graph_greedy_search(self.field, self.proxy, target_FF, target_FP)
+ValueError: too many values to unpack (expected 2)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File &#34;/Users/julieneg/opt/miniconda3/envs/cfr-env/lib/python3.9/site-packages/IPython/core/interactiveshell.py&#34;, line 1993, in showtraceback
+    stb = self.InteractiveTB.structured_traceback(
+  File &#34;/Users/julieneg/opt/miniconda3/envs/cfr-env/lib/python3.9/site-packages/IPython/core/ultratb.py&#34;, line 1118, in structured_traceback
+    return FormattedTB.structured_traceback(
+  File &#34;/Users/julieneg/opt/miniconda3/envs/cfr-env/lib/python3.9/site-packages/IPython/core/ultratb.py&#34;, line 1012, in structured_traceback
+    return VerboseTB.structured_traceback(
+  File &#34;/Users/julieneg/opt/miniconda3/envs/cfr-env/lib/python3.9/site-packages/IPython/core/ultratb.py&#34;, line 865, in structured_traceback
+    formatted_exception = self.format_exception_as_a_whole(etype, evalue, etb, number_of_lines_of_context,
+  File &#34;/Users/julieneg/opt/miniconda3/envs/cfr-env/lib/python3.9/site-packages/IPython/core/ultratb.py&#34;, line 818, in format_exception_as_a_whole
+    frames.append(self.format_record(r))
+  File &#34;/Users/julieneg/opt/miniconda3/envs/cfr-env/lib/python3.9/site-packages/IPython/core/ultratb.py&#34;, line 736, in format_record
+    result += &#39;&#39;.join(_format_traceback_lines(frame_info.lines, Colors, self.has_colors, lvals))
+  File &#34;/Users/julieneg/opt/miniconda3/envs/cfr-env/lib/python3.9/site-packages/stack_data/utils.py&#34;, line 145, in cached_property_wrapper
+    value = obj.__dict__[self.func.__name__] = self.func(obj)
+  File &#34;/Users/julieneg/opt/miniconda3/envs/cfr-env/lib/python3.9/site-packages/stack_data/core.py&#34;, line 698, in lines
+    pieces = self.included_pieces
+  File &#34;/Users/julieneg/opt/miniconda3/envs/cfr-env/lib/python3.9/site-packages/stack_data/utils.py&#34;, line 145, in cached_property_wrapper
+    value = obj.__dict__[self.func.__name__] = self.func(obj)
+  File &#34;/Users/julieneg/opt/miniconda3/envs/cfr-env/lib/python3.9/site-packages/stack_data/core.py&#34;, line 649, in included_pieces
+    pos = scope_pieces.index(self.executing_piece)
+  File &#34;/Users/julieneg/opt/miniconda3/envs/cfr-env/lib/python3.9/site-packages/stack_data/utils.py&#34;, line 145, in cached_property_wrapper
+    value = obj.__dict__[self.func.__name__] = self.func(obj)
+  File &#34;/Users/julieneg/opt/miniconda3/envs/cfr-env/lib/python3.9/site-packages/stack_data/core.py&#34;, line 628, in executing_piece
+    return only(
+  File &#34;/Users/julieneg/opt/miniconda3/envs/cfr-env/lib/python3.9/site-packages/executing/executing.py&#34;, line 164, in only
+    raise NotOneValueFound(&#39;Expected one value, found 0&#39;)
+executing.executing.NotOneValueFound: Expected one value, found 0
+</pre></div></div>
+</div>
+</section>
+<section id="2c.-Reconstruction">
+<h3>2c. Reconstruction<a class="headerlink" href="#2c.-Reconstruction" title="Permalink to this heading">#</a></h3>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[55]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">job_glasso</span> <span class="o">=</span> <span class="n">job</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="n">job_glasso</span><span class="o">.</span><span class="n">run_graphem</span><span class="p">(</span>
+    <span class="n">save_recon</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">save_dirpath</span><span class="o">=</span><span class="s1">&#39;./results/graphem-ppe-pages2k&#39;</span><span class="p">,</span>
+    <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">estimate_graph</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">graph</span><span class="o">=</span><span class="n">G_L</span><span class="o">.</span><span class="n">adj</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+<span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;save_dirpath&#34;] = ./results/graphem-ppe-pages2k</span>
+Using specified graph
+Running GraphEM:
+
+Iter     dXmis     rdXmis
+
+001     0.0498     0.7232
+002     0.2066     2.4095
+003     0.0601     0.2358
+004     0.0301     0.0989
+005     0.0226     0.0696
+006     0.0187     0.0552
+007     0.0160     0.0459
+008     0.0141     0.0393
+009     0.0125     0.0340
+010     0.0111     0.0297
+011     0.0099     0.0262
+012     0.0090     0.0235
+013     0.0086     0.0222
+014     0.0081     0.0207
+015     0.0081     0.0206
+016     0.0078     0.0197
+017     0.0081     0.0204
+018     0.0079     0.0198
+019     0.0079     0.0195
+020     0.0078     0.0193
+021     0.0082     0.0202
+022     0.0080     0.0194
+023     0.0077     0.0187
+024     0.0078     0.0189
+025     0.0073     0.0175
+026     0.0068     0.0163
+027     0.0063     0.0151
+028     0.0058     0.0139
+029     0.0054     0.0127
+030     0.0052     0.0123
+031     0.0047     0.0110
+032     0.0042     0.0099
+033     0.0039     0.0091
+034     0.0036     0.0083
+035     0.0033     0.0076
+036     0.0030     0.0070
+037     0.0028     0.0065
+038     0.0026     0.0060
+039     0.0024     0.0055
+040     0.0022     0.0051
+041     0.0020     0.0047
+<span class="ansi-green-intense-fg ansi-bold">job.graphem_solver created and saved to: None</span>
+<span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; job.recon_fields created</span>
+<span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; Reconstructed fields saved to: ./results/graphem-ppe-pages2k/job_r01_recon.nc</span>
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[56]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">glasso_res</span> <span class="o">=</span> <span class="n">cfr</span><span class="o">.</span><span class="n">ReconRes</span><span class="p">(</span><span class="s1">&#39;./results/graphem-ppe-pages2k&#39;</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+<span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; res.paths:</span>
+[&#39;./results/graphem-ppe-pages2k/job_r01_recon.nc&#39;]
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[57]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">glasso_res</span><span class="o">.</span><span class="n">load</span><span class="p">([</span><span class="s1">&#39;nino3.4&#39;</span><span class="p">,</span> <span class="s1">&#39;tas&#39;</span><span class="p">],</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+<span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; ReconRes.recons[&#34;nino3.4&#34;] created</span>
+<span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; ReconRes.da[&#34;nino3.4&#34;] created</span>
+<span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; ReconRes.recons[&#34;tas&#34;] created</span>
+<span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; ReconRes.da[&#34;tas&#34;] created</span>
+</pre></div></div>
+</div>
+<section id="id1">
+<h4>Spatially-averaged Statistics<a class="headerlink" href="#id1" title="Permalink to this heading">#</a></h4>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[58]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">field_r</span> <span class="o">=</span> <span class="n">job_glasso</span><span class="o">.</span><span class="n">graphem_solver</span><span class="o">.</span><span class="n">field_r</span>
+<span class="n">inst</span>    <span class="o">=</span> <span class="n">job_glasso</span><span class="o">.</span><span class="n">graphem_params</span><span class="p">[</span><span class="s1">&#39;calib_idx&#39;</span><span class="p">]</span>
+<span class="n">V</span> <span class="o">=</span> <span class="n">cfr</span><span class="o">.</span><span class="n">graphem</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">verif_stats</span><span class="p">(</span><span class="n">field_r</span><span class="p">,</span> <span class="n">target</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="n">nt</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)),</span> <span class="n">inst</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">V</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Mean MSE = 0.0953, Mean RE = 0.5975, Mean CE = 0.5423, Mean R2 = nan
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+/Users/julieneg/opt/miniconda3/envs/cfr-env/lib/python3.9/site-packages/numpy/lib/function_base.py:2853: RuntimeWarning: invalid value encountered in divide
+  c /= stddev[:, None]
+/Users/julieneg/opt/miniconda3/envs/cfr-env/lib/python3.9/site-packages/numpy/lib/function_base.py:2854: RuntimeWarning: invalid value encountered in divide
+  c /= stddev[None, :]
+</pre></div></div>
+</div>
+</section>
+<section id="id2">
+<h4>Map of CE<a class="headerlink" href="#id2" title="Permalink to this heading">#</a></h4>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[60]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ce</span> <span class="o">=</span> <span class="n">cfr</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">coefficient_efficiency</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="n">glasso_res</span><span class="o">.</span><span class="n">recons</span><span class="p">[</span><span class="s1">&#39;tas&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">da</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[61]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">[</span><span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="p">])</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="n">projection</span><span class="o">=</span><span class="n">ccrs</span><span class="o">.</span><span class="n">PlateCarree</span><span class="p">(</span><span class="n">central_longitude</span><span class="o">=</span><span class="mi">180</span><span class="p">))</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Coefficient of Efficiency&#39;</span><span class="p">)</span>
+<span class="c1"># latlon_range = [0, 360, -90, 90]</span>
+<span class="n">latlon_range</span> <span class="o">=</span> <span class="p">[</span><span class="mi">122</span><span class="p">,</span> <span class="mi">278</span><span class="p">,</span> <span class="o">-</span><span class="mi">25</span><span class="p">,</span> <span class="mi">25</span><span class="p">]</span>
+<span class="n">transform</span><span class="o">=</span><span class="n">ccrs</span><span class="o">.</span><span class="n">PlateCarree</span><span class="p">()</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">set_extent</span><span class="p">(</span><span class="n">latlon_range</span><span class="p">,</span> <span class="n">crs</span><span class="o">=</span><span class="n">transform</span><span class="p">)</span>
+<span class="n">lon_formatter</span> <span class="o">=</span> <span class="n">LongitudeFormatter</span><span class="p">(</span><span class="n">zero_direction_label</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">lat_formatter</span> <span class="o">=</span> <span class="n">LatitudeFormatter</span><span class="p">()</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">set_major_formatter</span><span class="p">(</span><span class="n">lon_formatter</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">yaxis</span><span class="o">.</span><span class="n">set_major_formatter</span><span class="p">(</span><span class="n">lat_formatter</span><span class="p">)</span>
+
+<span class="n">lon_ticks</span><span class="o">=</span><span class="p">[</span><span class="mi">60</span><span class="p">,</span> <span class="mi">120</span><span class="p">,</span> <span class="mi">180</span><span class="p">,</span> <span class="mi">240</span><span class="p">,</span> <span class="mi">300</span><span class="p">]</span>
+<span class="n">lat_ticks</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mi">90</span><span class="p">,</span> <span class="o">-</span><span class="mi">45</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">45</span><span class="p">,</span> <span class="mi">90</span><span class="p">]</span>
+<span class="n">lon_ticks</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">lon_ticks</span><span class="p">)</span>
+<span class="n">lat_ticks</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">lat_ticks</span><span class="p">)</span>
+<span class="n">lon_min</span><span class="p">,</span> <span class="n">lon_max</span><span class="p">,</span> <span class="n">lat_min</span><span class="p">,</span> <span class="n">lat_max</span> <span class="o">=</span> <span class="n">latlon_range</span>
+<span class="n">mask_lon</span> <span class="o">=</span> <span class="p">(</span><span class="n">lon_ticks</span> <span class="o">&gt;=</span> <span class="n">lon_min</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">lon_ticks</span> <span class="o">&lt;=</span> <span class="n">lon_max</span><span class="p">)</span>
+<span class="n">mask_lat</span> <span class="o">=</span> <span class="p">(</span><span class="n">lat_ticks</span> <span class="o">&gt;=</span> <span class="n">lat_min</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">lat_ticks</span> <span class="o">&lt;=</span> <span class="n">lat_max</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">(</span><span class="n">lon_ticks</span><span class="p">[</span><span class="n">mask_lon</span><span class="p">],</span> <span class="n">crs</span><span class="o">=</span><span class="n">ccrs</span><span class="o">.</span><span class="n">PlateCarree</span><span class="p">())</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_yticks</span><span class="p">(</span><span class="n">lat_ticks</span><span class="p">[</span><span class="n">mask_lat</span><span class="p">],</span> <span class="n">crs</span><span class="o">=</span><span class="n">ccrs</span><span class="o">.</span><span class="n">PlateCarree</span><span class="p">())</span>
+
+<span class="n">levels</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">21</span><span class="p">)</span>
+<span class="n">cbar_labels</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">11</span><span class="p">)</span>
+<span class="n">cbar_title</span> <span class="o">=</span> <span class="s1">&#39;CE&#39;</span>
+<span class="n">extend</span> <span class="o">=</span> <span class="s1">&#39;both&#39;</span>
+<span class="n">cmap</span> <span class="o">=</span> <span class="s1">&#39;RdBu_r&#39;</span>
+<span class="n">cbar_pad</span><span class="o">=</span><span class="mf">0.1</span>
+<span class="n">cbar_orientation</span><span class="o">=</span><span class="s1">&#39;horizontal&#39;</span>
+<span class="n">cbar_aspect</span><span class="o">=</span><span class="mi">10</span>
+<span class="n">cbar_fraction</span><span class="o">=</span><span class="mf">0.35</span>
+<span class="n">cbar_shrink</span><span class="o">=</span><span class="mf">0.8</span>
+<span class="n">font_scale</span><span class="o">=</span><span class="mf">1.5</span>
+<span class="n">land_color</span><span class="o">=</span><span class="n">sns</span><span class="o">.</span><span class="n">xkcd_rgb</span><span class="p">[</span><span class="s1">&#39;light grey&#39;</span><span class="p">]</span>
+<span class="n">ocean_color</span><span class="o">=</span><span class="n">sns</span><span class="o">.</span><span class="n">xkcd_rgb</span><span class="p">[</span><span class="s1">&#39;white&#39;</span><span class="p">]</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">add_feature</span><span class="p">(</span><span class="n">cfeature</span><span class="o">.</span><span class="n">LAND</span><span class="p">,</span> <span class="n">facecolor</span><span class="o">=</span><span class="n">land_color</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="n">land_color</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">add_feature</span><span class="p">(</span><span class="n">cfeature</span><span class="o">.</span><span class="n">OCEAN</span><span class="p">,</span> <span class="n">facecolor</span><span class="o">=</span><span class="n">ocean_color</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="n">ocean_color</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">coastlines</span><span class="p">()</span>
+<span class="n">im</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">contourf</span><span class="p">(</span><span class="n">job</span><span class="o">.</span><span class="n">obs</span><span class="p">[</span><span class="s1">&#39;tas&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">lon</span><span class="p">,</span> <span class="n">job</span><span class="o">.</span><span class="n">obs</span><span class="p">[</span><span class="s1">&#39;tas&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">lat</span><span class="p">,</span> <span class="n">ce</span><span class="p">,</span> <span class="n">levels</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="n">transform</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">cmap</span><span class="p">,</span> <span class="n">extend</span><span class="o">=</span><span class="n">extend</span><span class="p">)</span>
+<span class="n">cbar</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span>
+    <span class="n">im</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">orientation</span><span class="o">=</span><span class="n">cbar_orientation</span><span class="p">,</span> <span class="n">pad</span><span class="o">=</span><span class="n">cbar_pad</span><span class="p">,</span> <span class="n">aspect</span><span class="o">=</span><span class="n">cbar_aspect</span><span class="p">,</span>
+    <span class="n">fraction</span><span class="o">=</span><span class="n">cbar_fraction</span><span class="p">,</span> <span class="n">shrink</span><span class="o">=</span><span class="n">cbar_shrink</span><span class="p">)</span>
+<span class="n">cbar</span><span class="o">.</span><span class="n">set_ticks</span><span class="p">(</span><span class="n">cbar_labels</span><span class="p">)</span>
+<span class="n">cbar</span><span class="o">.</span><span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">cbar_title</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[61]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Text(0.5, 1.0, &#39;CE&#39;)
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/notebooks_graphem-ppe-pages2k_73_1.png" src="../_images/notebooks_graphem-ppe-pages2k_73_1.png" />
+</div>
+</div>
+</section>
+</section>
+<section id="id3">
+<h3>Timeseries comparison<a class="headerlink" href="#id3" title="Permalink to this heading">#</a></h3>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[62]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">da</span> <span class="o">=</span> <span class="n">cfr</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">geo_mean</span><span class="p">(</span><span class="n">job_glasso</span><span class="o">.</span><span class="n">obs</span><span class="p">[</span><span class="s1">&#39;tas&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">da</span><span class="p">,</span> <span class="n">lat_min</span><span class="o">=-</span><span class="mi">5</span><span class="p">,</span> <span class="n">lat_max</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">lon_min</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">mod</span><span class="p">(</span><span class="o">-</span><span class="mi">170</span><span class="p">,</span> <span class="mi">360</span><span class="p">),</span> <span class="n">lon_max</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">mod</span><span class="p">(</span><span class="o">-</span><span class="mi">120</span><span class="p">,</span> <span class="mi">360</span><span class="p">))</span>
+<span class="n">ref_time</span> <span class="o">=</span> <span class="n">da</span><span class="o">.</span><span class="n">year</span><span class="o">.</span><span class="n">values</span>
+<span class="n">ref_value</span> <span class="o">=</span> <span class="n">da</span><span class="o">.</span><span class="n">values</span>
+<span class="n">ref_name</span> <span class="o">=</span> <span class="s1">&#39;truth&#39;</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[64]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">glasso_res</span><span class="o">.</span><span class="n">recons</span><span class="p">[</span><span class="s1">&#39;nino3.4&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">validate</span><span class="p">(</span>
+    <span class="n">ref_time</span><span class="p">,</span> <span class="n">ref_value</span><span class="p">,</span> <span class="n">ref_name</span><span class="p">,</span> <span class="n">valid_period</span><span class="o">=</span><span class="p">[</span><span class="mi">1001</span><span class="p">,</span> <span class="mi">1850</span><span class="p">])</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="mi">1000</span><span class="p">,</span> <span class="mi">2000</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[64]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+(1000.0, 2000.0)
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/notebooks_graphem-ppe-pages2k_76_1.png" src="../_images/notebooks_graphem-ppe-pages2k_76_1.png" />
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[41]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">lats</span><span class="p">,</span> <span class="n">lons</span><span class="p">,</span> <span class="n">colors</span><span class="p">,</span> <span class="n">markers</span><span class="p">,</span> <span class="n">markersizes</span> <span class="o">=</span> <span class="p">{},</span> <span class="p">{},</span> <span class="p">{},</span> <span class="p">{},</span> <span class="p">{}</span>
+<span class="k">for</span> <span class="n">pobj</span> <span class="ow">in</span> <span class="n">job</span><span class="o">.</span><span class="n">proxydb</span><span class="p">:</span>
+    <span class="n">pid</span> <span class="o">=</span> <span class="n">pobj</span><span class="o">.</span><span class="n">pid</span>
+    <span class="n">lats</span><span class="p">[</span><span class="n">pid</span><span class="p">]</span> <span class="o">=</span> <span class="n">pobj</span><span class="o">.</span><span class="n">lat</span>
+    <span class="n">lons</span><span class="p">[</span><span class="n">pid</span><span class="p">]</span> <span class="o">=</span> <span class="n">pobj</span><span class="o">.</span><span class="n">lon</span>
+    <span class="n">colors</span><span class="p">[</span><span class="n">pid</span><span class="p">]</span> <span class="o">=</span> <span class="n">cfr</span><span class="o">.</span><span class="n">visual</span><span class="o">.</span><span class="n">STYLE</span><span class="o">.</span><span class="n">colors_dict</span><span class="p">[</span><span class="n">pobj</span><span class="o">.</span><span class="n">ptype</span><span class="p">]</span>
+    <span class="n">markers</span><span class="p">[</span><span class="n">pid</span><span class="p">]</span> <span class="o">=</span> <span class="n">cfr</span><span class="o">.</span><span class="n">visual</span><span class="o">.</span><span class="n">STYLE</span><span class="o">.</span><span class="n">markers_dict</span><span class="p">[</span><span class="n">pobj</span><span class="o">.</span><span class="n">ptype</span><span class="p">]</span>
+    <span class="n">markersizes</span><span class="p">[</span><span class="n">pid</span><span class="p">]</span> <span class="o">=</span> <span class="mi">200</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[90]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">stat</span> <span class="o">=</span> <span class="s1">&#39;CE&#39;</span>
+<span class="n">glasso_valid</span> <span class="o">=</span> <span class="n">glasso_res</span><span class="o">.</span><span class="n">recons</span><span class="p">[</span><span class="s1">&#39;tas&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">validate</span><span class="p">(</span>
+    <span class="n">job</span><span class="o">.</span><span class="n">obs</span><span class="p">[</span><span class="s1">&#39;tas&#39;</span><span class="p">],</span> <span class="n">stat</span><span class="o">=</span><span class="n">stat</span><span class="p">,</span>
+    <span class="n">valid_period</span><span class="o">=</span><span class="p">(</span><span class="mi">1750</span><span class="p">,</span> <span class="mi">1850</span><span class="p">),</span>
+    <span class="n">interp_direction</span><span class="o">=</span><span class="s1">&#39;from-ref&#39;</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">glasso_valid</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
+    <span class="n">title</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39; Graphical LASSO </span><span class="si">{</span><span class="n">stat</span><span class="si">}</span><span class="s1">(posterior, truth)&#39;</span><span class="p">,</span>
+    <span class="n">projection</span><span class="o">=</span><span class="s1">&#39;PlateCarree&#39;</span><span class="p">,</span>
+    <span class="n">latlon_range</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mi">25</span><span class="p">,</span> <span class="mi">25</span><span class="p">,</span> <span class="mi">122</span><span class="p">,</span> <span class="mi">278</span><span class="p">),</span>
+    <span class="n">site_lats</span><span class="o">=</span><span class="n">lats</span><span class="p">,</span> <span class="n">site_lons</span><span class="o">=</span><span class="n">lons</span><span class="p">,</span>
+    <span class="n">site_markersize</span><span class="o">=</span><span class="n">markersizes</span><span class="p">,</span> <span class="n">site_marker</span><span class="o">=</span><span class="n">markers</span><span class="p">,</span>
+    <span class="n">site_color</span><span class="o">=</span><span class="n">colors</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/notebooks_graphem-ppe-pages2k_78_0.png" src="../_images/notebooks_graphem-ppe-pages2k_78_0.png" />
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[89]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">neigh_valid</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
+    <span class="n">title</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39; Neighborhood Graph </span><span class="si">{</span><span class="n">stat</span><span class="si">}</span><span class="s1">(posterior, truth)&#39;</span><span class="p">,</span>
+    <span class="n">projection</span><span class="o">=</span><span class="s1">&#39;PlateCarree&#39;</span><span class="p">,</span>
+    <span class="n">latlon_range</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mi">25</span><span class="p">,</span> <span class="mi">25</span><span class="p">,</span> <span class="mi">122</span><span class="p">,</span> <span class="mi">278</span><span class="p">),</span>
+    <span class="n">site_lats</span><span class="o">=</span><span class="n">lats</span><span class="p">,</span> <span class="n">site_lons</span><span class="o">=</span><span class="n">lons</span><span class="p">,</span>
+    <span class="n">site_markersize</span><span class="o">=</span><span class="n">markersizes</span><span class="p">,</span> <span class="n">site_marker</span><span class="o">=</span><span class="n">markers</span><span class="p">,</span>
+    <span class="n">site_color</span><span class="o">=</span><span class="n">colors</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/notebooks_graphem-ppe-pages2k_79_0.png" src="../_images/notebooks_graphem-ppe-pages2k_79_0.png" />
+</div>
+</div>
+<p>How to easily compare two reconstructions pairwise? It would be nice to have a function called <code class="docutils literal notranslate"><span class="pre">compare</span></code> that takes neigh_res and glasso_res and compares the maps, timeseries, and tables of various metrics (R2, CE, etc.)</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
+</section>
+</section>
+</section>
+
+
+                </article>
+              
+
+              
+              
+                <footer class="bd-footer-article">
+                  <!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="graphem-real-pages2k.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Real-world proxy experiments with GraphEM and PAGES2k</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="../ug-api.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">API Reference</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Data-Preparation">Data Preparation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Graph-estimation">Graph estimation</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#1a)-Cross-validation">1a) Cross-validation</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#1b-Reconstruction">1b Reconstruction</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#running-GraphEM">running GraphEM</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#1.c-Validation">1.c Validation</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#Spatially-averaged-Statistics">Spatially-averaged Statistics</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#Map-of-CE">Map of CE</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Timeseries-comparison">Timeseries comparison</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#2.-Graphical-Lasso">2. Graphical Lasso</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#2a.-Greedy-Search">2a. Greedy Search</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#2b.-Cross-Validation">2b. Cross-Validation</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#2c.-Reconstruction">2c. Reconstruction</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Spatially-averaged Statistics</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">Map of CE</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">Timeseries comparison</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            <div class="bd-footer-content__inner">
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2023, Feng Zhu, Julien Emile-Geay.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div></div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=12da95d707ffb74b382d"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=12da95d707ffb74b382d"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

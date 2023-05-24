@@ -6,6 +6,7 @@ import cftime
 import colorama as ca
 import statsmodels.api as sm
 import pyresample
+import requests
 from tqdm import tqdm
 
 
@@ -668,15 +669,17 @@ def replace_str(fpath, d):
     with open(fpath, 'w') as f:
         f.write(text)
 
-def arr_str2np(arr_str, dtype=float):
-    arr_str = arr_str.replace('[','').replace(']','').replace("'", '').replace(',', ' ')
-    s_list = arr_str.split()
-    res = []
-    for v in s_list:
-        if v != 'nan':
-            res.append(dtype(v))
-        else:
-            res.append(np.nan)
 
-    res = np.array(res)
-    return res
+def download(url: str, fname: str, chunk_size=1024):
+    resp = requests.get(url, stream=True)
+    total = int(resp.headers.get('content-length', 0))
+    with open(fname, 'wb') as file, tqdm(
+        desc='Fetching data',
+        total=total,
+        unit='iB',
+        unit_scale=True,
+        unit_divisor=1024,
+    ) as bar:
+        for data in resp.iter_content(chunk_size=chunk_size):
+            size = file.write(data)
+            bar.update(size)

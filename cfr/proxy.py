@@ -8,6 +8,7 @@ import pandas as pd
 import numpy as np
 import plotly.express as px
 import copy
+import ast
 from tqdm import tqdm
 from collections import OrderedDict
 from datetime import datetime
@@ -919,8 +920,17 @@ class ProxyDatabase:
             lat = row[lat_column]
             lon = np.mod(row[lon_column], 360)
             elev = row[elev_column]
-            time = np.array(row[time_column])
-            value = np.array(row[value_column])
+            time = row[time_column]
+            if type(time) is str:
+                time = utils.arr_str2np(time)
+            value = row[value_column]
+            if type(value) is str:
+                value = utils.arr_str2np(value)
+
+            if len(time) != len(value):
+                print(row[value_column])
+                print(value)
+
             time, value = utils.clean_ts(time, value)
             value_name=row[value_name_column] if value_name_column in row else None
             value_unit=row[value_unit_column] if value_name_column in row else None

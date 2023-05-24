@@ -667,3 +667,16 @@ def replace_str(fpath, d):
 
     with open(fpath, 'w') as f:
         f.write(text)
+
+def arr_str2np(arr_str, dtype=float):
+    arr_str = arr_str.replace('[','').replace(']','').replace("'", '').replace(',', ' ')
+    s_list = arr_str.split()
+    res = []
+    for v in s_list:
+        if v != 'nan':
+            res.append(dtype(v))
+        else:
+            res.append(np.nan)
+
+    res = np.array(res)
+    return res

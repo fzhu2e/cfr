@@ -724,7 +724,7 @@ climfd_url_dict = {
     'iCESM_past1000/pr': 'https://atmos.washington.edu/~rtardif/LMR/prior/pr_sfc_Amon_iCESM_past1000_085001-184912.nc',
     'iCESM_past1000/d18O': 'https://atmos.washington.edu/~rtardif/LMR/prior/d18O_sfc_Amon_iCESM_past1000_085001-184912.nc',
     'iCESM_past1000/psl': 'https://atmos.washington.edu/~rtardif/LMR/prior/psl_sfc_Amon_iCESM_past1000_085001-184912.nc',
-    'gistemp1200_ERSSTv4': 'https://github.com/fzhu2e/cfr-data/raw/main/gistemp1200_ERSSTv4.nc',
+    'gistemp1200_ERSSTv4': 'https://github.com/fzhu2e/cfr-data/raw/main/gistemp1200_ERSSTv4.nc.gz',
     'gistemp1200_GHCNv4_ERSSTv5': 'https://data.giss.nasa.gov/pub/gistemp/gistemp1200_GHCNv4_ERSSTv5.nc.gz',
     'CRUTSv4.07/tas': 'https://crudata.uea.ac.uk/cru/data/hrg/cru_ts_4.07/cruts.2304141047.v4.07/tmp/cru_ts4.07.1901.2022.tmp.dat.nc.gz',
     'CRUTSv4.07/pr': 'https://crudata.uea.ac.uk/cru/data/hrg/cru_ts_4.07/cruts.2304141047.v4.07/pre/cru_ts4.07.1901.2022.pre.dat.nc.gz',
@@ -733,5 +733,5 @@ climfd_url_dict = {
 }
 
 ensts_url_dict = {
-    'BC09_NINO34': 'https://github.com/fzhu2e/cfr/raw/main/docsrc/notebooks/data/BC09_NINO34.csv',
+    'BC09_NINO34': 'https://github.com/fzhu2e/cfr-data/raw/main/BC09_NINO34.csv',
 }

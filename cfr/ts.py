@@ -536,8 +536,6 @@ class EnsTS:
         if ref is not None:
             ref_time = ref.time
             ref_value = ref.median
-            print(np.shape(ref_time))
-            print(np.shape(ref_value))
         ref_time = np.array(ref_time)
         ref_value = np.array(ref_value)
         new.ref_name = ref_name

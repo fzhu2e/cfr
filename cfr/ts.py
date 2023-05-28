@@ -20,7 +20,6 @@ from .utils import (
 class EnsTS:
     ''' The class for ensemble timeseries
 
-    Note that annual resolution is assumed so the time axis is in years.
     The ensembles variable should be in shape of (nt, nEns), where nt is the number of years,
     and nEns is the number of ensemble members.
 
@@ -56,6 +55,23 @@ class EnsTS:
 
         if self.value is not None:
             self.refresh()
+
+    def annualize(self, months=list(range(1, 13)), verbose=False):
+        new = self.copy()
+        new.value = []
+        for val in self.value.T:
+            try:
+                new.time, val_ann = utils.annualize(self.time, val, months=months)
+            except:
+                new.time, val_ann = utils.annualize(self.time, val, months=list(range(1, 13)))
+                if verbose: p_warning(f'Record {self.pid} cannot be annualized with months {months}. Use calendar year instead.')
+
+            new.time, val_ann = utils.clean_ts(new.time, val_ann)
+            new.value.append(val_ann)
+        
+        new.value = np.array(new.value).T
+        new.refresh()
+        return new
 
     def fetch(self, name=None, **from_df_kws):
         ''' Fetch a proxy database from cloud
@@ -505,10 +521,11 @@ class EnsTS:
         else:
             return ax
 
-    def compare(self, ref_time, ref_value, ref_name='reference', stats=['corr', 'CE'], timespan=None):
+    def compare(self, ref=None, ref_time=None, ref_value=None, ref_name='reference', stats=['corr', 'CE'], timespan=None):
         ''' Compare against a reference timeseries.
 
         Args:
+            ref (cfr.ts.EnsTS): the reference time series object
             ref_time (numpy.array): the time axis of the reference timeseries
             ref_value (numpy.array): the value axis of the reference timeseries
             stats (list, optional): the list of validation statistics to calculate. Defaults to ['corr', 'CE'].
@@ -516,6 +533,11 @@ class EnsTS:
         '''
         new = self.copy()
         new.valid_stats = {}
+        if ref is not None:
+            ref_time = ref.time
+            ref_value = ref.median
+            print(np.shape(ref_time))
+            print(np.shape(ref_value))
         ref_time = np.array(ref_time)
         ref_value = np.array(ref_value)
         new.ref_name = ref_name

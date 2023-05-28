@@ -573,3 +573,28 @@ class ClimateField:
         m = utils.geo_mean(self.da, lat_min=lat_min, lat_max=lat_max, lon_min=lon_min, lon_max=lon_max)
         ts = EnsTS(time=m['time'].values, value=m.values)
         return ts
+
+    def index(self, name):
+        if name == 'gm': 
+            return self.geo_mean()
+        elif name == 'nhm': 
+            return self.geo_mean(lat_min=0)
+        elif name == 'shm':
+            return self.geo_mean(lat_max=0)
+        elif name == 'nino3.4':
+            return self.geo_mean(lat_min=-5, lat_max=5, lon_min=np.mod(-170, 360), lon_max=np.mod(-120, 360))
+        elif name == 'nino1+2':
+            return self.geo_mean(lat_min=-10, lat_max=10, lon_min=np.mod(-90, 360), lon_max=np.mod(-80, 360))
+        elif name == 'nino3':
+            return self.geo_mean(lat_min=-5, lat_max=5, lon_min=np.mod(-150, 360), lon_max=np.mod(-90, 360))
+        elif name == 'nino4':
+            return self.geo_mean(lat_min=-5, lat_max=5, lon_min=np.mod(160, 360), lon_max=np.mod(-150, 360))
+        elif name == 'wpi':
+            return self.geo_mean(lat_min=-10, lat_max=10, lon_min=np.mod(120, 360), lon_max=np.mod(150, 360))
+        elif name == 'tpi':
+            v1 = self.geo_mean(lat_min=25, lat_max=45, lon_min=np.mod(140, 360), lon_max=np.mod(-145, 360))
+            v2 = self.geo_mean(lat_min=-10, lat_max=10, lon_min=np.mod(170, 360), lon_max=np.mod(-90, 360))
+            v3 = self.geo_mean(lat_min=-50, lat_max=-15, lon_min=np.mod(150, 360), lon_max=np.mod(-160, 360))
+            return v2 - (v1 + v3)/2
+        else:
+            raise ValueError('Wrong index name.')

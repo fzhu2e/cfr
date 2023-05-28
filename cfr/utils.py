@@ -690,7 +690,7 @@ def download(url: str, fname: str, chunk_size=1024, show_bar=True):
                 size = file.write(data)
 
 proxydb_url_dict = {
-    'PAGES2kv2': 'https://github.com/fzhu2e/cfr/raw/main/docsrc/notebooks/data/pages2k.json',
+    'PAGES2kv2': 'https://github.com/fzhu2e/cfr-data/raw/main/pages2kv2.json',
     'pseudoPAGES2k/ppwn_SNRinf_rta': 'https://github.com/fzhu2e/paper-pseudoPAGES2k/raw/main/data/ppwn_SNRinf_rta.nc',
     'pseudoPAGES2k/ppwn_SNR10_rta': 'https://github.com/fzhu2e/paper-pseudoPAGES2k/raw/main/data/ppwn_SNR10_rta.nc',
     'pseudoPAGES2k/ppwn_SNR2_rta': 'https://github.com/fzhu2e/paper-pseudoPAGES2k/raw/main/data/ppwn_SNR2_rta.nc',
@@ -724,6 +724,7 @@ climfd_url_dict = {
     'iCESM_past1000/pr': 'https://atmos.washington.edu/~rtardif/LMR/prior/pr_sfc_Amon_iCESM_past1000_085001-184912.nc',
     'iCESM_past1000/d18O': 'https://atmos.washington.edu/~rtardif/LMR/prior/d18O_sfc_Amon_iCESM_past1000_085001-184912.nc',
     'iCESM_past1000/psl': 'https://atmos.washington.edu/~rtardif/LMR/prior/psl_sfc_Amon_iCESM_past1000_085001-184912.nc',
+    'gistemp1200_ERSSTv4': 'https://github.com/fzhu2e/cfr-data/raw/main/gistemp1200_ERSSTv4.nc',
     'gistemp1200_GHCNv4_ERSSTv5': 'https://data.giss.nasa.gov/pub/gistemp/gistemp1200_GHCNv4_ERSSTv5.nc.gz',
     'CRUTSv4.07/tas': 'https://crudata.uea.ac.uk/cru/data/hrg/cru_ts_4.07/cruts.2304141047.v4.07/tmp/cru_ts4.07.1901.2022.tmp.dat.nc.gz',
     'CRUTSv4.07/pr': 'https://crudata.uea.ac.uk/cru/data/hrg/cru_ts_4.07/cruts.2304141047.v4.07/pre/cru_ts4.07.1901.2022.pre.dat.nc.gz',

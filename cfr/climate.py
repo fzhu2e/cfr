@@ -1,5 +1,6 @@
 import os
 from datetime import datetime
+import cftime
 import xarray as xr
 import pandas as pd
 import numpy as np
@@ -23,18 +24,64 @@ class ClimateField:
 
     def __getitem__(self, key):
         ''' This makes the object subscriptable. '''
-        if type(key) is int or type(key) is list:
+        if type(key) is int:
+            # one index
             da = self.da[key]
-        else:
-            if type(key) is str: 
-                key = slice(key, key, None)
-            elif type(key) is not slice:
-                raise TypeError('Wrong type for key!')
-
+        elif type(key) is str:
+            # one timestamp
+            # key = slice(key, key, None)
+            # da = self.da.sel({'time': key})
+            # if len(da.values) == 0:
+            #     mask = (self.da['time']>=float(key.start)) & (self.da['time']<=float(key.stop))
+            #     da = self.da.sel({'time': mask})
             try:
-                da = self.da.sel({'time': slice(float(key.start), float(key.stop), key.step)})
+                mask = (utils.datetime2year_float(self.da['time'].values)>=float(key)) & (utils.datetime2year_float(self.da['time'].values)<float(key)+1)
             except:
-                da = self.da.loc[key]
+                mask = (self.da['time'].values>=float(key)) & (self.da['time'].values<float(key)+1)
+
+            da = self.da.sel({'time': mask})
+
+        elif type(key) is list:
+            # multiple discrete items
+            if type(key[0]) is int:
+                # index
+                da = self.da[key]
+            elif type(key[0]) is str:
+                # timestamp
+                da_list = []
+                for k in key:
+                    da_list.append(self[k].da)
+                da = xr.concat(da_list, dim='time')
+                
+        elif type(key) is slice:
+            if key.start is not None:
+                dtype = type(key.start)
+            else:
+                key.start = self.da['time'][0]
+
+            if key.stop is not None:
+                dtype = type(key.stop)
+            else:
+                key.stop = self.da['time'][-1]
+
+            if dtype is int:
+                # index
+                da = self.da[key]
+            elif dtype is str:
+                # timestamp
+                try:
+                    mask = (utils.datetime2year_float(self.da['time'].values)>=float(key.start)) & (utils.datetime2year_float(self.da['time'].values)<float(key.stop))
+                except:
+                    mask = (self.da['time'].values>=float(key.start)) & (self.da['time'].values<float(key.stop))
+
+                da = self.da.sel({'time': mask})
+                if key.step is not None:
+                    da = da[::int(key.step)]
+
+            else:
+                raise TypeError('Wrong type for key!')
+        else:
+            raise TypeError('Wrong type for key!')
 
         fd = ClimateField(da)
 

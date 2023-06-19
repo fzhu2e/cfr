@@ -311,7 +311,7 @@ class ProxyRecord:
         if self.value.std() == 0:
             new.value = np.zeros(np.size(self.value))
         else:
-            new.value = (self.value - self.value.mean()) / self.value.std()
+            new.value = (self.value - np.nanmean(self.value)) / np.nanstd(self.value)
         return new
 
     def __getitem__(self, key):

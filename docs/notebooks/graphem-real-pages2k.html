@@ -408,12 +408,12 @@ document.write(`
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
 </div>
-<div class="input_area highlight-none notranslate"><div class="highlight"><pre><span></span>%load_ext autoreload
-%autoreload 2
+<div class="input_area highlight-python notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="n">load_ext</span> <span class="n">autoreload</span>
+<span class="o">%</span><span class="n">autoreload</span> <span class="mi">2</span>
 
-import cfr
-import os
-os.chdir(&#39;/glade/u/home/fengzhu/Github/cfr/docsrc/notebooks/&#39;)
+<span class="kn">import</span> <span class="nn">cfr</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="n">os</span><span class="o">.</span><span class="n">chdir</span><span class="p">(</span><span class="s1">&#39;/glade/u/home/fengzhu/Github/cfr/docsrc/notebooks/&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -423,7 +423,7 @@ os.chdir(&#39;/glade/u/home/fengzhu/Github/cfr/docsrc/notebooks/&#39;)
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
 </div>
-<div class="input_area highlight-none notranslate"><div class="highlight"><pre><span></span>job = cfr.ReconJob()
+<div class="input_area highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">job</span> <span class="o">=</span> <span class="n">cfr</span><span class="o">.</span><span class="n">ReconJob</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -434,7 +434,7 @@ os.chdir(&#39;/glade/u/home/fengzhu/Github/cfr/docsrc/notebooks/&#39;)
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
 </div>
-<div class="input_area highlight-none notranslate"><div class="highlight"><pre><span></span>job.load_proxydb(&#39;./data/pages2k_updated_Palmyra_dataset.pkl&#39;)
+<div class="input_area highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">job</span><span class="o">.</span><span class="n">load_proxydb</span><span class="p">(</span><span class="s1">&#39;./data/pages2k_updated_Palmyra_dataset.pkl&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -445,9 +445,9 @@ os.chdir(&#39;/glade/u/home/fengzhu/Github/cfr/docsrc/notebooks/&#39;)
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
 </pre></div>
 </div>
-<div class="input_area highlight-none notranslate"><div class="highlight"><pre><span></span>job.filter_proxydb(by=&#39;ptype&#39;, keys=[&#39;coral&#39;])
-# the .plot() method will generate a static map utilizing the Cartopy library
-fig, ax = job.proxydb.plot(plot_count=True)
+<div class="input_area highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">job</span><span class="o">.</span><span class="n">filter_proxydb</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="s1">&#39;ptype&#39;</span><span class="p">,</span> <span class="n">keys</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;coral&#39;</span><span class="p">])</span>
+<span class="c1"># the .plot() method will generate a static map utilizing the Cartopy library</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">job</span><span class="o">.</span><span class="n">proxydb</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">plot_count</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -465,8 +465,8 @@ fig, ax = job.proxydb.plot(plot_count=True)
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
 </pre></div>
 </div>
-<div class="input_area highlight-none notranslate"><div class="highlight"><pre><span></span>job.annualize_proxydb(months=[12, 1, 2], ptypes=[&#39;coral&#39;], verbose=True)
-fig, ax = job.proxydb.plot()
+<div class="input_area highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">job</span><span class="o">.</span><span class="n">annualize_proxydb</span><span class="p">(</span><span class="n">months</span><span class="o">=</span><span class="p">[</span><span class="mi">12</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="n">ptypes</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;coral&#39;</span><span class="p">],</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">job</span><span class="o">.</span><span class="n">proxydb</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -512,7 +512,7 @@ Annualizing ProxyDatabase: 100%|██████████| 104/104 [00:05&l
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
 </pre></div>
 </div>
-<div class="input_area highlight-none notranslate"><div class="highlight"><pre><span></span>job.center_proxydb(verbose=True)
+<div class="input_area highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">job</span><span class="o">.</span><span class="n">center_proxydb</span><span class="p">(</span><span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -561,15 +561,15 @@ Centering each of the ProxyRecord: 100%|██████████| 104/104 
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
 </pre></div>
 </div>
-<div class="input_area highlight-none notranslate"><div class="highlight"><pre><span></span>job.load_clim(
-    tag=&#39;obs&#39;,
-    path_dict={
-        &#39;tas&#39;: &#39;./data/air.2m.mon.mean.nc&#39;,
-    },
-    rename_dict={&#39;tas&#39;: &#39;air&#39;},
-    anom_period=(1951, 1980),
-    verbose=True,
-)
+<div class="input_area highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">job</span><span class="o">.</span><span class="n">load_clim</span><span class="p">(</span>
+    <span class="n">tag</span><span class="o">=</span><span class="s1">&#39;obs&#39;</span><span class="p">,</span>
+    <span class="n">path_dict</span><span class="o">=</span><span class="p">{</span>
+        <span class="s1">&#39;tas&#39;</span><span class="p">:</span> <span class="s1">&#39;./data/air.2m.mon.mean.nc&#39;</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="n">rename_dict</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;tas&#39;</span><span class="p">:</span> <span class="s1">&#39;air&#39;</span><span class="p">},</span>
+    <span class="n">anom_period</span><span class="o">=</span><span class="p">(</span><span class="mi">1951</span><span class="p">,</span> <span class="mi">1980</span><span class="p">),</span>
+    <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -596,7 +596,7 @@ Centering each of the ProxyRecord: 100%|██████████| 104/104 
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
 </pre></div>
 </div>
-<div class="input_area highlight-none notranslate"><div class="highlight"><pre><span></span>job.annualize_clim(tag=&#39;obs&#39;, verbose=True, months=[12, 1, 2])
+<div class="input_area highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">job</span><span class="o">.</span><span class="n">annualize_clim</span><span class="p">(</span><span class="n">tag</span><span class="o">=</span><span class="s1">&#39;obs&#39;</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">months</span><span class="o">=</span><span class="p">[</span><span class="mi">12</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
 </pre></div>
 </div>
 </div>
@@ -618,8 +618,8 @@ Centering each of the ProxyRecord: 100%|██████████| 104/104 
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
 </pre></div>
 </div>
-<div class="input_area highlight-none notranslate"><div class="highlight"><pre><span></span>job.regrid_clim(tag=&#39;obs&#39;, nlat=42, nlon=63, verbose=True)
-job.obs[&#39;tas&#39;].da
+<div class="input_area highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">job</span><span class="o">.</span><span class="n">regrid_clim</span><span class="p">(</span><span class="n">tag</span><span class="o">=</span><span class="s1">&#39;obs&#39;</span><span class="p">,</span> <span class="n">nlat</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span> <span class="n">nlon</span><span class="o">=</span><span class="mi">63</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">job</span><span class="o">.</span><span class="n">obs</span><span class="p">[</span><span class="s1">&#39;tas&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">da</span>
 </pre></div>
 </div>
 </div>
@@ -1167,8 +1167,8 @@ Attributes:
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
 </pre></div>
 </div>
-<div class="input_area highlight-none notranslate"><div class="highlight"><pre><span></span>job.crop_clim(tag=&#39;obs&#39;, lat_min=-25, lat_max=25, lon_min=120, lon_max=280, verbose=True)
-fig, ax = job.obs[&#39;tas&#39;][-1].plot()
+<div class="input_area highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">job</span><span class="o">.</span><span class="n">crop_clim</span><span class="p">(</span><span class="n">tag</span><span class="o">=</span><span class="s1">&#39;obs&#39;</span><span class="p">,</span> <span class="n">lat_min</span><span class="o">=-</span><span class="mi">25</span><span class="p">,</span> <span class="n">lat_max</span><span class="o">=</span><span class="mi">25</span><span class="p">,</span> <span class="n">lon_min</span><span class="o">=</span><span class="mi">120</span><span class="p">,</span> <span class="n">lon_max</span><span class="o">=</span><span class="mi">280</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">job</span><span class="o">.</span><span class="n">obs</span><span class="p">[</span><span class="s1">&#39;tas&#39;</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -1199,11 +1199,11 @@ fig, ax = job.obs[&#39;tas&#39;][-1].plot()
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
 </pre></div>
 </div>
-<div class="input_area highlight-none notranslate"><div class="highlight"><pre><span></span>job.prep_graphem(
-    recon_period=(1801, 2000),  # period to reconstruct
-    calib_period=(1901, 2000),  # period for calibration
-    verbose=True,
-)
+<div class="input_area highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">job</span><span class="o">.</span><span class="n">prep_graphem</span><span class="p">(</span>
+    <span class="n">recon_period</span><span class="o">=</span><span class="p">(</span><span class="mi">1801</span><span class="p">,</span> <span class="mi">2000</span><span class="p">),</span>  <span class="c1"># period to reconstruct</span>
+    <span class="n">calib_period</span><span class="o">=</span><span class="p">(</span><span class="mi">1901</span><span class="p">,</span> <span class="mi">2000</span><span class="p">),</span>  <span class="c1"># period for calibration</span>
+    <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1230,12 +1230,12 @@ fig, ax = job.obs[&#39;tas&#39;][-1].plot()
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
 </pre></div>
 </div>
-<div class="input_area highlight-none notranslate"><div class="highlight"><pre><span></span>job.run_graphem(
-    save_dirpath=&#39;./recons/graphem-real-pages2k&#39;,
-    graph_method=&#39;neighborhood&#39;,
-    cutoff_radius=1500,
-    verbose=True,
-)
+<div class="input_area highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">job</span><span class="o">.</span><span class="n">run_graphem</span><span class="p">(</span>
+    <span class="n">save_dirpath</span><span class="o">=</span><span class="s1">&#39;./recons/graphem-real-pages2k&#39;</span><span class="p">,</span>
+    <span class="n">graph_method</span><span class="o">=</span><span class="s1">&#39;neighborhood&#39;</span><span class="p">,</span>
+    <span class="n">cutoff_radius</span><span class="o">=</span><span class="mi">1500</span><span class="p">,</span>
+    <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1304,7 +1304,7 @@ GraphEM.EM(): Tolerance achieved.
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
 </pre></div>
 </div>
-<div class="input_area highlight-none notranslate"><div class="highlight"><pre><span></span>res = cfr.ReconRes(&#39;./recons/graphem-real-pages2k&#39;, verbose=True)
+<div class="input_area highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">res</span> <span class="o">=</span> <span class="n">cfr</span><span class="o">.</span><span class="n">ReconRes</span><span class="p">(</span><span class="s1">&#39;./recons/graphem-real-pages2k&#39;</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1321,7 +1321,7 @@ GraphEM.EM(): Tolerance achieved.
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
 </pre></div>
 </div>
-<div class="input_area highlight-none notranslate"><div class="highlight"><pre><span></span>res.load([&#39;nino3.4&#39;, &#39;tas&#39;], verbose=True)
+<div class="input_area highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">res</span><span class="o">.</span><span class="n">load</span><span class="p">([</span><span class="s1">&#39;nino3.4&#39;</span><span class="p">,</span> <span class="s1">&#39;tas&#39;</span><span class="p">],</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1341,20 +1341,20 @@ GraphEM.EM(): Tolerance achieved.
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
 </pre></div>
 </div>
-<div class="input_area highlight-none notranslate"><div class="highlight"><pre><span></span>import scipy.io as sio
-import numpy as np
+<div class="input_area highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">scipy.io</span> <span class="k">as</span> <span class="nn">sio</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
-data = sio.loadmat(&#39;./data/BC09_NINO34.mat&#39;)
-start_yr = 1874
-end_yr = 2000
-nyr = end_yr-start_yr+1
-nino34 = np.zeros(nyr)
-for i in range(nyr):
-    nino34[i] = np.mean(data[&#39;nino34&#39;][12+i*12:14+i*12])
+<span class="n">data</span> <span class="o">=</span> <span class="n">sio</span><span class="o">.</span><span class="n">loadmat</span><span class="p">(</span><span class="s1">&#39;./data/BC09_NINO34.mat&#39;</span><span class="p">)</span>
+<span class="n">start_yr</span> <span class="o">=</span> <span class="mi">1874</span>
+<span class="n">end_yr</span> <span class="o">=</span> <span class="mi">2000</span>
+<span class="n">nyr</span> <span class="o">=</span> <span class="n">end_yr</span><span class="o">-</span><span class="n">start_yr</span><span class="o">+</span><span class="mi">1</span>
+<span class="n">nino34</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">nyr</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nyr</span><span class="p">):</span>
+    <span class="n">nino34</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;nino34&#39;</span><span class="p">][</span><span class="mi">12</span><span class="o">+</span><span class="n">i</span><span class="o">*</span><span class="mi">12</span><span class="p">:</span><span class="mi">14</span><span class="o">+</span><span class="n">i</span><span class="o">*</span><span class="mi">12</span><span class="p">])</span>
 
-ref_value = nino34
-ref_time = np.arange(start_yr, end_yr+1)
-ref_name = &#39;BC09&#39;
+<span class="n">ref_value</span> <span class="o">=</span> <span class="n">nino34</span>
+<span class="n">ref_time</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">start_yr</span><span class="p">,</span> <span class="n">end_yr</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">ref_name</span> <span class="o">=</span> <span class="s1">&#39;BC09&#39;</span>
 </pre></div>
 </div>
 </div>
@@ -1362,12 +1362,12 @@ ref_name = &#39;BC09&#39;
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
 </pre></div>
 </div>
-<div class="input_area highlight-none notranslate"><div class="highlight"><pre><span></span>fig, ax = res.recons[&#39;nino3.4&#39;].compare(
-    ref_time, ref_value, ref_name, compare_period=(1874, 1900)).plot_qs()
-ax.set_xlim(1800, 2000)
-ax.set_ylabel(&#39;NINO3.4 [K]&#39;)
-cfr.showfig(fig)
-cfr.savefig(fig, &#39;./figs/valid_nino34.lmr_pages2k.BC09.pdf&#39;)
+<div class="input_area highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">res</span><span class="o">.</span><span class="n">recons</span><span class="p">[</span><span class="s1">&#39;nino3.4&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">compare</span><span class="p">(</span>
+    <span class="n">ref_time</span><span class="p">,</span> <span class="n">ref_value</span><span class="p">,</span> <span class="n">ref_name</span><span class="p">,</span> <span class="n">compare_period</span><span class="o">=</span><span class="p">(</span><span class="mi">1874</span><span class="p">,</span> <span class="mi">1900</span><span class="p">))</span><span class="o">.</span><span class="n">plot_qs</span><span class="p">()</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="mi">1800</span><span class="p">,</span> <span class="mi">2000</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;NINO3.4 [K]&#39;</span><span class="p">)</span>
+<span class="n">cfr</span><span class="o">.</span><span class="n">showfig</span><span class="p">(</span><span class="n">fig</span><span class="p">)</span>
+<span class="n">cfr</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">fig</span><span class="p">,</span> <span class="s1">&#39;./figs/valid_nino34.lmr_pages2k.BC09.pdf&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1390,7 +1390,7 @@ Figure saved at: &#34;figs/valid_nino34.lmr_pages2k.BC09.pdf&#34;
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
 </pre></div>
 </div>
-<div class="input_area highlight-none notranslate"><div class="highlight"><pre><span></span>ref_fd_ann = job.obs[&#39;tas&#39;]
+<div class="input_area highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">ref_fd_ann</span> <span class="o">=</span> <span class="n">job</span><span class="o">.</span><span class="n">obs</span><span class="p">[</span><span class="s1">&#39;tas&#39;</span><span class="p">]</span>
 </pre></div>
 </div>
 </div>
@@ -1398,23 +1398,23 @@ Figure saved at: &#34;figs/valid_nino34.lmr_pages2k.BC09.pdf&#34;
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
 </pre></div>
 </div>
-<div class="input_area highlight-none notranslate"><div class="highlight"><pre><span></span>stat = &#39;corr&#39;
-valid_fd = res.recons[&#39;tas&#39;].compare(
-    ref_fd_ann, stat=stat,
-    compare_period=(1874, 1900),
-)
-valid_fd.plot_kwargs.update({&#39;cbar_orientation&#39;: &#39;horizontal&#39;, &#39;cbar_pad&#39;: 0.1})
+<div class="input_area highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">stat</span> <span class="o">=</span> <span class="s1">&#39;corr&#39;</span>
+<span class="n">valid_fd</span> <span class="o">=</span> <span class="n">res</span><span class="o">.</span><span class="n">recons</span><span class="p">[</span><span class="s1">&#39;tas&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">compare</span><span class="p">(</span>
+    <span class="n">ref_fd_ann</span><span class="p">,</span> <span class="n">stat</span><span class="o">=</span><span class="n">stat</span><span class="p">,</span>
+    <span class="n">compare_period</span><span class="o">=</span><span class="p">(</span><span class="mi">1874</span><span class="p">,</span> <span class="mi">1900</span><span class="p">),</span>
+<span class="p">)</span>
+<span class="n">valid_fd</span><span class="o">.</span><span class="n">plot_kwargs</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s1">&#39;cbar_orientation&#39;</span><span class="p">:</span> <span class="s1">&#39;horizontal&#39;</span><span class="p">,</span> <span class="s1">&#39;cbar_pad&#39;</span><span class="p">:</span> <span class="mf">0.1</span><span class="p">})</span>
 
-fig, ax = valid_fd.plot(
-    title=f&#39;{stat}(recon, obs), mean={valid_fd.geo_mean().value[0][0]:.2f}&#39;,
-    projection=&#39;PlateCarree&#39;,
-    latlon_range=(-25, 25, 120, 280),
-    plot_proxydb=True, proxydb=job.proxydb,
-    proxydb_lgd_kws={&#39;loc&#39;: &#39;lower left&#39;, &#39;bbox_to_anchor&#39;: (1, 0)},
-)
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">valid_fd</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
+    <span class="n">title</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">stat</span><span class="si">}</span><span class="s1">(recon, obs), mean=</span><span class="si">{</span><span class="n">valid_fd</span><span class="o">.</span><span class="n">geo_mean</span><span class="p">()</span><span class="o">.</span><span class="n">value</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span>
+    <span class="n">projection</span><span class="o">=</span><span class="s1">&#39;PlateCarree&#39;</span><span class="p">,</span>
+    <span class="n">latlon_range</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mi">25</span><span class="p">,</span> <span class="mi">25</span><span class="p">,</span> <span class="mi">120</span><span class="p">,</span> <span class="mi">280</span><span class="p">),</span>
+    <span class="n">plot_proxydb</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">proxydb</span><span class="o">=</span><span class="n">job</span><span class="o">.</span><span class="n">proxydb</span><span class="p">,</span>
+    <span class="n">proxydb_lgd_kws</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;loc&#39;</span><span class="p">:</span> <span class="s1">&#39;lower left&#39;</span><span class="p">,</span> <span class="s1">&#39;bbox_to_anchor&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)},</span>
+<span class="p">)</span>
 
-cfr.showfig(fig)
-cfr.savefig(fig, f&#39;./figs/valid_tas.graphem_pages2k.20CR.{stat}.pdf&#39;)
+<span class="n">cfr</span><span class="o">.</span><span class="n">showfig</span><span class="p">(</span><span class="n">fig</span><span class="p">)</span>
+<span class="n">cfr</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">fig</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;./figs/valid_tas.graphem_pages2k.20CR.</span><span class="si">{</span><span class="n">stat</span><span class="si">}</span><span class="s1">.pdf&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1437,23 +1437,23 @@ Figure saved at: &#34;figs/valid_tas.graphem_pages2k.20CR.corr.pdf&#34;
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
 </pre></div>
 </div>
-<div class="input_area highlight-none notranslate"><div class="highlight"><pre><span></span>stat = &#39;CE&#39;
-valid_fd = res.recons[&#39;tas&#39;].compare(
-    ref_fd_ann, stat=stat,
-    compare_period=(1874, 1900),
-)
-valid_fd.plot_kwargs.update({&#39;cbar_orientation&#39;: &#39;horizontal&#39;, &#39;cbar_pad&#39;: 0.1})
+<div class="input_area highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">stat</span> <span class="o">=</span> <span class="s1">&#39;CE&#39;</span>
+<span class="n">valid_fd</span> <span class="o">=</span> <span class="n">res</span><span class="o">.</span><span class="n">recons</span><span class="p">[</span><span class="s1">&#39;tas&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">compare</span><span class="p">(</span>
+    <span class="n">ref_fd_ann</span><span class="p">,</span> <span class="n">stat</span><span class="o">=</span><span class="n">stat</span><span class="p">,</span>
+    <span class="n">compare_period</span><span class="o">=</span><span class="p">(</span><span class="mi">1874</span><span class="p">,</span> <span class="mi">1900</span><span class="p">),</span>
+<span class="p">)</span>
+<span class="n">valid_fd</span><span class="o">.</span><span class="n">plot_kwargs</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s1">&#39;cbar_orientation&#39;</span><span class="p">:</span> <span class="s1">&#39;horizontal&#39;</span><span class="p">,</span> <span class="s1">&#39;cbar_pad&#39;</span><span class="p">:</span> <span class="mf">0.1</span><span class="p">})</span>
 
-fig, ax = valid_fd.plot(
-    title=f&#39;{stat}(recon, obs), mean={valid_fd.geo_mean().value[0][0]:.2f}&#39;,
-    projection=&#39;PlateCarree&#39;,
-    latlon_range=(-25, 25, 120, 280),
-    plot_proxydb=True, proxydb=job.proxydb,
-    proxydb_lgd_kws={&#39;loc&#39;: &#39;lower left&#39;, &#39;bbox_to_anchor&#39;: (1, 0)},
-)
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">valid_fd</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
+    <span class="n">title</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">stat</span><span class="si">}</span><span class="s1">(recon, obs), mean=</span><span class="si">{</span><span class="n">valid_fd</span><span class="o">.</span><span class="n">geo_mean</span><span class="p">()</span><span class="o">.</span><span class="n">value</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span>
+    <span class="n">projection</span><span class="o">=</span><span class="s1">&#39;PlateCarree&#39;</span><span class="p">,</span>
+    <span class="n">latlon_range</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mi">25</span><span class="p">,</span> <span class="mi">25</span><span class="p">,</span> <span class="mi">120</span><span class="p">,</span> <span class="mi">280</span><span class="p">),</span>
+    <span class="n">plot_proxydb</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">proxydb</span><span class="o">=</span><span class="n">job</span><span class="o">.</span><span class="n">proxydb</span><span class="p">,</span>
+    <span class="n">proxydb_lgd_kws</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;loc&#39;</span><span class="p">:</span> <span class="s1">&#39;lower left&#39;</span><span class="p">,</span> <span class="s1">&#39;bbox_to_anchor&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)},</span>
+<span class="p">)</span>
 
-cfr.showfig(fig)
-cfr.savefig(fig, f&#39;./figs/valid_tas.graphem_pages2k.20CR.{stat}.pdf&#39;)
+<span class="n">cfr</span><span class="o">.</span><span class="n">showfig</span><span class="p">(</span><span class="n">fig</span><span class="p">)</span>
+<span class="n">cfr</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">fig</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;./figs/valid_tas.graphem_pages2k.20CR.</span><span class="si">{</span><span class="n">stat</span><span class="si">}</span><span class="s1">.pdf&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1476,7 +1476,7 @@ Figure saved at: &#34;figs/valid_tas.graphem_pages2k.20CR.CE.pdf&#34;
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none notranslate"><div class="highlight"><pre><span></span>
+<div class="input_area highlight-python notranslate"><div class="highlight"><pre><span></span>
 </pre></div>
 </div>
 </div>

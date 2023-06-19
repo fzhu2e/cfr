@@ -53,7 +53,7 @@ extensions = [
     # 'sphinx_gallery.load_style',
 ]
 
-html_logo = 'favicon.ico'
+html_logo = 'import-cfr.jpg'
 # -- Options for HTML output -------------------------------------------------
 
 # The theme to use for HTML and HTML Help pages.  See the documentation for

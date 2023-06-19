@@ -157,6 +157,8 @@ class ReconJob:
         
         See :py:mod:`cfr.proxy.ProxyDatabase.filter()` for more information.
         '''
+        args = self.io_cfg('filter_proxydb_args', list(args), verbose=verbose)
+        kwargs = self.io_cfg('filter_proxydb_kwargs', kwargs, verbose=verbose)
         if inplace:
             self.proxydb = self.proxydb.filter(*args, **kwargs)
 
@@ -291,7 +293,7 @@ class ReconJob:
         '''
         path_dict = self.io_cfg(f'{tag}_path', path_dict, verbose=verbose)
         if rename_dict is not None: rename_dict = self.io_cfg(f'{tag}_rename_dict', rename_dict, verbose=verbose)
-        anom_period = self.io_cfg(f'{tag}_anom_period', anom_period, verbose=verbose)
+        anom_period = self.io_cfg(f'{tag}_anom_period', list(anom_period), verbose=verbose)
         lat_name = self.io_cfg(f'{tag}_lat_name', lat_name, default='lat', verbose=verbose)
         lon_name = self.io_cfg(f'{tag}_lon_name', lon_name, default='lon', verbose=verbose)
         time_name = self.io_cfg(f'{tag}_time_name', time_name, default='time', verbose=verbose)
@@ -384,10 +386,10 @@ class ReconJob:
             lon_max (float): the maximum longitude of the cropped grid.
             verbose (bool, optional): print verbose information. Defaults to False.
         '''
-        lat_min = self.io_cfg(f'prior_lat_min', lat_min, default=-90, verbose=verbose)
-        lat_max = self.io_cfg(f'prior_lat_max', lat_max, default=90, verbose=verbose)
-        lon_min = self.io_cfg(f'prior_lon_min', lon_min, default=0, verbose=verbose)
-        lon_max = self.io_cfg(f'prior_lon_max', lon_max, default=360, verbose=verbose)
+        lat_min = self.io_cfg(f'{tag}_lat_min', lat_min, default=-90, verbose=verbose)
+        lat_max = self.io_cfg(f'{tag}_lat_max', lat_max, default=90, verbose=verbose)
+        lon_min = self.io_cfg(f'{tag}_lon_min', lon_min, default=0, verbose=verbose)
+        lon_max = self.io_cfg(f'{tag}_lon_max', lon_max, default=360, verbose=verbose)
 
         for vn, fd in self.__dict__[tag].items():
             if verbose: p_header(f'>>> Processing {vn} ...')
@@ -533,7 +535,7 @@ class ReconJob:
                output_full_ens=None, recon_sampling_mode=None, recon_sampling_dist=None, recon_vars=None,
                normal_sampling_sigma=None, normal_sampling_cutoff_factor=None, trim_prior=None,
                recon_seeds=None, assim_frac=None, save_dirpath=None, compress_params=None,
-               allownan=None, verbose=False):
+               allownan=None, output_indices=None, verbose=False):
         ''' Run the Monte-Carlo iterations of data assimilation workflows.
 
         Args:
@@ -567,6 +569,7 @@ class ReconJob:
         os.makedirs(save_dirpath, exist_ok=True)
         compress_params = self.io_cfg('compress_params', compress_params, default={'zlib': True}, verbose=verbose)
         output_full_ens = self.io_cfg('output_full_ens', output_full_ens, default=False, verbose=verbose)
+        output_indices = self.io_cfg('output_indices', output_indices, default=['gm', 'nhm', 'shm', 'nino3.4'], verbose=False)
         recon_sampling_mode = self.io_cfg('recon_sampling_mode', recon_sampling_mode, default='fixed', verbose=verbose)
         trim_prior = self.io_cfg('trim_prior', trim_prior, default=True, verbose=verbose)
         allownan = self.io_cfg('allownan', allownan, default=False, verbose=verbose)
@@ -590,7 +593,7 @@ class ReconJob:
 
             recon_savepath = os.path.join(save_dirpath, f'job_r{seed:02d}_recon.nc')
             self.save_recon(recon_savepath, compress_params=compress_params, mark_assim_pids=True,
-                            verbose=verbose, output_full_ens=output_full_ens, grid='prior')
+                            verbose=verbose, output_full_ens=output_full_ens, grid='prior', output_indices=output_indices)
 
         t_e = time.time()
         t_used = t_e - t_s
@@ -743,7 +746,7 @@ class ReconJob:
         if verbose: p_success(f'>>> Reconstructed fields saved to: {save_path}')
 
 
-    def prep_da_cfg(self, cfg_path, seeds=None, verbose=False):
+    def prep_da_cfg(self, cfg_path, seeds=None, save_job=False, verbose=False):
         ''' Prepare the configuration items.
 
         Args:
@@ -767,6 +770,13 @@ class ReconJob:
         self.load_proxydb(self.configs['proxydb_path'], verbose=verbose)
         if 'pids' in self.configs:
             self.filter_proxydb(by='pid', keys=self.configs['pids'], verbose=verbose)
+        if 'filter_proxydb_args' in self.configs and len(self.configs['filter_proxydb_args'])==2:
+            args = self.configs['filter_proxydb_args']
+            self.filter_proxydb(by=args[0], keys=args[1], verbose=verbose)
+        if 'filter_proxydb_kwargs' in self.configs and len(self.configs['filter_proxydb_kwargs'])==2:
+            kwargs = self.configs['filter_proxydb_kwargs']
+            self.filter_proxydb(by=kwargs['by'], keys=kwargs['keys'], verbose=verbose)
+
         self.annualize_proxydb(
             months=self.configs['annualize_proxydb_months'],
             ptypes=self.configs['annualize_proxydb_ptypes'])
@@ -798,8 +808,16 @@ class ReconJob:
             self.regrid_clim(tag='prior', nlat=self.configs['prior_regrid_nlat'], 
                              nlon=self.configs['prior_regrid_nlon'], verbose=verbose)
 
+        if 'prior_lat_max' in self.configs:
+            self.crop_clim(tag='prior',
+                           lat_min=self.configs['prior_lat_min'], 
+                           lat_max=self.configs['prior_lat_max'], 
+                           lon_min=self.configs['prior_lon_min'], 
+                           lon_max=self.configs['prior_lon_max'], 
+                           verbose=verbose)
+
         self.save_cfg(save_dirpath=self.configs['save_dirpath'], verbose=verbose)
-        self.save(save_dirpath=self.configs['save_dirpath'], verbose=verbose)
+        if save_job: self.save(save_dirpath=self.configs['save_dirpath'], verbose=verbose)
 
         t_e = time.time()
         t_used = t_e - t_s
@@ -819,9 +837,9 @@ class ReconJob:
             verbose (bool, optional): print verbose information. Defaults to False.
         '''
         if recon_time is None or calib_time is None:
-            recon_period = self.io_cfg('recon_period', recon_period, default=(1001, 2000), verbose=verbose)
+            recon_period = self.io_cfg('recon_period', list(recon_period), default=[1001, 2000], verbose=verbose)
             recon_timescale = self.io_cfg('recon_timescale', recon_timescale, default=1, verbose=verbose)  # unit: yr
-            calib_period = self.io_cfg('calib_period', calib_period, default=(1850, 2000), verbose=verbose)
+            calib_period = self.io_cfg('calib_period', list(calib_period), default=[1850, 2000], verbose=verbose)
 
             recon_time = np.arange(recon_period[0], recon_period[1]+1, recon_timescale)
             calib_time = np.arange(calib_period[0], calib_period[1]+1, recon_timescale)
@@ -960,7 +978,7 @@ class ReconJob:
 
     def run_graphem(self, save_recon=True, save_dirpath=None, save_filename=None,
                     load_precalc_solver=False, solver_save_path=None,
-                    compress_params=None, verbose=False,
+                    compress_params=None, verbose=False, output_indices=None,
                     **fit_kws):
         ''' Run the GraphEM solver, essentially the :py:meth: `GraphEM.solver.GraphEM.fit` method
 
@@ -983,7 +1001,12 @@ class ReconJob:
         if save_recon:
             save_dirpath = self.io_cfg('save_dirpath', save_dirpath, verbose=verbose)
             save_filename = self.io_cfg('save_filename', save_filename, default='job_r01_recon.nc', verbose=verbose)
+            output_indices = self.io_cfg('output_indices', output_indices, default=['gm', 'nhm', 'shm', 'nino3.4'], verbose=False)
             os.makedirs(save_dirpath, exist_ok=True)
+
+        if len(fit_kws) >= 1:
+            for k, v in fit_kws.items():
+                self.io_cfg(k, v, verbose=verbose)
 
         if load_precalc_solver:
             self.graphem_solver = pd.read_pickle(solver_save_path)
@@ -1017,44 +1040,116 @@ class ReconJob:
 
         if save_recon:
             recon_savepath = os.path.join(save_dirpath, save_filename)
-            self.save_recon(recon_savepath, compress_params=compress_params, verbose=verbose, grid='obs')
+            self.save_recon(recon_savepath, output_indices=output_indices, compress_params=compress_params, verbose=verbose, grid='obs')
 
 
-def run_da_cfg(cfg_path, seeds=None, run_mc=True, verbose=False):
-    ''' Run the reconstruction job according to a configuration YAML file.
+    def run_da_cfg(self, cfg_path, load_precalculated=False, seeds=None, run_mc=True, verbose=False):
+        ''' Running DA according to a configuration YAML file.
 
-    Args:
-        cfg_path (str): the path of the configuration YAML file.
-        run_mc (bool): if False, the reconstruction part will not executed for the convenience of checking the preparation part.
-        seeds (list, optional): the list of random seeds.
-        verbose (bool, optional): print verbose information. Defaults to False.
-    '''
-    # get job_save_path
-    job = ReconJob()
-    with open(cfg_path, 'r') as f:
-        job.configs = yaml.safe_load(f)
+        Args:
+            cfg_path (str): the path of the configuration YAML file.
+            run_mc (bool): if False, the reconstruction part will not executed for the convenience of checking the preparation part.
+            seeds (list, optional): the list of random seeds.
+            verbose (bool, optional): print verbose information. Defaults to False.
+        '''
+        # get job_save_path
+        job = self
+        with open(cfg_path, 'r') as f:
+            job.configs = yaml.safe_load(f)
 
-    job_save_path = os.path.join(job.configs['save_dirpath'], 'job.pkl')
+        job_save_path = os.path.join(job.configs['save_dirpath'], 'job.pkl')
 
-    # load precalculated job.pkl if exists, or prepare the job
-    if os.path.exists(job_save_path):
-        job = pd.read_pickle(job_save_path)
-        p_success(f'>>> {job_save_path} loaded')
-    else:
-        job.prep_da_cfg(cfg_path, seeds=seeds, verbose=verbose)
+        # load precalculated job.pkl if exists, or prepare the job
+        if load_precalculated and os.path.exists(job_save_path):
+            job = pd.read_pickle(job_save_path)
+            p_success(f'>>> {job_save_path} loaded')
+        else:
+            job.prep_da_cfg(cfg_path, seeds=seeds, verbose=verbose)
 
-    if seeds is not None and np.size(seeds) == 1:
-        seeds = [seeds]
-    
-    # run the Monte-Carlo iterations
-    if run_mc:
-        job.run_da_mc(
-            recon_period=job.configs['recon_period'],
-            recon_loc_rad=job.configs['recon_loc_rad'],
-            recon_timescale=job.configs['recon_timescale'],
-            recon_seeds=seeds,
-            assim_frac=job.configs['assim_frac'],
-            compress_params=job.configs['compress_params'],
-            output_full_ens=job.configs['output_full_ens'],
+        if seeds is not None and np.size(seeds) == 1:
+            seeds = [seeds]
+
+        # run the Monte-Carlo iterations
+        if run_mc:
+            job.run_da_mc(
+                recon_period=job.configs['recon_period'],
+                recon_loc_rad=job.configs['recon_loc_rad'],
+                recon_timescale=job.configs['recon_timescale'],
+                recon_seeds=seeds,
+                assim_frac=job.configs['assim_frac'],
+                compress_params=job.configs['compress_params'],
+                output_full_ens=job.configs['output_full_ens'],
+                output_indices=job.configs['output_indices'],
+                verbose=verbose,
+            )
+
+    def run_graphem_cfg(self, cfg_path, verbose=False):
+        ''' Running GraphEM according to a configuration YAML file.
+
+        Args:
+            cfg_path (str): the path of the configuration YAML file.
+            verbose (bool, optional): print verbose information. Defaults to False.
+        '''
+        # get job_save_path
+        job = self
+        with open(cfg_path, 'r') as f:
+            job.configs = yaml.safe_load(f)
+
+        job_save_path = os.path.join(job.configs['save_dirpath'], 'job.pkl')
+
+        self.load_proxydb(self.configs['proxydb_path'], verbose=verbose)
+        if 'pids' in self.configs:
+            self.filter_proxydb(by='pid', keys=self.configs['pids'], verbose=verbose)
+        if 'filter_proxydb_args' in self.configs and len(self.configs['filter_proxydb_args'])==2:
+            args = self.configs['filter_proxydb_args']
+            self.filter_proxydb(by=args[0], keys=args[1], verbose=verbose)
+        if 'filter_proxydb_kwargs' in self.configs and len(self.configs['filter_proxydb_kwargs'])==2:
+            kwargs = self.configs['filter_proxydb_kwargs']
+            self.filter_proxydb(by=kwargs['by'], keys=kwargs['keys'], verbose=verbose)
+
+        self.annualize_proxydb(
+            months=self.configs['annualize_proxydb_months'],
+            ptypes=self.configs['annualize_proxydb_ptypes'])
+
+        self.center_proxydb(ref_period=self.configs['proxydb_center_ref_period'])
+
+        if 'obs_rename_dict' in self.configs:
+            obs_rename_dict = self.configs['obs_rename_dict']
+        else:
+            obs_rename_dict = None
+
+        self.load_clim(tag='obs', path_dict=self.configs['obs_path'],
+                       anom_period=self.configs[f'obs_anom_period'],
+                       rename_dict=obs_rename_dict, verbose=verbose)
+
+        if 'obs_annualize_months' in self.configs:
+            self.annualize_clim(tag='obs', months=self.configs['obs_annualize_months'], verbose=verbose)
+
+        if 'obs_regrid_nlat' in self.configs:
+            self.regrid_clim(tag='obs', nlat=self.configs['obs_regrid_nlat'], 
+                             nlon=self.configs['obs_regrid_nlon'], verbose=verbose)
+
+        if 'obs_lat_max' in self.configs:
+            self.crop_clim(tag='obs',
+                           lat_min=self.configs['obs_lat_min'], 
+                           lat_max=self.configs['obs_lat_max'], 
+                           lon_min=self.configs['obs_lon_min'], 
+                           lon_max=self.configs['obs_lon_max'], 
+                           verbose=verbose)
+
+
+        self.prep_graphem(
+            recon_period=self.configs['recon_period'],  # period to reconstruct
+            calib_period=self.configs['calib_period'],  # period for calibration
+            verbose=verbose,
+        )
+
+        self.save_cfg(save_dirpath=self.configs['save_dirpath'], verbose=verbose)
+
+        self.run_graphem(
+            save_dirpath=self.configs['save_dirpath'],
+            graph_method=self.configs['graph_method'],
+            cutoff_radius=self.configs['cutoff_radius'],
+            output_indices=job.configs['output_indices'],
             verbose=verbose,
         )

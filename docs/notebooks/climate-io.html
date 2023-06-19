@@ -131,8 +131,8 @@
       
     
     
-    <img src="../_static/favicon.ico" class="logo__image only-light" alt="Logo image"/>
-    <script>document.write(`<img src="../_static/favicon.ico" class="logo__image only-dark" alt="Logo image"/>`);</script>
+    <img src="../_static/import-cfr.jpg" class="logo__image only-light" alt="Logo image"/>
+    <script>document.write(`<img src="../_static/import-cfr.jpg" class="logo__image only-dark" alt="Logo image"/>`);</script>
   
   
 </a></div>
@@ -176,11 +176,13 @@
 <li class="toctree-l1 has-children"><a class="reference internal" href="../ug-lmr.html">LMR</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-5"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="lmr-real-pages2k.html">Real-world proxy experiments with LMR and PAGES2k</a></li>
 <li class="toctree-l2"><a class="reference internal" href="lmr-assim-no-calib.html">Assimilating records whose PSMs cannot be calibrated</a></li>
+<li class="toctree-l2"><a class="reference internal" href="lmr-cli.html">Running DA with the Command Line Interface (CLI)</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../ug-graphem.html">GraphEM</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-6"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="graphem-real-pages2k.html">Real-world proxy experiments with GraphEM and PAGES2k</a></li>
 <li class="toctree-l2"><a class="reference internal" href="graphem-ppe-pages2k.html">A Pseudoproxy Experiment with GraphEM and pseudoPAGES2k</a></li>
+<li class="toctree-l2"><a class="reference internal" href="graphem-cli.html">Running GraphEM with the Command Line Interface (CLI)</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../ug-api.html">API Reference</a></li>
@@ -384,7 +386,7 @@ document.write(`
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.ClimateField-=&gt;-xarray.DataArray"><code class="docutils literal notranslate"><span class="pre">cfr.ClimateField</span></code> =&gt; <code class="docutils literal notranslate"><span class="pre">xarray.DataArray</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#numpy.ndarray-=&gt;-cfr.ClimateField"><code class="docutils literal notranslate"><span class="pre">numpy.ndarray</span></code> =&gt; <code class="docutils literal notranslate"><span class="pre">cfr.ClimateField</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.ClimateField-=&gt;-numpy.ndarray"><code class="docutils literal notranslate"><span class="pre">cfr.ClimateField</span></code> =&gt; <code class="docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Remote-loading-simulations">Remote loading simulations</a><ul class="nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Remote-loading-gridded-climate-data">Remote loading gridded climate data</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Remote-loading-iCESM-simulations">Remote loading iCESM simulations</a></li>
 </ul>
 </li>
@@ -409,7 +411,7 @@ document.write(`
 <li><p><code class="docutils literal notranslate"><span class="pre">xarray.DataArray</span></code> &lt;=&gt; <code class="docutils literal notranslate"><span class="pre">cfr.ClimateField</span></code></p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">numpy.ndarray</span></code> &lt;=&gt; <code class="docutils literal notranslate"><span class="pre">cfr.ClimateField</span></code></p></li>
 </ul>
-<p>In addition, <code class="docutils literal notranslate"><span class="pre">cfr</span></code> supports <strong>remote loading</strong> of hosted simulations.</p>
+<p>In addition, <code class="docutils literal notranslate"><span class="pre">cfr</span></code> supports <strong>remote loading</strong> of hosted gridded climate data in netCDF.</p>
 <p>Required data to complete this tutorial:</p>
 <ul class="simple">
 <li><p>GISTEMP surface temperature: <a class="reference external" href="https://data.giss.nasa.gov/pub/gistemp/gistemp1200_GHCNv4_ERSSTv5.nc.gz">gistemp1200_GHCNv4_ERSSTv5.nc</a></p></li>
@@ -3605,9 +3607,9 @@ Coordinates:
 </pre></div></div>
 </div>
 </section>
-<section id="Remote-loading-simulations">
-<h2>Remote loading simulations<a class="headerlink" href="#Remote-loading-simulations" title="Permalink to this heading">#</a></h2>
-<p><code class="docutils literal notranslate"><span class="pre">cfr</span></code> supports remote loading of hosted simulations in netCDF files, currently including iCESM past1000 and past1000historical.</p>
+<section id="Remote-loading-gridded-climate-data">
+<h2>Remote loading gridded climate data<a class="headerlink" href="#Remote-loading-gridded-climate-data" title="Permalink to this heading">#</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">cfr</span></code> supports remote loading of hosted gridded climate data in netCDF files, currently including iCESM past1000 and past1000historical.</p>
 <p>By calling the <code class="docutils literal notranslate"><span class="pre">.fetch()</span></code> method of <code class="docutils literal notranslate"><span class="pre">ClimateField</span></code> without any arguments, a list of supported simulation names will be listed:</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
@@ -3783,7 +3785,7 @@ Fetching data: 100%|██████████| 633M/633M [00:10&lt;00:00, 6
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.ClimateField-=&gt;-xarray.DataArray"><code class="docutils literal notranslate"><span class="pre">cfr.ClimateField</span></code> =&gt; <code class="docutils literal notranslate"><span class="pre">xarray.DataArray</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#numpy.ndarray-=&gt;-cfr.ClimateField"><code class="docutils literal notranslate"><span class="pre">numpy.ndarray</span></code> =&gt; <code class="docutils literal notranslate"><span class="pre">cfr.ClimateField</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.ClimateField-=&gt;-numpy.ndarray"><code class="docutils literal notranslate"><span class="pre">cfr.ClimateField</span></code> =&gt; <code class="docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Remote-loading-simulations">Remote loading simulations</a><ul class="nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Remote-loading-gridded-climate-data">Remote loading gridded climate data</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Remote-loading-iCESM-simulations">Remote loading iCESM simulations</a></li>
 </ul>
 </li>

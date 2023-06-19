@@ -1047,11 +1047,11 @@ class ProxyDatabase:
         ''' Filter the proxy database according to given ptype list.
 
         Args:
-            by (str): filter by a keyword {'ptype', 'pid', 'lat', 'lon', 'loc', 'tag'}
+            by (str): filter by a keyword {'ptype', 'pid', 'dt', 'lat', 'lon', 'loc', 'tag'}
             keys (set): a set of keywords
 
                 * For `by = 'ptype' or 'pid'`, keys take a fuzzy match
-                * For `by = 'lat' or 'lon'`, keys = (lat_min, lat_max) or (lon_min, lon_max)
+                * For `by = 'dt' or 'lat' or 'lon'`, keys = (min, max)
                 * For `by = 'loc-squre'`, keys = (lat_min, lat_max, lon_min, lon_max)
                 * For `by = 'loc-circle'`, keys = (center_lat, center_lon, distance)
                 * For `by = 'tag'`, keys should be a list of tags
@@ -1067,6 +1067,7 @@ class ProxyDatabase:
             target = {
                 'ptype': pobj.ptype,
                 'pid': pobj.pid,
+                'dt': pobj.dt,
                 'lat': pobj.lat,
                 'lon': pobj.lon,
                 'loc-square': (pobj.lat, pobj.lon),
@@ -1081,7 +1082,7 @@ class ProxyDatabase:
                     elif mode == 'exact':
                         if key == target[by]:
                             pobjs.append(pobj)
-            elif by in ['lat', 'lon']:
+            elif by in ['dt', 'lat', 'lon']:
                 if target[by] >= keys[0] and target[by] <= keys[-1]:
                     pobjs.append(pobj)
             elif by == 'loc-square':

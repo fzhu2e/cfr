@@ -1,0 +1,1030 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+    <title>Running DA with the Command Line Interface (CLI) &#8212; cfr  documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/theme_overrides.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/style.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/nbsphinx-code-cells.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=12da95d707ffb74b382d" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=12da95d707ffb74b382d" />
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script src="../_static/design-tabs.js"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'notebooks/lmr-cli';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="GraphEM" href="../ug-graphem.html" />
+    <link rel="prev" title="Assimilating records whose PSMs cannot be calibrated" href="lmr-assim-no-calib.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/import-cfr.jpg" class="logo__image only-light" alt="Logo image"/>
+    <script>document.write(`<img src="../_static/import-cfr.jpg" class="logo__image only-dark" alt="Logo image"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">User Guide</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../ug-installation.html">Installation</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../ug-pp2k.html">pseudoPAGES2k</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="pp2k-pdb-load-viz.html">Loading and Visualization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pp2k-pdb-filter.html">Database Filtering</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pp2k-dashboards.html">Validation Dashboards</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pp2k-ppe-pda.html">PPE: A PDA-based Reconstruction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pp2k-ppe-graphem.html">PPE: A GraphEM-based Reconstruction</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../ug-climate.html">Climate</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="climate-io.html">Input/Output</a></li>
+<li class="toctree-l2"><a class="reference internal" href="climate-ops.html">Basic Operations</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../ug-proxy.html">Proxy</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="proxy-io.html">Input/Output</a></li>
+<li class="toctree-l2"><a class="reference internal" href="proxy-ops.html">Basic Operations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="proxy-analysis.html">Analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="proxy-composites.html">Composites</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../ug-psm.html">PSM</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="psm-linear.html">Univariate linear regression</a></li>
+<li class="toctree-l2"><a class="reference internal" href="psm-bilinear.html">Bivariate linear regression</a></li>
+<li class="toctree-l2"><a class="reference internal" href="psm-ice-d18O.html">PSM for ice core d18O</a></li>
+<li class="toctree-l2"><a class="reference internal" href="psm-lake-VarveThickness.html">PSM for lake varve thickness</a></li>
+<li class="toctree-l2"><a class="reference internal" href="psm-coral-SrCa.html">PSM for coral Sr/Ca</a></li>
+<li class="toctree-l2"><a class="reference internal" href="psm-coral-d18O.html">PSM for coral d18O</a></li>
+<li class="toctree-l2"><a class="reference internal" href="psm-tree-TRW.html">PSM for tree TRW (VS-Lite)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="psm-tree-seasonality.html">Detecting the seasonality of the trees</a></li>
+<li class="toctree-l2"><a class="reference internal" href="psm-tree-memory.html">Detecting the biological memory in the trees</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="../ug-lmr.html">LMR</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-5"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="lmr-real-pages2k.html">Real-world proxy experiments with LMR and PAGES2k</a></li>
+<li class="toctree-l2"><a class="reference internal" href="lmr-assim-no-calib.html">Assimilating records whose PSMs cannot be calibrated</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">Running DA with the Command Line Interface (CLI)</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../ug-graphem.html">GraphEM</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-6"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="graphem-real-pages2k.html">Real-world proxy experiments with GraphEM and PAGES2k</a></li>
+<li class="toctree-l2"><a class="reference internal" href="graphem-ppe-pages2k.html">A Pseudoproxy Experiment with GraphEM and pseudoPAGES2k</a></li>
+<li class="toctree-l2"><a class="reference internal" href="graphem-cli.html">Running GraphEM with the Command Line Interface (CLI)</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../ug-api.html">API Reference</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/fzhu2e/cfr" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/fzhu2e/cfr/edit/main/notebooks/lmr-cli.ipynb" target="_blank"
+   class="btn btn-sm btn-source-edit-button dropdown-item"
+   title="Suggest edit"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-pencil-alt"></i>
+  </span>
+<span class="btn__text-container">Suggest edit</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/fzhu2e/cfr/issues/new?title=Issue%20on%20page%20%2Fnotebooks/lmr-cli.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/notebooks/lmr-cli.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script>
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Running DA with the Command Line Interface (CLI)</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Generating-the-configs.yml-file">Generating the <code class="docutils literal notranslate"><span class="pre">configs.yml</span></code> file</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Testing-running-the-reconstruction-job-based-on-the-generated-configs.yml-file">Testing running the reconstruction job based on the generated <code class="docutils literal notranslate"><span class="pre">configs.yml</span></code> file</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Leveraging-the-CLI">Leveraging the CLI</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section id="Running-DA-with-the-Command-Line-Interface-(CLI)">
+<h1>Running DA with the Command Line Interface (CLI)<a class="headerlink" href="#Running-DA-with-the-Command-Line-Interface-(CLI)" title="Permalink to this heading">#</a></h1>
+<section id="Generating-the-configs.yml-file">
+<h2>Generating the <code class="docutils literal notranslate"><span class="pre">configs.yml</span></code> file<a class="headerlink" href="#Generating-the-configs.yml-file" title="Permalink to this heading">#</a></h2>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">load_ext</span> autoreload
+<span class="o">%</span><span class="k">autoreload</span> 2
+
+<span class="kn">import</span> <span class="nn">cfr</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">job</span> <span class="o">=</span> <span class="n">cfr</span><span class="o">.</span><span class="n">ReconJob</span><span class="p">()</span>
+<span class="n">job</span><span class="o">.</span><span class="n">load_proxydb</span><span class="p">(</span><span class="s1">&#39;PAGES2kv2&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">job</span><span class="o">.</span><span class="n">filter_proxydb</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="s1">&#39;ptype&#39;</span><span class="p">,</span> <span class="n">keys</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;coral.SrCa&#39;</span><span class="p">])</span>
+<span class="n">job</span><span class="o">.</span><span class="n">annualize_proxydb</span><span class="p">(</span><span class="n">months</span><span class="o">=</span><span class="p">[</span><span class="mi">12</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="n">ptypes</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;coral&#39;</span><span class="p">])</span>
+
+<span class="c1"># model prior: fetching &amp; preprocessing</span>
+<span class="n">job</span><span class="o">.</span><span class="n">load_clim</span><span class="p">(</span><span class="n">tag</span><span class="o">=</span><span class="s1">&#39;prior&#39;</span><span class="p">,</span> <span class="n">path_dict</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;tas&#39;</span><span class="p">:</span> <span class="s1">&#39;iCESM_past1000historical/tas&#39;</span><span class="p">},</span> <span class="n">anom_period</span><span class="o">=</span><span class="p">[</span><span class="mi">1951</span><span class="p">,</span> <span class="mi">1980</span><span class="p">])</span>
+<span class="n">job</span><span class="o">.</span><span class="n">load_clim</span><span class="p">(</span><span class="n">tag</span><span class="o">=</span><span class="s1">&#39;obs&#39;</span><span class="p">,</span> <span class="n">path_dict</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;tas&#39;</span><span class="p">:</span> <span class="s1">&#39;gistemp1200_GHCNv4_ERSSTv5&#39;</span><span class="p">},</span> <span class="n">anom_period</span><span class="o">=</span><span class="p">[</span><span class="mi">1951</span><span class="p">,</span> <span class="mi">1980</span><span class="p">],</span> <span class="n">rename_dict</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;tas&#39;</span><span class="p">:</span> <span class="s1">&#39;tempanomaly&#39;</span><span class="p">})</span>
+
+<span class="c1"># proxy system modeling</span>
+<span class="n">job</span><span class="o">.</span><span class="n">calib_psms</span><span class="p">(</span>
+    <span class="n">ptype_psm_dict</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;coral.d18O&#39;</span><span class="p">:</span> <span class="s1">&#39;Linear&#39;</span><span class="p">,</span> <span class="s1">&#39;coral.calc&#39;</span><span class="p">:</span> <span class="s1">&#39;Linear&#39;</span><span class="p">,</span> <span class="s1">&#39;coral.SrCa&#39;</span><span class="p">:</span> <span class="s1">&#39;Linear&#39;</span><span class="p">},</span>
+    <span class="n">ptype_season_dict</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;coral.d18O&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">12</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="s1">&#39;coral.calc&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">12</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="s1">&#39;coral.SrCa&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">12</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]},</span>
+    <span class="n">calib_period</span><span class="o">=</span><span class="p">[</span><span class="mi">1850</span><span class="p">,</span> <span class="mi">2015</span><span class="p">],</span>
+<span class="p">)</span>
+<span class="n">job</span><span class="o">.</span><span class="n">forward_psms</span><span class="p">()</span>
+
+<span class="c1"># model prior: processing</span>
+<span class="n">job</span><span class="o">.</span><span class="n">annualize_clim</span><span class="p">(</span><span class="n">tag</span><span class="o">=</span><span class="s1">&#39;prior&#39;</span><span class="p">,</span> <span class="n">months</span><span class="o">=</span><span class="p">[</span><span class="mi">12</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
+<span class="n">job</span><span class="o">.</span><span class="n">regrid_clim</span><span class="p">(</span><span class="n">tag</span><span class="o">=</span><span class="s1">&#39;prior&#39;</span><span class="p">,</span> <span class="n">nlat</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span> <span class="n">nlon</span><span class="o">=</span><span class="mi">63</span><span class="p">)</span>
+<span class="n">job</span><span class="o">.</span><span class="n">crop_clim</span><span class="p">(</span><span class="n">tag</span><span class="o">=</span><span class="s1">&#39;prior&#39;</span><span class="p">,</span> <span class="n">lat_min</span><span class="o">=-</span><span class="mi">35</span><span class="p">,</span> <span class="n">lat_max</span><span class="o">=</span><span class="mi">35</span><span class="p">)</span>
+<br/></pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+Annualizing ProxyDatabase: 100%|██████████| 29/29 [00:00&lt;00:00, 39.53it/s]
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+<span class="ansi-black-intense-fg ansi-bold">&gt;&gt;&gt; The target file seems existed at: ./data/tas_sfc_Amon_iCESM_past1000historical_085001-200512.nc . Loading from it instead of downloading ...
+</span><span class="ansi-black-intense-fg ansi-bold">&gt;&gt;&gt; The target file seems existed at: ./data/gistemp1200_GHCNv4_ERSSTv5.nc.gz . Loading from it instead of downloading ...
+</span>
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+Calibrating the PSMs:  45%|████▍     | 13/29 [00:00&lt;00:00, 35.78it/s]
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+The number of overlapped data points is 22 &lt; 25. Skipping ...
+The number of overlapped data points is 24 &lt; 25. Skipping ...
+The number of overlapped data points is 22 &lt; 25. Skipping ...
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+Calibrating the PSMs: 100%|██████████| 29/29 [00:00&lt;00:00, 38.00it/s]
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+The number of overlapped data points is 21 &lt; 25. Skipping ...
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+Forwarding the PSMs: 100%|██████████| 25/25 [00:03&lt;00:00,  6.41it/s]
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># paleo data assimilation</span>
+<span class="n">job</span><span class="o">.</span><span class="n">run_da_mc</span><span class="p">(</span><span class="n">save_dirpath</span><span class="o">=</span><span class="s1">&#39;./recons/test_cfg&#39;</span><span class="p">,</span> <span class="n">recon_seeds</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)))</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+KF updating: 100%|██████████| 2001/2001 [00:02&lt;00:00, 701.97it/s]
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+<span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; DONE! Total time spent: 0.13 mins.
+</span>
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">job</span><span class="o">.</span><span class="n">save_cfg</span><span class="p">(</span><span class="s1">&#39;./recons/test_cfg&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="Testing-running-the-reconstruction-job-based-on-the-generated-configs.yml-file">
+<h2>Testing running the reconstruction job based on the generated <code class="docutils literal notranslate"><span class="pre">configs.yml</span></code> file<a class="headerlink" href="#Testing-running-the-reconstruction-job-based-on-the-generated-configs.yml-file" title="Permalink to this heading">#</a></h2>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">job_cfg</span> <span class="o">=</span> <span class="n">cfr</span><span class="o">.</span><span class="n">ReconJob</span><span class="p">()</span>
+<span class="n">job_cfg</span><span class="o">.</span><span class="n">run_da_cfg</span><span class="p">(</span><span class="s1">&#39;./recons/test_cfg/configs.yml&#39;</span><span class="p">,</span> <span class="n">run_mc</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+<span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; job.configs loaded
+</span>{&#39;allownan&#39;: False,
+ &#39;annualize_proxydb_months&#39;: [12, 1, 2],
+ &#39;annualize_proxydb_ptypes&#39;: [&#39;coral&#39;],
+ &#39;assim_frac&#39;: 0.75,
+ &#39;compress_params&#39;: {&#39;zlib&#39;: True},
+ &#39;filter_proxydb_args&#39;: [],
+ &#39;filter_proxydb_kwargs&#39;: {&#39;by&#39;: &#39;ptype&#39;, &#39;keys&#39;: [&#39;coral.SrCa&#39;]},
+ &#39;nens&#39;: 100,
+ &#39;obs_anom_period&#39;: [1951, 1980],
+ &#39;obs_lat_name&#39;: &#39;lat&#39;,
+ &#39;obs_lon_name&#39;: &#39;lon&#39;,
+ &#39;obs_path&#39;: {&#39;tas&#39;: &#39;gistemp1200_GHCNv4_ERSSTv5&#39;},
+ &#39;obs_rename_dict&#39;: {&#39;tas&#39;: &#39;tempanomaly&#39;},
+ &#39;obs_time_name&#39;: &#39;time&#39;,
+ &#39;output_full_ens&#39;: False,
+ &#39;output_indices&#39;: [&#39;gm&#39;, &#39;nhm&#39;, &#39;shm&#39;, &#39;nino3.4&#39;],
+ &#39;prior_annualize_months&#39;: [12, 1, 2],
+ &#39;prior_anom_period&#39;: [1951, 1980],
+ &#39;prior_lat_max&#39;: 35,
+ &#39;prior_lat_min&#39;: -35,
+ &#39;prior_lat_name&#39;: &#39;lat&#39;,
+ &#39;prior_lon_max&#39;: 360,
+ &#39;prior_lon_min&#39;: 0,
+ &#39;prior_lon_name&#39;: &#39;lon&#39;,
+ &#39;prior_path&#39;: {&#39;tas&#39;: &#39;iCESM_past1000historical/tas&#39;},
+ &#39;prior_regrid_nlat&#39;: 42,
+ &#39;prior_regrid_nlon&#39;: 63,
+ &#39;prior_time_name&#39;: &#39;time&#39;,
+ &#39;proxy_assim_frac&#39;: 0.75,
+ &#39;proxydb_path&#39;: &#39;PAGES2kv2&#39;,
+ &#39;psm_calib_period&#39;: [1850, 2015],
+ &#39;ptype_psm_dict&#39;: {&#39;coral.SrCa&#39;: &#39;Linear&#39;,
+                    &#39;coral.calc&#39;: &#39;Linear&#39;,
+                    &#39;coral.d18O&#39;: &#39;Linear&#39;},
+ &#39;ptype_season_dict&#39;: {&#39;coral.SrCa&#39;: [12, 1, 2],
+                       &#39;coral.calc&#39;: [12, 1, 2],
+                       &#39;coral.d18O&#39;: [12, 1, 2]},
+ &#39;recon_loc_rad&#39;: 25000,
+ &#39;recon_period&#39;: [0, 2000],
+ &#39;recon_sampling_mode&#39;: &#39;fixed&#39;,
+ &#39;recon_seeds&#39;: [1],
+ &#39;recon_timescale&#39;: 1,
+ &#39;recon_vars&#39;: [&#39;tas&#39;],
+ &#39;save_dirpath&#39;: &#39;./recons/test_cfg&#39;,
+ &#39;trim_prior&#39;: True}
+<span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;proxydb_path&#34;] = PAGES2kv2
+</span><span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; 692 records loaded
+</span><span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; job.proxydb created
+</span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;filter_proxydb_args&#34;] = []
+</span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;filter_proxydb_kwargs&#34;] = {&#39;by&#39;: &#39;ptype&#39;, &#39;keys&#39;: [&#39;coral.SrCa&#39;]}
+</span><span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; 29 records remaining
+</span><span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; job.proxydb updated
+</span>
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+Annualizing ProxyDatabase: 100%|██████████| 29/29 [00:00&lt;00:00, 39.51it/s]
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+<span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;prior_path&#34;] = {&#39;tas&#39;: &#39;iCESM_past1000historical/tas&#39;}
+</span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;prior_anom_period&#34;] = [1951, 1980]
+</span><span class="ansi-black-intense-fg ansi-bold">&gt;&gt;&gt; The target file seems existed at: ./data/tas_sfc_Amon_iCESM_past1000historical_085001-200512.nc . Loading from it instead of downloading ...
+</span><span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; prior variables [&#39;tas&#39;] loaded
+</span><span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; job.prior created
+</span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;obs_path&#34;] = {&#39;tas&#39;: &#39;gistemp1200_GHCNv4_ERSSTv5&#39;}
+</span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;obs_rename_dict&#34;] = {&#39;tas&#39;: &#39;tempanomaly&#39;}
+</span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;obs_anom_period&#34;] = [1951, 1980]
+</span><span class="ansi-black-intense-fg ansi-bold">&gt;&gt;&gt; The target file seems existed at: ./data/gistemp1200_GHCNv4_ERSSTv5.nc.gz . Loading from it instead of downloading ...
+</span><span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; obs variables [&#39;tas&#39;] loaded
+</span><span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; job.obs created
+</span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;ptype_psm_dict&#34;] = {&#39;coral.SrCa&#39;: &#39;Linear&#39;, &#39;coral.calc&#39;: &#39;Linear&#39;, &#39;coral.d18O&#39;: &#39;Linear&#39;}
+</span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;ptype_season_dict&#34;] = {&#39;coral.SrCa&#39;: [12, 1, 2], &#39;coral.calc&#39;: [12, 1, 2], &#39;coral.d18O&#39;: [12, 1, 2]}
+</span>
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+Calibrating the PSMs:  17%|█▋        | 5/29 [00:00&lt;00:00, 40.50it/s]
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+The number of overlapped data points is 22 &lt; 25. Skipping ...
+The number of overlapped data points is 24 &lt; 25. Skipping ...
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+Calibrating the PSMs:  34%|███▍      | 10/29 [00:00&lt;00:00, 41.48it/s]
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+The number of overlapped data points is 22 &lt; 25. Skipping ...
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+Calibrating the PSMs:  69%|██████▉   | 20/29 [00:00&lt;00:00, 40.93it/s]
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+The number of overlapped data points is 21 &lt; 25. Skipping ...
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+Calibrating the PSMs: 100%|██████████| 29/29 [00:00&lt;00:00, 40.80it/s]
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+<span class="ansi-yellow-intense-fg ansi-bold">&gt;&gt;&gt; PSM for Ocn_150 failed to be calibrated.
+</span><span class="ansi-yellow-intense-fg ansi-bold">&gt;&gt;&gt; PSM for Ocn_152 failed to be calibrated.
+</span><span class="ansi-yellow-intense-fg ansi-bold">&gt;&gt;&gt; PSM for Ocn_165 failed to be calibrated.
+</span><span class="ansi-yellow-intense-fg ansi-bold">&gt;&gt;&gt; PSM for Ocn_183 failed to be calibrated.
+</span><span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; 25 records tagged &#34;calibrated&#34; with ProxyRecord.psm created
+</span>
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+Forwarding the PSMs: 100%|██████████| 25/25 [00:03&lt;00:00,  6.57it/s]
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+<span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; ProxyRecord.pseudo created for 25 records
+</span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;prior_annualize_months&#34;] = [12, 1, 2]
+</span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; Processing tas ...
+</span><span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; job.prior updated
+</span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;prior_regrid_nlat&#34;] = 42
+</span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;prior_regrid_nlon&#34;] = 63
+</span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; Processing tas ...
+</span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;save_dirpath&#34;] = ./recons/test_cfg
+</span><span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; job.configs saved to: ./recons/test_cfg/configs.yml
+</span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;save_dirpath&#34;] = ./recons/test_cfg
+</span><span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; prior_tas saved to: ./recons/test_cfg/prior_tas.nc
+</span><span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; obs_tas saved to: ./recons/test_cfg/obs_tas.nc
+</span><span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; job saved to: ./recons/test_cfg/job.pkl
+</span><span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; DONE! Total time used: 0.21 mins.
+</span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;recon_period&#34;] = [0, 2000]
+</span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;recon_loc_rad&#34;] = 25000
+</span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;recon_timescale&#34;] = 1
+</span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;assim_frac&#34;] = 0.75
+</span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;compress_params&#34;] = {&#39;zlib&#39;: True}
+</span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;output_full_ens&#34;] = False
+</span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; seed: 1 | max: 1
+</span>
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+KF updating: 100%|██████████| 2001/2001 [00:08&lt;00:00, 227.74it/s]
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+<span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; Reconstructed fields saved to: ./recons/test_cfg/job_r01_recon.nc
+</span><span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; DONE! Total time spent: 0.39 mins.
+</span>
+</pre></div></div>
+</div>
+</section>
+<section id="Leveraging-the-CLI">
+<h2>Leveraging the CLI<a class="headerlink" href="#Leveraging-the-CLI" title="Permalink to this heading">#</a></h2>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>cfr<span class="w"> </span>-h
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+usage: cfr [-h] [-v] {da,graphem} ...
+
+========================================================================================
+ cfr: a scripting system for CFR (Feng Zhu, fengzhu@ucar.edu)
+----------------------------------------------------------------------------------------
+ Usage example for PDA:
+    cfr da -c config.yml -vb -s 1 2 -r
+    # -c config.yml: run the reconstruction job according to config.yml
+    # -vb: output the verbose runtime information
+    # -s 1 2: set seeds as integers from 1 to 2
+    # -r: run the Monte-Carlo iterations for PDA
+========================================================================================
+
+
+positional arguments:
+  {da,graphem}   running mode
+    da           run a DA-based reconstruction
+    graphem      run a GraphEM-based reconstruction
+
+optional arguments:
+  -h, --help     show this help message and exit
+  -v, --version  show program&#39;s version number and exit
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>cfr<span class="w"> </span>da<span class="w"> </span>-c<span class="w"> </span>./recons/test_cfg/configs.yml<span class="w"> </span>-vb<span class="w"> </span>-s<span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="m">2</span><span class="w"> </span>-r
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+<span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; Settings seeds: [1, 2]
+</span><span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; job.configs loaded
+</span>{&#39;allownan&#39;: False,
+ &#39;annualize_proxydb_months&#39;: [12, 1, 2],
+ &#39;annualize_proxydb_ptypes&#39;: [&#39;coral&#39;],
+ &#39;assim_frac&#39;: 0.75,
+ &#39;compress_params&#39;: {&#39;zlib&#39;: True},
+ &#39;filter_proxydb_args&#39;: [],
+ &#39;filter_proxydb_kwargs&#39;: {&#39;by&#39;: &#39;ptype&#39;, &#39;keys&#39;: [&#39;coral.SrCa&#39;]},
+ &#39;nens&#39;: 100,
+ &#39;obs_anom_period&#39;: [1951, 1980],
+ &#39;obs_lat_name&#39;: &#39;lat&#39;,
+ &#39;obs_lon_name&#39;: &#39;lon&#39;,
+ &#39;obs_path&#39;: {&#39;tas&#39;: &#39;gistemp1200_GHCNv4_ERSSTv5&#39;},
+ &#39;obs_rename_dict&#39;: {&#39;tas&#39;: &#39;tempanomaly&#39;},
+ &#39;obs_time_name&#39;: &#39;time&#39;,
+ &#39;output_full_ens&#39;: False,
+ &#39;output_indices&#39;: [&#39;gm&#39;, &#39;nhm&#39;, &#39;shm&#39;, &#39;nino3.4&#39;],
+ &#39;prior_annualize_months&#39;: [12, 1, 2],
+ &#39;prior_anom_period&#39;: [1951, 1980],
+ &#39;prior_lat_max&#39;: 35,
+ &#39;prior_lat_min&#39;: -35,
+ &#39;prior_lat_name&#39;: &#39;lat&#39;,
+ &#39;prior_lon_max&#39;: 360,
+ &#39;prior_lon_min&#39;: 0,
+ &#39;prior_lon_name&#39;: &#39;lon&#39;,
+ &#39;prior_path&#39;: {&#39;tas&#39;: &#39;iCESM_past1000historical/tas&#39;},
+ &#39;prior_regrid_nlat&#39;: 42,
+ &#39;prior_regrid_nlon&#39;: 63,
+ &#39;prior_time_name&#39;: &#39;time&#39;,
+ &#39;proxy_assim_frac&#39;: 0.75,
+ &#39;proxydb_path&#39;: &#39;PAGES2kv2&#39;,
+ &#39;psm_calib_period&#39;: [1850, 2015],
+ &#39;ptype_psm_dict&#39;: {&#39;coral.SrCa&#39;: &#39;Linear&#39;,
+                    &#39;coral.calc&#39;: &#39;Linear&#39;,
+                    &#39;coral.d18O&#39;: &#39;Linear&#39;},
+ &#39;ptype_season_dict&#39;: {&#39;coral.SrCa&#39;: [12, 1, 2],
+                       &#39;coral.calc&#39;: [12, 1, 2],
+                       &#39;coral.d18O&#39;: [12, 1, 2]},
+ &#39;recon_loc_rad&#39;: 25000,
+ &#39;recon_period&#39;: [0, 2000],
+ &#39;recon_sampling_mode&#39;: &#39;fixed&#39;,
+ &#39;recon_seeds&#39;: [1, 2],
+ &#39;recon_timescale&#39;: 1,
+ &#39;recon_vars&#39;: [&#39;tas&#39;],
+ &#39;save_dirpath&#39;: &#39;./recons/test_cfg&#39;,
+ &#39;trim_prior&#39;: True}
+<span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;proxydb_path&#34;] = PAGES2kv2
+</span><span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; 692 records loaded
+</span><span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; job.proxydb created
+</span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;filter_proxydb_args&#34;] = []
+</span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;filter_proxydb_kwargs&#34;] = {&#39;by&#39;: &#39;ptype&#39;, &#39;keys&#39;: [&#39;coral.SrCa&#39;]}
+</span><span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; 29 records remaining
+</span><span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; job.proxydb updated
+Annualizing ProxyDatabase: 100%|████████████████| 29/29 [00:00&lt;00:00, 47.06it/s]
+</span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;prior_path&#34;] = {&#39;tas&#39;: &#39;iCESM_past1000historical/tas&#39;}
+</span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;prior_anom_period&#34;] = [1951, 1980]
+</span><span class="ansi-black-intense-fg ansi-bold">&gt;&gt;&gt; The target file seems existed at: ./data/tas_sfc_Amon_iCESM_past1000historical_085001-200512.nc . Loading from it instead of downloading ...
+</span><span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; prior variables [&#39;tas&#39;] loaded
+</span><span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; job.prior created
+</span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;obs_path&#34;] = {&#39;tas&#39;: &#39;gistemp1200_GHCNv4_ERSSTv5&#39;}
+</span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;obs_rename_dict&#34;] = {&#39;tas&#39;: &#39;tempanomaly&#39;}
+</span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;obs_anom_period&#34;] = [1951, 1980]
+</span><span class="ansi-black-intense-fg ansi-bold">&gt;&gt;&gt; The target file seems existed at: ./data/gistemp1200_GHCNv4_ERSSTv5.nc.gz . Loading from it instead of downloading ...
+</span><span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; obs variables [&#39;tas&#39;] loaded
+</span><span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; job.obs created
+</span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;ptype_psm_dict&#34;] = {&#39;coral.SrCa&#39;: &#39;Linear&#39;, &#39;coral.calc&#39;: &#39;Linear&#39;, &#39;coral.d18O&#39;: &#39;Linear&#39;}
+</span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;ptype_season_dict&#34;] = {&#39;coral.SrCa&#39;: [12, 1, 2], &#39;coral.calc&#39;: [12, 1, 2], &#39;coral.d18O&#39;: [12, 1, 2]}
+Calibrating the PSMs:  10%|██▎                   | 3/29 [00:00&lt;00:00, 27.54it/s]The number of overlapped data points is 22 &lt; 25. Skipping ...
+The number of overlapped data points is 24 &lt; 25. Skipping ...
+Calibrating the PSMs:  45%|█████████▍           | 13/29 [00:00&lt;00:00, 42.16it/s]The number of overlapped data points is 22 &lt; 25. Skipping ...
+Calibrating the PSMs:  62%|█████████████        | 18/29 [00:00&lt;00:00, 44.34it/s]The number of overlapped data points is 21 &lt; 25. Skipping ...
+Calibrating the PSMs: 100%|█████████████████████| 29/29 [00:00&lt;00:00, 43.81it/s]
+</span><span class="ansi-yellow-intense-fg ansi-bold">&gt;&gt;&gt; PSM for Ocn_150 failed to be calibrated.
+</span><span class="ansi-yellow-intense-fg ansi-bold">&gt;&gt;&gt; PSM for Ocn_152 failed to be calibrated.
+</span><span class="ansi-yellow-intense-fg ansi-bold">&gt;&gt;&gt; PSM for Ocn_165 failed to be calibrated.
+</span><span class="ansi-yellow-intense-fg ansi-bold">&gt;&gt;&gt; PSM for Ocn_183 failed to be calibrated.
+</span><span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; 25 records tagged &#34;calibrated&#34; with ProxyRecord.psm created
+Forwarding the PSMs: 100%|██████████████████████| 25/25 [00:03&lt;00:00,  7.83it/s]
+</span><span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; ProxyRecord.pseudo created for 25 records
+</span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;prior_annualize_months&#34;] = [12, 1, 2]
+</span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; Processing tas ...
+</span><span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; job.prior updated
+</span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;prior_regrid_nlat&#34;] = 42
+</span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;prior_regrid_nlon&#34;] = 63
+</span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; Processing tas ...
+</span><span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; DONE! Total time used: 0.19 mins.
+</span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;recon_period&#34;] = [0, 2000]
+</span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;recon_loc_rad&#34;] = 25000
+</span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;recon_timescale&#34;] = 1
+</span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;recon_seeds&#34;] = [1, 2]
+</span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;assim_frac&#34;] = 0.75
+</span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;compress_params&#34;] = {&#39;zlib&#39;: True}
+</span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;output_full_ens&#34;] = False
+</span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; seed: 1 | max: 2
+KF updating: 100%|█████████████████████████| 2001/2001 [00:09&lt;00:00, 212.91it/s]
+</span><span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; Reconstructed fields saved to: ./recons/test_cfg/job_r01_recon.nc
+</span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; seed: 2 | max: 2
+KF updating: 100%|█████████████████████████| 2001/2001 [00:10&lt;00:00, 182.41it/s]
+</span><span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; Reconstructed fields saved to: ./recons/test_cfg/job_r02_recon.nc
+</span><span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; DONE! Total time spent: 0.87 mins.
+</span>
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
+</section>
+</section>
+
+
+                </article>
+              
+
+              
+              
+                <footer class="bd-footer-article">
+                  <!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="lmr-assim-no-calib.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Assimilating records whose PSMs cannot be calibrated</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="../ug-graphem.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">GraphEM</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Generating-the-configs.yml-file">Generating the <code class="docutils literal notranslate"><span class="pre">configs.yml</span></code> file</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Testing-running-the-reconstruction-job-based-on-the-generated-configs.yml-file">Testing running the reconstruction job based on the generated <code class="docutils literal notranslate"><span class="pre">configs.yml</span></code> file</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Leveraging-the-CLI">Leveraging the CLI</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            <div class="bd-footer-content__inner">
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2023, Feng Zhu, Julien Emile-Geay.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div></div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=12da95d707ffb74b382d"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=12da95d707ffb74b382d"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

@@ -897,7 +897,7 @@ class ProxyDatabase:
         new = self.copy()
         for pid, pobj in tqdm(self.records.items(), total=self.nrec, desc='Standardizing each of the ProxyRecords'):
             ref = pobj.slice(ref_period)
-            if np.size(ref.time) == 0:
+            if len(ref.time) < 5:
                 new -= pobj
             else:
                 new.records[pid].value = (pobj.value - np.nanmean(ref.value)) / np.nanstd(ref.value)

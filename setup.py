@@ -5,8 +5,8 @@ with open('README.md', 'r') as fh:
 
 setup(
     name='cfr',  # required
-    version='0.5.3',
-    description='cfr: the Python package for Climate Field Reconstruction',
+    version='0.6.0',
+    description='cfr: a Python package for Climate Field Reconstruction',
     long_description=long_description,
     long_description_content_type='text/x-rst',
     author='Feng Zhu, Julien Emile-Geay',
@@ -16,7 +16,7 @@ setup(
     include_package_data=True,
     license='BSD 3-Clause',
     zip_safe=False,
-    keywords='paleocliamte reconstruction',
+    keywords='climate field reconstruction',
     scripts=['bin/cfr'],
     classifiers=[
         'Natural Language :: English',

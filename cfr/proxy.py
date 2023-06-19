@@ -865,7 +865,13 @@ class ProxyDatabase:
         ''' Center the proxy timeseries against a reference time period.
 
         Args:
+        ----    
             ref_period (tuple or list): the reference time period in the form or (start_yr, end_yr)
+            
+        Returns
+        -------
+        pdb_s : cfr.ProxyDatabase object
+        
         '''
         new = self.copy()
         for pid, pobj in tqdm(self.records.items(), total=self.nrec, desc='Centering each of the ProxyRecord'):
@@ -874,6 +880,27 @@ class ProxyDatabase:
                 new -= pobj
             else:
                 new.records[pid].value -= np.mean(ref.value)
+
+        return new
+    
+    def standardize(self, ref_period):
+        ''' Standardize elements of a proxy database against a reference time period.
+            Elements that have no values over the reference period are dropped 
+
+        Args:
+            ref_period (tuple or list): the reference time period in the form or (start_yr, end_yr)
+            
+        Returns
+        -------
+        pdb_s : cfr.ProxyDatabase object
+        '''
+        new = self.copy()
+        for pid, pobj in tqdm(self.records.items(), total=self.nrec, desc='Standardizing each of the ProxyRecords'):
+            ref = pobj.slice(ref_period)
+            if np.size(ref.time) == 0:
+                new -= pobj
+            else:
+                new.records[pid].value = (pobj.value - np.nanmean(ref.value)) / np.nanstd(ref.value)
 
         return new
 

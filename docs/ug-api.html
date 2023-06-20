@@ -409,6 +409,7 @@ document.write(`
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyDatabase.plotly"><code class="docutils literal notranslate"><span class="pre">ProxyDatabase.plotly()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyDatabase.refresh"><code class="docutils literal notranslate"><span class="pre">ProxyDatabase.refresh()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyDatabase.slice"><code class="docutils literal notranslate"><span class="pre">ProxyDatabase.slice()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyDatabase.standardize"><code class="docutils literal notranslate"><span class="pre">ProxyDatabase.standardize()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyDatabase.to_df"><code class="docutils literal notranslate"><span class="pre">ProxyDatabase.to_df()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyDatabase.to_ds"><code class="docutils literal notranslate"><span class="pre">ProxyDatabase.to_ds()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyDatabase.to_multi_nc"><code class="docutils literal notranslate"><span class="pre">ProxyDatabase.to_multi_nc()</span></code></a></li>
@@ -706,11 +707,20 @@ if timespan = [a, b, c, d], then the sliced output includes segment [a, b] and s
 <dt class="sig sig-object py" id="cfr.proxy.ProxyDatabase.center">
 <span class="sig-name descname"><span class="pre">center</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ref_period</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.proxy.ProxyDatabase.center" title="Permalink to this definition">#</a></dt>
 <dd><p>Center the proxy timeseries against a reference time period.</p>
+<section id="args">
+<h3>Args:<a class="headerlink" href="#args" title="Permalink to this heading">#</a></h3>
+<blockquote>
+<div><p>ref_period (tuple or list): the reference time period in the form or (start_yr, end_yr)</p>
+</div></blockquote>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>ref_period</strong> (<em>tuple</em><em> or </em><em>list</em>) – the reference time period in the form or (start_yr, end_yr)</p>
+<dt class="field-odd">returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>new</strong></p>
+</dd>
+<dt class="field-even">rtype<span class="colon">:</span></dt>
+<dd class="field-even"><p>cfr.ProxyDatabase object</p>
 </dd>
 </dl>
+</section>
 </dd></dl>
 
 <dl class="py method">
@@ -767,7 +777,7 @@ if timespan = [a, b, c, d], then the sliced output includes segment [a, b] and s
 
 <dl class="py method">
 <dt class="sig sig-object py" id="cfr.proxy.ProxyDatabase.from_df">
-<span class="sig-name descname"><span class="pre">from_df</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pid_column</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'paleoData_pages2kID'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lat_column</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'geo_meanLat'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lon_column</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'geo_meanLon'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">elev_column</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'geo_meanElev'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time_column</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'year'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value_column</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'paleoData_values'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">proxy_type_column</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'paleoData_proxy'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">archive_type_column</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'archiveType'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value_name_column</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'paleoData_variableName'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value_unit_column</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'paleoData_units'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.proxy.ProxyDatabase.from_df" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">from_df</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pid_column</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'paleoData_pages2kID'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lat_column</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'geo_meanLat'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lon_column</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'geo_meanLon'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">elev_column</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'geo_meanElev'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time_column</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'year'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value_column</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'paleoData_values'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">proxy_type_column</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'paleoData_proxy'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">archive_type_column</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'archiveType'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ptype_column</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'ptype'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value_name_column</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'paleoData_variableName'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value_unit_column</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'paleoData_units'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.proxy.ProxyDatabase.from_df" title="Permalink to this definition">#</a></dt>
 <dd><p>Load database from a Pandas DataFrame</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -847,6 +857,26 @@ the default is by multiprocessing.cpu_count()</p></li>
 <dt class="sig sig-object py" id="cfr.proxy.ProxyDatabase.slice">
 <span class="sig-name descname"><span class="pre">slice</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">timespan</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.proxy.ProxyDatabase.slice" title="Permalink to this definition">#</a></dt>
 <dd><p>Slice the records in the proxy database.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cfr.proxy.ProxyDatabase.standardize">
+<span class="sig-name descname"><span class="pre">standardize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ref_period</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.proxy.ProxyDatabase.standardize" title="Permalink to this definition">#</a></dt>
+<dd><dl class="simple">
+<dt>Standardize elements of a proxy database against a reference time period.</dt><dd><p>Elements that have no values over the reference period are dropped</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>ref_period</strong> (<em>tuple</em><em> or </em><em>list</em>) – the reference time period in the form or (start_yr, end_yr)</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>new</strong></p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>cfr.ProxyDatabase object</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
@@ -1959,6 +1989,7 @@ By default, the columns for the members will be labeled as “ens.0”, “ens.1
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyDatabase.plotly"><code class="docutils literal notranslate"><span class="pre">ProxyDatabase.plotly()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyDatabase.refresh"><code class="docutils literal notranslate"><span class="pre">ProxyDatabase.refresh()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyDatabase.slice"><code class="docutils literal notranslate"><span class="pre">ProxyDatabase.slice()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyDatabase.standardize"><code class="docutils literal notranslate"><span class="pre">ProxyDatabase.standardize()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyDatabase.to_df"><code class="docutils literal notranslate"><span class="pre">ProxyDatabase.to_df()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyDatabase.to_ds"><code class="docutils literal notranslate"><span class="pre">ProxyDatabase.to_ds()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyDatabase.to_multi_nc"><code class="docutils literal notranslate"><span class="pre">ProxyDatabase.to_multi_nc()</span></code></a></li>

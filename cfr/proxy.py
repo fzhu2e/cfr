@@ -180,7 +180,7 @@ class ProxyRecord:
         '''
         new = self.copy()
         ref = self.slice(ref_period)
-        new.value -= np.mean(ref.value)
+        new.value -= np.nanmean(ref.value)
         return new
 
     def slice(self, timespan):
@@ -260,10 +260,10 @@ class ProxyRecord:
                 'elev': np.nan if self.elev is None else self.elev,
                 'ptype': self.ptype,
                 'dt': self.dt,
-                'time_name': self.time_name,
-                'time_unit': self.time_unit,
-                'value_name': self.value_name,
-                'value_unit': self.value_unit,
+                'time_name': 'time' if self.time_name is None else self.time_name,
+                'time_unit': 'none' if self.time_unit is None else self.time_unit,
+                'value_name': 'value' if self.value_name is None else self.value_name,
+                'value_unit': 'none' if self.value_unit is None else self.value_unit,
             }
         )
         return da
@@ -870,7 +870,7 @@ class ProxyDatabase:
             
         Returns
         -------
-        pdb_s : cfr.ProxyDatabase object
+        new : cfr.ProxyDatabase object
         
         '''
         new = self.copy()
@@ -879,7 +879,7 @@ class ProxyDatabase:
             if np.size(ref.time) == 0:
                 new -= pobj
             else:
-                new.records[pid].value -= np.mean(ref.value)
+                new.records[pid].value -= np.nanmean(ref.value)
 
         return new
     
@@ -892,7 +892,7 @@ class ProxyDatabase:
             
         Returns
         -------
-        pdb_s : cfr.ProxyDatabase object
+        new : cfr.ProxyDatabase object
         '''
         new = self.copy()
         for pid, pobj in tqdm(self.records.items(), total=self.nrec, desc='Standardizing each of the ProxyRecords'):
@@ -966,7 +966,7 @@ class ProxyDatabase:
 
     def from_df(self, df, pid_column='paleoData_pages2kID', lat_column='geo_meanLat', lon_column='geo_meanLon', elev_column='geo_meanElev',
                 time_column='year', value_column='paleoData_values', proxy_type_column='paleoData_proxy', archive_type_column='archiveType',
-                value_name_column='paleoData_variableName', value_unit_column='paleoData_units',
+                ptype_column='ptype', value_name_column='paleoData_variableName', value_unit_column='paleoData_units',
                 verbose=False):
         ''' Load database from a Pandas DataFrame
 
@@ -985,9 +985,12 @@ class ProxyDatabase:
         records = OrderedDict()
 
         for idx, row in df.iterrows():
-            proxy_type = row[proxy_type_column]
-            archive_type = row[archive_type_column]
-            ptype = get_ptype(archive_type, proxy_type)
+            if ptype_column not in row:
+                proxy_type = row[proxy_type_column]
+                archive_type = row[archive_type_column]
+                ptype = get_ptype(archive_type, proxy_type)
+            else:
+                ptype = row[ptype_column]
             pid = row[pid_column]
             lat = row[lat_column]
             lon = np.mod(row[lon_column], 360)

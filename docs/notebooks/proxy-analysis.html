@@ -407,19 +407,16 @@ document.write(`
 <span class="kn">import</span> <span class="nn">cfr</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">os</span>
-<span class="n">os</span><span class="o">.</span><span class="n">chdir</span><span class="p">(</span><span class="s1">&#39;/glade/u/home/fengzhu/Github/cfr/docsrc/notebooks/&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <section id="Load-the-PAGES2k-network-and-access-a-ProxyRecord">
 <h2>Load the PAGES2k network and access a <code class="docutils literal notranslate"><span class="pre">ProxyRecord</span></code><a class="headerlink" href="#Load-the-PAGES2k-network-and-access-a-ProxyRecord" title="Permalink to this heading">#</a></h2>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_pickle</span><span class="p">(</span><span class="s1">&#39;./data/pages2k_updated_Palmyra_dataset.pkl&#39;</span><span class="p">)</span>
-<span class="n">pdb</span> <span class="o">=</span> <span class="n">cfr</span><span class="o">.</span><span class="n">ProxyDatabase</span><span class="p">()</span><span class="o">.</span><span class="n">from_df</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pdb</span> <span class="o">=</span> <span class="n">cfr</span><span class="o">.</span><span class="n">ProxyDatabase</span><span class="p">()</span><span class="o">.</span><span class="n">fetch</span><span class="p">(</span><span class="s1">&#39;PAGES2kv2&#39;</span><span class="p">)</span>
 <span class="n">pobj</span> <span class="o">=</span> <span class="n">pdb</span><span class="p">[</span><span class="s1">&#39;Ocn_075&#39;</span><span class="p">]</span>
 <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">pobj</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
 </pre></div>
@@ -436,7 +433,7 @@ document.write(`
 <section id="Annualize-a-ProxyRecord">
 <h2>Annualize a <code class="docutils literal notranslate"><span class="pre">ProxyRecord</span></code><a class="headerlink" href="#Annualize-a-ProxyRecord" title="Permalink to this heading">#</a></h2>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># annaulize by calendar year</span>
@@ -453,7 +450,7 @@ document.write(`
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># annaulize by a season</span>
@@ -470,7 +467,7 @@ document.write(`
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># annaulize by a season</span>
@@ -491,7 +488,7 @@ document.write(`
 <h2>Annualize a <code class="docutils literal notranslate"><span class="pre">ProxyDatabase</span></code><a class="headerlink" href="#Annualize-a-ProxyDatabase" title="Permalink to this heading">#</a></h2>
 <p>Note that the <code class="docutils literal notranslate"><span class="pre">.annualize()</span></code> method supports only years starting from 1 CE, and we will need to slice the database first if the time axis of some records go back beyond 1 CE.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pdb_ann</span> <span class="o">=</span> <span class="n">pdb</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="s1">&#39;ptype&#39;</span><span class="p">,</span> <span class="n">keys</span><span class="o">=</span><span class="s1">&#39;coral.d18O&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">annualize</span><span class="p">()</span>
@@ -504,7 +501,7 @@ document.write(`
 </div>
 <div class="output_area stderr docutils container">
 <div class="highlight"><pre>
-Annualizing ProxyDatabase: 100%|██████████| 67/67 [00:03&lt;00:00, 17.73it/s]
+Annualizing ProxyDatabase: 100%|██████████| 67/67 [00:01&lt;00:00, 37.43it/s]
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
@@ -512,14 +509,6 @@ Annualizing ProxyDatabase: 100%|██████████| 67/67 [00:03&lt;
 </div>
 <div class="output_area docutils container">
 <img alt="../_images/notebooks_proxy-analysis_10_1.png" src="../_images/notebooks_proxy-analysis_10_1.png" />
-</div>
-</div>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
-</pre></div>
 </div>
 </div>
 </section>

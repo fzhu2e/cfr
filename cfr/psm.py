@@ -663,9 +663,10 @@ class Ice_d18O():
         pr_ann = self.pobj.clim[self.pr_name].annualize()
         psl_ann = self.pobj.clim[self.psl_name].annualize()
 
+        year_in_float = utils.datetime2year_float(self.pobj.clim[self.pr_name].da.time.values)
         # sensor model
         d18O_ice = ice_sensor(
-            self.pobj.clim[self.pr_name].da.time.values,
+            year_in_float,
             self.pobj.clim[self.d18O_name].da.values,
             self.pobj.clim[self.pr_name].da.values,
             alt_diff=alt_diff,

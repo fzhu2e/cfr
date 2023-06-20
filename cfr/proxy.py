@@ -293,13 +293,19 @@ class ProxyRecord:
         new.time_unit = da.attrs['time_unit'] if 'time_name' in da.attrs else None
         return new
 
-    def annualize(self, months=list(range(1, 13)), verbose=False):
+    def annualize(self, months=list(range(1, 13)), force=True, verbose=False):
         new = self.copy()
         try:
             new.time, new.value = utils.annualize(self.time, self.value, months=months)
+            new.tags.add('annualized')
         except:
-            new.time, new.value = utils.annualize(self.time, self.value, months=list(range(1, 13)))
-            if verbose: p_warning(f'Record {self.pid} cannot be annualized with months {months}. Use calendar year instead.')
+            if force:
+                new.time, new.value = utils.annualize(self.time, self.value, months=list(range(1, 13)))
+                new.tags.add('annualized')
+                print(new.tags)
+                if verbose: p_warning(f'Record {self.pid} cannot be annualized with months {months}. Use calendar year instead.')
+            else:
+                if verbose: p_warning(f'Record {self.pid} cannot be annualized with months {months}. The record is untouched.')
 
         new.time, new.value = utils.clean_ts(new.time, new.value)
         new.dt = np.median(np.diff(new.time))
@@ -1441,11 +1447,11 @@ class ProxyDatabase:
         else:
             return ax
 
-    def annualize(self, months=list(range(1, 13)), verbose=False):
+    def annualize(self, months=list(range(1, 13)), force=True, verbose=False):
         ''' Annualize the records in the proxy database.'''
         new = ProxyDatabase()
         for pid, pobj in tqdm(self.records.items(), total=self.nrec, desc='Annualizing ProxyDatabase'):
-            spobj = pobj.annualize(months=months, verbose=verbose)
+            spobj = pobj.annualize(months=months, force=force, verbose=verbose)
             if spobj is not None:
                 new += spobj
 

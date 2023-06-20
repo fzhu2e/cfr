@@ -388,9 +388,9 @@ def year_float2datetime(year_float, resolution='month'):
         day[i] = date.day
 
     if resolution == 'day':
-        time = [cftime.datetime(y, m, d, 0, 0, 0, 0, 0, 0, has_year_zero=True) for y, m, d in zip(year, month, day)]
+        time = [cftime.datetime(y, m, d, 0, 0, 0, 0, 0, 0, calendar='standard') for y, m, d in zip(year, month, day)]
     elif resolution == 'month':
-        time = [cftime.datetime(y, m, 1, 0, 0, 0, 0, 0, 0, has_year_zero=True) for y, m in zip(year, month)]
+        time = [cftime.datetime(y, m, 1, 0, 0, 0, 0, 0, 0, calendar='standard') for y, m in zip(year, month)]
 
     return time
 

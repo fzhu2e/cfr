@@ -293,7 +293,7 @@ class ProxyRecord:
         new.time_unit = da.attrs['time_unit'] if 'time_name' in da.attrs else None
         return new
 
-    def annualize(self, months=list(range(1, 13)), force=True, verbose=False):
+    def annualize(self, months=list(range(1, 13)), force=False, verbose=False):
         new = self.copy()
         try:
             new.time, new.value = utils.annualize(self.time, self.value, months=months)
@@ -1447,14 +1447,14 @@ class ProxyDatabase:
         else:
             return ax
 
-    def annualize(self, months=list(range(1, 13)), force=True, verbose=False):
+    def annualize(self, months=list(range(1, 13)), force=False, verbose=False):
         ''' Annualize the records in the proxy database.'''
         new = ProxyDatabase()
         for pid, pobj in tqdm(self.records.items(), total=self.nrec, desc='Annualizing ProxyDatabase'):
             spobj = pobj.annualize(months=months, force=force, verbose=verbose)
-            if spobj is not None:
-                new += spobj
+            new += spobj
 
+        new = new.filter(by='tag', keys=['annualized'])
         new.refresh()
         return new
 

@@ -172,17 +172,6 @@ class ProxyRecord:
         ''' Make a deepcopy of the object. '''
         return copy.deepcopy(self)
 
-    def center(self, ref_period):
-        ''' Centering the proxy timeseries regarding a reference period.
-
-        Args:
-            ref_period (tuple or list): the reference time period in the form or (start_yr, end_yr)
-        '''
-        new = self.copy()
-        ref = self.slice(ref_period)
-        new.value -= np.nanmean(ref.value)
-        return new
-
     def slice(self, timespan):
         ''' Slicing the timeseries with a timespan (tuple or list)
 
@@ -311,13 +300,33 @@ class ProxyRecord:
         new.dt = np.median(np.diff(new.time))
         return new
             
+    def center(self, ref_period=None):
+        ''' Centering the proxy timeseries regarding a reference period.
 
-    def standardize(self):
+        Args:
+            ref_period (tuple or list): the reference time period in the form or (start_yr, end_yr)
+        '''
+        if ref_period is not None:
+            ref = self.slice(ref_period)
+        else:
+            ref = self
+
+        new = self.copy()
+        new.value -= np.nanmean(ref.value)
+        return new
+
+
+    def standardize(self, ref_period=None):
+        if ref_period is not None:
+            ref = self.slice(ref_period)
+        else:
+            ref = self
+
         new = self.copy()
         if self.value.std() == 0:
             new.value = np.zeros(np.size(self.value))
         else:
-            new.value = (self.value - np.nanmean(self.value)) / np.nanstd(self.value)
+            new.value = (self.value - np.nanmean(ref.value)) / np.nanstd(ref.value)
         return new
 
     def __getitem__(self, key):
@@ -867,7 +876,7 @@ class ProxyDatabase:
         ''' Make a deepcopy of the object. '''
         return copy.deepcopy(self)
 
-    def center(self, ref_period):
+    def center(self, ref_period, verbose=False):
         ''' Center the proxy timeseries against a reference time period.
 
         Args:
@@ -882,14 +891,15 @@ class ProxyDatabase:
         new = self.copy()
         for pid, pobj in tqdm(self.records.items(), total=self.nrec, desc='Centering each of the ProxyRecord'):
             ref = pobj.slice(ref_period)
-            if np.size(ref.time) == 0:
+            if len(ref.time) < 5:
                 new -= pobj
+                if verbose: p_warning(f'{pid} is dropped due to short overlapping with the reference period.')
             else:
-                new.records[pid].value -= np.nanmean(ref.value)
+                new.records[pid] = new.records[pid].center(ref_period=ref_period)
 
         return new
     
-    def standardize(self, ref_period):
+    def standardize(self, ref_period, verbose=False):
         ''' Standardize elements of a proxy database against a reference time period.
             Elements that have no values over the reference period are dropped 
 
@@ -905,8 +915,9 @@ class ProxyDatabase:
             ref = pobj.slice(ref_period)
             if len(ref.time) < 5:
                 new -= pobj
+                if verbose: p_warning(f'{pid} is dropped due to short overlapping with the reference period.')
             else:
-                new.records[pid].value = (pobj.value - np.nanmean(ref.value)) / np.nanstd(ref.value)
+                new.records[pid] = new.records[pid].standardize(ref_period=ref_period)
 
         return new
 
@@ -1455,6 +1466,7 @@ class ProxyDatabase:
             new += spobj
 
         new = new.filter(by='tag', keys=['annualized'])
+        if verbose: p_warning(f'{self.nrec - new.nrec} records have been dropped as they cannot be annualized with the given months.')
         new.refresh()
         return new
 

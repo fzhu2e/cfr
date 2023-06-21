@@ -32,3 +32,6 @@ __version__ = version('cfr')
 # mute future warnings from pkgs like pandas
 import warnings
 warnings.simplefilter(action='ignore', category=FutureWarning)
+        
+# mute the numpy warnings
+warnings.simplefilter('ignore', category=RuntimeWarning)

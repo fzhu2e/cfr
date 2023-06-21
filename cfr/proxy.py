@@ -316,9 +316,26 @@ class ProxyRecord:
         return new
 
 
-    def standardize(self, ref_period=None):
+    def standardize(self, thresh = 5, ref_period=None, force=False):
+        '''
+        Standardizes the record. If the record is constant, a vector of 0s is returned.
+        Parameters
+        ----------
+        ref_period : list, optional
+            [min_time, max_time]. The default is None.
+
+        Returns
+        -------
+        new : ProxyRecord
+            contains standardized values.
+
+        '''
+        
         if ref_period is not None:
             ref = self.slice(ref_period)
+            if len(ref.time) < thresh:
+                p_warning(f'Record only contains {len(ref.time)} points over {ref_period}; not enough to standardize. We reference over the full record instead.')
+                ref = self
         else:
             ref = self
 
@@ -326,7 +343,13 @@ class ProxyRecord:
         if self.value.std() == 0:
             new.value = np.zeros(np.size(self.value))
         else:
-            new.value = (self.value - np.nanmean(ref.value)) / np.nanstd(ref.value)
+            z = (self.value - np.nanmean(ref.value)) / np.nanstd(ref.value)
+            if np.isfinite(z) and ~np.isnan(z):
+                new.value = z
+                new.tags.add('standardized')
+            else:
+                raise ValueError('Standardization failed; reverting to original')
+                new = self
         return new
 
     def __getitem__(self, key):

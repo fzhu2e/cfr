@@ -30,7 +30,7 @@ jobs:
     - name: Conda list
       run: |
         conda activate cfr-env
-        pip install pytest-xdist nbmake
+        pip install pytest pytest-xdist nbmake
         conda list
 
     - name: Test with pytest

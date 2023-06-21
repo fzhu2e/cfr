@@ -426,11 +426,21 @@ document.write(`
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># load the real PAGES2k dataset</span>
-<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_pickle</span><span class="p">(</span><span class="s1">&#39;./data/pages2k_updated_Palmyra_dataset.pkl&#39;</span><span class="p">)</span>
-<span class="n">pdb_p2k</span> <span class="o">=</span> <span class="n">cfr</span><span class="o">.</span><span class="n">ProxyDatabase</span><span class="p">()</span><span class="o">.</span><span class="n">from_df</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+
+<span class="c1"># load from a local copy</span>
+<span class="c1"># df = pd.read_pickle(&#39;./data/pages2k_updated_Palmyra_dataset.pkl&#39;)</span>
+<span class="c1"># pdb_p2k = cfr.ProxyDatabase().from_df(df)</span>
+
+<span class="c1"># load from the cloud</span>
+<span class="n">pdb_p2k</span> <span class="o">=</span> <span class="n">cfr</span><span class="o">.</span><span class="n">ProxyDatabase</span><span class="p">()</span><span class="o">.</span><span class="n">fetch</span><span class="p">(</span><span class="s1">&#39;PAGES2kv2&#39;</span><span class="p">)</span>
 
 <span class="c1"># load pseudoPAGES2k dataset</span>
-<span class="n">pdb_pp2k</span> <span class="o">=</span> <span class="n">cfr</span><span class="o">.</span><span class="n">ProxyDatabase</span><span class="p">()</span><span class="o">.</span><span class="n">load_nc</span><span class="p">(</span><span class="s1">&#39;./data/ppwn_SNRinf_rta.nc&#39;</span><span class="p">)</span>
+
+<span class="c1"># load from a local copy</span>
+<span class="c1"># pdb_pp2k = cfr.ProxyDatabase().load_nc(&#39;./data/ppwn_SNRinf_rta.nc&#39;)</span>
+
+<span class="c1"># load from the cloud</span>
+<span class="n">pdb_pp2k</span> <span class="o">=</span> <span class="n">cfr</span><span class="o">.</span><span class="n">ProxyDatabase</span><span class="p">()</span><span class="o">.</span><span class="n">load_nc</span><span class="p">(</span><span class="s1">&#39;pseudoPAGES2k/ppwn_SNRinf_rta&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>

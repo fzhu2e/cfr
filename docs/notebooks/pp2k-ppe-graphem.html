@@ -443,7 +443,12 @@ document.write(`
 <span class="n">job</span> <span class="o">=</span> <span class="n">cfr</span><span class="o">.</span><span class="n">ReconJob</span><span class="p">()</span>
 
 <span class="c1"># load the pseudoPAGES2k database from a netCDF file</span>
-<span class="n">job</span><span class="o">.</span><span class="n">proxydb</span> <span class="o">=</span> <span class="n">cfr</span><span class="o">.</span><span class="n">ProxyDatabase</span><span class="p">()</span><span class="o">.</span><span class="n">load_nc</span><span class="p">(</span><span class="s1">&#39;./data/ppwn_SNRinf_rta.nc&#39;</span><span class="p">)</span>
+
+<span class="c1"># load from a local copy</span>
+<span class="c1"># job.proxydb = cfr.ProxyDatabase().load_nc(&#39;./data/ppwn_SNRinf_rta.nc&#39;)</span>
+
+<span class="c1"># load from the cloud</span>
+<span class="n">job</span><span class="o">.</span><span class="n">proxydb</span> <span class="o">=</span> <span class="n">cfr</span><span class="o">.</span><span class="n">ProxyDatabase</span><span class="p">()</span><span class="o">.</span><span class="n">load_nc</span><span class="p">(</span><span class="s1">&#39;pseudoPAGES2k/ppwn_SNRinf_rta&#39;</span><span class="p">)</span>
 
 <span class="c1"># filter the database</span>
 <span class="n">job</span><span class="o">.</span><span class="n">filter_proxydb</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="s1">&#39;ptype&#39;</span><span class="p">,</span> <span class="n">keys</span><span class="o">=</span><span class="s1">&#39;coral&#39;</span><span class="p">)</span>
@@ -615,7 +620,8 @@ Centering each of the ProxyRecord: 100%|██████████| 96/96 [0
 <div class="input_area highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">job</span><span class="o">.</span><span class="n">load_clim</span><span class="p">(</span>
     <span class="n">tag</span><span class="o">=</span><span class="s1">&#39;obs&#39;</span><span class="p">,</span>
     <span class="n">path_dict</span><span class="o">=</span><span class="p">{</span>
-        <span class="s1">&#39;tas&#39;</span><span class="p">:</span> <span class="s1">&#39;./data/tas_sfc_Amon_iCESM_past1000historical_085001-200512.nc&#39;</span><span class="p">,</span>
+        <span class="c1"># &#39;tas&#39;: &#39;./data/tas_sfc_Amon_iCESM_past1000historical_085001-200512.nc&#39;,  # load from a local copy</span>
+        <span class="s1">&#39;tas&#39;</span><span class="p">:</span> <span class="s1">&#39;iCESM_past1000historical/tas&#39;</span><span class="p">,</span>  <span class="c1"># load from the cloud</span>
     <span class="p">},</span>
     <span class="n">anom_period</span><span class="o">=</span><span class="p">(</span><span class="mi">1951</span><span class="p">,</span> <span class="mi">1980</span><span class="p">),</span>
     <span class="n">load</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>  <span class="c1"># load the data into memeory to accelerate the later access; requires large memeory</span>

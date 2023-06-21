@@ -55,7 +55,7 @@
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Running DA with the Command Line Interface (CLI)" href="lmr-cli.html" />
-    <link rel="prev" title="Real-world proxy experiments with LMR and PAGES2k" href="lmr-real-pages2k.html" />
+    <link rel="prev" title="Reconstructing the tropical Pacific SST with PAGES2k" href="lmr-real-pages2k.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -169,19 +169,15 @@
 <li class="toctree-l2"><a class="reference internal" href="psm-coral-SrCa.html">PSM for coral Sr/Ca</a></li>
 <li class="toctree-l2"><a class="reference internal" href="psm-coral-d18O.html">PSM for coral d18O</a></li>
 <li class="toctree-l2"><a class="reference internal" href="psm-tree-TRW.html">PSM for tree TRW (VS-Lite)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="psm-tree-seasonality.html">Detecting the seasonality of the trees</a></li>
-<li class="toctree-l2"><a class="reference internal" href="psm-tree-memory.html">Detecting the biological memory in the trees</a></li>
 </ul>
 </li>
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="../ug-lmr.html">LMR</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-5"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="lmr-real-pages2k.html">Real-world proxy experiments with LMR and PAGES2k</a></li>
+<li class="toctree-l2"><a class="reference internal" href="lmr-real-pages2k.html">Reconstructing the tropical Pacific SST with PAGES2k</a></li>
 <li class="toctree-l2 current active"><a class="current reference internal" href="#">Assimilating records whose PSMs cannot be calibrated</a></li>
 <li class="toctree-l2"><a class="reference internal" href="lmr-cli.html">Running DA with the Command Line Interface (CLI)</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../ug-graphem.html">GraphEM</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-6"><i class="fa-solid fa-chevron-down"></i></label><ul>
-<li class="toctree-l2"><a class="reference internal" href="graphem-real-pages2k.html">Real-world proxy experiments with GraphEM and PAGES2k</a></li>
-<li class="toctree-l2"><a class="reference internal" href="graphem-ppe-pages2k.html">A Pseudoproxy Experiment with GraphEM and pseudoPAGES2k</a></li>
 <li class="toctree-l2"><a class="reference internal" href="graphem-cli.html">Running GraphEM with the Command Line Interface (CLI)</a></li>
 </ul>
 </li>
@@ -404,7 +400,7 @@ document.write(`
                   
   <section id="Assimilating-records-whose-PSMs-cannot-be-calibrated">
 <h1>Assimilating records whose PSMs cannot be calibrated<a class="headerlink" href="#Assimilating-records-whose-PSMs-cannot-be-calibrated" title="Permalink to this heading">#</a></h1>
-<p>In some cases, we may need to assimilate records whose PSMs cannot be calibrated with instrumental observations due to non-overlapping timespans. This tutorial shows how to specify the required parameters and assimilate those records without calling the calibration step of their PSMs.</p>
+<p>In some cases, we may need to assimilate records whose PSMs cannot be calibrated against instrumental observations due to non-overlapping timespans. This tutorial shows how to specify the required parameters and assimilate those records without calling the calibration step of their PSMs.</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
@@ -413,8 +409,6 @@ document.write(`
 <span class="o">%</span><span class="k">autoreload</span> 2
 
 <span class="kn">import</span> <span class="nn">cfr</span>
-<span class="kn">import</span> <span class="nn">os</span>
-<span class="n">os</span><span class="o">.</span><span class="n">chdir</span><span class="p">(</span><span class="s1">&#39;/glade/u/home/fengzhu/Github/cfr/docsrc/notebooks/&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -444,7 +438,7 @@ document.write(`
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">job</span><span class="o">.</span><span class="n">load_proxydb</span><span class="p">(</span><span class="s1">&#39;./data/pages2k_updated_Palmyra_dataset.pkl&#39;</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">job</span><span class="o">.</span><span class="n">load_proxydb</span><span class="p">(</span><span class="s1">&#39;PAGES2kv2&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -525,7 +519,7 @@ Annualizing ProxyDatabase: 100%|██████████| 104/104 [00:05&l
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">job</span><span class="o">.</span><span class="n">load_clim</span><span class="p">(</span>
     <span class="n">tag</span><span class="o">=</span><span class="s1">&#39;prior&#39;</span><span class="p">,</span>
     <span class="n">path_dict</span><span class="o">=</span><span class="p">{</span>
-        <span class="s1">&#39;tas&#39;</span><span class="p">:</span> <span class="s1">&#39;./data/tas_sfc_Amon_iCESM_past1000historical_085001-200512.nc&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;tas&#39;</span><span class="p">:</span> <span class="s1">&#39;iCESM_past1000historical/tas&#39;</span><span class="p">,</span>
     <span class="p">},</span>
     <span class="n">anom_period</span><span class="o">=</span><span class="p">(</span><span class="mi">1951</span><span class="p">,</span> <span class="mi">1980</span><span class="p">),</span>
     <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
@@ -1324,7 +1318,7 @@ Text(0, 0.5, &#39;NINO3.4 [K]&#39;)
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Real-world proxy experiments with LMR and PAGES2k</p>
+        <p class="prev-next-title">Reconstructing the tropical Pacific SST with PAGES2k</p>
       </div>
     </a>
     <a class="right-next"

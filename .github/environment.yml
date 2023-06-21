@@ -1,10 +1,9 @@
 name: cfr-env
 channels:
-  - defaults
 dependencies:
   - python=3.10
   - jupyter
   - notebook
   - cartopy
   - pip:
-    - git+https://github.com/fzhu2e/cfr.git@master
+    - git+https://github.com/fzhu2e/cfr.git@main

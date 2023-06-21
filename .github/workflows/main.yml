@@ -23,7 +23,7 @@ jobs:
       uses: conda-incubator/setup-miniconda@v2
       with:
         activate-environment: cfr-env
-        environment-file: .github/environment.yml
+        environment-file: environment.yml
         python-version: "3.10"
         auto-activate-base: false
 
@@ -32,7 +32,7 @@ jobs:
         conda activate cfr-env
         pip install pytest-xdist nbmake
         conda list
-        
+
     - name: Test with pytest
       run: |
         conda activate cfr-env

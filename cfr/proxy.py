@@ -291,7 +291,6 @@ class ProxyRecord:
             if force:
                 new.time, new.value = utils.annualize(self.time, self.value, months=list(range(1, 13)))
                 new.tags.add('annualized')
-                print(new.tags)
                 if verbose: p_warning(f'Record {self.pid} cannot be annualized with months {months}. Use calendar year instead.')
             else:
                 if verbose: p_warning(f'Record {self.pid} cannot be annualized with months {months}. The record is untouched.')

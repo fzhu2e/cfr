@@ -33,7 +33,6 @@ setup(
         'nc-time-axis',
         'dask',
         'statsmodels',
-        'pathos',
         'eofs',
         'plotly',
         'pyresample',

@@ -299,25 +299,39 @@ class ProxyRecord:
         new.dt = np.median(np.diff(new.time))
         return new
             
-    def center(self, ref_period=None):
+    def center(self, ref_period=None, thresh=5, force=False, verbose=False):
         ''' Centering the proxy timeseries regarding a reference period.
 
         Args:
             ref_period (tuple or list): the reference time period in the form or (start_yr, end_yr)
         '''
+        def center_func(new, ref):
+            new.value -= np.nanmean(ref.value)
+            new.tags.add('centered')
+            return new
+            
         if ref_period is not None:
             ref = self.slice(ref_period)
         else:
             ref = self
 
         new = self.copy()
-        new.value -= np.nanmean(ref.value)
+        if len(ref.time) < thresh:
+            if force:
+                ref = self
+                new = center_func(new, ref)
+                if verbose: p_warning(f'The overlapping with the given reference period is too short. Reference over the full record instead.')
+            else:
+                if verbose: p_warning(f'The record is untouched due to short overlapping with the reference period.')
+        else:
+            new = center_func(new, ref)
+
         return new
 
-
-    def standardize(self, thresh = 5, ref_period=None, force=False):
+    def standardize(self, ref_period=None, thresh=5, force=False, verbose=False):
         '''
         Standardizes the record. If the record is constant, a vector of 0s is returned.
+
         Parameters
         ----------
         ref_period : list, optional
@@ -327,28 +341,32 @@ class ProxyRecord:
         -------
         new : ProxyRecord
             contains standardized values.
-
         '''
-        
+        def std_func(new, ref):
+            z = (new.value - np.nanmean(ref.value)) / np.nanstd(ref.value)
+            if np.isfinite(z.all()) and ~np.isnan(z.all()):
+                new.value = z
+                new.tags.add('standardized')
+            else:
+                if verbose: p_warning('Standardization failed; the record is untouched.')
+
+            return new
+            
         if ref_period is not None:
             ref = self.slice(ref_period)
-            if len(ref.time) < thresh:
-                p_warning(f'Record only contains {len(ref.time)} points over {ref_period}; not enough to standardize. We reference over the full record instead.')
-                ref = self
         else:
             ref = self
 
         new = self.copy()
-        if self.value.std() == 0:
-            new.value = np.zeros(np.size(self.value))
-        else:
-            z = (self.value - np.nanmean(ref.value)) / np.nanstd(ref.value)
-            if np.isfinite(z) and ~np.isnan(z):
-                new.value = z
-                new.tags.add('standardized')
+        if len(ref.time) < thresh:
+            if force:
+                ref = self
+                new = std_func(new, ref)
             else:
-                raise ValueError('Standardization failed; reverting to original')
-                new = self
+                if verbose: p_warning(f'The record is untouched due to short overlapping with the reference period.')
+        else:
+            new = std_func(new, ref)
+
         return new
 
     def __getitem__(self, key):
@@ -898,7 +916,7 @@ class ProxyDatabase:
         ''' Make a deepcopy of the object. '''
         return copy.deepcopy(self)
 
-    def center(self, ref_period, verbose=False):
+    def center(self, ref_period, force=False, thresh=5, verbose=False):
         ''' Center the proxy timeseries against a reference time period.
 
         Args:
@@ -910,18 +928,16 @@ class ProxyDatabase:
         new : cfr.ProxyDatabase object
         
         '''
-        new = self.copy()
+        new = ProxyDatabase()
         for pid, pobj in tqdm(self.records.items(), total=self.nrec, desc='Centering each of the ProxyRecord'):
-            ref = pobj.slice(ref_period)
-            if len(ref.time) < 5:
-                new -= pobj
-                if verbose: p_warning(f'{pid} is dropped due to short overlapping with the reference period.')
-            else:
-                new.records[pid] = new.records[pid].center(ref_period=ref_period)
+            spobj = pobj.center(ref_period=ref_period, force=force, thresh=thresh, verbose=False)
+            new += spobj
 
+        new = new.filter(by='tag', keys=['centered'])
+        if verbose and not force: p_warning(f'{self.nrec - new.nrec} records have been dropped as they cannot be properly centered with the reference period.')
         return new
     
-    def standardize(self, ref_period, verbose=False):
+    def standardize(self, ref_period, force=False, thresh=5, verbose=False):
         ''' Standardize elements of a proxy database against a reference time period.
             Elements that have no values over the reference period are dropped 
 
@@ -932,15 +948,13 @@ class ProxyDatabase:
         -------
         new : cfr.ProxyDatabase object
         '''
-        new = self.copy()
+        new = ProxyDatabase()
         for pid, pobj in tqdm(self.records.items(), total=self.nrec, desc='Standardizing each of the ProxyRecords'):
-            ref = pobj.slice(ref_period)
-            if len(ref.time) < 5:
-                new -= pobj
-                if verbose: p_warning(f'{pid} is dropped due to short overlapping with the reference period.')
-            else:
-                new.records[pid] = new.records[pid].standardize(ref_period=ref_period)
+            spobj = pobj.standardize(ref_period=ref_period, force=force, thresh=thresh, verbose=False)
+            new += spobj
 
+        new = new.filter(by='tag', keys=['standardized'])
+        if verbose and not force: p_warning(f'{self.nrec - new.nrec} records have been dropped as they cannot be properly standardized with the reference period.')
         return new
 
     def refresh(self):
@@ -1484,12 +1498,11 @@ class ProxyDatabase:
         ''' Annualize the records in the proxy database.'''
         new = ProxyDatabase()
         for pid, pobj in tqdm(self.records.items(), total=self.nrec, desc='Annualizing ProxyDatabase'):
-            spobj = pobj.annualize(months=months, force=force, verbose=verbose)
+            spobj = pobj.annualize(months=months, force=force, verbose=False)
             new += spobj
 
         new = new.filter(by='tag', keys=['annualized'])
-        if verbose: p_warning(f'{self.nrec - new.nrec} records have been dropped as they cannot be annualized with the given months.')
-        new.refresh()
+        if verbose and not force: p_warning(f'{self.nrec - new.nrec} records have been dropped as they cannot be properly annualized with the given months.')
         return new
 
     def slice(self, timespan):

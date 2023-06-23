@@ -72,3 +72,6 @@ class ReconRes:
             if verbose:
                 p_success(f'>>> ReconRes.recons["{vn}"] created')
                 p_success(f'>>> ReconRes.da["{vn}"] created')
+
+    def compare(self, res2, verbose=False):
+        vn_list = self.recons.keys()

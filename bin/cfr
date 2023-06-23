@@ -14,7 +14,7 @@ def main():
     parser = argparse.ArgumentParser(
             description='''
 ========================================================================================
- cfr: a scripting system for CFR (Feng Zhu, fengzhu@ucar.edu)
+ cfr: a scripting system for CFR
 ----------------------------------------------------------------------------------------
  Usage example for DA:
     cfr da -c config.yml -vb -s 1 2 -r

@@ -1,0 +1,1589 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+    <title>Reconstructing the tropical Pacific SST with PAGES2k and GraphEM &#8212; cfr  documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/theme_overrides.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/style.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/nbsphinx-code-cells.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=12da95d707ffb74b382d" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=12da95d707ffb74b382d" />
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script src="../_static/design-tabs.js"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'notebooks/graphem-real-pages2k';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/cfr-logo.jpg" class="logo__image only-light" alt="Logo image"/>
+    <script>document.write(`<img src="../_static/cfr-logo.jpg" class="logo__image only-dark" alt="Logo image"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">User Guide</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../ug-installation.html">Installation</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../ug-pp2k.html">pseudoPAGES2k</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="pp2k-pdb-load-viz.html">Loading and Visualization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pp2k-pdb-filter.html">Database Filtering</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pp2k-dashboards.html">Validation Dashboards</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pp2k-ppe-pda.html">PPE: A PDA-based Reconstruction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pp2k-ppe-graphem.html">PPE: A GraphEM-based Reconstruction</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../ug-climate.html">Climate</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="climate-io.html">Input/Output</a></li>
+<li class="toctree-l2"><a class="reference internal" href="climate-ops.html">Basic Operations</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../ug-proxy.html">Proxy</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="proxy-io.html">Input/Output</a></li>
+<li class="toctree-l2"><a class="reference internal" href="proxy-ops.html">Basic Operations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="proxy-analysis.html">Analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="proxy-composites.html">Composites</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../ug-psm.html">PSM</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="psm-linear.html">Univariate linear regression</a></li>
+<li class="toctree-l2"><a class="reference internal" href="psm-bilinear.html">Bivariate linear regression</a></li>
+<li class="toctree-l2"><a class="reference internal" href="psm-ice-d18O.html">PSM for ice core d18O</a></li>
+<li class="toctree-l2"><a class="reference internal" href="psm-lake-VarveThickness.html">PSM for lake varve thickness</a></li>
+<li class="toctree-l2"><a class="reference internal" href="psm-coral-SrCa.html">PSM for coral Sr/Ca</a></li>
+<li class="toctree-l2"><a class="reference internal" href="psm-coral-d18O.html">PSM for coral d18O</a></li>
+<li class="toctree-l2"><a class="reference internal" href="psm-tree-TRW.html">PSM for tree TRW (VS-Lite)</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../ug-lmr.html">LMR</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-5"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="lmr-real-pages2k.html">Reconstructing the tropical Pacific SST with PAGES2k</a></li>
+<li class="toctree-l2"><a class="reference internal" href="lmr-assim-no-calib.html">Assimilating records whose PSMs cannot be calibrated</a></li>
+<li class="toctree-l2"><a class="reference internal" href="lmr-cli.html">Running DA with the Command Line Interface (CLI)</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../ug-graphem.html">GraphEM</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-6"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="graphem-cli.html">Running GraphEM with the Command Line Interface (CLI)</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../ug-api.html">API Reference</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/fzhu2e/cfr" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/fzhu2e/cfr/edit/main/notebooks/graphem-real-pages2k.ipynb" target="_blank"
+   class="btn btn-sm btn-source-edit-button dropdown-item"
+   title="Suggest edit"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-pencil-alt"></i>
+  </span>
+<span class="btn__text-container">Suggest edit</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/fzhu2e/cfr/issues/new?title=Issue%20on%20page%20%2Fnotebooks/graphem-real-pages2k.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/notebooks/graphem-real-pages2k.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script>
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Reconstructing the tropical Pacific SST with PAGES2k and GraphEM</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#GraphEM-steps">GraphEM steps</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Create-a-reconstruction-job-object-cfr.ReconJob-and-load-the-pseudoPAGES2k-database">Create a reconstruction job object <code class="docutils literal notranslate"><span class="pre">cfr.ReconJob</span></code> and load the pseudoPAGES2k database</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Annualize-each-proxy-record">Annualize each proxy record</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Center-each-proxy-record">Center each proxy record</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Load-the-instrumental-observations">Load the instrumental observations</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Annualize-the-observation-fields">Annualize the observation fields</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Regrid-the-observation-fields">Regrid the observation fields</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Crop-the-observations-fields-to-make-the-problem-size-smaller">Crop the observations fields to make the problem size smaller</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#(Optional)-Save-the-job-object-for-later-reload">(Optional) Save the job object for later reload</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Prepare-the-GraphEM-solver">Prepare the GraphEM solver</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Run-the-GraphEM-solver">Run the GraphEM solver</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Validation-steps">Validation steps</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Create-the-reconstruction-result-object-cfr.ReconRes.">Create the reconstruction result object <code class="docutils literal notranslate"><span class="pre">cfr.ReconRes</span></code>.</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Load-the-reconstructed-variables">Load the reconstructed variables</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Validate-the-reconstructed-NINO3.4">Validate the reconstructed NINO3.4</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Validate-the-reconstructed-fields">Validate the reconstructed fields</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section id="Reconstructing-the-tropical-Pacific-SST-with-PAGES2k-and-GraphEM">
+<h1>Reconstructing the tropical Pacific SST with PAGES2k and GraphEM<a class="headerlink" href="#Reconstructing-the-tropical-Pacific-SST-with-PAGES2k-and-GraphEM" title="Permalink to this heading">#</a></h1>
+<p><strong>Expected time to run through: ~0.5 hrs</strong></p>
+<p>In this section, we illustrate the basic workflow of the Graphical Expectation-Maximization algorithm (GraphEM, <a class="reference external" href="https://doi.org/10.1214/14-AOAS794">Guillot et al., 2015</a>) with <code class="docutils literal notranslate"><span class="pre">cfr</span></code>, conducting a reconstruction experiment with the PAGES2k dataset. Due to the intensive computational requirement of the GraphEM method, our goal is to reconstruct the air surface temperature field only over the tropical Pacific region using coral records.</p>
+<p>Note: <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">&quot;cfr[graphem]&quot;</span></code> to enable the GraphEM method if not done before.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">load_ext</span> autoreload
+<span class="o">%</span><span class="k">autoreload</span> 2
+
+<span class="kn">import</span> <span class="nn">cfr</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">cfr</span><span class="o">.</span><span class="n">__version__</span><span class="p">)</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+0.6.7
+</pre></div></div>
+</div>
+<section id="GraphEM-steps">
+<h2>GraphEM steps<a class="headerlink" href="#GraphEM-steps" title="Permalink to this heading">#</a></h2>
+<section id="Create-a-reconstruction-job-object-cfr.ReconJob-and-load-the-pseudoPAGES2k-database">
+<h3>Create a reconstruction job object <code class="docutils literal notranslate"><span class="pre">cfr.ReconJob</span></code> and load the pseudoPAGES2k database<a class="headerlink" href="#Create-a-reconstruction-job-object-cfr.ReconJob-and-load-the-pseudoPAGES2k-database" title="Permalink to this heading">#</a></h3>
+<p>A <code class="docutils literal notranslate"><span class="pre">cfr.ReconJob</span></code> object takes care of the workflow of a reconstruction task. It provides a series of attributes and methods to help the users go through each step of the reconstruction task, such as loading the proxy database, loading the model prior, calibrating and running the proxy system models, performing the data assimilation solver, etc.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># create a reconstruction job object using the `cfr.ReconJob` class</span>
+<span class="n">job</span> <span class="o">=</span> <span class="n">cfr</span><span class="o">.</span><span class="n">ReconJob</span><span class="p">()</span>
+
+<span class="c1"># load the pseudoPAGES2k database from a netCDF file</span>
+
+<span class="c1"># load from a local copy</span>
+<span class="c1"># job.proxydb = cfr.ProxyDatabase().load_nc(&#39;./data/ppwn_SNRinf_rta.nc&#39;)</span>
+
+<span class="c1"># load from the cloud</span>
+<span class="n">job</span><span class="o">.</span><span class="n">load_proxydb</span><span class="p">(</span><span class="s1">&#39;PAGES2kv2&#39;</span><span class="p">)</span>
+
+<span class="c1"># filter the database</span>
+<span class="n">job</span><span class="o">.</span><span class="n">filter_proxydb</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="s1">&#39;ptype&#39;</span><span class="p">,</span> <span class="n">keys</span><span class="o">=</span><span class="s1">&#39;coral&#39;</span><span class="p">)</span>
+
+<span class="c1"># plot to have a check of the database</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">job</span><span class="o">.</span><span class="n">proxydb</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">plot_count</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="s1">&#39;count&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="mi">800</span><span class="p">,</span> <span class="mi">2000</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+(800.0, 2000.0)
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/notebooks_graphem-real-pages2k_3_1.png" src="../_images/notebooks_graphem-real-pages2k_3_1.png" />
+</div>
+</div>
+</section>
+<section id="Annualize-each-proxy-record">
+<h3>Annualize each proxy record<a class="headerlink" href="#Annualize-each-proxy-record" title="Permalink to this heading">#</a></h3>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">job</span><span class="o">.</span><span class="n">annualize_proxydb</span><span class="p">(</span><span class="n">months</span><span class="o">=</span><span class="p">[</span><span class="mi">12</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+<span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;annualize_proxydb_months&#34;] = [12, 1, 2]
+</span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;annualize_proxydb_ptypes&#34;] = {&#39;coral.d18O&#39;, &#39;coral.calc&#39;, &#39;coral.SrCa&#39;}
+</span>
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+Annualizing ProxyDatabase: 100%|██████████| 104/104 [00:02&lt;00:00, 42.61it/s]
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+<span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; 99 records remaining
+</span><span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; job.proxydb updated
+</span>
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+
+</pre></div></div>
+</div>
+</section>
+<section id="Center-each-proxy-record">
+<h3>Center each proxy record<a class="headerlink" href="#Center-each-proxy-record" title="Permalink to this heading">#</a></h3>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">job</span><span class="o">.</span><span class="n">center_proxydb</span><span class="p">(</span><span class="n">ref_period</span><span class="o">=</span><span class="p">[</span><span class="mi">1951</span><span class="p">,</span> <span class="mi">2000</span><span class="p">],</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+<span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;proxydb_center_ref_period&#34;] = [1951, 2000]
+</span>
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+Centering each of the ProxyRecord: 100%|██████████| 99/99 [00:00&lt;00:00, 1085.70it/s]
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+<span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; job.proxydb updated
+</span>
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+
+</pre></div></div>
+</div>
+<p>GraphEM requires that the proxy availability to be as uniform as possible, we thus filter the proxy database further to achieve that.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pdb</span> <span class="o">=</span> <span class="n">job</span><span class="o">.</span><span class="n">proxydb</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+
+<span class="n">pobj_list</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">recon_period</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1871</span><span class="p">,</span> <span class="mi">2000</span><span class="p">]</span>
+<span class="k">for</span> <span class="n">pobj</span> <span class="ow">in</span> <span class="n">pdb</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">pobj</span><span class="o">.</span><span class="n">time</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="n">recon_period</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
+        <span class="n">pobj_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pobj</span><span class="p">)</span>
+
+<span class="n">new_pdb</span> <span class="o">=</span> <span class="n">cfr</span><span class="o">.</span><span class="n">ProxyDatabase</span><span class="p">()</span>
+<span class="n">new_pdb</span> <span class="o">+=</span> <span class="n">pobj_list</span>
+
+<span class="n">job</span><span class="o">.</span><span class="n">proxydb</span> <span class="o">=</span> <span class="n">new_pdb</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">job</span><span class="o">.</span><span class="n">proxydb</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">plot_count</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="s1">&#39;count&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="o">*</span><span class="n">recon_period</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+(1871.0, 2000.0)
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/notebooks_graphem-real-pages2k_9_1.png" src="../_images/notebooks_graphem-real-pages2k_9_1.png" />
+</div>
+</div>
+</section>
+<section id="Load-the-instrumental-observations">
+<h3>Load the instrumental observations<a class="headerlink" href="#Load-the-instrumental-observations" title="Permalink to this heading">#</a></h3>
+<p>As a perfect model prior pseudoproxy experiment (PPE), we use the iCESM simulated fields as instrumental observations.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">job</span><span class="o">.</span><span class="n">load_clim</span><span class="p">(</span>
+    <span class="n">tag</span><span class="o">=</span><span class="s1">&#39;obs&#39;</span><span class="p">,</span>
+    <span class="n">path_dict</span><span class="o">=</span><span class="p">{</span>
+        <span class="c1"># &#39;tas&#39;: &#39;./data/tas_sfc_Amon_iCESM_past1000historical_085001-200512.nc&#39;,  # load from a local copy</span>
+        <span class="s1">&#39;tas&#39;</span><span class="p">:</span> <span class="s1">&#39;iCESM_past1000historical/tas&#39;</span><span class="p">,</span>  <span class="c1"># load from the cloud</span>
+    <span class="p">},</span>
+    <span class="n">anom_period</span><span class="o">=</span><span class="p">(</span><span class="mi">1951</span><span class="p">,</span> <span class="mi">1980</span><span class="p">),</span>
+    <span class="n">load</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>  <span class="c1"># load the data into memeory to accelerate the later access; requires large memeory</span>
+    <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+<span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;obs_path&#34;] = {&#39;tas&#39;: &#39;iCESM_past1000historical/tas&#39;}
+</span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;obs_anom_period&#34;] = [1951, 1980]
+</span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;obs_lat_name&#34;] = lat
+</span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;obs_lon_name&#34;] = lon
+</span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;obs_time_name&#34;] = time
+</span><span class="ansi-black-intense-fg ansi-bold">&gt;&gt;&gt; The target file seems existed at: ./data/tas_sfc_Amon_iCESM_past1000historical_085001-200512.nc . Loading from it instead of downloading ...
+</span><span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; obs variables [&#39;tas&#39;] loaded
+</span><span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; job.obs created
+</span>
+</pre></div></div>
+</div>
+</section>
+<section id="Annualize-the-observation-fields">
+<h3>Annualize the observation fields<a class="headerlink" href="#Annualize-the-observation-fields" title="Permalink to this heading">#</a></h3>
+<p>This step will determine the temporal resolution of the reconstructed fields.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">job</span><span class="o">.</span><span class="n">annualize_clim</span><span class="p">(</span><span class="n">tag</span><span class="o">=</span><span class="s1">&#39;obs&#39;</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">months</span><span class="o">=</span><span class="p">[</span><span class="mi">12</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+<span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;obs_annualize_months&#34;] = [12, 1, 2]
+</span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; Processing tas ...
+</span><span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; job.obs updated
+</span>
+</pre></div></div>
+</div>
+</section>
+<section id="Regrid-the-observation-fields">
+<h3>Regrid the observation fields<a class="headerlink" href="#Regrid-the-observation-fields" title="Permalink to this heading">#</a></h3>
+<p>This step will determine the spatial resolution of the reconstructed fields.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">job</span><span class="o">.</span><span class="n">regrid_clim</span><span class="p">(</span><span class="n">tag</span><span class="o">=</span><span class="s1">&#39;obs&#39;</span><span class="p">,</span> <span class="n">nlat</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span> <span class="n">nlon</span><span class="o">=</span><span class="mi">63</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+<span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;obs_regrid_nlat&#34;] = 42
+</span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;obs_regrid_nlon&#34;] = 63
+</span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; Processing tas ...
+</span>
+</pre></div></div>
+</div>
+</section>
+<section id="Crop-the-observations-fields-to-make-the-problem-size-smaller">
+<h3>Crop the observations fields to make the problem size smaller<a class="headerlink" href="#Crop-the-observations-fields-to-make-the-problem-size-smaller" title="Permalink to this heading">#</a></h3>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">job</span><span class="o">.</span><span class="n">crop_clim</span><span class="p">(</span><span class="n">tag</span><span class="o">=</span><span class="s1">&#39;obs&#39;</span><span class="p">,</span> <span class="n">lat_min</span><span class="o">=-</span><span class="mi">25</span><span class="p">,</span> <span class="n">lat_max</span><span class="o">=</span><span class="mi">25</span><span class="p">,</span> <span class="n">lon_min</span><span class="o">=</span><span class="mi">120</span><span class="p">,</span> <span class="n">lon_max</span><span class="o">=</span><span class="mi">280</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+<span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;obs_lat_min&#34;] = -25
+</span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;obs_lat_max&#34;] = 25
+</span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;obs_lon_min&#34;] = 120
+</span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;obs_lon_max&#34;] = 280
+</span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; Processing tas ...
+</span>
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># check the cropped domain</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">job</span><span class="o">.</span><span class="n">obs</span><span class="p">[</span><span class="s1">&#39;tas&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/notebooks_graphem-real-pages2k_18_0.png" src="../_images/notebooks_graphem-real-pages2k_18_0.png" />
+</div>
+</div>
+</section>
+<section id="(Optional)-Save-the-job-object-for-later-reload">
+<h3>(Optional) Save the job object for later reload<a class="headerlink" href="#(Optional)-Save-the-job-object-for-later-reload" title="Permalink to this heading">#</a></h3>
+<p>Save the job object before running the DA procedure for a quick reload next time if needed.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">job</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s1">&#39;./cases/graphem-real-pages2k&#39;</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+<span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;save_dirpath&#34;] = ./cases/graphem-real-pages2k
+</span><span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; obs_tas saved to: ./cases/graphem-real-pages2k/obs_tas.nc
+</span><span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; job saved to: ./cases/graphem-real-pages2k/job.pkl
+</span>
+</pre></div></div>
+</div>
+<p>Now let’s reload the job object from the saved directory.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">job</span> <span class="o">=</span> <span class="n">cfr</span><span class="o">.</span><span class="n">ReconJob</span><span class="p">()</span>
+<span class="n">job</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s1">&#39;./cases/graphem-real-pages2k/&#39;</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+<span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; job is loaded
+</span><span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; job.obs[&#34;tas&#34;].da is loaded
+</span>
+</pre></div></div>
+</div>
+</section>
+<section id="Prepare-the-GraphEM-solver">
+<h3>Prepare the GraphEM solver<a class="headerlink" href="#Prepare-the-GraphEM-solver" title="Permalink to this heading">#</a></h3>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">job</span><span class="o">.</span><span class="n">prep_graphem</span><span class="p">(</span>
+    <span class="n">recon_period</span><span class="o">=</span><span class="p">(</span><span class="mi">1871</span><span class="p">,</span> <span class="mi">2000</span><span class="p">),</span>  <span class="c1"># period to reconstruct</span>
+    <span class="n">calib_period</span><span class="o">=</span><span class="p">(</span><span class="mi">1951</span><span class="p">,</span> <span class="mi">2000</span><span class="p">),</span>  <span class="c1"># period for calibration</span>
+    <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+<span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;recon_period&#34;] = [1871, 2000]
+</span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;recon_timescale&#34;] = 1
+</span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;calib_period&#34;] = [1951, 2000]
+</span><span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; job.graphem_params[&#34;recon_time&#34;] created
+</span><span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; job.graphem_params[&#34;calib_time&#34;] created
+</span><span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; job.graphem_params[&#34;field_obs&#34;] created
+</span><span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; job.graphem_params[&#34;calib_idx&#34;] created
+</span><span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; job.graphem_params[&#34;field&#34;] created
+</span><span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; job.graphem_params[&#34;df_proxy&#34;] created
+</span><span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; job.graphem_params[&#34;proxy&#34;] created
+</span><span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; job.graphem_params[&#34;lonlat&#34;] created
+</span>
+</pre></div></div>
+</div>
+</section>
+<section id="Run-the-GraphEM-solver">
+<h3>Run the GraphEM solver<a class="headerlink" href="#Run-the-GraphEM-solver" title="Permalink to this heading">#</a></h3>
+<p>We will take the Empirical Graphs (graphical lasso, <code class="docutils literal notranslate"><span class="pre">glasso</span></code>) approach.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">job</span><span class="o">.</span><span class="n">run_graphem</span><span class="p">(</span>
+    <span class="n">save_dirpath</span><span class="o">=</span><span class="s1">&#39;./recons/graphem-real-pages2k&#39;</span><span class="p">,</span>
+    <span class="n">graph_method</span><span class="o">=</span><span class="s1">&#39;glasso&#39;</span><span class="p">,</span>
+    <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+<span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;save_dirpath&#34;] = ./recons/graphem-real-pages2k
+</span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;graph_method&#34;] = glasso
+</span>Applying the graphical lasso
+Infilling missing values over the calibration period using RegEM iridge
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+EM | dXmis: 0.0001; rdXmis: 0.0048:  14%|█▍        | 28/200 [01:40&lt;10:14,  3.57s/it]
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+GraphEM.EM(): Tolerance achieved.
+Solving graphical LASSO using greedy search
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+graph_greedy_search | FF:  2.962; FP:  3.776; PP:  3.294:   4%|▍         | 22/500 [00:04&lt;01:34,  5.04it/s]
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Running GraphEM:
+
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+EM | dXmis: 0.0025; rdXmis: 0.0050:  38%|███▊      | 75/200 [16:49&lt;28:02, 13.46s/it]
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+GraphEM.EM(): Tolerance achieved.
+<span class="ansi-green-intense-fg ansi-bold">job.graphem_solver created and saved to: None
+</span><span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; job.recon_fields created
+</span><span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; Reconstructed fields saved to: ./recons/graphem-real-pages2k/job_r01_recon.nc
+</span>
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+
+</pre></div></div>
+</div>
+</section>
+</section>
+<section id="Validation-steps">
+<h2>Validation steps<a class="headerlink" href="#Validation-steps" title="Permalink to this heading">#</a></h2>
+<section id="Create-the-reconstruction-result-object-cfr.ReconRes.">
+<h3>Create the reconstruction result object <code class="docutils literal notranslate"><span class="pre">cfr.ReconRes</span></code>.<a class="headerlink" href="#Create-the-reconstruction-result-object-cfr.ReconRes." title="Permalink to this heading">#</a></h3>
+<p>A <code class="docutils literal notranslate"><span class="pre">cfr.ReconRes</span></code> object takes care of the workflow of postprocessing and analyzing the reconstruction results. It provides handy methods to help the users load, validate, and visualize the reconstruction results.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">res</span> <span class="o">=</span> <span class="n">cfr</span><span class="o">.</span><span class="n">ReconRes</span><span class="p">(</span><span class="s1">&#39;./recons/graphem-real-pages2k&#39;</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+<span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; res.paths:
+</span>[&#39;./recons/graphem-real-pages2k/job_r01_recon.nc&#39;]
+</pre></div></div>
+</div>
+</section>
+<section id="Load-the-reconstructed-variables">
+<h3>Load the reconstructed variables<a class="headerlink" href="#Load-the-reconstructed-variables" title="Permalink to this heading">#</a></h3>
+<p>Here we validate the <code class="docutils literal notranslate"><span class="pre">tas</span></code> field and the NINO3.4 index as an example.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">res</span><span class="o">.</span><span class="n">load</span><span class="p">([</span><span class="s1">&#39;tas&#39;</span><span class="p">,</span> <span class="s1">&#39;nino3.4&#39;</span><span class="p">],</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+<span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; ReconRes.recons[&#34;tas&#34;] created
+</span><span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; ReconRes.da[&#34;tas&#34;] created
+</span><span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; ReconRes.recons[&#34;nino3.4&#34;] created
+</span><span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; ReconRes.da[&#34;nino3.4&#34;] created
+</span>
+</pre></div></div>
+</div>
+</section>
+<section id="Validate-the-reconstructed-NINO3.4">
+<h3>Validate the reconstructed NINO3.4<a class="headerlink" href="#Validate-the-reconstructed-NINO3.4" title="Permalink to this heading">#</a></h3>
+<p>We calculate the annualized NINO3.4 from the “instrumental observations” as a reference for validation.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">da</span> <span class="o">=</span> <span class="n">job</span><span class="o">.</span><span class="n">obs</span><span class="p">[</span><span class="s1">&#39;tas&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">da</span>
+<span class="n">da</span> <span class="o">=</span> <span class="n">cfr</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">geo_mean</span><span class="p">(</span><span class="n">da</span><span class="p">,</span> <span class="n">lat_min</span><span class="o">=-</span><span class="mi">5</span><span class="p">,</span> <span class="n">lat_max</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">lon_min</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">mod</span><span class="p">(</span><span class="o">-</span><span class="mi">170</span><span class="p">,</span> <span class="mi">360</span><span class="p">),</span> <span class="n">lon_max</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">mod</span><span class="p">(</span><span class="o">-</span><span class="mi">120</span><span class="p">,</span> <span class="mi">360</span><span class="p">))</span>
+<span class="n">ref_time</span> <span class="o">=</span> <span class="n">da</span><span class="o">.</span><span class="n">time</span><span class="o">.</span><span class="n">values</span>
+<span class="n">ref_value</span> <span class="o">=</span> <span class="n">da</span><span class="o">.</span><span class="n">values</span>
+<span class="n">ref_name</span> <span class="o">=</span> <span class="s1">&#39;target&#39;</span>
+</pre></div>
+</div>
+</div>
+<p>We use a chain calling of several methods, including the validation step <code class="docutils literal notranslate"><span class="pre">.validate()</span></code> and the plotting step <code class="docutils literal notranslate"><span class="pre">.plot_qs()</span></code>.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">res</span><span class="o">.</span><span class="n">recons</span><span class="p">[</span><span class="s1">&#39;nino3.4&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">compare</span><span class="p">(</span><span class="n">ref_time</span><span class="o">=</span><span class="n">ref_time</span><span class="p">,</span> <span class="n">ref_value</span><span class="o">=</span><span class="n">ref_value</span><span class="p">,</span> <span class="n">ref_name</span><span class="o">=</span><span class="n">ref_name</span><span class="p">,</span> <span class="n">timespan</span><span class="o">=</span><span class="p">(</span><span class="mi">1801</span><span class="p">,</span> <span class="mi">1900</span><span class="p">))</span><span class="o">.</span><span class="n">plot_qs</span><span class="p">()</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="mi">1800</span><span class="p">,</span> <span class="mi">2000</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+<span class="ansi-red-fg">---------------------------------------------------------------------------</span>
+<span class="ansi-red-fg">ValueError</span>                                Traceback (most recent call last)
+Cell <span class="ansi-green-fg">In[20], line 1</span>
+<span class="ansi-green-fg">----&gt; 1</span> fig, ax = res.recons[&#39;nino3.4&#39;].compare(ref_time=ref_time, ref_value=ref_value, ref_name=ref_name, timespan=(1801, 1900)).plot_qs()
+<span class="ansi-green-intense-fg ansi-bold">      2</span> ax.set_xlim(1800, 2000)
+<span class="ansi-green-intense-fg ansi-bold">      3</span> ax.set_ylim(-2, 3)
+
+File <span class="ansi-green-fg">~/Github/cfr/cfr/ts.py:560</span>, in <span class="ansi-cyan-fg">EnsTS.compare</span><span class="ansi-blue-fg">(self, ref, ref_time, ref_value, ref_name, stats, timespan)</span>
+<span class="ansi-green-intense-fg ansi-bold">    557</span> new.ref_value = ref_value[ref_mask]
+<span class="ansi-green-intense-fg ansi-bold">    559</span> if len(recon_slice) != len(ref_slice):
+<span class="ansi-green-fg">--&gt; 560</span>     raise ValueError(f&#39;Inconsistent length of the two timeseries. recon: {len(recon_slice)}; ref: {len(ref_slice)}.&#39;)
+<span class="ansi-green-intense-fg ansi-bold">    562</span> for stat in stats:
+<span class="ansi-green-intense-fg ansi-bold">    563</span>     if stat == &#39;corr&#39;:
+
+<span class="ansi-red-fg">ValueError</span>: Inconsistent length of the two timeseries. recon: 30; ref: 100.
+</pre></div></div>
+</div>
+</section>
+<section id="Validate-the-reconstructed-fields">
+<h3>Validate the reconstructed fields<a class="headerlink" href="#Validate-the-reconstructed-fields" title="Permalink to this heading">#</a></h3>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Preparations to add markers representing the sites on the map</span>
+
+<span class="n">lats</span><span class="p">,</span> <span class="n">lons</span><span class="p">,</span> <span class="n">colors</span><span class="p">,</span> <span class="n">markers</span><span class="p">,</span> <span class="n">markersizes</span> <span class="o">=</span> <span class="p">{},</span> <span class="p">{},</span> <span class="p">{},</span> <span class="p">{},</span> <span class="p">{}</span>
+<span class="k">for</span> <span class="n">pid</span><span class="p">,</span> <span class="n">pobj</span> <span class="ow">in</span> <span class="n">job</span><span class="o">.</span><span class="n">proxydb</span><span class="o">.</span><span class="n">records</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="n">lats</span><span class="p">[</span><span class="n">pid</span><span class="p">]</span> <span class="o">=</span> <span class="n">pobj</span><span class="o">.</span><span class="n">lat</span>
+    <span class="n">lons</span><span class="p">[</span><span class="n">pid</span><span class="p">]</span> <span class="o">=</span> <span class="n">pobj</span><span class="o">.</span><span class="n">lon</span>
+    <span class="n">colors</span><span class="p">[</span><span class="n">pid</span><span class="p">]</span> <span class="o">=</span> <span class="n">cfr</span><span class="o">.</span><span class="n">visual</span><span class="o">.</span><span class="n">STYLE</span><span class="o">.</span><span class="n">colors_dict</span><span class="p">[</span><span class="n">pobj</span><span class="o">.</span><span class="n">ptype</span><span class="p">]</span>
+    <span class="n">markers</span><span class="p">[</span><span class="n">pid</span><span class="p">]</span> <span class="o">=</span> <span class="n">cfr</span><span class="o">.</span><span class="n">visual</span><span class="o">.</span><span class="n">STYLE</span><span class="o">.</span><span class="n">markers_dict</span><span class="p">[</span><span class="n">pobj</span><span class="o">.</span><span class="n">ptype</span><span class="p">]</span>
+    <span class="n">markersizes</span><span class="p">[</span><span class="n">pid</span><span class="p">]</span> <span class="o">=</span> <span class="mi">50</span>
+</pre></div>
+</div>
+</div>
+<p>Calculating and visualizing the coefficient of determination (<span class="math notranslate nohighlight">\(R^2\)</span>) between the reconstructed and target fields, we see overall high skills.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">stat</span> <span class="o">=</span> <span class="s1">&#39;R2&#39;</span>
+<span class="n">valid_fd</span> <span class="o">=</span> <span class="n">res</span><span class="o">.</span><span class="n">recons</span><span class="p">[</span><span class="s1">&#39;tas&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">compare</span><span class="p">(</span>
+    <span class="n">job</span><span class="o">.</span><span class="n">obs</span><span class="p">[</span><span class="s1">&#39;tas&#39;</span><span class="p">],</span> <span class="n">stat</span><span class="o">=</span><span class="n">stat</span><span class="p">,</span>
+    <span class="n">timespan</span><span class="o">=</span><span class="p">(</span><span class="mi">1801</span><span class="p">,</span> <span class="mi">1900</span><span class="p">),</span>
+<span class="p">)</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">valid_fd</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
+    <span class="n">title</span><span class="o">=</span><span class="sa">fr</span><span class="s1">&#39;tas: $R^2$(recon, target)&#39;</span><span class="p">,</span>
+    <span class="n">projection</span><span class="o">=</span><span class="s1">&#39;PlateCarree&#39;</span><span class="p">,</span>
+    <span class="n">latlon_range</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mi">25</span><span class="p">,</span> <span class="mi">25</span><span class="p">,</span> <span class="mi">120</span><span class="p">,</span> <span class="mi">280</span><span class="p">),</span>
+    <span class="n">add_cyclic_point</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">site_lats</span><span class="o">=</span><span class="n">lats</span><span class="p">,</span> <span class="n">site_lons</span><span class="o">=</span><span class="n">lons</span><span class="p">,</span>
+    <span class="n">site_markersize</span><span class="o">=</span><span class="n">markersizes</span><span class="p">,</span> <span class="n">site_marker</span><span class="o">=</span><span class="n">markers</span><span class="p">,</span>
+    <span class="n">site_color</span><span class="o">=</span><span class="n">colors</span><span class="p">,</span> <span class="n">cbar_title_y</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/notebooks_graphem-real-pages2k_40_0.png" src="../_images/notebooks_graphem-real-pages2k_40_0.png" />
+</div>
+</div>
+<p>Note that there are regions where color is not filled. The values there are NaNs, and it is caused by the constant values in the reconstruction.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[24]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">res</span><span class="o">.</span><span class="n">recons</span><span class="p">[</span><span class="s1">&#39;tas&#39;</span><span class="p">][</span><span class="s1">&#39;1801&#39;</span><span class="p">:</span><span class="s1">&#39;1900&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">da</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[24]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div><svg style="position: absolute; width: 0; height: 0; overflow: hidden">
+<defs>
+<symbol id="icon-database" viewBox="0 0 32 32">
+<path d="M16 0c-8.837 0-16 2.239-16 5v4c0 2.761 7.163 5 16 5s16-2.239 16-5v-4c0-2.761-7.163-5-16-5z"></path>
+<path d="M16 17c-8.837 0-16-2.239-16-5v6c0 2.761 7.163 5 16 5s16-2.239 16-5v-6c0 2.761-7.163 5-16 5z"></path>
+<path d="M16 26c-8.837 0-16-2.239-16-5v6c0 2.761 7.163 5 16 5s16-2.239 16-5v-6c0 2.761-7.163 5-16 5z"></path>
+</symbol>
+<symbol id="icon-file-text2" viewBox="0 0 32 32">
+<path d="M28.681 7.159c-0.694-0.947-1.662-2.053-2.724-3.116s-2.169-2.030-3.116-2.724c-1.612-1.182-2.393-1.319-2.841-1.319h-15.5c-1.378 0-2.5 1.121-2.5 2.5v27c0 1.378 1.122 2.5 2.5 2.5h23c1.378 0 2.5-1.122 2.5-2.5v-19.5c0-0.448-0.137-1.23-1.319-2.841zM24.543 5.457c0.959 0.959 1.712 1.825 2.268 2.543h-4.811v-4.811c0.718 0.556 1.584 1.309 2.543 2.268zM28 29.5c0 0.271-0.229 0.5-0.5 0.5h-23c-0.271 0-0.5-0.229-0.5-0.5v-27c0-0.271 0.229-0.5 0.5-0.5 0 0 15.499-0 15.5 0v7c0 0.552 0.448 1 1 1h7v19.5z"></path>
+<path d="M23 26h-14c-0.552 0-1-0.448-1-1s0.448-1 1-1h14c0.552 0 1 0.448 1 1s-0.448 1-1 1z"></path>
+<path d="M23 22h-14c-0.552 0-1-0.448-1-1s0.448-1 1-1h14c0.552 0 1 0.448 1 1s-0.448 1-1 1z"></path>
+<path d="M23 18h-14c-0.552 0-1-0.448-1-1s0.448-1 1-1h14c0.552 0 1 0.448 1 1s-0.448 1-1 1z"></path>
+</symbol>
+</defs>
+</svg>
+<style>/* CSS stylesheet for displaying xarray objects in jupyterlab.
+ *
+ */
+
+:root {
+  --xr-font-color0: var(--jp-content-font-color0, rgba(0, 0, 0, 1));
+  --xr-font-color2: var(--jp-content-font-color2, rgba(0, 0, 0, 0.54));
+  --xr-font-color3: var(--jp-content-font-color3, rgba(0, 0, 0, 0.38));
+  --xr-border-color: var(--jp-border-color2, #e0e0e0);
+  --xr-disabled-color: var(--jp-layout-color3, #bdbdbd);
+  --xr-background-color: var(--jp-layout-color0, white);
+  --xr-background-color-row-even: var(--jp-layout-color1, white);
+  --xr-background-color-row-odd: var(--jp-layout-color2, #eeeeee);
+}
+
+html[theme=dark],
+body[data-theme=dark],
+body.vscode-dark {
+  --xr-font-color0: rgba(255, 255, 255, 1);
+  --xr-font-color2: rgba(255, 255, 255, 0.54);
+  --xr-font-color3: rgba(255, 255, 255, 0.38);
+  --xr-border-color: #1F1F1F;
+  --xr-disabled-color: #515151;
+  --xr-background-color: #111111;
+  --xr-background-color-row-even: #111111;
+  --xr-background-color-row-odd: #313131;
+}
+
+.xr-wrap {
+  display: block !important;
+  min-width: 300px;
+  max-width: 700px;
+}
+
+.xr-text-repr-fallback {
+  /* fallback to plain text repr when CSS is not injected (untrusted notebook) */
+  display: none;
+}
+
+.xr-header {
+  padding-top: 6px;
+  padding-bottom: 6px;
+  margin-bottom: 4px;
+  border-bottom: solid 1px var(--xr-border-color);
+}
+
+.xr-header > div,
+.xr-header > ul {
+  display: inline;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.xr-obj-type,
+.xr-array-name {
+  margin-left: 2px;
+  margin-right: 10px;
+}
+
+.xr-obj-type {
+  color: var(--xr-font-color2);
+}
+
+.xr-sections {
+  padding-left: 0 !important;
+  display: grid;
+  grid-template-columns: 150px auto auto 1fr 20px 20px;
+}
+
+.xr-section-item {
+  display: contents;
+}
+
+.xr-section-item input {
+  display: none;
+}
+
+.xr-section-item input + label {
+  color: var(--xr-disabled-color);
+}
+
+.xr-section-item input:enabled + label {
+  cursor: pointer;
+  color: var(--xr-font-color2);
+}
+
+.xr-section-item input:enabled + label:hover {
+  color: var(--xr-font-color0);
+}
+
+.xr-section-summary {
+  grid-column: 1;
+  color: var(--xr-font-color2);
+  font-weight: 500;
+}
+
+.xr-section-summary > span {
+  display: inline-block;
+  padding-left: 0.5em;
+}
+
+.xr-section-summary-in:disabled + label {
+  color: var(--xr-font-color2);
+}
+
+.xr-section-summary-in + label:before {
+  display: inline-block;
+  content: '►';
+  font-size: 11px;
+  width: 15px;
+  text-align: center;
+}
+
+.xr-section-summary-in:disabled + label:before {
+  color: var(--xr-disabled-color);
+}
+
+.xr-section-summary-in:checked + label:before {
+  content: '▼';
+}
+
+.xr-section-summary-in:checked + label > span {
+  display: none;
+}
+
+.xr-section-summary,
+.xr-section-inline-details {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+.xr-section-inline-details {
+  grid-column: 2 / -1;
+}
+
+.xr-section-details {
+  display: none;
+  grid-column: 1 / -1;
+  margin-bottom: 5px;
+}
+
+.xr-section-summary-in:checked ~ .xr-section-details {
+  display: contents;
+}
+
+.xr-array-wrap {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: 20px auto;
+}
+
+.xr-array-wrap > label {
+  grid-column: 1;
+  vertical-align: top;
+}
+
+.xr-preview {
+  color: var(--xr-font-color3);
+}
+
+.xr-array-preview,
+.xr-array-data {
+  padding: 0 5px !important;
+  grid-column: 2;
+}
+
+.xr-array-data,
+.xr-array-in:checked ~ .xr-array-preview {
+  display: none;
+}
+
+.xr-array-in:checked ~ .xr-array-data,
+.xr-array-preview {
+  display: inline-block;
+}
+
+.xr-dim-list {
+  display: inline-block !important;
+  list-style: none;
+  padding: 0 !important;
+  margin: 0;
+}
+
+.xr-dim-list li {
+  display: inline-block;
+  padding: 0;
+  margin: 0;
+}
+
+.xr-dim-list:before {
+  content: '(';
+}
+
+.xr-dim-list:after {
+  content: ')';
+}
+
+.xr-dim-list li:not(:last-child):after {
+  content: ',';
+  padding-right: 5px;
+}
+
+.xr-has-index {
+  font-weight: bold;
+}
+
+.xr-var-list,
+.xr-var-item {
+  display: contents;
+}
+
+.xr-var-item > div,
+.xr-var-item label,
+.xr-var-item > .xr-var-name span {
+  background-color: var(--xr-background-color-row-even);
+  margin-bottom: 0;
+}
+
+.xr-var-item > .xr-var-name:hover span {
+  padding-right: 5px;
+}
+
+.xr-var-list > li:nth-child(odd) > div,
+.xr-var-list > li:nth-child(odd) > label,
+.xr-var-list > li:nth-child(odd) > .xr-var-name span {
+  background-color: var(--xr-background-color-row-odd);
+}
+
+.xr-var-name {
+  grid-column: 1;
+}
+
+.xr-var-dims {
+  grid-column: 2;
+}
+
+.xr-var-dtype {
+  grid-column: 3;
+  text-align: right;
+  color: var(--xr-font-color2);
+}
+
+.xr-var-preview {
+  grid-column: 4;
+}
+
+.xr-index-preview {
+  grid-column: 2 / 5;
+  color: var(--xr-font-color2);
+}
+
+.xr-var-name,
+.xr-var-dims,
+.xr-var-dtype,
+.xr-preview,
+.xr-attrs dt {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding-right: 10px;
+}
+
+.xr-var-name:hover,
+.xr-var-dims:hover,
+.xr-var-dtype:hover,
+.xr-attrs dt:hover {
+  overflow: visible;
+  width: auto;
+  z-index: 1;
+}
+
+.xr-var-attrs,
+.xr-var-data,
+.xr-index-data {
+  display: none;
+  background-color: var(--xr-background-color) !important;
+  padding-bottom: 5px !important;
+}
+
+.xr-var-attrs-in:checked ~ .xr-var-attrs,
+.xr-var-data-in:checked ~ .xr-var-data,
+.xr-index-data-in:checked ~ .xr-index-data {
+  display: block;
+}
+
+.xr-var-data > table {
+  float: right;
+}
+
+.xr-var-name span,
+.xr-var-data,
+.xr-index-name div,
+.xr-index-data,
+.xr-attrs {
+  padding-left: 25px !important;
+}
+
+.xr-attrs,
+.xr-var-attrs,
+.xr-var-data,
+.xr-index-data {
+  grid-column: 1 / -1;
+}
+
+dl.xr-attrs {
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: 125px auto;
+}
+
+.xr-attrs dt,
+.xr-attrs dd {
+  padding: 0;
+  margin: 0;
+  float: left;
+  padding-right: 10px;
+  width: auto;
+}
+
+.xr-attrs dt {
+  font-weight: normal;
+  grid-column: 1;
+}
+
+.xr-attrs dt:hover span {
+  display: inline-block;
+  background: var(--xr-background-color);
+  padding-right: 10px;
+}
+
+.xr-attrs dd {
+  grid-column: 2;
+  white-space: pre-wrap;
+  word-break: break-all;
+}
+
+.xr-icon-database,
+.xr-icon-file-text2,
+.xr-no-icon {
+  display: inline-block;
+  vertical-align: middle;
+  width: 1em;
+  height: 1.5em !important;
+  stroke-width: 0;
+  stroke: currentColor;
+  fill: currentColor;
+}
+</style><pre class='xr-text-repr-fallback'>&lt;xarray.DataArray &#x27;tas&#x27; (time: 100)&gt;
+array([0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+       0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+       0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+       0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+       0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+       0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.])
+Coordinates:
+  * time     (time) int64 1801 1802 1803 1804 1805 ... 1896 1897 1898 1899 1900
+    lat      float64 -24.15
+    lon      float64 121.9</pre><div class='xr-wrap' style='display:none'><div class='xr-header'><div class='xr-obj-type'>xarray.DataArray</div><div class='xr-array-name'>'tas'</div><ul class='xr-dim-list'><li><span class='xr-has-index'>time</span>: 100</li></ul></div><ul class='xr-sections'><li class='xr-section-item'><div class='xr-array-wrap'><input id='section-ddef9a4f-0ca4-454d-b0f8-70cf9cda4c74' class='xr-array-in' type='checkbox' checked><label for='section-ddef9a4f-0ca4-454d-b0f8-70cf9cda4c74' title='Show/hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-array-preview xr-preview'><span>0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 ... 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0</span></div><div class='xr-array-data'><pre>array([0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+       0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+       0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+       0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+       0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+       0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.])</pre></div></div></li><li class='xr-section-item'><input id='section-bca65c08-5660-4d4d-987c-be9d9f5dd97e' class='xr-section-summary-in' type='checkbox'  checked><label for='section-bca65c08-5660-4d4d-987c-be9d9f5dd97e' class='xr-section-summary' >Coordinates: <span>(3)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><ul class='xr-var-list'><li class='xr-var-item'><div class='xr-var-name'><span class='xr-has-index'>time</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>int64</div><div class='xr-var-preview xr-preview'>1801 1802 1803 ... 1898 1899 1900</div><input id='attrs-5e5f1b67-2c59-4b3e-90e1-f11e679508ee' class='xr-var-attrs-in' type='checkbox' disabled><label for='attrs-5e5f1b67-2c59-4b3e-90e1-f11e679508ee' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-c1448efb-d610-480d-9d06-ccda1892419f' class='xr-var-data-in' type='checkbox'><label for='data-c1448efb-d610-480d-9d06-ccda1892419f' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'></dl></div><div class='xr-var-data'><pre>array([1801, 1802, 1803, 1804, 1805, 1806, 1807, 1808, 1809, 1810, 1811, 1812,
+       1813, 1814, 1815, 1816, 1817, 1818, 1819, 1820, 1821, 1822, 1823, 1824,
+       1825, 1826, 1827, 1828, 1829, 1830, 1831, 1832, 1833, 1834, 1835, 1836,
+       1837, 1838, 1839, 1840, 1841, 1842, 1843, 1844, 1845, 1846, 1847, 1848,
+       1849, 1850, 1851, 1852, 1853, 1854, 1855, 1856, 1857, 1858, 1859, 1860,
+       1861, 1862, 1863, 1864, 1865, 1866, 1867, 1868, 1869, 1870, 1871, 1872,
+       1873, 1874, 1875, 1876, 1877, 1878, 1879, 1880, 1881, 1882, 1883, 1884,
+       1885, 1886, 1887, 1888, 1889, 1890, 1891, 1892, 1893, 1894, 1895, 1896,
+       1897, 1898, 1899, 1900])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>lat</span></div><div class='xr-var-dims'>()</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>-24.15</div><input id='attrs-1ec32c14-f79a-4b33-81a5-055d13026501' class='xr-var-attrs-in' type='checkbox' disabled><label for='attrs-1ec32c14-f79a-4b33-81a5-055d13026501' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-003b2183-de1d-432b-a19e-4e25ca47bc08' class='xr-var-data-in' type='checkbox'><label for='data-003b2183-de1d-432b-a19e-4e25ca47bc08' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'></dl></div><div class='xr-var-data'><pre>array(-24.14634146)</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>lon</span></div><div class='xr-var-dims'>()</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>121.9</div><input id='attrs-0ebe0684-3e4f-45bf-8d8a-7339bcab3c8a' class='xr-var-attrs-in' type='checkbox' disabled><label for='attrs-0ebe0684-3e4f-45bf-8d8a-7339bcab3c8a' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-99219f3e-bfd7-4b2a-9f66-d76bcee56648' class='xr-var-data-in' type='checkbox'><label for='data-99219f3e-bfd7-4b2a-9f66-d76bcee56648' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'></dl></div><div class='xr-var-data'><pre>array(121.93548387)</pre></div></li></ul></div></li><li class='xr-section-item'><input id='section-41c667cd-6424-48e3-b6f4-b4e3964141f6' class='xr-section-summary-in' type='checkbox'  ><label for='section-41c667cd-6424-48e3-b6f4-b4e3964141f6' class='xr-section-summary' >Indexes: <span>(1)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><ul class='xr-var-list'><li class='xr-var-item'><div class='xr-index-name'><div>time</div></div><div class='xr-index-preview'>PandasIndex</div><div></div><input id='index-6ae223b2-f260-475e-a4d2-52b2e3a08b76' class='xr-index-data-in' type='checkbox'/><label for='index-6ae223b2-f260-475e-a4d2-52b2e3a08b76' title='Show/Hide index repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-index-data'><pre>PandasIndex(Int64Index([1801, 1802, 1803, 1804, 1805, 1806, 1807, 1808, 1809, 1810, 1811,
+            1812, 1813, 1814, 1815, 1816, 1817, 1818, 1819, 1820, 1821, 1822,
+            1823, 1824, 1825, 1826, 1827, 1828, 1829, 1830, 1831, 1832, 1833,
+            1834, 1835, 1836, 1837, 1838, 1839, 1840, 1841, 1842, 1843, 1844,
+            1845, 1846, 1847, 1848, 1849, 1850, 1851, 1852, 1853, 1854, 1855,
+            1856, 1857, 1858, 1859, 1860, 1861, 1862, 1863, 1864, 1865, 1866,
+            1867, 1868, 1869, 1870, 1871, 1872, 1873, 1874, 1875, 1876, 1877,
+            1878, 1879, 1880, 1881, 1882, 1883, 1884, 1885, 1886, 1887, 1888,
+            1889, 1890, 1891, 1892, 1893, 1894, 1895, 1896, 1897, 1898, 1899,
+            1900],
+           dtype=&#x27;int64&#x27;, name=&#x27;time&#x27;))</pre></div></li></ul></div></li><li class='xr-section-item'><input id='section-366613ca-323a-470a-8590-a5418b576750' class='xr-section-summary-in' type='checkbox' disabled ><label for='section-366613ca-323a-470a-8590-a5418b576750' class='xr-section-summary'  title='Expand/collapse section'>Attributes: <span>(0)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><dl class='xr-attrs'></dl></div></li></ul></div></div></div>
+</div>
+<p>In contrast to <span class="math notranslate nohighlight">\(R^2\)</span>, the coefficient of efficiency (<span class="math notranslate nohighlight">\(CE\)</span>) measures not only the linear correlation between two timeseries, but also the bias in amplitude. Calculating and visualizing <span class="math notranslate nohighlight">\(CE\)</span> between the reconstructed and the target fields, we see overall similar spatial patterns of the high and low skill regions.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[25]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">stat</span> <span class="o">=</span> <span class="s1">&#39;CE&#39;</span>
+<span class="n">valid_fd</span> <span class="o">=</span> <span class="n">res</span><span class="o">.</span><span class="n">recons</span><span class="p">[</span><span class="s1">&#39;tas&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">compare</span><span class="p">(</span>
+    <span class="n">job</span><span class="o">.</span><span class="n">obs</span><span class="p">[</span><span class="s1">&#39;tas&#39;</span><span class="p">],</span> <span class="n">stat</span><span class="o">=</span><span class="n">stat</span><span class="p">,</span>
+    <span class="n">timespan</span><span class="o">=</span><span class="p">(</span><span class="mi">1801</span><span class="p">,</span> <span class="mi">1900</span><span class="p">),</span>
+<span class="p">)</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">valid_fd</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
+    <span class="n">title</span><span class="o">=</span><span class="sa">fr</span><span class="s1">&#39;tas: $CE$(recon, target)&#39;</span><span class="p">,</span>
+    <span class="n">projection</span><span class="o">=</span><span class="s1">&#39;PlateCarree&#39;</span><span class="p">,</span>
+    <span class="n">latlon_range</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mi">25</span><span class="p">,</span> <span class="mi">25</span><span class="p">,</span> <span class="mi">120</span><span class="p">,</span> <span class="mi">280</span><span class="p">),</span>
+    <span class="n">add_cyclic_point</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">site_lats</span><span class="o">=</span><span class="n">lats</span><span class="p">,</span> <span class="n">site_lons</span><span class="o">=</span><span class="n">lons</span><span class="p">,</span>
+    <span class="n">site_markersize</span><span class="o">=</span><span class="n">markersizes</span><span class="p">,</span> <span class="n">site_marker</span><span class="o">=</span><span class="n">markers</span><span class="p">,</span>
+    <span class="n">site_color</span><span class="o">=</span><span class="n">colors</span><span class="p">,</span> <span class="n">cbar_title_y</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/notebooks_graphem-real-pages2k_44_0.png" src="../_images/notebooks_graphem-real-pages2k_44_0.png" />
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
+</section>
+</section>
+</section>
+
+
+                </article>
+              
+
+              
+              
+                <footer class="bd-footer-article">
+                  <!-- Previous / next buttons -->
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#GraphEM-steps">GraphEM steps</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Create-a-reconstruction-job-object-cfr.ReconJob-and-load-the-pseudoPAGES2k-database">Create a reconstruction job object <code class="docutils literal notranslate"><span class="pre">cfr.ReconJob</span></code> and load the pseudoPAGES2k database</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Annualize-each-proxy-record">Annualize each proxy record</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Center-each-proxy-record">Center each proxy record</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Load-the-instrumental-observations">Load the instrumental observations</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Annualize-the-observation-fields">Annualize the observation fields</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Regrid-the-observation-fields">Regrid the observation fields</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Crop-the-observations-fields-to-make-the-problem-size-smaller">Crop the observations fields to make the problem size smaller</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#(Optional)-Save-the-job-object-for-later-reload">(Optional) Save the job object for later reload</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Prepare-the-GraphEM-solver">Prepare the GraphEM solver</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Run-the-GraphEM-solver">Run the GraphEM solver</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Validation-steps">Validation steps</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Create-the-reconstruction-result-object-cfr.ReconRes.">Create the reconstruction result object <code class="docutils literal notranslate"><span class="pre">cfr.ReconRes</span></code>.</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Load-the-reconstructed-variables">Load the reconstructed variables</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Validate-the-reconstructed-NINO3.4">Validate the reconstructed NINO3.4</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Validate-the-reconstructed-fields">Validate the reconstructed fields</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            <div class="bd-footer-content__inner">
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2023, Feng Zhu, Julien Emile-Geay.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div></div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=12da95d707ffb74b382d"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=12da95d707ffb74b382d"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

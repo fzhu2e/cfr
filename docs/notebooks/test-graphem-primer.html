@@ -9,7 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>A Pseudoproxy Experiment with GraphEM and pseudoPAGES2k &#8212; cfr  documentation</title>
+    <title>A primer on GraphEM &#8212; cfr  documentation</title>
   
   
   
@@ -51,7 +51,7 @@
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
     <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'notebooks/test-graphem-ppe-pages2k';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'notebooks/test-graphem-primer';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
@@ -251,7 +251,7 @@
       
       
       
-      <li><a href="https://github.com/fzhu2e/cfr/edit/main/notebooks/test-graphem-ppe-pages2k.ipynb" target="_blank"
+      <li><a href="https://github.com/fzhu2e/cfr/edit/main/notebooks/test-graphem-primer.ipynb" target="_blank"
    class="btn btn-sm btn-source-edit-button dropdown-item"
    title="Suggest edit"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -268,7 +268,7 @@
       
       
       
-      <li><a href="https://github.com/fzhu2e/cfr/issues/new?title=Issue%20on%20page%20%2Fnotebooks/test-graphem-ppe-pages2k.html&body=Your%20issue%20content%20here." target="_blank"
+      <li><a href="https://github.com/fzhu2e/cfr/issues/new?title=Issue%20on%20page%20%2Fnotebooks/test-graphem-primer.html&body=Your%20issue%20content%20here." target="_blank"
    class="btn btn-sm btn-source-issues-button dropdown-item"
    title="Open an issue"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -298,7 +298,7 @@
       
       
       
-      <li><a href="../_sources/notebooks/test-graphem-ppe-pages2k.ipynb" target="_blank"
+      <li><a href="../_sources/notebooks/test-graphem-primer.ipynb" target="_blank"
    class="btn btn-sm btn-download-source-button dropdown-item"
    title="Download source file"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -364,7 +364,7 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>A Pseudoproxy Experiment with GraphEM and pseudoPAGES2k</h1>
+    <h1>A primer on GraphEM</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -411,11 +411,11 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article" role="main">
                   
-  <section id="A-Pseudoproxy-Experiment-with-GraphEM-and-pseudoPAGES2k">
-<h1>A Pseudoproxy Experiment with GraphEM and pseudoPAGES2k<a class="headerlink" href="#A-Pseudoproxy-Experiment-with-GraphEM-and-pseudoPAGES2k" title="Permalink to this heading">#</a></h1>
-<p><strong>Expected time to run through: TBD mins</strong></p>
-<p>This tutorial demonstrates how to get a reconstruction using GraphEM, leveraging a simple pseudoproxy dataset generated from iCESM gridded, with the realistic spatial availability but full temporal availablity of the PAGES 2k version 2 dataset. The pseudoproxies are generated based on the original iCESM simulated surface temperature (<code class="docutils literal notranslate"><span class="pre">tas</span></code>) plus white noise with <code class="docutils literal notranslate"><span class="pre">SNR=10</span></code>. While with LMR it is advantageous to have many redundant proxies (as long as they are unbiased, which is the case here),
-with GraphEM this can lead to some counter-intuitive difficulties, which we explain below.</p>
+  <section id="A-primer-on-GraphEM">
+<h1>A primer on GraphEM<a class="headerlink" href="#A-primer-on-GraphEM" title="Permalink to this heading">#</a></h1>
+<p><strong>Expected time to run through: 60 mins</strong></p>
+<p>This tutorial introduces the basics of the GraphEM method with a pseudoproxy reconstruction experiment, leveraging a proxy system modeling based emulation of the PAGES 2k version 2 database, with the realistic spatial and temporal availabilities. The pseudoproxies are generated based on the original iCESM simulated surface temperature (<code class="docutils literal notranslate"><span class="pre">tas</span></code>) without noise. While with LMR it is advantageous to have many redundant proxies (as long as they are unbiased, which is the case here), with GraphEM this
+can lead to some counter-intuitive difficulties, which we explain below.</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
@@ -434,24 +434,22 @@ with GraphEM this can lead to some counter-intuitive difficulties, which we expl
 <section id="Data-Preparation">
 <h2>Data Preparation<a class="headerlink" href="#Data-Preparation" title="Permalink to this heading">#</a></h2>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># load a proxy database</span>
 <span class="n">job</span> <span class="o">=</span> <span class="n">cfr</span><span class="o">.</span><span class="n">ReconJob</span><span class="p">()</span>
-<span class="c1"># job.proxydb = pd.read_pickle(&#39;./data/pseudoPAGES2k/pseudo.tpn_SNR10.pkl&#39;)</span>
-<span class="n">job</span><span class="o">.</span><span class="n">proxydb</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_pickle</span><span class="p">(</span><span class="s1">&#39;./data/pseudoPAGES2k/pseudo.tpn_SNR1.pkl&#39;</span><span class="p">)</span>
+<span class="n">job</span><span class="o">.</span><span class="n">load_proxydb</span><span class="p">(</span><span class="s1">&#39;pseudoPAGES2k/ppwn_SNRinf_rta&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># filter the database</span>
 <span class="n">job</span><span class="o">.</span><span class="n">proxydb</span> <span class="o">=</span> <span class="n">job</span><span class="o">.</span><span class="n">proxydb</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="s1">&#39;ptype&#39;</span><span class="p">,</span> <span class="n">keys</span><span class="o">=</span><span class="s1">&#39;coral&#39;</span><span class="p">)</span>
 <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">job</span><span class="o">.</span><span class="n">proxydb</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">plot_count</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="c1"># cfr.savefig(fig, &#39;./figs/coral_network.pdf&#39;)</span>
 </pre></div>
 </div>
 </div>
@@ -459,27 +457,47 @@ with GraphEM this can lead to some counter-intuitive difficulties, which we expl
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_test-graphem-ppe-pages2k_5_0.png" src="../_images/notebooks_test-graphem-ppe-pages2k_5_0.png" />
+<img alt="../_images/notebooks_test-graphem-primer_5_0.png" src="../_images/notebooks_test-graphem-primer_5_0.png" />
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">job</span><span class="o">.</span><span class="n">proxydb</span> <span class="o">=</span> <span class="n">job</span><span class="o">.</span><span class="n">proxydb</span><span class="o">.</span><span class="n">center</span><span class="p">([</span><span class="mi">1951</span><span class="p">,</span> <span class="mi">1980</span><span class="p">])</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">job</span><span class="o">.</span><span class="n">annualize_proxydb</span><span class="p">(</span><span class="n">months</span><span class="o">=</span><span class="p">[</span><span class="mi">12</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
-<div class="nboutput nblast docutils container">
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+<span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;annualize_proxydb_months&#34;] = [12, 1, 2]
+</span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;annualize_proxydb_ptypes&#34;] = {&#39;coral.SrCa&#39;, &#39;coral.d18O&#39;}
+</span>
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area stderr docutils container">
 <div class="highlight"><pre>
-Centering each of the ProxyRecord: 100%|██████████| 104/104 [00:00&lt;00:00, 8387.96it/s]
+Annualizing ProxyDatabase: 100%|██████████| 96/96 [00:03&lt;00:00, 28.36it/s]
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+<span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; 96 records remaining
+</span><span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; job.proxydb updated
+</span>
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># load observations</span>
@@ -487,7 +505,7 @@ Centering each of the ProxyRecord: 100%|██████████| 104/104 
 <span class="n">job</span><span class="o">.</span><span class="n">load_clim</span><span class="p">(</span>
     <span class="n">tag</span><span class="o">=</span><span class="s1">&#39;obs&#39;</span><span class="p">,</span>
     <span class="n">path_dict</span><span class="o">=</span><span class="p">{</span>
-        <span class="s1">&#39;tas&#39;</span><span class="p">:</span> <span class="s1">&#39;./data/tas_sfc_Amon_iCESM_past1000historical_085001-200512.nc&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;tas&#39;</span><span class="p">:</span> <span class="s1">&#39;iCESM_past1000historical/tas&#39;</span><span class="p">,</span>
     <span class="p">},</span>
     <span class="n">anom_period</span><span class="o">=</span><span class="p">(</span><span class="mi">1951</span><span class="p">,</span> <span class="mi">1980</span><span class="p">),</span>
     <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
@@ -500,522 +518,62 @@ Centering each of the ProxyRecord: 100%|██████████| 104/104 
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-<span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;obs_path&#34;] = {&#39;tas&#39;: &#39;./data/tas_sfc_Amon_iCESM_past1000historical_085001-200512.nc&#39;}</span>
-<span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;obs_anom_period&#34;] = (1951, 1980)</span>
-<span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;obs_lon_name&#34;] = lon</span>
-<span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;obs_time_name&#34;] = time</span>
-<span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; obs variables [&#39;tas&#39;] loaded</span>
-<span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; job.obs created</span>
+<span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;obs_path&#34;] = {&#39;tas&#39;: &#39;iCESM_past1000historical/tas&#39;}
+</span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;obs_anom_period&#34;] = [1951, 1980]
+</span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;obs_lat_name&#34;] = lat
+</span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;obs_lon_name&#34;] = lon
+</span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;obs_time_name&#34;] = time
+</span><span class="ansi-black-intense-fg ansi-bold">&gt;&gt;&gt; The target file seems existed at: ./data/tas_sfc_Amon_iCESM_past1000historical_085001-200512.nc . Loading from it instead of downloading ...
+</span><span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; obs variables [&#39;tas&#39;] loaded
+</span><span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; job.obs created
+</span>
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># regrid and crop obs to make the problem size smaller</span>
+<span class="n">job</span><span class="o">.</span><span class="n">regrid_clim</span><span class="p">(</span><span class="n">tag</span><span class="o">=</span><span class="s1">&#39;obs&#39;</span><span class="p">,</span> <span class="n">nlat</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span> <span class="n">nlon</span><span class="o">=</span><span class="mi">63</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">job</span><span class="o">.</span><span class="n">crop_clim</span><span class="p">(</span><span class="n">tag</span><span class="o">=</span><span class="s1">&#39;obs&#39;</span><span class="p">,</span> <span class="n">lat_min</span><span class="o">=-</span><span class="mi">20</span><span class="p">,</span> <span class="n">lat_max</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">lon_min</span><span class="o">=</span><span class="mi">150</span><span class="p">,</span> <span class="n">lon_max</span><span class="o">=</span><span class="mi">260</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+<span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;obs_regrid_nlat&#34;] = 42
+</span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;obs_regrid_nlon&#34;] = 63
+</span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; Processing tas ...
+</span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;obs_lat_min&#34;] = -20
+</span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;obs_lat_max&#34;] = 20
+</span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;obs_lon_min&#34;] = 150
+</span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;obs_lon_max&#34;] = 260
+</span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; Processing tas ...
+</span>
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># regrid and crop obs to make the problem size smaller</span>
-<span class="n">job</span><span class="o">.</span><span class="n">regrid_clim</span><span class="p">(</span><span class="n">tag</span><span class="o">=</span><span class="s1">&#39;obs&#39;</span><span class="p">,</span> <span class="n">nlat</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span> <span class="n">nlon</span><span class="o">=</span><span class="mi">63</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="c1">#job.regrid_clim(tag=&#39;obs&#39;, nlat=32, nlon=50, verbose=True)</span>
-<span class="n">job</span><span class="o">.</span><span class="n">crop_clim</span><span class="p">(</span><span class="n">tag</span><span class="o">=</span><span class="s1">&#39;obs&#39;</span><span class="p">,</span> <span class="n">lat_min</span><span class="o">=-</span><span class="mi">25</span><span class="p">,</span> <span class="n">lat_max</span><span class="o">=</span><span class="mi">25</span><span class="p">,</span> <span class="n">lon_min</span><span class="o">=</span><span class="mi">120</span><span class="p">,</span> <span class="n">lon_max</span><span class="o">=</span><span class="mi">280</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-<span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;prior_regrid_nlat&#34;] = 42</span>
-<span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;prior_regrid_nlon&#34;] = 63</span>
-<span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; Processing tas ...</span>
-<span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;prior_lat_min&#34;] = -25</span>
-<span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;prior_lat_max&#34;] = 25</span>
-<span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;prior_lon_min&#34;] = 120</span>
-<span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;prior_lon_max&#34;] = 280</span>
-<span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; Processing tas ...</span>
-</pre></div></div>
-</div>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
-</pre></div>
-</div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># annualize the observations</span>
-<span class="n">job</span><span class="o">.</span><span class="n">annualize_clim</span><span class="p">(</span><span class="n">tag</span><span class="o">=</span><span class="s1">&#39;obs&#39;</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">months</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">13</span><span class="p">)))</span>
-<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">job</span><span class="o">.</span><span class="n">obs</span><span class="p">[</span><span class="s1">&#39;tas&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">it</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">job</span><span class="o">.</span><span class="n">annualize_clim</span><span class="p">(</span><span class="n">tag</span><span class="o">=</span><span class="s1">&#39;obs&#39;</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">months</span><span class="o">=</span><span class="p">[</span><span class="mi">12</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
 </pre></div>
 </div>
 </div>
-<div class="nboutput docutils container">
+<div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-<span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;prior_annualize_months&#34;] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]</span>
-<span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; Processing tas ...</span>
-<span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; job.obs updated</span>
+<span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;obs_annualize_months&#34;] = [12, 1, 2]
+</span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; Processing tas ...
+</span><span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; job.obs updated
+</span>
 </pre></div></div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<img alt="../_images/notebooks_test-graphem-ppe-pages2k_9_1.png" src="../_images/notebooks_test-graphem-ppe-pages2k_9_1.png" />
-</div>
-</div>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">job</span><span class="o">.</span><span class="n">obs</span><span class="p">[</span><span class="s1">&#39;tas&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">da</span>
-</pre></div>
-</div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
-</pre></div>
-</div>
-<div class="output_area rendered_html docutils container">
-<div><svg style="position: absolute; width: 0; height: 0; overflow: hidden">
-<defs>
-<symbol id="icon-database" viewBox="0 0 32 32">
-<path d="M16 0c-8.837 0-16 2.239-16 5v4c0 2.761 7.163 5 16 5s16-2.239 16-5v-4c0-2.761-7.163-5-16-5z"></path>
-<path d="M16 17c-8.837 0-16-2.239-16-5v6c0 2.761 7.163 5 16 5s16-2.239 16-5v-6c0 2.761-7.163 5-16 5z"></path>
-<path d="M16 26c-8.837 0-16-2.239-16-5v6c0 2.761 7.163 5 16 5s16-2.239 16-5v-6c0 2.761-7.163 5-16 5z"></path>
-</symbol>
-<symbol id="icon-file-text2" viewBox="0 0 32 32">
-<path d="M28.681 7.159c-0.694-0.947-1.662-2.053-2.724-3.116s-2.169-2.030-3.116-2.724c-1.612-1.182-2.393-1.319-2.841-1.319h-15.5c-1.378 0-2.5 1.121-2.5 2.5v27c0 1.378 1.122 2.5 2.5 2.5h23c1.378 0 2.5-1.122 2.5-2.5v-19.5c0-0.448-0.137-1.23-1.319-2.841zM24.543 5.457c0.959 0.959 1.712 1.825 2.268 2.543h-4.811v-4.811c0.718 0.556 1.584 1.309 2.543 2.268zM28 29.5c0 0.271-0.229 0.5-0.5 0.5h-23c-0.271 0-0.5-0.229-0.5-0.5v-27c0-0.271 0.229-0.5 0.5-0.5 0 0 15.499-0 15.5 0v7c0 0.552 0.448 1 1 1h7v19.5z"></path>
-<path d="M23 26h-14c-0.552 0-1-0.448-1-1s0.448-1 1-1h14c0.552 0 1 0.448 1 1s-0.448 1-1 1z"></path>
-<path d="M23 22h-14c-0.552 0-1-0.448-1-1s0.448-1 1-1h14c0.552 0 1 0.448 1 1s-0.448 1-1 1z"></path>
-<path d="M23 18h-14c-0.552 0-1-0.448-1-1s0.448-1 1-1h14c0.552 0 1 0.448 1 1s-0.448 1-1 1z"></path>
-</symbol>
-</defs>
-</svg>
-<style>/* CSS stylesheet for displaying xarray objects in jupyterlab.
- *
- */
-
-:root {
-  --xr-font-color0: var(--jp-content-font-color0, rgba(0, 0, 0, 1));
-  --xr-font-color2: var(--jp-content-font-color2, rgba(0, 0, 0, 0.54));
-  --xr-font-color3: var(--jp-content-font-color3, rgba(0, 0, 0, 0.38));
-  --xr-border-color: var(--jp-border-color2, #e0e0e0);
-  --xr-disabled-color: var(--jp-layout-color3, #bdbdbd);
-  --xr-background-color: var(--jp-layout-color0, white);
-  --xr-background-color-row-even: var(--jp-layout-color1, white);
-  --xr-background-color-row-odd: var(--jp-layout-color2, #eeeeee);
-}
-
-html[theme=dark],
-body.vscode-dark {
-  --xr-font-color0: rgba(255, 255, 255, 1);
-  --xr-font-color2: rgba(255, 255, 255, 0.54);
-  --xr-font-color3: rgba(255, 255, 255, 0.38);
-  --xr-border-color: #1F1F1F;
-  --xr-disabled-color: #515151;
-  --xr-background-color: #111111;
-  --xr-background-color-row-even: #111111;
-  --xr-background-color-row-odd: #313131;
-}
-
-.xr-wrap {
-  display: block;
-  min-width: 300px;
-  max-width: 700px;
-}
-
-.xr-text-repr-fallback {
-  /* fallback to plain text repr when CSS is not injected (untrusted notebook) */
-  display: none;
-}
-
-.xr-header {
-  padding-top: 6px;
-  padding-bottom: 6px;
-  margin-bottom: 4px;
-  border-bottom: solid 1px var(--xr-border-color);
-}
-
-.xr-header > div,
-.xr-header > ul {
-  display: inline;
-  margin-top: 0;
-  margin-bottom: 0;
-}
-
-.xr-obj-type,
-.xr-array-name {
-  margin-left: 2px;
-  margin-right: 10px;
-}
-
-.xr-obj-type {
-  color: var(--xr-font-color2);
-}
-
-.xr-sections {
-  padding-left: 0 !important;
-  display: grid;
-  grid-template-columns: 150px auto auto 1fr 20px 20px;
-}
-
-.xr-section-item {
-  display: contents;
-}
-
-.xr-section-item input {
-  display: none;
-}
-
-.xr-section-item input + label {
-  color: var(--xr-disabled-color);
-}
-
-.xr-section-item input:enabled + label {
-  cursor: pointer;
-  color: var(--xr-font-color2);
-}
-
-.xr-section-item input:enabled + label:hover {
-  color: var(--xr-font-color0);
-}
-
-.xr-section-summary {
-  grid-column: 1;
-  color: var(--xr-font-color2);
-  font-weight: 500;
-}
-
-.xr-section-summary > span {
-  display: inline-block;
-  padding-left: 0.5em;
-}
-
-.xr-section-summary-in:disabled + label {
-  color: var(--xr-font-color2);
-}
-
-.xr-section-summary-in + label:before {
-  display: inline-block;
-  content: '►';
-  font-size: 11px;
-  width: 15px;
-  text-align: center;
-}
-
-.xr-section-summary-in:disabled + label:before {
-  color: var(--xr-disabled-color);
-}
-
-.xr-section-summary-in:checked + label:before {
-  content: '▼';
-}
-
-.xr-section-summary-in:checked + label > span {
-  display: none;
-}
-
-.xr-section-summary,
-.xr-section-inline-details {
-  padding-top: 4px;
-  padding-bottom: 4px;
-}
-
-.xr-section-inline-details {
-  grid-column: 2 / -1;
-}
-
-.xr-section-details {
-  display: none;
-  grid-column: 1 / -1;
-  margin-bottom: 5px;
-}
-
-.xr-section-summary-in:checked ~ .xr-section-details {
-  display: contents;
-}
-
-.xr-array-wrap {
-  grid-column: 1 / -1;
-  display: grid;
-  grid-template-columns: 20px auto;
-}
-
-.xr-array-wrap > label {
-  grid-column: 1;
-  vertical-align: top;
-}
-
-.xr-preview {
-  color: var(--xr-font-color3);
-}
-
-.xr-array-preview,
-.xr-array-data {
-  padding: 0 5px !important;
-  grid-column: 2;
-}
-
-.xr-array-data,
-.xr-array-in:checked ~ .xr-array-preview {
-  display: none;
-}
-
-.xr-array-in:checked ~ .xr-array-data,
-.xr-array-preview {
-  display: inline-block;
-}
-
-.xr-dim-list {
-  display: inline-block !important;
-  list-style: none;
-  padding: 0 !important;
-  margin: 0;
-}
-
-.xr-dim-list li {
-  display: inline-block;
-  padding: 0;
-  margin: 0;
-}
-
-.xr-dim-list:before {
-  content: '(';
-}
-
-.xr-dim-list:after {
-  content: ')';
-}
-
-.xr-dim-list li:not(:last-child):after {
-  content: ',';
-  padding-right: 5px;
-}
-
-.xr-has-index {
-  font-weight: bold;
-}
-
-.xr-var-list,
-.xr-var-item {
-  display: contents;
-}
-
-.xr-var-item > div,
-.xr-var-item label,
-.xr-var-item > .xr-var-name span {
-  background-color: var(--xr-background-color-row-even);
-  margin-bottom: 0;
-}
-
-.xr-var-item > .xr-var-name:hover span {
-  padding-right: 5px;
-}
-
-.xr-var-list > li:nth-child(odd) > div,
-.xr-var-list > li:nth-child(odd) > label,
-.xr-var-list > li:nth-child(odd) > .xr-var-name span {
-  background-color: var(--xr-background-color-row-odd);
-}
-
-.xr-var-name {
-  grid-column: 1;
-}
-
-.xr-var-dims {
-  grid-column: 2;
-}
-
-.xr-var-dtype {
-  grid-column: 3;
-  text-align: right;
-  color: var(--xr-font-color2);
-}
-
-.xr-var-preview {
-  grid-column: 4;
-}
-
-.xr-var-name,
-.xr-var-dims,
-.xr-var-dtype,
-.xr-preview,
-.xr-attrs dt {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  padding-right: 10px;
-}
-
-.xr-var-name:hover,
-.xr-var-dims:hover,
-.xr-var-dtype:hover,
-.xr-attrs dt:hover {
-  overflow: visible;
-  width: auto;
-  z-index: 1;
-}
-
-.xr-var-attrs,
-.xr-var-data {
-  display: none;
-  background-color: var(--xr-background-color) !important;
-  padding-bottom: 5px !important;
-}
-
-.xr-var-attrs-in:checked ~ .xr-var-attrs,
-.xr-var-data-in:checked ~ .xr-var-data {
-  display: block;
-}
-
-.xr-var-data > table {
-  float: right;
-}
-
-.xr-var-name span,
-.xr-var-data,
-.xr-attrs {
-  padding-left: 25px !important;
-}
-
-.xr-attrs,
-.xr-var-attrs,
-.xr-var-data {
-  grid-column: 1 / -1;
-}
-
-dl.xr-attrs {
-  padding: 0;
-  margin: 0;
-  display: grid;
-  grid-template-columns: 125px auto;
-}
-
-.xr-attrs dt,
-.xr-attrs dd {
-  padding: 0;
-  margin: 0;
-  float: left;
-  padding-right: 10px;
-  width: auto;
-}
-
-.xr-attrs dt {
-  font-weight: normal;
-  grid-column: 1;
-}
-
-.xr-attrs dt:hover span {
-  display: inline-block;
-  background: var(--xr-background-color);
-  padding-right: 10px;
-}
-
-.xr-attrs dd {
-  grid-column: 2;
-  white-space: pre-wrap;
-  word-break: break-all;
-}
-
-.xr-icon-database,
-.xr-icon-file-text2 {
-  display: inline-block;
-  vertical-align: middle;
-  width: 1em;
-  height: 1.5em !important;
-  stroke-width: 0;
-  stroke: currentColor;
-  fill: currentColor;
-}
-</style><pre class='xr-text-repr-fallback'>&lt;xarray.DataArray &#x27;tas&#x27; (year: 1156, lat: 12, lon: 28)&gt;
-array([[[-1.43779302, -1.16293697, -1.01732908, ...,  0.39457998,
-          0.52082612,  0.59373487],
-        [-0.44181921, -0.51548275,  0.244261  , ...,  0.74474864,
-          0.77145844,  0.68355714],
-        [ 0.35079578,  0.32100882,  0.55368277, ...,  0.88217642,
-          0.68757142,  0.31475473],
-        ...,
-        [ 0.72816369,  0.71887253,  0.54529944, ...,  0.20676015,
-          0.30845679,  0.2907033 ],
-        [ 1.10758701,  0.98782858,  1.00810014, ...,  0.09055938,
-          0.18384386,  0.24694595],
-        [ 1.31631178,  1.20505177,  1.04198581, ...,  0.14300547,
-          0.29674634,  0.27620213]],
-
-       [[-0.70474708, -0.01598469,  0.13178037, ..., -0.16622394,
-         -0.03184134, -0.0226782 ],
-        [-0.47576783, -0.55773132, -0.46185074, ..., -0.03219556,
-          0.01012642,  0.01045555],
-        [ 0.10615215, -0.04668079, -0.21236786, ...,  0.06428793,
-         -0.00198371, -0.03837104],
-...
-        [ 0.25181528,  0.44903654,  0.61978375, ...,  0.31308888,
-          0.36723991,  0.52567691],
-        [ 0.04978446,  0.04787485,  0.22568625, ...,  0.45198041,
-          0.4664865 ,  0.49749394],
-        [ 0.10458478, -0.10605026, -0.21279729, ...,  0.54345012,
-          0.54446683,  0.52080011]],
-
-       [[ 0.0498074 ,  0.27873075,  0.39957376, ..., -0.03960866,
-         -0.05272122,  0.16753688],
-        [-0.37810031,  0.30122609, -0.0628949 , ..., -0.11026585,
-          0.06519481,  0.26313251],
-        [ 0.08783609, -0.448483  , -0.12010821, ..., -0.0352111 ,
-          0.10163381,  0.12676614],
-        ...,
-        [ 0.09630422,  0.35422082,  0.39387372, ...,  0.24968949,
-          0.3645677 ,  0.26936438],
-        [-0.06625534,  0.26004941,  0.47504105, ...,  0.32676493,
-          0.46907017,  0.4533393 ],
-        [-0.19586628,  0.12946299,  0.54914526, ...,  0.38060853,
-          0.41296104,  0.51346773]]])
-Coordinates:
-  * year     (year) int64 850 851 852 853 854 855 ... 2001 2002 2003 2004 2005
-  * lon      (lon) float64 121.9 127.7 133.5 139.4 ... 261.3 267.1 272.9 278.7
-  * lat      (lat) float64 -24.15 -19.76 -15.37 -10.98 ... 15.37 19.76 24.15</pre><div class='xr-wrap' hidden><div class='xr-header'><div class='xr-obj-type'>xarray.DataArray</div><div class='xr-array-name'>'tas'</div><ul class='xr-dim-list'><li><span class='xr-has-index'>year</span>: 1156</li><li><span class='xr-has-index'>lat</span>: 12</li><li><span class='xr-has-index'>lon</span>: 28</li></ul></div><ul class='xr-sections'><li class='xr-section-item'><div class='xr-array-wrap'><input id='section-fcacdef6-f64e-4132-b9c6-9fed6636dba8' class='xr-array-in' type='checkbox' checked><label for='section-fcacdef6-f64e-4132-b9c6-9fed6636dba8' title='Show/hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-array-preview xr-preview'><span>-1.438 -1.163 -1.017 -0.9146 -0.9414 ... 0.6372 0.3806 0.413 0.5135</span></div><div class='xr-array-data'><pre>array([[[-1.43779302, -1.16293697, -1.01732908, ...,  0.39457998,
-          0.52082612,  0.59373487],
-        [-0.44181921, -0.51548275,  0.244261  , ...,  0.74474864,
-          0.77145844,  0.68355714],
-        [ 0.35079578,  0.32100882,  0.55368277, ...,  0.88217642,
-          0.68757142,  0.31475473],
-        ...,
-        [ 0.72816369,  0.71887253,  0.54529944, ...,  0.20676015,
-          0.30845679,  0.2907033 ],
-        [ 1.10758701,  0.98782858,  1.00810014, ...,  0.09055938,
-          0.18384386,  0.24694595],
-        [ 1.31631178,  1.20505177,  1.04198581, ...,  0.14300547,
-          0.29674634,  0.27620213]],
-
-       [[-0.70474708, -0.01598469,  0.13178037, ..., -0.16622394,
-         -0.03184134, -0.0226782 ],
-        [-0.47576783, -0.55773132, -0.46185074, ..., -0.03219556,
-          0.01012642,  0.01045555],
-        [ 0.10615215, -0.04668079, -0.21236786, ...,  0.06428793,
-         -0.00198371, -0.03837104],
-...
-        [ 0.25181528,  0.44903654,  0.61978375, ...,  0.31308888,
-          0.36723991,  0.52567691],
-        [ 0.04978446,  0.04787485,  0.22568625, ...,  0.45198041,
-          0.4664865 ,  0.49749394],
-        [ 0.10458478, -0.10605026, -0.21279729, ...,  0.54345012,
-          0.54446683,  0.52080011]],
-
-       [[ 0.0498074 ,  0.27873075,  0.39957376, ..., -0.03960866,
-         -0.05272122,  0.16753688],
-        [-0.37810031,  0.30122609, -0.0628949 , ..., -0.11026585,
-          0.06519481,  0.26313251],
-        [ 0.08783609, -0.448483  , -0.12010821, ..., -0.0352111 ,
-          0.10163381,  0.12676614],
-        ...,
-        [ 0.09630422,  0.35422082,  0.39387372, ...,  0.24968949,
-          0.3645677 ,  0.26936438],
-        [-0.06625534,  0.26004941,  0.47504105, ...,  0.32676493,
-          0.46907017,  0.4533393 ],
-        [-0.19586628,  0.12946299,  0.54914526, ...,  0.38060853,
-          0.41296104,  0.51346773]]])</pre></div></div></li><li class='xr-section-item'><input id='section-35c88578-1c20-42c3-9832-3582bf394fdc' class='xr-section-summary-in' type='checkbox'  checked><label for='section-35c88578-1c20-42c3-9832-3582bf394fdc' class='xr-section-summary' >Coordinates: <span>(3)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><ul class='xr-var-list'><li class='xr-var-item'><div class='xr-var-name'><span class='xr-has-index'>year</span></div><div class='xr-var-dims'>(year)</div><div class='xr-var-dtype'>int64</div><div class='xr-var-preview xr-preview'>850 851 852 853 ... 2003 2004 2005</div><input id='attrs-490a741e-a2e9-4817-9ba5-dbaa315024e6' class='xr-var-attrs-in' type='checkbox' disabled><label for='attrs-490a741e-a2e9-4817-9ba5-dbaa315024e6' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-1b45b677-69d7-4916-9a0a-283c8716ff2d' class='xr-var-data-in' type='checkbox'><label for='data-1b45b677-69d7-4916-9a0a-283c8716ff2d' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'></dl></div><div class='xr-var-data'><pre>array([ 850,  851,  852, ..., 2003, 2004, 2005])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span class='xr-has-index'>lon</span></div><div class='xr-var-dims'>(lon)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>121.9 127.7 133.5 ... 272.9 278.7</div><input id='attrs-766b5525-05af-421d-a4ab-4ff846acf07d' class='xr-var-attrs-in' type='checkbox' disabled><label for='attrs-766b5525-05af-421d-a4ab-4ff846acf07d' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-9584334b-f61b-42b6-a12c-66c517def500' class='xr-var-data-in' type='checkbox'><label for='data-9584334b-f61b-42b6-a12c-66c517def500' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'></dl></div><div class='xr-var-data'><pre>array([121.935484, 127.741935, 133.548387, 139.354839, 145.16129 , 150.967742,
-       156.774194, 162.580645, 168.387097, 174.193548, 180.      , 185.806452,
-       191.612903, 197.419355, 203.225806, 209.032258, 214.83871 , 220.645161,
-       226.451613, 232.258065, 238.064516, 243.870968, 249.677419, 255.483871,
-       261.290323, 267.096774, 272.903226, 278.709677])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span class='xr-has-index'>lat</span></div><div class='xr-var-dims'>(lat)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>-24.15 -19.76 ... 19.76 24.15</div><input id='attrs-61fcd8c2-486c-4f7a-a7bc-8edf7fb3a5d8' class='xr-var-attrs-in' type='checkbox' disabled><label for='attrs-61fcd8c2-486c-4f7a-a7bc-8edf7fb3a5d8' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-87883b4c-ee5b-46e6-92b4-6fd94be8ab00' class='xr-var-data-in' type='checkbox'><label for='data-87883b4c-ee5b-46e6-92b4-6fd94be8ab00' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'></dl></div><div class='xr-var-data'><pre>array([-24.146341, -19.756098, -15.365854, -10.97561 ,  -6.585366,  -2.195122,
-         2.195122,   6.585366,  10.97561 ,  15.365854,  19.756098,  24.146341])</pre></div></li></ul></div></li><li class='xr-section-item'><input id='section-f29833f7-a690-4c12-a565-892ce3b55dd1' class='xr-section-summary-in' type='checkbox' disabled ><label for='section-f29833f7-a690-4c12-a565-892ce3b55dd1' class='xr-section-summary'  title='Expand/collapse section'>Attributes: <span>(0)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><dl class='xr-attrs'></dl></div></li></ul></div></div></div>
 </div>
 </section>
 <section id="Graph-estimation">
@@ -1035,7 +593,7 @@ damped. In the limit of <span class="math notranslate nohighlight">\(R_c=0\)</sp
 considerations.</p>
 <p>There are various <a class="reference external" href="https://towardsdatascience.com/flavors-of-cross-validation-edfee24e8916">flavors of cross-validation</a> one can use. <em>k-fold cross-validation</em> (typically with <span class="math notranslate nohighlight">\(k=5\)</span>) is a popular choice and what GraphEM implements (note: we could use the same approach to choose the localization radius in DA). This is what it looks like: the data are split in 5 groups. In each group, one withhold <span class="math notranslate nohighlight">\(1/k\)</span> of the data for validation, using the remaining <span class="math notranslate nohighlight">\((k-1)/k\)</span> for calibration.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">Image</span>
@@ -1045,7 +603,7 @@ considerations.</p>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
 </pre></div>
 </div>
 <div class="output_area rendered_html docutils container">
@@ -1055,53 +613,133 @@ considerations.</p>
 numerically, the algorithm will always converge for a very small radius (though the solution will be overregularized, hence very damped in amplitude). At the other end of the spectrum, for large radii the solution is under-regularized, hence numerically unstable. The practical consequence is that GraphEM will fail to converge and throw many error messages along the way. Here we choose to search a space spanning 500 to 5000km in increments of 500km, but finding the upper bound can require some
 trial and error.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[24]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%time</span>
 <span class="n">job_neigh</span> <span class="o">=</span> <span class="n">job</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
 
 <span class="c1"># cross validation test</span>
-<span class="c1"># cutoff_radii=np.arange(start=500,stop=5500,step=500)</span>
 <span class="n">cutoff_radii</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">start</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span><span class="n">stop</span><span class="o">=</span><span class="mi">2001</span><span class="p">,</span><span class="n">step</span><span class="o">=</span><span class="mi">500</span><span class="p">)</span>
-<span class="c1"># cutoff_radii=np.arange(start=1000,stop=1001,step=500)</span>
-<span class="c1"># kcv_stats = job_neigh.graphem_kcv(</span>
 <span class="n">kcv_res</span> <span class="o">=</span> <span class="n">job_neigh</span><span class="o">.</span><span class="n">graphem_kcv</span><span class="p">(</span>
     <span class="n">cv_time</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1850</span><span class="p">,</span> <span class="mi">2001</span><span class="p">),</span> <span class="n">stat</span><span class="o">=</span><span class="s1">&#39;MSE&#39;</span><span class="p">,</span> <span class="n">n_splits</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
     <span class="n">ctrl_params</span><span class="o">=</span><span class="n">cutoff_radii</span><span class="p">,</span>
     <span class="n">graph_type</span><span class="o">=</span><span class="s1">&#39;neighborhood&#39;</span><span class="p">,</span>
-    <span class="c1"># graph_type=&#39;glasso&#39;,</span>
 <span class="p">)</span>
 </pre></div>
 </div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+<span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; Processing fold 1:
+</span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; parameter = 1000
+</span>
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+Centering each of the ProxyRecord: 100%|██████████| 49/49 [00:00&lt;00:00, 1811.46it/s]
+EM | dXmis: 0.0026; rdXmis: 0.0038:   4%|▍         | 9/200 [03:55&lt;1:23:11, 26.13s/it]
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+GraphEM.EM(): Tolerance achieved.
+<span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; parameter = 1500
+</span>
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+Centering each of the ProxyRecord: 100%|██████████| 49/49 [00:00&lt;00:00, 1102.18it/s]
+EM | dXmis: 0.0045; rdXmis: 0.0070:  17%|█▋        | 34/200 [42:55&lt;3:29:35, 75.76s/it]
+</pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-<span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; Processing fold 1:</span>
-<span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; parameter = 1000</span>
-<span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; parameter = 1500</span>
-<span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; parameter = 2000</span>
-<span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; Processing fold 2:</span>
-<span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; parameter = 1000</span>
-<span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; parameter = 1500</span>
-<span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; parameter = 2000</span>
-<span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; Processing fold 3:</span>
-<span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; parameter = 1000</span>
-<span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; parameter = 1500</span>
-<span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; parameter = 2000</span>
-<span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; Processing fold 4:</span>
-<span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; parameter = 1000</span>
-<span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; parameter = 1500</span>
-<span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; parameter = 2000</span>
-<span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; Processing fold 5:</span>
-<span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; parameter = 1000</span>
-<span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; parameter = 1500</span>
-<span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; parameter = 2000</span>
-CPU times: user 14min 48s, sys: 57.9 s, total: 15min 45s
-Wall time: 1min 59s
+<span class="ansi-red-fg">---------------------------------------------------------------------------</span>
+<span class="ansi-red-fg">KeyboardInterrupt</span>                         Traceback (most recent call last)
+File <span class="ansi-green-fg">&lt;timed exec&gt;:5</span>
+
+File <span class="ansi-green-fg">~/Github/cfr/cfr/reconjob.py:977</span>, in <span class="ansi-cyan-fg">ReconJob.graphem_kcv</span><span class="ansi-blue-fg">(self, cv_time, ctrl_params, graph_type, stat, n_splits)</span>
+<span class="ansi-green-intense-fg ansi-bold">    974</span> adjs[(i+1, param)] = g_cv
+<span class="ansi-green-intense-fg ansi-bold">    976</span> # run graphem with this graph
+<span class="ansi-green-fg">--&gt; 977</span> j_cv.run_graphem(
+<span class="ansi-green-intense-fg ansi-bold">    978</span>     save_recon=False,
+<span class="ansi-green-intense-fg ansi-bold">    979</span>     verbose=False,
+<span class="ansi-green-intense-fg ansi-bold">    980</span>     estimate_graph=False,
+<span class="ansi-green-intense-fg ansi-bold">    981</span>     graph=g_cv.adj)
+<span class="ansi-green-intense-fg ansi-bold">    983</span> # compute verification statistics
+<span class="ansi-green-intense-fg ansi-bold">    984</span> field_r = j_cv.graphem_solver.field_r
+
+File <span class="ansi-green-fg">~/Github/cfr/cfr/reconjob.py:1045</span>, in <span class="ansi-cyan-fg">ReconJob.run_graphem</span><span class="ansi-blue-fg">(self, save_recon, save_dirpath, save_filename, load_precalc_solver, solver_save_path, compress_params, verbose, output_indices, **fit_kws)</span>
+<span class="ansi-green-intense-fg ansi-bold">   1043</span> fit_kwargs.update(fit_kws)
+<span class="ansi-green-intense-fg ansi-bold">   1044</span> if fit_kwargs[&#39;graph_method&#39;] in [&#39;neighborhood&#39;, &#39;glasso&#39;]:
+<span class="ansi-green-fg">-&gt; 1045</span>     self.graphem_solver.fit(
+<span class="ansi-green-intense-fg ansi-bold">   1046</span>         self.graphem_params[&#39;field&#39;],
+<span class="ansi-green-intense-fg ansi-bold">   1047</span>         self.graphem_params[&#39;proxy&#39;],
+<span class="ansi-green-intense-fg ansi-bold">   1048</span>         self.graphem_params[&#39;calib_idx&#39;],
+<span class="ansi-green-intense-fg ansi-bold">   1049</span>         verbose=verbose,
+<span class="ansi-green-intense-fg ansi-bold">   1050</span>         **fit_kwargs)
+<span class="ansi-green-intense-fg ansi-bold">   1051</span> elif fit_kwargs[&#39;graph_method&#39;] == &#39;hybrid&#39;:
+<span class="ansi-green-intense-fg ansi-bold">   1052</span>     fit_kwargs.update({&#39;graph_method&#39;: &#39;neighborhood&#39;})
+
+File <span class="ansi-green-fg">~/Github/cfr-graphem/graphem/solver.py:139</span>, in <span class="ansi-cyan-fg">GraphEM.fit</span><span class="ansi-blue-fg">(self, field, proxy, calib, graph, lonlat, sp_FF, sp_FP, sp_PP, N_graph, C0, M0, maxit, bootstrap, N_boot, cutoff_radius, graph_method, estimate_graph, save_graphs, verbose)</span>
+<span class="ansi-green-intense-fg ansi-bold">    136</span>     else:
+<span class="ansi-green-intense-fg ansi-bold">    137</span>         if verbose: print(&#34;Using specified graph&#34;)
+<span class="ansi-green-fg">--&gt; 139</span> [X,C,M] = self.EM(X, self.graph, C0, M0, maxit, verbose=verbose)
+<span class="ansi-green-intense-fg ansi-bold">    140</span> self.field_r = X[:,ind_F]
+<span class="ansi-green-intense-fg ansi-bold">    141</span> self.proxy_r = X[:,ind_P]
+
+File <span class="ansi-green-fg">~/Github/cfr-graphem/graphem/solver.py:240</span>, in <span class="ansi-cyan-fg">GraphEM.EM</span><span class="ansi-blue-fg">(self, X, graph, C0, M0, maxit, use_iridge, verbose)</span>
+<span class="ansi-green-intense-fg ansi-bold">    238</span>     B, S, __, __ = iridge.iridge(C, avlr, misr, n-1)
+<span class="ansi-green-intense-fg ansi-bold">    239</span> else:
+<span class="ansi-green-fg">--&gt; 240</span>     B, S = ols(C, avlr, misr)
+<span class="ansi-green-intense-fg ansi-bold">    241</span> ind_obs = find(pattern_ix == i1)
+<span class="ansi-green-intense-fg ansi-bold">    242</span> mp = len(ind_obs)  # Number of rows matching current pattern
+
+File <span class="ansi-green-fg">~/Github/cfr-graphem/graphem/solver.py:536</span>, in <span class="ansi-cyan-fg">ols</span><span class="ansi-blue-fg">(Sigma, xind, yind)</span>
+<span class="ansi-green-intense-fg ansi-bold">    516</span> def ols(Sigma, xind, yind):
+<span class="ansi-green-intense-fg ansi-bold">    517</span>     &#39;&#39;&#39;
+<span class="ansi-green-intense-fg ansi-bold">    518</span>     Computes regression coefficients in a multivariate Gaussian model
+<span class="ansi-green-intense-fg ansi-bold">    519</span>
+<span class="ansi-green-fg">   (...)</span>
+<span class="ansi-green-intense-fg ansi-bold">    534</span>         Covariance of the residuals
+<span class="ansi-green-intense-fg ansi-bold">    535</span>     &#39;&#39;&#39;
+<span class="ansi-green-fg">--&gt; 536</span>     B = linalg.inv(Sigma[np.ix_(xind,xind)]).dot(Sigma[np.ix_(xind,yind)])
+<span class="ansi-green-intense-fg ansi-bold">    537</span>     S = Sigma[np.ix_(yind,yind)] - Sigma[np.ix_(yind, xind)].dot(B)
+<span class="ansi-green-intense-fg ansi-bold">    538</span>     return [B, S]
+
+File <span class="ansi-green-fg">~/Apps/miniconda3/envs/cfr-env/lib/python3.9/site-packages/scipy/linalg/_basic.py:962</span>, in <span class="ansi-cyan-fg">inv</span><span class="ansi-blue-fg">(a, overwrite_a, check_finite)</span>
+<span class="ansi-green-intense-fg ansi-bold">    950</span>     # XXX: I found no advantage or disadvantage of using finv.
+<span class="ansi-green-intense-fg ansi-bold">    951</span> #     finv, = get_flinalg_funcs((&#39;inv&#39;,),(a1,))
+<span class="ansi-green-intense-fg ansi-bold">    952</span> #     if finv is not None:
+<span class="ansi-green-fg">   (...)</span>
+<span class="ansi-green-intense-fg ansi-bold">    957</span> #         if info&lt;0: raise ValueError(&#39;illegal value in %d-th argument of &#39;
+<span class="ansi-green-intense-fg ansi-bold">    958</span> #                                     &#39;internal inv.getrf|getri&#39;%(-info))
+<span class="ansi-green-intense-fg ansi-bold">    959</span>     getrf, getri, getri_lwork = get_lapack_funcs((&#39;getrf&#39;, &#39;getri&#39;,
+<span class="ansi-green-intense-fg ansi-bold">    960</span>                                                   &#39;getri_lwork&#39;),
+<span class="ansi-green-intense-fg ansi-bold">    961</span>                                                  (a1,))
+<span class="ansi-green-fg">--&gt; 962</span>     lu, piv, info = getrf(a1, overwrite_a=overwrite_a)
+<span class="ansi-green-intense-fg ansi-bold">    963</span>     if info == 0:
+<span class="ansi-green-intense-fg ansi-bold">    964</span>         lwork = _compute_lwork(getri_lwork, a1.shape[0])
+
+<span class="ansi-red-fg">KeyboardInterrupt</span>:
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
@@ -1133,7 +771,7 @@ Wall time: 1min 59s
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_test-graphem-ppe-pages2k_16_0.png" src="../_images/notebooks_test-graphem-ppe-pages2k_16_0.png" />
+<img alt="../_images/notebooks_test-graphem-primer_15_0.png" src="../_images/notebooks_test-graphem-primer_15_0.png" />
 </div>
 </div>
 <div class="nbinput docutils container">
@@ -1156,7 +794,7 @@ Minimum reached for R = 2000 km.
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_test-graphem-ppe-pages2k_17_1.png" src="../_images/notebooks_test-graphem-ppe-pages2k_17_1.png" />
+<img alt="../_images/notebooks_test-graphem-primer_16_1.png" src="../_images/notebooks_test-graphem-primer_16_1.png" />
 </div>
 </div>
 <p>This shows the familiar U-shape mentioned above, and the cutoff radius that appears to minimize the MSE averaged over the 5 folds is 2000 km. However, you might notice that this minimum is rather shallow, so there is no strong reason to prefer this value over 1500 or 2500 km. However, there is an informal principle, known as the “1-SD rule”, which states that in situations like these, one wants to select the least complex model whose MSE is within 1 standard deviation (fold-wise) of the global
@@ -1608,7 +1246,7 @@ array([[       nan,        nan,        nan, ...,        nan,        nan,
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_test-graphem-ppe-pages2k_29_0.png" src="../_images/notebooks_test-graphem-ppe-pages2k_29_0.png" />
+<img alt="../_images/notebooks_test-graphem-primer_28_0.png" src="../_images/notebooks_test-graphem-primer_28_0.png" />
 </div>
 </div>
 <p>This, however, does not tell us the degree to which this proxy correlates to temperature at nerby grid points over the instrumental era. To do that, we use:</p>
@@ -1634,7 +1272,7 @@ array([[       nan,        nan,        nan, ...,        nan,        nan,
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_test-graphem-ppe-pages2k_31_1.png" src="../_images/notebooks_test-graphem-ppe-pages2k_31_1.png" />
+<img alt="../_images/notebooks_test-graphem-primer_30_1.png" src="../_images/notebooks_test-graphem-primer_30_1.png" />
 </div>
 </div>
 <p>This can be instructive for small proxy networks, or for debugging purposes. For instance, we notice one proxy in the tropical Atlantic that has zero neighbors, because the grid is restricted to the Pacific far beyond the cutoff radius.</p>
@@ -1660,7 +1298,7 @@ array([[       nan,        nan,        nan, ...,        nan,        nan,
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_test-graphem-ppe-pages2k_33_1.png" src="../_images/notebooks_test-graphem-ppe-pages2k_33_1.png" />
+<img alt="../_images/notebooks_test-graphem-primer_32_1.png" src="../_images/notebooks_test-graphem-primer_32_1.png" />
 </div>
 </div>
 <div class="nbinput docutils container">
@@ -1694,7 +1332,7 @@ array([[       nan,        nan,        nan, ...,        nan,        nan,
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_test-graphem-ppe-pages2k_34_0.png" src="../_images/notebooks_test-graphem-ppe-pages2k_34_0.png" />
+<img alt="../_images/notebooks_test-graphem-primer_33_0.png" src="../_images/notebooks_test-graphem-primer_33_0.png" />
 </div>
 </div>
 <p>By construction, proxies are assumed conditionally independent of each other, so the proxy-proxy part of the adjacency matrix is diagonal. The climate-climate is block-diagonal, reflecting the fact that nearby indices tend to reflect nearby gridpoints, and nearby gridpoints generally have similar climates*. There are discontinuities that happen when cycling through longitudes (0 –&gt; 360 back to 0), which show up as abrupt breaks in the graph. The climate-proxy part is less regular, reflecting
@@ -2012,7 +1650,7 @@ Text(0.5, 1.0, &#39;CE&#39;)
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_test-graphem-ppe-pages2k_48_1.png" src="../_images/notebooks_test-graphem-ppe-pages2k_48_1.png" />
+<img alt="../_images/notebooks_test-graphem-primer_47_1.png" src="../_images/notebooks_test-graphem-primer_47_1.png" />
 </div>
 </div>
 </section>
@@ -2053,7 +1691,7 @@ Text(0.5, 1.0, &#39;CE&#39;)
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_test-graphem-ppe-pages2k_51_1.png" src="../_images/notebooks_test-graphem-ppe-pages2k_51_1.png" />
+<img alt="../_images/notebooks_test-graphem-primer_50_1.png" src="../_images/notebooks_test-graphem-primer_50_1.png" />
 </div>
 </div>
 <div class="nbinput nblast docutils container">
@@ -2096,7 +1734,7 @@ Text(0.5, 1.0, &#39;CE&#39;)
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_test-graphem-ppe-pages2k_53_0.png" src="../_images/notebooks_test-graphem-ppe-pages2k_53_0.png" />
+<img alt="../_images/notebooks_test-graphem-primer_52_0.png" src="../_images/notebooks_test-graphem-primer_52_0.png" />
 </div>
 </div>
 <p>We see that skill is very high in most regions, particularly in the vicinity of proxy sites, though the SPCZ is less well captured than the central equatorial Pacific, for instance.</p>
@@ -2198,7 +1836,7 @@ Text(0.5, 1.0, &#39;Tentative GLASSO graph, sp = 3.50 %&#39;)
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_test-graphem-ppe-pages2k_58_1.png" src="../_images/notebooks_test-graphem-ppe-pages2k_58_1.png" />
+<img alt="../_images/notebooks_test-graphem-primer_57_1.png" src="../_images/notebooks_test-graphem-primer_57_1.png" />
 </div>
 </div>
 <p>Comparing with the previously obtained neighborhood graph, we see that GLASSO, for this particular choice of parameters, led to a similar block-diagonal pattern for the in-field part of the matrix, however the extent of these blocks varies from point to point. This is an indication of anisotopy: the algorithm is able to detect coherent structures that may be irregular in latitude and longitude. Let’s look at those neighbors:</p>
@@ -2226,7 +1864,7 @@ Text(0.5, 1.0, &#39;Number of neighbors for each proxy&#39;)
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_test-graphem-ppe-pages2k_60_1.png" src="../_images/notebooks_test-graphem-ppe-pages2k_60_1.png" />
+<img alt="../_images/notebooks_test-graphem-primer_59_1.png" src="../_images/notebooks_test-graphem-primer_59_1.png" />
 </div>
 </div>
 <div class="nbinput nblast docutils container">
@@ -2546,7 +2184,7 @@ Text(0.5, 1.0, &#39;CE&#39;)
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_test-graphem-ppe-pages2k_73_1.png" src="../_images/notebooks_test-graphem-ppe-pages2k_73_1.png" />
+<img alt="../_images/notebooks_test-graphem-primer_72_1.png" src="../_images/notebooks_test-graphem-primer_72_1.png" />
 </div>
 </div>
 </section>
@@ -2587,7 +2225,7 @@ Text(0.5, 1.0, &#39;CE&#39;)
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_test-graphem-ppe-pages2k_76_1.png" src="../_images/notebooks_test-graphem-ppe-pages2k_76_1.png" />
+<img alt="../_images/notebooks_test-graphem-primer_75_1.png" src="../_images/notebooks_test-graphem-primer_75_1.png" />
 </div>
 </div>
 <div class="nbinput nblast docutils container">
@@ -2629,7 +2267,7 @@ Text(0.5, 1.0, &#39;CE&#39;)
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_test-graphem-ppe-pages2k_78_0.png" src="../_images/notebooks_test-graphem-ppe-pages2k_78_0.png" />
+<img alt="../_images/notebooks_test-graphem-primer_77_0.png" src="../_images/notebooks_test-graphem-primer_77_0.png" />
 </div>
 </div>
 <div class="nbinput docutils container">
@@ -2650,7 +2288,7 @@ Text(0.5, 1.0, &#39;CE&#39;)
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_test-graphem-ppe-pages2k_79_0.png" src="../_images/notebooks_test-graphem-ppe-pages2k_79_0.png" />
+<img alt="../_images/notebooks_test-graphem-primer_78_0.png" src="../_images/notebooks_test-graphem-primer_78_0.png" />
 </div>
 </div>
 <p>How to easily compare two reconstructions pairwise? It would be nice to have a function called <code class="docutils literal notranslate"><span class="pre">compare</span></code> that takes neigh_res and glasso_res and compares the maps, timeseries, and tables of various metrics (R2, CE, etc.)</p>

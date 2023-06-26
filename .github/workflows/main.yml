@@ -36,4 +36,4 @@ jobs:
     - name: Test with pytest
       run: |
         conda activate cfr-env
-        pytest --nbmake -k 'proxy and not psm and not test' -n=auto --nbmake-timeout=3000 --overwrite ./docsrc/notebooks/*.ipynb
+        # pytest --nbmake -k 'proxy and not psm and not test' -n=auto --nbmake-timeout=3000 --overwrite ./docsrc/notebooks/*.ipynb

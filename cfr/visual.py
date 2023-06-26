@@ -23,6 +23,7 @@ from matplotlib.patches import Patch
 from matplotlib.legend_handler import HandlerLine2D
 import pathlib
 import pandas as pd
+import string
 
 from cartopy import util as cutil
 from . import utils
@@ -1397,3 +1398,24 @@ def plot_eof(eof, pc, lat, lon, time, eof_title='EOF', pc_title='PC'):
     ax['pc'].spines.right.set_visible(False)
 
     return fig, ax
+
+def add_annotation(ax, fs=20, loc_x=0, loc_y=1.03, start=0, style=None):
+    if type(ax) is dict:
+        ax = ax.values()
+
+    if type(fs) is not list:
+        fs = [fs] * len(ax)
+
+    for i, v in enumerate(ax):
+        letter_str = string.ascii_lowercase[i+start]
+
+        if style == ')':
+            letter_str = f'{letter_str})'
+        elif style == '()':
+            letter_str = f'({letter_str})'
+
+        v.text(
+            loc_x, loc_y, letter_str,
+            transform=v.transAxes, 
+            size=fs[i], weight='bold',
+        )

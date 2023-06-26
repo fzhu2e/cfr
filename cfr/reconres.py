@@ -12,6 +12,9 @@ from .utils import (
     p_fail,
     p_warning,
 )
+import matplotlib.pyplot as plt
+from matplotlib import gridspec
+from .visual import CartopySettings
 
 class ReconRes:
     ''' The class for reconstruction results
@@ -73,5 +76,48 @@ class ReconRes:
                 p_success(f'>>> ReconRes.recons["{vn}"] created')
                 p_success(f'>>> ReconRes.da["{vn}"] created')
 
-    def compare(self, res2, verbose=False):
-        vn_list = self.recons.keys()
+
+    def valid(self, target_dict, stat=['corr'], timespan=None,
+                   verbose=False):
+        if type(stat) is not list: stat = [stat]
+        vn_list = target_dict.keys()
+        self.load(vn_list, verbose=verbose)
+        valid_fd, valid_ts = {}, {}
+        for vn in vn_list:
+            p_header(f'>>> Validating variable: {vn} ...')
+            if isinstance(self.recons[vn], ClimateField):
+                for st in stat:
+                    valid_fd[f'{vn}_{st}'] = self.recons[vn].compare(target_dict[vn], stat=st, timespan=timespan)
+                    valid_fd[f'{vn}_{st}'].plot_kwargs.update({'cbar_orientation': 'horizontal', 'cbar_pad': 0.1})
+                    if verbose: p_success(f'>>> ReconRes.valid_fd[{vn}_{st}] created')
+            elif isinstance(self.recons[vn], EnsTS):
+                valid_ts[vn] = self.recons[vn].compare(target_dict[vn], timespan=timespan)
+                if verbose: p_success(f'>>> ReconRes.valid_ts[{vn}] created')
+
+        self.valid_fd = valid_fd
+        self.valid_ts = valid_ts
+
+            
+    def plot_valid(self, recon_name_dict=None, target_name_dict=None,
+                   valid_ts_kws=None, valid_fd_kws=None):
+        valid_fd_kws = {} if valid_fd_kws is None else valid_fd_kws
+        valid_ts_kws = {} if valid_ts_kws is None else valid_ts_kws
+        target_name_dict = {} if target_name_dict is None else target_name_dict
+        recon_name_dict = {} if recon_name_dict is None else recon_name_dict
+
+        fig, ax = {}, {}
+        for k, v in self.valid_fd.items():
+            vn, st = k.split('_')
+            if vn not in target_name_dict: target_name_dict[vn] = 'obs'
+            fig[k], ax[k] = v.plot(
+                title=f'{st}({recon_name_dict[vn]}, {target_name_dict[vn]}), mean={v.geo_mean().value[0,0]:.2f}',
+                **valid_fd_kws)
+
+        for k, v in self.valid_ts.items():
+            if v.value.shape[-1] > 1:
+                fig[k], ax[k] = v.plot_qs(**valid_ts_kws)
+            else:
+                fig[k], ax[k] = v.plot(label='recon', **valid_ts_kws)
+            ax[k].set_ylabel(recon_name_dict[k])
+
+        return fig, ax

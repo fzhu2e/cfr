@@ -823,7 +823,7 @@ class ReconJob:
         t_used = t_e - t_s
         p_success(f'>>> DONE! Total time used: {t_used/60:.2f} mins.')
 
-    def prep_graphem(self, recon_time=None, calib_time=None,  recon_period=None, recon_timescale=None, calib_period=None, verbose=False):
+    def prep_graphem(self, recon_time=None, calib_time=None,  recon_period=None, recon_timescale=None, calib_period=None, uniform_pdb=None, verbose=False):
         ''' A shortcut of the steps for GraphEM data preparation
 
         Args:
@@ -846,12 +846,29 @@ class ReconJob:
         else:
             recon_time = self.io_cfg('recon_time', recon_time, verbose=verbose)
             calib_time = self.io_cfg('calib_time', calib_time, verbose=verbose)
+            recon_period = self.io_cfg('recon_period', [np.min(recon_time), np.max(recon_time)], verbose=verbose)
+            calib_period = self.io_cfg('calib_period', [np.min(calib_time), np.max(calib_time)], verbose=verbose)
+            recon_timescale = self.io_cfg('recon_timescale', np.median(np.diff(recon_time)), verbose=verbose)  # unit: yr
 
+        uniform_pdb = self.io_cfg('uniform_pdb', uniform_pdb, default=True, verbose=verbose)
+        if uniform_pdb:
+            pobj_list = []
+            for pobj in self.proxydb:
+                if np.min(pobj.time) <= recon_period[0]:
+                    pobj_list.append(pobj)
+            new_pdb = ProxyDatabase()
+            new_pdb += pobj_list
+            self.proxydb = new_pdb
+            if verbose: p_success(f'>>> ProxyDatabase filtered to be more uniform. {self.proxydb.nrec} records remaining.')
+
+        self.center_proxydb(ref_period=calib_period, verbose=verbose)
+    
         self.graphem_params = {}
         self.graphem_params['recon_time'] = recon_time
         self.graphem_params['calib_time'] = calib_time
         if verbose: p_success(f'>>> job.graphem_params["recon_time"] created')
         if verbose: p_success(f'>>> job.graphem_params["calib_time"] created')
+
 
         vn = list(self.obs.keys())[0]
         obs = self.obs[vn]  
@@ -910,7 +927,7 @@ class ReconJob:
         ---------
         
         cv_time : array-like, 1d
-            explain how it differs from recon_time or calib_time
+            cross validation time points
             
         ctrl_params : array-like, 1d
             array of control parameters to try
@@ -991,6 +1008,9 @@ class ReconJob:
             load_precalculated (bool, optional): load the precalculated `Graph` object. Defaults to False.
             verbose (bool, optional): print verbose information. Defaults to False.
             fit_kws (dict): the arguments for :py:meth: `GraphEM.solver.GraphEM.fit`
+                The most important one is "graph_method"; availabel options include "neighborhood", "glasso", and "hybrid", where
+                "hybrid" means run "neighborhood" first with default `cutoff_radius=1500` to infill the data matrix and then
+                ran "glasso" with default `sp_FF=3, sp_FP=3` to improve the result further.
 
         See also:
             cfr.graphem.solver.GraphEM.fit : fitting the GraphEM method
@@ -1016,14 +1036,41 @@ class ReconJob:
             fit_kwargs = {
                 'lonlat': self.graphem_params['lonlat'],
                 'graph_method': 'neighborhood',
+                'cutoff_radius': 1500,
+                'sp_FF': 3,
+                'sp_FP': 3,
             }
             fit_kwargs.update(fit_kws)
-            self.graphem_solver.fit(
-                self.graphem_params['field'],
-                self.graphem_params['proxy'],
-                self.graphem_params['calib_idx'],
-                verbose=verbose,
-                **fit_kwargs)
+            if fit_kwargs['graph_method'] in ['neighborhood', 'glasso']:
+                self.graphem_solver.fit(
+                    self.graphem_params['field'],
+                    self.graphem_params['proxy'],
+                    self.graphem_params['calib_idx'],
+                    verbose=verbose,
+                    **fit_kwargs)
+            elif fit_kwargs['graph_method'] == 'hybrid':
+                fit_kwargs.update({'graph_method': 'neighborhood'})
+                self.graphem_solver.fit(
+                    self.graphem_params['field'],
+                    self.graphem_params['proxy'],
+                    self.graphem_params['calib_idx'],
+                    verbose=verbose,
+                    **fit_kwargs)
+
+                inst = self.graphem_params['calib_idx']
+                G_L = Graph(
+                    lonlat = self.graphem_params['lonlat'],
+                    field = self.graphem_solver.field_r[inst],
+                    proxy = self.graphem_solver.proxy_r[inst,:])
+
+                G_L.glasso_adj(target_FF=fit_kwargs['sp_FF'], target_FP=fit_kwargs['sp_FP'])
+                fit_kwargs.update({'estimate_graph': False, 'graph': G_L.adj})
+                self.graphem_solver.fit(
+                    self.graphem_params['field'],
+                    self.graphem_params['proxy'],
+                    self.graphem_params['calib_idx'],
+                    verbose=verbose,
+                    **fit_kwargs)
 
             if verbose: p_success(f'job.graphem_solver created and saved to: {solver_save_path}')
 

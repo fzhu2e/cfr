@@ -51,7 +51,7 @@
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
     <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'notebooks/graphem-real-pages2k';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'notebooks/test-graphem-real-pages2k-hybrid';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
@@ -251,7 +251,7 @@
       
       
       
-      <li><a href="https://github.com/fzhu2e/cfr/edit/main/notebooks/graphem-real-pages2k.ipynb" target="_blank"
+      <li><a href="https://github.com/fzhu2e/cfr/edit/main/notebooks/test-graphem-real-pages2k-hybrid.ipynb" target="_blank"
    class="btn btn-sm btn-source-edit-button dropdown-item"
    title="Suggest edit"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -268,7 +268,7 @@
       
       
       
-      <li><a href="https://github.com/fzhu2e/cfr/issues/new?title=Issue%20on%20page%20%2Fnotebooks/graphem-real-pages2k.html&body=Your%20issue%20content%20here." target="_blank"
+      <li><a href="https://github.com/fzhu2e/cfr/issues/new?title=Issue%20on%20page%20%2Fnotebooks/test-graphem-real-pages2k-hybrid.html&body=Your%20issue%20content%20here." target="_blank"
    class="btn btn-sm btn-source-issues-button dropdown-item"
    title="Open an issue"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -298,7 +298,7 @@
       
       
       
-      <li><a href="../_sources/notebooks/graphem-real-pages2k.ipynb" target="_blank"
+      <li><a href="../_sources/notebooks/test-graphem-real-pages2k-hybrid.ipynb" target="_blank"
    class="btn btn-sm btn-download-source-button dropdown-item"
    title="Download source file"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -393,7 +393,6 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Validate-the-reconstructed-fields">Validate the reconstructed fields</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Comparison-to-the-LMR/PDA-based-reconstruction">Comparison to the LMR/PDA based reconstruction</a></li>
 </ul>
             </nav>
         </div>
@@ -473,7 +472,7 @@ document.write(`
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_graphem-real-pages2k_3_1.png" src="../_images/notebooks_graphem-real-pages2k_3_1.png" />
+<img alt="../_images/notebooks_test-graphem-real-pages2k-hybrid_3_1.png" src="../_images/notebooks_test-graphem-real-pages2k-hybrid_3_1.png" />
 </div>
 </div>
 </section>
@@ -493,7 +492,7 @@ document.write(`
 <div class="output_area docutils container">
 <div class="highlight"><pre>
 <span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;annualize_proxydb_months&#34;] = [12, 1, 2]
-</span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;annualize_proxydb_ptypes&#34;] = {&#39;coral.d18O&#39;, &#39;coral.calc&#39;, &#39;coral.SrCa&#39;}
+</span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;annualize_proxydb_ptypes&#34;] = {&#39;coral.calc&#39;, &#39;coral.d18O&#39;, &#39;coral.SrCa&#39;}
 </span>
 </pre></div></div>
 </div>
@@ -502,7 +501,7 @@ document.write(`
 </div>
 <div class="output_area stderr docutils container">
 <div class="highlight"><pre>
-Annualizing ProxyDatabase: 100%|██████████| 104/104 [00:02&lt;00:00, 43.65it/s]
+Annualizing ProxyDatabase: 100%|██████████| 104/104 [00:06&lt;00:00, 15.95it/s]
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
@@ -636,7 +635,7 @@ Annualizing ProxyDatabase: 100%|██████████| 104/104 [00:02&l
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># check the cropped domain</span>
-<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">job</span><span class="o">.</span><span class="n">obs</span><span class="p">[</span><span class="s1">&#39;tas&#39;</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">job</span><span class="o">.</span><span class="n">obs</span><span class="p">[</span><span class="s1">&#39;tas&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -644,7 +643,7 @@ Annualizing ProxyDatabase: 100%|██████████| 104/104 [00:02&l
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_graphem-real-pages2k_14_0.png" src="../_images/notebooks_graphem-real-pages2k_14_0.png" />
+<img alt="../_images/notebooks_test-graphem-real-pages2k-hybrid_14_0.png" src="../_images/notebooks_test-graphem-real-pages2k-hybrid_14_0.png" />
 </div>
 </div>
 </section>
@@ -699,7 +698,7 @@ Annualizing ProxyDatabase: 100%|██████████| 104/104 [00:02&l
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">job</span><span class="o">.</span><span class="n">prep_graphem</span><span class="p">(</span>
     <span class="n">recon_period</span><span class="o">=</span><span class="p">(</span><span class="mi">1871</span><span class="p">,</span> <span class="mi">2000</span><span class="p">),</span>  <span class="c1"># period to reconstruct</span>
-    <span class="n">calib_period</span><span class="o">=</span><span class="p">(</span><span class="mi">1901</span><span class="p">,</span> <span class="mi">2000</span><span class="p">),</span>  <span class="c1"># period for calibration</span>
+    <span class="n">calib_period</span><span class="o">=</span><span class="p">(</span><span class="mi">1951</span><span class="p">,</span> <span class="mi">2000</span><span class="p">),</span>  <span class="c1"># period for calibration</span>
     <span class="n">uniform_pdb</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>           <span class="c1"># filter the proxydb to be more uniform</span>
     <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
 <span class="p">)</span>
@@ -713,10 +712,10 @@ Annualizing ProxyDatabase: 100%|██████████| 104/104 [00:02&l
 <div class="highlight"><pre>
 <span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;recon_period&#34;] = [1871, 2000]
 </span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;recon_timescale&#34;] = 1
-</span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;calib_period&#34;] = [1901, 2000]
+</span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;calib_period&#34;] = [1951, 2000]
 </span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;uniform_pdb&#34;] = True
 </span><span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; ProxyDatabase filtered to be more uniform. 54 records remaining.
-</span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;proxydb_center_ref_period&#34;] = [1901, 2000]
+</span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;proxydb_center_ref_period&#34;] = [1951, 2000]
 </span>
 </pre></div></div>
 </div>
@@ -725,7 +724,7 @@ Annualizing ProxyDatabase: 100%|██████████| 104/104 [00:02&l
 </div>
 <div class="output_area stderr docutils container">
 <div class="highlight"><pre>
-Centering each of the ProxyRecord: 100%|██████████| 54/54 [00:00&lt;00:00, 1825.12it/s]
+Centering each of the ProxyRecord: 100%|██████████| 54/54 [00:00&lt;00:00, 795.15it/s]
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
@@ -802,62 +801,81 @@ Running GraphEM:
 </div>
 <div class="output_area stderr docutils container">
 <div class="highlight"><pre>
-EM | dXmis: 0.0026; rdXmis: 0.0046:   4%|▍         | 9/200 [03:14&lt;1:08:52, 21.63s/it]
-</pre></div></div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-GraphEM.EM(): Tolerance achieved.
-Solving graphical LASSO using greedy search
-</pre></div></div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area stderr docutils container">
-<div class="highlight"><pre>
-graph_greedy_search | FF:  3.720; FP:  3.644; PP:  0.000:   3%|▎         | 17/500 [00:01&lt;00:39, 12.37it/s]
-</pre></div></div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-Using specified graph
-Running GraphEM:
-
-</pre></div></div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area stderr docutils container">
-<div class="highlight"><pre>
-EM | dXmis: 0.0021; rdXmis: 0.0049:   8%|▊         | 15/200 [05:23&lt;1:06:26, 21.55s/it]
-</pre></div></div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-GraphEM.EM(): Tolerance achieved.
-<span class="ansi-green-intense-fg ansi-bold">job.graphem_solver created and saved to: None
-</span><span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; job.recon_fields created
-</span><span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; Reconstructed fields saved to: ./recons/graphem-real-pages2k/job_r01_recon.nc
-</span>
+EM | dXmis: 0.0828; rdXmis: 0.6748:   0%|          | 1/200 [06:01&lt;19:58:47, 361.45s/it]
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
-<div class="output_area stderr docutils container">
+<div class="output_area docutils container">
 <div class="highlight"><pre>
+<span class="ansi-red-fg">---------------------------------------------------------------------------</span>
+<span class="ansi-red-fg">KeyboardInterrupt</span>                         Traceback (most recent call last)
+Cell <span class="ansi-green-fg">In[12], line 1</span>
+<span class="ansi-green-fg">----&gt; 1</span> job.run_graphem(
+<span class="ansi-green-intense-fg ansi-bold">      2</span>     save_dirpath=&#39;./recons/graphem-real-pages2k&#39;,
+<span class="ansi-green-intense-fg ansi-bold">      3</span>     graph_method=&#39;hybrid&#39;,
+<span class="ansi-green-intense-fg ansi-bold">      4</span>     cutoff_radius=1500,
+<span class="ansi-green-intense-fg ansi-bold">      5</span>     sp_FF=3, sp_FP=4,
+<span class="ansi-green-intense-fg ansi-bold">      6</span>     verbose=True,
+<span class="ansi-green-intense-fg ansi-bold">      7</span> )
 
+File <span class="ansi-green-fg">~/Github/cfr/cfr/reconjob.py:1053</span>, in <span class="ansi-cyan-fg">ReconJob.run_graphem</span><span class="ansi-blue-fg">(self, save_recon, save_dirpath, save_filename, load_precalc_solver, solver_save_path, compress_params, verbose, output_indices, **fit_kws)</span>
+<span class="ansi-green-intense-fg ansi-bold">   1051</span> elif fit_kwargs[&#39;graph_method&#39;] == &#39;hybrid&#39;:
+<span class="ansi-green-intense-fg ansi-bold">   1052</span>     fit_kwargs.update({&#39;graph_method&#39;: &#39;neighborhood&#39;})
+<span class="ansi-green-fg">-&gt; 1053</span>     self.graphem_solver.fit(
+<span class="ansi-green-intense-fg ansi-bold">   1054</span>         self.graphem_params[&#39;field&#39;],
+<span class="ansi-green-intense-fg ansi-bold">   1055</span>         self.graphem_params[&#39;proxy&#39;],
+<span class="ansi-green-intense-fg ansi-bold">   1056</span>         self.graphem_params[&#39;calib_idx&#39;],
+<span class="ansi-green-intense-fg ansi-bold">   1057</span>         verbose=verbose,
+<span class="ansi-green-intense-fg ansi-bold">   1058</span>         **fit_kwargs)
+<span class="ansi-green-intense-fg ansi-bold">   1060</span>     inst = self.graphem_params[&#39;calib_idx&#39;]
+<span class="ansi-green-intense-fg ansi-bold">   1061</span>     G_L = Graph(
+<span class="ansi-green-intense-fg ansi-bold">   1062</span>         lonlat = self.graphem_params[&#39;lonlat&#39;],
+<span class="ansi-green-intense-fg ansi-bold">   1063</span>         field = self.graphem_solver.field_r[inst],
+<span class="ansi-green-intense-fg ansi-bold">   1064</span>         proxy = self.graphem_solver.proxy_r[inst,:])
+
+File <span class="ansi-green-fg">~/Github/cfr-graphem/graphem/solver.py:139</span>, in <span class="ansi-cyan-fg">GraphEM.fit</span><span class="ansi-blue-fg">(self, field, proxy, calib, graph, lonlat, sp_FF, sp_FP, sp_PP, N_graph, C0, M0, maxit, bootstrap, N_boot, cutoff_radius, graph_method, estimate_graph, save_graphs, verbose)</span>
+<span class="ansi-green-intense-fg ansi-bold">    136</span>     else:
+<span class="ansi-green-intense-fg ansi-bold">    137</span>         if verbose: print(&#34;Using specified graph&#34;)
+<span class="ansi-green-fg">--&gt; 139</span> [X,C,M] = self.EM(X, self.graph, C0, M0, maxit, verbose=verbose)
+<span class="ansi-green-intense-fg ansi-bold">    140</span> self.field_r = X[:,ind_F]
+<span class="ansi-green-intense-fg ansi-bold">    141</span> self.proxy_r = X[:,ind_P]
+
+File <span class="ansi-green-fg">~/Github/cfr-graphem/graphem/solver.py:240</span>, in <span class="ansi-cyan-fg">GraphEM.EM</span><span class="ansi-blue-fg">(self, X, graph, C0, M0, maxit, use_iridge, verbose)</span>
+<span class="ansi-green-intense-fg ansi-bold">    238</span>     B, S, __, __ = iridge.iridge(C, avlr, misr, n-1)
+<span class="ansi-green-intense-fg ansi-bold">    239</span> else:
+<span class="ansi-green-fg">--&gt; 240</span>     B, S = ols(C, avlr, misr)
+<span class="ansi-green-intense-fg ansi-bold">    241</span> ind_obs = find(pattern_ix == i1)
+<span class="ansi-green-intense-fg ansi-bold">    242</span> mp = len(ind_obs)  # Number of rows matching current pattern
+
+File <span class="ansi-green-fg">~/Github/cfr-graphem/graphem/solver.py:536</span>, in <span class="ansi-cyan-fg">ols</span><span class="ansi-blue-fg">(Sigma, xind, yind)</span>
+<span class="ansi-green-intense-fg ansi-bold">    516</span> def ols(Sigma, xind, yind):
+<span class="ansi-green-intense-fg ansi-bold">    517</span>     &#39;&#39;&#39;
+<span class="ansi-green-intense-fg ansi-bold">    518</span>     Computes regression coefficients in a multivariate Gaussian model
+<span class="ansi-green-intense-fg ansi-bold">    519</span>
+<span class="ansi-green-fg">   (...)</span>
+<span class="ansi-green-intense-fg ansi-bold">    534</span>         Covariance of the residuals
+<span class="ansi-green-intense-fg ansi-bold">    535</span>     &#39;&#39;&#39;
+<span class="ansi-green-fg">--&gt; 536</span>     B = linalg.inv(Sigma[np.ix_(xind,xind)]).dot(Sigma[np.ix_(xind,yind)])
+<span class="ansi-green-intense-fg ansi-bold">    537</span>     S = Sigma[np.ix_(yind,yind)] - Sigma[np.ix_(yind, xind)].dot(B)
+<span class="ansi-green-intense-fg ansi-bold">    538</span>     return [B, S]
+
+File <span class="ansi-green-fg">~/Apps/miniconda3/envs/cfr-env/lib/python3.9/site-packages/scipy/linalg/_basic.py:962</span>, in <span class="ansi-cyan-fg">inv</span><span class="ansi-blue-fg">(a, overwrite_a, check_finite)</span>
+<span class="ansi-green-intense-fg ansi-bold">    950</span>     # XXX: I found no advantage or disadvantage of using finv.
+<span class="ansi-green-intense-fg ansi-bold">    951</span> #     finv, = get_flinalg_funcs((&#39;inv&#39;,),(a1,))
+<span class="ansi-green-intense-fg ansi-bold">    952</span> #     if finv is not None:
+<span class="ansi-green-fg">   (...)</span>
+<span class="ansi-green-intense-fg ansi-bold">    957</span> #         if info&lt;0: raise ValueError(&#39;illegal value in %d-th argument of &#39;
+<span class="ansi-green-intense-fg ansi-bold">    958</span> #                                     &#39;internal inv.getrf|getri&#39;%(-info))
+<span class="ansi-green-intense-fg ansi-bold">    959</span>     getrf, getri, getri_lwork = get_lapack_funcs((&#39;getrf&#39;, &#39;getri&#39;,
+<span class="ansi-green-intense-fg ansi-bold">    960</span>                                                   &#39;getri_lwork&#39;),
+<span class="ansi-green-intense-fg ansi-bold">    961</span>                                                  (a1,))
+<span class="ansi-green-fg">--&gt; 962</span>     lu, piv, info = getrf(a1, overwrite_a=overwrite_a)
+<span class="ansi-green-intense-fg ansi-bold">    963</span>     if info == 0:
+<span class="ansi-green-intense-fg ansi-bold">    964</span>         lwork = _compute_lwork(getri_lwork, a1.shape[0])
+
+<span class="ansi-red-fg">KeyboardInterrupt</span>:
 </pre></div></div>
 </div>
 </section>
@@ -867,53 +885,32 @@ GraphEM.EM(): Tolerance achieved.
 <section id="Create-the-reconstruction-result-object-cfr.ReconRes.">
 <h3>Create the reconstruction result object <code class="docutils literal notranslate"><span class="pre">cfr.ReconRes</span></code>.<a class="headerlink" href="#Create-the-reconstruction-result-object-cfr.ReconRes." title="Permalink to this heading">#</a></h3>
 <p>A <code class="docutils literal notranslate"><span class="pre">cfr.ReconRes</span></code> object takes care of the workflow of postprocessing and analyzing the reconstruction results. It provides handy methods to help the users load, validate, and visualize the reconstruction results.</p>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">res</span> <span class="o">=</span> <span class="n">cfr</span><span class="o">.</span><span class="n">ReconRes</span><span class="p">(</span><span class="s1">&#39;./recons/graphem-real-pages2k&#39;</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-<span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; res.paths:
-</span>[&#39;./recons/graphem-real-pages2k/job_r01_recon.nc&#39;]
-</pre></div></div>
-</div>
 </section>
 <section id="Load-the-reconstructed-variables">
 <h3>Load the reconstructed variables<a class="headerlink" href="#Load-the-reconstructed-variables" title="Permalink to this heading">#</a></h3>
 <p>Here we validate the <code class="docutils literal notranslate"><span class="pre">tas</span></code> field and the NINO3.4 index as an example.</p>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">res</span><span class="o">.</span><span class="n">load</span><span class="p">([</span><span class="s1">&#39;tas&#39;</span><span class="p">,</span> <span class="s1">&#39;nino3.4&#39;</span><span class="p">],</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-<span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; ReconRes.recons[&#34;tas&#34;] created
-</span><span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; ReconRes.da[&#34;tas&#34;] created
-</span><span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; ReconRes.recons[&#34;nino3.4&#34;] created
-</span><span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; ReconRes.da[&#34;nino3.4&#34;] created
-</span>
-</pre></div></div>
-</div>
 </section>
 <section id="Validate-the-reconstructed-NINO3.4">
 <h3>Validate the reconstructed NINO3.4<a class="headerlink" href="#Validate-the-reconstructed-NINO3.4" title="Permalink to this heading">#</a></h3>
 <p>We calculate the annualized NINO3.4 from Bunge &amp; Clarke (2009) as a reference for validation.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">bc09</span> <span class="o">=</span> <span class="n">cfr</span><span class="o">.</span><span class="n">EnsTS</span><span class="p">()</span><span class="o">.</span><span class="n">fetch</span><span class="p">(</span><span class="s1">&#39;BC09_NINO34&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">annualize</span><span class="p">(</span><span class="n">months</span><span class="o">=</span><span class="p">[</span><span class="mi">12</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
@@ -921,12 +918,12 @@ GraphEM.EM(): Tolerance achieved.
 </div>
 </div>
 <p>We use a chain calling of several methods, including the validation step <code class="docutils literal notranslate"><span class="pre">.validate()</span></code> and the plotting step <code class="docutils literal notranslate"><span class="pre">.plot_qs()</span></code>.</p>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[52]:
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">res</span><span class="o">.</span><span class="n">recons</span><span class="p">[</span><span class="s1">&#39;nino3.4&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">compare</span><span class="p">(</span><span class="n">bc09</span><span class="p">,</span> <span class="n">timespan</span><span class="o">=</span><span class="p">(</span><span class="mi">1874</span><span class="p">,</span> <span class="mi">1900</span><span class="p">))</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;recon&#39;</span><span class="p">)</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="mi">1870</span><span class="p">,</span> <span class="mi">1900</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">res</span><span class="o">.</span><span class="n">recons</span><span class="p">[</span><span class="s1">&#39;nino3.4&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">compare</span><span class="p">(</span><span class="n">bc09</span><span class="p">,</span> <span class="n">timespan</span><span class="o">=</span><span class="p">(</span><span class="mi">1874</span><span class="p">,</span> <span class="mi">1950</span><span class="p">))</span><span class="o">.</span><span class="n">plot_qs</span><span class="p">()</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="mi">1870</span><span class="p">,</span> <span class="mi">1950</span><span class="p">)</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="o">-</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;NINO3.4 [K]&#39;</span><span class="p">)</span>
 <span class="n">cfr</span><span class="o">.</span><span class="n">showfig</span><span class="p">(</span><span class="n">fig</span><span class="p">)</span>
@@ -934,44 +931,20 @@ GraphEM.EM(): Tolerance achieved.
 </pre></div>
 </div>
 </div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<img alt="../_images/notebooks_graphem-real-pages2k_32_0.png" src="../_images/notebooks_graphem-real-pages2k_32_0.png" />
-</div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-Figure saved at: &#34;figs/graphem_corr_recon_BC09.pdf&#34;
-</pre></div></div>
-</div>
 </section>
 <section id="Validate-the-reconstructed-fields">
 <h3>Validate the reconstructed fields<a class="headerlink" href="#Validate-the-reconstructed-fields" title="Permalink to this heading">#</a></h3>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">target</span> <span class="o">=</span> <span class="n">cfr</span><span class="o">.</span><span class="n">ClimateField</span><span class="p">()</span><span class="o">.</span><span class="n">fetch</span><span class="p">(</span><span class="s1">&#39;20CRv3/tas&#39;</span><span class="p">,</span> <span class="n">vn</span><span class="o">=</span><span class="s1">&#39;air&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="s1">&#39;tas&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">get_anom</span><span class="p">((</span><span class="mi">1951</span><span class="p">,</span> <span class="mi">1980</span><span class="p">))</span><span class="o">.</span><span class="n">annualize</span><span class="p">(</span><span class="n">months</span><span class="o">=</span><span class="p">[</span><span class="mi">12</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
 </pre></div>
 </div>
 </div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-<span class="ansi-black-intense-fg ansi-bold">&gt;&gt;&gt; The target file seems existed at: ./data/air.2m.mon.mean.nc . Loading from it instead of downloading ...
-</span>
-</pre></div></div>
-</div>
-<p>Calculating and visualizing the correlation coefficient (<span class="math notranslate nohighlight">\(r\)</span>) between the reconstructed and target fields, we see overall high skills.</p>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[91]:
+<p>Calculating and visualizing the coefficient of determination (<span class="math notranslate nohighlight">\(R^2\)</span>) between the reconstructed and target fields, we see overall high skills.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># validate the reconstruction against 20CR</span>
@@ -979,15 +952,14 @@ Figure saved at: &#34;figs/graphem_corr_recon_BC09.pdf&#34;
 
 <span class="n">valid_fd</span> <span class="o">=</span> <span class="n">res</span><span class="o">.</span><span class="n">recons</span><span class="p">[</span><span class="s1">&#39;tas&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">compare</span><span class="p">(</span>
     <span class="n">target</span><span class="p">,</span> <span class="n">stat</span><span class="o">=</span><span class="n">stat</span><span class="p">,</span>
-    <span class="n">timespan</span><span class="o">=</span><span class="p">(</span><span class="mi">1874</span><span class="p">,</span> <span class="mi">1900</span><span class="p">),</span>
+    <span class="n">timespan</span><span class="o">=</span><span class="p">(</span><span class="mi">1874</span><span class="p">,</span> <span class="mi">1950</span><span class="p">),</span>
 <span class="p">)</span>
 <span class="n">valid_fd</span><span class="o">.</span><span class="n">plot_kwargs</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s1">&#39;cbar_orientation&#39;</span><span class="p">:</span> <span class="s1">&#39;horizontal&#39;</span><span class="p">,</span> <span class="s1">&#39;cbar_pad&#39;</span><span class="p">:</span> <span class="mf">0.1</span><span class="p">})</span>
 
 <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">valid_fd</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
     <span class="n">title</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">stat</span><span class="si">}</span><span class="s1">(recon, obs), mean=</span><span class="si">{</span><span class="n">valid_fd</span><span class="o">.</span><span class="n">geo_mean</span><span class="p">()</span><span class="o">.</span><span class="n">value</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span>
     <span class="n">projection</span><span class="o">=</span><span class="s1">&#39;PlateCarree&#39;</span><span class="p">,</span>
-    <span class="n">latlon_range</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mi">25</span><span class="p">,</span> <span class="mi">25</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">360</span><span class="p">),</span>
-    <span class="c1"># latlon_range=(-20, 20, 150, 256),</span>
+    <span class="n">latlon_range</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mi">20</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">150</span><span class="p">,</span> <span class="mi">256</span><span class="p">),</span>
     <span class="n">plot_cbar</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
     <span class="n">plot_proxydb</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">proxydb</span><span class="o">=</span><span class="n">job</span><span class="o">.</span><span class="n">proxydb</span><span class="p">,</span>
     <span class="n">proxydb_lgd_kws</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;loc&#39;</span><span class="p">:</span> <span class="s1">&#39;lower left&#39;</span><span class="p">,</span> <span class="s1">&#39;bbox_to_anchor&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)},</span>
@@ -998,236 +970,6 @@ Figure saved at: &#34;figs/graphem_corr_recon_BC09.pdf&#34;
 </pre></div>
 </div>
 </div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<img alt="../_images/notebooks_graphem-real-pages2k_36_0.png" src="../_images/notebooks_graphem-real-pages2k_36_0.png" />
-</div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-Figure saved at: &#34;figs/graphem_corr_recon_obs.pdf&#34;
-</pre></div></div>
-</div>
-</section>
-</section>
-<section id="Comparison-to-the-LMR/PDA-based-reconstruction">
-<h2>Comparison to the LMR/PDA based reconstruction<a class="headerlink" href="#Comparison-to-the-LMR/PDA-based-reconstruction" title="Permalink to this heading">#</a></h2>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">res_lmr</span> <span class="o">=</span> <span class="n">cfr</span><span class="o">.</span><span class="n">ReconRes</span><span class="p">(</span><span class="s1">&#39;./recons/lmr-real-pages2k&#39;</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="n">res_graphem</span> <span class="o">=</span> <span class="n">cfr</span><span class="o">.</span><span class="n">ReconRes</span><span class="p">(</span><span class="s1">&#39;./recons/graphem-real-pages2k&#39;</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-<span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; res.paths:
-</span>[&#39;./recons/lmr-real-pages2k/job_r01_recon.nc&#39;, &#39;./recons/lmr-real-pages2k/job_r02_recon.nc&#39;, &#39;./recons/lmr-real-pages2k/job_r03_recon.nc&#39;, &#39;./recons/lmr-real-pages2k/job_r04_recon.nc&#39;, &#39;./recons/lmr-real-pages2k/job_r05_recon.nc&#39;, &#39;./recons/lmr-real-pages2k/job_r06_recon.nc&#39;, &#39;./recons/lmr-real-pages2k/job_r07_recon.nc&#39;, &#39;./recons/lmr-real-pages2k/job_r08_recon.nc&#39;, &#39;./recons/lmr-real-pages2k/job_r09_recon.nc&#39;, &#39;./recons/lmr-real-pages2k/job_r10_recon.nc&#39;]
-<span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; res.paths:
-</span>[&#39;./recons/graphem-real-pages2k/job_r01_recon.nc&#39;]
-</pre></div></div>
-</div>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[49]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tas_20CRv3</span> <span class="o">=</span> <span class="n">cfr</span><span class="o">.</span><span class="n">ClimateField</span><span class="p">()</span><span class="o">.</span><span class="n">fetch</span><span class="p">(</span><span class="s1">&#39;20CRv3/tas&#39;</span><span class="p">,</span> <span class="n">vn</span><span class="o">=</span><span class="s1">&#39;air&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="s1">&#39;tas&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">get_anom</span><span class="p">((</span><span class="mi">1951</span><span class="p">,</span> <span class="mi">1980</span><span class="p">))</span><span class="o">.</span><span class="n">annualize</span><span class="p">(</span><span class="n">months</span><span class="o">=</span><span class="p">[</span><span class="mi">12</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
-<span class="n">tas_20CRv3</span> <span class="o">=</span> <span class="n">tas_20CRv3</span><span class="o">.</span><span class="n">crop</span><span class="p">(</span><span class="n">lat_min</span><span class="o">=-</span><span class="mi">20</span><span class="p">,</span> <span class="n">lat_max</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">lon_min</span><span class="o">=</span><span class="mi">150</span><span class="p">,</span> <span class="n">lon_max</span><span class="o">=</span><span class="mi">260</span><span class="p">)</span>
-<span class="n">nino34_bc09</span> <span class="o">=</span> <span class="n">cfr</span><span class="o">.</span><span class="n">EnsTS</span><span class="p">()</span><span class="o">.</span><span class="n">fetch</span><span class="p">(</span><span class="s1">&#39;BC09_NINO34&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">annualize</span><span class="p">(</span><span class="n">months</span><span class="o">=</span><span class="p">[</span><span class="mi">12</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
-</pre></div>
-</div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-<span class="ansi-black-intense-fg ansi-bold">&gt;&gt;&gt; The target file seems existed at: ./data/air.2m.mon.mean.nc . Loading from it instead of downloading ...
-</span>
-</pre></div></div>
-</div>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[73]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">res_graphem</span><span class="o">.</span><span class="n">valid</span><span class="p">(</span>
-    <span class="n">target_dict</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;tas&#39;</span><span class="p">:</span>  <span class="n">tas_20CRv3</span><span class="p">,</span> <span class="s1">&#39;nino3.4&#39;</span><span class="p">:</span> <span class="n">nino34_bc09</span><span class="p">},</span>
-    <span class="n">timespan</span><span class="o">=</span><span class="p">(</span><span class="mi">1874</span><span class="p">,</span> <span class="mi">1900</span><span class="p">),</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-    <span class="n">stat</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;corr&#39;</span><span class="p">,</span> <span class="s1">&#39;CE&#39;</span><span class="p">],</span>
-<span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-<span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; ReconRes.recons[&#34;tas&#34;] created
-</span><span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; ReconRes.da[&#34;tas&#34;] created
-</span><span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; ReconRes.recons[&#34;nino3.4&#34;] created
-</span><span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; ReconRes.da[&#34;nino3.4&#34;] created
-</span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; Validating variable: tas ...
-</span><span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; ReconRes.valid_fd[tas_corr] created
-</span><span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; ReconRes.valid_fd[tas_CE] created
-</span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; Validating variable: nino3.4 ...
-</span><span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; ReconRes.valid_ts[nino3.4] created
-</span>
-</pre></div></div>
-</div>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[79]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">res_lmr</span><span class="o">.</span><span class="n">valid</span><span class="p">(</span>
-    <span class="n">target_dict</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;tas&#39;</span><span class="p">:</span>  <span class="n">tas_20CRv3</span><span class="p">,</span> <span class="s1">&#39;nino3.4&#39;</span><span class="p">:</span> <span class="n">nino34_bc09</span><span class="p">},</span>
-    <span class="n">timespan</span><span class="o">=</span><span class="p">(</span><span class="mi">1874</span><span class="p">,</span> <span class="mi">1900</span><span class="p">),</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-    <span class="n">stat</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;corr&#39;</span><span class="p">,</span> <span class="s1">&#39;CE&#39;</span><span class="p">],</span>
-<span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-<span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; ReconRes.recons[&#34;tas&#34;] created
-</span><span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; ReconRes.da[&#34;tas&#34;] created
-</span><span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; ReconRes.recons[&#34;nino3.4&#34;] created
-</span><span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; ReconRes.da[&#34;nino3.4&#34;] created
-</span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; Validating variable: tas ...
-</span><span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; ReconRes.valid_fd[tas_corr] created
-</span><span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; ReconRes.valid_fd[tas_CE] created
-</span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; Validating variable: nino3.4 ...
-</span><span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; ReconRes.valid_ts[nino3.4] created
-</span>
-</pre></div></div>
-</div>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[100]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">res_graphem</span><span class="o">.</span><span class="n">plot_valid</span><span class="p">(</span>
-    <span class="n">target_name_dict</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;tas&#39;</span><span class="p">:</span> <span class="s1">&#39;20CRv3&#39;</span><span class="p">,</span> <span class="s1">&#39;nino3.4&#39;</span><span class="p">:</span> <span class="s1">&#39;BC09&#39;</span><span class="p">},</span>
-    <span class="n">recon_name_dict</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;tas&#39;</span><span class="p">:</span> <span class="s1">&#39;GraphEM/tas&#39;</span><span class="p">,</span> <span class="s1">&#39;nino3.4&#39;</span><span class="p">:</span> <span class="s1">&#39;NINO3.4 [K]&#39;</span><span class="p">},</span>
-    <span class="n">valid_fd_kws</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span>
-        <span class="n">projection</span><span class="o">=</span><span class="s1">&#39;PlateCarree&#39;</span><span class="p">,</span>
-        <span class="n">latlon_range</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mi">20</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">150</span><span class="p">,</span> <span class="mi">256</span><span class="p">),</span>
-        <span class="n">plot_cbar</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-    <span class="p">),</span>
-    <span class="n">valid_ts_kws</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span>
-        <span class="n">xlim</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1870</span><span class="p">,</span> <span class="mi">1900</span><span class="p">),</span>
-        <span class="n">ylim</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span>
-    <span class="p">)</span>
-<span class="p">)</span>
-
-<span class="n">cfr</span><span class="o">.</span><span class="n">visual</span><span class="o">.</span><span class="n">add_annotation</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">fs</span><span class="o">=</span><span class="p">[</span><span class="mi">20</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">30</span><span class="p">])</span>
-
-<span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">fig</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-    <span class="n">cfr</span><span class="o">.</span><span class="n">showfig</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
-    <span class="n">cfr</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;./figs/graphem_</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s1">.pdf&#39;</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<img alt="../_images/notebooks_graphem-real-pages2k_42_0.png" src="../_images/notebooks_graphem-real-pages2k_42_0.png" />
-</div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<img alt="../_images/notebooks_graphem-real-pages2k_42_1.png" src="../_images/notebooks_graphem-real-pages2k_42_1.png" />
-</div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<img alt="../_images/notebooks_graphem-real-pages2k_42_2.png" src="../_images/notebooks_graphem-real-pages2k_42_2.png" />
-</div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-Figure saved at: &#34;figs/graphem_tas_corr.pdf&#34;
-Figure saved at: &#34;figs/graphem_tas_CE.pdf&#34;
-Figure saved at: &#34;figs/graphem_nino3.4.pdf&#34;
-</pre></div></div>
-</div>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[105]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">res_lmr</span><span class="o">.</span><span class="n">plot_valid</span><span class="p">(</span>
-    <span class="n">target_name_dict</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;tas&#39;</span><span class="p">:</span> <span class="s1">&#39;20CRv3&#39;</span><span class="p">,</span> <span class="s1">&#39;nino3.4&#39;</span><span class="p">:</span> <span class="s1">&#39;BC09&#39;</span><span class="p">},</span>
-    <span class="n">recon_name_dict</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;tas&#39;</span><span class="p">:</span> <span class="s1">&#39;PDA/tas&#39;</span><span class="p">,</span> <span class="s1">&#39;nino3.4&#39;</span><span class="p">:</span> <span class="s1">&#39;NINO3.4 [K]&#39;</span><span class="p">},</span>
-    <span class="n">valid_fd_kws</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span>
-        <span class="n">projection</span><span class="o">=</span><span class="s1">&#39;PlateCarree&#39;</span><span class="p">,</span>
-        <span class="n">latlon_range</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mi">20</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">150</span><span class="p">,</span> <span class="mi">256</span><span class="p">),</span>
-        <span class="n">plot_cbar</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-    <span class="p">),</span>
-    <span class="n">valid_ts_kws</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span>
-        <span class="n">xlim</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1870</span><span class="p">,</span> <span class="mi">1900</span><span class="p">),</span>
-        <span class="n">ylim</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span>
-    <span class="p">)</span>
-<span class="p">)</span>
-
-<span class="n">cfr</span><span class="o">.</span><span class="n">visual</span><span class="o">.</span><span class="n">add_annotation</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">fs</span><span class="o">=</span><span class="p">[</span><span class="mi">20</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">30</span><span class="p">],</span> <span class="n">start</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
-
-<span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">fig</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-    <span class="n">cfr</span><span class="o">.</span><span class="n">showfig</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
-    <span class="n">cfr</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;./figs/lmr_</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s1">.pdf&#39;</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<img alt="../_images/notebooks_graphem-real-pages2k_43_0.png" src="../_images/notebooks_graphem-real-pages2k_43_0.png" />
-</div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<img alt="../_images/notebooks_graphem-real-pages2k_43_1.png" src="../_images/notebooks_graphem-real-pages2k_43_1.png" />
-</div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<img alt="../_images/notebooks_graphem-real-pages2k_43_2.png" src="../_images/notebooks_graphem-real-pages2k_43_2.png" />
-</div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-Figure saved at: &#34;figs/lmr_tas_corr.pdf&#34;
-Figure saved at: &#34;figs/lmr_tas_CE.pdf&#34;
-Figure saved at: &#34;figs/lmr_nino3.4.pdf&#34;
-</pre></div></div>
-</div>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
@@ -1236,6 +978,7 @@ Figure saved at: &#34;figs/lmr_nino3.4.pdf&#34;
 </pre></div>
 </div>
 </div>
+</section>
 </section>
 </section>
 
@@ -1282,7 +1025,6 @@ Figure saved at: &#34;figs/lmr_nino3.4.pdf&#34;
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Validate-the-reconstructed-fields">Validate the reconstructed fields</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Comparison-to-the-LMR/PDA-based-reconstruction">Comparison to the LMR/PDA based reconstruction</a></li>
 </ul>
   </nav></div>
 

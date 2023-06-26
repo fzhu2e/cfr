@@ -515,8 +515,8 @@ def coefficient_efficiency(ref, test, valid=None):
     error = test - ref
 
     # CE
-    numer = np.nansum(np.power(error,2),axis=0)
-    denom = np.nansum(np.power(ref-np.nanmean(ref,axis=0),2),axis=0)
+    numer = np.sum(np.power(error,2),axis=0)
+    denom = np.sum(np.power(ref-np.nanmean(ref,axis=0),2),axis=0)
     CE    = 1. - np.divide(numer,denom)
 
     if valid:

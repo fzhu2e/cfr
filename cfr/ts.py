@@ -504,7 +504,7 @@ class EnsTS:
             ax.set_xlim(xlim)
 
         if ylim is not None:
-            ax.set_xlim(ylim)
+            ax.set_ylim(ylim)
 
 
         _legend_kwargs = {'ncol': len(qs)//2+1+n_ref, 'loc': 'upper left'}

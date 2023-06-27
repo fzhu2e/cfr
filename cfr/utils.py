@@ -731,6 +731,7 @@ climfd_url_dict = {
     '20CRv3/tas': 'https://downloads.psl.noaa.gov/Datasets/20thC_ReanV3/Monthlies/2mSI-MO/air.2m.mon.mean.nc',
     '20CRv3/pr': 'https://downloads.psl.noaa.gov/Datasets/20thC_ReanV3/Monthlies/sfcSI-MO/prate.mon.mean.nc',
     'HadCRUTv5': 'https://www.metoffice.gov.uk/hadobs/hadcrut5/data/current/analysis/HadCRUT.5.0.1.0.analysis.anomalies.ensemble_mean.nc',
+    'HadCRUT4.6_GraphEM': 'https://github.com/fzhu2e/cfr-data/raw/main/HadCRUT4.6_GraphEM_median.nc',
 }
 
 ensts_url_dict = {

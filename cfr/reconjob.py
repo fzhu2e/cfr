@@ -1072,11 +1072,11 @@ class ReconJob:
                     verbose=verbose,
                     **fit_kwargs)
 
-            if verbose: p_success(f'job.graphem_solver created and saved to: {solver_save_path}')
+            if verbose: p_success(f'>>> job.graphem_solver created and saved to: {solver_save_path}')
 
             if solver_save_path is not None:
                 pd.to_pickle(self.graphem_solver, solver_save_path)
-                if verbose: p_success(f'job.graphem_solver saved to: {solver_save_path}')
+                if verbose: p_success(f'>>> job.graphem_solver saved to: {solver_save_path}')
 
         nt = np.shape(self.graphem_params['field'])[0]
         vn = list(self.obs.keys())[0]

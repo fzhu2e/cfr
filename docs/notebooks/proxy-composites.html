@@ -378,12 +378,13 @@ document.write(`
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Load-a-ProxyDatabase">Load a <code class="docutils literal notranslate"><span class="pre">ProxyDatabase</span></code></a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Create-composites-for-each-proxy-type">Create composites for each proxy type</a><ul class="nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Create-composites-for-each-archive-type">Create composites for each archive type</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Without-calibration-to-an-instrumental-target">Without calibration to an instrumental target</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#With-calibration-to-an-instrumental-target">With calibration to an instrumental target</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#The-composite-of-ice-core-records">The composite of ice core records</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Make-a-composite-of-multiple-archives">Make a composite of multiple archives</a></li>
 </ul>
             </nav>
         </div>
@@ -419,7 +420,7 @@ document.write(`
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-0.6.3
+2023.6.28
 </pre></div></div>
 </div>
 <section id="Load-a-ProxyDatabase">
@@ -441,8 +442,8 @@ document.write(`
 </div>
 </div>
 </section>
-<section id="Create-composites-for-each-proxy-type">
-<h2>Create composites for each proxy type<a class="headerlink" href="#Create-composites-for-each-proxy-type" title="Permalink to this heading">#</a></h2>
+<section id="Create-composites-for-each-archive-type">
+<h2>Create composites for each archive type<a class="headerlink" href="#Create-composites-for-each-archive-type" title="Permalink to this heading">#</a></h2>
 <p>We take corals as an example.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
@@ -466,7 +467,7 @@ document.write(`
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pdb_corals</span><span class="o">.</span><span class="n">make_composite</span><span class="p">(</span><span class="n">bin_width</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pdb_corals</span> <span class="o">=</span> <span class="n">pdb_corals</span><span class="o">.</span><span class="n">make_composite</span><span class="p">(</span><span class="n">bin_width</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -475,8 +476,8 @@ document.write(`
 </div>
 <div class="output_area stderr docutils container">
 <div class="highlight"><pre>
-Analyzing ProxyRecord: 100%|██████████| 104/104 [00:00&lt;00:00, 985.66it/s]
-Bootstrapping: 100%|██████████| 110/110 [00:01&lt;00:00, 71.39it/s]
+Analyzing ProxyRecord: 100%|██████████| 104/104 [00:00&lt;00:00, 1097.86it/s]
+Bootstrapping: 100%|██████████| 110/110 [00:01&lt;00:00, 72.46it/s]
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
@@ -530,7 +531,7 @@ Bootstrapping: 100%|██████████| 110/110 [00:01&lt;00:00, 71.
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pdb_corals</span><span class="o">.</span><span class="n">make_composite</span><span class="p">(</span><span class="n">obs</span><span class="p">,</span> <span class="n">bin_width</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pdb_corals</span> <span class="o">=</span> <span class="n">pdb_corals</span><span class="o">.</span><span class="n">make_composite</span><span class="p">(</span><span class="n">obs</span><span class="o">=</span><span class="n">obs</span><span class="p">,</span> <span class="n">bin_width</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -539,8 +540,8 @@ Bootstrapping: 100%|██████████| 110/110 [00:01&lt;00:00, 71.
 </div>
 <div class="output_area stderr docutils container">
 <div class="highlight"><pre>
-Analyzing ProxyRecord: 100%|██████████| 104/104 [00:16&lt;00:00,  6.25it/s]
-Bootstrapping: 100%|██████████| 110/110 [00:01&lt;00:00, 71.21it/s]
+Analyzing ProxyRecord: 100%|██████████| 104/104 [00:16&lt;00:00,  6.31it/s]
+Bootstrapping: 100%|██████████| 110/110 [00:01&lt;00:00, 72.24it/s]
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
@@ -695,7 +696,7 @@ Figure saved at: &#34;figs/coral_composites.pdf&#34;
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># can also use the obs file path</span>
-<span class="n">pdb_ice</span><span class="o">.</span><span class="n">make_composite</span><span class="p">(</span>
+<span class="n">pdb_ice</span> <span class="o">=</span> <span class="n">pdb_ice</span><span class="o">.</span><span class="n">make_composite</span><span class="p">(</span>
     <span class="n">obs_nc_path</span><span class="o">=</span><span class="s1">&#39;./data/HadCRUT.5.0.1.0.analysis.anomalies.ensemble_mean.nc&#39;</span><span class="p">,</span>
     <span class="n">vn</span><span class="o">=</span><span class="s1">&#39;tas_mean&#39;</span><span class="p">,</span>
     <span class="n">lat_name</span><span class="o">=</span><span class="s1">&#39;latitude&#39;</span><span class="p">,</span> <span class="n">lon_name</span><span class="o">=</span><span class="s1">&#39;longitude&#39;</span><span class="p">,</span>
@@ -709,8 +710,8 @@ Figure saved at: &#34;figs/coral_composites.pdf&#34;
 </div>
 <div class="output_area stderr docutils container">
 <div class="highlight"><pre>
-Analyzing ProxyRecord: 100%|██████████| 49/49 [00:07&lt;00:00,  6.14it/s]
-Bootstrapping: 100%|██████████| 207/207 [00:02&lt;00:00, 74.08it/s]
+Analyzing ProxyRecord: 100%|██████████| 49/49 [00:07&lt;00:00,  6.19it/s]
+Bootstrapping: 100%|██████████| 207/207 [00:02&lt;00:00, 75.13it/s]
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
@@ -844,6 +845,51 @@ intercept:
 Figure saved at: &#34;figs/ice_composite.pdf&#34;
 </pre></div></div>
 </div>
+</section>
+<section id="Make-a-composite-of-multiple-archives">
+<h2>Make a composite of multiple archives<a class="headerlink" href="#Make-a-composite-of-multiple-archives" title="Permalink to this heading">#</a></h2>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pdb</span> <span class="o">=</span> <span class="n">pdb</span><span class="o">.</span><span class="n">make_composite</span><span class="p">(</span><span class="n">obs</span><span class="o">=</span><span class="n">obs</span><span class="p">,</span> <span class="n">bin_width</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+Analyzing ProxyRecord: 100%|██████████| 692/692 [01:59&lt;00:00,  5.79it/s]
+Bootstrapping: 100%|██████████| 877/877 [00:18&lt;00:00, 47.86it/s]
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">pdb</span><span class="o">.</span><span class="n">plot_composite</span><span class="p">()</span>
+<span class="n">cfr</span><span class="o">.</span><span class="n">showfig</span><span class="p">(</span><span class="n">fig</span><span class="p">)</span>
+<span class="n">cfr</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">fig</span><span class="p">,</span> <span class="s1">&#39;./figs/pages2k_composite.pdf&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/notebooks_proxy-composites_24_0.png" src="../_images/notebooks_proxy-composites_24_0.png" />
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Figure saved at: &#34;figs/pages2k_composite.pdf&#34;
+</pre></div></div>
+</div>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
@@ -898,12 +944,13 @@ Figure saved at: &#34;figs/ice_composite.pdf&#34;
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Load-a-ProxyDatabase">Load a <code class="docutils literal notranslate"><span class="pre">ProxyDatabase</span></code></a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Create-composites-for-each-proxy-type">Create composites for each proxy type</a><ul class="nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Create-composites-for-each-archive-type">Create composites for each archive type</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Without-calibration-to-an-instrumental-target">Without calibration to an instrumental target</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#With-calibration-to-an-instrumental-target">With calibration to an instrumental target</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#The-composite-of-ice-core-records">The composite of ice core records</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Make-a-composite-of-multiple-archives">Make a composite of multiple archives</a></li>
 </ul>
   </nav></div>
 

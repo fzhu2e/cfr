@@ -1405,21 +1405,28 @@ class ProxyDatabase:
             'r2': r2,
         }
 
-        self.composite = res_dict
+        pdb_new = self.copy()
+        pdb_new.composite = res_dict
+        return pdb_new
 
 
     def plot_composite(self, figsize=[10, 4], clr_proxy=None, clr_count='tab:gray', clr_obs='tab:red',
                        left_ylim=[-2, 2], right_ylim=None, ylim_num=5, xlim=[0, 2000], base_n=60,
-                       ax=None, bin_width=10):
+                       ax=None):
         ''' Plot the composites of the records in the proxy database.'''
-        if clr_proxy is None:
-            type_dict = sorted(self.type_dict.items(), key=lambda item: item[1])
-            majority = next(iter(type_dict))[0]
+        archives = set()
+        for k in self.type_list:
             try:
-                archive = majority.split('.')[0]
+                archives.add(k.split('.')[0])
             except:
-                archive = majority
+                archives.add(k)
 
+        if len(archives) == 1:
+            archive = list(archives)[0]
+        else:
+            archive = 'Multiple Archives'
+
+        if clr_proxy is None:
             if archive in visual.PAGES2k.archive_types:
                 clr_proxy = visual.PAGES2k.colors_dict[archive]
             else:
@@ -1465,7 +1472,7 @@ class ProxyDatabase:
         ax['var'].spines['top'].set_visible(False)
         ax['var'].yaxis.grid(True, color=clr_proxy, alpha=0.5, ls='-')
         ax['var'].xaxis.grid(False)
-        ax['var'].set_title(f'{archive}, {self.nrec} records, bin_width={self.composite["bin_width"]}')
+        ax['var'].set_title(f'{archive}, {self.nrec} records, bin_width={self.composite["bin_width"]}', weight='bold')
         ax['var'].legend(loc='upper left', frameon=False)
 
         ax['count'] = ax['var'].twinx()

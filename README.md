@@ -1,3 +1,6 @@
+[![PyPI version](https://badge.fury.io/py/cfr.svg)](https://badge.fury.io/py/cfr)
+[![PyPI](https://img.shields.io/badge/python-3.10-blue.svg)]()
+[![license](https://img.shields.io/github/license/fzhu2e/cfr.svg)]()
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.7855587.svg)](https://doi.org/10.5281/zenodo.7855587)
 
 # `cfr`: a Python package for Climate Field Reconstruction

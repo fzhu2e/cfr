@@ -143,7 +143,7 @@ class ReconJob:
         #     raise ReadError(f'The extention of the file [{ext}] is not supported. Support list: [.pkl, ] .')
 
         # self.proxydb = ProxyDatabase().from_df(df, **kwargs)
-        self.proxydb = ProxyDatabase().fetch(name=path)
+        self.proxydb = ProxyDatabase().fetch(name=path, **kwargs)
         if verbose:
             p_success(f'>>> {self.proxydb.nrec} records loaded')
             p_success(f'>>> job.proxydb created')

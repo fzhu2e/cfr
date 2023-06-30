@@ -1297,19 +1297,30 @@ class ProxyDatabase:
             return fig, ax
 
 
-    def plotly(self, **kwargs):
-        ''' Plot the database on an interactive map utilizing Plotly
-        '''
-        df = self.to_df()
-        fig = px.scatter_geo(
-            df, lat='lat', lon='lon',
-            color='ptype',
-            hover_name='pid',
-            projection='natural earth',
-            **kwargs,
-        )
+    # def plotly(self, **kwargs):
+    #     ''' Plot the database on an interactive map utilizing Plotly
+    #     '''
+    #     df = self.to_df()
+    #     fig = px.scatter_geo(
+    #         df, lat='lat', lon='lon',
+    #         color='ptype',
+    #         hover_name='pid',
+    #         projection='natural earth',
+    #         **kwargs,
+    #     )
 
+    #     return fig
+
+
+    def plotly(self, **kwargs):
+        '''Plot the database on an interactive map utilizing Plotly
+        '''
+
+        df = self.to_df()
+        fig = visual.plotly_proxies(df)
         return fig
+
+
 
     def make_composite(self, obs=None, obs_nc_path=None, vn='tas', lat_name=None, lon_name=None, bin_width=10, n_bootstraps=1000, qs=(0.025, 0.975), stat_func=np.nanmean, anom_period=[1951, 1980]):
         ''' Make composites of the records in the proxy database.'''

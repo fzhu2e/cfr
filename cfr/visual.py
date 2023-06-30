@@ -157,6 +157,54 @@ class STYLE:
         'documents': 'X',
         'peat.pollen': 'o',
     }
+    markers_dict_plotly = {
+        'coral.calc': 'cross',
+        'coral.SrCa': 'x',
+        'coral.d18O': 'circle',
+        'coral.d18Osw': 'hexagon2',
+        'ice.melt': 'traingle-left',
+        'ice.d18O': 'diamond-tall',
+        'ice.dD': 'traingle-right',
+        'ice.d-excess': 'circle',
+        'ice.isotope_diffusion': 'hexagon',
+        'ice.hybrid': 'arrow-left',
+        'tree.TRW': 'triangle-up',
+        'tree.MXD': 'triangle-down',
+        'tree.ENSO': 'triangle-up',
+        'pollen.temp': 'circle',
+        'land.temp': 'circle',
+        'ocean.temp': 'triangle-down',
+        'tas': 'triangle-up',
+        'pr': 'circle',
+        'speleothem.d18O': 'circle',
+        'speleothem.dD': 'triangle-right',
+        'bivalve.d18O': 'circle',
+        'marine.TEX86': 'star',
+        'marine.MgCa': 'triangle-down',
+        'marine.d18O': 'circle',
+        'marine.MAT': 'hexagon2',
+        'marine.alkenone': 'hexagon',
+        'marine.foram': 'arrow-left',
+        'marine.diatom': 'traingle-up',
+        'marine.dinocyst': 'triangle-right',
+        'marine.radiolaria': 'traingle-left',
+        'marine.GDGT': 'square',
+        'lake.varve_thickness': 'hexagon2',
+        'lake.varve_property': 'square',
+        'lake.accumulation': 'triangle-down',
+        'lake.chironomid': 'triangle-down',
+        'lake.midge': 'triangle-right',
+        'lake.TEX86': 'star',
+        'lake.BSi': 'arrow-left',
+        'lake.chrysophyte': 'diamond-tall',
+        'lake.reflectance': 'triangle-left',
+        'lake.pollen': 'triangle-up',
+        'lake.alkenone': 'hexagon',
+        'borehole': 'arrow-left',
+        'hybrid': 'cross',
+        'documents': 'x',
+        'peat.pollen': 'circle',
+    }
 
 class CartopySettings:
     projection_dict = {
@@ -569,6 +617,48 @@ def plot_proxies(df, year=np.arange(2001), lon_col='lon', lat_col='lat', type_co
         return fig, ax
     else:
         return fig, ax, gs
+
+def plotly_proxies(df):
+    import plotly.graph_objects as go
+    # from .visual import STYLE
+
+    # df = self.to_df()
+    fig = go.Figure()
+    ptype_ls = df['ptype'].unique() 
+    for ptype in ptype_ls:  # draw every ptype
+        dfu = df.loc[df['ptype'] == ptype]
+        fig.add_trace(
+        go.Scattergeo(
+            lon=dfu.lon,
+            lat=dfu.lat,
+            text=ptype,
+            marker_color=STYLE.colors_dict[ptype],
+            marker=dict(symbol=STYLE.markers_dict_plotly[ptype],
+                        line=dict(width=0.5, color="black")),
+            marker_size=10,
+            hovertext=dfu['pid'],
+            name=f'{ptype} (n={len(dfu)})',
+            hoverinfo='lon+lat',
+            hovertemplate= \
+            "<br>pid: %{hovertext}</br>ptype: %{data.text}<br>lon: %{lon}</br>lat: %{lat}<extra></extra>",
+        ))
+    fig.update_geos(projection_type="natural earth",
+                center_lon=180,
+                lonaxis_range=[0, 360],
+                lataxis_range=[-90, 90],
+                showocean=True,
+                showland=True,
+                oceancolor="#70A0C1",
+                landcolor="#CBCBBA")
+    fig.update_layout(
+        margin=dict(l=35, r=35, t=35, b=35),
+        legend_x=1,
+        width=1000,
+        height=450,
+    )
+    fig.layout.dragmode = False
+    return fig
+
 
 def plot_proxy_age_map(df, lon_col='lon', lat_col='lat', type_col='type', time_col='time',
                        title=None, title_weight='normal', font_scale=1.5,

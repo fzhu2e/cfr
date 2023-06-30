@@ -972,7 +972,7 @@ class ProxyDatabase:
             else:
                 self.type_dict[t] += 1
 
-    def fetch(self, name=None):
+    def fetch(self, name=None, **kwargs):
         ''' Fetch a proxy database from cloud
 
         Args:
@@ -1007,11 +1007,11 @@ class ProxyDatabase:
                 os.remove(fpath)
             else:
                 # local
-                pdb = self.load_nc(url)
+                pdb = self.load_nc(url, **kwargs)
         elif ext in read_func:
             # cloud & local
             df = read_func[ext](url)
-            pdb = self.from_df(df)
+            pdb = self.from_df(df, **kwargs)
         else:
             raise ValueError('Wrong file extention based on the given URL!')
 

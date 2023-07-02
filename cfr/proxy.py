@@ -1317,7 +1317,14 @@ class ProxyDatabase:
         '''
 
         df = self.to_df()
-        fig = visual.plotly_proxies(df)
+        fig = visual.plotly_proxies(df,**kwargs)
+        return fig
+    
+    def plotly_count(self,**kwargs):
+        ''' Plot the database number-counting on an interactive map utilizing Plotly
+        '''
+        df = self.to_df()
+        fig = visual.plotly_proxies_count(df,**kwargs)
         return fig
 
 

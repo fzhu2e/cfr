@@ -617,12 +617,45 @@ def plot_proxies(df, year=np.arange(2001), lon_col='lon', lat_col='lat', type_co
         return fig, ax
     else:
         return fig, ax, gs
+    
+def count_time(df,lgd_ncol=None, type_col="ptype", year=np.arange(2001),time_col='time'):
+    df_count = {}
+    type_set = df[type_col].unique()
+    if lgd_ncol is None:
+        lgd_ncol = len(type_set) // 20 + 1
+
+    for ptype in type_set[::-1]:
+        df_count[ptype] = pd.DataFrame(index=year)
+
+    for index, row in df.iterrows():
+        ptype = row[type_col]
+        time = np.array(row[time_col]).astype(np.int32)
+        time = time[~np.isnan(time)]
+        time = time[time < np.max(year) + 1]
+        time = np.sort(np.unique(time))
+        ts = pd.Series(index=time, data=1, name=row['pid'])
+        df_count[ptype] = pd.concat([df_count[ptype], ts], axis=1)
+    proxy_count_all = []
+    color_discrete_sequence=[]
+    for ptype in list(df_count.keys()):
+        ptype_df_sum = df_count[ptype].sum(axis=1)
+        ptype_df = pd.DataFrame(columns=["ptype", 'time','num'])
+        ptype_df.loc[:,'time'] = ptype_df_sum.index
+        ptype_df.loc[:,'num'] = ptype_df_sum
+        ptype_df['ptype'] = ptype
+        proxy_count_all.append(ptype_df)
+        color_discrete_sequence.append(STYLE.colors_dict[ptype]) # get color
+    proxy_count_all = pd.concat(proxy_count_all)
+    
+    return proxy_count_all,color_discrete_sequence
 
 def plotly_proxies(df):
+    """ 
+    Visualize proxies.
+    Args:
+        df (pandas.DataFrame): proxy database in `pandas.DataFrame`.
+    """
     import plotly.graph_objects as go
-    # from .visual import STYLE
-
-    # df = self.to_df()
     fig = go.Figure()
     ptype_ls = df['ptype'].unique() 
     for ptype in ptype_ls:  # draw every ptype
@@ -654,9 +687,31 @@ def plotly_proxies(df):
         margin=dict(l=35, r=35, t=35, b=35),
         legend_x=1,
         width=1000,
-        height=450,
+        height=450
     )
     fig.layout.dragmode = False
+        
+    return fig
+
+def plotly_proxies_count(pdb_df):
+    import plotly.express as px
+    pdb_count, colors = count_time(pdb_df)
+    fig = px.area(pdb_count,
+                  x="time",
+                  y="num",
+                  color="ptype",
+                  color_discrete_sequence=colors)
+    fig.update_layout(xaxis_range=[800, 2000],
+                      margin=dict(l=45, r=35, t=35, b=45),
+                      width=900,
+                      height=450,
+                      font={
+                          'family': 'Arial',
+                          'size': 15,
+                      },
+                      legend_title="Proxy Type",
+                      xaxis_title="Year (AD)",
+                      yaxis_title="Number of Proxies")
     return fig
 
 

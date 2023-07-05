@@ -44,54 +44,6 @@ def make_bin_vector(ts, bin_width=10):
 
     return bin_vector
     
-
-def smooth_ts(ts, ys, bin_vector=None, bin_width=10):
-    if bin_vector is None:
-        bin_vector = make_bin_vector(ts, bin_width=bin_width)
-
-    ts_bin = (bin_vector[1:] + bin_vector[:-1])/2
-    n_bin = np.size(ts_bin)
-    ys_bin = np.zeros(n_bin)
-
-    for i in range(n_bin):
-        t_start = bin_vector[i]
-        t_end = bin_vector[i+1]
-        t_range = (ts >= t_start) & (ts < t_end)
-        if np.sum(t_range*1) == 1:
-            ys_bin[i] = ys[t_range]
-        else:
-            ys_bin[i] = np.average(ys[t_range], axis=0)
-
-    return ts_bin, ys_bin, bin_vector
-
-def bin_ts(ts, ys, bin_vector=None, bin_width=10, resolution=1, smoothed=False):
-    if not smoothed:
-        ts_smooth, ys_smooth, bin_vector = smooth_ts(ts, ys, bin_vector=bin_vector, bin_width=bin_width)
-    else:
-        ts_smooth, ys_smooth = ts, ys
-
-    bin_vector_finer = np.arange(np.min(bin_vector), np.max(bin_vector)+1, step=resolution)
-    bin_value = np.zeros(bin_vector_finer.size)
-
-    n_bin = np.size(ts_smooth)
-    for i in range(n_bin):
-        t_start = bin_vector[i]
-        t_end = bin_vector[i+1]
-        t_range = (bin_vector_finer >= t_start) & (bin_vector_finer <= t_end)
-        bin_value[t_range] = ys_smooth[i]
-
-    return bin_vector_finer, bin_value
-
-def bootstrap(samples, n_bootstraps=1000, stat_func=np.nanmean):
-
-    n_samples = np.shape(samples)[0]
-    stats = np.zeros(n_bootstraps)
-    for i in range(n_bootstraps):
-        rand_ind = np.random.randint(n_samples, size=n_samples)
-        stats[i] = stat_func(samples[rand_ind])
-
-    return stats
-
 def smooth_ts(ts, ys, bin_vector=None, bin_width=10):
     if bin_vector is None:
         bin_vector = np.arange(

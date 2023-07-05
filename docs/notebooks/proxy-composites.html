@@ -890,6 +890,32 @@ Bootstrapping: 100%|██████████| 877/877 [00:18&lt;00:00, 47.
 Figure saved at: &#34;figs/pages2k_composite.pdf&#34;
 </pre></div></div>
 </div>
+<p>Let’s try out annual binning:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pdb</span> <span class="o">=</span> <span class="n">pdb</span><span class="o">.</span><span class="n">make_composite</span><span class="p">(</span><span class="n">obs</span><span class="o">=</span><span class="n">obs</span><span class="p">,</span> <span class="n">bin_width</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">pdb</span><span class="o">.</span><span class="n">plot_composite</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+Analyzing ProxyRecord: 100%|██████████| 692/692 [02:09&lt;00:00,  5.33it/s]
+Bootstrapping: 100%|██████████| 8755/8755 [03:00&lt;00:00, 48.63it/s]
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/notebooks_proxy-composites_26_1.png" src="../_images/notebooks_proxy-composites_26_1.png" />
+</div>
+</div>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>

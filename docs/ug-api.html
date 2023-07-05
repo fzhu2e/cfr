@@ -405,6 +405,7 @@ document.write(`
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyDatabase.plot"><code class="docutils literal notranslate"><span class="pre">ProxyDatabase.plot()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyDatabase.plot_composite"><code class="docutils literal notranslate"><span class="pre">ProxyDatabase.plot_composite()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyDatabase.plotly"><code class="docutils literal notranslate"><span class="pre">ProxyDatabase.plotly()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyDatabase.plotly_count"><code class="docutils literal notranslate"><span class="pre">ProxyDatabase.plotly_count()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyDatabase.refresh"><code class="docutils literal notranslate"><span class="pre">ProxyDatabase.refresh()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyDatabase.slice"><code class="docutils literal notranslate"><span class="pre">ProxyDatabase.slice()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyDatabase.standardize"><code class="docutils literal notranslate"><span class="pre">ProxyDatabase.standardize()</span></code></a></li>
@@ -758,7 +759,7 @@ if timespan = [a, b, c, d], then the sliced output includes segment [a, b] and s
 
 <dl class="py method">
 <dt class="sig sig-object py" id="cfr.proxy.ProxyDatabase.fetch">
-<span class="sig-name descname"><span class="pre">fetch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.proxy.ProxyDatabase.fetch" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">fetch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.proxy.ProxyDatabase.fetch" title="Permalink to this definition">#</a></dt>
 <dd><p>Fetch a proxy database from cloud</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -860,6 +861,12 @@ the default is by multiprocessing.cpu_count()</p></li>
 <dt class="sig sig-object py" id="cfr.proxy.ProxyDatabase.plotly">
 <span class="sig-name descname"><span class="pre">plotly</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.proxy.ProxyDatabase.plotly" title="Permalink to this definition">#</a></dt>
 <dd><p>Plot the database on an interactive map utilizing Plotly</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cfr.proxy.ProxyDatabase.plotly_count">
+<span class="sig-name descname"><span class="pre">plotly_count</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.proxy.ProxyDatabase.plotly_count" title="Permalink to this definition">#</a></dt>
+<dd><p>Plot the database number-counting on an interactive map utilizing Plotly</p>
 </dd></dl>
 
 <dl class="py method">
@@ -2006,6 +2013,7 @@ By default, the columns for the members will be labeled as “ens.0”, “ens.1
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyDatabase.plot"><code class="docutils literal notranslate"><span class="pre">ProxyDatabase.plot()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyDatabase.plot_composite"><code class="docutils literal notranslate"><span class="pre">ProxyDatabase.plot_composite()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyDatabase.plotly"><code class="docutils literal notranslate"><span class="pre">ProxyDatabase.plotly()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyDatabase.plotly_count"><code class="docutils literal notranslate"><span class="pre">ProxyDatabase.plotly_count()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyDatabase.refresh"><code class="docutils literal notranslate"><span class="pre">ProxyDatabase.refresh()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyDatabase.slice"><code class="docutils literal notranslate"><span class="pre">ProxyDatabase.slice()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyDatabase.standardize"><code class="docutils literal notranslate"><span class="pre">ProxyDatabase.standardize()</span></code></a></li>

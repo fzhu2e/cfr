@@ -377,7 +377,7 @@ document.write(`
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#install-the-conda-environment">Install the Conda environment</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-1-download-the-installation-script-for-miniconda3">Step 1: Download the installation script for miniconda3</a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#macos-intel">macOS (Intel)</a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#macos-apple-silicone">macOS (Apple Silicone)</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#macos-apple-silicon">macOS (Apple Silicon)</a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#linux">Linux</a></li>
 </ul>
 </li>
@@ -410,8 +410,8 @@ document.write(`
 </pre></div>
 </div>
 </section>
-<section id="macos-apple-silicone">
-<h4>macOS (Apple Silicone)<a class="headerlink" href="#macos-apple-silicone" title="Permalink to this heading">#</a></h4>
+<section id="macos-apple-silicon">
+<h4>macOS (Apple Silicon)<a class="headerlink" href="#macos-apple-silicon" title="Permalink to this heading">#</a></h4>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>wget<span class="w"> </span>https://repo.anaconda.com/miniconda/Miniconda3-latest-MacOSX-arm64.sh
 </pre></div>
 </div>
@@ -447,12 +447,12 @@ which<span class="w"> </span>conda<span class="w">  </span><span class="c1"># sh
 <section id="install-cfr">
 <h2>Install <cite>cfr</cite><a class="headerlink" href="#install-cfr" title="Permalink to this heading">#</a></h2>
 <p>Taking a clean installation as example, first let’s create a new environment named <code class="code docutils literal notranslate"><span class="pre">cfr-env</span></code> via <code class="code docutils literal notranslate"><span class="pre">conda</span></code></p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>conda<span class="w"> </span>create<span class="w"> </span>-n<span class="w"> </span>cfr-env<span class="w"> </span><span class="nv">python</span><span class="o">=</span><span class="m">3</span>.9
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>conda<span class="w"> </span>create<span class="w"> </span>-n<span class="w"> </span>cfr-env<span class="w"> </span><span class="nv">python</span><span class="o">=</span><span class="m">3</span>.10
 conda<span class="w"> </span>activate<span class="w"> </span>cfr-env
 </pre></div>
 </div>
 <p>Then install some dependencies via <code class="code docutils literal notranslate"><span class="pre">conda</span></code>:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>conda<span class="w"> </span>install<span class="w"> </span>jupyter<span class="w"> </span>notebook<span class="w"> </span>cartopy
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>conda<span class="w"> </span>install<span class="w"> </span>jupyter<span class="w"> </span>notebook<span class="w"> </span>cartopy<span class="w"> </span>statsmodels
 </pre></div>
 </div>
 <p>Once the above dependencies have been installed, simply</p>
@@ -526,7 +526,7 @@ pip<span class="w"> </span>install<span class="w"> </span><span class="s2">&quot
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#install-the-conda-environment">Install the Conda environment</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-1-download-the-installation-script-for-miniconda3">Step 1: Download the installation script for miniconda3</a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#macos-intel">macOS (Intel)</a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#macos-apple-silicone">macOS (Apple Silicone)</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#macos-apple-silicon">macOS (Apple Silicon)</a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#linux">Linux</a></li>
 </ul>
 </li>

@@ -17,7 +17,7 @@ macOS (Intel)
 
   wget https://repo.anaconda.com/miniconda/Miniconda3-latest-MacOSX-x86_64.sh
 
-macOS (Apple Silicone)
+macOS (Apple Silicon)
 ''''''''''
 
 .. code-block:: bash
@@ -63,14 +63,14 @@ Taking a clean installation as example, first let's create a new environment nam
 
 .. code-block:: bash
 
-    conda create -n cfr-env python=3.9
+    conda create -n cfr-env python=3.10
     conda activate cfr-env
 
 Then install some dependencies via :code:`conda`:
 
 .. code-block:: bash
 
-    conda install jupyter notebook cartopy
+    conda install jupyter notebook cartopy statsmodels
 
 Once the above dependencies have been installed, simply
 

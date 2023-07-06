@@ -1275,7 +1275,34 @@ class ProxyDatabase:
             if hasattr(pobj, 'dups'): del(pobj.dups)
             if hasattr(pobj, 'dup_pids'):del(pobj.dup_pids)
         return pdb_to_keep
+   
+    def nest_indices(self, time_period, frac_complete=0.8):
+        '''
+        Returns the indices corresponding to records that show a certain level
+        of completeness over the specified time_period
+
+        Parameters
+        ----------
+        time_period : 2-list
+            the time period over which to assess frac_complete
+        frac_complete : float, optional
+            fraction of available values over time_period. The default is 0.8.
+
+        Returns
+        -------
+        ind : list
+            from the original database
+
+        '''
+        ind = []
+        for pid, pobj in self.records.items():
+            vals = pobj.slice(time_period).value
+            nv = len(vals)
+            if nv>0:
+                if np.count_nonzero(~np.isnan(vals))/nv>=frac_complete:
+                    ind.append(pid)
         
+        return ind
 
     def plot(self, **kws):
         '''Visualize the proxy database.

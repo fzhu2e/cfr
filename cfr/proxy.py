@@ -1480,6 +1480,11 @@ class ProxyDatabase:
         if ax is None:
             fig = plt.figure(figsize=figsize,facecolor='white')
             ax = {}
+            ax['var'] = fig.add_subplot()
+        else:
+            ax_dict = {}
+            ax_dict['var'] = ax
+            ax = ax_dict.copy()
 
         # title_font = {
         #     'fontname': 'Arial',
@@ -1493,7 +1498,6 @@ class ProxyDatabase:
         else:
             lb_proxy = f'proxy, conversion factor = {np.abs(self.composite["slope"]):.3f}'
 
-        ax['var'] = fig.add_subplot()
         ax['var'].plot(self.composite['proxy_comp_time'], self.composite['proxy_comp_value'], color=clr_proxy, lw=1, label=lb_proxy)
         if self.composite['df_obs'] is not None:
             ax['var'].plot(self.composite['obs_comp_time'], self.composite['obs_comp_value'], color=clr_obs, lw=1, label='instrumental')

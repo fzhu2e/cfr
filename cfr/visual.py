@@ -258,7 +258,7 @@ def setlabel(ax, label, loc=2, borderpad=0.6, **kwargs):
 
 def plot_field_map(field_var, lat, lon, levels=50, add_cyclic_point=True,
                    title=None, title_size=20, title_weight='normal', figsize=[10, 8],
-                   plot_proxydb=False, proxydb=None, proxydb_lgd_kws=None,
+                   plot_proxydb=False, proxydb=None, plot_proxydb_lgd=False, proxydb_lgd_kws=None,
                    proxy_marker=None, proxy_color=None,
                    site_lats=None, site_lons=None, site_marker='o',
                    site_markersize=50, site_color=sns.xkcd_rgb['amber'],
@@ -485,10 +485,11 @@ def plot_field_map(field_var, lat, lon, levels=50, add_cyclic_point=True,
                 )
             )
 
-        ax.legend(
-            s_plots, ptype_labels,
-            **proxydb_lgd_kws,
-        )
+        if plot_proxydb_lgd:
+            ax.legend(
+                s_plots, ptype_labels,
+                **proxydb_lgd_kws,
+            )
         
 
     return fig, ax
@@ -635,6 +636,7 @@ def count_time(df,lgd_ncol=None, type_col="ptype", year=np.arange(2001),time_col
         time = np.sort(np.unique(time))
         ts = pd.Series(index=time, data=1, name=row['pid'])
         df_count[ptype] = pd.concat([df_count[ptype], ts], axis=1)
+
     proxy_count_all = []
     color_discrete_sequence=[]
     for ptype in list(df_count.keys()):
@@ -645,6 +647,7 @@ def count_time(df,lgd_ncol=None, type_col="ptype", year=np.arange(2001),time_col
         ptype_df['ptype'] = ptype
         proxy_count_all.append(ptype_df)
         color_discrete_sequence.append(STYLE.colors_dict[ptype]) # get color
+
     proxy_count_all = pd.concat(proxy_count_all)
     
     return proxy_count_all,color_discrete_sequence
@@ -658,6 +661,7 @@ def plotly_proxies(df):
     import plotly.graph_objects as go
     fig = go.Figure()
     ptype_ls = df['ptype'].unique() 
+
     for ptype in ptype_ls:  # draw every ptype
         dfu = df.loc[df['ptype'] == ptype]
         fig.add_trace(
@@ -675,6 +679,7 @@ def plotly_proxies(df):
             hovertemplate= \
             "<br>pid: %{hovertext}</br>ptype: %{data.text}<br>lon: %{lon}</br>lat: %{lat}<extra></extra>",
         ))
+
     fig.update_geos(projection_type="natural earth",
                 center_lon=180,
                 lonaxis_range=[0, 360],
@@ -683,25 +688,29 @@ def plotly_proxies(df):
                 showland=True,
                 oceancolor="#70A0C1",
                 landcolor="#CBCBBA")
+
     fig.update_layout(
         margin=dict(l=35, r=35, t=35, b=35),
         legend_x=1,
         width=1000,
         height=450
     )
+
     fig.layout.dragmode = False
         
     return fig
 
-def plotly_proxies_count(pdb_df):
+def plotly_proxies_count(pdb_df, xaxis_range=[1, 2000]):
     import plotly.express as px
     pdb_count, colors = count_time(pdb_df)
+
     fig = px.area(pdb_count,
                   x="time",
                   y="num",
                   color="ptype",
                   color_discrete_sequence=colors)
-    fig.update_layout(xaxis_range=[800, 2000],
+
+    fig.update_layout(xaxis_range=xaxis_range,
                       margin=dict(l=45, r=35, t=35, b=45),
                       width=900,
                       height=450,
@@ -712,6 +721,7 @@ def plotly_proxies_count(pdb_df):
                       legend_title="Proxy Type",
                       xaxis_title="Year (AD)",
                       yaxis_title="Number of Proxies")
+
     return fig
 
 

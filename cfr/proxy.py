@@ -610,8 +610,8 @@ class ProxyRecord:
 
         return fig, ax
 
-    def dashboard(self, figsize=[10, 8], ms=200, stock_img=True, edge_clr='w',
-        wspace=0.1, hspace=0.3, spec_method='wwz', pseudo_clr=None, **kwargs):
+    def dashboard(self, figsize=[10, 8], ms=200, stock_img=True, edge_clr='w', self_lb='real', pseudo_lb='pseudo',
+        wspace=0.1, hspace=0.3, spec_method='wwz', spec_settings=None, pseudo_clr=None, **kwargs):
         ''' Plot a dashboard of the proxy/pseudoproxy.
         '''
         if not hasattr(self, 'pseudo'):
@@ -629,7 +629,7 @@ class ProxyRecord:
         # plot proxy/pseudoproxy timeseries
         ax['ts'] = plt.subplot(gs[0, :2])
 
-        _kwargs = {'label': 'real', 'zorder': 3, 'alpha': 0.7}
+        _kwargs = {'label': self_lb, 'zorder': 3, 'alpha': 0.7}
         _kwargs.update(kwargs)
         ax['ts'].plot(self.time, self.value, **_kwargs)
 
@@ -640,7 +640,7 @@ class ProxyRecord:
         ax['ts'].set_xlabel(time_lb)
         ax['ts'].plot(
             self.pseudo.time, self.pseudo.value,
-            color=pseudo_clr, label='pseudo')
+            color=pseudo_clr, label=pseudo_lb)
         ax['ts'].legend(loc='upper left', ncol=2)
         title = f'{self.pid} ({self.ptype})'
         if self.seasonality is not None:
@@ -692,11 +692,11 @@ class ProxyRecord:
         ax['psd'] = plt.subplot(gs[1, :2])
         ts, psd = {}, {}
         ts['real'] = pyleo.Series(time=self.time, value=self.value)
-        psd['real'] = ts['real'].spectral(method=spec_method)
+        psd['real'] = ts['real'].spectral(method=spec_method, settings=spec_settings)
         psd['real'].plot(ax=ax['psd'], **_kwargs)
 
         ts['pseudo'] = pyleo.Series(time=self.pseudo.time, value=self.pseudo.value)
-        psd['pseudo'] = ts['pseudo'].slice([self.time.min(), self.time.max()]).spectral(method=spec_method)
+        psd['pseudo'] = ts['pseudo'].slice([self.time.min(), self.time.max()]).spectral(method=spec_method, settings=spec_settings)
         psd['pseudo'].plot(ax=ax['psd'], color=pseudo_clr, label='pseudo')
 
         ax['psd'].legend_ = None

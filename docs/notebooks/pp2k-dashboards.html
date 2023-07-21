@@ -404,7 +404,7 @@ document.write(`
 <li><p>pseudoPAGES2k: <a class="reference external" href="https://github.com/fzhu2e/paper-pseudoPAGES2k/raw/main/data/ppwn_SNRinf_rta.nc">ppwn_SNRinf_rta.nc</a></p></li>
 </ul>
 <p>Note that the paleoclimate time series analysis package <code class="docutils literal notranslate"><span class="pre">Pyleoclim</span></code> is also required to perform the spectral analysis in the dashboards (<code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">pyleoclim</span></code>).</p>
-<div class="nbinput nblast docutils container">
+<div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
 </div>
@@ -420,6 +420,14 @@ document.write(`
 <span class="n">cfr</span><span class="o">.</span><span class="n">visual</span><span class="o">.</span><span class="n">set_style</span><span class="p">(</span><span class="s1">&#39;web&#39;</span><span class="p">,</span> <span class="n">font_scale</span><span class="o">=</span><span class="mf">1.2</span><span class="p">)</span>
 </pre></div>
 </div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+2023.7.21
+</pre></div></div>
 </div>
 <section id="Load-the-real-and-pseudo-PAEGS2k-datasets">
 <h2>Load the real and pseudo PAEGS2k datasets<a class="headerlink" href="#Load-the-real-and-pseudo-PAEGS2k-datasets" title="Permalink to this heading">#</a></h2>
@@ -477,8 +485,43 @@ document.write(`
 <div class="nboutput docutils container">
 <div class="prompt empty docutils container">
 </div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+/Users/fengzhu/Apps/miniconda3/envs/cfr-env/lib/python3.9/site-packages/pyleoclim/core/series.py:151: UserWarning: No time_unit parameter provided. Assuming years CE.
+  warnings.warn(f&#39;No time_unit parameter provided. Assuming {time_unit}.&#39;, UserWarning)
+/Users/fengzhu/Apps/miniconda3/envs/cfr-env/lib/python3.9/site-packages/pyleoclim/core/series.py:158: UserWarning: No time_name parameter provided. Assuming &#34;Time&#34;.
+  warnings.warn(&#39;No time_name parameter provided. Assuming &#34;Time&#34;.&#39;, UserWarning)
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_pp2k-dashboards_5_0.png" src="../_images/notebooks_pp2k-dashboards_5_0.png" />
+<div class="highlight"><pre>
+Time axis values sorted in ascending order
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+OMP: Info #276: omp_set_nested routine deprecated, please use omp_set_max_active_levels instead.
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Time axis values sorted in ascending order
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/notebooks_pp2k-dashboards_5_4.png" src="../_images/notebooks_pp2k-dashboards_5_4.png" />
 </div>
 </div>
 <div class="nboutput nblast docutils container">
@@ -521,7 +564,16 @@ Figure saved at: &#34;figs/NAm_136.pdf&#34;
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_pp2k-dashboards_7_0.png" src="../_images/notebooks_pp2k-dashboards_7_0.png" />
+<div class="highlight"><pre>
+Time axis values sorted in ascending order
+Time axis values sorted in ascending order
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/notebooks_pp2k-dashboards_7_1.png" src="../_images/notebooks_pp2k-dashboards_7_1.png" />
 </div>
 </div>
 <div class="nboutput nblast docutils container">
@@ -564,7 +616,16 @@ Figure saved at: &#34;figs/NAm_134.pdf&#34;
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_pp2k-dashboards_9_0.png" src="../_images/notebooks_pp2k-dashboards_9_0.png" />
+<div class="highlight"><pre>
+Time axis values sorted in ascending order
+Time axis values sorted in ascending order
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/notebooks_pp2k-dashboards_9_1.png" src="../_images/notebooks_pp2k-dashboards_9_1.png" />
 </div>
 </div>
 <div class="nboutput nblast docutils container">
@@ -607,7 +668,16 @@ Figure saved at: &#34;figs/Ocn_075.pdf&#34;
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_pp2k-dashboards_11_0.png" src="../_images/notebooks_pp2k-dashboards_11_0.png" />
+<div class="highlight"><pre>
+Time axis values sorted in ascending order
+Time axis values sorted in ascending order
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/notebooks_pp2k-dashboards_11_1.png" src="../_images/notebooks_pp2k-dashboards_11_1.png" />
 </div>
 </div>
 <div class="nboutput nblast docutils container">
@@ -650,7 +720,16 @@ Figure saved at: &#34;figs/Ocn_067.pdf&#34;
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_pp2k-dashboards_13_0.png" src="../_images/notebooks_pp2k-dashboards_13_0.png" />
+<div class="highlight"><pre>
+Time axis values sorted in ascending order
+Time axis values sorted in ascending order
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/notebooks_pp2k-dashboards_13_1.png" src="../_images/notebooks_pp2k-dashboards_13_1.png" />
 </div>
 </div>
 <div class="nboutput nblast docutils container">
@@ -693,7 +772,16 @@ Figure saved at: &#34;figs/Arc_029.pdf&#34;
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_pp2k-dashboards_15_0.png" src="../_images/notebooks_pp2k-dashboards_15_0.png" />
+<div class="highlight"><pre>
+Time axis values sorted in ascending order
+Time axis values sorted in ascending order
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/notebooks_pp2k-dashboards_15_1.png" src="../_images/notebooks_pp2k-dashboards_15_1.png" />
 </div>
 </div>
 <div class="nboutput nblast docutils container">

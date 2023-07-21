@@ -37,7 +37,7 @@ exclude_patterns = [
     '_build',
     'Thumbs.db',
     '.DS_Store',
-    'test*.ipynb',  # notebooks starting with test won't be rendered
+    'notebooks/test*.ipynb',  # notebooks starting with test won't be rendered
 ]
 
 extensions = [

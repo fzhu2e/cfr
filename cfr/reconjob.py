@@ -666,6 +666,9 @@ class ReconJob:
                 * 'nino4'
                 * 'tpi'
                 * 'wp'
+                * 'dmi'
+                * 'iobw'
+
             compress_params (dict): the paramters for compression when storing the reconstruction results to netCDF files.
             verbose (bool, optional): print verbose information. Defaults to False.
         '''
@@ -717,8 +720,10 @@ class ReconJob:
                 if 'nino4' in output_indices:
                     ds['nino4'] = utils.geo_mean(da, lat_min=-5, lat_max=5, lon_min=np.mod(160, 360), lon_max=np.mod(-150, 360))
                 if 'wpi' in output_indices:
+                    # Western Pacific Index
                     ds['wpi'] = utils.geo_mean(da, lat_min=-10, lat_max=10, lon_min=np.mod(120, 360), lon_max=np.mod(150, 360))
                 if 'tpi' in output_indices:
+                    # Tri-Pole Index
                     v1 = utils.geo_mean(da, lat_min=25, lat_max=45, lon_min=np.mod(140, 360), lon_max=np.mod(-145, 360))
                     v2 = utils.geo_mean(da, lat_min=-10, lat_max=10, lon_min=np.mod(170, 360), lon_max=np.mod(-90, 360))
                     v3 = utils.geo_mean(da, lat_min=-50, lat_max=-15, lon_min=np.mod(150, 360), lon_max=np.mod(-160, 360))
@@ -729,7 +734,7 @@ class ReconJob:
                     dmie = utils.geo_mean(da,lat_min=-10,lat_max=0,lon_min=90,lon_max=110)
                     dmi = dmiw - dmie
                     ds['dmi'] = dmi
-                if 'iobw':
+                if 'iobw' in output_indices:
                     # Indian Ocean Basin Wide
                     iobw =  utils.geo_mean(da, lat_min=-20, lat_max=20, lon_min=40 ,lon_max=100)
                     ds['iobw'] = iobw

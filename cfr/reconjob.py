@@ -723,6 +723,16 @@ class ReconJob:
                     v2 = utils.geo_mean(da, lat_min=-10, lat_max=10, lon_min=np.mod(170, 360), lon_max=np.mod(-90, 360))
                     v3 = utils.geo_mean(da, lat_min=-50, lat_max=-15, lon_min=np.mod(150, 360), lon_max=np.mod(-160, 360))
                     ds['tpi'] = v2 - (v1 + v3)/2
+                if 'dmi' in output_indices:
+                    # Indian Ocean Dipole Mode
+                    dmiw = utils.geo_mean(da, lat_min=-10, lat_max=10, lon_min=50 ,lon_max=70)
+                    dmie = utils.geo_mean(da,lat_min=-10,lat_max=0,lon_min=90,lon_max=110)
+                    dmi = dmiw - dmie
+                    ds['dmi'] = dmi
+                if 'iobw':
+                    # Indian Ocean Basin Wide
+                    iobw =  utils.geo_mean(da, lat_min=-20, lat_max=20, lon_min=40 ,lon_max=100)
+                    ds['iobw'] = iobw
 
             if not output_full_ens: da = da.mean(dim='ens')
             ds[vn] = da

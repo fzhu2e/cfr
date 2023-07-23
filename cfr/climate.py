@@ -637,11 +637,21 @@ class ClimateField:
         elif name == 'nino4':
             return self.geo_mean(lat_min=-5, lat_max=5, lon_min=np.mod(160, 360), lon_max=np.mod(-150, 360))
         elif name == 'wpi':
+            # Western Pacific Index
             return self.geo_mean(lat_min=-10, lat_max=10, lon_min=np.mod(120, 360), lon_max=np.mod(150, 360))
         elif name == 'tpi':
+            # Tri-Pole Index
             v1 = self.geo_mean(lat_min=25, lat_max=45, lon_min=np.mod(140, 360), lon_max=np.mod(-145, 360))
             v2 = self.geo_mean(lat_min=-10, lat_max=10, lon_min=np.mod(170, 360), lon_max=np.mod(-90, 360))
             v3 = self.geo_mean(lat_min=-50, lat_max=-15, lon_min=np.mod(150, 360), lon_max=np.mod(-160, 360))
             return v2 - (v1 + v3)/2
+        elif name == 'dmi':
+            # Indian Ocean Dipole Mode
+            dmiw = self.geo_mean(lat_min=-10, lat_max=10, lon_min=50, lon_max=70)
+            dmie = self.geo_mean(lat_min=-10, lat_max=0, lon_min=90, lon_max=110)
+            return dmiw - dmie
+        elif name == 'iobw':
+            # Indian Ocean Basin Wide
+            return self.geo_mean(lat_min=-20, lat_max=20, lon_min=40 ,lon_max=100)
         else:
             raise ValueError('Wrong index name.')

@@ -223,7 +223,7 @@ class Bilinear:
                 df = df.merge(df_exog2.dropna(), how='inner', on='time')
                 df.set_index('time', drop=True, inplace=True)
                 df.sort_index(inplace=True)
-                df.astype(np.float32) # future version numpy will not support np.float
+                df.astype(float)
                 if calib_period is not None:
                     mask = (df.index>=calib_period[0]) & (df.index<=calib_period[1])
                     df = clean_df(df, mask=mask)

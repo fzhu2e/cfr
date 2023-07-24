@@ -417,7 +417,7 @@ document.write(`
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-2023.7.21
+2023.7.24
 </pre></div></div>
 </div>
 <div class="nbinput nblast docutils container">
@@ -641,8 +641,16 @@ Wall time: 8min 44s
 </section>
 <section id="Testing-running-the-reconstruction-job-based-on-the-generated-configs.yml-file">
 <h2>Testing running the reconstruction job based on the generated <code class="docutils literal notranslate"><span class="pre">configs.yml</span></code> file<a class="headerlink" href="#Testing-running-the-reconstruction-job-based-on-the-generated-configs.yml-file" title="Permalink to this heading">#</a></h2>
-<p>In a <code class="docutils literal notranslate"><span class="pre">configs.yml</span></code> file, the important parameters that might be considered to be modified by the users: - <code class="docutils literal notranslate"><span class="pre">calib_period</span></code>: the calibration period for the GraphEM algorithm - <code class="docutils literal notranslate"><span class="pre">recon_period</span></code>: the reconstruction period (i.e., the timespan for the output reconstruction) - <code class="docutils literal notranslate"><span class="pre">annualize_proxydb_moths</span></code>: the seasonality for the reconstruction (e.g., calendar annual, or just a season average) - <code class="docutils literal notranslate"><span class="pre">filter_proxydb_kwargs</span></code>: this controls what proxy records to use for the reconstruction -
-<code class="docutils literal notranslate"><span class="pre">cutoff_radius</span></code>: the cutoff radius for the GraphEM algorithm; reasonable values range from hundreds to thousands of kilometers; default value: 1500 - <code class="docutils literal notranslate"><span class="pre">sp_FF</span></code>: target sparsity (in percentage) of the in-field part of the inverse covariance matrix; default value: 3 - <code class="docutils literal notranslate"><span class="pre">sp_FP</span></code>: target sparsity (in percentage) of the climate field/proxy part of the inverse covariance matrix; default value: 3</p>
+<p>In a <code class="docutils literal notranslate"><span class="pre">configs.yml</span></code> file, the important parameters that might be considered to be modified by the users:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">calib_period</span></code>: the calibration period for the GraphEM algorithm</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">recon_period</span></code>: the reconstruction period (i.e., the timespan for the output reconstruction)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">annualize_proxydb_moths</span></code>: the seasonality for the reconstruction (e.g., calendar annual, or just a season average)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">filter_proxydb_kwargs</span></code>: this controls what proxy records to use for the reconstruction</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">cutoff_radius</span></code>: the cutoff radius for the GraphEM algorithm; reasonable values range from hundreds to thousands of kilometers; default value: 1500</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">sp_FF</span></code>: target sparsity (in percentage) of the in-field part of the inverse covariance matrix; default value: 3</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">sp_FP</span></code>: target sparsity (in percentage) of the climate field/proxy part of the inverse covariance matrix; default value: 3</p></li>
+</ul>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
 </pre></div>

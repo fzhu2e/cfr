@@ -225,7 +225,7 @@ class ReconJob:
             inplace (bool): if True, the annualized proxy database will replace the current `self.proxydb`.
             verbose (bool, optional): print verbose information. Defaults to False.
         '''
-        ref_period = self.io_cfg('proxydb_center_ref_period', ref_period, default=[1951, 1980], verbose=verbose)
+        ref_period = self.io_cfg('proxydb_center_ref_period', list(ref_period), default=[1951, 1980], verbose=verbose)
 
         centered_pdb = self.proxydb.center(ref_period)
         if inplace:
@@ -1203,6 +1203,7 @@ class ReconJob:
         self.prep_graphem(
             recon_period=self.configs['recon_period'],  # period to reconstruct
             calib_period=self.configs['calib_period'],  # period for calibration
+            uniform_pdb=self.configs['uniform_pdb'],    # filter the proxydb to be more uniform
             verbose=verbose,
         )
 
@@ -1212,6 +1213,7 @@ class ReconJob:
             save_dirpath=self.configs['save_dirpath'],
             graph_method=self.configs['graph_method'],
             cutoff_radius=self.configs['cutoff_radius'],
-            output_indices=job.configs['output_indices'],
+            output_indices=self.configs['output_indices'],
+            sp_FF=self.configs['sp_FF'], sp_FP=self.configs['sp_FP'],
             verbose=verbose,
         )

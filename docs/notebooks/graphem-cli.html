@@ -380,6 +380,7 @@ document.write(`
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Generating-the-configs.yml-file">Generating the <code class="docutils literal notranslate"><span class="pre">configs.yml</span></code> file</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Testing-running-the-reconstruction-job-based-on-the-generated-configs.yml-file">Testing running the reconstruction job based on the generated <code class="docutils literal notranslate"><span class="pre">configs.yml</span></code> file</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Leveraging-the-CLI">Leveraging the CLI</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Validation">Validation</a></li>
 </ul>
             </nav>
         </div>
@@ -393,10 +394,13 @@ document.write(`
                   
   <section id="Running-GraphEM-with-the-Command-Line-Interface-(CLI)">
 <h1>Running GraphEM with the Command Line Interface (CLI)<a class="headerlink" href="#Running-GraphEM-with-the-Command-Line-Interface-(CLI)" title="Permalink to this heading">#</a></h1>
-<p>Note that the case setup in this tutorial is just for illustrating the CLI, and the reconstruction result is not necessarily reliable.</p>
+<p>In this tutorial, we first run through a demo case with the GraphEM method in a notebook style, after which we generate the configurations file <code class="docutils literal notranslate"><span class="pre">configs.yml</span></code> based on the demo case.</p>
+<p>Then we repeat the case by calling the <code class="docutils literal notranslate"><span class="pre">ReconJob.run_graphem_cfg()</span></code> method using the <code class="docutils literal notranslate"><span class="pre">configs.yml</span></code> in a notebook style.</p>
+<p>Finally, we repeat the case by calling the command line interface using the <code class="docutils literal notranslate"><span class="pre">configs.yml</span></code>.</p>
+<p>A validation section is presented in the end to make sure the reconstruction job yields a reasonable result.</p>
 <section id="Generating-the-configs.yml-file">
 <h2>Generating the <code class="docutils literal notranslate"><span class="pre">configs.yml</span></code> file<a class="headerlink" href="#Generating-the-configs.yml-file" title="Permalink to this heading">#</a></h2>
-<div class="nbinput nblast docutils container">
+<div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
 </div>
@@ -407,6 +411,14 @@ document.write(`
 <span class="nb">print</span><span class="p">(</span><span class="n">cfr</span><span class="o">.</span><span class="n">__version__</span><span class="p">)</span>
 </pre></div>
 </div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+2023.7.21
+</pre></div></div>
 </div>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
@@ -421,9 +433,8 @@ document.write(`
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">job</span><span class="o">.</span><span class="n">filter_proxydb</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="s1">&#39;ptype&#39;</span><span class="p">,</span> <span class="n">keys</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;coral.SrCa&#39;</span><span class="p">])</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">job</span><span class="o">.</span><span class="n">filter_proxydb</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="s1">&#39;ptype&#39;</span><span class="p">,</span> <span class="n">keys</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;coral&#39;</span><span class="p">])</span>
 <span class="n">job</span><span class="o">.</span><span class="n">annualize_proxydb</span><span class="p">(</span><span class="n">months</span><span class="o">=</span><span class="p">[</span><span class="mi">12</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="n">ptypes</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;coral&#39;</span><span class="p">])</span>
-<span class="n">job</span><span class="o">.</span><span class="n">center_proxydb</span><span class="p">()</span>
 
 <span class="c1"># obs: fetching &amp; preprocessing</span>
 <span class="n">job</span><span class="o">.</span><span class="n">load_clim</span><span class="p">(</span><span class="n">tag</span><span class="o">=</span><span class="s1">&#39;obs&#39;</span><span class="p">,</span> <span class="n">path_dict</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;tas&#39;</span><span class="p">:</span> <span class="s1">&#39;gistemp1200_GHCNv4_ERSSTv5&#39;</span><span class="p">},</span> <span class="n">anom_period</span><span class="o">=</span><span class="p">[</span><span class="mi">1951</span><span class="p">,</span> <span class="mi">1980</span><span class="p">],</span> <span class="n">rename_dict</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;tas&#39;</span><span class="p">:</span> <span class="s1">&#39;tempanomaly&#39;</span><span class="p">})</span>
@@ -431,7 +442,7 @@ document.write(`
 <span class="c1"># obs: processing</span>
 <span class="n">job</span><span class="o">.</span><span class="n">annualize_clim</span><span class="p">(</span><span class="n">tag</span><span class="o">=</span><span class="s1">&#39;obs&#39;</span><span class="p">,</span> <span class="n">months</span><span class="o">=</span><span class="p">[</span><span class="mi">12</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
 <span class="n">job</span><span class="o">.</span><span class="n">regrid_clim</span><span class="p">(</span><span class="n">tag</span><span class="o">=</span><span class="s1">&#39;obs&#39;</span><span class="p">,</span> <span class="n">nlat</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span> <span class="n">nlon</span><span class="o">=</span><span class="mi">63</span><span class="p">)</span>
-<span class="n">job</span><span class="o">.</span><span class="n">crop_clim</span><span class="p">(</span><span class="n">tag</span><span class="o">=</span><span class="s1">&#39;obs&#39;</span><span class="p">,</span> <span class="n">lat_min</span><span class="o">=-</span><span class="mi">35</span><span class="p">,</span> <span class="n">lat_max</span><span class="o">=</span><span class="mi">35</span><span class="p">)</span>
+<span class="n">job</span><span class="o">.</span><span class="n">crop_clim</span><span class="p">(</span><span class="n">tag</span><span class="o">=</span><span class="s1">&#39;obs&#39;</span><span class="p">,</span> <span class="n">lat_min</span><span class="o">=-</span><span class="mi">20</span><span class="p">,</span> <span class="n">lat_max</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">lon_min</span><span class="o">=</span><span class="mi">150</span><span class="p">,</span> <span class="n">lon_max</span><span class="o">=</span><span class="mi">260</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -440,8 +451,7 @@ document.write(`
 </div>
 <div class="output_area stderr docutils container">
 <div class="highlight"><pre>
-Annualizing ProxyDatabase: 100%|██████████| 29/29 [00:00&lt;00:00, 40.05it/s]
-Centering each of the ProxyRecord: 100%|██████████| 29/29 [00:00&lt;00:00, 16457.15it/s]
+Annualizing ProxyDatabase: 100%|██████████| 104/104 [00:02&lt;00:00, 45.02it/s]
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
@@ -458,24 +468,61 @@ Centering each of the ProxyRecord: 100%|██████████| 29/29 [0
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">job</span><span class="o">.</span><span class="n">prep_graphem</span><span class="p">(</span>
-    <span class="n">recon_period</span><span class="o">=</span><span class="p">(</span><span class="mi">1801</span><span class="p">,</span> <span class="mi">2000</span><span class="p">),</span>  <span class="c1"># period to reconstruct</span>
+    <span class="n">recon_period</span><span class="o">=</span><span class="p">(</span><span class="mi">1871</span><span class="p">,</span> <span class="mi">2000</span><span class="p">),</span>  <span class="c1"># period to reconstruct</span>
     <span class="n">calib_period</span><span class="o">=</span><span class="p">(</span><span class="mi">1901</span><span class="p">,</span> <span class="mi">2000</span><span class="p">),</span>  <span class="c1"># period for calibration</span>
+    <span class="n">uniform_pdb</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>           <span class="c1"># filter the proxydb to be more uniform</span>
     <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
 <span class="p">)</span>
 </pre></div>
 </div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+<span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;recon_period&#34;] = [1871, 2000]
+</span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;recon_timescale&#34;] = 1
+</span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;calib_period&#34;] = [1901, 2000]
+</span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;uniform_pdb&#34;] = True
+</span><span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; ProxyDatabase filtered to be more uniform. 54 records remaining.
+</span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;proxydb_center_ref_period&#34;] = [1901, 2000]
+</span>
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+Centering each of the ProxyRecord: 100%|██████████| 54/54 [00:00&lt;00:00, 2010.35it/s]
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+<span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; job.proxydb updated
+</span><span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; job.graphem_params[&#34;recon_time&#34;] created
+</span><span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; job.graphem_params[&#34;calib_time&#34;] created
+</span>
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+
+</pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-<span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;recon_period&#34;] = [1801, 2000]
-</span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;recon_timescale&#34;] = 1
-</span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;calib_period&#34;] = [1901, 2000]
-</span><span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; job.graphem_params[&#34;recon_time&#34;] created
-</span><span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; job.graphem_params[&#34;calib_time&#34;] created
-</span><span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; job.graphem_params[&#34;field_obs&#34;] created
+<span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; job.graphem_params[&#34;field_obs&#34;] created
 </span><span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; job.graphem_params[&#34;calib_idx&#34;] created
 </span><span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; job.graphem_params[&#34;field&#34;] created
 </span><span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; job.graphem_params[&#34;df_proxy&#34;] created
@@ -493,8 +540,9 @@ Centering each of the ProxyRecord: 100%|██████████| 29/29 [0
 <span class="c1"># GraphEM</span>
 <span class="n">job</span><span class="o">.</span><span class="n">run_graphem</span><span class="p">(</span>
     <span class="n">save_dirpath</span><span class="o">=</span><span class="s1">&#39;./recons/test-run-graphem-cfg&#39;</span><span class="p">,</span>
-    <span class="n">graph_method</span><span class="o">=</span><span class="s1">&#39;neighborhood&#39;</span><span class="p">,</span>
+    <span class="n">graph_method</span><span class="o">=</span><span class="s1">&#39;hybrid&#39;</span><span class="p">,</span>
     <span class="n">cutoff_radius</span><span class="o">=</span><span class="mi">1500</span><span class="p">,</span>
+    <span class="n">sp_FF</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">sp_FP</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
     <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
 <span class="p">)</span>
 </pre></div>
@@ -508,8 +556,10 @@ Centering each of the ProxyRecord: 100%|██████████| 29/29 [0
 <span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;compress_params&#34;] = {&#39;zlib&#39;: True}
 </span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;save_dirpath&#34;] = ./recons/test-run-graphem-cfg
 </span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;save_filename&#34;] = job_r01_recon.nc
-</span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;graph_method&#34;] = neighborhood
+</span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;graph_method&#34;] = hybrid
 </span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;cutoff_radius&#34;] = 1500
+</span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;sp_FF&#34;] = 3
+</span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;sp_FP&#34;] = 4
 </span>Computing a neighborhood graph with R = 1500.0 km
 Estimating graph using neighborhood method
 Running GraphEM:
@@ -521,7 +571,7 @@ Running GraphEM:
 </div>
 <div class="output_area stderr docutils container">
 <div class="highlight"><pre>
-EM | dXmis: 0.0107; rdXmis: nan:   0%|          | 1/200 [00:50&lt;2:47:33, 50.52s/it]
+EM | dXmis: 0.0026; rdXmis: 0.0046:   4%|▍         | 9/200 [03:14&lt;1:08:54, 21.64s/it]
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
@@ -530,11 +580,46 @@ EM | dXmis: 0.0107; rdXmis: nan:   0%|          | 1/200 [00:50&lt;2:47:33, 50.52
 <div class="output_area docutils container">
 <div class="highlight"><pre>
 GraphEM.EM(): Tolerance achieved.
-<span class="ansi-green-intense-fg ansi-bold">job.graphem_solver created and saved to: None
+Solving graphical LASSO using greedy search
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+graph_greedy_search | FF:  3.720; FP:  3.644; PP:  0.000:   3%|▎         | 17/500 [00:01&lt;00:50,  9.61it/s]
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Using specified graph
+Running GraphEM:
+
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+EM | dXmis: 0.0021; rdXmis: 0.0049:   8%|▊         | 15/200 [05:27&lt;1:07:19, 21.83s/it]
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+GraphEM.EM(): Tolerance achieved.
+<span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; job.graphem_solver created and saved to: None
 </span><span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; job.recon_fields created
 </span><span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; Reconstructed fields saved to: ./recons/test-run-graphem-cfg/job_r01_recon.nc
-</span>CPU times: user 7min 36s, sys: 2min 12s, total: 9min 49s
-Wall time: 54.8 s
+</span>CPU times: user 48min 15s, sys: 50min 29s, total: 1h 38min 45s
+Wall time: 8min 44s
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
@@ -556,6 +641,8 @@ Wall time: 54.8 s
 </section>
 <section id="Testing-running-the-reconstruction-job-based-on-the-generated-configs.yml-file">
 <h2>Testing running the reconstruction job based on the generated <code class="docutils literal notranslate"><span class="pre">configs.yml</span></code> file<a class="headerlink" href="#Testing-running-the-reconstruction-job-based-on-the-generated-configs.yml-file" title="Permalink to this heading">#</a></h2>
+<p>In a <code class="docutils literal notranslate"><span class="pre">configs.yml</span></code> file, the important parameters that might be considered to be modified by the users: - <code class="docutils literal notranslate"><span class="pre">calib_period</span></code>: the calibration period for the GraphEM algorithm - <code class="docutils literal notranslate"><span class="pre">recon_period</span></code>: the reconstruction period (i.e., the timespan for the output reconstruction) - <code class="docutils literal notranslate"><span class="pre">annualize_proxydb_moths</span></code>: the seasonality for the reconstruction (e.g., calendar annual, or just a season average) - <code class="docutils literal notranslate"><span class="pre">filter_proxydb_kwargs</span></code>: this controls what proxy records to use for the reconstruction -
+<code class="docutils literal notranslate"><span class="pre">cutoff_radius</span></code>: the cutoff radius for the GraphEM algorithm; reasonable values range from hundreds to thousands of kilometers; default value: 1500 - <code class="docutils literal notranslate"><span class="pre">sp_FF</span></code>: target sparsity (in percentage) of the in-field part of the inverse covariance matrix; default value: 3 - <code class="docutils literal notranslate"><span class="pre">sp_FP</span></code>: target sparsity (in percentage) of the climate field/proxy part of the inverse covariance matrix; default value: 3</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
 </pre></div>
@@ -574,8 +661,8 @@ Wall time: 54.8 s
 </span><span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; 692 records loaded
 </span><span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; job.proxydb created
 </span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;filter_proxydb_args&#34;] = []
-</span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;filter_proxydb_kwargs&#34;] = {&#39;by&#39;: &#39;ptype&#39;, &#39;keys&#39;: [&#39;coral.SrCa&#39;]}
-</span><span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; 29 records remaining
+</span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;filter_proxydb_kwargs&#34;] = {&#39;by&#39;: &#39;ptype&#39;, &#39;keys&#39;: [&#39;coral&#39;]}
+</span><span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; 104 records remaining
 </span><span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; job.proxydb updated
 </span>
 </pre></div></div>
@@ -585,8 +672,8 @@ Wall time: 54.8 s
 </div>
 <div class="output_area stderr docutils container">
 <div class="highlight"><pre>
-Annualizing ProxyDatabase: 100%|██████████| 29/29 [00:00&lt;00:00, 38.38it/s]
-Centering each of the ProxyRecord: 100%|██████████| 29/29 [00:00&lt;00:00, 19041.14it/s]
+Annualizing ProxyDatabase: 100%|██████████| 104/104 [00:02&lt;00:00, 44.47it/s]
+Centering each of the ProxyRecord: 100%|██████████| 99/99 [00:00&lt;00:00, 1287.32it/s]
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
@@ -606,13 +693,33 @@ Centering each of the ProxyRecord: 100%|██████████| 29/29 [0
 </span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;obs_regrid_nlat&#34;] = 42
 </span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;obs_regrid_nlon&#34;] = 63
 </span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; Processing tas ...
-</span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;obs_lat_min&#34;] = -35
-</span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;obs_lat_max&#34;] = 35
-</span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;obs_lon_min&#34;] = 0
-</span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;obs_lon_max&#34;] = 360
+</span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;obs_lat_min&#34;] = -20
+</span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;obs_lat_max&#34;] = 20
+</span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;obs_lon_min&#34;] = 150
+</span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;obs_lon_max&#34;] = 260
 </span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; Processing tas ...
-</span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;recon_period&#34;] = [1801, 2000]
+</span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;recon_period&#34;] = [1871, 2000]
 </span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;calib_period&#34;] = [1901, 2000]
+</span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;uniform_pdb&#34;] = True
+</span><span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; ProxyDatabase filtered to be more uniform. 52 records remaining.
+</span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;proxydb_center_ref_period&#34;] = [1901, 2000]
+</span>
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+Centering each of the ProxyRecord: 100%|██████████| 52/52 [00:00&lt;00:00, 1928.64it/s]
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+<span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; job.proxydb updated
 </span><span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; job.graphem_params[&#34;recon_time&#34;] created
 </span><span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; job.graphem_params[&#34;calib_time&#34;] created
 </span><span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; job.graphem_params[&#34;field_obs&#34;] created
@@ -623,8 +730,15 @@ Centering each of the ProxyRecord: 100%|██████████| 29/29 [0
 </span><span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; job.graphem_params[&#34;lonlat&#34;] created
 </span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;save_dirpath&#34;] = ./recons/test-run-graphem-cfg
 </span><span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; job.configs saved to: ./recons/test-run-graphem-cfg/configs.yml
+</span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;save_dirpath&#34;] = ./recons/test-run-graphem-cfg
+</span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;graph_method&#34;] = hybrid
+</span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;cutoff_radius&#34;] = 1500
+</span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;sp_FF&#34;] = 3
+</span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;sp_FP&#34;] = 4
 </span>Computing a neighborhood graph with R = 1500.0 km
 Estimating graph using neighborhood method
+Running GraphEM:
+
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
@@ -632,7 +746,7 @@ Estimating graph using neighborhood method
 </div>
 <div class="output_area stderr docutils container">
 <div class="highlight"><pre>
-EM | dXmis: 0.0107; rdXmis: nan:   0%|          | 1/200 [00:54&lt;3:00:52, 54.54s/it]
+EM | dXmis: 0.0026; rdXmis: 0.0046:   4%|▍         | 9/200 [03:15&lt;1:09:06, 21.71s/it]
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
@@ -641,6 +755,45 @@ EM | dXmis: 0.0107; rdXmis: nan:   0%|          | 1/200 [00:54&lt;3:00:52, 54.54
 <div class="output_area docutils container">
 <div class="highlight"><pre>
 GraphEM.EM(): Tolerance achieved.
+Solving graphical LASSO using greedy search
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+graph_greedy_search | FF:  3.720; FP:  3.644; PP:  0.000:   3%|▎         | 17/500 [00:01&lt;00:43, 11.22it/s]
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Using specified graph
+Running GraphEM:
+
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+EM | dXmis: 0.0021; rdXmis: 0.0049:   8%|▊         | 15/200 [05:23&lt;1:06:25, 21.54s/it]
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+GraphEM.EM(): Tolerance achieved.
+<span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; job.graphem_solver created and saved to: None
+</span><span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; job.recon_fields created
+</span><span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; Reconstructed fields saved to: ./recons/test-run-graphem-cfg/job_r01_recon.nc
+</span>
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
@@ -655,7 +808,7 @@ GraphEM.EM(): Tolerance achieved.
 <section id="Leveraging-the-CLI">
 <h2>Leveraging the CLI<a class="headerlink" href="#Leveraging-the-CLI" title="Permalink to this heading">#</a></h2>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>cfr<span class="w"> </span>-h
@@ -670,7 +823,7 @@ GraphEM.EM(): Tolerance achieved.
 usage: cfr [-h] [-v] {da,graphem} ...
 
 ========================================================================================
- cfr: a scripting system for CFR (Feng Zhu, fengzhu@ucar.edu)
+ cfr: a scripting system for CFR
 ----------------------------------------------------------------------------------------
  Usage example for DA:
     cfr da -c config.yml -vb -s 1 2 -r
@@ -697,7 +850,7 @@ optional arguments:
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>cfr<span class="w"> </span>graphem<span class="w"> </span>-c<span class="w"> </span>./recons/test-run-graphem-cfg/configs.yml<span class="w"> </span>-vb
@@ -713,11 +866,11 @@ optional arguments:
 </span><span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; 692 records loaded
 </span><span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; job.proxydb created
 </span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;filter_proxydb_args&#34;] = []
-</span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;filter_proxydb_kwargs&#34;] = {&#39;by&#39;: &#39;ptype&#39;, &#39;keys&#39;: [&#39;coral.SrCa&#39;]}
-</span><span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; 29 records remaining
+</span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;filter_proxydb_kwargs&#34;] = {&#39;by&#39;: &#39;ptype&#39;, &#39;keys&#39;: [&#39;coral&#39;]}
+</span><span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; 104 records remaining
 </span><span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; job.proxydb updated
-Annualizing ProxyDatabase: 100%|████████████████| 29/29 [00:00&lt;00:00, 47.03it/s]
-Centering each of the ProxyRecord: 100%|█████| 29/29 [00:00&lt;00:00, 25172.77it/s]
+Annualizing ProxyDatabase: 100%|██████████████| 104/104 [00:01&lt;00:00, 52.00it/s]
+Centering each of the ProxyRecord: 100%|██████| 99/99 [00:00&lt;00:00, 1421.21it/s]
 </span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;obs_path&#34;] = {&#39;tas&#39;: &#39;gistemp1200_GHCNv4_ERSSTv5&#39;}
 </span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;obs_rename_dict&#34;] = {&#39;tas&#39;: &#39;tempanomaly&#39;}
 </span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;obs_anom_period&#34;] = [1951, 1980]
@@ -730,13 +883,18 @@ Centering each of the ProxyRecord: 100%|█████| 29/29 [00:00&lt;00:00, 
 </span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;obs_regrid_nlat&#34;] = 42
 </span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;obs_regrid_nlon&#34;] = 63
 </span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; Processing tas ...
-</span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;obs_lat_min&#34;] = -35
-</span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;obs_lat_max&#34;] = 35
-</span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;obs_lon_min&#34;] = 0
-</span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;obs_lon_max&#34;] = 360
+</span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;obs_lat_min&#34;] = -20
+</span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;obs_lat_max&#34;] = 20
+</span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;obs_lon_min&#34;] = 150
+</span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;obs_lon_max&#34;] = 260
 </span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; Processing tas ...
-</span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;recon_period&#34;] = [1801, 2000]
+</span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;recon_period&#34;] = [1871, 2000]
 </span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;calib_period&#34;] = [1901, 2000]
+</span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;uniform_pdb&#34;] = True
+</span><span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; ProxyDatabase filtered to be more uniform. 52 records remaining.
+</span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;proxydb_center_ref_period&#34;] = [1901, 2000]
+Centering each of the ProxyRecord: 100%|██████| 52/52 [00:00&lt;00:00, 2483.02it/s]
+</span><span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; job.proxydb updated
 </span><span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; job.graphem_params[&#34;recon_time&#34;] created
 </span><span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; job.graphem_params[&#34;calib_time&#34;] created
 </span><span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; job.graphem_params[&#34;field_obs&#34;] created
@@ -748,19 +906,137 @@ Centering each of the ProxyRecord: 100%|█████| 29/29 [00:00&lt;00:00, 
 </span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;save_dirpath&#34;] = ./recons/test-run-graphem-cfg
 </span><span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; job.configs saved to: ./recons/test-run-graphem-cfg/configs.yml
 </span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;save_dirpath&#34;] = ./recons/test-run-graphem-cfg
-</span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;graph_method&#34;] = neighborhood
+</span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;graph_method&#34;] = hybrid
 </span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;cutoff_radius&#34;] = 1500
+</span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;sp_FF&#34;] = 3
+</span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;sp_FP&#34;] = 4
 </span>Computing a neighborhood graph with R = 1500.0 km
 Estimating graph using neighborhood method
 Running GraphEM:
 
-EM | dXmis: 0.0107; rdXmis: nan:   0%|        | 1/200 [00:54&lt;2:59:29, 54.12s/it]GraphEM.EM(): Tolerance achieved.
-EM | dXmis: 0.0107; rdXmis: nan:   0%|        | 1/200 [00:54&lt;2:59:29, 54.12s/it]
-<span class="ansi-green-intense-fg ansi-bold">job.graphem_solver created and saved to: None
+EM | dXmis: 0.0026; rdXmis: 0.0046:   4%|▏    | 9/200 [03:12&lt;1:08:18, 21.46s/it]GraphEM.EM(): Tolerance achieved.
+EM | dXmis: 0.0026; rdXmis: 0.0046:   4%|▏    | 9/200 [03:12&lt;1:08:15, 21.44s/it]
+Solving graphical LASSO using greedy search
+graph_greedy_search | FF:  3.720; FP:  3.644; PP:  0.000:   3%| | 17/500 [00:01&lt;
+Using specified graph
+Running GraphEM:
+
+EM | dXmis: 0.0021; rdXmis: 0.0049:   8%|▎   | 15/200 [05:24&lt;1:06:10, 21.46s/it]GraphEM.EM(): Tolerance achieved.
+EM | dXmis: 0.0021; rdXmis: 0.0049:   8%|▎   | 15/200 [05:24&lt;1:06:46, 21.66s/it]
+<span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; job.graphem_solver created and saved to: None
 </span><span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; job.recon_fields created
 </span><span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; Reconstructed fields saved to: ./recons/test-run-graphem-cfg/job_r01_recon.nc
 </span>
 </pre></div></div>
+</div>
+</section>
+<section id="Validation">
+<h2>Validation<a class="headerlink" href="#Validation" title="Permalink to this heading">#</a></h2>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">res</span> <span class="o">=</span> <span class="n">cfr</span><span class="o">.</span><span class="n">ReconRes</span><span class="p">(</span><span class="s1">&#39;./recons/test-run-graphem-cfg&#39;</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">res</span><span class="o">.</span><span class="n">load</span><span class="p">([</span><span class="s1">&#39;tas&#39;</span><span class="p">,</span> <span class="s1">&#39;nino3.4&#39;</span><span class="p">],</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+<span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; res.paths:
+</span>[&#39;./recons/test-run-graphem-cfg/job_r01_recon.nc&#39;]
+<span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; ReconRes.recons[&#34;tas&#34;] created
+</span><span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; ReconRes.da[&#34;tas&#34;] created
+</span><span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; ReconRes.recons[&#34;nino3.4&#34;] created
+</span><span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; ReconRes.da[&#34;nino3.4&#34;] created
+</span>
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tas_20CRv3</span> <span class="o">=</span> <span class="n">cfr</span><span class="o">.</span><span class="n">ClimateField</span><span class="p">()</span><span class="o">.</span><span class="n">fetch</span><span class="p">(</span><span class="s1">&#39;20CRv3/tas&#39;</span><span class="p">,</span> <span class="n">vn</span><span class="o">=</span><span class="s1">&#39;air&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="s1">&#39;tas&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">get_anom</span><span class="p">((</span><span class="mi">1951</span><span class="p">,</span> <span class="mi">1980</span><span class="p">))</span><span class="o">.</span><span class="n">annualize</span><span class="p">(</span><span class="n">months</span><span class="o">=</span><span class="p">[</span><span class="mi">12</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
+<span class="n">tas_20CRv3</span> <span class="o">=</span> <span class="n">tas_20CRv3</span><span class="o">.</span><span class="n">crop</span><span class="p">(</span><span class="n">lat_min</span><span class="o">=-</span><span class="mi">20</span><span class="p">,</span> <span class="n">lat_max</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">lon_min</span><span class="o">=</span><span class="mi">150</span><span class="p">,</span> <span class="n">lon_max</span><span class="o">=</span><span class="mi">260</span><span class="p">)</span>
+<span class="n">nino34_bc09</span> <span class="o">=</span> <span class="n">cfr</span><span class="o">.</span><span class="n">EnsTS</span><span class="p">()</span><span class="o">.</span><span class="n">fetch</span><span class="p">(</span><span class="s1">&#39;BC09_NINO34&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">annualize</span><span class="p">(</span><span class="n">months</span><span class="o">=</span><span class="p">[</span><span class="mi">12</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+<span class="ansi-black-intense-fg ansi-bold">&gt;&gt;&gt; The target file seems existed at: ./data/air.2m.mon.mean.nc . Loading from it instead of downloading ...
+</span>
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">res</span><span class="o">.</span><span class="n">valid</span><span class="p">(</span>
+    <span class="n">target_dict</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;tas&#39;</span><span class="p">:</span>  <span class="n">tas_20CRv3</span><span class="p">,</span> <span class="s1">&#39;nino3.4&#39;</span><span class="p">:</span> <span class="n">nino34_bc09</span><span class="p">},</span>
+    <span class="n">timespan</span><span class="o">=</span><span class="p">(</span><span class="mi">1874</span><span class="p">,</span> <span class="mi">1900</span><span class="p">),</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">stat</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;corr&#39;</span><span class="p">,</span> <span class="s1">&#39;CE&#39;</span><span class="p">],</span>
+<span class="p">)</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">res</span><span class="o">.</span><span class="n">plot_valid</span><span class="p">(</span>
+    <span class="n">target_name_dict</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;tas&#39;</span><span class="p">:</span> <span class="s1">&#39;20CRv3&#39;</span><span class="p">,</span> <span class="s1">&#39;nino3.4&#39;</span><span class="p">:</span> <span class="s1">&#39;BC09&#39;</span><span class="p">},</span>
+    <span class="n">recon_name_dict</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;tas&#39;</span><span class="p">:</span> <span class="s1">&#39;GraphEM/tas&#39;</span><span class="p">,</span> <span class="s1">&#39;nino3.4&#39;</span><span class="p">:</span> <span class="s1">&#39;NINO3.4 [K]&#39;</span><span class="p">},</span>
+    <span class="n">valid_fd_kws</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span>
+        <span class="n">projection</span><span class="o">=</span><span class="s1">&#39;PlateCarree&#39;</span><span class="p">,</span>
+        <span class="n">latlon_range</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mi">20</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">150</span><span class="p">,</span> <span class="mi">256</span><span class="p">),</span>
+        <span class="n">plot_cbar</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="p">),</span>
+    <span class="n">valid_ts_kws</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span>
+        <span class="n">xlim</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1870</span><span class="p">,</span> <span class="mi">1900</span><span class="p">),</span>
+        <span class="n">ylim</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span>
+    <span class="p">)</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+<span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; ReconRes.recons[&#34;tas&#34;] created
+</span><span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; ReconRes.da[&#34;tas&#34;] created
+</span><span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; ReconRes.recons[&#34;nino3.4&#34;] created
+</span><span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; ReconRes.da[&#34;nino3.4&#34;] created
+</span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; Validating variable: tas ...
+</span><span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; ReconRes.valid_fd[tas_corr] created
+</span><span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; ReconRes.valid_fd[tas_CE] created
+</span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; Validating variable: nino3.4 ...
+</span><span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; ReconRes.valid_ts[nino3.4] created
+</span>
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/notebooks_graphem-cli_16_1.png" src="../_images/notebooks_graphem-cli_16_1.png" />
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/notebooks_graphem-cli_16_2.png" src="../_images/notebooks_graphem-cli_16_2.png" />
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/notebooks_graphem-cli_16_3.png" src="../_images/notebooks_graphem-cli_16_3.png" />
+</div>
 </div>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
@@ -818,6 +1094,7 @@ EM | dXmis: 0.0107; rdXmis: nan:   0%|        | 1/200 [00:54&lt;2:59:29, 54.12s/
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Generating-the-configs.yml-file">Generating the <code class="docutils literal notranslate"><span class="pre">configs.yml</span></code> file</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Testing-running-the-reconstruction-job-based-on-the-generated-configs.yml-file">Testing running the reconstruction job based on the generated <code class="docutils literal notranslate"><span class="pre">configs.yml</span></code> file</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Leveraging-the-CLI">Leveraging the CLI</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Validation">Validation</a></li>
 </ul>
   </nav></div>
 

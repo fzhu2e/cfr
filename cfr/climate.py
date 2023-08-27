@@ -15,11 +15,13 @@ import eofs
 
 class ClimateField:
     ''' The class for the gridded climate field data.
-    
-    Args:
-        da (xarray.DataArray): the gridded data array.
     '''
     def __init__(self, da=None):
+        ''' Initialize a ClimateField object with a `xarray.DataArray`.
+
+        Args:
+            da (xarray.DataArray): the gridded data array.
+        '''
         self.da = da
 
     def __getitem__(self, key):
@@ -91,7 +93,11 @@ class ClimateField:
         return len(self.time)
 
     def wrap_lon(self, mode='360'):
-        ''' Convert longitude values from the range (-180, 180) to (0, 360).
+        ''' Convert the longitude values
+
+        Args:
+            mode (str): if '360', convert the longitude values from the range (-180, 180) to (0, 360);
+                if '180', convert the longitude values from the range (0, 360) to (-180, 180);
         '''
         if mode == '360':
             da = self.da.assign_coords({'lon': np.mod(self.da['lon'], 360)})
@@ -108,7 +114,9 @@ class ClimateField:
         ''' Fetch a gridded climate field from cloud
 
         Args:
-            name (str): a predifined name or an URL starting with "http"
+            name (str): a predefined name, or an URL starting with "http", or a local file path.
+                If not set, the method will return hints of available predefined names.
+            load_nc_kws (dict): the dictionary of keyword arguments for loading a netCDF file.
         '''
         url_dict = utils.climfd_url_dict
 
@@ -142,6 +150,12 @@ class ClimateField:
 
     def from_np(self, time, lat, lon, value):
         ''' Load data from a `numpy.ndarray`.
+
+        Args:
+            time (array-like): the array of the time axis.
+            lat (array-like): the array of the lat axis.
+            lon (array-like): the array of the lon axis.
+            value (array-like): the array of the values.
         '''
         lat_da = xr.DataArray(lat, dims=['lat'], coords={'lat': lat})
         lon_da = xr.DataArray(lon, dims=['lon'], coords={'lon': lon})
@@ -194,7 +208,14 @@ class ClimateField:
         ''' Load the climate field from a netCDF file.
 
         Args:
-            path (str): the path where to load data from
+            path (str): the path where to load data from.
+            vn (str): the variable name to load.
+            time_name (str): the name for the time axis. Defaults to 'time'.
+            lat_name (str): the name for the lat axis. Defaults to 'lat'.
+            lon_name (str): the name for the lon axis. Defaults to 'lon'.
+            load (bool): if True, the netCDF file will be loaded into the memory; if False, will take the advantage of lazy loading. Defaults to `False`.
+            return_ds (bool): if True, will return a `xarray.Dataset` object instead of a `ClimateField` object. Defaults to `False`.
+            use_cftime (bool): if True, use the cftime convention. Defaults to `True`.
         '''
         ds = xr.open_dataset(path, use_cftime=use_cftime, **kwargs)
         if return_ds:
@@ -227,6 +248,8 @@ class ClimateField:
 
         Args:
             path (str): the path where to save
+            verbose (bool, optional): print verbose information. Defaults to False.
+            compress_params (dict): the paramters for compression when storing the reconstruction results to netCDF files.
         '''
         _comp_params = {'zlib': True}
 
@@ -253,7 +276,11 @@ class ClimateField:
         return copy.deepcopy(self)
 
     def rename(self, new_vn):
-        ''' Rename the variable name of the climate field.'''
+        ''' Rename the variable name of the climate field.
+
+        Args:
+            new_vn (str): the new variable name.
+        '''
         da = self.da.rename(new_vn)
         fd = ClimateField(da)
         return fd
@@ -338,6 +365,7 @@ class ClimateField:
 
         Args:
             ref (cfr.climate.ClimateField): the reference to compare against, assuming the first dimension to be time
+            timespan (tuple or list): the timespan over which to compare two ClimateField objects.
             interp_target (str, optional): the direction to interpolate the fields:
             
                 * 'ref': interpolate from `self` to `ref`
@@ -424,6 +452,14 @@ class ClimateField:
         return stat_fd
             
     def get_eof(self, n=1, time_period=None, verbose=False, flip=False):
+        ''' Get the EOF analysis result of the ClimateField object
+
+        Args:
+            n (int): perform EOF analysis and return the first `n` modes.
+            time_period (tuple or list): the timespan over which to perfom the EOF analysis.
+            verbose (bool, optional): print verbose information. Defaults to False.
+            flip (bool, optional): flip the sign of the field values. Defaults to False.
+        '''
         if time_period is None:
             da = self.da
         else:
@@ -449,6 +485,13 @@ class ClimateField:
         if verbose: utils.p_success(f'ClimateField.eof_res created with {n} mode(s).')
 
     def plot_eof(self, n=1, eof_title=None, pc_title=None):
+        ''' Plot the EOF analysis result
+
+        Args:
+            n (int): plot the `n`-th mode.
+            eof_title (str): the subplot title for the mode field.
+            pc_title (str): the subplot title for the PC time series.
+        '''
         eof = self.eof_res['modes']
         pc = self.eof_res['pcs']
         fracs = self.eof_res['fracs']
@@ -469,7 +512,11 @@ class ClimateField:
         return fig, ax
 
     def plot(self, **kwargs):
-        ''' Plot a climate field at a time point.'''
+        ''' Plot a climate field at a time point.
+
+        See also:
+            cfr.visual.plot_field_map : Visualize a field on a map.
+        '''
         cbar_title = visual.make_lb(
             self.da.name,
             self.da.attrs['unit'] if 'unit' in self.da.attrs else None)
@@ -515,6 +562,10 @@ class ClimateField:
 
     def plotly_grid(self, site_lats=None, site_lons=None, **kwargs):
         ''' Plot the grid on an interactive map utilizing Plotly
+
+        Args:
+            site_lats (list): a list of the latitudes of the sites to plot
+            site_lons (list): a list of the longitudes of the sites to plot
         '''
         nlat, nlon = np.size(self.da.lat), np.size(self.da.lon)
         df = pd.DataFrame()
@@ -602,7 +653,14 @@ class ClimateField:
         return fd
 
     def crop(self, lat_min=-90, lat_max=90, lon_min=0, lon_max=360):
-        ''' Crop the climate field.'''
+        ''' Crop the climate field based on the range of latitude and longitude.
+
+        Args:
+            lat_min (float): the lower bound of latitude to crop.
+            lat_max (float): the upper bound of latitude to crop.
+            lon_min (float): the lower bound of longitude to crop.
+            lon_max (float): the upper bound of longitude to crop.
+        '''
 
         mask_lat = (self.da.lat >= lat_min) & (self.da.lat <= lat_max)
         mask_lon = (self.da.lon >= lon_min) & (self.da.lon <= lon_max)
@@ -616,12 +674,33 @@ class ClimateField:
         return  fd
 
     def geo_mean(self, lat_min=-90, lat_max=90, lon_min=0, lon_max=360):
-        ''' Calculate the geographical mean value of the climate field. '''
+        ''' Calculate the geographical mean value of the climate field.
+
+        Args:
+            lat_min (float): the lower bound of latitude for the calculation.
+            lat_max (float): the upper bound of latitude for the calculation.
+            lon_min (float): the lower bound of longitude for the calculation.
+            lon_max (float): the upper bound of longitude for the calculation.
+        '''
         m = utils.geo_mean(self.da, lat_min=lat_min, lat_max=lat_max, lon_min=lon_min, lon_max=lon_max)
         ts = EnsTS(time=m['time'].values, value=m.values)
         return ts
 
     def index(self, name):
+        ''' Calculate the predefined indices.
+
+        Args:
+            name (str): the predefined index name; supports the below:
+
+                * 'nino3.4'
+                * 'nino1+2'
+                * 'nino3'
+                * 'nino4'
+                * 'tpi'
+                * 'wp'
+                * 'dmi'
+                * 'iobw'
+        '''
         if name == 'gm': 
             return self.geo_mean()
         elif name == 'nhm': 

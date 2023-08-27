@@ -17,15 +17,15 @@ from matplotlib import gridspec
 from .visual import CartopySettings
 
 class ReconRes:
-    ''' The class for reconstruction results
-
-    Args:
-        dirpath (str): the directory path where the reconstruction results are stored.
-        load_num (int): the number of ensembles to load
-        verbose (bool, optional): print verbose information. Defaults to False.
-    '''
-
+    ''' The class for reconstruction results '''
     def __init__(self, dirpath, load_num=None, verbose=False):
+        ''' Initialize a reconstruction result object.
+
+        Args:
+            dirpath (str): the directory path where the reconstruction results are stored.
+            load_num (int): the number of ensembles to load
+            verbose (bool, optional): print verbose information. Defaults to False.
+        '''
         try:
             recon_paths = sorted(glob.glob(os.path.join(dirpath, 'job_r*_recon.nc')))
             if load_num is not None:
@@ -77,8 +77,20 @@ class ReconRes:
                 p_success(f'>>> ReconRes.da["{vn}"] created')
 
 
-    def valid(self, target_dict, stat=['corr'], timespan=None,
-                   verbose=False):
+    def valid(self, target_dict, stat=['corr'], timespan=None, verbose=False):
+        ''' Validate against a target dictionary
+
+        Args:
+            target_dict (dict): a dictionary of multiple variables for validation.
+            stat (list of str): the statistics to calculate. Supported quantaties:
+
+                * 'corr': correlation coefficient
+                * 'R2': coefficient of determination
+                * 'CE': coefficient of efficiency
+
+            timespan (list or tuple): the timespan over which to perform the validation.
+            verbose (bool, optional): print verbose information. Defaults to False.
+        '''
         if type(stat) is not list: stat = [stat]
         vn_list = target_dict.keys()
         self.load(vn_list, verbose=verbose)
@@ -100,6 +112,14 @@ class ReconRes:
             
     def plot_valid(self, recon_name_dict=None, target_name_dict=None,
                    valid_ts_kws=None, valid_fd_kws=None):
+        ''' Plot the validation result
+
+        Args:
+            recon_name_dict (dict): the dictionary for variable names in the reconstruction. For example, {'tas': 'LMR/tas', 'nino3.4': 'NINO3.4 [K]'}.
+            target_name_dict (dict): the dictionary for variable names in the validation target. For example, {'tas': '20CRv3', 'nino3.4': 'BC09'}.
+            valid_ts_kws (dict): the dictionary of keyword arguments for validating the timeseries.
+            valid_fd_kws (dict): the dictionary of keyword arguments for validating the field.
+        '''
         valid_fd_kws = {} if valid_fd_kws is None else valid_fd_kws
         valid_ts_kws = {} if valid_ts_kws is None else valid_ts_kws
         target_name_dict = {} if target_name_dict is None else target_name_dict

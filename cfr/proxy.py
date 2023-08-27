@@ -128,25 +128,34 @@ def get_ptype(archive_type, proxy_type):
 class ProxyRecord:
     ''' The class for a proxy record.
 
-    Args:
-        pid (str): the unique proxy ID
-        lat (float): latitude
-        lon (float): longitude
-        time (numpy.array): time axis in unit of year CE 
-        value (numpy.array): proxy value axis
-        ptype (str): the label of proxy type according to archive and proxy information;
-            some examples:
-
-            * 'tree.trw' : tree-ring width (TRW)
-            * 'tree.mxd' : maximum latewood density (MXD)
-            * 'coral.d18O' : Coral d18O isotopes
-            * 'coral.SrCa' : Coral Sr/Ca ratios
-            * 'ice.d18O' : Ice core d18O isotopes
-        tags (a set of str):
-            the tags for the record, to enable tag filtering
     '''
     def __init__(self, pid=None, time=None, value=None, lat=None, lon=None, elev=None, ptype=None, tags=None,
         value_name=None, value_unit=None, time_name=None, time_unit=None, seasonality=None):
+        ''' Initialize a ProxyRecord object
+        
+        Args:
+            pid (str): the unique proxy ID
+            lat (float): latitude
+            lon (float): longitude
+            elev (float): elevation
+            time (numpy.array): time axis in unit of year CE 
+            time_name (str): the name of the time axis
+            time_unit (str): the unit of the time axis
+            value (numpy.array): proxy value axis
+            value_name (str): the name of the value axis
+            value_unit (str): the unit of the value axis
+            seasonality (list): a list that stands for the seasonality information. For example, '[6, 7, 8]' means the boreal summer (JJA).
+            ptype (str): the label of proxy type according to archive and proxy information;
+                some examples:
+
+                * 'tree.trw' : tree-ring width (TRW)
+                * 'tree.mxd' : maximum latewood density (MXD)
+                * 'coral.d18O' : Coral d18O isotopes
+                * 'coral.SrCa' : Coral Sr/Ca ratios
+                * 'ice.d18O' : Ice core d18O isotopes
+            tags (a set of str):
+                the tags for the record, to enable tag filtering
+        '''
         self.pid = pid
         if time is not None:
             try:
@@ -202,6 +211,11 @@ class ProxyRecord:
         return new
 
     def concat(self, rec_list):
+        ''' Concatenate the record with a list of other records assuming they share the same location and other metadata.
+
+        Args:
+            rec_list (list or ProxyRecord): a list of ProxyRecord objects.
+        '''
         new = self.copy()
         ts_list = [pd.Series(index=self.time, data=self.value)]
         for rec in rec_list:
@@ -233,6 +247,11 @@ class ProxyRecord:
         if verbose: utils.p_success(f'ProxyRecord saved to: {path}')
 
     def load_nc(self, path, **kwargs):
+        ''' Load the record from a netCDF file.
+
+        Args:
+            path (str): the path to save the file.
+        '''
         da = xr.open_dataarray(path, **kwargs)
         new = self.from_da(da)
         return new
@@ -258,7 +277,10 @@ class ProxyRecord:
         return da
 
     def from_da(self, da):
-        ''' Get the time and value axis from the given Xarray.DataArray
+        ''' Get the time and value axis from the given xarray.DataArray
+
+        Args:
+            da (xarray.DataArray): the `xarray.DataArray` object to load from.
         '''
         new = ProxyRecord()
         if 'time' in da.dims:
@@ -283,6 +305,12 @@ class ProxyRecord:
         return new
 
     def annualize(self, months=list(range(1, 13)), force=False, verbose=False):
+        ''' Annualize/seasonalize the proxy record based on a list of months.
+
+        Args:
+            months (list): the months based on which for annualization; e.g., [6, 7, 8] means JJA annualization
+            force (bool): if True, perform a calendar year annualization if the given months cannot be applied to the data due to missing months in the data. Defaults to `False`.
+        '''
         new = self.copy()
         try:
             new.time, new.value = utils.annualize(self.time, self.value, months=months)
@@ -304,6 +332,13 @@ class ProxyRecord:
 
         Args:
             ref_period (tuple or list): the reference time period in the form or (start_yr, end_yr)
+            thresh (int): the minimum number of data points required to perform the centering.
+                If not satisfied, and `force=False`, the record will not be centered.
+            force (bool): if True, the record will be centered regardless of the number of data points. Defaults to `False`.
+            verbose (bool, optional): print verbose information. Defaults to False.
+
+        Returns:
+            new (ProxyRecord): contains the centered values.
         '''
         def center_func(new, ref):
             new.value -= np.nanmean(ref.value)
@@ -332,15 +367,11 @@ class ProxyRecord:
         '''
         Standardizes the record. If the record is constant, a vector of 0s is returned.
 
-        Parameters
-        ----------
-        ref_period : list, optional
-            [min_time, max_time]. The default is None.
+        Args:
+            ref_period (list, optional): [min_time, max_time]. The default is None.
 
-        Returns
-        -------
-        new : ProxyRecord
-            contains standardized values.
+        Returns:
+            new (ProxyRecord): contains standardized values.
         '''
         def std_func(new, ref):
             z = (new.value - np.nanmean(ref.value)) / np.nanstd(ref.value)
@@ -416,6 +447,11 @@ class ProxyRecord:
         return new
 
     def del_clim(self, verbose=False):
+        ''' Delete the "clim" attribute of the ProxyRecord object.
+
+        Args:
+            verbose (bool, optional): print verbose information. Defaults to False.
+        '''
         if hasattr(self, 'clim'): del self.clim
         if verbose: utils.p_success(f'ProxyRecord.clim deleted for {self.pid}.')
 
@@ -424,7 +460,10 @@ class ProxyRecord:
 
         Args:
             fields (list of cfr.climate.ClimateField): the climate fields
+            tag (str): the tag to put on the obtained climate field, which will be named in the format of "tag.variable_name".
             search_dist (float): the farest distance to search for climate data in degree
+            verbose (bool, optional): print verbose information. Defaults to False.
+            load (bool): if True, the list of climate fields will be loaded into the memory instead of lazy loading.
         '''
         if isinstance(fields, ClimateField):
             fields = [fields]
@@ -460,6 +499,10 @@ class ProxyRecord:
 
     def correct_elev_tas(self, t_rate=-9.8, verbose=False):
         ''' Correct the tas with t_rate = -9.8 degC/km upward by default.
+
+        Args:
+            t_rage (float): the temperature adjustment rate based on elevation bias.
+            verbose (bool, optional): print verbose information. Defaults to False.
         '''
         elev_diff = self.elev - self.clim['model.elev'].da.values[0]
         self.clim['model.tas'] += t_rate * elev_diff/1e3
@@ -469,6 +512,11 @@ class ProxyRecord:
             utils.p_success(f'{self.pid} >>> ProxyRecord.clim["model.tas"] corrected by: {t_rate * elev_diff/1e3:.2f} degC.')
 
     def del_pseudo(self, verbose=False):
+        ''' Delete the `pseudo` attribute of the ProxyRecord object.
+
+        Args:
+            verbose (bool, optional): print verbose information. Defaults to False.
+        '''
         if hasattr(self, 'pseudo'): del self.pseudo
         if verbose: utils.p_success(f'ProxyRecord.pseudo deleted for {self.pid}.')
 
@@ -485,6 +533,13 @@ class ProxyRecord:
                 if provided, the PSM part will be skipped.
             calibrate (bool): if True and the PSM supports calibration, then the PSM will be calibrated.
             add_noise (bool): if True, noise will be added onto the `signal`.
+            noise (str): noise type; supports "white" for white noise and "colored" for colored noise.
+            colored_noise_kws (dict): the dictionary of the keyword arguments for colored noise generation.
+            match_mean (bool): match the mean of the pseudoproxy to the real record.
+            match_var (bool): match the variance of the pseudoproxy to the real record.
+            verbose (bool, optional): print verbose information. Defaults to False.
+            calib_kws (dict): the dictionary of the keyword arguments for the calibration step of the PMSs.
+            forward_kws (dict): the dictionary of the keyword arguments for the forward step of the PMSs.
         '''
         if signal is None:
             calib_kws = {} if calib_kws is None else calib_kws
@@ -550,6 +605,8 @@ class ProxyRecord:
 
 
     def plotly(self, **kwargs):
+        ''' Visualize the ProxyRecord with plotly
+        '''
         time_lb = visual.make_lb(self.time_name, self.time_unit)
         value_lb = visual.make_lb(self.value_name, self.value_unit)
 
@@ -565,6 +622,18 @@ class ProxyRecord:
 
     def plot(self, figsize=[12, 4], legend=False, ms=200, stock_img=True, edge_clr='w',
         wspace=0.1, hspace=0.1, plot_map=True, **kwargs):
+        ''' Visualize the ProxyRecord
+
+        Args:
+            figsize (list or tuple): the figure size.
+            legend (bool): if True, plot the legend.
+            ms (int): marker size.
+            stock_img (bool): if True, use the stock image background of Cartopy. Defaults to True.
+            edge_clr (str): the edge color of the record on the map.
+            wspace (float): the width spacing between the subplots.
+            hspace (float): the height spacing between the subplots.
+            plot_map (bool): if True, plot the record on a map. Defaults to True.
+        '''
         if 'color' not in kwargs and 'c' not in kwargs:
             kwargs['color'] = visual.STYLE.colors_dict[self.ptype]
 
@@ -613,6 +682,19 @@ class ProxyRecord:
     def dashboard(self, figsize=[10, 8], ms=200, stock_img=True, edge_clr='w', self_lb='real', pseudo_lb='pseudo',
         wspace=0.1, hspace=0.3, spec_method='wwz', spec_settings=None, pseudo_clr=None, **kwargs):
         ''' Plot a dashboard of the proxy/pseudoproxy.
+
+        Args:
+            figsize (list or tuple): the figure size.
+            ms (int): marker size.
+            stock_img (bool): if True, use the stock image background of Cartopy. Defaults to True.
+            edge_clr (str): the edge color of the record on the map.
+            wspace (float): the width spacing between the subplots.
+            hspace (float): the height spacing between the subplots.
+            spec_method (str): the spectral analysis method to apply.
+            spec_settings (dict): the dictionary of the keyword arguments for the specified spectral analysis method.
+            pseudo_clr (str): the color for the pseudoproxy.
+            pseudo_lb (str): the label for the pseudoproxy.
+            self_lb (str): the label for the self ProxyRecord.
         '''
         if not hasattr(self, 'pseudo'):
             raise ValueError('Need to get the pseudoproxy data.')
@@ -715,8 +797,17 @@ class ProxyRecord:
         ''' Plot a dashboard of the proxy/pseudoproxy along with the climate signal.
 
         Args:
+            figsize (list or tuple): the figure size.
+            ms (int): marker size.
+            stock_img (bool): if True, use the stock image background of Cartopy. Defaults to True.
+            edge_clr (str): the edge color of the record on the map.
+            wspace (float): the width spacing between the subplots.
+            hspace (float): the height spacing between the subplots.
+            spec_method (str): the spectral analysis method to apply.
+            pseudo_clr (str): the color for the pseudoproxy.
             clim_units (dict, optional): the dictionary of units for climate signals. Defaults to None.
             clim_colors (dict, optional): the dictionary of colors for climate signals. Defaults to None.
+            scaled_pr (bool): scale the precipitation values.
         '''
 
         if not hasattr(self, 'clim'):
@@ -817,7 +908,20 @@ class ProxyRecord:
         return fig, ax
 
     def plot_dups(self, figsize=[12, 4], legend=False, ms=200, stock_img=True, edge_clr='w',
-        wspace=0.1, hspace=0.1, plot_map=True, lgd_kws=None, **kwargs):
+            wspace=0.1, hspace=0.1, plot_map=True, lgd_kws=None, **kwargs):
+        ''' Plot the against other duplicated records
+
+        Args:
+            figsize (list or tuple): the figure size.
+            legend (bool): if True, plot the legend.
+            ms (int): marker size.
+            stock_img (bool): if True, use the stock image background of Cartopy. Defaults to True.
+            edge_clr (str): the edge color of the record on the map.
+            wspace (float): the width spacing between the subplots.
+            hspace (float): the height spacing between the subplots.
+            plot_map (bool): if True, plot the record on a map.
+            lgd_kws (diction): the dictionary of keyword arguments for the legend.
+        '''
         lgd_kws = {} if lgd_kws is None else lgd_kws
 
         fig, ax = self.plot(
@@ -850,6 +954,25 @@ class ProxyRecord:
     def plot_compare(self, ref, label=None, title=None, ref_label=None, ref_color=None, ref_zorder=2,
                     figsize=[12, 4], legend=False, ms=200, stock_img=True, edge_clr='w',
                     wspace=0.1, hspace=0.1, plot_map=True, lgd_kws=None, **kwargs):
+        ''' Plot against another reference record.
+
+        Args:
+            ref (cfr.proxy.ProxyRecord): the reference record.
+            label (str): the label of the self record.
+            ref_label (str): the label of the reference record.
+            ref_color (str): the color to visualize the reference record.
+            ref_zorder (int): the z-axis ordering of the reference record.
+            title (str): the title of the figure.
+            figsize (list or tuple): the figure size.
+            legend (bool): if True, plot the legend.
+            ms (int): marker size.
+            stock_img (bool): if True, use the stock image background of Cartopy. Defaults to True.
+            edge_clr (str): the edge color of the record on the map.
+            wspace (float): the width spacing between the subplots.
+            hspace (float): the height spacing between the subplots.
+            plot_map (bool): if True, plot the record on a map.
+            lgd_kws (diction): the dictionary of keyword arguments for the legend.
+        '''
         lgd_kws = {} if lgd_kws is None else lgd_kws
 
         fig, ax = self.plot(
@@ -886,13 +1009,14 @@ class ProxyRecord:
 
 class ProxyDatabase:
     ''' The class for a proxy database.
-
-    Args:
-        records (dict): a dict of the :py:mod:`cfr.proxy.ProxyRecord` objects with proxy ID as keys
-        source (str): a path to the original source file
-
     '''
     def __init__(self, records=None, source=None):
+        ''' Initialize a ProxyDatabase
+
+        Args:
+            records (dict): a dict of the :py:mod:`cfr.proxy.ProxyRecord` objects with proxy ID as keys
+            source (str): a path to the original source file
+        '''
         self.records = {} if records is None else records
         self.source = source
         if records is not None:
@@ -920,13 +1044,12 @@ class ProxyDatabase:
         ''' Center the proxy timeseries against a reference time period.
 
         Args:
-        ----    
             ref_period (tuple or list): the reference time period in the form or (start_yr, end_yr)
+            force (bool): if True, perform a calendar year annualization if the given months cannot be applied to the data due to missing months in the data. Defaults to `False`.
+            thresh (int): the minimum number of data points to perform the processing.
             
         Returns
-        -------
-        new : cfr.ProxyDatabase object
-        
+            new (cfr.ProxyDatabase)
         '''
         new = ProxyDatabase()
         for pid, pobj in tqdm(self.records.items(), total=self.nrec, desc='Centering each of the ProxyRecord'):
@@ -943,10 +1066,11 @@ class ProxyDatabase:
 
         Args:
             ref_period (tuple or list): the reference time period in the form or (start_yr, end_yr)
+            force (bool): if True, perform a calendar year annualization if the given months cannot be applied to the data due to missing months in the data. Defaults to `False`.
+            thresh (int): the minimum number of data points to perform the processing.
             
         Returns
-        -------
-        new : cfr.ProxyDatabase object
+            new (cfr.ProxyDatabase)
         '''
         new = ProxyDatabase()
         for pid, pobj in tqdm(self.records.items(), total=self.nrec, desc='Standardizing each of the ProxyRecords'):
@@ -1021,11 +1145,21 @@ class ProxyDatabase:
                 time_column='year', value_column='paleoData_values', proxy_type_column='paleoData_proxy', archive_type_column='archiveType',
                 ptype_column='ptype', value_name_column='paleoData_variableName', value_unit_column='paleoData_units',
                 verbose=False):
-        ''' Load database from a Pandas DataFrame
+        ''' Load database from a `pandas.DataFrame`. Note that in most cases, the column names have to be specified.
 
         Args:
             df (pandas.DataFrame): a Pandas DataFrame include at least lat, lon, time, value, proxy_type
-            ptype_psm (dict): a mapping from ptype to psm
+            pid_column (str): the column name for proxy ID.
+            lat_column (str): the column name for latitude.
+            lon_column (str): the column name for longitude.
+            elev_column (str): the column name for elevation.
+            time_column (str): the column name for time axis.
+            value_column (str): the column name for value axis.
+            proxy_type_column (str): the column name for proxy type information.
+            archive_type_column (str): the column name for archive type information.
+            ptype_column (str): the column name for proxy type information in format "archive.proxy".
+            value_name_column (str): the column name for proxy variable name.
+            value_unit_column (str): the column name for proxy variable unit.
             verbose (bool, optional): print verbose information. Defaults to False.
         '''
         new = self.copy()
@@ -1202,6 +1336,12 @@ class ProxyDatabase:
         return nrec
 
     def find_duplicates(self, r_thresh=0.9, time_period=[0, 2000]):
+        ''' Find duplicated proxy records based on a correlation threshold.
+        
+        Args:
+            r_thresh (float): the correlation threshold to determine if two records are duplicated. Defaults to 0.9.
+            time_period (tuple or list): the timespan over which to compare two records. Defaults to [0, 2000].
+        '''
         df_proxy = pd.DataFrame(index=np.arange(time_period[0], time_period[1]+1))
         for pid, pobj in self.records.items():
             series = pd.Series(index=pobj.time, data=pobj.value, name=pid)
@@ -1261,6 +1401,11 @@ class ProxyDatabase:
         return pdb_dups
 
     def squeeze_dups(self, pids_to_keep=None):
+        ''' Remove the duplicated records and keep only one.
+
+        Args:
+            pids_to_keep (list): a list of proxy IDs forced to keep.
+        '''
         if pids_to_keep is None:
             p_warning('>>> Note: since `pids_to_keep` is not specified, the first of each group of the duplicates is picked.')
             pids_to_keep = []
@@ -1278,9 +1423,7 @@ class ProxyDatabase:
         
 
     def plot(self, **kws):
-        '''Visualize the proxy database.
-
-        See :py:func:`cfr.visual.plot_proxies()` for more information.
+        '''Visualize the proxy database. See :py:func:`cfr.visual.plot_proxies()` for more information.
         '''
 
         time_list = []
@@ -1330,7 +1473,20 @@ class ProxyDatabase:
 
 
     def make_composite(self, obs=None, obs_nc_path=None, vn='tas', lat_name=None, lon_name=None, bin_width=10, n_bootstraps=1000, qs=(0.025, 0.975), stat_func=np.nanmean, anom_period=[1951, 1980]):
-        ''' Make composites of the records in the proxy database.'''
+        ''' Make composites of the records in the proxy database.
+
+        Args:
+            obs (cfr.climate.ClimateField): the observation field as a reference for scaling the proxy values.
+            obs_nc_path (str):  the path of the netCDF file of the reference observation.
+            vn (str): the variable name of the referenced observation.
+            lat_name (str): the name of the latitude dimension in the referenced observation.
+            lon_name (str): the name of the longitude dimension in the referenced observation.
+            bin_width (int): the width for binning.
+            n_bootstraps (int): the number of bootstraps for uncertainty quantification.
+            qs (list or tuple): the quantiles to plot.
+            stat_func (function): the function to apply for the calculation of the binned value.
+            anom_period (list or tuple): the time period over which to calculate the anomaly.
+        '''
         if obs is None and obs_nc_path is not None:
             obs = ClimateField().load_nc(obs_nc_path, vn=vn, lat_name=lat_name, lon_name=lon_name)
 
@@ -1431,7 +1587,20 @@ class ProxyDatabase:
     def plot_composite(self, figsize=[10, 4], clr_proxy=None, clr_count='tab:gray', clr_obs='tab:red',
                        left_ylim=[-2, 2], right_ylim=None, ylim_num=5, xlim=[0, 2000], base_n=60,
                        ax=None):
-        ''' Plot the composites of the records in the proxy database.'''
+        ''' Plot the composites of the records in the proxy database.
+
+        Args:
+            figsize (list or tuple): the figure size.
+            clr_proxy (str): the color to visualize the proxy composite curve.
+            clr_count (str): the color to visualize the record count.
+            clr_obs (str): the color to visualize the referenced observation.
+            left_ylim (list): the limit for the left y-axis.
+            right_ylim (list): the limit for the right y-axis.
+            ylim_num (int): the number of ticks for the left y-axis
+            xlim (list): the limit for the x-axis.
+            base_n (int): the number to determine the upper bound for the record count.
+            ax (object, optional): `matplotlib.axes`. Defaults to None.
+        '''
         archives = set()
         for k in self.type_list:
             try:
@@ -1520,7 +1689,12 @@ class ProxyDatabase:
             return ax
 
     def annualize(self, months=list(range(1, 13)), force=False, verbose=False):
-        ''' Annualize the records in the proxy database.'''
+        ''' Annualize the records in the proxy database.
+
+        Args:
+            months (list): the months based on which for annualization; e.g., [6, 7, 8] means JJA annualization
+            force (bool): if True, perform a calendar year annualization if the given months cannot be applied to the data due to missing months in the data. Defaults to `False`.
+        '''
         new = ProxyDatabase()
         for pid, pobj in tqdm(self.records.items(), total=self.nrec, desc='Annualizing ProxyDatabase'):
             spobj = pobj.annualize(months=months, force=force, verbose=False)
@@ -1531,7 +1705,15 @@ class ProxyDatabase:
         return new
 
     def slice(self, timespan):
-        ''' Slice the records in the proxy database.'''
+        ''' Slice the records in the proxy database.
+
+        Args:
+            timespan (tuple or list):
+                The list of time points for slicing, whose length must be even.
+                When there are n time points, the output Series includes n/2 segments.
+                For example, if timespan = [a, b], then the sliced output includes one segment [a, b];
+                if timespan = [a, b, c, d], then the sliced output includes segment [a, b] and segment [c, d].
+        '''
         new = ProxyDatabase()
         for pid, pobj in tqdm(self.records.items(), total=self.nrec, desc='Slicing ProxyRecord'):
             spobj = pobj.slice(timespan=timespan)
@@ -1542,7 +1724,11 @@ class ProxyDatabase:
 
 
     def del_clim(self, verbose=False):
-        ''' Delete the nearest climate data for the records in the proxy database.'''
+        ''' Delete the nearest climate data for the records in the proxy database.
+
+        Args:
+            verbose (bool, optional): print verbose information. Defaults to False.
+        '''
         new = ProxyDatabase()
         for pid, pobj in tqdm(self.records.items(), total=self.nrec, desc='Deleting the nearest climate for ProxyRecord'):
             pobj.del_clim(verbose=verbose)
@@ -1552,7 +1738,14 @@ class ProxyDatabase:
         return new
 
     def get_clim(self, field, tag=None, verbose=False, load=True, **kwargs):
-        ''' Get the nearest climate data for the records in the proxy database.'''
+        ''' Get the nearest climate data for the records in the proxy database.
+
+        Args:
+            fields (list of cfr.climate.ClimateField): the climate fields
+            tag (str): the tag to put on the obtained climate field, which will be named in the format of "tag.variable_name".
+            verbose (bool, optional): print verbose information. Defaults to False.
+            load (bool): if True, the list of climate fields will be loaded into the memory instead of lazy loading.
+        '''
 
         new = ProxyDatabase()
         for pid, pobj in tqdm(self.records.items(), total=self.nrec, desc='Getting the nearest climate for ProxyRecord'):
@@ -1622,6 +1815,11 @@ class ProxyDatabase:
         return ds
 
     def from_ds(self, ds):
+        ''' Load the proxy database from a `xarray.Dataset`
+
+        Args:
+            ds (xarray.Dataset): the xarray.Dataset to load from
+        '''
         new = self.copy()
         for vn in ds.var():
             da = ds[vn]
@@ -1638,6 +1836,7 @@ class ProxyDatabase:
             path (str): the path to save the file.
             annualize (bool): annualize the proxy records with `months`
             months (list): months for annulization
+            compress_params (dict): the paramters for compression when storing the reconstruction results to netCDF files.
             verbose (bool, optional): print verbose information. Defaults to False.
         '''
         encoding_dict = {}
@@ -1649,6 +1848,12 @@ class ProxyDatabase:
         if verbose: utils.p_success(f'ProxyDatabase saved to: {path}')
 
     def load_nc(self, path, use_cftime=True, **kwargs):
+        ''' Load the database from a netCDF file.
+
+        Args:
+            path (str): the path to save the file.
+            use_cftime (bool): if True, use the cftime convention. Defaults to `True`.
+        '''
         ds = xr.open_dataset(path, use_cftime=use_cftime, **kwargs)
         pdb = ProxyDatabase().from_ds(ds)
         return pdb
@@ -1658,6 +1863,8 @@ class ProxyDatabase:
 
         Args:
             dirpath (str): the directory path of the multiple .nc files
+            compress_params (dict): the paramters for compression when storing the reconstruction results to netCDF files.
+            verbose (bool, optional): print verbose information. Defaults to False.
         '''
         os.makedirs(dirpath, exist_ok=True)
         pid_truncated = []
@@ -1703,6 +1910,10 @@ class ProxyDatabase:
 
     def correct_elev_tas(self, t_rate=-9.8, verbose=False):
         ''' Correct the tas with t_rate = -9.8 degC/km upward by default.
+
+        Args:
+            t_rage (float): the temperature adjustment rate based on elevation bias.
+            verbose (bool, optional): print verbose information. Defaults to False.
         '''
         for pobj in tqdm(self, total=self.nrec, desc='Performing elevation correction for tas for each ProxyRecord'):
             pobj.correct_elev_tas(t_rate=t_rate)
@@ -1711,6 +1922,11 @@ class ProxyDatabase:
             utils.p_success(f'>>> ProxyDatabase updated with tas corrected for elevation bias.')
 
     def count_availability(self, year=np.arange(2001)):
+        ''' Count the proxy availability in time
+        
+        Args:
+            year (array-like): count the proxy availability based on the given years.
+        '''
         df = self.to_df()
         df_count = {}
         type_set = np.unique(df['ptype'])

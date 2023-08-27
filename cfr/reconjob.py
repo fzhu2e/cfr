@@ -39,13 +39,13 @@ pp = pprint.PrettyPrinter()
 
 class ReconJob:
     ''' The class for a reconstruction Job.
-
-    Args:
-        configs (dict, optional): a dictionary of configurations. Defaults to None.
-        verbose (bool, optional): print verbose information. Defaults to False.
     '''
     def __init__(self, configs=None, verbose=False):
         ''' Initialize a reconstruction job.
+
+        Args:
+            configs (dict, optional): a dictionary of configurations. Defaults to None.
+            verbose (bool, optional): print verbose information. Defaults to False.
         '''
         self.configs = {} if configs is None else configs
         if verbose:
@@ -171,7 +171,13 @@ class ReconJob:
             return pdb
 
     def slice_proxydb(self, timespan=None, inplace=True, verbose=False):
-        ''' Slice the proxy database over a timespan.'''
+        ''' Slice the proxy database over a timespan.
+
+        Args:
+            timespan (list or tuple): the timespan over which to slice the proxy database.
+            inplace (bool): if True, the annualized proxy database will replace the current `self.proxydb`.
+            verbose (bool, optional): print verbose information. Defaults to False.
+        '''
         timespan = self.io_cfg('slice_proxydb_timespan', timespan, default=(1000, 2000), verbose=verbose)
         pdb_sliced = self.proxydb.slice(timespan=timespan)
 
@@ -555,6 +561,16 @@ class ReconJob:
             verbose (bool, optional): print verbose information. Defaults to False.
             save_dirpath (str): the directory path for saving the reconstruction results.
             compress_params (dict): the paramters for compression when storing the reconstruction results to netCDF files.
+            output_indices (list): the list of indices to output; supported indices:
+
+                * 'nino3.4'
+                * 'nino1+2'
+                * 'nino3'
+                * 'nino4'
+                * 'tpi'
+                * 'wp'
+                * 'dmi'
+                * 'iobw'
         '''
 
         t_s = time.time()
@@ -767,6 +783,7 @@ class ReconJob:
         Args:
             cfg_path (str): the path of the configuration YAML file.
             seeds (list, optional): the list of random seeds.
+            save_job (bool, optional): if True, export the job object to a file.
             verbose (bool, optional): print verbose information. Defaults to False.
         '''
         t_s = time.time()
@@ -844,11 +861,12 @@ class ReconJob:
         Args:
             recon_time (array list, optional): the time points to reconstruct
             calib_time (array list, optional): the time points for calibration
-            recon_period (tuple, optional): the reconstruction timespan.
-                Effective when `recon_time` or `calib_time` is None. Defaults to None.
-            recon_timescale (float, optional): the reconstruction timescale. Defaults to None.
-                Effective when `recon_time` or `calib_time` is None. Defaults to None.
-            calib_period (tuple, optional): the calibration timespan. Defaults to None.
+            recon_period (list or tuple, optional): the reconstruction timespan.
+                Effective when `recon_time` or `calib_time` is None. Defaults to (1001, 2000).
+            recon_timescale (float, optional): the reconstruction timescale. 
+                Effective when `recon_time` or `calib_time` is None. Defaults to 1 (annual).
+            calib_period (list or tuple, optional): the calibration timespan. Defaults to (1850, 2000).
+            unitform_pdb (bool, optional): if True, filter the proxy database to make it more uniform in length. Defaults to True.
             verbose (bool, optional): print verbose information. Defaults to False.
         '''
         if recon_time is None or calib_time is None:
@@ -938,24 +956,12 @@ class ReconJob:
     def graphem_kcv(self, cv_time, ctrl_params, graph_type='neighborhood', stat='MSE', n_splits=5):
         ''' k-fold cross-validation
         
-        Arguments
-        ---------
-        
-        cv_time : array-like, 1d
-            cross validation time points
-            
-        ctrl_params : array-like, 1d
-            array of control parameters to try
-            
-        graph_type : str
-            type of graph. Either "neighborhood" or "glasso"
-            
-        stat: str
-            name of objective function. Choices are "MSE", "RE", "CE" or "R2".
-            
-        n_splits: int
-            number of splits (default = 5)
-        
+        Args:
+            cv_time (array-like, 1d): cross validation time points
+            ctrl_params (array-like, 1d): array of control parameters to try
+            graph_type (str): type of graph. Either "neighborhood" or "glasso"
+            stat (str): name of objective function. Choices are "MSE", "RE", "CE" or "R2".
+            n_splits (int): number of splits (default = 5)
         '''
         kf = KFold(n_splits=n_splits)
         cv_stats = np.empty((kf.n_splits, len(ctrl_params))) # stats for a scalar: TODO: generalize to the grid of job.graphem_params['field']
@@ -1020,8 +1026,21 @@ class ReconJob:
 
         Args:
             save_dirpath (str): the path to save the related results
+            save_filename (str): the filename to save the reconstruction file. Defaults to "job_r01_recon.nc".
+            solver_save_path (str): the path to save the solver object.
             load_precalculated (bool, optional): load the precalculated `Graph` object. Defaults to False.
             verbose (bool, optional): print verbose information. Defaults to False.
+            compress_params (dict): the paramters for compression when storing the reconstruction results to netCDF files.
+            output_indices (list): the list of indices to output; supported indices:
+
+                * 'nino3.4'
+                * 'nino1+2'
+                * 'nino3'
+                * 'nino4'
+                * 'tpi'
+                * 'wp'
+                * 'dmi'
+                * 'iobw'
             fit_kws (dict): the arguments for :py:meth: `GraphEM.solver.GraphEM.fit`
                 The most important one is "graph_method"; availabel options include "neighborhood", "glasso", and "hybrid", where
                 "hybrid" means run "neighborhood" first with default `cutoff_radius=1500` to infill the data matrix and then
@@ -1110,6 +1129,7 @@ class ReconJob:
 
         Args:
             cfg_path (str): the path of the configuration YAML file.
+            load_precalculated (bool, optional): load the precalculated job object. Defaults to False.
             run_mc (bool): if False, the reconstruction part will not executed for the convenience of checking the preparation part.
             seeds (list, optional): the list of random seeds.
             verbose (bool, optional): print verbose information. Defaults to False.

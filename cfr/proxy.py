@@ -610,7 +610,7 @@ class ProxyRecord:
 
         return fig, ax
 
-    def dashboard(self, figsize=[10, 8], ms=200, stock_img=True, edge_clr='w', self_lb='real', pseudo_lb='pseudo',
+    def dashboard(self, figsize=[10, 8], ms=200, stock_img=True, edge_clr='w', self_lb='real', psd_lb='PSD', pseudo_lb='pseudo',
         wspace=0.1, hspace=0.3, spec_method='wwz', spec_settings=None, pseudo_clr=None, **kwargs):
         ''' Plot a dashboard of the proxy/pseudoproxy.
         '''
@@ -635,7 +635,6 @@ class ProxyRecord:
 
         time_lb = visual.make_lb(self.time_name, self.time_unit)
         value_lb = visual.make_lb(self.value_name, self.value_unit)
-
         ax['ts'].set_ylabel(value_lb)
         ax['ts'].set_xlabel(time_lb)
         ax['ts'].plot(
@@ -697,7 +696,7 @@ class ProxyRecord:
 
         ts['pseudo'] = pyleo.Series(time=self.pseudo.time, value=self.pseudo.value)
         psd['pseudo'] = ts['pseudo'].slice([self.time.min(), self.time.max()]).spectral(method=spec_method, settings=spec_settings)
-        psd['pseudo'].plot(ax=ax['psd'], color=pseudo_clr, label='pseudo')
+        psd['pseudo'].plot(ax=ax['psd'], ylabel=psd_lb, color=pseudo_clr, label='pseudo')
 
         ax['psd'].legend_ = None
         ax['psd'].text(

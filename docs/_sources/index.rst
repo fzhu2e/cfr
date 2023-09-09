@@ -101,3 +101,12 @@ It provides a toolkit for
    ug-lmr
    ug-graphem
    ug-api
+
+.. toctree::
+   :maxdepth: 2
+   :hidden:
+   :caption: Contributing Guide
+
+   cg-overview
+   cg-working-with-codebase
+   cg-updating-docs

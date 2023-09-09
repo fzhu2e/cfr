@@ -19,12 +19,12 @@
   </script>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="_static/styles/theme.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
-<link href="_static/styles/bootstrap.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
-<link href="_static/styles/pydata-sphinx-theme.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
+  <link href="_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
 
   
-  <link href="_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
+  <link href="_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
   <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
@@ -37,8 +37,8 @@
     <link rel="stylesheet" type="text/css" href="_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=12da95d707ffb74b382d" />
-<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=12da95d707ffb74b382d" />
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
 
     <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
     <script src="_static/doctools.js"></script>
@@ -51,6 +51,7 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'ug-api';</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Overview" href="cg-overview.html" />
     <link rel="prev" title="Running GraphEM with the Command Line Interface (CLI)" href="notebooks/graphem-cli.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -179,6 +180,12 @@
 </ul>
 </li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">API Reference</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Contributing Guide</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="cg-overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cg-working-with-codebase.html">Working with the Codebase</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cg-updating-docs.html">Updating the Documentation</a></li>
 </ul>
 
     </div>
@@ -375,14 +382,23 @@ document.write(`
                 <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#proxy">Proxy</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyRecord"><code class="docutils literal notranslate"><span class="pre">ProxyRecord</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyRecord.annualize"><code class="docutils literal notranslate"><span class="pre">ProxyRecord.annualize()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyRecord.center"><code class="docutils literal notranslate"><span class="pre">ProxyRecord.center()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyRecord.concat"><code class="docutils literal notranslate"><span class="pre">ProxyRecord.concat()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyRecord.copy"><code class="docutils literal notranslate"><span class="pre">ProxyRecord.copy()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyRecord.correct_elev_tas"><code class="docutils literal notranslate"><span class="pre">ProxyRecord.correct_elev_tas()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyRecord.dashboard"><code class="docutils literal notranslate"><span class="pre">ProxyRecord.dashboard()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyRecord.dashboard_clim"><code class="docutils literal notranslate"><span class="pre">ProxyRecord.dashboard_clim()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyRecord.del_clim"><code class="docutils literal notranslate"><span class="pre">ProxyRecord.del_clim()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyRecord.del_pseudo"><code class="docutils literal notranslate"><span class="pre">ProxyRecord.del_pseudo()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyRecord.from_da"><code class="docutils literal notranslate"><span class="pre">ProxyRecord.from_da()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyRecord.get_clim"><code class="docutils literal notranslate"><span class="pre">ProxyRecord.get_clim()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyRecord.get_pseudo"><code class="docutils literal notranslate"><span class="pre">ProxyRecord.get_pseudo()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyRecord.load_nc"><code class="docutils literal notranslate"><span class="pre">ProxyRecord.load_nc()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyRecord.plot"><code class="docutils literal notranslate"><span class="pre">ProxyRecord.plot()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyRecord.plot_compare"><code class="docutils literal notranslate"><span class="pre">ProxyRecord.plot_compare()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyRecord.plot_dups"><code class="docutils literal notranslate"><span class="pre">ProxyRecord.plot_dups()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyRecord.plotly"><code class="docutils literal notranslate"><span class="pre">ProxyRecord.plotly()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyRecord.slice"><code class="docutils literal notranslate"><span class="pre">ProxyRecord.slice()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyRecord.standardize"><code class="docutils literal notranslate"><span class="pre">ProxyRecord.standardize()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyRecord.to_da"><code class="docutils literal notranslate"><span class="pre">ProxyRecord.to_da()</span></code></a></li>
@@ -394,12 +410,16 @@ document.write(`
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyDatabase.center"><code class="docutils literal notranslate"><span class="pre">ProxyDatabase.center()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyDatabase.copy"><code class="docutils literal notranslate"><span class="pre">ProxyDatabase.copy()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyDatabase.correct_elev_tas"><code class="docutils literal notranslate"><span class="pre">ProxyDatabase.correct_elev_tas()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyDatabase.count_availability"><code class="docutils literal notranslate"><span class="pre">ProxyDatabase.count_availability()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyDatabase.del_clim"><code class="docutils literal notranslate"><span class="pre">ProxyDatabase.del_clim()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyDatabase.fetch"><code class="docutils literal notranslate"><span class="pre">ProxyDatabase.fetch()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyDatabase.filter"><code class="docutils literal notranslate"><span class="pre">ProxyDatabase.filter()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyDatabase.find_duplicates"><code class="docutils literal notranslate"><span class="pre">ProxyDatabase.find_duplicates()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyDatabase.from_df"><code class="docutils literal notranslate"><span class="pre">ProxyDatabase.from_df()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyDatabase.from_ds"><code class="docutils literal notranslate"><span class="pre">ProxyDatabase.from_ds()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyDatabase.get_clim"><code class="docutils literal notranslate"><span class="pre">ProxyDatabase.get_clim()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyDatabase.load_multi_nc"><code class="docutils literal notranslate"><span class="pre">ProxyDatabase.load_multi_nc()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyDatabase.load_nc"><code class="docutils literal notranslate"><span class="pre">ProxyDatabase.load_nc()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyDatabase.make_composite"><code class="docutils literal notranslate"><span class="pre">ProxyDatabase.make_composite()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyDatabase.nrec_tags"><code class="docutils literal notranslate"><span class="pre">ProxyDatabase.nrec_tags()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyDatabase.plot"><code class="docutils literal notranslate"><span class="pre">ProxyDatabase.plot()</span></code></a></li>
@@ -408,6 +428,7 @@ document.write(`
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyDatabase.plotly_count"><code class="docutils literal notranslate"><span class="pre">ProxyDatabase.plotly_count()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyDatabase.refresh"><code class="docutils literal notranslate"><span class="pre">ProxyDatabase.refresh()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyDatabase.slice"><code class="docutils literal notranslate"><span class="pre">ProxyDatabase.slice()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyDatabase.squeeze_dups"><code class="docutils literal notranslate"><span class="pre">ProxyDatabase.squeeze_dups()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyDatabase.standardize"><code class="docutils literal notranslate"><span class="pre">ProxyDatabase.standardize()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyDatabase.to_df"><code class="docutils literal notranslate"><span class="pre">ProxyDatabase.to_df()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyDatabase.to_ds"><code class="docutils literal notranslate"><span class="pre">ProxyDatabase.to_ds()</span></code></a></li>
@@ -428,8 +449,11 @@ document.write(`
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.climate.ClimateField.from_np"><code class="docutils literal notranslate"><span class="pre">ClimateField.from_np()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.climate.ClimateField.geo_mean"><code class="docutils literal notranslate"><span class="pre">ClimateField.geo_mean()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.climate.ClimateField.get_anom"><code class="docutils literal notranslate"><span class="pre">ClimateField.get_anom()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.climate.ClimateField.get_eof"><code class="docutils literal notranslate"><span class="pre">ClimateField.get_eof()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.climate.ClimateField.index"><code class="docutils literal notranslate"><span class="pre">ClimateField.index()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.climate.ClimateField.load_nc"><code class="docutils literal notranslate"><span class="pre">ClimateField.load_nc()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.climate.ClimateField.plot"><code class="docutils literal notranslate"><span class="pre">ClimateField.plot()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.climate.ClimateField.plot_eof"><code class="docutils literal notranslate"><span class="pre">ClimateField.plot_eof()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.climate.ClimateField.plotly_grid"><code class="docutils literal notranslate"><span class="pre">ClimateField.plotly_grid()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.climate.ClimateField.regrid"><code class="docutils literal notranslate"><span class="pre">ClimateField.regrid()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.climate.ClimateField.rename"><code class="docutils literal notranslate"><span class="pre">ClimateField.rename()</span></code></a></li>
@@ -499,6 +523,8 @@ document.write(`
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reconres">ReconRes</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.reconres.ReconRes"><code class="docutils literal notranslate"><span class="pre">ReconRes</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.reconres.ReconRes.load"><code class="docutils literal notranslate"><span class="pre">ReconRes.load()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.reconres.ReconRes.plot_valid"><code class="docutils literal notranslate"><span class="pre">ReconRes.plot_valid()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.reconres.ReconRes.valid"><code class="docutils literal notranslate"><span class="pre">ReconRes.valid()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -539,35 +565,50 @@ document.write(`
 <dt class="sig sig-object py" id="cfr.proxy.ProxyRecord">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cfr.proxy.</span></span><span class="sig-name descname"><span class="pre">ProxyRecord</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pid</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lat</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lon</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">elev</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ptype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tags</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value_unit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time_unit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seasonality</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.proxy.ProxyRecord" title="Permalink to this definition">#</a></dt>
 <dd><p>The class for a proxy record.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="cfr.proxy.ProxyRecord.annualize">
+<span class="sig-name descname"><span class="pre">annualize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">months</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[1,</span> <span class="pre">2,</span> <span class="pre">3,</span> <span class="pre">4,</span> <span class="pre">5,</span> <span class="pre">6,</span> <span class="pre">7,</span> <span class="pre">8,</span> <span class="pre">9,</span> <span class="pre">10,</span> <span class="pre">11,</span> <span class="pre">12]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">force</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.proxy.ProxyRecord.annualize" title="Permalink to this definition">#</a></dt>
+<dd><p>Annualize/seasonalize the proxy record based on a list of months.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>pid</strong> (<em>str</em>) – the unique proxy ID</p></li>
-<li><p><strong>lat</strong> (<em>float</em>) – latitude</p></li>
-<li><p><strong>lon</strong> (<em>float</em>) – longitude</p></li>
-<li><p><strong>time</strong> (<em>numpy.array</em>) – time axis in unit of year CE</p></li>
-<li><p><strong>value</strong> (<em>numpy.array</em>) – proxy value axis</p></li>
-<li><p><strong>ptype</strong> (<em>str</em>) – <p>the label of proxy type according to archive and proxy information;
-some examples:</p>
-<ul>
-<li><p>’tree.trw’ : tree-ring width (TRW)</p></li>
-<li><p>’tree.mxd’ : maximum latewood density (MXD)</p></li>
-<li><p>’coral.d18O’ : Coral d18O isotopes</p></li>
-<li><p>’coral.SrCa’ : Coral Sr/Ca ratios</p></li>
-<li><p>’ice.d18O’ : Ice core d18O isotopes</p></li>
-</ul>
-</p></li>
-<li><p><strong>tags</strong> (<em>a set</em><em> of </em><em>str</em>) – the tags for the record, to enable tag filtering</p></li>
+<li><p><strong>months</strong> (<em>list</em>) – the months based on which for annualization; e.g., [6, 7, 8] means JJA annualization</p></li>
+<li><p><strong>force</strong> (<em>bool</em>) – if True, perform a calendar year annualization if the given months cannot be applied to the data due to missing months in the data. Defaults to <cite>False</cite>.</p></li>
 </ul>
 </dd>
 </dl>
+</dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="cfr.proxy.ProxyRecord.center">
 <span class="sig-name descname"><span class="pre">center</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ref_period</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">thresh</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">force</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.proxy.ProxyRecord.center" title="Permalink to this definition">#</a></dt>
 <dd><p>Centering the proxy timeseries regarding a reference period.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>ref_period</strong> (<em>tuple</em><em> or </em><em>list</em>) – the reference time period in the form or (start_yr, end_yr)</p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ref_period</strong> (<em>tuple</em><em> or </em><em>list</em>) – the reference time period in the form or (start_yr, end_yr)</p></li>
+<li><p><strong>thresh</strong> (<em>int</em>) – the minimum number of data points required to perform the centering.
+If not satisfied, and <cite>force=False</cite>, the record will not be centered.</p></li>
+<li><p><strong>force</strong> (<em>bool</em>) – if True, the record will be centered regardless of the number of data points. Defaults to <cite>False</cite>.</p></li>
+<li><p><strong>verbose</strong> (<em>bool</em><em>, </em><em>optional</em>) – print verbose information. Defaults to False.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>contains the centered values.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>new (<a class="reference internal" href="#cfr.proxy.ProxyRecord" title="cfr.proxy.ProxyRecord">ProxyRecord</a>)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cfr.proxy.ProxyRecord.concat">
+<span class="sig-name descname"><span class="pre">concat</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rec_list</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.proxy.ProxyRecord.concat" title="Permalink to this definition">#</a></dt>
+<dd><p>Concatenate the record with a list of other records assuming they share the same location and other metadata.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>rec_list</strong> (<em>list</em><em> or </em><a class="reference internal" href="#cfr.proxy.ProxyRecord" title="cfr.proxy.ProxyRecord"><em>ProxyRecord</em></a>) – a list of ProxyRecord objects.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -582,12 +623,37 @@ some examples:</p>
 <dt class="sig sig-object py" id="cfr.proxy.ProxyRecord.correct_elev_tas">
 <span class="sig-name descname"><span class="pre">correct_elev_tas</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">t_rate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">-9.8</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.proxy.ProxyRecord.correct_elev_tas" title="Permalink to this definition">#</a></dt>
 <dd><p>Correct the tas with t_rate = -9.8 degC/km upward by default.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>t_rage</strong> (<em>float</em>) – the temperature adjustment rate based on elevation bias.</p></li>
+<li><p><strong>verbose</strong> (<em>bool</em><em>, </em><em>optional</em>) – print verbose information. Defaults to False.</p></li>
+</ul>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="cfr.proxy.ProxyRecord.dashboard">
-<span class="sig-name descname"><span class="pre">dashboard</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">figsize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[10,</span> <span class="pre">8]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ms</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">200</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stock_img</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">edge_clr</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'w'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">self_lb</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'real'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pseudo_lb</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'pseudo'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">wspace</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hspace</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spec_method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'wwz'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spec_settings</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pseudo_clr</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.proxy.ProxyRecord.dashboard" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">dashboard</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">figsize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[10,</span> <span class="pre">8]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ms</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">200</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stock_img</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">edge_clr</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'w'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">self_lb</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'real'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">psd_lb</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'PSD'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pseudo_lb</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'pseudo'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">wspace</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hspace</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spec_method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'wwz'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spec_settings</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pseudo_clr</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.proxy.ProxyRecord.dashboard" title="Permalink to this definition">#</a></dt>
 <dd><p>Plot a dashboard of the proxy/pseudoproxy.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>figsize</strong> (<em>list</em><em> or </em><em>tuple</em>) – the figure size.</p></li>
+<li><p><strong>ms</strong> (<em>int</em>) – marker size.</p></li>
+<li><p><strong>stock_img</strong> (<em>bool</em>) – if True, use the stock image background of Cartopy. Defaults to True.</p></li>
+<li><p><strong>edge_clr</strong> (<em>str</em>) – the edge color of the record on the map.</p></li>
+<li><p><strong>wspace</strong> (<em>float</em>) – the width spacing between the subplots.</p></li>
+<li><p><strong>hspace</strong> (<em>float</em>) – the height spacing between the subplots.</p></li>
+<li><p><strong>spec_method</strong> (<em>str</em>) – the spectral analysis method to apply.</p></li>
+<li><p><strong>spec_settings</strong> (<em>dict</em>) – the dictionary of the keyword arguments for the specified spectral analysis method.</p></li>
+<li><p><strong>pseudo_clr</strong> (<em>str</em>) – the color for the pseudoproxy.</p></li>
+<li><p><strong>pseudo_lb</strong> (<em>str</em>) – the label for the pseudoproxy.</p></li>
+<li><p><strong>self_lb</strong> (<em>str</em>) – the label for the self ProxyRecord.</p></li>
+</ul>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
@@ -597,9 +663,40 @@ some examples:</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
+<li><p><strong>figsize</strong> (<em>list</em><em> or </em><em>tuple</em>) – the figure size.</p></li>
+<li><p><strong>ms</strong> (<em>int</em>) – marker size.</p></li>
+<li><p><strong>stock_img</strong> (<em>bool</em>) – if True, use the stock image background of Cartopy. Defaults to True.</p></li>
+<li><p><strong>edge_clr</strong> (<em>str</em>) – the edge color of the record on the map.</p></li>
+<li><p><strong>wspace</strong> (<em>float</em>) – the width spacing between the subplots.</p></li>
+<li><p><strong>hspace</strong> (<em>float</em>) – the height spacing between the subplots.</p></li>
+<li><p><strong>spec_method</strong> (<em>str</em>) – the spectral analysis method to apply.</p></li>
+<li><p><strong>pseudo_clr</strong> (<em>str</em>) – the color for the pseudoproxy.</p></li>
 <li><p><strong>clim_units</strong> (<em>dict</em><em>, </em><em>optional</em>) – the dictionary of units for climate signals. Defaults to None.</p></li>
 <li><p><strong>clim_colors</strong> (<em>dict</em><em>, </em><em>optional</em>) – the dictionary of colors for climate signals. Defaults to None.</p></li>
+<li><p><strong>scaled_pr</strong> (<em>bool</em>) – scale the precipitation values.</p></li>
 </ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cfr.proxy.ProxyRecord.del_clim">
+<span class="sig-name descname"><span class="pre">del_clim</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.proxy.ProxyRecord.del_clim" title="Permalink to this definition">#</a></dt>
+<dd><p>Delete the “clim” attribute of the ProxyRecord object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>verbose</strong> (<em>bool</em><em>, </em><em>optional</em>) – print verbose information. Defaults to False.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cfr.proxy.ProxyRecord.del_pseudo">
+<span class="sig-name descname"><span class="pre">del_pseudo</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.proxy.ProxyRecord.del_pseudo" title="Permalink to this definition">#</a></dt>
+<dd><p>Delete the <cite>pseudo</cite> attribute of the ProxyRecord object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>verbose</strong> (<em>bool</em><em>, </em><em>optional</em>) – print verbose information. Defaults to False.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -607,7 +704,12 @@ some examples:</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="cfr.proxy.ProxyRecord.from_da">
 <span class="sig-name descname"><span class="pre">from_da</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">da</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.proxy.ProxyRecord.from_da" title="Permalink to this definition">#</a></dt>
-<dd><p>Get the time and value axis from the given Xarray.DataArray</p>
+<dd><p>Get the time and value axis from the given xarray.DataArray</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>da</strong> (<em>xarray.DataArray</em>) – the <cite>xarray.DataArray</cite> object to load from.</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
@@ -618,7 +720,10 @@ some examples:</p>
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>fields</strong> (<em>list</em><em> of </em><a class="reference internal" href="#cfr.climate.ClimateField" title="cfr.climate.ClimateField"><em>cfr.climate.ClimateField</em></a>) – the climate fields</p></li>
+<li><p><strong>tag</strong> (<em>str</em>) – the tag to put on the obtained climate field, which will be named in the format of “tag.variable_name”.</p></li>
 <li><p><strong>search_dist</strong> (<em>float</em>) – the farest distance to search for climate data in degree</p></li>
+<li><p><strong>verbose</strong> (<em>bool</em><em>, </em><em>optional</em>) – print verbose information. Defaults to False.</p></li>
+<li><p><strong>load</strong> (<em>bool</em>) – if True, the list of climate fields will be loaded into the memory instead of lazy loading.</p></li>
 </ul>
 </dd>
 </dl>
@@ -637,9 +742,101 @@ If not provided, it will be generated using the specified <cite>psm</cite>;
 if provided, the PSM part will be skipped.</p></li>
 <li><p><strong>calibrate</strong> (<em>bool</em>) – if True and the PSM supports calibration, then the PSM will be calibrated.</p></li>
 <li><p><strong>add_noise</strong> (<em>bool</em>) – if True, noise will be added onto the <cite>signal</cite>.</p></li>
+<li><p><strong>noise</strong> (<em>str</em>) – noise type; supports “white” for white noise and “colored” for colored noise.</p></li>
+<li><p><strong>colored_noise_kws</strong> (<em>dict</em>) – the dictionary of the keyword arguments for colored noise generation.</p></li>
+<li><p><strong>match_mean</strong> (<em>bool</em>) – match the mean of the pseudoproxy to the real record.</p></li>
+<li><p><strong>match_var</strong> (<em>bool</em>) – match the variance of the pseudoproxy to the real record.</p></li>
+<li><p><strong>verbose</strong> (<em>bool</em><em>, </em><em>optional</em>) – print verbose information. Defaults to False.</p></li>
+<li><p><strong>calib_kws</strong> (<em>dict</em>) – the dictionary of the keyword arguments for the calibration step of the PMSs.</p></li>
+<li><p><strong>forward_kws</strong> (<em>dict</em>) – the dictionary of the keyword arguments for the forward step of the PMSs.</p></li>
 </ul>
 </dd>
 </dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cfr.proxy.ProxyRecord.load_nc">
+<span class="sig-name descname"><span class="pre">load_nc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.proxy.ProxyRecord.load_nc" title="Permalink to this definition">#</a></dt>
+<dd><p>Load the record from a netCDF file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>path</strong> (<em>str</em>) – the path to save the file.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cfr.proxy.ProxyRecord.plot">
+<span class="sig-name descname"><span class="pre">plot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">figsize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[12,</span> <span class="pre">4]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">legend</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ms</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">200</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stock_img</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">edge_clr</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'w'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">wspace</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hspace</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot_map</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.proxy.ProxyRecord.plot" title="Permalink to this definition">#</a></dt>
+<dd><p>Visualize the ProxyRecord</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>figsize</strong> (<em>list</em><em> or </em><em>tuple</em>) – the figure size.</p></li>
+<li><p><strong>legend</strong> (<em>bool</em>) – if True, plot the legend.</p></li>
+<li><p><strong>ms</strong> (<em>int</em>) – marker size.</p></li>
+<li><p><strong>stock_img</strong> (<em>bool</em>) – if True, use the stock image background of Cartopy. Defaults to True.</p></li>
+<li><p><strong>edge_clr</strong> (<em>str</em>) – the edge color of the record on the map.</p></li>
+<li><p><strong>wspace</strong> (<em>float</em>) – the width spacing between the subplots.</p></li>
+<li><p><strong>hspace</strong> (<em>float</em>) – the height spacing between the subplots.</p></li>
+<li><p><strong>plot_map</strong> (<em>bool</em>) – if True, plot the record on a map. Defaults to True.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cfr.proxy.ProxyRecord.plot_compare">
+<span class="sig-name descname"><span class="pre">plot_compare</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ref</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">label</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ref_label</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ref_color</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ref_zorder</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">figsize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[12,</span> <span class="pre">4]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">legend</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ms</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">200</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stock_img</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">edge_clr</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'w'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">wspace</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hspace</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot_map</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lgd_kws</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.proxy.ProxyRecord.plot_compare" title="Permalink to this definition">#</a></dt>
+<dd><p>Plot against another reference record.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ref</strong> (<a class="reference internal" href="#cfr.proxy.ProxyRecord" title="cfr.proxy.ProxyRecord"><em>cfr.proxy.ProxyRecord</em></a>) – the reference record.</p></li>
+<li><p><strong>label</strong> (<em>str</em>) – the label of the self record.</p></li>
+<li><p><strong>ref_label</strong> (<em>str</em>) – the label of the reference record.</p></li>
+<li><p><strong>ref_color</strong> (<em>str</em>) – the color to visualize the reference record.</p></li>
+<li><p><strong>ref_zorder</strong> (<em>int</em>) – the z-axis ordering of the reference record.</p></li>
+<li><p><strong>title</strong> (<em>str</em>) – the title of the figure.</p></li>
+<li><p><strong>figsize</strong> (<em>list</em><em> or </em><em>tuple</em>) – the figure size.</p></li>
+<li><p><strong>legend</strong> (<em>bool</em>) – if True, plot the legend.</p></li>
+<li><p><strong>ms</strong> (<em>int</em>) – marker size.</p></li>
+<li><p><strong>stock_img</strong> (<em>bool</em>) – if True, use the stock image background of Cartopy. Defaults to True.</p></li>
+<li><p><strong>edge_clr</strong> (<em>str</em>) – the edge color of the record on the map.</p></li>
+<li><p><strong>wspace</strong> (<em>float</em>) – the width spacing between the subplots.</p></li>
+<li><p><strong>hspace</strong> (<em>float</em>) – the height spacing between the subplots.</p></li>
+<li><p><strong>plot_map</strong> (<em>bool</em>) – if True, plot the record on a map.</p></li>
+<li><p><strong>lgd_kws</strong> (<em>diction</em>) – the dictionary of keyword arguments for the legend.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cfr.proxy.ProxyRecord.plot_dups">
+<span class="sig-name descname"><span class="pre">plot_dups</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">figsize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[12,</span> <span class="pre">4]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">legend</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ms</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">200</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stock_img</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">edge_clr</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'w'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">wspace</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hspace</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot_map</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lgd_kws</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.proxy.ProxyRecord.plot_dups" title="Permalink to this definition">#</a></dt>
+<dd><p>Plot the against other duplicated records</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>figsize</strong> (<em>list</em><em> or </em><em>tuple</em>) – the figure size.</p></li>
+<li><p><strong>legend</strong> (<em>bool</em>) – if True, plot the legend.</p></li>
+<li><p><strong>ms</strong> (<em>int</em>) – marker size.</p></li>
+<li><p><strong>stock_img</strong> (<em>bool</em>) – if True, use the stock image background of Cartopy. Defaults to True.</p></li>
+<li><p><strong>edge_clr</strong> (<em>str</em>) – the edge color of the record on the map.</p></li>
+<li><p><strong>wspace</strong> (<em>float</em>) – the width spacing between the subplots.</p></li>
+<li><p><strong>hspace</strong> (<em>float</em>) – the height spacing between the subplots.</p></li>
+<li><p><strong>plot_map</strong> (<em>bool</em>) – if True, plot the record on a map.</p></li>
+<li><p><strong>lgd_kws</strong> (<em>diction</em>) – the dictionary of keyword arguments for the legend.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cfr.proxy.ProxyRecord.plotly">
+<span class="sig-name descname"><span class="pre">plotly</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.proxy.ProxyRecord.plotly" title="Permalink to this definition">#</a></dt>
+<dd><p>Visualize the ProxyRecord with plotly</p>
 </dd></dl>
 
 <dl class="py method">
@@ -671,10 +868,10 @@ if timespan = [a, b, c, d], then the sliced output includes segment [a, b] and s
 <dd class="field-odd"><p><strong>ref_period</strong> (<em>list</em><em>, </em><em>optional</em>) – [min_time, max_time]. The default is None.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p><strong>new</strong> – contains standardized values.</p>
+<dd class="field-even"><p>contains standardized values.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="#cfr.proxy.ProxyRecord" title="cfr.proxy.ProxyRecord">ProxyRecord</a></p>
+<dd class="field-odd"><p>new (<a class="reference internal" href="#cfr.proxy.ProxyRecord" title="cfr.proxy.ProxyRecord">ProxyRecord</a>)</p>
 </dd>
 </dl>
 </dd></dl>
@@ -705,38 +902,37 @@ if timespan = [a, b, c, d], then the sliced output includes segment [a, b] and s
 <dt class="sig sig-object py" id="cfr.proxy.ProxyDatabase">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cfr.proxy.</span></span><span class="sig-name descname"><span class="pre">ProxyDatabase</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">records</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.proxy.ProxyDatabase" title="Permalink to this definition">#</a></dt>
 <dd><p>The class for a proxy database.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>records</strong> (<em>dict</em>) – a dict of the <a class="reference internal" href="#cfr.proxy.ProxyRecord" title="cfr.proxy.ProxyRecord"><code class="xref py py-mod docutils literal notranslate"><span class="pre">cfr.proxy.ProxyRecord</span></code></a> objects with proxy ID as keys</p></li>
-<li><p><strong>source</strong> (<em>str</em>) – a path to the original source file</p></li>
-</ul>
-</dd>
-</dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="cfr.proxy.ProxyDatabase.annualize">
 <span class="sig-name descname"><span class="pre">annualize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">months</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[1,</span> <span class="pre">2,</span> <span class="pre">3,</span> <span class="pre">4,</span> <span class="pre">5,</span> <span class="pre">6,</span> <span class="pre">7,</span> <span class="pre">8,</span> <span class="pre">9,</span> <span class="pre">10,</span> <span class="pre">11,</span> <span class="pre">12]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">force</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.proxy.ProxyDatabase.annualize" title="Permalink to this definition">#</a></dt>
 <dd><p>Annualize the records in the proxy database.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>months</strong> (<em>list</em>) – the months based on which for annualization; e.g., [6, 7, 8] means JJA annualization</p></li>
+<li><p><strong>force</strong> (<em>bool</em>) – if True, perform a calendar year annualization if the given months cannot be applied to the data due to missing months in the data. Defaults to <cite>False</cite>.</p></li>
+</ul>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="cfr.proxy.ProxyDatabase.center">
 <span class="sig-name descname"><span class="pre">center</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ref_period</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">force</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">thresh</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.proxy.ProxyDatabase.center" title="Permalink to this definition">#</a></dt>
 <dd><p>Center the proxy timeseries against a reference time period.</p>
-<section id="args">
-<h3>Args:<a class="headerlink" href="#args" title="Permalink to this heading">#</a></h3>
-<blockquote>
-<div><p>ref_period (tuple or list): the reference time period in the form or (start_yr, end_yr)</p>
-</div></blockquote>
 <dl class="field-list simple">
-<dt class="field-odd">returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>new</strong></p>
-</dd>
-<dt class="field-even">rtype<span class="colon">:</span></dt>
-<dd class="field-even"><p>cfr.ProxyDatabase object</p>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ref_period</strong> (<em>tuple</em><em> or </em><em>list</em>) – the reference time period in the form or (start_yr, end_yr)</p></li>
+<li><p><strong>force</strong> (<em>bool</em>) – if True, perform a calendar year annualization if the given months cannot be applied to the data due to missing months in the data. Defaults to <cite>False</cite>.</p></li>
+<li><p><strong>thresh</strong> (<em>int</em>) – the minimum number of data points to perform the processing.</p></li>
+</ul>
 </dd>
 </dl>
-</section>
+<dl class="simple">
+<dt>Returns</dt><dd><p>new (cfr.ProxyDatabase)</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
@@ -749,12 +945,36 @@ if timespan = [a, b, c, d], then the sliced output includes segment [a, b] and s
 <dt class="sig sig-object py" id="cfr.proxy.ProxyDatabase.correct_elev_tas">
 <span class="sig-name descname"><span class="pre">correct_elev_tas</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">t_rate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">-9.8</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.proxy.ProxyDatabase.correct_elev_tas" title="Permalink to this definition">#</a></dt>
 <dd><p>Correct the tas with t_rate = -9.8 degC/km upward by default.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>t_rage</strong> (<em>float</em>) – the temperature adjustment rate based on elevation bias.</p></li>
+<li><p><strong>verbose</strong> (<em>bool</em><em>, </em><em>optional</em>) – print verbose information. Defaults to False.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cfr.proxy.ProxyDatabase.count_availability">
+<span class="sig-name descname"><span class="pre">count_availability</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">year</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">array([0,</span> <span class="pre">1,</span> <span class="pre">2,</span> <span class="pre">...,</span> <span class="pre">1998,</span> <span class="pre">1999,</span> <span class="pre">2000])</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.proxy.ProxyDatabase.count_availability" title="Permalink to this definition">#</a></dt>
+<dd><p>Count the proxy availability in time</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>year</strong> (<em>array-like</em>) – count the proxy availability based on the given years.</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="cfr.proxy.ProxyDatabase.del_clim">
 <span class="sig-name descname"><span class="pre">del_clim</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.proxy.ProxyDatabase.del_clim" title="Permalink to this definition">#</a></dt>
 <dd><p>Delete the nearest climate data for the records in the proxy database.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>verbose</strong> (<em>bool</em><em>, </em><em>optional</em>) – print verbose information. Defaults to False.</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
@@ -792,16 +1012,51 @@ if timespan = [a, b, c, d], then the sliced output includes segment [a, b] and s
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="cfr.proxy.ProxyDatabase.find_duplicates">
+<span class="sig-name descname"><span class="pre">find_duplicates</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">r_thresh</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.9</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time_period</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[0,</span> <span class="pre">2000]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.proxy.ProxyDatabase.find_duplicates" title="Permalink to this definition">#</a></dt>
+<dd><p>Find duplicated proxy records based on a correlation threshold.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>r_thresh</strong> (<em>float</em>) – the correlation threshold to determine if two records are duplicated. Defaults to 0.9.</p></li>
+<li><p><strong>time_period</strong> (<em>tuple</em><em> or </em><em>list</em>) – the timespan over which to compare two records. Defaults to [0, 2000].</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="cfr.proxy.ProxyDatabase.from_df">
 <span class="sig-name descname"><span class="pre">from_df</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pid_column</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'paleoData_pages2kID'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lat_column</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'geo_meanLat'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lon_column</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'geo_meanLon'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">elev_column</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'geo_meanElev'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time_column</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'year'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value_column</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'paleoData_values'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">proxy_type_column</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'paleoData_proxy'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">archive_type_column</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'archiveType'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ptype_column</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'ptype'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value_name_column</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'paleoData_variableName'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value_unit_column</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'paleoData_units'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.proxy.ProxyDatabase.from_df" title="Permalink to this definition">#</a></dt>
-<dd><p>Load database from a Pandas DataFrame</p>
+<dd><p>Load database from a <cite>pandas.DataFrame</cite>. Note that in most cases, the column names have to be specified.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>df</strong> (<em>pandas.DataFrame</em>) – a Pandas DataFrame include at least lat, lon, time, value, proxy_type</p></li>
-<li><p><strong>ptype_psm</strong> (<em>dict</em>) – a mapping from ptype to psm</p></li>
+<li><p><strong>pid_column</strong> (<em>str</em>) – the column name for proxy ID.</p></li>
+<li><p><strong>lat_column</strong> (<em>str</em>) – the column name for latitude.</p></li>
+<li><p><strong>lon_column</strong> (<em>str</em>) – the column name for longitude.</p></li>
+<li><p><strong>elev_column</strong> (<em>str</em>) – the column name for elevation.</p></li>
+<li><p><strong>time_column</strong> (<em>str</em>) – the column name for time axis.</p></li>
+<li><p><strong>value_column</strong> (<em>str</em>) – the column name for value axis.</p></li>
+<li><p><strong>proxy_type_column</strong> (<em>str</em>) – the column name for proxy type information.</p></li>
+<li><p><strong>archive_type_column</strong> (<em>str</em>) – the column name for archive type information.</p></li>
+<li><p><strong>ptype_column</strong> (<em>str</em>) – the column name for proxy type information in format “archive.proxy”.</p></li>
+<li><p><strong>value_name_column</strong> (<em>str</em>) – the column name for proxy variable name.</p></li>
+<li><p><strong>value_unit_column</strong> (<em>str</em>) – the column name for proxy variable unit.</p></li>
 <li><p><strong>verbose</strong> (<em>bool</em><em>, </em><em>optional</em>) – print verbose information. Defaults to False.</p></li>
 </ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cfr.proxy.ProxyDatabase.from_ds">
+<span class="sig-name descname"><span class="pre">from_ds</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ds</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.proxy.ProxyDatabase.from_ds" title="Permalink to this definition">#</a></dt>
+<dd><p>Load the proxy database from a <cite>xarray.Dataset</cite></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>ds</strong> (<em>xarray.Dataset</em>) – the xarray.Dataset to load from</p>
 </dd>
 </dl>
 </dd></dl>
@@ -810,6 +1065,16 @@ if timespan = [a, b, c, d], then the sliced output includes segment [a, b] and s
 <dt class="sig sig-object py" id="cfr.proxy.ProxyDatabase.get_clim">
 <span class="sig-name descname"><span class="pre">get_clim</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">field</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tag</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">load</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.proxy.ProxyDatabase.get_clim" title="Permalink to this definition">#</a></dt>
 <dd><p>Get the nearest climate data for the records in the proxy database.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fields</strong> (<em>list</em><em> of </em><a class="reference internal" href="#cfr.climate.ClimateField" title="cfr.climate.ClimateField"><em>cfr.climate.ClimateField</em></a>) – the climate fields</p></li>
+<li><p><strong>tag</strong> (<em>str</em>) – the tag to put on the obtained climate field, which will be named in the format of “tag.variable_name”.</p></li>
+<li><p><strong>verbose</strong> (<em>bool</em><em>, </em><em>optional</em>) – print verbose information. Defaults to False.</p></li>
+<li><p><strong>load</strong> (<em>bool</em>) – if True, the list of climate fields will be loaded into the memory instead of lazy loading.</p></li>
+</ul>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
@@ -828,9 +1093,39 @@ the default is by multiprocessing.cpu_count()</p></li>
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="cfr.proxy.ProxyDatabase.load_nc">
+<span class="sig-name descname"><span class="pre">load_nc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_cftime</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.proxy.ProxyDatabase.load_nc" title="Permalink to this definition">#</a></dt>
+<dd><p>Load the database from a netCDF file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>path</strong> (<em>str</em>) – the path to save the file.</p></li>
+<li><p><strong>use_cftime</strong> (<em>bool</em>) – if True, use the cftime convention. Defaults to <cite>True</cite>.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="cfr.proxy.ProxyDatabase.make_composite">
 <span class="sig-name descname"><span class="pre">make_composite</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">obs=None,</span> <span class="pre">obs_nc_path=None,</span> <span class="pre">vn='tas',</span> <span class="pre">lat_name=None,</span> <span class="pre">lon_name=None,</span> <span class="pre">bin_width=10,</span> <span class="pre">n_bootstraps=1000,</span> <span class="pre">qs=(0.025,</span> <span class="pre">0.975),</span> <span class="pre">stat_func=&lt;function</span> <span class="pre">nanmean&gt;,</span> <span class="pre">anom_period=[1951,</span> <span class="pre">1980]</span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.proxy.ProxyDatabase.make_composite" title="Permalink to this definition">#</a></dt>
 <dd><p>Make composites of the records in the proxy database.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>obs</strong> (<a class="reference internal" href="#cfr.climate.ClimateField" title="cfr.climate.ClimateField"><em>cfr.climate.ClimateField</em></a>) – the observation field as a reference for scaling the proxy values.</p></li>
+<li><p><strong>obs_nc_path</strong> (<em>str</em>) – the path of the netCDF file of the reference observation.</p></li>
+<li><p><strong>vn</strong> (<em>str</em>) – the variable name of the referenced observation.</p></li>
+<li><p><strong>lat_name</strong> (<em>str</em>) – the name of the latitude dimension in the referenced observation.</p></li>
+<li><p><strong>lon_name</strong> (<em>str</em>) – the name of the longitude dimension in the referenced observation.</p></li>
+<li><p><strong>bin_width</strong> (<em>int</em>) – the width for binning.</p></li>
+<li><p><strong>n_bootstraps</strong> (<em>int</em>) – the number of bootstraps for uncertainty quantification.</p></li>
+<li><p><strong>qs</strong> (<em>list</em><em> or </em><em>tuple</em>) – the quantiles to plot.</p></li>
+<li><p><strong>stat_func</strong> (<em>function</em>) – the function to apply for the calculation of the binned value.</p></li>
+<li><p><strong>anom_period</strong> (<em>list</em><em> or </em><em>tuple</em>) – the time period over which to calculate the anomaly.</p></li>
+</ul>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
@@ -847,14 +1142,29 @@ the default is by multiprocessing.cpu_count()</p></li>
 <dl class="py method">
 <dt class="sig sig-object py" id="cfr.proxy.ProxyDatabase.plot">
 <span class="sig-name descname"><span class="pre">plot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kws</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.proxy.ProxyDatabase.plot" title="Permalink to this definition">#</a></dt>
-<dd><p>Visualize the proxy database.</p>
-<p>See <code class="xref py py-func docutils literal notranslate"><span class="pre">cfr.visual.plot_proxies()</span></code> for more information.</p>
+<dd><p>Visualize the proxy database. See <code class="xref py py-func docutils literal notranslate"><span class="pre">cfr.visual.plot_proxies()</span></code> for more information.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="cfr.proxy.ProxyDatabase.plot_composite">
 <span class="sig-name descname"><span class="pre">plot_composite</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">figsize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[10,</span> <span class="pre">4]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">clr_proxy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">clr_count</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'tab:gray'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">clr_obs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'tab:red'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">left_ylim</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[-2,</span> <span class="pre">2]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">right_ylim</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ylim_num</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xlim</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[0,</span> <span class="pre">2000]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">base_n</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">60</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.proxy.ProxyDatabase.plot_composite" title="Permalink to this definition">#</a></dt>
 <dd><p>Plot the composites of the records in the proxy database.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>figsize</strong> (<em>list</em><em> or </em><em>tuple</em>) – the figure size.</p></li>
+<li><p><strong>clr_proxy</strong> (<em>str</em>) – the color to visualize the proxy composite curve.</p></li>
+<li><p><strong>clr_count</strong> (<em>str</em>) – the color to visualize the record count.</p></li>
+<li><p><strong>clr_obs</strong> (<em>str</em>) – the color to visualize the referenced observation.</p></li>
+<li><p><strong>left_ylim</strong> (<em>list</em>) – the limit for the left y-axis.</p></li>
+<li><p><strong>right_ylim</strong> (<em>list</em>) – the limit for the right y-axis.</p></li>
+<li><p><strong>ylim_num</strong> (<em>int</em>) – the number of ticks for the left y-axis</p></li>
+<li><p><strong>xlim</strong> (<em>list</em>) – the limit for the x-axis.</p></li>
+<li><p><strong>base_n</strong> (<em>int</em>) – the number to determine the upper bound for the record count.</p></li>
+<li><p><strong>ax</strong> (<em>object</em><em>, </em><em>optional</em>) – <cite>matplotlib.axes</cite>. Defaults to None.</p></li>
+</ul>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
@@ -879,6 +1189,25 @@ the default is by multiprocessing.cpu_count()</p></li>
 <dt class="sig sig-object py" id="cfr.proxy.ProxyDatabase.slice">
 <span class="sig-name descname"><span class="pre">slice</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">timespan</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.proxy.ProxyDatabase.slice" title="Permalink to this definition">#</a></dt>
 <dd><p>Slice the records in the proxy database.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>timespan</strong> (<em>tuple</em><em> or </em><em>list</em>) – The list of time points for slicing, whose length must be even.
+When there are n time points, the output Series includes n/2 segments.
+For example, if timespan = [a, b], then the sliced output includes one segment [a, b];
+if timespan = [a, b, c, d], then the sliced output includes segment [a, b] and segment [c, d].</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cfr.proxy.ProxyDatabase.squeeze_dups">
+<span class="sig-name descname"><span class="pre">squeeze_dups</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pids_to_keep</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.proxy.ProxyDatabase.squeeze_dups" title="Permalink to this definition">#</a></dt>
+<dd><p>Remove the duplicated records and keep only one.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>pids_to_keep</strong> (<em>list</em>) – a list of proxy IDs forced to keep.</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
@@ -890,13 +1219,15 @@ the default is by multiprocessing.cpu_count()</p></li>
 </dl>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>ref_period</strong> (<em>tuple</em><em> or </em><em>list</em>) – the reference time period in the form or (start_yr, end_yr)</p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ref_period</strong> (<em>tuple</em><em> or </em><em>list</em>) – the reference time period in the form or (start_yr, end_yr)</p></li>
+<li><p><strong>force</strong> (<em>bool</em>) – if True, perform a calendar year annualization if the given months cannot be applied to the data due to missing months in the data. Defaults to <cite>False</cite>.</p></li>
+<li><p><strong>thresh</strong> (<em>int</em>) – the minimum number of data points to perform the processing.</p></li>
+</ul>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p><strong>new</strong></p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>cfr.ProxyDatabase object</p>
+</dl>
+<dl class="simple">
+<dt>Returns</dt><dd><p>new (cfr.ProxyDatabase)</p>
 </dd>
 </dl>
 </dd></dl>
@@ -928,7 +1259,11 @@ the default is by multiprocessing.cpu_count()</p></li>
 <dd><p>Convert the proxy database to multiple netCDF files. One for each record.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>dirpath</strong> (<em>str</em>) – the directory path of the multiple .nc files</p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dirpath</strong> (<em>str</em>) – the directory path of the multiple .nc files</p></li>
+<li><p><strong>compress_params</strong> (<em>dict</em>) – the paramters for compression when storing the reconstruction results to netCDF files.</p></li>
+<li><p><strong>verbose</strong> (<em>bool</em><em>, </em><em>optional</em>) – print verbose information. Defaults to False.</p></li>
+</ul>
 </dd>
 </dl>
 </dd></dl>
@@ -943,6 +1278,7 @@ the default is by multiprocessing.cpu_count()</p></li>
 <li><p><strong>path</strong> (<em>str</em>) – the path to save the file.</p></li>
 <li><p><strong>annualize</strong> (<em>bool</em>) – annualize the proxy records with <cite>months</cite></p></li>
 <li><p><strong>months</strong> (<em>list</em>) – months for annulization</p></li>
+<li><p><strong>compress_params</strong> (<em>dict</em>) – the paramters for compression when storing the reconstruction results to netCDF files.</p></li>
 <li><p><strong>verbose</strong> (<em>bool</em><em>, </em><em>optional</em>) – print verbose information. Defaults to False.</p></li>
 </ul>
 </dd>
@@ -958,11 +1294,6 @@ the default is by multiprocessing.cpu_count()</p></li>
 <dt class="sig sig-object py" id="cfr.climate.ClimateField">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cfr.climate.</span></span><span class="sig-name descname"><span class="pre">ClimateField</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">da</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.climate.ClimateField" title="Permalink to this definition">#</a></dt>
 <dd><p>The class for the gridded climate field data.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>da</strong> (<em>xarray.DataArray</em>) – the gridded data array.</p>
-</dd>
-</dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="cfr.climate.ClimateField.annualize">
 <span class="sig-name descname"><span class="pre">annualize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">months</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[1,</span> <span class="pre">2,</span> <span class="pre">3,</span> <span class="pre">4,</span> <span class="pre">5,</span> <span class="pre">6,</span> <span class="pre">7,</span> <span class="pre">8,</span> <span class="pre">9,</span> <span class="pre">10,</span> <span class="pre">11,</span> <span class="pre">12]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.climate.ClimateField.annualize" title="Permalink to this definition">#</a></dt>
@@ -996,6 +1327,7 @@ the default is by multiprocessing.cpu_count()</p></li>
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>ref</strong> (<a class="reference internal" href="#cfr.climate.ClimateField" title="cfr.climate.ClimateField"><em>cfr.climate.ClimateField</em></a>) – the reference to compare against, assuming the first dimension to be time</p></li>
+<li><p><strong>timespan</strong> (<em>tuple</em><em> or </em><em>list</em>) – the timespan over which to compare two ClimateField objects.</p></li>
 <li><p><strong>interp_target</strong> (<em>str</em><em>, </em><em>optional</em>) – <p>the direction to interpolate the fields:</p>
 <ul>
 <li><p>’ref’: interpolate from <cite>self</cite> to <cite>ref</cite></p></li>
@@ -1023,7 +1355,17 @@ the default is by multiprocessing.cpu_count()</p></li>
 <dl class="py method">
 <dt class="sig sig-object py" id="cfr.climate.ClimateField.crop">
 <span class="sig-name descname"><span class="pre">crop</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lat_min</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">-90</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lat_max</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">90</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lon_min</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lon_max</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">360</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.climate.ClimateField.crop" title="Permalink to this definition">#</a></dt>
-<dd><p>Crop the climate field.</p>
+<dd><p>Crop the climate field based on the range of latitude and longitude.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>lat_min</strong> (<em>float</em>) – the lower bound of latitude to crop.</p></li>
+<li><p><strong>lat_max</strong> (<em>float</em>) – the upper bound of latitude to crop.</p></li>
+<li><p><strong>lon_min</strong> (<em>float</em>) – the lower bound of longitude to crop.</p></li>
+<li><p><strong>lon_max</strong> (<em>float</em>) – the upper bound of longitude to crop.</p></li>
+</ul>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
@@ -1032,7 +1374,11 @@ the default is by multiprocessing.cpu_count()</p></li>
 <dd><p>Fetch a gridded climate field from cloud</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>name</strong> (<em>str</em>) – a predifined name or an URL starting with “http”</p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> (<em>str</em>) – a predefined name, or an URL starting with “http”, or a local file path.
+If not set, the method will return hints of available predefined names.</p></li>
+<li><p><strong>load_nc_kws</strong> (<em>dict</em>) – the dictionary of keyword arguments for loading a netCDF file.</p></li>
+</ul>
 </dd>
 </dl>
 </dd></dl>
@@ -1041,12 +1387,32 @@ the default is by multiprocessing.cpu_count()</p></li>
 <dt class="sig sig-object py" id="cfr.climate.ClimateField.from_np">
 <span class="sig-name descname"><span class="pre">from_np</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">time</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lat</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lon</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.climate.ClimateField.from_np" title="Permalink to this definition">#</a></dt>
 <dd><p>Load data from a <cite>numpy.ndarray</cite>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>time</strong> (<em>array-like</em>) – the array of the time axis.</p></li>
+<li><p><strong>lat</strong> (<em>array-like</em>) – the array of the lat axis.</p></li>
+<li><p><strong>lon</strong> (<em>array-like</em>) – the array of the lon axis.</p></li>
+<li><p><strong>value</strong> (<em>array-like</em>) – the array of the values.</p></li>
+</ul>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="cfr.climate.ClimateField.geo_mean">
 <span class="sig-name descname"><span class="pre">geo_mean</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lat_min</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">-90</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lat_max</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">90</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lon_min</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lon_max</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">360</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.climate.ClimateField.geo_mean" title="Permalink to this definition">#</a></dt>
 <dd><p>Calculate the geographical mean value of the climate field.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>lat_min</strong> (<em>float</em>) – the lower bound of latitude for the calculation.</p></li>
+<li><p><strong>lat_max</strong> (<em>float</em>) – the upper bound of latitude for the calculation.</p></li>
+<li><p><strong>lon_min</strong> (<em>float</em>) – the lower bound of longitude for the calculation.</p></li>
+<li><p><strong>lon_max</strong> (<em>float</em>) – the upper bound of longitude for the calculation.</p></li>
+</ul>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
@@ -1061,12 +1427,59 @@ the default is by multiprocessing.cpu_count()</p></li>
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="cfr.climate.ClimateField.get_eof">
+<span class="sig-name descname"><span class="pre">get_eof</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time_period</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flip</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.climate.ClimateField.get_eof" title="Permalink to this definition">#</a></dt>
+<dd><p>Get the EOF analysis result of the ClimateField object</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>n</strong> (<em>int</em>) – perform EOF analysis and return the first <cite>n</cite> modes.</p></li>
+<li><p><strong>time_period</strong> (<em>tuple</em><em> or </em><em>list</em>) – the timespan over which to perfom the EOF analysis.</p></li>
+<li><p><strong>verbose</strong> (<em>bool</em><em>, </em><em>optional</em>) – print verbose information. Defaults to False.</p></li>
+<li><p><strong>flip</strong> (<em>bool</em><em>, </em><em>optional</em>) – flip the sign of the field values. Defaults to False.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cfr.climate.ClimateField.index">
+<span class="sig-name descname"><span class="pre">index</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.climate.ClimateField.index" title="Permalink to this definition">#</a></dt>
+<dd><p>Calculate the predefined indices.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>name</strong> (<em>str</em>) – <p>the predefined index name; supports the below:</p>
+<ul class="simple">
+<li><p>’nino3.4’</p></li>
+<li><p>’nino1+2’</p></li>
+<li><p>’nino3’</p></li>
+<li><p>’nino4’</p></li>
+<li><p>’tpi’</p></li>
+<li><p>’wp’</p></li>
+<li><p>’dmi’</p></li>
+<li><p>’iobw’</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="cfr.climate.ClimateField.load_nc">
 <span class="sig-name descname"><span class="pre">load_nc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vn</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'time'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lat_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'lat'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lon_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'lon'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">load</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">return_ds</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_cftime</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.climate.ClimateField.load_nc" title="Permalink to this definition">#</a></dt>
 <dd><p>Load the climate field from a netCDF file.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>path</strong> (<em>str</em>) – the path where to load data from</p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>path</strong> (<em>str</em>) – the path where to load data from.</p></li>
+<li><p><strong>vn</strong> (<em>str</em>) – the variable name to load.</p></li>
+<li><p><strong>time_name</strong> (<em>str</em>) – the name for the time axis. Defaults to ‘time’.</p></li>
+<li><p><strong>lat_name</strong> (<em>str</em>) – the name for the lat axis. Defaults to ‘lat’.</p></li>
+<li><p><strong>lon_name</strong> (<em>str</em>) – the name for the lon axis. Defaults to ‘lon’.</p></li>
+<li><p><strong>load</strong> (<em>bool</em>) – if True, the netCDF file will be loaded into the memory; if False, will take the advantage of lazy loading. Defaults to <cite>False</cite>.</p></li>
+<li><p><strong>return_ds</strong> (<em>bool</em>) – if True, will return a <cite>xarray.Dataset</cite> object instead of a <cite>ClimateField</cite> object. Defaults to <cite>False</cite>.</p></li>
+<li><p><strong>use_cftime</strong> (<em>bool</em>) – if True, use the cftime convention. Defaults to <cite>True</cite>.</p></li>
+</ul>
 </dd>
 </dl>
 </dd></dl>
@@ -1075,12 +1488,39 @@ the default is by multiprocessing.cpu_count()</p></li>
 <dt class="sig sig-object py" id="cfr.climate.ClimateField.plot">
 <span class="sig-name descname"><span class="pre">plot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.climate.ClimateField.plot" title="Permalink to this definition">#</a></dt>
 <dd><p>Plot a climate field at a time point.</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p>cfr.visual.plot_field_map : Visualize a field on a map.</p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cfr.climate.ClimateField.plot_eof">
+<span class="sig-name descname"><span class="pre">plot_eof</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">eof_title</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pc_title</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.climate.ClimateField.plot_eof" title="Permalink to this definition">#</a></dt>
+<dd><p>Plot the EOF analysis result</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>n</strong> (<em>int</em>) – plot the <cite>n</cite>-th mode.</p></li>
+<li><p><strong>eof_title</strong> (<em>str</em>) – the subplot title for the mode field.</p></li>
+<li><p><strong>pc_title</strong> (<em>str</em>) – the subplot title for the PC time series.</p></li>
+</ul>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="cfr.climate.ClimateField.plotly_grid">
 <span class="sig-name descname"><span class="pre">plotly_grid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">site_lats</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">site_lons</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.climate.ClimateField.plotly_grid" title="Permalink to this definition">#</a></dt>
 <dd><p>Plot the grid on an interactive map utilizing Plotly</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>site_lats</strong> (<em>list</em>) – a list of the latitudes of the sites to plot</p></li>
+<li><p><strong>site_lons</strong> (<em>list</em>) – a list of the longitudes of the sites to plot</p></li>
+</ul>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
@@ -1093,6 +1533,11 @@ the default is by multiprocessing.cpu_count()</p></li>
 <dt class="sig sig-object py" id="cfr.climate.ClimateField.rename">
 <span class="sig-name descname"><span class="pre">rename</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">new_vn</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.climate.ClimateField.rename" title="Permalink to this definition">#</a></dt>
 <dd><p>Rename the variable name of the climate field.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>new_vn</strong> (<em>str</em>) – the new variable name.</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
@@ -1101,7 +1546,11 @@ the default is by multiprocessing.cpu_count()</p></li>
 <dd><p>Convert the climate field to a netCDF file.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>path</strong> (<em>str</em>) – the path where to save</p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>path</strong> (<em>str</em>) – the path where to save</p></li>
+<li><p><strong>verbose</strong> (<em>bool</em><em>, </em><em>optional</em>) – print verbose information. Defaults to False.</p></li>
+<li><p><strong>compress_params</strong> (<em>dict</em>) – the paramters for compression when storing the reconstruction results to netCDF files.</p></li>
+</ul>
 </dd>
 </dl>
 </dd></dl>
@@ -1109,7 +1558,13 @@ the default is by multiprocessing.cpu_count()</p></li>
 <dl class="py method">
 <dt class="sig sig-object py" id="cfr.climate.ClimateField.wrap_lon">
 <span class="sig-name descname"><span class="pre">wrap_lon</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'360'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.climate.ClimateField.wrap_lon" title="Permalink to this definition">#</a></dt>
-<dd><p>Convert longitude values from the range (-180, 180) to (0, 360).</p>
+<dd><p>Convert the longitude values</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>mode</strong> (<em>str</em>) – if ‘360’, convert the longitude values from the range (-180, 180) to (0, 360);
+if ‘180’, convert the longitude values from the range (0, 360) to (-180, 180);</p>
+</dd>
+</dl>
 </dd></dl>
 
 </dd></dl>
@@ -1236,14 +1691,6 @@ Returns a numpy array that is the same size and shape as the input vectors for S
 <dt class="sig sig-object py" id="cfr.reconjob.ReconJob">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cfr.reconjob.</span></span><span class="sig-name descname"><span class="pre">ReconJob</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">configs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.reconjob.ReconJob" title="Permalink to this definition">#</a></dt>
 <dd><p>The class for a reconstruction Job.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>configs</strong> (<em>dict</em><em>, </em><em>optional</em>) – a dictionary of configurations. Defaults to None.</p></li>
-<li><p><strong>verbose</strong> (<em>bool</em><em>, </em><em>optional</em>) – print verbose information. Defaults to False.</p></li>
-</ul>
-</dd>
-</dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="cfr.reconjob.ReconJob.annualize_clim">
 <span class="sig-name descname"><span class="pre">annualize_clim</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tag</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">months</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.reconjob.ReconJob.annualize_clim" title="Permalink to this definition">#</a></dt>
@@ -1485,6 +1932,7 @@ e.g., ‘tas’ and ‘pr’, etc.</p></li>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>cfg_path</strong> (<em>str</em>) – the path of the configuration YAML file.</p></li>
 <li><p><strong>seeds</strong> (<em>list</em><em>, </em><em>optional</em>) – the list of random seeds.</p></li>
+<li><p><strong>save_job</strong> (<em>bool</em><em>, </em><em>optional</em>) – if True, export the job object to a file.</p></li>
 <li><p><strong>verbose</strong> (<em>bool</em><em>, </em><em>optional</em>) – print verbose information. Defaults to False.</p></li>
 </ul>
 </dd>
@@ -1500,11 +1948,12 @@ e.g., ‘tas’ and ‘pr’, etc.</p></li>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>recon_time</strong> (<em>array list</em><em>, </em><em>optional</em>) – the time points to reconstruct</p></li>
 <li><p><strong>calib_time</strong> (<em>array list</em><em>, </em><em>optional</em>) – the time points for calibration</p></li>
-<li><p><strong>recon_period</strong> (<em>tuple</em><em>, </em><em>optional</em>) – the reconstruction timespan.
-Effective when <cite>recon_time</cite> or <cite>calib_time</cite> is None. Defaults to None.</p></li>
-<li><p><strong>recon_timescale</strong> (<em>float</em><em>, </em><em>optional</em>) – the reconstruction timescale. Defaults to None.
-Effective when <cite>recon_time</cite> or <cite>calib_time</cite> is None. Defaults to None.</p></li>
-<li><p><strong>calib_period</strong> (<em>tuple</em><em>, </em><em>optional</em>) – the calibration timespan. Defaults to None.</p></li>
+<li><p><strong>recon_period</strong> (<em>list</em><em> or </em><em>tuple</em><em>, </em><em>optional</em>) – the reconstruction timespan.
+Effective when <cite>recon_time</cite> or <cite>calib_time</cite> is None. Defaults to (1001, 2000).</p></li>
+<li><p><strong>recon_timescale</strong> (<em>float</em><em>, </em><em>optional</em>) – the reconstruction timescale.
+Effective when <cite>recon_time</cite> or <cite>calib_time</cite> is None. Defaults to 1 (annual).</p></li>
+<li><p><strong>calib_period</strong> (<em>list</em><em> or </em><em>tuple</em><em>, </em><em>optional</em>) – the calibration timespan. Defaults to (1850, 2000).</p></li>
+<li><p><strong>unitform_pdb</strong> (<em>bool</em><em>, </em><em>optional</em>) – if True, filter the proxy database to make it more uniform in length. Defaults to True.</p></li>
 <li><p><strong>verbose</strong> (<em>bool</em><em>, </em><em>optional</em>) – print verbose information. Defaults to False.</p></li>
 </ul>
 </dd>
@@ -1562,6 +2011,7 @@ Effective when <cite>recon_time</cite> or <cite>calib_time</cite> is None. Defau
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>cfg_path</strong> (<em>str</em>) – the path of the configuration YAML file.</p></li>
+<li><p><strong>load_precalculated</strong> (<em>bool</em><em>, </em><em>optional</em>) – load the precalculated job object. Defaults to False.</p></li>
 <li><p><strong>run_mc</strong> (<em>bool</em>) – if False, the reconstruction part will not executed for the convenience of checking the preparation part.</p></li>
 <li><p><strong>seeds</strong> (<em>list</em><em>, </em><em>optional</em>) – the list of random seeds.</p></li>
 <li><p><strong>verbose</strong> (<em>bool</em><em>, </em><em>optional</em>) – print verbose information. Defaults to False.</p></li>
@@ -1593,6 +2043,18 @@ Effective when <cite>recon_time</cite> or <cite>calib_time</cite> is None. Defau
 <li><p><strong>verbose</strong> (<em>bool</em><em>, </em><em>optional</em>) – print verbose information. Defaults to False.</p></li>
 <li><p><strong>save_dirpath</strong> (<em>str</em>) – the directory path for saving the reconstruction results.</p></li>
 <li><p><strong>compress_params</strong> (<em>dict</em>) – the paramters for compression when storing the reconstruction results to netCDF files.</p></li>
+<li><p><strong>output_indices</strong> (<em>list</em>) – <p>the list of indices to output; supported indices:</p>
+<ul>
+<li><p>’nino3.4’</p></li>
+<li><p>’nino1+2’</p></li>
+<li><p>’nino3’</p></li>
+<li><p>’nino4’</p></li>
+<li><p>’tpi’</p></li>
+<li><p>’wp’</p></li>
+<li><p>’dmi’</p></li>
+<li><p>’iobw’</p></li>
+</ul>
+</p></li>
 </ul>
 </dd>
 </dl>
@@ -1609,10 +2071,25 @@ argument list of this function directly. For instance, to pass a pre-calculated 
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>save_dirpath</strong> (<em>str</em>) – the path to save the related results</p></li>
+<li><p><strong>save_filename</strong> (<em>str</em>) – the filename to save the reconstruction file. Defaults to “job_r01_recon.nc”.</p></li>
+<li><p><strong>solver_save_path</strong> (<em>str</em>) – the path to save the solver object.</p></li>
 <li><p><strong>load_precalculated</strong> (<em>bool</em><em>, </em><em>optional</em>) – load the precalculated <cite>Graph</cite> object. Defaults to False.</p></li>
 <li><p><strong>verbose</strong> (<em>bool</em><em>, </em><em>optional</em>) – print verbose information. Defaults to False.</p></li>
+<li><p><strong>compress_params</strong> (<em>dict</em>) – the paramters for compression when storing the reconstruction results to netCDF files.</p></li>
+<li><p><strong>output_indices</strong> (<em>list</em>) – <p>the list of indices to output; supported indices:</p>
+<ul>
+<li><p>’nino3.4’</p></li>
+<li><p>’nino1+2’</p></li>
+<li><p>’nino3’</p></li>
+<li><p>’nino4’</p></li>
+<li><p>’tpi’</p></li>
+<li><p>’wp’</p></li>
+<li><p>’dmi’</p></li>
+<li><p>’iobw’</p></li>
+</ul>
+</p></li>
 <li><p><strong>fit_kws</strong> (<em>dict</em>) – the arguments for :py:meth: <cite>GraphEM.solver.GraphEM.fit</cite>
-The most important one is “graph_method”; availabel options include “neighborhood”, “glasso”, and “hybrid”, where
+The most important one is “graph_method”; available options include “neighborhood”, “glasso”, and “hybrid”, where
 “hybrid” means run “neighborhood” first with default <cite>cutoff_radius=1500</cite> to infill the data matrix and then
 ran “glasso” with default <cite>sp_FF=3, sp_FP=3</cite> to improve the result further.</p></li>
 </ul>
@@ -1702,6 +2179,15 @@ The filename will be <cite>configs.yml</cite>.</p></li>
 <dt class="sig sig-object py" id="cfr.reconjob.ReconJob.slice_proxydb">
 <span class="sig-name descname"><span class="pre">slice_proxydb</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">timespan</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inplace</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.reconjob.ReconJob.slice_proxydb" title="Permalink to this definition">#</a></dt>
 <dd><p>Slice the proxy database over a timespan.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>timespan</strong> (<em>list</em><em> or </em><em>tuple</em>) – the timespan over which to slice the proxy database.</p></li>
+<li><p><strong>inplace</strong> (<em>bool</em>) – if True, the annualized proxy database will replace the current <cite>self.proxydb</cite>.</p></li>
+<li><p><strong>verbose</strong> (<em>bool</em><em>, </em><em>optional</em>) – print verbose information. Defaults to False.</p></li>
+</ul>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
@@ -1744,15 +2230,6 @@ The filename will be <cite>configs.yml</cite>.</p></li>
 <dt class="sig sig-object py" id="cfr.reconres.ReconRes">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cfr.reconres.</span></span><span class="sig-name descname"><span class="pre">ReconRes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dirpath</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">load_num</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.reconres.ReconRes" title="Permalink to this definition">#</a></dt>
 <dd><p>The class for reconstruction results</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>dirpath</strong> (<em>str</em>) – the directory path where the reconstruction results are stored.</p></li>
-<li><p><strong>load_num</strong> (<em>int</em>) – the number of ensembles to load</p></li>
-<li><p><strong>verbose</strong> (<em>bool</em><em>, </em><em>optional</em>) – print verbose information. Defaults to False.</p></li>
-</ul>
-</dd>
-</dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="cfr.reconres.ReconRes.load">
 <span class="sig-name descname"><span class="pre">load</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vn_list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.reconres.ReconRes.load" title="Permalink to this definition">#</a></dt>
@@ -1766,6 +2243,44 @@ The filename will be <cite>configs.yml</cite>.</p></li>
 <li><p>ensemble timeseries: ‘tas_gm’, ‘tas_nhm’, ‘tas_shm’</p></li>
 </ul>
 </p></li>
+<li><p><strong>verbose</strong> (<em>bool</em><em>, </em><em>optional</em>) – print verbose information. Defaults to False.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cfr.reconres.ReconRes.plot_valid">
+<span class="sig-name descname"><span class="pre">plot_valid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">recon_name_dict</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_name_dict</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">valid_ts_kws</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">valid_fd_kws</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.reconres.ReconRes.plot_valid" title="Permalink to this definition">#</a></dt>
+<dd><p>Plot the validation result</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>recon_name_dict</strong> (<em>dict</em>) – the dictionary for variable names in the reconstruction. For example, {‘tas’: ‘LMR/tas’, ‘nino3.4’: ‘NINO3.4 [K]’}.</p></li>
+<li><p><strong>target_name_dict</strong> (<em>dict</em>) – the dictionary for variable names in the validation target. For example, {‘tas’: ‘20CRv3’, ‘nino3.4’: ‘BC09’}.</p></li>
+<li><p><strong>valid_ts_kws</strong> (<em>dict</em>) – the dictionary of keyword arguments for validating the timeseries.</p></li>
+<li><p><strong>valid_fd_kws</strong> (<em>dict</em>) – the dictionary of keyword arguments for validating the field.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cfr.reconres.ReconRes.valid">
+<span class="sig-name descname"><span class="pre">valid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">target_dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stat</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">['corr']</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timespan</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.reconres.ReconRes.valid" title="Permalink to this definition">#</a></dt>
+<dd><p>Validate against a target dictionary</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>target_dict</strong> (<em>dict</em>) – a dictionary of multiple variables for validation.</p></li>
+<li><p><strong>stat</strong> (<em>list</em><em> of </em><em>str</em>) – <p>the statistics to calculate. Supported quantaties:</p>
+<ul>
+<li><p>’corr’: correlation coefficient</p></li>
+<li><p>’R2’: coefficient of determination</p></li>
+<li><p>’CE’: coefficient of efficiency</p></li>
+</ul>
+</p></li>
+<li><p><strong>timespan</strong> (<em>list</em><em> or </em><em>tuple</em>) – the timespan over which to perform the validation.</p></li>
 <li><p><strong>verbose</strong> (<em>bool</em><em>, </em><em>optional</em>) – print verbose information. Defaults to False.</p></li>
 </ul>
 </dd>
@@ -1957,7 +2472,10 @@ By default, the columns for the members will be labeled as “ens.0”, “ens.1
               
               
                 <footer class="bd-footer-article">
-                  <!-- Previous / next buttons -->
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
 <div class="prev-next-area">
     <a class="left-prev"
        href="notebooks/graphem-cli.html"
@@ -1968,7 +2486,19 @@ By default, the columns for the members will be labeled as “ens.0”, “ens.1
         <p class="prev-next-title">Running GraphEM with the Command Line Interface (CLI)</p>
       </div>
     </a>
+    <a class="right-next"
+       href="cg-overview.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Overview</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div></div>
+  
 </div>
+
                 </footer>
               
             </div>
@@ -1985,14 +2515,23 @@ By default, the columns for the members will be labeled as “ens.0”, “ens.1
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#proxy">Proxy</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyRecord"><code class="docutils literal notranslate"><span class="pre">ProxyRecord</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyRecord.annualize"><code class="docutils literal notranslate"><span class="pre">ProxyRecord.annualize()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyRecord.center"><code class="docutils literal notranslate"><span class="pre">ProxyRecord.center()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyRecord.concat"><code class="docutils literal notranslate"><span class="pre">ProxyRecord.concat()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyRecord.copy"><code class="docutils literal notranslate"><span class="pre">ProxyRecord.copy()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyRecord.correct_elev_tas"><code class="docutils literal notranslate"><span class="pre">ProxyRecord.correct_elev_tas()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyRecord.dashboard"><code class="docutils literal notranslate"><span class="pre">ProxyRecord.dashboard()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyRecord.dashboard_clim"><code class="docutils literal notranslate"><span class="pre">ProxyRecord.dashboard_clim()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyRecord.del_clim"><code class="docutils literal notranslate"><span class="pre">ProxyRecord.del_clim()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyRecord.del_pseudo"><code class="docutils literal notranslate"><span class="pre">ProxyRecord.del_pseudo()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyRecord.from_da"><code class="docutils literal notranslate"><span class="pre">ProxyRecord.from_da()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyRecord.get_clim"><code class="docutils literal notranslate"><span class="pre">ProxyRecord.get_clim()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyRecord.get_pseudo"><code class="docutils literal notranslate"><span class="pre">ProxyRecord.get_pseudo()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyRecord.load_nc"><code class="docutils literal notranslate"><span class="pre">ProxyRecord.load_nc()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyRecord.plot"><code class="docutils literal notranslate"><span class="pre">ProxyRecord.plot()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyRecord.plot_compare"><code class="docutils literal notranslate"><span class="pre">ProxyRecord.plot_compare()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyRecord.plot_dups"><code class="docutils literal notranslate"><span class="pre">ProxyRecord.plot_dups()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyRecord.plotly"><code class="docutils literal notranslate"><span class="pre">ProxyRecord.plotly()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyRecord.slice"><code class="docutils literal notranslate"><span class="pre">ProxyRecord.slice()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyRecord.standardize"><code class="docutils literal notranslate"><span class="pre">ProxyRecord.standardize()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyRecord.to_da"><code class="docutils literal notranslate"><span class="pre">ProxyRecord.to_da()</span></code></a></li>
@@ -2004,12 +2543,16 @@ By default, the columns for the members will be labeled as “ens.0”, “ens.1
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyDatabase.center"><code class="docutils literal notranslate"><span class="pre">ProxyDatabase.center()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyDatabase.copy"><code class="docutils literal notranslate"><span class="pre">ProxyDatabase.copy()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyDatabase.correct_elev_tas"><code class="docutils literal notranslate"><span class="pre">ProxyDatabase.correct_elev_tas()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyDatabase.count_availability"><code class="docutils literal notranslate"><span class="pre">ProxyDatabase.count_availability()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyDatabase.del_clim"><code class="docutils literal notranslate"><span class="pre">ProxyDatabase.del_clim()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyDatabase.fetch"><code class="docutils literal notranslate"><span class="pre">ProxyDatabase.fetch()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyDatabase.filter"><code class="docutils literal notranslate"><span class="pre">ProxyDatabase.filter()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyDatabase.find_duplicates"><code class="docutils literal notranslate"><span class="pre">ProxyDatabase.find_duplicates()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyDatabase.from_df"><code class="docutils literal notranslate"><span class="pre">ProxyDatabase.from_df()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyDatabase.from_ds"><code class="docutils literal notranslate"><span class="pre">ProxyDatabase.from_ds()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyDatabase.get_clim"><code class="docutils literal notranslate"><span class="pre">ProxyDatabase.get_clim()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyDatabase.load_multi_nc"><code class="docutils literal notranslate"><span class="pre">ProxyDatabase.load_multi_nc()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyDatabase.load_nc"><code class="docutils literal notranslate"><span class="pre">ProxyDatabase.load_nc()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyDatabase.make_composite"><code class="docutils literal notranslate"><span class="pre">ProxyDatabase.make_composite()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyDatabase.nrec_tags"><code class="docutils literal notranslate"><span class="pre">ProxyDatabase.nrec_tags()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyDatabase.plot"><code class="docutils literal notranslate"><span class="pre">ProxyDatabase.plot()</span></code></a></li>
@@ -2018,6 +2561,7 @@ By default, the columns for the members will be labeled as “ens.0”, “ens.1
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyDatabase.plotly_count"><code class="docutils literal notranslate"><span class="pre">ProxyDatabase.plotly_count()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyDatabase.refresh"><code class="docutils literal notranslate"><span class="pre">ProxyDatabase.refresh()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyDatabase.slice"><code class="docutils literal notranslate"><span class="pre">ProxyDatabase.slice()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyDatabase.squeeze_dups"><code class="docutils literal notranslate"><span class="pre">ProxyDatabase.squeeze_dups()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyDatabase.standardize"><code class="docutils literal notranslate"><span class="pre">ProxyDatabase.standardize()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyDatabase.to_df"><code class="docutils literal notranslate"><span class="pre">ProxyDatabase.to_df()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyDatabase.to_ds"><code class="docutils literal notranslate"><span class="pre">ProxyDatabase.to_ds()</span></code></a></li>
@@ -2038,8 +2582,11 @@ By default, the columns for the members will be labeled as “ens.0”, “ens.1
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.climate.ClimateField.from_np"><code class="docutils literal notranslate"><span class="pre">ClimateField.from_np()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.climate.ClimateField.geo_mean"><code class="docutils literal notranslate"><span class="pre">ClimateField.geo_mean()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.climate.ClimateField.get_anom"><code class="docutils literal notranslate"><span class="pre">ClimateField.get_anom()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.climate.ClimateField.get_eof"><code class="docutils literal notranslate"><span class="pre">ClimateField.get_eof()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.climate.ClimateField.index"><code class="docutils literal notranslate"><span class="pre">ClimateField.index()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.climate.ClimateField.load_nc"><code class="docutils literal notranslate"><span class="pre">ClimateField.load_nc()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.climate.ClimateField.plot"><code class="docutils literal notranslate"><span class="pre">ClimateField.plot()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.climate.ClimateField.plot_eof"><code class="docutils literal notranslate"><span class="pre">ClimateField.plot_eof()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.climate.ClimateField.plotly_grid"><code class="docutils literal notranslate"><span class="pre">ClimateField.plotly_grid()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.climate.ClimateField.regrid"><code class="docutils literal notranslate"><span class="pre">ClimateField.regrid()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.climate.ClimateField.rename"><code class="docutils literal notranslate"><span class="pre">ClimateField.rename()</span></code></a></li>
@@ -2109,6 +2656,8 @@ By default, the columns for the members will be labeled as “ens.0”, “ens.1
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reconres">ReconRes</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.reconres.ReconRes"><code class="docutils literal notranslate"><span class="pre">ReconRes</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.reconres.ReconRes.load"><code class="docutils literal notranslate"><span class="pre">ReconRes.load()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.reconres.ReconRes.plot_valid"><code class="docutils literal notranslate"><span class="pre">ReconRes.plot_valid()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.reconres.ReconRes.valid"><code class="docutils literal notranslate"><span class="pre">ReconRes.valid()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -2138,7 +2687,7 @@ By default, the columns for the members will be labeled as “ens.0”, “ens.1
             
           </div>
           <footer class="bd-footer-content">
-            <div class="bd-footer-content__inner">
+            
 <div class="bd-footer-content__inner container">
   
   <div class="footer-item">
@@ -2164,7 +2713,7 @@ By default, the columns for the members will be labeled as “ens.0”, “ens.1
     
   </div>
   
-</div></div>
+</div>
           </footer>
         
 
@@ -2173,8 +2722,8 @@ By default, the columns for the members will be labeled as “ens.0”, “ens.1
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="_static/scripts/bootstrap.js?digest=12da95d707ffb74b382d"></script>
-<script src="_static/scripts/pydata-sphinx-theme.js?digest=12da95d707ffb74b382d"></script>
+  <script src="_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
 
   <footer class="bd-footer">
   </footer>

@@ -134,6 +134,7 @@ class ReconRes:
                 **valid_fd_kws)
 
         for k, v in self.valid_ts.items():
+            v.ref_name = target_name_dict[k]
             if v.value.shape[-1] > 1:
                 fig[k], ax[k] = v.plot_qs(**valid_ts_kws)
             else:

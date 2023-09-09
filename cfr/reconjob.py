@@ -1042,7 +1042,7 @@ class ReconJob:
                 * 'dmi'
                 * 'iobw'
             fit_kws (dict): the arguments for :py:meth: `GraphEM.solver.GraphEM.fit`
-                The most important one is "graph_method"; availabel options include "neighborhood", "glasso", and "hybrid", where
+                The most important one is "graph_method"; available options include "neighborhood", "glasso", and "hybrid", where
                 "hybrid" means run "neighborhood" first with default `cutoff_radius=1500` to infill the data matrix and then
                 ran "glasso" with default `sp_FF=3, sp_FP=3` to improve the result further.
 

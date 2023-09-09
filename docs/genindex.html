@@ -18,12 +18,12 @@
   </script>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="_static/styles/theme.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
-<link href="_static/styles/bootstrap.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
-<link href="_static/styles/pydata-sphinx-theme.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
+  <link href="_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
 
   
-  <link href="_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
+  <link href="_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
   <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
@@ -36,8 +36,8 @@
     <link rel="stylesheet" type="text/css" href="_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=12da95d707ffb74b382d" />
-<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=12da95d707ffb74b382d" />
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
 
     <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
     <script src="_static/doctools.js"></script>
@@ -177,6 +177,12 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="ug-api.html">API Reference</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Contributing Guide</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="cg-overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cg-working-with-codebase.html">Working with the Codebase</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cg-updating-docs.html">Updating the Documentation</a></li>
 </ul>
 
     </div>
@@ -339,6 +345,8 @@ document.write(`
       <ul>
         <li><a href="ug-api.html#cfr.proxy.ProxyDatabase.annualize">(cfr.proxy.ProxyDatabase method)</a>
 </li>
+        <li><a href="ug-api.html#cfr.proxy.ProxyRecord.annualize">(cfr.proxy.ProxyRecord method)</a>
+</li>
       </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
@@ -382,6 +390,8 @@ document.write(`
         <li><a href="ug-api.html#cfr.ts.EnsTS.compare">(cfr.ts.EnsTS method)</a>
 </li>
       </ul></li>
+      <li><a href="ug-api.html#cfr.proxy.ProxyRecord.concat">concat() (cfr.proxy.ProxyRecord method)</a>
+</li>
       <li><a href="ug-api.html#cfr.climate.ClimateField.copy">copy() (cfr.climate.ClimateField method)</a>
 
       <ul>
@@ -406,6 +416,8 @@ document.write(`
         <li><a href="ug-api.html#cfr.proxy.ProxyRecord.correct_elev_tas">(cfr.proxy.ProxyRecord method)</a>
 </li>
       </ul></li>
+      <li><a href="ug-api.html#cfr.proxy.ProxyDatabase.count_availability">count_availability() (cfr.proxy.ProxyDatabase method)</a>
+</li>
       <li><a href="ug-api.html#cfr.climate.ClimateField.crop">crop() (cfr.climate.ClimateField method)</a>
 </li>
       <li><a href="ug-api.html#cfr.reconjob.ReconJob.crop_clim">crop_clim() (cfr.reconjob.ReconJob method)</a>
@@ -418,11 +430,17 @@ document.write(`
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="ug-api.html#cfr.proxy.ProxyRecord.dashboard">dashboard() (cfr.proxy.ProxyRecord method)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="ug-api.html#cfr.proxy.ProxyRecord.dashboard_clim">dashboard_clim() (cfr.proxy.ProxyRecord method)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="ug-api.html#cfr.proxy.ProxyDatabase.del_clim">del_clim() (cfr.proxy.ProxyDatabase method)</a>
+
+      <ul>
+        <li><a href="ug-api.html#cfr.proxy.ProxyRecord.del_clim">(cfr.proxy.ProxyRecord method)</a>
+</li>
+      </ul></li>
+      <li><a href="ug-api.html#cfr.proxy.ProxyRecord.del_pseudo">del_pseudo() (cfr.proxy.ProxyRecord method)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -456,6 +474,8 @@ document.write(`
 </li>
       <li><a href="ug-api.html#cfr.reconjob.ReconJob.filter_proxydb">filter_proxydb() (cfr.reconjob.ReconJob method)</a>
 </li>
+      <li><a href="ug-api.html#cfr.proxy.ProxyDatabase.find_duplicates">find_duplicates() (cfr.proxy.ProxyDatabase method)</a>
+</li>
       <li><a href="ug-api.html#cfr.psm.Coral_SrCa.forward">forward() (cfr.psm.Coral_SrCa method)</a>
 
       <ul>
@@ -474,6 +494,8 @@ document.write(`
         <li><a href="ug-api.html#cfr.ts.EnsTS.from_df">(cfr.ts.EnsTS method)</a>
 </li>
       </ul></li>
+      <li><a href="ug-api.html#cfr.proxy.ProxyDatabase.from_ds">from_ds() (cfr.proxy.ProxyDatabase method)</a>
+</li>
       <li><a href="ug-api.html#cfr.climate.ClimateField.from_np">from_np() (cfr.climate.ClimateField method)</a>
 </li>
   </ul></td>
@@ -494,6 +516,8 @@ document.write(`
       </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="ug-api.html#cfr.climate.ClimateField.get_eof">get_eof() (cfr.climate.ClimateField method)</a>
+</li>
       <li><a href="ug-api.html#cfr.proxy.ProxyRecord.get_pseudo">get_pseudo() (cfr.proxy.ProxyRecord method)</a>
 </li>
       <li><a href="ug-api.html#cfr.reconjob.ReconJob.graphem_kcv">graphem_kcv() (cfr.reconjob.ReconJob method)</a>
@@ -508,6 +532,8 @@ document.write(`
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="ug-api.html#cfr.climate.ClimateField.index">index() (cfr.climate.ClimateField method)</a>
+</li>
       <li><a href="ug-api.html#cfr.reconjob.ReconJob.io_cfg">io_cfg() (cfr.reconjob.ReconJob method)</a>
 </li>
   </ul></td>
@@ -535,7 +561,13 @@ document.write(`
       <li><a href="ug-api.html#cfr.proxy.ProxyDatabase.load_multi_nc">load_multi_nc() (cfr.proxy.ProxyDatabase method)</a>
 </li>
       <li><a href="ug-api.html#cfr.climate.ClimateField.load_nc">load_nc() (cfr.climate.ClimateField method)</a>
+
+      <ul>
+        <li><a href="ug-api.html#cfr.proxy.ProxyDatabase.load_nc">(cfr.proxy.ProxyDatabase method)</a>
 </li>
+        <li><a href="ug-api.html#cfr.proxy.ProxyRecord.load_nc">(cfr.proxy.ProxyRecord method)</a>
+</li>
+      </ul></li>
       <li><a href="ug-api.html#cfr.reconjob.ReconJob.load_proxydb">load_proxydb() (cfr.reconjob.ReconJob method)</a>
 </li>
   </ul></td>
@@ -577,17 +609,31 @@ document.write(`
       <ul>
         <li><a href="ug-api.html#cfr.proxy.ProxyDatabase.plot">(cfr.proxy.ProxyDatabase method)</a>
 </li>
+        <li><a href="ug-api.html#cfr.proxy.ProxyRecord.plot">(cfr.proxy.ProxyRecord method)</a>
+</li>
         <li><a href="ug-api.html#cfr.ts.EnsTS.plot">(cfr.ts.EnsTS method)</a>
 </li>
       </ul></li>
+      <li><a href="ug-api.html#cfr.proxy.ProxyRecord.plot_compare">plot_compare() (cfr.proxy.ProxyRecord method)</a>
+</li>
       <li><a href="ug-api.html#cfr.proxy.ProxyDatabase.plot_composite">plot_composite() (cfr.proxy.ProxyDatabase method)</a>
+</li>
+      <li><a href="ug-api.html#cfr.proxy.ProxyRecord.plot_dups">plot_dups() (cfr.proxy.ProxyRecord method)</a>
+</li>
+      <li><a href="ug-api.html#cfr.climate.ClimateField.plot_eof">plot_eof() (cfr.climate.ClimateField method)</a>
 </li>
       <li><a href="ug-api.html#cfr.ts.EnsTS.plot_qs">plot_qs() (cfr.ts.EnsTS method)</a>
 </li>
-      <li><a href="ug-api.html#cfr.proxy.ProxyDatabase.plotly">plotly() (cfr.proxy.ProxyDatabase method)</a>
-</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="ug-api.html#cfr.reconres.ReconRes.plot_valid">plot_valid() (cfr.reconres.ReconRes method)</a>
+</li>
+      <li><a href="ug-api.html#cfr.proxy.ProxyDatabase.plotly">plotly() (cfr.proxy.ProxyDatabase method)</a>
+
+      <ul>
+        <li><a href="ug-api.html#cfr.proxy.ProxyRecord.plotly">(cfr.proxy.ProxyRecord method)</a>
+</li>
+      </ul></li>
       <li><a href="ug-api.html#cfr.proxy.ProxyDatabase.plotly_count">plotly_count() (cfr.proxy.ProxyDatabase method)</a>
 </li>
       <li><a href="ug-api.html#cfr.climate.ClimateField.plotly_grid">plotly_grid() (cfr.climate.ClimateField method)</a>
@@ -654,6 +700,8 @@ document.write(`
 </li>
       <li><a href="ug-api.html#cfr.reconjob.ReconJob.split_proxydb">split_proxydb() (cfr.reconjob.ReconJob method)</a>
 </li>
+      <li><a href="ug-api.html#cfr.proxy.ProxyDatabase.squeeze_dups">squeeze_dups() (cfr.proxy.ProxyDatabase method)</a>
+</li>
       <li><a href="ug-api.html#cfr.proxy.ProxyDatabase.standardize">standardize() (cfr.proxy.ProxyDatabase method)</a>
 
       <ul>
@@ -694,6 +742,10 @@ document.write(`
 <h2 id="V">V</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="ug-api.html#cfr.reconres.ReconRes.valid">valid() (cfr.reconres.ReconRes method)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="ug-api.html#cfr.psm.VSLite">VSLite (class in cfr.psm)</a>
 </li>
   </ul></td>
@@ -719,9 +771,15 @@ document.write(`
               
               
                 <footer class="bd-footer-article">
-                  <!-- Previous / next buttons -->
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
 <div class="prev-next-area">
+</div></div>
+  
 </div>
+
                 </footer>
               
             </div>
@@ -731,7 +789,7 @@ document.write(`
             
           </div>
           <footer class="bd-footer-content">
-            <div class="bd-footer-content__inner">
+            
 <div class="bd-footer-content__inner container">
   
   <div class="footer-item">
@@ -757,7 +815,7 @@ document.write(`
     
   </div>
   
-</div></div>
+</div>
           </footer>
         
 
@@ -766,8 +824,8 @@ document.write(`
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="_static/scripts/bootstrap.js?digest=12da95d707ffb74b382d"></script>
-<script src="_static/scripts/pydata-sphinx-theme.js?digest=12da95d707ffb74b382d"></script>
+  <script src="_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
 
   <footer class="bd-footer">
   </footer>

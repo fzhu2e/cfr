@@ -550,13 +550,21 @@ class ClimateField:
 
             kwargs['title'] = f'{self.da.name}, {date_str}' 
             
-        _kwargs.update(kwargs)
-        if len(self.da.dims) == 3:
-            vals = self.da.values[0]
-        elif len(self.da.dims) == 2:
-            vals = self.da.values
+        if len(set(np.diff(self.da.lon))) > 1:
+            # the case when longitudes cross 0 degree
+            fd_plot = self.wrap_lon(mode='180')
+            kwargs['central_longitude'] = 0
+        else:
+            fd_plot = self
 
-        fig, ax = visual.plot_field_map(vals, self.da.lat, self.da.lon, **_kwargs)
+        _kwargs.update(kwargs)
+            
+        if len(fd_plot.da.dims) == 3:
+            vals = fd_plot.da.values[0]
+        elif len(fd_plot.da.dims) == 2:
+            vals = fd_plot.da.values
+
+        fig, ax = visual.plot_field_map(vals, fd_plot.da.lat, fd_plot.da.lon, **_kwargs)
 
         return fig, ax
 
@@ -655,6 +663,8 @@ class ClimateField:
     def crop(self, lat_min=-90, lat_max=90, lon_min=0, lon_max=360):
         ''' Crop the climate field based on the range of latitude and longitude.
 
+        Note that in cases when the crop range is crossing the 0 degree of longitude, `lon_min` should be less than 0.
+
         Args:
             lat_min (float): the lower bound of latitude to crop.
             lat_max (float): the upper bound of latitude to crop.
@@ -663,7 +673,13 @@ class ClimateField:
         '''
 
         mask_lat = (self.da.lat >= lat_min) & (self.da.lat <= lat_max)
-        mask_lon = (self.da.lon >= lon_min) & (self.da.lon <= lon_max)
+        if lon_min >= 0:
+            mask_lon = (self.da.lon >= lon_min) & (self.da.lon <= lon_max)
+        else:
+            # the case when longitudes in mode [-180, 180]
+            lon_min = np.mod(lon_min, 360)
+            lon_max = np.mod(lon_max, 360)
+            mask_lon = (self.da.lon >= lon_min) | (self.da.lon <= lon_max)
 
         da = self.da.sel({
                 'lat': self.da.lat[mask_lat],
@@ -682,7 +698,9 @@ class ClimateField:
             lon_min (float): the lower bound of longitude for the calculation.
             lon_max (float): the upper bound of longitude for the calculation.
         '''
-        m = utils.geo_mean(self.da, lat_min=lat_min, lat_max=lat_max, lon_min=lon_min, lon_max=lon_max)
+        fdc = self.crop(lat_min=lat_min, lat_max=lat_max, lon_min=lon_min, lon_max=lon_max)
+        wgts = np.cos(np.deg2rad(fdc.da['lat']))
+        m = fdc.da.weighted(wgts).mean(('lon', 'lat'))
         ts = EnsTS(time=m['time'].values, value=m.values)
         return ts
 

@@ -3,7 +3,7 @@ Updating the Documentation
 
 About the `cfr` documentation
 """""""""""""""""""""""""""""""""
-`cfr`'s documentation is built automatically from the function and class docstrings, via `Sphinx The Docs <https://www.sphinx-doc.org>`_.
+`cfr`'s documentation is built automatically from the function and class docstrings, via `Sphinx <https://www.sphinx-doc.org>`_.
 It is therefore especially important for your code to include a docstring, and to modify the docstrings of the functions/classes you modified to make sure the documentation is current.
 
 Updating docstrings

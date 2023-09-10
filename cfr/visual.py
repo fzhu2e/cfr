@@ -264,7 +264,7 @@ def plot_field_map(field_var, lat, lon, levels=50, add_cyclic_point=True,
                    site_markersize=50, site_color=sns.xkcd_rgb['amber'],
                    projection='Robinson', transform=ccrs.PlateCarree(),
                    proj_args=None, latlon_range=None, central_longitude=180,
-                   lon_ticks=[60, 120, 180, 240, 300], lat_ticks=[-90, -45, 0, 45, 90],
+                   lon_ticks=[0, 60, 120, 180, 240, 300], lat_ticks=[-90, 45, 0, 45, 90],
                    land_color=sns.xkcd_rgb['light grey'], ocean_color=sns.xkcd_rgb['light grey'],
                    land_zorder=None, ocean_zorder=None, signif_values=None, signif_range=[0.05, 9999], hatch='..',
                    clim=None, cmap=None, cmap_under=None, cmap_over=None, cmap_bad=None, extend='both', mode=None, add_gridlines=False,
@@ -324,7 +324,6 @@ def plot_field_map(field_var, lat, lon, levels=50, add_cyclic_point=True,
         ax (object, optional): `matplotlib.axes`. Defaults to None.
 
     '''
-
     if mode is None:
         ndim = len(np.shape(lat))
         if ndim == 1:
@@ -383,19 +382,23 @@ def plot_field_map(field_var, lat, lon, levels=50, add_cyclic_point=True,
     if title:
         plt.title(title, fontsize=title_size, fontweight=title_weight)
 
-    if latlon_range:
+    if latlon_range is not None:
         lat_min, lat_max, lon_min, lon_max = latlon_range
         ax.set_extent([lon_min, lon_max, lat_min, lat_max], crs=transform)
-        lon_formatter = LongitudeFormatter(zero_direction_label=False)
-        lat_formatter = LatitudeFormatter()
-        ax.xaxis.set_major_formatter(lon_formatter)
-        ax.yaxis.set_major_formatter(lat_formatter)
-        lon_ticks = np.array(lon_ticks)
         lat_ticks = np.array(lat_ticks)
+        lon_ticks = np.array(lon_ticks)
+        if lon_min < 0:
+            lon_ticks = np.sort(np.mod(lon_ticks+180, 360) - 180)
+
         mask_lon = (lon_ticks >= lon_min) & (lon_ticks <= lon_max)
         mask_lat = (lat_ticks >= lat_min) & (lat_ticks <= lat_max)
-        ax.set_xticks(lon_ticks[mask_lon], crs=ccrs.PlateCarree())
-        ax.set_yticks(lat_ticks[mask_lat], crs=ccrs.PlateCarree())
+        if lon_min >= 0:
+            lon_formatter = LongitudeFormatter(zero_direction_label=False)
+            lat_formatter = LatitudeFormatter()
+            ax.xaxis.set_major_formatter(lon_formatter)
+            ax.yaxis.set_major_formatter(lat_formatter)
+            ax.set_xticks(lon_ticks[mask_lon], crs=ccrs.PlateCarree())
+            ax.set_yticks(lat_ticks[mask_lat], crs=ccrs.PlateCarree())
     else:
         ax.set_global()
 

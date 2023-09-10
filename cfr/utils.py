@@ -488,6 +488,14 @@ def coefficient_efficiency(ref, test, valid=None):
     return CE
 
 def geo_mean(da, lat_min=-90, lat_max=90, lon_min=0, lon_max=360, lat_name='lat', lon_name='lon'):
+    ''' Calculate the geographical mean value of the climate field.
+
+    Args:
+        lat_min (float): the lower bound of latitude for the calculation.
+        lat_max (float): the upper bound of latitude for the calculation.
+        lon_min (float): the lower bound of longitude for the calculation.
+        lon_max (float): the upper bound of longitude for the calculation.
+    '''
     # calculation
     mask_lat = (da[lat_name] >= lat_min) & (da[lat_name] <= lat_max)
     mask_lon = (da[lon_name] >= lon_min) & (da[lon_name] <= lon_max)

@@ -59,7 +59,7 @@ It provides a toolkit for
         :link: ug-psm
         :link-type: doc
 
-        Calibration and running of the Proxy System Models for multiple proxy types.
+        Proxy System Models for multiple proxy types.
 
     .. grid-item-card::  LMR
         :class-title: custom-title
@@ -68,7 +68,7 @@ It provides a toolkit for
         :link: ug-lmr
         :link-type: doc
 
-        Running the Last Millennium Reanalysis (LMR) workflow.
+        The Last Millennium Reanalysis (LMR) workflows.
 
     .. grid-item-card::  GraphEM
         :class-title: custom-title
@@ -77,7 +77,7 @@ It provides a toolkit for
         :link: ug-graphem
         :link-type: doc
 
-        Running the Graphical Expectation Maximization (GraphEM) workflow.
+        The Graphical Expectation Maximization (GraphEM) workflows.
 
     .. grid-item-card::  API
         :class-title: custom-title

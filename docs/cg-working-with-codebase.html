@@ -465,13 +465,16 @@ When creating this branch, make sure your master branch is up-to-date with the l
 </section>
 <section id="contributing-new-or-updating-existing-functionalities">
 <h2>Contributing new or updating existing functionalities<a class="headerlink" href="#contributing-new-or-updating-existing-functionalities" title="Permalink to this heading">#</a></h2>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
 <ul class="simple">
 <li><p>Open an issue on GitHub (See above)</p></li>
-<li><p>Integrate the new functionality or update the existing functionality. Make sure you:
-- Re-use as many of <cite>cfr</cite>’s existing utilities as you can, introducing new package dependencies only as necessary.
-- Create a docstring for your new function, describing arguments and returned variables, and showing an example of use. (Use an existing docstring for inspiration).</p></li>
-<li><p>Test the functionality within a self-contained Jupyter notebook. If the functionality is related to the reconstruction method, <strong>it is required to conduct a pseudoproxy experiment (PPE) using the `pseudoPAGES2k &lt;https://fzhu2e.github.io/cfr/ug-pp2k.html&gt;`_ dataset</strong> so that the result is comparable to existing ones.</p></li>
+<li><p>Integrate the new functionality or update the existing functionality. Make sure you:</p></li>
+<li><p>Re-use as many of <cite>cfr</cite>’s existing utilities as you can, introducing new package dependencies only as necessary.</p></li>
+<li><p>Create a docstring for your new function, describing arguments and returned variables, and showing an example of use. (Use an existing docstring for inspiration).</p></li>
+<li><p>Test the functionality within a self-contained Jupyter notebook. If the functionality is related to the reconstruction method, <strong>it is required to conduct a pseudoproxy experiment (PPE)</strong> using the <a class="reference external" href="https://www.nature.com/articles/s41597-023-02489-1">pseudoPAGES2k dataset</a> so that the result is comparable to existing ones. For examples, please refer to <a class="reference external" href="https://fzhu2e.github.io/cfr/notebooks/pp2k-ppe-pda.html">PPE: A PDA-based Reconstruction</a> and <a class="reference external" href="https://fzhu2e.github.io/cfr/notebooks/pp2k-ppe-graphem.html">PPE: A GraphEM-based Reconstruction</a>.</p></li>
 </ul>
+</div>
 </section>
 <section id="stylistic-considerations">
 <h2>Stylistic considerations<a class="headerlink" href="#stylistic-considerations" title="Permalink to this heading">#</a></h2>

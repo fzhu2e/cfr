@@ -1,7 +1,7 @@
 
 pseudoPAGES2k
 ===================================
-This section shows the usage of the pseudoPAGES2k dataset with `cfr` as an example, including the below topics:
+This section shows the usage of the `pseudoPAGES2k dataset (Zhu et al., 2023) <https://www.nature.com/articles/s41597-023-02489-1>`_ with `cfr` as an example, including the below topics:
 
 .. toctree::
     :maxdepth: 1

@@ -21,6 +21,7 @@ You will need your own fork to work on the code.
 Go to the `cfr` repository and hit the Fork button.
 You will then want to clone your fork (i.e. download all the code to your local machine so you can edit it locally).
 At the command line, this would like something like::
+
     git clone https://github.com/your-user-name/cfr.git cfr-fork
     cd cfr-fork
     git remote add upstream https://github.com/fzhu2e/cfr.git
@@ -56,12 +57,12 @@ When you want to update the feature branch with changes in master after you crea
 
 Contributing new or updating existing functionalities
 """"""""""""""""""""""""""""""""""""""""""""""""""""""
-
-- Open an issue on GitHub (See above)
-- Integrate the new functionality or update the existing functionality. Make sure you:
-  - Re-use as many of `cfr`'s existing utilities as you can, introducing new package dependencies only as necessary.
-  - Create a docstring for your new function, describing arguments and returned variables, and showing an example of use. (Use an existing docstring for inspiration).
-- Test the functionality within a self-contained Jupyter notebook. If the functionality is related to the reconstruction method, **it is required to conduct a pseudoproxy experiment (PPE) using the `pseudoPAGES2k <https://fzhu2e.github.io/cfr/ug-pp2k.html>`_ dataset** so that the result is comparable to existing ones.
+.. note::
+    - Open an issue on GitHub (See above)
+    - Integrate the new functionality or update the existing functionality. Make sure you:
+    - Re-use as many of `cfr`'s existing utilities as you can, introducing new package dependencies only as necessary.
+    - Create a docstring for your new function, describing arguments and returned variables, and showing an example of use. (Use an existing docstring for inspiration).
+    - Test the functionality within a self-contained Jupyter notebook. If the functionality is related to the reconstruction method, **it is required to conduct a pseudoproxy experiment (PPE)** using the `pseudoPAGES2k dataset <https://www.nature.com/articles/s41597-023-02489-1>`_ so that the result is comparable to existing ones. For examples, please refer to `PPE: A PDA-based Reconstruction <https://fzhu2e.github.io/cfr/notebooks/pp2k-ppe-pda.html>`_ and `PPE: A GraphEM-based Reconstruction <https://fzhu2e.github.io/cfr/notebooks/pp2k-ppe-graphem.html>`_.
 
 
 Stylistic considerations

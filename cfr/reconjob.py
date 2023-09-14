@@ -1018,11 +1018,11 @@ class ReconJob:
                     load_precalc_solver=False, solver_save_path=None,
                     compress_params=None, verbose=False, output_indices=None,
                     **fit_kws):
-        ''' Run the GraphEM solver, essentially the :py:meth: `GraphEM.solver.GraphEM.fit` method
+        ''' Run the GraphEM solver, essentially the `GraphEM.solver.GraphEM.fit` method
 
-        Note that the arguments for :py:meth: `GraphEM.solver.GraphEM.fit` can be appended in the
+        Note that the arguments for `GraphEM.solver.GraphEM.fit` can be appended in the
         argument list of this function directly. For instance, to pass a pre-calculated graph, use
-        `estimate_graph=False` and `graph=g.adj`, where `g` is the :py:`Graph` object.
+        `estimate_graph=False` and `graph=g.adj`, where `g` is the `Graph` object.
 
         Args:
             save_dirpath (str): the path to save the related results

@@ -7,7 +7,7 @@
 
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
     <title>API Reference &#8212; cfr  documentation</title>
   
@@ -34,15 +34,17 @@
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
     <link rel="stylesheet" type="text/css" href="_static/theme_overrides.css" />
     <link rel="stylesheet" type="text/css" href="_static/style.css" />
-    <link rel="stylesheet" type="text/css" href="_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css" />
+    <link rel="stylesheet" type="text/css" href="_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
   <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
 <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
 
     <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="_static/doctools.js"></script>
-    <script src="_static/sphinx_highlight.js"></script>
     <script src="_static/clipboard.min.js"></script>
     <script src="_static/copybutton.js"></script>
     <script src="_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
@@ -156,6 +158,7 @@
 <li class="toctree-l2"><a class="reference internal" href="notebooks/proxy-ops.html">Basic Operations</a></li>
 <li class="toctree-l2"><a class="reference internal" href="notebooks/proxy-analysis.html">Analysis</a></li>
 <li class="toctree-l2"><a class="reference internal" href="notebooks/proxy-composites.html">Composites</a></li>
+<li class="toctree-l2"><a class="reference internal" href="notebooks/proxy-dups.html">Handling duplicate proxies in a <code class="docutils literal notranslate"><span class="pre">ProxyDatabase</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="ug-psm.html">PSM</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
@@ -380,172 +383,13 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#proxy">Proxy</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyRecord"><code class="docutils literal notranslate"><span class="pre">ProxyRecord</span></code></a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyRecord.annualize"><code class="docutils literal notranslate"><span class="pre">ProxyRecord.annualize()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyRecord.center"><code class="docutils literal notranslate"><span class="pre">ProxyRecord.center()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyRecord.concat"><code class="docutils literal notranslate"><span class="pre">ProxyRecord.concat()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyRecord.copy"><code class="docutils literal notranslate"><span class="pre">ProxyRecord.copy()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyRecord.correct_elev_tas"><code class="docutils literal notranslate"><span class="pre">ProxyRecord.correct_elev_tas()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyRecord.dashboard"><code class="docutils literal notranslate"><span class="pre">ProxyRecord.dashboard()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyRecord.dashboard_clim"><code class="docutils literal notranslate"><span class="pre">ProxyRecord.dashboard_clim()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyRecord.del_clim"><code class="docutils literal notranslate"><span class="pre">ProxyRecord.del_clim()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyRecord.del_pseudo"><code class="docutils literal notranslate"><span class="pre">ProxyRecord.del_pseudo()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyRecord.from_da"><code class="docutils literal notranslate"><span class="pre">ProxyRecord.from_da()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyRecord.get_clim"><code class="docutils literal notranslate"><span class="pre">ProxyRecord.get_clim()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyRecord.get_pseudo"><code class="docutils literal notranslate"><span class="pre">ProxyRecord.get_pseudo()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyRecord.load_nc"><code class="docutils literal notranslate"><span class="pre">ProxyRecord.load_nc()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyRecord.plot"><code class="docutils literal notranslate"><span class="pre">ProxyRecord.plot()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyRecord.plot_compare"><code class="docutils literal notranslate"><span class="pre">ProxyRecord.plot_compare()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyRecord.plot_dups"><code class="docutils literal notranslate"><span class="pre">ProxyRecord.plot_dups()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyRecord.plotly"><code class="docutils literal notranslate"><span class="pre">ProxyRecord.plotly()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyRecord.slice"><code class="docutils literal notranslate"><span class="pre">ProxyRecord.slice()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyRecord.standardize"><code class="docutils literal notranslate"><span class="pre">ProxyRecord.standardize()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyRecord.to_da"><code class="docutils literal notranslate"><span class="pre">ProxyRecord.to_da()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyRecord.to_nc"><code class="docutils literal notranslate"><span class="pre">ProxyRecord.to_nc()</span></code></a></li>
-</ul>
-</li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyDatabase"><code class="docutils literal notranslate"><span class="pre">ProxyDatabase</span></code></a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyDatabase.annualize"><code class="docutils literal notranslate"><span class="pre">ProxyDatabase.annualize()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyDatabase.center"><code class="docutils literal notranslate"><span class="pre">ProxyDatabase.center()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyDatabase.copy"><code class="docutils literal notranslate"><span class="pre">ProxyDatabase.copy()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyDatabase.correct_elev_tas"><code class="docutils literal notranslate"><span class="pre">ProxyDatabase.correct_elev_tas()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyDatabase.count_availability"><code class="docutils literal notranslate"><span class="pre">ProxyDatabase.count_availability()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyDatabase.del_clim"><code class="docutils literal notranslate"><span class="pre">ProxyDatabase.del_clim()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyDatabase.fetch"><code class="docutils literal notranslate"><span class="pre">ProxyDatabase.fetch()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyDatabase.filter"><code class="docutils literal notranslate"><span class="pre">ProxyDatabase.filter()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyDatabase.find_duplicates"><code class="docutils literal notranslate"><span class="pre">ProxyDatabase.find_duplicates()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyDatabase.from_df"><code class="docutils literal notranslate"><span class="pre">ProxyDatabase.from_df()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyDatabase.from_ds"><code class="docutils literal notranslate"><span class="pre">ProxyDatabase.from_ds()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyDatabase.get_clim"><code class="docutils literal notranslate"><span class="pre">ProxyDatabase.get_clim()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyDatabase.load_multi_nc"><code class="docutils literal notranslate"><span class="pre">ProxyDatabase.load_multi_nc()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyDatabase.load_nc"><code class="docutils literal notranslate"><span class="pre">ProxyDatabase.load_nc()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyDatabase.make_composite"><code class="docutils literal notranslate"><span class="pre">ProxyDatabase.make_composite()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyDatabase.nrec_tags"><code class="docutils literal notranslate"><span class="pre">ProxyDatabase.nrec_tags()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyDatabase.plot"><code class="docutils literal notranslate"><span class="pre">ProxyDatabase.plot()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyDatabase.plot_composite"><code class="docutils literal notranslate"><span class="pre">ProxyDatabase.plot_composite()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyDatabase.plotly"><code class="docutils literal notranslate"><span class="pre">ProxyDatabase.plotly()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyDatabase.plotly_count"><code class="docutils literal notranslate"><span class="pre">ProxyDatabase.plotly_count()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyDatabase.refresh"><code class="docutils literal notranslate"><span class="pre">ProxyDatabase.refresh()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyDatabase.slice"><code class="docutils literal notranslate"><span class="pre">ProxyDatabase.slice()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyDatabase.squeeze_dups"><code class="docutils literal notranslate"><span class="pre">ProxyDatabase.squeeze_dups()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyDatabase.standardize"><code class="docutils literal notranslate"><span class="pre">ProxyDatabase.standardize()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyDatabase.to_df"><code class="docutils literal notranslate"><span class="pre">ProxyDatabase.to_df()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyDatabase.to_ds"><code class="docutils literal notranslate"><span class="pre">ProxyDatabase.to_ds()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyDatabase.to_multi_nc"><code class="docutils literal notranslate"><span class="pre">ProxyDatabase.to_multi_nc()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyDatabase.to_nc"><code class="docutils literal notranslate"><span class="pre">ProxyDatabase.to_nc()</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#climate">Climate</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.climate.ClimateField"><code class="docutils literal notranslate"><span class="pre">ClimateField</span></code></a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.climate.ClimateField.annualize"><code class="docutils literal notranslate"><span class="pre">ClimateField.annualize()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.climate.ClimateField.center"><code class="docutils literal notranslate"><span class="pre">ClimateField.center()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.climate.ClimateField.compare"><code class="docutils literal notranslate"><span class="pre">ClimateField.compare()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.climate.ClimateField.copy"><code class="docutils literal notranslate"><span class="pre">ClimateField.copy()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.climate.ClimateField.crop"><code class="docutils literal notranslate"><span class="pre">ClimateField.crop()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.climate.ClimateField.fetch"><code class="docutils literal notranslate"><span class="pre">ClimateField.fetch()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.climate.ClimateField.from_np"><code class="docutils literal notranslate"><span class="pre">ClimateField.from_np()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.climate.ClimateField.geo_mean"><code class="docutils literal notranslate"><span class="pre">ClimateField.geo_mean()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.climate.ClimateField.get_anom"><code class="docutils literal notranslate"><span class="pre">ClimateField.get_anom()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.climate.ClimateField.get_eof"><code class="docutils literal notranslate"><span class="pre">ClimateField.get_eof()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.climate.ClimateField.index"><code class="docutils literal notranslate"><span class="pre">ClimateField.index()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.climate.ClimateField.load_nc"><code class="docutils literal notranslate"><span class="pre">ClimateField.load_nc()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.climate.ClimateField.plot"><code class="docutils literal notranslate"><span class="pre">ClimateField.plot()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.climate.ClimateField.plot_eof"><code class="docutils literal notranslate"><span class="pre">ClimateField.plot_eof()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.climate.ClimateField.plotly_grid"><code class="docutils literal notranslate"><span class="pre">ClimateField.plotly_grid()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.climate.ClimateField.regrid"><code class="docutils literal notranslate"><span class="pre">ClimateField.regrid()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.climate.ClimateField.rename"><code class="docutils literal notranslate"><span class="pre">ClimateField.rename()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.climate.ClimateField.to_nc"><code class="docutils literal notranslate"><span class="pre">ClimateField.to_nc()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.climate.ClimateField.wrap_lon"><code class="docutils literal notranslate"><span class="pre">ClimateField.wrap_lon()</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#psm">PSM</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.psm.Linear"><code class="docutils literal notranslate"><span class="pre">Linear</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.psm.Bilinear"><code class="docutils literal notranslate"><span class="pre">Bilinear</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.psm.Ice_d18O"><code class="docutils literal notranslate"><span class="pre">Ice_d18O</span></code></a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.psm.Ice_d18O.forward"><code class="docutils literal notranslate"><span class="pre">Ice_d18O.forward()</span></code></a></li>
-</ul>
-</li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.psm.Lake_VarveThickness"><code class="docutils literal notranslate"><span class="pre">Lake_VarveThickness</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.psm.Coral_SrCa"><code class="docutils literal notranslate"><span class="pre">Coral_SrCa</span></code></a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.psm.Coral_SrCa.forward"><code class="docutils literal notranslate"><span class="pre">Coral_SrCa.forward()</span></code></a></li>
-</ul>
-</li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.psm.Coral_d18O"><code class="docutils literal notranslate"><span class="pre">Coral_d18O</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.psm.VSLite"><code class="docutils literal notranslate"><span class="pre">VSLite</span></code></a></li>
-</ul>
-</li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#da">DA</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.da.EnKF"><code class="docutils literal notranslate"><span class="pre">EnKF</span></code></a></li>
-</ul>
-</li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#graphem">GraphEM</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reconjob">ReconJob</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.reconjob.ReconJob"><code class="docutils literal notranslate"><span class="pre">ReconJob</span></code></a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.reconjob.ReconJob.annualize_clim"><code class="docutils literal notranslate"><span class="pre">ReconJob.annualize_clim()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.reconjob.ReconJob.annualize_proxydb"><code class="docutils literal notranslate"><span class="pre">ReconJob.annualize_proxydb()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.reconjob.ReconJob.calib_psms"><code class="docutils literal notranslate"><span class="pre">ReconJob.calib_psms()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.reconjob.ReconJob.center_proxydb"><code class="docutils literal notranslate"><span class="pre">ReconJob.center_proxydb()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.reconjob.ReconJob.clear_proxydb_tags"><code class="docutils literal notranslate"><span class="pre">ReconJob.clear_proxydb_tags()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.reconjob.ReconJob.copy"><code class="docutils literal notranslate"><span class="pre">ReconJob.copy()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.reconjob.ReconJob.crop_clim"><code class="docutils literal notranslate"><span class="pre">ReconJob.crop_clim()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.reconjob.ReconJob.erase_cfg"><code class="docutils literal notranslate"><span class="pre">ReconJob.erase_cfg()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.reconjob.ReconJob.filter_proxydb"><code class="docutils literal notranslate"><span class="pre">ReconJob.filter_proxydb()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.reconjob.ReconJob.forward_psms"><code class="docutils literal notranslate"><span class="pre">ReconJob.forward_psms()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.reconjob.ReconJob.graphem_kcv"><code class="docutils literal notranslate"><span class="pre">ReconJob.graphem_kcv()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.reconjob.ReconJob.io_cfg"><code class="docutils literal notranslate"><span class="pre">ReconJob.io_cfg()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.reconjob.ReconJob.load"><code class="docutils literal notranslate"><span class="pre">ReconJob.load()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.reconjob.ReconJob.load_clim"><code class="docutils literal notranslate"><span class="pre">ReconJob.load_clim()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.reconjob.ReconJob.load_proxydb"><code class="docutils literal notranslate"><span class="pre">ReconJob.load_proxydb()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.reconjob.ReconJob.mark_pids"><code class="docutils literal notranslate"><span class="pre">ReconJob.mark_pids()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.reconjob.ReconJob.prep_da_cfg"><code class="docutils literal notranslate"><span class="pre">ReconJob.prep_da_cfg()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.reconjob.ReconJob.prep_graphem"><code class="docutils literal notranslate"><span class="pre">ReconJob.prep_graphem()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.reconjob.ReconJob.regrid_clim"><code class="docutils literal notranslate"><span class="pre">ReconJob.regrid_clim()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.reconjob.ReconJob.run_da"><code class="docutils literal notranslate"><span class="pre">ReconJob.run_da()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.reconjob.ReconJob.run_da_cfg"><code class="docutils literal notranslate"><span class="pre">ReconJob.run_da_cfg()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.reconjob.ReconJob.run_da_mc"><code class="docutils literal notranslate"><span class="pre">ReconJob.run_da_mc()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.reconjob.ReconJob.run_graphem"><code class="docutils literal notranslate"><span class="pre">ReconJob.run_graphem()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.reconjob.ReconJob.run_graphem_cfg"><code class="docutils literal notranslate"><span class="pre">ReconJob.run_graphem_cfg()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.reconjob.ReconJob.save"><code class="docutils literal notranslate"><span class="pre">ReconJob.save()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.reconjob.ReconJob.save_cfg"><code class="docutils literal notranslate"><span class="pre">ReconJob.save_cfg()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.reconjob.ReconJob.save_recon"><code class="docutils literal notranslate"><span class="pre">ReconJob.save_recon()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.reconjob.ReconJob.slice_proxydb"><code class="docutils literal notranslate"><span class="pre">ReconJob.slice_proxydb()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.reconjob.ReconJob.split_proxydb"><code class="docutils literal notranslate"><span class="pre">ReconJob.split_proxydb()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.reconjob.ReconJob.write_cfg"><code class="docutils literal notranslate"><span class="pre">ReconJob.write_cfg()</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reconres">ReconRes</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.reconres.ReconRes"><code class="docutils literal notranslate"><span class="pre">ReconRes</span></code></a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.reconres.ReconRes.load"><code class="docutils literal notranslate"><span class="pre">ReconRes.load()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.reconres.ReconRes.plot_valid"><code class="docutils literal notranslate"><span class="pre">ReconRes.plot_valid()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.reconres.ReconRes.valid"><code class="docutils literal notranslate"><span class="pre">ReconRes.valid()</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ensts">EnsTS</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.ts.EnsTS"><code class="docutils literal notranslate"><span class="pre">EnsTS</span></code></a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.ts.EnsTS.nt"><code class="docutils literal notranslate"><span class="pre">EnsTS.nt</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.ts.EnsTS.nEns"><code class="docutils literal notranslate"><span class="pre">EnsTS.nEns</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.ts.EnsTS.median"><code class="docutils literal notranslate"><span class="pre">EnsTS.median</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.ts.EnsTS.compare"><code class="docutils literal notranslate"><span class="pre">EnsTS.compare()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.ts.EnsTS.copy"><code class="docutils literal notranslate"><span class="pre">EnsTS.copy()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.ts.EnsTS.fetch"><code class="docutils literal notranslate"><span class="pre">EnsTS.fetch()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.ts.EnsTS.from_df"><code class="docutils literal notranslate"><span class="pre">EnsTS.from_df()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.ts.EnsTS.line_density"><code class="docutils literal notranslate"><span class="pre">EnsTS.line_density()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.ts.EnsTS.plot"><code class="docutils literal notranslate"><span class="pre">EnsTS.plot()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.ts.EnsTS.plot_qs"><code class="docutils literal notranslate"><span class="pre">EnsTS.plot_qs()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.ts.EnsTS.to_df"><code class="docutils literal notranslate"><span class="pre">EnsTS.to_df()</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#proxy">Proxy</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#climate">Climate</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#psm">PSM</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#da">DA</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reconjob">ReconJob</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reconres">ReconRes</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ensts">EnsTS</a></li>
 </ul>
             </nav>
         </div>
@@ -621,7 +465,7 @@ If not satisfied, and <cite>force=False</cite>, the record will not be centered.
 
 <dl class="py method">
 <dt class="sig sig-object py" id="cfr.proxy.ProxyRecord.correct_elev_tas">
-<span class="sig-name descname"><span class="pre">correct_elev_tas</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">t_rate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">-9.8</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.proxy.ProxyRecord.correct_elev_tas" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">correct_elev_tas</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">t_rate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">-</span> <span class="pre">9.8</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.proxy.ProxyRecord.correct_elev_tas" title="Permalink to this definition">#</a></dt>
 <dd><p>Correct the tas with t_rate = -9.8 degC/km upward by default.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -719,7 +563,7 @@ If not satisfied, and <cite>force=False</cite>, the record will not be centered.
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>fields</strong> (<em>list</em><em> of </em><a class="reference internal" href="#cfr.climate.ClimateField" title="cfr.climate.ClimateField"><em>cfr.climate.ClimateField</em></a>) – the climate fields</p></li>
+<li><p><strong>fields</strong> (<em>list of cfr.climate.ClimateField</em>) – the climate fields</p></li>
 <li><p><strong>tag</strong> (<em>str</em>) – the tag to put on the obtained climate field, which will be named in the format of “tag.variable_name”.</p></li>
 <li><p><strong>search_dist</strong> (<em>float</em>) – the farest distance to search for climate data in degree</p></li>
 <li><p><strong>verbose</strong> (<em>bool</em><em>, </em><em>optional</em>) – print verbose information. Defaults to False.</p></li>
@@ -943,7 +787,7 @@ if timespan = [a, b, c, d], then the sliced output includes segment [a, b] and s
 
 <dl class="py method">
 <dt class="sig sig-object py" id="cfr.proxy.ProxyDatabase.correct_elev_tas">
-<span class="sig-name descname"><span class="pre">correct_elev_tas</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">t_rate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">-9.8</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.proxy.ProxyDatabase.correct_elev_tas" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">correct_elev_tas</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">t_rate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">-</span> <span class="pre">9.8</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.proxy.ProxyDatabase.correct_elev_tas" title="Permalink to this definition">#</a></dt>
 <dd><p>Correct the tas with t_rate = -9.8 degC/km upward by default.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -1068,7 +912,7 @@ if timespan = [a, b, c, d], then the sliced output includes segment [a, b] and s
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>fields</strong> (<em>list</em><em> of </em><a class="reference internal" href="#cfr.climate.ClimateField" title="cfr.climate.ClimateField"><em>cfr.climate.ClimateField</em></a>) – the climate fields</p></li>
+<li><p><strong>fields</strong> (<em>list of cfr.climate.ClimateField</em>) – the climate fields</p></li>
 <li><p><strong>tag</strong> (<em>str</em>) – the tag to put on the obtained climate field, which will be named in the format of “tag.variable_name”.</p></li>
 <li><p><strong>verbose</strong> (<em>bool</em><em>, </em><em>optional</em>) – print verbose information. Defaults to False.</p></li>
 <li><p><strong>load</strong> (<em>bool</em>) – if True, the list of climate fields will be loaded into the memory instead of lazy loading.</p></li>
@@ -1147,7 +991,7 @@ the default is by multiprocessing.cpu_count()</p></li>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="cfr.proxy.ProxyDatabase.plot_composite">
-<span class="sig-name descname"><span class="pre">plot_composite</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">figsize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[10,</span> <span class="pre">4]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">clr_proxy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">clr_count</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'tab:gray'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">clr_obs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'tab:red'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">left_ylim</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[-2,</span> <span class="pre">2]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">right_ylim</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ylim_num</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xlim</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[0,</span> <span class="pre">2000]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">base_n</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">60</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.proxy.ProxyDatabase.plot_composite" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">plot_composite</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">figsize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[10,</span> <span class="pre">4]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">clr_proxy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">clr_count</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'tab:gray'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">clr_obs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'tab:red'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">left_ylim</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[-</span> <span class="pre">2,</span> <span class="pre">2]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">right_ylim</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ylim_num</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xlim</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[0,</span> <span class="pre">2000]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">base_n</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">60</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.proxy.ProxyDatabase.plot_composite" title="Permalink to this definition">#</a></dt>
 <dd><p>Plot the composites of the records in the proxy database.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -1354,8 +1198,9 @@ if timespan = [a, b, c, d], then the sliced output includes segment [a, b] and s
 
 <dl class="py method">
 <dt class="sig sig-object py" id="cfr.climate.ClimateField.crop">
-<span class="sig-name descname"><span class="pre">crop</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lat_min</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">-90</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lat_max</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">90</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lon_min</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lon_max</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">360</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.climate.ClimateField.crop" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">crop</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lat_min</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">-</span> <span class="pre">90</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lat_max</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">90</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lon_min</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lon_max</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">360</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.climate.ClimateField.crop" title="Permalink to this definition">#</a></dt>
 <dd><p>Crop the climate field based on the range of latitude and longitude.</p>
+<p>Note that in cases when the crop range is crossing the 0 degree of longitude, <cite>lon_min</cite> should be less than 0.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -1401,7 +1246,7 @@ If not set, the method will return hints of available predefined names.</p></li>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="cfr.climate.ClimateField.geo_mean">
-<span class="sig-name descname"><span class="pre">geo_mean</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lat_min</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">-90</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lat_max</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">90</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lon_min</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lon_max</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">360</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.climate.ClimateField.geo_mean" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">geo_mean</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lat_min</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">-</span> <span class="pre">90</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lat_max</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">90</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lon_min</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lon_max</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">360</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.climate.ClimateField.geo_mean" title="Permalink to this definition">#</a></dt>
 <dd><p>Calculate the geographical mean value of the climate field.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -1681,9 +1526,6 @@ Returns a numpy array that is the same size and shape as the input vectors for S
 </dl>
 </dd></dl>
 
-</section>
-<section id="graphem">
-<h2>GraphEM<a class="headerlink" href="#graphem" title="Permalink to this heading">#</a></h2>
 </section>
 <section id="reconjob">
 <h2>ReconJob<a class="headerlink" href="#reconjob" title="Permalink to this heading">#</a></h2>
@@ -2273,7 +2115,7 @@ The filename will be <cite>configs.yml</cite>.</p></li>
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>target_dict</strong> (<em>dict</em>) – a dictionary of multiple variables for validation.</p></li>
-<li><p><strong>stat</strong> (<em>list</em><em> of </em><em>str</em>) – <p>the statistics to calculate. Supported quantaties:</p>
+<li><p><strong>stat</strong> (<em>list of str</em>) – <p>the statistics to calculate. Supported quantaties:</p>
 <ul>
 <li><p>’corr’: correlation coefficient</p></li>
 <li><p>’R2’: coefficient of determination</p></li>
@@ -2383,7 +2225,7 @@ and nEns is the number of ensemble members.</p>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>df</strong> (<em>pandas.DataFrame</em>) – The pandas.DataFrame object.</p></li>
 <li><p><strong>time_column</strong> (<em>str</em>) – The label of the column for the time axis.</p></li>
-<li><p><strong>value_columns</strong> (<em>list</em><em> of </em><em>str</em>) – The list of the labels for the value axis of the ensemble members.</p></li>
+<li><p><strong>value_columns</strong> (<em>list of str</em>) – The list of the labels for the value axis of the ensemble members.</p></li>
 </ul>
 </dd>
 </dl>
@@ -2513,172 +2355,13 @@ By default, the columns for the members will be labeled as “ens.0”, “ens.1
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#proxy">Proxy</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyRecord"><code class="docutils literal notranslate"><span class="pre">ProxyRecord</span></code></a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyRecord.annualize"><code class="docutils literal notranslate"><span class="pre">ProxyRecord.annualize()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyRecord.center"><code class="docutils literal notranslate"><span class="pre">ProxyRecord.center()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyRecord.concat"><code class="docutils literal notranslate"><span class="pre">ProxyRecord.concat()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyRecord.copy"><code class="docutils literal notranslate"><span class="pre">ProxyRecord.copy()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyRecord.correct_elev_tas"><code class="docutils literal notranslate"><span class="pre">ProxyRecord.correct_elev_tas()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyRecord.dashboard"><code class="docutils literal notranslate"><span class="pre">ProxyRecord.dashboard()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyRecord.dashboard_clim"><code class="docutils literal notranslate"><span class="pre">ProxyRecord.dashboard_clim()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyRecord.del_clim"><code class="docutils literal notranslate"><span class="pre">ProxyRecord.del_clim()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyRecord.del_pseudo"><code class="docutils literal notranslate"><span class="pre">ProxyRecord.del_pseudo()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyRecord.from_da"><code class="docutils literal notranslate"><span class="pre">ProxyRecord.from_da()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyRecord.get_clim"><code class="docutils literal notranslate"><span class="pre">ProxyRecord.get_clim()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyRecord.get_pseudo"><code class="docutils literal notranslate"><span class="pre">ProxyRecord.get_pseudo()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyRecord.load_nc"><code class="docutils literal notranslate"><span class="pre">ProxyRecord.load_nc()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyRecord.plot"><code class="docutils literal notranslate"><span class="pre">ProxyRecord.plot()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyRecord.plot_compare"><code class="docutils literal notranslate"><span class="pre">ProxyRecord.plot_compare()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyRecord.plot_dups"><code class="docutils literal notranslate"><span class="pre">ProxyRecord.plot_dups()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyRecord.plotly"><code class="docutils literal notranslate"><span class="pre">ProxyRecord.plotly()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyRecord.slice"><code class="docutils literal notranslate"><span class="pre">ProxyRecord.slice()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyRecord.standardize"><code class="docutils literal notranslate"><span class="pre">ProxyRecord.standardize()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyRecord.to_da"><code class="docutils literal notranslate"><span class="pre">ProxyRecord.to_da()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyRecord.to_nc"><code class="docutils literal notranslate"><span class="pre">ProxyRecord.to_nc()</span></code></a></li>
-</ul>
-</li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyDatabase"><code class="docutils literal notranslate"><span class="pre">ProxyDatabase</span></code></a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyDatabase.annualize"><code class="docutils literal notranslate"><span class="pre">ProxyDatabase.annualize()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyDatabase.center"><code class="docutils literal notranslate"><span class="pre">ProxyDatabase.center()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyDatabase.copy"><code class="docutils literal notranslate"><span class="pre">ProxyDatabase.copy()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyDatabase.correct_elev_tas"><code class="docutils literal notranslate"><span class="pre">ProxyDatabase.correct_elev_tas()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyDatabase.count_availability"><code class="docutils literal notranslate"><span class="pre">ProxyDatabase.count_availability()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyDatabase.del_clim"><code class="docutils literal notranslate"><span class="pre">ProxyDatabase.del_clim()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyDatabase.fetch"><code class="docutils literal notranslate"><span class="pre">ProxyDatabase.fetch()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyDatabase.filter"><code class="docutils literal notranslate"><span class="pre">ProxyDatabase.filter()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyDatabase.find_duplicates"><code class="docutils literal notranslate"><span class="pre">ProxyDatabase.find_duplicates()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyDatabase.from_df"><code class="docutils literal notranslate"><span class="pre">ProxyDatabase.from_df()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyDatabase.from_ds"><code class="docutils literal notranslate"><span class="pre">ProxyDatabase.from_ds()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyDatabase.get_clim"><code class="docutils literal notranslate"><span class="pre">ProxyDatabase.get_clim()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyDatabase.load_multi_nc"><code class="docutils literal notranslate"><span class="pre">ProxyDatabase.load_multi_nc()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyDatabase.load_nc"><code class="docutils literal notranslate"><span class="pre">ProxyDatabase.load_nc()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyDatabase.make_composite"><code class="docutils literal notranslate"><span class="pre">ProxyDatabase.make_composite()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyDatabase.nrec_tags"><code class="docutils literal notranslate"><span class="pre">ProxyDatabase.nrec_tags()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyDatabase.plot"><code class="docutils literal notranslate"><span class="pre">ProxyDatabase.plot()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyDatabase.plot_composite"><code class="docutils literal notranslate"><span class="pre">ProxyDatabase.plot_composite()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyDatabase.plotly"><code class="docutils literal notranslate"><span class="pre">ProxyDatabase.plotly()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyDatabase.plotly_count"><code class="docutils literal notranslate"><span class="pre">ProxyDatabase.plotly_count()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyDatabase.refresh"><code class="docutils literal notranslate"><span class="pre">ProxyDatabase.refresh()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyDatabase.slice"><code class="docutils literal notranslate"><span class="pre">ProxyDatabase.slice()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyDatabase.squeeze_dups"><code class="docutils literal notranslate"><span class="pre">ProxyDatabase.squeeze_dups()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyDatabase.standardize"><code class="docutils literal notranslate"><span class="pre">ProxyDatabase.standardize()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyDatabase.to_df"><code class="docutils literal notranslate"><span class="pre">ProxyDatabase.to_df()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyDatabase.to_ds"><code class="docutils literal notranslate"><span class="pre">ProxyDatabase.to_ds()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyDatabase.to_multi_nc"><code class="docutils literal notranslate"><span class="pre">ProxyDatabase.to_multi_nc()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyDatabase.to_nc"><code class="docutils literal notranslate"><span class="pre">ProxyDatabase.to_nc()</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#climate">Climate</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.climate.ClimateField"><code class="docutils literal notranslate"><span class="pre">ClimateField</span></code></a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.climate.ClimateField.annualize"><code class="docutils literal notranslate"><span class="pre">ClimateField.annualize()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.climate.ClimateField.center"><code class="docutils literal notranslate"><span class="pre">ClimateField.center()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.climate.ClimateField.compare"><code class="docutils literal notranslate"><span class="pre">ClimateField.compare()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.climate.ClimateField.copy"><code class="docutils literal notranslate"><span class="pre">ClimateField.copy()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.climate.ClimateField.crop"><code class="docutils literal notranslate"><span class="pre">ClimateField.crop()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.climate.ClimateField.fetch"><code class="docutils literal notranslate"><span class="pre">ClimateField.fetch()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.climate.ClimateField.from_np"><code class="docutils literal notranslate"><span class="pre">ClimateField.from_np()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.climate.ClimateField.geo_mean"><code class="docutils literal notranslate"><span class="pre">ClimateField.geo_mean()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.climate.ClimateField.get_anom"><code class="docutils literal notranslate"><span class="pre">ClimateField.get_anom()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.climate.ClimateField.get_eof"><code class="docutils literal notranslate"><span class="pre">ClimateField.get_eof()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.climate.ClimateField.index"><code class="docutils literal notranslate"><span class="pre">ClimateField.index()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.climate.ClimateField.load_nc"><code class="docutils literal notranslate"><span class="pre">ClimateField.load_nc()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.climate.ClimateField.plot"><code class="docutils literal notranslate"><span class="pre">ClimateField.plot()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.climate.ClimateField.plot_eof"><code class="docutils literal notranslate"><span class="pre">ClimateField.plot_eof()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.climate.ClimateField.plotly_grid"><code class="docutils literal notranslate"><span class="pre">ClimateField.plotly_grid()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.climate.ClimateField.regrid"><code class="docutils literal notranslate"><span class="pre">ClimateField.regrid()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.climate.ClimateField.rename"><code class="docutils literal notranslate"><span class="pre">ClimateField.rename()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.climate.ClimateField.to_nc"><code class="docutils literal notranslate"><span class="pre">ClimateField.to_nc()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.climate.ClimateField.wrap_lon"><code class="docutils literal notranslate"><span class="pre">ClimateField.wrap_lon()</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#psm">PSM</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.psm.Linear"><code class="docutils literal notranslate"><span class="pre">Linear</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.psm.Bilinear"><code class="docutils literal notranslate"><span class="pre">Bilinear</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.psm.Ice_d18O"><code class="docutils literal notranslate"><span class="pre">Ice_d18O</span></code></a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.psm.Ice_d18O.forward"><code class="docutils literal notranslate"><span class="pre">Ice_d18O.forward()</span></code></a></li>
-</ul>
-</li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.psm.Lake_VarveThickness"><code class="docutils literal notranslate"><span class="pre">Lake_VarveThickness</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.psm.Coral_SrCa"><code class="docutils literal notranslate"><span class="pre">Coral_SrCa</span></code></a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.psm.Coral_SrCa.forward"><code class="docutils literal notranslate"><span class="pre">Coral_SrCa.forward()</span></code></a></li>
-</ul>
-</li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.psm.Coral_d18O"><code class="docutils literal notranslate"><span class="pre">Coral_d18O</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.psm.VSLite"><code class="docutils literal notranslate"><span class="pre">VSLite</span></code></a></li>
-</ul>
-</li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#da">DA</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.da.EnKF"><code class="docutils literal notranslate"><span class="pre">EnKF</span></code></a></li>
-</ul>
-</li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#graphem">GraphEM</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reconjob">ReconJob</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.reconjob.ReconJob"><code class="docutils literal notranslate"><span class="pre">ReconJob</span></code></a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.reconjob.ReconJob.annualize_clim"><code class="docutils literal notranslate"><span class="pre">ReconJob.annualize_clim()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.reconjob.ReconJob.annualize_proxydb"><code class="docutils literal notranslate"><span class="pre">ReconJob.annualize_proxydb()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.reconjob.ReconJob.calib_psms"><code class="docutils literal notranslate"><span class="pre">ReconJob.calib_psms()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.reconjob.ReconJob.center_proxydb"><code class="docutils literal notranslate"><span class="pre">ReconJob.center_proxydb()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.reconjob.ReconJob.clear_proxydb_tags"><code class="docutils literal notranslate"><span class="pre">ReconJob.clear_proxydb_tags()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.reconjob.ReconJob.copy"><code class="docutils literal notranslate"><span class="pre">ReconJob.copy()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.reconjob.ReconJob.crop_clim"><code class="docutils literal notranslate"><span class="pre">ReconJob.crop_clim()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.reconjob.ReconJob.erase_cfg"><code class="docutils literal notranslate"><span class="pre">ReconJob.erase_cfg()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.reconjob.ReconJob.filter_proxydb"><code class="docutils literal notranslate"><span class="pre">ReconJob.filter_proxydb()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.reconjob.ReconJob.forward_psms"><code class="docutils literal notranslate"><span class="pre">ReconJob.forward_psms()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.reconjob.ReconJob.graphem_kcv"><code class="docutils literal notranslate"><span class="pre">ReconJob.graphem_kcv()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.reconjob.ReconJob.io_cfg"><code class="docutils literal notranslate"><span class="pre">ReconJob.io_cfg()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.reconjob.ReconJob.load"><code class="docutils literal notranslate"><span class="pre">ReconJob.load()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.reconjob.ReconJob.load_clim"><code class="docutils literal notranslate"><span class="pre">ReconJob.load_clim()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.reconjob.ReconJob.load_proxydb"><code class="docutils literal notranslate"><span class="pre">ReconJob.load_proxydb()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.reconjob.ReconJob.mark_pids"><code class="docutils literal notranslate"><span class="pre">ReconJob.mark_pids()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.reconjob.ReconJob.prep_da_cfg"><code class="docutils literal notranslate"><span class="pre">ReconJob.prep_da_cfg()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.reconjob.ReconJob.prep_graphem"><code class="docutils literal notranslate"><span class="pre">ReconJob.prep_graphem()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.reconjob.ReconJob.regrid_clim"><code class="docutils literal notranslate"><span class="pre">ReconJob.regrid_clim()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.reconjob.ReconJob.run_da"><code class="docutils literal notranslate"><span class="pre">ReconJob.run_da()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.reconjob.ReconJob.run_da_cfg"><code class="docutils literal notranslate"><span class="pre">ReconJob.run_da_cfg()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.reconjob.ReconJob.run_da_mc"><code class="docutils literal notranslate"><span class="pre">ReconJob.run_da_mc()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.reconjob.ReconJob.run_graphem"><code class="docutils literal notranslate"><span class="pre">ReconJob.run_graphem()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.reconjob.ReconJob.run_graphem_cfg"><code class="docutils literal notranslate"><span class="pre">ReconJob.run_graphem_cfg()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.reconjob.ReconJob.save"><code class="docutils literal notranslate"><span class="pre">ReconJob.save()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.reconjob.ReconJob.save_cfg"><code class="docutils literal notranslate"><span class="pre">ReconJob.save_cfg()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.reconjob.ReconJob.save_recon"><code class="docutils literal notranslate"><span class="pre">ReconJob.save_recon()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.reconjob.ReconJob.slice_proxydb"><code class="docutils literal notranslate"><span class="pre">ReconJob.slice_proxydb()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.reconjob.ReconJob.split_proxydb"><code class="docutils literal notranslate"><span class="pre">ReconJob.split_proxydb()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.reconjob.ReconJob.write_cfg"><code class="docutils literal notranslate"><span class="pre">ReconJob.write_cfg()</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reconres">ReconRes</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.reconres.ReconRes"><code class="docutils literal notranslate"><span class="pre">ReconRes</span></code></a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.reconres.ReconRes.load"><code class="docutils literal notranslate"><span class="pre">ReconRes.load()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.reconres.ReconRes.plot_valid"><code class="docutils literal notranslate"><span class="pre">ReconRes.plot_valid()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.reconres.ReconRes.valid"><code class="docutils literal notranslate"><span class="pre">ReconRes.valid()</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ensts">EnsTS</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.ts.EnsTS"><code class="docutils literal notranslate"><span class="pre">EnsTS</span></code></a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.ts.EnsTS.nt"><code class="docutils literal notranslate"><span class="pre">EnsTS.nt</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.ts.EnsTS.nEns"><code class="docutils literal notranslate"><span class="pre">EnsTS.nEns</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.ts.EnsTS.median"><code class="docutils literal notranslate"><span class="pre">EnsTS.median</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.ts.EnsTS.compare"><code class="docutils literal notranslate"><span class="pre">EnsTS.compare()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.ts.EnsTS.copy"><code class="docutils literal notranslate"><span class="pre">EnsTS.copy()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.ts.EnsTS.fetch"><code class="docutils literal notranslate"><span class="pre">EnsTS.fetch()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.ts.EnsTS.from_df"><code class="docutils literal notranslate"><span class="pre">EnsTS.from_df()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.ts.EnsTS.line_density"><code class="docutils literal notranslate"><span class="pre">EnsTS.line_density()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.ts.EnsTS.plot"><code class="docutils literal notranslate"><span class="pre">EnsTS.plot()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.ts.EnsTS.plot_qs"><code class="docutils literal notranslate"><span class="pre">EnsTS.plot_qs()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.ts.EnsTS.to_df"><code class="docutils literal notranslate"><span class="pre">EnsTS.to_df()</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#proxy">Proxy</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#climate">Climate</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#psm">PSM</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#da">DA</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reconjob">ReconJob</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reconres">ReconRes</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ensts">EnsTS</a></li>
 </ul>
   </nav></div>
 

@@ -46,11 +46,6 @@ DA
 .. autoclass:: cfr.da.EnKF
     :members:
 
-GraphEM
--------
-
-.. autoclass:: cfr.graphem.solver.GraphEM
-    :members:
 
 ReconJob
 --------

@@ -1407,24 +1407,52 @@ def make_lb(name, unit, wrap=False):
     return lb
 
 def plot_scatter_map(values, lats, lons, levels=None,
-    figsize=(12, 6), projection='Robinson', transform=ccrs.PlateCarree(),
-    ax=None, proj_args=None, central_longitude=180, stock_img=True, marker='o', ms=200, edge_clr='w', title=None, title_fs=20,
-    cmap='Reds', vmin=None, vmax=None, clim=None, cmap_under=None, cmap_over=None, cbar=True, cbar_ticks=None, cbar_labels=None, cbar_orientation='vertical',
+    figsize=(12, 6), projection='Robinson', transform=ccrs.PlateCarree(), latlon_range=None,
+    lon_ticks=[0, 60, 120, 180, 240, 300], lat_ticks=[-90, 45, 0, 45, 90],
+    land_color=sns.xkcd_rgb['light grey'], ocean_color=sns.xkcd_rgb['light grey'],
+    land_zorder=None, ocean_zorder=None,
+    fig=None, ax=None, proj_args=None, central_longitude=180, stock_img=True, marker='o', ms=200, edge_clr='w', title=None, title_fs=20,
+    cmap='Reds', vmin=None, vmax=None, clim=None, cmap_under=None, cmap_over=None, plot_cbar=True, cbar_ticks=None, cbar_labels=None, cbar_orientation='vertical',
     cbar_pad=0.05, cbar_extend='neither', cbar_fraction=0.15, cbar_shrink=0.5,
     cbar_title=None, cbar_title_x=0.5, cbar_title_y=1.05, cbar_aspect=10,
     gridlines=True, gl_labels=False, gl_top_lbs=False, gl_right_lbs=False):
 
-    proj_args = {} if proj_args is None else proj_args
-    proj_args_default = {'central_longitude': central_longitude}
-    proj_args_default.update(proj_args)
-    projection = CartopySettings.projection_dict[projection](**proj_args_default)
 
-    if ax is None:
+    if ax is None or fig is None:
         fig = plt.figure(figsize=figsize)
-        ax = fig.add_subplot(projection=projection)
 
+        proj_args = {} if proj_args is None else proj_args
+        proj_args_default = {'central_longitude': central_longitude}
+        proj_args_default.update(proj_args)
+        projection = CartopySettings.projection_dict[projection](**proj_args_default)
+        ax = plt.subplot(projection=projection)
+
+    if latlon_range is not None:
+        lat_min, lat_max, lon_min, lon_max = latlon_range
+        ax.set_extent([lon_min, lon_max, lat_min, lat_max], crs=transform)
+        lat_ticks = np.array(lat_ticks)
+        lon_ticks = np.array(lon_ticks)
+        if lon_min < 0:
+            lon_ticks = np.sort(np.mod(lon_ticks+180, 360) - 180)
+
+        mask_lon = (lon_ticks >= lon_min) & (lon_ticks <= lon_max)
+        mask_lat = (lat_ticks >= lat_min) & (lat_ticks <= lat_max)
+        if lon_min >= 0:
+            lon_formatter = LongitudeFormatter(zero_direction_label=False)
+            lat_formatter = LatitudeFormatter()
+            ax.xaxis.set_major_formatter(lon_formatter)
+            ax.yaxis.set_major_formatter(lat_formatter)
+            ax.set_xticks(lon_ticks[mask_lon], crs=ccrs.PlateCarree())
+            ax.set_yticks(lat_ticks[mask_lat], crs=ccrs.PlateCarree())
+    else:
+        ax.set_global()
+        
     if stock_img:
         ax.stock_img()
+    else:
+        ax.add_feature(cfeature.LAND, facecolor=land_color, edgecolor=land_color, zorder=land_zorder)
+        ax.add_feature(cfeature.OCEAN, facecolor=ocean_color, edgecolor=ocean_color, zorder=ocean_zorder)
+        ax.coastlines(zorder=99)
 
     if title is not None:
         ax.set_title(title, fontweight='bold', fontsize=title_fs)
@@ -1446,7 +1474,7 @@ def plot_scatter_map(values, lats, lons, levels=None,
     if clim is not None:
         im.set_clim(clim)
 
-    if cbar:
+    if plot_cbar:
         cbar = plt.colorbar(im, ax=ax,
             orientation=cbar_orientation, pad=cbar_pad, aspect=cbar_aspect, extend=cbar_extend,
             fraction=cbar_fraction, shrink=cbar_shrink)

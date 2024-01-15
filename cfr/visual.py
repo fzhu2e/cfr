@@ -655,7 +655,7 @@ def count_time(df,lgd_ncol=None, type_col="ptype", year=np.arange(2001),time_col
     
     return proxy_count_all,color_discrete_sequence
 
-def plotly_proxies(df):
+def plotly_proxies(df, p=STYLE):
     """ 
     Visualize proxies.
     Args:

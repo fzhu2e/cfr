@@ -1439,19 +1439,19 @@ class ProxyDatabase:
             return fig, ax
 
 
-    # def plotly(self, **kwargs):
-    #     ''' Plot the database on an interactive map utilizing Plotly
-    #     '''
-    #     df = self.to_df()
-    #     fig = px.scatter_geo(
-    #         df, lat='lat', lon='lon',
-    #         color='ptype',
-    #         hover_name='pid',
-    #         projection='natural earth',
-    #         **kwargs,
-    #     )
+    def plotly_concise(self, **kwargs):
+        ''' Plot the database on an interactive map utilizing Plotly
+        '''
+        df = self.to_df()
+        fig = px.scatter_geo(
+            df, lat='lat', lon='lon',
+            color='ptype',
+            hover_name='pid',
+            projection='natural earth',
+            **kwargs,
+        )
 
-    #     return fig
+        return fig
 
 
     def plotly(self, **kwargs):

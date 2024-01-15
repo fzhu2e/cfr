@@ -1,13 +1,12 @@
 
-
 <!DOCTYPE html>
 
 
-<html lang="en" >
+<html lang="en" data-content_root="./" >
 
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <title>Working with the Codebase &#8212; cfr  documentation</title>
   
@@ -19,36 +18,35 @@
   </script>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
-<link href="_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
-<link href="_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link href="_static/styles/theme.css?digest=bd9e20870c6007c4c509" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=bd9e20870c6007c4c509" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=bd9e20870c6007c4c509" rel="stylesheet" />
 
   
-  <link href="_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
-  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+  <link href="_static/vendor/fontawesome/6.5.1/css/all.min.css?digest=bd9e20870c6007c4c509" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.1/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.1/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.1/webfonts/fa-regular-400.woff2" />
 
-    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
-    <link rel="stylesheet" href="_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
-    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
-    <link rel="stylesheet" type="text/css" href="_static/theme_overrides.css" />
-    <link rel="stylesheet" type="text/css" href="_static/style.css" />
-    <link rel="stylesheet" type="text/css" href="_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=362ab14a" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=384b581d" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/theme_overrides.css?v=db61ab07" />
+    <link rel="stylesheet" type="text/css" href="_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
+    <link rel="stylesheet" type="text/css" href="_static/style.css?v=fca5bd30" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
-<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=bd9e20870c6007c4c509" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=bd9e20870c6007c4c509" />
+  <script src="_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=bd9e20870c6007c4c509"></script>
 
-    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-    <script src="_static/jquery.js"></script>
-    <script src="_static/underscore.js"></script>
-    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
-    <script src="_static/doctools.js"></script>
-    <script src="_static/clipboard.min.js"></script>
-    <script src="_static/copybutton.js"></script>
-    <script src="_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
-    <script src="_static/design-tabs.js"></script>
+    <script src="_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="_static/doctools.js?v=888ff710"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=efea14e4"></script>
+    <script src="_static/design-tabs.js?v=36754332"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'cg-working-with-codebase';</script>
     <link rel="index" title="Index" href="genindex.html" />
@@ -64,7 +62,16 @@
 
   
   
-  <a class="skip-link" href="#main-content">Skip to main content</a>
+  <a id="pst-skip-link" class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
   
   <input type="checkbox"
           class="sidebar-toggle"
@@ -98,12 +105,20 @@
   <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
 </form></div>
   </div>
+
+  <header>
   
-    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
-    </nav>
+    <div class="bd-header navbar navbar-expand-lg bd-navbar">
+    </div>
   
+  </header>
+
   <div class="bd-container">
     <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
       
       <div class="bd-sidebar-primary bd-sidebar">
         
@@ -118,9 +133,11 @@
   
     <div class="sidebar-primary-items__start sidebar-primary__section">
         <div class="sidebar-primary-item">
+
   
 
 <a class="navbar-brand logo" href="index.html">
+  
   
   
   
@@ -130,12 +147,23 @@
       
     
     
-    <img src="_static/cfr-logo.jpg" class="logo__image only-light" alt="Logo image"/>
-    <script>document.write(`<img src="_static/cfr-logo.jpg" class="logo__image only-dark" alt="Logo image"/>`);</script>
+    <img src="_static/cfr-logo.jpg" class="logo__image only-light" alt="cfr  documentation - Home"/>
+    <script>document.write(`<img src="_static/cfr-logo.jpg" class="logo__image only-dark" alt="cfr  documentation - Home"/>`);</script>
   
   
 </a></div>
-        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item navbar-nav active">
         <p aria-level="2" class="caption" role="heading"><span class="caption-text">User Guide</span></p>
 <ul class="nav bd-sidenav">
@@ -343,20 +371,22 @@
 </div>
 
 
+
 <script>
 document.write(`
-  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
-    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
-    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
   </button>
 `);
 </script>
 
+
 <script>
 document.write(`
   <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="fa-solid fa-magnifying-glass"></i>
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
   </button>
 `);
 </script>
@@ -405,12 +435,12 @@ document.write(`
               
                 
 <div id="searchbox"></div>
-                <article class="bd-article" role="main">
+                <article class="bd-article">
                   
   <section id="working-with-the-codebase">
-<h1>Working with the Codebase<a class="headerlink" href="#working-with-the-codebase" title="Permalink to this heading">#</a></h1>
+<h1>Working with the Codebase<a class="headerlink" href="#working-with-the-codebase" title="Link to this heading">#</a></h1>
 <section id="version-control-git-and-github">
-<h2>Version control, Git, and GitHub<a class="headerlink" href="#version-control-git-and-github" title="Permalink to this heading">#</a></h2>
+<h2>Version control, Git, and GitHub<a class="headerlink" href="#version-control-git-and-github" title="Link to this heading">#</a></h2>
 <p>To the neophyte, working with Git is one of the more daunting aspects of contributing to open source projects.
 It can very quickly become overwhelming, but sticking to the guidelines below will help keep the process straightforward and mostly trouble free. As always, if you are having difficulties please feel free to ask for help.
 The code is hosted on <a class="reference external" href="https://github.com/fzhu2e/cfr">GitHub</a>. To contribute you will need to <a class="reference external" href="https://github.com/signup/free">sign up for a (free) GitHub account</a>. <a class="reference external" href="https://git-scm.com/">Git</a> is the industry standard for version control to allow many people to work together on the project, keep track of issues, manage the project, and much more.</p>
@@ -425,7 +455,7 @@ The code is hosted on <a class="reference external" href="https://github.com/fzh
 <p>GitHub has <a class="reference external" href="https://help.github.com/set-up-git-redirect">instructions</a> for installing git, setting up your SSH key, and configuring git. All these steps need to be completed before you can work seamlessly between your local repository and GitHub.</p>
 </section>
 <section id="forking">
-<h2>Forking<a class="headerlink" href="#forking" title="Permalink to this heading">#</a></h2>
+<h2>Forking<a class="headerlink" href="#forking" title="Link to this heading">#</a></h2>
 <p>You will need your own fork to work on the code.
 Go to the <cite>cfr</cite> repository and hit the Fork button.
 You will then want to clone your fork (i.e. download all the code to your local machine so you can edit it locally).
@@ -439,11 +469,11 @@ At the command line, this would like something like:</p>
 However, most Git first-timers may find it easier to do so through the Github web interface or desktop app (where there is a proverbial “button” for that).</p>
 </section>
 <section id="creating-a-development-environment">
-<h2>Creating a development environment<a class="headerlink" href="#creating-a-development-environment" title="Permalink to this heading">#</a></h2>
+<h2>Creating a development environment<a class="headerlink" href="#creating-a-development-environment" title="Link to this heading">#</a></h2>
 <p>We recommend developing in the same <cite>conda</cite> environment in which you installed <cite>cfr</cite>.</p>
 </section>
 <section id="creating-a-branch">
-<h2>Creating a branch<a class="headerlink" href="#creating-a-branch" title="Permalink to this heading">#</a></h2>
+<h2>Creating a branch<a class="headerlink" href="#creating-a-branch" title="Link to this heading">#</a></h2>
 <p>You want your master branch to reflect only production*ready code, so create a feature branch for making your changes. For example:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">branch</span> <span class="n">shiny</span><span class="o">-</span><span class="n">new</span><span class="o">-</span><span class="n">feature</span>
 <span class="n">git</span> <span class="n">checkout</span> <span class="n">shiny</span><span class="o">-</span><span class="n">new</span><span class="o">-</span><span class="n">feature</span>
@@ -464,7 +494,7 @@ When creating this branch, make sure your master branch is up-to-date with the l
 <p>When you want to update the feature branch with changes in master after you created the branch, check the section on updating a pull request.</p>
 </section>
 <section id="contributing-new-or-updating-existing-functionalities">
-<h2>Contributing new or updating existing functionalities<a class="headerlink" href="#contributing-new-or-updating-existing-functionalities" title="Permalink to this heading">#</a></h2>
+<h2>Contributing new or updating existing functionalities<a class="headerlink" href="#contributing-new-or-updating-existing-functionalities" title="Link to this heading">#</a></h2>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <ul class="simple">
@@ -477,7 +507,7 @@ When creating this branch, make sure your master branch is up-to-date with the l
 </div>
 </section>
 <section id="stylistic-considerations">
-<h2>Stylistic considerations<a class="headerlink" href="#stylistic-considerations" title="Permalink to this heading">#</a></h2>
+<h2>Stylistic considerations<a class="headerlink" href="#stylistic-considerations" title="Link to this heading">#</a></h2>
 <p>Guido van Rossum’s great insight is that code is read far more often than it is written, so it is important for the code to be of a somewhat uniform style, so that people can read and understand it with relative ease. <cite>cfr</cite> strives to use fairly consistent notation, including:</p>
 <ul class="simple">
 <li><p>“CamelCase” or “all-Caps” conventions for classes, e.g., “MyNewClass” or “MYNEWCLASS”</p></li>
@@ -486,13 +516,13 @@ When creating this branch, make sure your master branch is up-to-date with the l
 <p>In general, one should follow the existing style of the codebase as much as possible.</p>
 </section>
 <section id="conventions">
-<h2>Conventions<a class="headerlink" href="#conventions" title="Permalink to this heading">#</a></h2>
+<h2>Conventions<a class="headerlink" href="#conventions" title="Link to this heading">#</a></h2>
 <ul class="simple">
 <li><p><cite>cfr</cite> functions generally assume that time values are provided in increasing order.</p></li>
 </ul>
 </section>
 <section id="committing-your-code">
-<h2>Committing your code<a class="headerlink" href="#committing-your-code" title="Permalink to this heading">#</a></h2>
+<h2>Committing your code<a class="headerlink" href="#committing-your-code" title="Link to this heading">#</a></h2>
 <p>Once you’ve made changes, you can see them by typing:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">status</span>
 </pre></div>
@@ -519,7 +549,7 @@ The preferred style is:</p>
 </div>
 </section>
 <section id="pushing-your-changes">
-<h2>Pushing your changes<a class="headerlink" href="#pushing-your-changes" title="Permalink to this heading">#</a></h2>
+<h2>Pushing your changes<a class="headerlink" href="#pushing-your-changes" title="Link to this heading">#</a></h2>
 <p>When you want your changes to appear publicly on your GitHub page, push your forked feature branch’s commits:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">push</span> <span class="n">origin</span> <span class="n">shiny</span><span class="o">-</span><span class="n">new</span><span class="o">-</span><span class="n">feature</span>
 </pre></div>
@@ -538,7 +568,7 @@ The preferred style is:</p>
 <p>Now your code is on GitHub, but it is not yet a part of the <cite>cfr</cite> project. For that to happen, a pull request needs to be submitted on GitHub.</p>
 </section>
 <section id="filing-a-pull-request">
-<h2>Filing a Pull Request<a class="headerlink" href="#filing-a-pull-request" title="Permalink to this heading">#</a></h2>
+<h2>Filing a Pull Request<a class="headerlink" href="#filing-a-pull-request" title="Link to this heading">#</a></h2>
 <p>When you’re ready to ask for a code review, file a pull request. But before you do, please double-check that you have followed all the guidelines outlined in this document regarding code style, tests, performance tests, and documentation. You should also double-check your branch changes against the branch it was based on:</p>
 <ul class="simple">
 <li><p>Navigate to your repository on GitHub</p></li>
@@ -557,7 +587,7 @@ The preferred style is:</p>
 <p>This request then goes to the repository maintainers, and they will review the code.</p>
 </section>
 <section id="updating-your-pull-request">
-<h2>Updating your pull request<a class="headerlink" href="#updating-your-pull-request" title="Permalink to this heading">#</a></h2>
+<h2>Updating your pull request<a class="headerlink" href="#updating-your-pull-request" title="Link to this heading">#</a></h2>
 <p>Based on the review you get on your pull request, you will probably need to make some changes to the code. In that case, you can make them in your branch, add a new commit to that branch, push it to GitHub, and the pull request will be automatically updated. Pushing them to GitHub again is done by:
 git push origin shiny-new-feature
 This will automatically update your pull request with the latest code and restart the Continuous Integration tests (which is why it is important to provide a test for your code).
@@ -577,7 +607,7 @@ After the feature branch has been updated locally, you can now update your pull 
 </div>
 </section>
 <section id="delete-your-merged-branch-optional">
-<h2>Delete your merged branch (optional)<a class="headerlink" href="#delete-your-merged-branch-optional" title="Permalink to this heading">#</a></h2>
+<h2>Delete your merged branch (optional)<a class="headerlink" href="#delete-your-merged-branch-optional" title="Link to this heading">#</a></h2>
 <p>Once your feature branch is accepted into upstream, you’ll probably want to get rid of the branch. First, merge upstream master into your branch so git knows it is safe to delete your branch:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">fetch</span> <span class="n">upstream</span>
 <span class="n">git</span> <span class="n">checkout</span> <span class="n">master</span>
@@ -595,7 +625,7 @@ The branch will still exist on GitHub, so to delete it there do:</p>
 </div>
 </section>
 <section id="tips-for-a-successful-pull-request">
-<h2>Tips for a successful pull request<a class="headerlink" href="#tips-for-a-successful-pull-request" title="Permalink to this heading">#</a></h2>
+<h2>Tips for a successful pull request<a class="headerlink" href="#tips-for-a-successful-pull-request" title="Link to this heading">#</a></h2>
 <p>If you have made it to the “Review your code” phase, one of the core contributors will take a look. Please note however that response time will be variable (e.g. don’t try the week before AGU).
 To improve the chances of your pull request being reviewed, you should:</p>
 <ul class="simple">
@@ -613,11 +643,10 @@ To improve the chances of your pull request being reviewed, you should:</p>
 
               
               
-                <footer class="bd-footer-article">
+              
+              
+                <footer class="prev-next-footer">
                   
-<div class="footer-article-items footer-article__inner">
-  
-    <div class="footer-article-item"><!-- Previous / next buttons -->
 <div class="prev-next-area">
     <a class="left-prev"
        href="cg-overview.html"
@@ -637,10 +666,7 @@ To improve the chances of your pull request being reviewed, you should:</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
-</div></div>
-  
 </div>
-
                 </footer>
               
             </div>
@@ -648,6 +674,7 @@ To improve the chances of your pull request being reviewed, you should:</p>
             
               
                 <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
 
   <div class="sidebar-secondary-item">
   <div class="page-toc tocsection onthispage">
@@ -685,6 +712,7 @@ To improve the chances of your pull request being reviewed, you should:</p>
   
   <div class="footer-item">
     
+
   <p class="copyright">
     
       © Copyright 2023, Feng Zhu, Julien Emile-Geay.
@@ -711,8 +739,8 @@ To improve the chances of your pull request being reviewed, you should:</p>
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
-<script src="_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+  <script src="_static/scripts/bootstrap.js?digest=bd9e20870c6007c4c509"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=bd9e20870c6007c4c509"></script>
 
   <footer class="bd-footer">
   </footer>

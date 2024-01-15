@@ -1,13 +1,12 @@
 
-
 <!DOCTYPE html>
 
 
-<html lang="en" >
+<html lang="en" data-content_root="../" >
 
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <title>Reconstructing the tropical Pacific SST with PAGES2k and GraphEM &#8212; cfr  documentation</title>
   
@@ -19,37 +18,36 @@
   </script>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
-<link href="../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
-<link href="../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link href="../_static/styles/theme.css?digest=bd9e20870c6007c4c509" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=bd9e20870c6007c4c509" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=bd9e20870c6007c4c509" rel="stylesheet" />
 
   
-  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
-  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+  <link href="../_static/vendor/fontawesome/6.5.1/css/all.min.css?digest=bd9e20870c6007c4c509" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.1/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.1/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.1/webfonts/fa-regular-400.woff2" />
 
-    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
-    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
-    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/theme_overrides.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/style.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=362ab14a" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=384b581d" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/theme_overrides.css?v=db61ab07" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
     <link rel="stylesheet" type="text/css" href="../_static/nbsphinx-code-cells.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/style.css?v=fca5bd30" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
-<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=bd9e20870c6007c4c509" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=bd9e20870c6007c4c509" />
+  <script src="../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=bd9e20870c6007c4c509"></script>
 
-    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
-    <script src="../_static/jquery.js"></script>
-    <script src="../_static/underscore.js"></script>
-    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
-    <script src="../_static/doctools.js"></script>
-    <script src="../_static/clipboard.min.js"></script>
-    <script src="../_static/copybutton.js"></script>
-    <script src="../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
-    <script src="../_static/design-tabs.js"></script>
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=888ff710"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=efea14e4"></script>
+    <script src="../_static/design-tabs.js?v=36754332"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
     <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
@@ -67,7 +65,16 @@
 
   
   
-  <a class="skip-link" href="#main-content">Skip to main content</a>
+  <a id="pst-skip-link" class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
   
   <input type="checkbox"
           class="sidebar-toggle"
@@ -101,12 +108,18 @@
   <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
 </form></div>
   </div>
+
+  <header>
   
-    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
-    </nav>
+    <div class="bd-header navbar navbar-expand-lg bd-navbar">
+    </div>
   
+  </header>
+
   <div class="bd-container">
     <div class="bd-container__inner bd-page-width">
+      
+      
       
       <div class="bd-sidebar-primary bd-sidebar">
         
@@ -121,9 +134,11 @@
   
     <div class="sidebar-primary-items__start sidebar-primary__section">
         <div class="sidebar-primary-item">
+
   
 
 <a class="navbar-brand logo" href="../index.html">
+  
   
   
   
@@ -133,12 +148,23 @@
       
     
     
-    <img src="../_static/cfr-logo.jpg" class="logo__image only-light" alt="Logo image"/>
-    <script>document.write(`<img src="../_static/cfr-logo.jpg" class="logo__image only-dark" alt="Logo image"/>`);</script>
+    <img src="../_static/cfr-logo.jpg" class="logo__image only-light" alt="cfr  documentation - Home"/>
+    <script>document.write(`<img src="../_static/cfr-logo.jpg" class="logo__image only-dark" alt="cfr  documentation - Home"/>`);</script>
   
   
 </a></div>
-        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item navbar-nav active">
         <p aria-level="2" class="caption" role="heading"><span class="caption-text">User Guide</span></p>
 <ul class="current nav bd-sidenav">
@@ -346,20 +372,22 @@
 </div>
 
 
+
 <script>
 document.write(`
-  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
-    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
-    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
   </button>
 `);
 </script>
 
+
 <script>
 document.write(`
   <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="fa-solid fa-magnifying-glass"></i>
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
   </button>
 `);
 </script>
@@ -415,10 +443,10 @@ document.write(`
               
                 
 <div id="searchbox"></div>
-                <article class="bd-article" role="main">
+                <article class="bd-article">
                   
   <section id="Reconstructing-the-tropical-Pacific-SST-with-PAGES2k-and-GraphEM">
-<h1>Reconstructing the tropical Pacific SST with PAGES2k and GraphEM<a class="headerlink" href="#Reconstructing-the-tropical-Pacific-SST-with-PAGES2k-and-GraphEM" title="Permalink to this heading">#</a></h1>
+<h1>Reconstructing the tropical Pacific SST with PAGES2k and GraphEM<a class="headerlink" href="#Reconstructing-the-tropical-Pacific-SST-with-PAGES2k-and-GraphEM" title="Link to this heading">#</a></h1>
 <p><strong>Expected time to run through: ~0.5 hrs</strong></p>
 <p>In this section, we illustrate the basic workflow of the Graphical Expectation-Maximization algorithm (GraphEM, <a class="reference external" href="https://doi.org/10.1214/14-AOAS794">Guillot et al., 2015</a>) with <code class="docutils literal notranslate"><span class="pre">cfr</span></code>, conducting a reconstruction experiment with the PAGES2k dataset. Due to the intensive computational requirement of the GraphEM method, our goal is to reconstruct the air surface temperature field only over the tropical Pacific region using coral records.</p>
 <p>Note: <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">&quot;cfr[graphem]&quot;</span></code> to enable the GraphEM method if not done before.</p>
@@ -444,9 +472,9 @@ document.write(`
 </pre></div></div>
 </div>
 <section id="GraphEM-steps">
-<h2>GraphEM steps<a class="headerlink" href="#GraphEM-steps" title="Permalink to this heading">#</a></h2>
+<h2>GraphEM steps<a class="headerlink" href="#GraphEM-steps" title="Link to this heading">#</a></h2>
 <section id="Create-a-reconstruction-job-object-cfr.ReconJob-and-load-the-pseudoPAGES2k-database">
-<h3>Create a reconstruction job object <code class="docutils literal notranslate"><span class="pre">cfr.ReconJob</span></code> and load the pseudoPAGES2k database<a class="headerlink" href="#Create-a-reconstruction-job-object-cfr.ReconJob-and-load-the-pseudoPAGES2k-database" title="Permalink to this heading">#</a></h3>
+<h3>Create a reconstruction job object <code class="docutils literal notranslate"><span class="pre">cfr.ReconJob</span></code> and load the pseudoPAGES2k database<a class="headerlink" href="#Create-a-reconstruction-job-object-cfr.ReconJob-and-load-the-pseudoPAGES2k-database" title="Link to this heading">#</a></h3>
 <p>A <code class="docutils literal notranslate"><span class="pre">cfr.ReconJob</span></code> object takes care of the workflow of a reconstruction task. It provides a series of attributes and methods to help the users go through each step of the reconstruction task, such as loading the proxy database, loading the model prior, calibrating and running the proxy system models, performing the data assimilation solver, etc.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
@@ -490,7 +518,7 @@ document.write(`
 </div>
 </section>
 <section id="Annualize-each-proxy-record">
-<h3>Annualize each proxy record<a class="headerlink" href="#Annualize-each-proxy-record" title="Permalink to this heading">#</a></h3>
+<h3>Annualize each proxy record<a class="headerlink" href="#Annualize-each-proxy-record" title="Link to this heading">#</a></h3>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
@@ -537,7 +565,7 @@ Annualizing ProxyDatabase: 100%|██████████| 104/104 [00:01&l
 </div>
 </section>
 <section id="Load-the-instrumental-observations">
-<h3>Load the instrumental observations<a class="headerlink" href="#Load-the-instrumental-observations" title="Permalink to this heading">#</a></h3>
+<h3>Load the instrumental observations<a class="headerlink" href="#Load-the-instrumental-observations" title="Link to this heading">#</a></h3>
 <p>As a perfect model prior pseudoproxy experiment (PPE), we use the iCESM simulated fields as instrumental observations.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
@@ -575,7 +603,7 @@ Annualizing ProxyDatabase: 100%|██████████| 104/104 [00:01&l
 </div>
 </section>
 <section id="Annualize-the-observation-fields">
-<h3>Annualize the observation fields<a class="headerlink" href="#Annualize-the-observation-fields" title="Permalink to this heading">#</a></h3>
+<h3>Annualize the observation fields<a class="headerlink" href="#Annualize-the-observation-fields" title="Link to this heading">#</a></h3>
 <p>This step will determine the temporal resolution of the reconstructed fields.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
@@ -598,7 +626,7 @@ Annualizing ProxyDatabase: 100%|██████████| 104/104 [00:01&l
 </div>
 </section>
 <section id="Regrid-the-observation-fields">
-<h3>Regrid the observation fields<a class="headerlink" href="#Regrid-the-observation-fields" title="Permalink to this heading">#</a></h3>
+<h3>Regrid the observation fields<a class="headerlink" href="#Regrid-the-observation-fields" title="Link to this heading">#</a></h3>
 <p>This step will determine the spatial resolution of the reconstructed fields.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
@@ -621,7 +649,7 @@ Annualizing ProxyDatabase: 100%|██████████| 104/104 [00:01&l
 </div>
 </section>
 <section id="Crop-the-observations-fields-to-make-the-problem-size-smaller">
-<h3>Crop the observations fields to make the problem size smaller<a class="headerlink" href="#Crop-the-observations-fields-to-make-the-problem-size-smaller" title="Permalink to this heading">#</a></h3>
+<h3>Crop the observations fields to make the problem size smaller<a class="headerlink" href="#Crop-the-observations-fields-to-make-the-problem-size-smaller" title="Link to this heading">#</a></h3>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
 </pre></div>
@@ -661,7 +689,7 @@ Annualizing ProxyDatabase: 100%|██████████| 104/104 [00:01&l
 </div>
 </section>
 <section id="(Optional)-Save-the-job-object-for-later-reload">
-<h3>(Optional) Save the job object for later reload<a class="headerlink" href="#(Optional)-Save-the-job-object-for-later-reload" title="Permalink to this heading">#</a></h3>
+<h3>(Optional) Save the job object for later reload<a class="headerlink" href="#(Optional)-Save-the-job-object-for-later-reload" title="Link to this heading">#</a></h3>
 <p>Save the job object before running the DA procedure for a quick reload next time if needed.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
@@ -704,7 +732,7 @@ Annualizing ProxyDatabase: 100%|██████████| 104/104 [00:01&l
 </div>
 </section>
 <section id="Prepare-the-GraphEM-solver">
-<h3>Prepare the GraphEM solver<a class="headerlink" href="#Prepare-the-GraphEM-solver" title="Permalink to this heading">#</a></h3>
+<h3>Prepare the GraphEM solver<a class="headerlink" href="#Prepare-the-GraphEM-solver" title="Link to this heading">#</a></h3>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
 </pre></div>
@@ -775,7 +803,7 @@ Centering each of the ProxyRecord: 100%|██████████| 54/54 [0
 </div>
 </section>
 <section id="Run-the-GraphEM-solver">
-<h3>Run the GraphEM solver<a class="headerlink" href="#Run-the-GraphEM-solver" title="Permalink to this heading">#</a></h3>
+<h3>Run the GraphEM solver<a class="headerlink" href="#Run-the-GraphEM-solver" title="Link to this heading">#</a></h3>
 <p>We will take the Empirical Graphs (graphical lasso, <code class="docutils literal notranslate"><span class="pre">glasso</span></code>) approach.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
@@ -875,9 +903,9 @@ GraphEM.EM(): Tolerance achieved.
 </section>
 </section>
 <section id="Validation-steps">
-<h2>Validation steps<a class="headerlink" href="#Validation-steps" title="Permalink to this heading">#</a></h2>
+<h2>Validation steps<a class="headerlink" href="#Validation-steps" title="Link to this heading">#</a></h2>
 <section id="Create-the-reconstruction-result-object-cfr.ReconRes.">
-<h3>Create the reconstruction result object <code class="docutils literal notranslate"><span class="pre">cfr.ReconRes</span></code>.<a class="headerlink" href="#Create-the-reconstruction-result-object-cfr.ReconRes." title="Permalink to this heading">#</a></h3>
+<h3>Create the reconstruction result object <code class="docutils literal notranslate"><span class="pre">cfr.ReconRes</span></code>.<a class="headerlink" href="#Create-the-reconstruction-result-object-cfr.ReconRes." title="Link to this heading">#</a></h3>
 <p>A <code class="docutils literal notranslate"><span class="pre">cfr.ReconRes</span></code> object takes care of the workflow of postprocessing and analyzing the reconstruction results. It provides handy methods to help the users load, validate, and visualize the reconstruction results.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
@@ -898,7 +926,7 @@ GraphEM.EM(): Tolerance achieved.
 </div>
 </section>
 <section id="Load-the-reconstructed-variables">
-<h3>Load the reconstructed variables<a class="headerlink" href="#Load-the-reconstructed-variables" title="Permalink to this heading">#</a></h3>
+<h3>Load the reconstructed variables<a class="headerlink" href="#Load-the-reconstructed-variables" title="Link to this heading">#</a></h3>
 <p>Here we validate the <code class="docutils literal notranslate"><span class="pre">tas</span></code> field and the NINO3.4 index as an example.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
@@ -922,7 +950,7 @@ GraphEM.EM(): Tolerance achieved.
 </div>
 </section>
 <section id="Validate-the-reconstructed-NINO3.4">
-<h3>Validate the reconstructed NINO3.4<a class="headerlink" href="#Validate-the-reconstructed-NINO3.4" title="Permalink to this heading">#</a></h3>
+<h3>Validate the reconstructed NINO3.4<a class="headerlink" href="#Validate-the-reconstructed-NINO3.4" title="Link to this heading">#</a></h3>
 <p>We calculate the annualized NINO3.4 from Bunge &amp; Clarke (2009) as a reference for validation.</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
@@ -963,7 +991,7 @@ Figure saved at: &#34;figs/graphem_corr_recon_BC09.pdf&#34;
 </div>
 </section>
 <section id="Validate-the-reconstructed-fields">
-<h3>Validate the reconstructed fields<a class="headerlink" href="#Validate-the-reconstructed-fields" title="Permalink to this heading">#</a></h3>
+<h3>Validate the reconstructed fields<a class="headerlink" href="#Validate-the-reconstructed-fields" title="Link to this heading">#</a></h3>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
 </pre></div>
@@ -1028,7 +1056,7 @@ Figure saved at: &#34;figs/graphem_corr_recon_obs.pdf&#34;
 </section>
 </section>
 <section id="Comparison-to-the-LMR/PDA-based-reconstruction">
-<h2>Comparison to the LMR/PDA based reconstruction<a class="headerlink" href="#Comparison-to-the-LMR/PDA-based-reconstruction" title="Permalink to this heading">#</a></h2>
+<h2>Comparison to the LMR/PDA based reconstruction<a class="headerlink" href="#Comparison-to-the-LMR/PDA-based-reconstruction" title="Link to this heading">#</a></h2>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
 </pre></div>
@@ -1257,11 +1285,10 @@ Figure saved at: &#34;figs/lmr_nino3.4.pdf&#34;
 
               
               
-                <footer class="bd-footer-article">
+              
+              
+                <footer class="prev-next-footer">
                   
-<div class="footer-article-items footer-article__inner">
-  
-    <div class="footer-article-item"><!-- Previous / next buttons -->
 <div class="prev-next-area">
     <a class="left-prev"
        href="../ug-graphem.html"
@@ -1281,10 +1308,7 @@ Figure saved at: &#34;figs/lmr_nino3.4.pdf&#34;
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
-</div></div>
-  
 </div>
-
                 </footer>
               
             </div>
@@ -1292,6 +1316,7 @@ Figure saved at: &#34;figs/lmr_nino3.4.pdf&#34;
             
               
                 <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
 
   <div class="sidebar-secondary-item">
   <div class="page-toc tocsection onthispage">
@@ -1336,6 +1361,7 @@ Figure saved at: &#34;figs/lmr_nino3.4.pdf&#34;
   
   <div class="footer-item">
     
+
   <p class="copyright">
     
       © Copyright 2023, Feng Zhu, Julien Emile-Geay.
@@ -1362,8 +1388,8 @@ Figure saved at: &#34;figs/lmr_nino3.4.pdf&#34;
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
-<script src="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+  <script src="../_static/scripts/bootstrap.js?digest=bd9e20870c6007c4c509"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=bd9e20870c6007c4c509"></script>
 
   <footer class="bd-footer">
   </footer>

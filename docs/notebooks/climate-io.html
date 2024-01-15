@@ -1,13 +1,12 @@
 
-
 <!DOCTYPE html>
 
 
-<html lang="en" >
+<html lang="en" data-content_root="../" >
 
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <title>Input/Output &#8212; cfr  documentation</title>
   
@@ -19,37 +18,36 @@
   </script>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
-<link href="../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
-<link href="../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link href="../_static/styles/theme.css?digest=bd9e20870c6007c4c509" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=bd9e20870c6007c4c509" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=bd9e20870c6007c4c509" rel="stylesheet" />
 
   
-  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
-  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+  <link href="../_static/vendor/fontawesome/6.5.1/css/all.min.css?digest=bd9e20870c6007c4c509" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.1/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.1/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.1/webfonts/fa-regular-400.woff2" />
 
-    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
-    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
-    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/theme_overrides.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/style.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=362ab14a" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=384b581d" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/theme_overrides.css?v=db61ab07" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
     <link rel="stylesheet" type="text/css" href="../_static/nbsphinx-code-cells.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/style.css?v=fca5bd30" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
-<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=bd9e20870c6007c4c509" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=bd9e20870c6007c4c509" />
+  <script src="../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=bd9e20870c6007c4c509"></script>
 
-    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
-    <script src="../_static/jquery.js"></script>
-    <script src="../_static/underscore.js"></script>
-    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
-    <script src="../_static/doctools.js"></script>
-    <script src="../_static/clipboard.min.js"></script>
-    <script src="../_static/copybutton.js"></script>
-    <script src="../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
-    <script src="../_static/design-tabs.js"></script>
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=888ff710"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=efea14e4"></script>
+    <script src="../_static/design-tabs.js?v=36754332"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
     <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
@@ -67,7 +65,16 @@
 
   
   
-  <a class="skip-link" href="#main-content">Skip to main content</a>
+  <a id="pst-skip-link" class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
   
   <input type="checkbox"
           class="sidebar-toggle"
@@ -101,12 +108,18 @@
   <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
 </form></div>
   </div>
+
+  <header>
   
-    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
-    </nav>
+    <div class="bd-header navbar navbar-expand-lg bd-navbar">
+    </div>
   
+  </header>
+
   <div class="bd-container">
     <div class="bd-container__inner bd-page-width">
+      
+      
       
       <div class="bd-sidebar-primary bd-sidebar">
         
@@ -121,9 +134,11 @@
   
     <div class="sidebar-primary-items__start sidebar-primary__section">
         <div class="sidebar-primary-item">
+
   
 
 <a class="navbar-brand logo" href="../index.html">
+  
   
   
   
@@ -133,12 +148,23 @@
       
     
     
-    <img src="../_static/cfr-logo.jpg" class="logo__image only-light" alt="Logo image"/>
-    <script>document.write(`<img src="../_static/cfr-logo.jpg" class="logo__image only-dark" alt="Logo image"/>`);</script>
+    <img src="../_static/cfr-logo.jpg" class="logo__image only-light" alt="cfr  documentation - Home"/>
+    <script>document.write(`<img src="../_static/cfr-logo.jpg" class="logo__image only-dark" alt="cfr  documentation - Home"/>`);</script>
   
   
 </a></div>
-        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item navbar-nav active">
         <p aria-level="2" class="caption" role="heading"><span class="caption-text">User Guide</span></p>
 <ul class="current nav bd-sidenav">
@@ -346,20 +372,22 @@
 </div>
 
 
+
 <script>
 document.write(`
-  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
-    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
-    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
   </button>
 `);
 </script>
 
+
 <script>
 document.write(`
   <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="fa-solid fa-magnifying-glass"></i>
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
   </button>
 `);
 </script>
@@ -405,10 +433,10 @@ document.write(`
               
                 
 <div id="searchbox"></div>
-                <article class="bd-article" role="main">
+                <article class="bd-article">
                   
   <section id="Input/Output">
-<h1>Input/Output<a class="headerlink" href="#Input/Output" title="Permalink to this heading">#</a></h1>
+<h1>Input/Output<a class="headerlink" href="#Input/Output" title="Link to this heading">#</a></h1>
 <p>In this section, we illustrate how to input and output <strong>gridded</strong> climate data with <code class="docutils literal notranslate"><span class="pre">cfr</span></code>.</p>
 <p><code class="docutils literal notranslate"><span class="pre">cfr</span></code> provides a useful class called <code class="docutils literal notranslate"><span class="pre">ClimateField</span></code> to handle <strong>gridded</strong> climate data. It is essentially a wrapper of a <code class="docutils literal notranslate"><span class="pre">xarray.DataArray</span></code>, but with additional analysis and visualization functionalities added on.</p>
 <p>Essentially, <code class="docutils literal notranslate"><span class="pre">cfr</span></code> supports below conversions:</p>
@@ -438,7 +466,7 @@ document.write(`
 </div>
 </div>
 <section id="a-netCDF-file-=&gt;-cfr.ClimateField">
-<h2>a netCDF file =&gt; <code class="docutils literal notranslate"><span class="pre">cfr.ClimateField</span></code><a class="headerlink" href="#a-netCDF-file-=>-cfr.ClimateField" title="Permalink to this heading">#</a></h2>
+<h2>a netCDF file =&gt; <code class="docutils literal notranslate"><span class="pre">cfr.ClimateField</span></code><a class="headerlink" href="#a-netCDF-file-=>-cfr.ClimateField" title="Link to this heading">#</a></h2>
 <p>A simplest case is that the netCDF file contains only one variable with standard names for time, latitude, and longitude: <code class="docutils literal notranslate"><span class="pre">time</span></code>, <code class="docutils literal notranslate"><span class="pre">lat</span></code>, <code class="docutils literal notranslate"><span class="pre">lon</span></code>. In this case, we just create a <code class="docutils literal notranslate"><span class="pre">cfr.ClimateField</span></code> object and call its <code class="docutils literal notranslate"><span class="pre">.load_nc()</span></code> method with a path to the netCDF file as the argument.</p>
 <p>Sometimes, however, the netCDF file comes with multiple variables, in which case we need to specify the variable name via the <code class="docutils literal notranslate"><span class="pre">vn</span></code> argument:</p>
 <div class="nbinput docutils container">
@@ -1755,7 +1783,7 @@ Attributes:
 </div>
 </section>
 <section id="cfr.ClimateField-=&gt;-a-netCDF-file">
-<h2><code class="docutils literal notranslate"><span class="pre">cfr.ClimateField</span></code> =&gt; a netCDF file<a class="headerlink" href="#cfr.ClimateField-=>-a-netCDF-file" title="Permalink to this heading">#</a></h2>
+<h2><code class="docutils literal notranslate"><span class="pre">cfr.ClimateField</span></code> =&gt; a netCDF file<a class="headerlink" href="#cfr.ClimateField-=>-a-netCDF-file" title="Link to this heading">#</a></h2>
 <p>A <code class="docutils literal notranslate"><span class="pre">cfr.ClimateField</span></code> can be output to a netCDF file easily with the <code class="docutils literal notranslate"><span class="pre">.to_nc()</span></code> method:</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
@@ -2202,7 +2230,7 @@ Attributes:
 </div>
 </section>
 <section id="xarray.DataArray-=&gt;-cfr.ClimateField">
-<h2><code class="docutils literal notranslate"><span class="pre">xarray.DataArray</span></code> =&gt; <code class="docutils literal notranslate"><span class="pre">cfr.ClimateField</span></code><a class="headerlink" href="#xarray.DataArray-=>-cfr.ClimateField" title="Permalink to this heading">#</a></h2>
+<h2><code class="docutils literal notranslate"><span class="pre">xarray.DataArray</span></code> =&gt; <code class="docutils literal notranslate"><span class="pre">cfr.ClimateField</span></code><a class="headerlink" href="#xarray.DataArray-=>-cfr.ClimateField" title="Link to this heading">#</a></h2>
 <p>Sometimes, we will load a <code class="docutils literal notranslate"><span class="pre">xarray.DataArray</span></code> first, after which we may convert it to a <code class="docutils literal notranslate"><span class="pre">cfr.ClimateField</span></code> with the <code class="docutils literal notranslate"><span class="pre">.from_da()</span></code> method:</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
@@ -2631,7 +2659,7 @@ Attributes:
 </div>
 </section>
 <section id="cfr.ClimateField-=&gt;-xarray.DataArray">
-<h2><code class="docutils literal notranslate"><span class="pre">cfr.ClimateField</span></code> =&gt; <code class="docutils literal notranslate"><span class="pre">xarray.DataArray</span></code><a class="headerlink" href="#cfr.ClimateField-=>-xarray.DataArray" title="Permalink to this heading">#</a></h2>
+<h2><code class="docutils literal notranslate"><span class="pre">cfr.ClimateField</span></code> =&gt; <code class="docutils literal notranslate"><span class="pre">xarray.DataArray</span></code><a class="headerlink" href="#cfr.ClimateField-=>-xarray.DataArray" title="Link to this heading">#</a></h2>
 <p>The convertion from a <code class="docutils literal notranslate"><span class="pre">cfr.ClimateField</span></code> to a <code class="docutils literal notranslate"><span class="pre">xarray.DataArray</span></code> is trivial: simply access the <code class="docutils literal notranslate"><span class="pre">.da</span></code> attribute:</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
@@ -3060,7 +3088,7 @@ Attributes:
 </div>
 </section>
 <section id="numpy.ndarray-=&gt;-cfr.ClimateField">
-<h2><code class="docutils literal notranslate"><span class="pre">numpy.ndarray</span></code> =&gt; <code class="docutils literal notranslate"><span class="pre">cfr.ClimateField</span></code><a class="headerlink" href="#numpy.ndarray-=>-cfr.ClimateField" title="Permalink to this heading">#</a></h2>
+<h2><code class="docutils literal notranslate"><span class="pre">numpy.ndarray</span></code> =&gt; <code class="docutils literal notranslate"><span class="pre">cfr.ClimateField</span></code><a class="headerlink" href="#numpy.ndarray-=>-cfr.ClimateField" title="Link to this heading">#</a></h2>
 <p>We may also convert a collection of <code class="docutils literal notranslate"><span class="pre">numpy.ndarray</span></code>s to a <code class="docutils literal notranslate"><span class="pre">cfr.ClimateField</span></code>:</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
@@ -3588,7 +3616,7 @@ Coordinates:
 </div>
 </section>
 <section id="cfr.ClimateField-=&gt;-numpy.ndarray">
-<h2><code class="docutils literal notranslate"><span class="pre">cfr.ClimateField</span></code> =&gt; <code class="docutils literal notranslate"><span class="pre">numpy.ndarray</span></code><a class="headerlink" href="#cfr.ClimateField-=>-numpy.ndarray" title="Permalink to this heading">#</a></h2>
+<h2><code class="docutils literal notranslate"><span class="pre">cfr.ClimateField</span></code> =&gt; <code class="docutils literal notranslate"><span class="pre">numpy.ndarray</span></code><a class="headerlink" href="#cfr.ClimateField-=>-numpy.ndarray" title="Link to this heading">#</a></h2>
 <p>The conversion from a <code class="docutils literal notranslate"><span class="pre">cfr.ClimateField</span></code> to a collection of <code class="docutils literal notranslate"><span class="pre">numpy.ndarray</span></code>s is trivial:</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
@@ -3614,7 +3642,7 @@ Coordinates:
 </div>
 </section>
 <section id="Remote-loading-gridded-climate-data">
-<h2>Remote loading gridded climate data<a class="headerlink" href="#Remote-loading-gridded-climate-data" title="Permalink to this heading">#</a></h2>
+<h2>Remote loading gridded climate data<a class="headerlink" href="#Remote-loading-gridded-climate-data" title="Link to this heading">#</a></h2>
 <p><code class="docutils literal notranslate"><span class="pre">cfr</span></code> supports remote loading of hosted gridded climate data in netCDF files, currently including iCESM past1000 and past1000historical.</p>
 <p>By calling the <code class="docutils literal notranslate"><span class="pre">.fetch()</span></code> method of <code class="docutils literal notranslate"><span class="pre">ClimateField</span></code> without any arguments, a list of supported simulation names will be listed:</p>
 <div class="nbinput docutils container">
@@ -3635,7 +3663,7 @@ Coordinates:
 </pre></div></div>
 </div>
 <section id="Remote-loading-iCESM-simulations">
-<h3>Remote loading iCESM simulations<a class="headerlink" href="#Remote-loading-iCESM-simulations" title="Permalink to this heading">#</a></h3>
+<h3>Remote loading iCESM simulations<a class="headerlink" href="#Remote-loading-iCESM-simulations" title="Link to this heading">#</a></h3>
 <p>The target netCDF file will be downloaded to the relative directory <code class="docutils literal notranslate"><span class="pre">./data</span></code> if not existed (skipped if existed), after which a <code class="docutils literal notranslate"><span class="pre">ClimateField()</span></code> will be built with that netCDF file.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
@@ -3749,11 +3777,10 @@ Fetching data: 100%|██████████| 633M/633M [00:10&lt;00:00, 6
 
               
               
-                <footer class="bd-footer-article">
+              
+              
+                <footer class="prev-next-footer">
                   
-<div class="footer-article-items footer-article__inner">
-  
-    <div class="footer-article-item"><!-- Previous / next buttons -->
 <div class="prev-next-area">
     <a class="left-prev"
        href="../ug-climate.html"
@@ -3773,10 +3800,7 @@ Fetching data: 100%|██████████| 633M/633M [00:10&lt;00:00, 6
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
-</div></div>
-  
 </div>
-
                 </footer>
               
             </div>
@@ -3784,6 +3808,7 @@ Fetching data: 100%|██████████| 633M/633M [00:10&lt;00:00, 6
             
               
                 <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
 
   <div class="sidebar-secondary-item">
   <div class="page-toc tocsection onthispage">
@@ -3818,6 +3843,7 @@ Fetching data: 100%|██████████| 633M/633M [00:10&lt;00:00, 6
   
   <div class="footer-item">
     
+
   <p class="copyright">
     
       © Copyright 2023, Feng Zhu, Julien Emile-Geay.
@@ -3844,8 +3870,8 @@ Fetching data: 100%|██████████| 633M/633M [00:10&lt;00:00, 6
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
-<script src="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+  <script src="../_static/scripts/bootstrap.js?digest=bd9e20870c6007c4c509"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=bd9e20870c6007c4c509"></script>
 
   <footer class="bd-footer">
   </footer>

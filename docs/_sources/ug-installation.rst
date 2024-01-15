@@ -63,7 +63,7 @@ Taking a clean installation as example, first let's create a new environment nam
 
 .. code-block:: bash
 
-    conda create -n cfr-env python=3.10
+    conda create -n cfr-env python=3.11
     conda activate cfr-env
 
 Then install some dependencies via :code:`conda`:

@@ -621,7 +621,7 @@ class ProxyRecord:
         return fig
 
     def plot(self, figsize=[12, 4], legend=False, ms=200, stock_img=True, edge_clr='w',
-        wspace=0.1, hspace=0.1, plot_map=True, **kwargs):
+        wspace=0.1, hspace=0.1, plot_map=True, p=visual.STYLE, **kwargs):
         ''' Visualize the ProxyRecord
 
         Args:
@@ -635,7 +635,10 @@ class ProxyRecord:
             plot_map (bool): if True, plot the record on a map. Defaults to True.
         '''
         if 'color' not in kwargs and 'c' not in kwargs:
-            kwargs['color'] = visual.STYLE.colors_dict[self.ptype]
+            if self.ptype in p.colors_dict:
+                kwargs['color'] = p.colors_dict[self.ptype]
+            else:
+                kwargs['color'] = 'tab:blue'
 
         fig = plt.figure(figsize=figsize)
 
@@ -671,9 +674,13 @@ class ProxyRecord:
             if stock_img:
                 ax['map'].stock_img()
 
+            if self.ptype in p.markers_dict:
+                marker = p.markers_dict[self.ptype]
+            else:
+                marker = 'o'
             transform=ccrs.PlateCarree()
             ax['map'].scatter(
-                self.lon, self.lat, marker=visual.STYLE.markers_dict[self.ptype],
+                self.lon, self.lat, marker=marker,
                 s=ms, c=kwargs['color'], edgecolor=edge_clr, transform=transform,
             )
 

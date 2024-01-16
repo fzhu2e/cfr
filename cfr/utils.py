@@ -611,6 +611,10 @@ def colored_noise_2regimes(alpha1, alpha2, f_break, t, f0=None, m=None, seed=Non
 
     return y
 
+def arr_str2np(arr):
+    arr =  np.array([float(s) for s in arr[1:-1].split(',')])
+    return arr
+
 def is_numeric(obj):
     attrs = ['__add__', '__sub__', '__mul__', '__truediv__', '__pow__']
     return all(hasattr(obj, attr) for attr in attrs)

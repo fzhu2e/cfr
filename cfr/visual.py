@@ -555,10 +555,17 @@ def plot_proxies(df, year=np.arange(2001), lon_col='lon', lat_col='lat', type_co
         type_names.append(f'{ptype} (n={max_count[-1]})')
         lons = list(df[selector][lon_col])
         lats = list(df[selector][lat_col])
+        if ptype in markers_dict:
+            marker = markers_dict[ptype]
+            color = colors_dict[ptype]
+        else:
+            marker = 'o'
+            color = 'tab:blue'
+
         s_plots.append(
             ax['map'].scatter(
-                lons, lats, marker=markers_dict[ptype],
-                c=colors_dict[ptype], edgecolor='k', s=markersize, transform=ccrs.PlateCarree()
+                lons, lats, marker=marker, c=color,
+                edgecolor='k', s=markersize, transform=ccrs.PlateCarree()
             )
         )
 

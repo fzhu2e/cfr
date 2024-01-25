@@ -449,10 +449,11 @@ class ReconJob:
                 pobj.psm.calibrate(**kwargs)
             elif psm_name == 'Bilinear':
                 pobj.psm.calibrate(
-                    season_list1=ptype_season_dict[pobj.ptype],
-                    season_list2=ptype_season_dict[pobj.ptype], calib_period=calib_period)
+                    season_list1=ptype_season_dict[pobj.ptype], season_list2=ptype_season_dict[pobj.ptype],
+                    calib_period=calib_period, **kwargs,
+                )
             else:
-                pobj.psm.calibrate(season_list=ptype_season_dict[pobj.ptype], calib_period=calib_period)
+                pobj.psm.calibrate(season_list=ptype_season_dict[pobj.ptype], calib_period=calib_period, **kwargs)
 
         # give the calibrated records a tag
         for pid, pobj in self.proxydb.records.items():

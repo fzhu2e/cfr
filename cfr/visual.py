@@ -336,8 +336,11 @@ def plot_field_map(field_var, lat, lon, levels=50, add_cyclic_point=True,
     if add_cyclic_point:
         if mode == 'latlon':
             field_var_c, lon_c = cutil.add_cyclic_point(field_var, lon)
+            # field_var_c, lon_c = acp(field_var, lon)
+
             if signif_values is not None:
                 signif_values_c, lon_c = cutil.add_cyclic_point(signif_values, lon)
+
             lat_c = lat
         elif mode == 'mesh':
             if len(np.shape(lat)) == 1:
@@ -409,7 +412,8 @@ def plot_field_map(field_var, lat, lon, levels=50, add_cyclic_point=True,
     if add_gridlines:
         ax.gridlines(edgecolor='gray', linestyle=':', crs=transform)
 
-    cmap = plt.get_cmap(cmap)
+    if cmap is not None:
+        cmap = plt.get_cmap(cmap)
     if cmap_under is not None:
         cmap.set_under(cmap_under)
     if cmap_over is not None:

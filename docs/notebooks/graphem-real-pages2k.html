@@ -55,7 +55,7 @@
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Running GraphEM with the Command Line Interface (CLI)" href="graphem-cli.html" />
-    <link rel="prev" title="GraphEM" href="../ug-graphem.html" />
+    <link rel="prev" title="A primer on GraphEM" href="graphem-primer.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -207,6 +207,7 @@
 </ul>
 </li>
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="../ug-graphem.html">GraphEM</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-6"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="graphem-primer.html">A primer on GraphEM</a></li>
 <li class="toctree-l2 current active"><a class="current reference internal" href="#">Reconstructing the tropical Pacific SST with PAGES2k and GraphEM</a></li>
 <li class="toctree-l2"><a class="reference internal" href="graphem-cli.html">Running GraphEM with the Command Line Interface (CLI)</a></li>
 </ul>
@@ -468,7 +469,7 @@ document.write(`
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-2023.8.26
+2024.1.25
 </pre></div></div>
 </div>
 <section id="GraphEM-steps">
@@ -533,7 +534,7 @@ document.write(`
 <div class="output_area docutils container">
 <div class="highlight"><pre>
 <span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;annualize_proxydb_months&#34;] = [12, 1, 2]
-</span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;annualize_proxydb_ptypes&#34;] = {&#39;coral.SrCa&#39;, &#39;coral.calc&#39;, &#39;coral.d18O&#39;}
+</span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;annualize_proxydb_ptypes&#34;] = {&#39;coral.calc&#39;, &#39;coral.d18O&#39;, &#39;coral.SrCa&#39;}
 </span>
 </pre></div></div>
 </div>
@@ -542,7 +543,7 @@ document.write(`
 </div>
 <div class="output_area stderr docutils container">
 <div class="highlight"><pre>
-Annualizing ProxyDatabase: 100%|██████████| 104/104 [00:01&lt;00:00, 72.13it/s]
+Annualizing ProxyDatabase: 100%|██████████| 104/104 [00:01&lt;00:00, 67.95it/s]
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
@@ -765,7 +766,7 @@ Annualizing ProxyDatabase: 100%|██████████| 104/104 [00:01&l
 </div>
 <div class="output_area stderr docutils container">
 <div class="highlight"><pre>
-Centering each of the ProxyRecord: 100%|██████████| 54/54 [00:00&lt;00:00, 1791.87it/s]
+Centering each of the ProxyRecord: 100%|██████████| 54/54 [00:00&lt;00:00, 2009.39it/s]
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
@@ -812,8 +813,8 @@ Centering each of the ProxyRecord: 100%|██████████| 54/54 [0
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">job</span><span class="o">.</span><span class="n">run_graphem</span><span class="p">(</span>
     <span class="n">save_dirpath</span><span class="o">=</span><span class="s1">&#39;./recons/graphem-real-pages2k&#39;</span><span class="p">,</span>
     <span class="n">graph_method</span><span class="o">=</span><span class="s1">&#39;hybrid&#39;</span><span class="p">,</span>
-    <span class="n">cutoff_radius</span><span class="o">=</span><span class="mi">1500</span><span class="p">,</span>
-    <span class="n">sp_FF</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">sp_FP</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
+    <span class="n">cutoff_radius</span><span class="o">=</span><span class="mi">5000</span><span class="p">,</span>
+    <span class="n">sp_FF</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">sp_FP</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
     <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
 <span class="p">)</span>
 </pre></div>
@@ -828,10 +829,10 @@ Centering each of the ProxyRecord: 100%|██████████| 54/54 [0
 </span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;save_dirpath&#34;] = ./recons/graphem-real-pages2k
 </span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;save_filename&#34;] = job_r01_recon.nc
 </span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;graph_method&#34;] = hybrid
-</span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;cutoff_radius&#34;] = 1500
-</span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;sp_FF&#34;] = 3
-</span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;sp_FP&#34;] = 4
-</span>Computing a neighborhood graph with R = 1500.0 km
+</span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;cutoff_radius&#34;] = 5000
+</span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;sp_FF&#34;] = 2
+</span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;sp_FP&#34;] = 2
+</span>Computing a neighborhood graph with R = 5000.0 km
 Estimating graph using neighborhood method
 Running GraphEM:
 
@@ -842,7 +843,7 @@ Running GraphEM:
 </div>
 <div class="output_area stderr docutils container">
 <div class="highlight"><pre>
-EM | dXmis: 0.0026; rdXmis: 0.0046:   4%|▍         | 9/200 [00:02&lt;00:49,  3.88it/s]
+EM | dXmis: 0.0024; rdXmis: 0.0047:  12%|█▎        | 25/200 [01:25&lt;09:59,  3.43s/it]
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
@@ -859,7 +860,7 @@ Solving graphical LASSO using greedy search
 </div>
 <div class="output_area stderr docutils container">
 <div class="highlight"><pre>
-graph_greedy_search | FF:  3.720; FP:  3.644; PP:  0.000:   3%|▎         | 17/500 [00:01&lt;00:41, 11.52it/s]
+graph_greedy_search | FF:  2.551; FP:  1.974; PP:  0.000:   3%|▎         | 15/500 [00:01&lt;00:52,  9.28it/s]
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
@@ -877,7 +878,7 @@ Running GraphEM:
 </div>
 <div class="output_area stderr docutils container">
 <div class="highlight"><pre>
-EM | dXmis: 0.0021; rdXmis: 0.0049:   8%|▊         | 15/200 [00:05&lt;01:03,  2.93it/s]
+EM | dXmis: 0.0020; rdXmis: 0.0043:  14%|█▎        | 27/200 [00:13&lt;01:24,  2.05it/s]
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
@@ -1028,9 +1029,8 @@ Figure saved at: &#34;figs/graphem_corr_recon_BC09.pdf&#34;
     <span class="n">projection</span><span class="o">=</span><span class="s1">&#39;PlateCarree&#39;</span><span class="p">,</span>
     <span class="n">latlon_range</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mi">25</span><span class="p">,</span> <span class="mi">25</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">360</span><span class="p">),</span>
     <span class="c1"># latlon_range=(-20, 20, 150, 256),</span>
-    <span class="n">plot_cbar</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-    <span class="n">plot_proxydb</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">proxydb</span><span class="o">=</span><span class="n">job</span><span class="o">.</span><span class="n">proxydb</span><span class="p">,</span>
-    <span class="n">proxydb_lgd_kws</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;loc&#39;</span><span class="p">:</span> <span class="s1">&#39;lower left&#39;</span><span class="p">,</span> <span class="s1">&#39;bbox_to_anchor&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)},</span>
+    <span class="n">plot_cbar</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">plot_proxydb</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">proxydb</span><span class="o">=</span><span class="n">job</span><span class="o">.</span><span class="n">proxydb</span><span class="p">,</span>
+    <span class="n">plot_proxydb_lgd</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">proxydb_lgd_kws</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;loc&#39;</span><span class="p">:</span> <span class="s1">&#39;lower left&#39;</span><span class="p">,</span> <span class="s1">&#39;bbox_to_anchor&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)},</span>
 <span class="p">)</span>
 
 <span class="n">cfr</span><span class="o">.</span><span class="n">showfig</span><span class="p">(</span><span class="n">fig</span><span class="p">)</span>
@@ -1155,7 +1155,7 @@ Figure saved at: &#34;figs/graphem_corr_recon_obs.pdf&#34;
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[23]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[25]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">res_graphem</span><span class="o">.</span><span class="n">plot_valid</span><span class="p">(</span>
@@ -1291,12 +1291,12 @@ Figure saved at: &#34;figs/lmr_nino3.4.pdf&#34;
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="../ug-graphem.html"
+       href="graphem-primer.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">GraphEM</p>
+        <p class="prev-next-title">A primer on GraphEM</p>
       </div>
     </a>
     <a class="right-next"

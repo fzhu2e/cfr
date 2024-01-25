@@ -550,12 +550,14 @@ class ClimateField:
 
             kwargs['title'] = f'{self.da.name}, {date_str}' 
             
-        if len(set(np.diff(self.da.lon))) > 1:
-            # the case when longitudes cross 0 degree
-            fd_plot = self.wrap_lon(mode='180')
-            kwargs['central_longitude'] = 0
-        else:
-            fd_plot = self
+        # if len(set(np.diff(self.da.lon))) > 1:
+        #     # the case when longitudes cross 0 degree
+        #     fd_plot = self.wrap_lon(mode='180')
+        #     kwargs['central_longitude'] = 0
+        # else:
+            # fd_plot = self
+
+        fd_plot = self
 
         _kwargs.update(kwargs)
             

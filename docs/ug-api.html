@@ -206,6 +206,7 @@
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="ug-graphem.html">GraphEM</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-6"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="notebooks/graphem-primer.html">A primer on GraphEM</a></li>
 <li class="toctree-l2"><a class="reference internal" href="notebooks/graphem-real-pages2k.html">Reconstructing the tropical Pacific SST with PAGES2k and GraphEM</a></li>
 <li class="toctree-l2"><a class="reference internal" href="notebooks/graphem-cli.html">Running GraphEM with the Command Line Interface (CLI)</a></li>
 </ul>
@@ -458,6 +459,7 @@ document.write(`
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyDatabase.plot"><code class="docutils literal notranslate"><span class="pre">ProxyDatabase.plot()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyDatabase.plot_composite"><code class="docutils literal notranslate"><span class="pre">ProxyDatabase.plot_composite()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyDatabase.plotly"><code class="docutils literal notranslate"><span class="pre">ProxyDatabase.plotly()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyDatabase.plotly_concise"><code class="docutils literal notranslate"><span class="pre">ProxyDatabase.plotly_concise()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyDatabase.plotly_count"><code class="docutils literal notranslate"><span class="pre">ProxyDatabase.plotly_count()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyDatabase.refresh"><code class="docutils literal notranslate"><span class="pre">ProxyDatabase.refresh()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyDatabase.slice"><code class="docutils literal notranslate"><span class="pre">ProxyDatabase.slice()</span></code></a></li>
@@ -799,7 +801,7 @@ if provided, the PSM part will be skipped.</p></li>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="cfr.proxy.ProxyRecord.plot">
-<span class="sig-name descname"><span class="pre">plot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">figsize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[12,</span> <span class="pre">4]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">legend</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ms</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">200</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stock_img</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">edge_clr</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'w'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">wspace</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hspace</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot_map</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.proxy.ProxyRecord.plot" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">plot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">figsize=[12,</span> <span class="pre">4],</span> <span class="pre">legend=False,</span> <span class="pre">ms=200,</span> <span class="pre">stock_img=True,</span> <span class="pre">edge_clr='w',</span> <span class="pre">wspace=0.1,</span> <span class="pre">hspace=0.1,</span> <span class="pre">plot_map=True,</span> <span class="pre">p=&lt;class</span> <span class="pre">'cfr.visual.STYLE'&gt;,</span> <span class="pre">**kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.proxy.ProxyRecord.plot" title="Link to this definition">#</a></dt>
 <dd><p>Visualize the ProxyRecord</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -1202,6 +1204,12 @@ the default is by multiprocessing.cpu_count()</p></li>
 <dl class="py method">
 <dt class="sig sig-object py" id="cfr.proxy.ProxyDatabase.plotly">
 <span class="sig-name descname"><span class="pre">plotly</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.proxy.ProxyDatabase.plotly" title="Link to this definition">#</a></dt>
+<dd><p>Plot the database on an interactive map utilizing Plotly</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cfr.proxy.ProxyDatabase.plotly_concise">
+<span class="sig-name descname"><span class="pre">plotly_concise</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.proxy.ProxyDatabase.plotly_concise" title="Link to this definition">#</a></dt>
 <dd><p>Plot the database on an interactive map utilizing Plotly</p>
 </dd></dl>
 
@@ -2585,6 +2593,7 @@ By default, the columns for the members will be labeled as “ens.0”, “ens.1
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyDatabase.plot"><code class="docutils literal notranslate"><span class="pre">ProxyDatabase.plot()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyDatabase.plot_composite"><code class="docutils literal notranslate"><span class="pre">ProxyDatabase.plot_composite()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyDatabase.plotly"><code class="docutils literal notranslate"><span class="pre">ProxyDatabase.plotly()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyDatabase.plotly_concise"><code class="docutils literal notranslate"><span class="pre">ProxyDatabase.plotly_concise()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyDatabase.plotly_count"><code class="docutils literal notranslate"><span class="pre">ProxyDatabase.plotly_count()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyDatabase.refresh"><code class="docutils literal notranslate"><span class="pre">ProxyDatabase.refresh()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.proxy.ProxyDatabase.slice"><code class="docutils literal notranslate"><span class="pre">ProxyDatabase.slice()</span></code></a></li>

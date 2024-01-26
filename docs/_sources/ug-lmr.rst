@@ -9,4 +9,5 @@ In this section, we will cover the below topics:
 
     notebooks/lmr-real-pages2k
     notebooks/lmr-assim-no-calib
+    notebooks/lmr-recon-pr
     notebooks/lmr-cli

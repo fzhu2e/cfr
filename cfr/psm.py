@@ -94,7 +94,10 @@ class Linear:
         self.climate_required = climate_required
 
     def calibrate(self, calib_period=None, nobs_lb=25, metric='fitR2adj',
-        season_list=[list(range(1, 13))], exog_name='obs.tas', **fit_args):
+        season_list=[list(range(1, 13))], exog_name=None, **fit_args):
+        if exog_name is None:
+            exog_name = f'obs.{self.climate_required[0]}'
+
         exog = self.pobj.clim[exog_name]
 
         if type(season_list[0]) is not list:
@@ -161,7 +164,10 @@ class Linear:
             self.calib_details = None
             self.model = None
 
-    def forward(self, exog_name='model.tas'):
+    def forward(self, exog_name=None):
+        if exog_name is None:
+            exog_name = f'model.{self.climate_required[0]}'
+
         sn = self.calib_details['seasonality']
         exog = self.pobj.clim[exog_name]
         exog = exog.annualize(months=sn)
@@ -200,7 +206,14 @@ class Bilinear:
 
     def calibrate(self, calib_period=None, nobs_lb=25, metric='fitR2adj',
         season_list1=[list(range(1, 13))], season_list2=[list(range(1, 13))],
-        exog1_name='obs.tas', exog2_name='obs.pr', **fit_args):
+        exog1_name=None, exog2_name=None, **fit_args):
+
+        if exog1_name is None:
+            exog1_name = f'obs.{self.climate_required[0]}'
+
+        if exog2_name is None:
+            exog2_name = f'obs.{self.climate_required[1]}'
+
         exog1 = self.pobj.clim[exog1_name]
         exog2 = self.pobj.clim[exog2_name]
 
@@ -274,7 +287,12 @@ class Bilinear:
             self.calib_details = None
             self.model = None
 
-    def forward(self, exog1_name='model.tas', exog2_name='model.pr'):
+    def forward(self, exog1_name=None, exog2_name=None):
+        if exog1_name is None:
+            exog1_name = f'model.{self.climate_required[0]}'
+        if exog2_name is None:
+            exog2_name = f'model.{self.climate_required[1]}'
+
         exog1 = self.pobj.clim[exog1_name]
         exog2 = self.pobj.clim[exog2_name]
         sn1, sn2 = self.calib_details['seasonality']

@@ -120,17 +120,23 @@ class ReconRes:
             valid_ts_kws (dict): the dictionary of keyword arguments for validating the timeseries.
             valid_fd_kws (dict): the dictionary of keyword arguments for validating the field.
         '''
+        # print(valid_fd_kws)
         valid_fd_kws = {} if valid_fd_kws is None else valid_fd_kws
         valid_ts_kws = {} if valid_ts_kws is None else valid_ts_kws
         target_name_dict = {} if target_name_dict is None else target_name_dict
         recon_name_dict = {} if recon_name_dict is None else recon_name_dict
+
+        if 'latlon_range' in valid_fd_kws:
+            lat_min, lat_max, lon_min, lon_max = valid_fd_kws['latlon_range']
+        else:
+            lat_min, lat_max, lon_min, lon_max = -90, 90, 0, 360
 
         fig, ax = {}, {}
         for k, v in self.valid_fd.items():
             vn, st = k.split('_')
             if vn not in target_name_dict: target_name_dict[vn] = 'obs'
             fig[k], ax[k] = v.plot(
-                title=f'{st}({recon_name_dict[vn]}, {target_name_dict[vn]}), mean={v.geo_mean().value[0,0]:.2f}',
+                title=f'{st}({recon_name_dict[vn]}, {target_name_dict[vn]}), mean={v.geo_mean(lat_min=lat_min, lat_max=lat_max, lon_min=lon_min, lon_max=lon_max).value[0,0]:.2f}',
                 **valid_fd_kws)
 
         for k, v in self.valid_ts.items():

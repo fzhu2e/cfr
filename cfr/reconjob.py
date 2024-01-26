@@ -402,21 +402,24 @@ class ReconJob:
             self.__dict__[tag][vn] = fd.crop(lat_min=lat_min, lat_max=lat_max, lon_min=lon_min, lon_max=lon_max)
         
         
-    def calib_psms(self, ptype_psm_dict=None, ptype_season_dict=None, calib_period=None,
+    def calib_psms(self, ptype_psm_dict=None, ptype_season_dict=None, ptype_clim_dict=None, calib_period=None,
                    use_predefined_R=False, verbose=False, **kwargs):
         ''' Calibrate the PSMs.
 
         Args:
             ptype_psm_dict (dict): the dictionary to denote the PSM for each proxy type; 'Linear' for all by default.
             ptype_season_dict (dict): the dictionary to denote the seasonality for each proxy type; calendar annual for all by default.
+            ptype_clim_dict (dict): the dictionary to denote the required climate variables for each proxy type; ['tas'] for all by default.
             calib_period (tuple or list): the time period for calibration.
             use_predefined_R (bool): use the predefined observation error covariance instead of by calibration.
             verbose (bool, optional): print verbose information. Defaults to False.
         '''
         ptype_psm_dict_default = {ptype: 'Linear' for ptype in set(self.proxydb.type_list)}
-        ptype_season_dict_default={ptype: list(range(1, 13)) for ptype in set(self.proxydb.type_list)}
+        ptype_season_dict_default = {ptype: list(range(1, 13)) for ptype in set(self.proxydb.type_list)}
+        ptype_clim_dict_default = {ptype: ['tas'] for ptype in set(self.proxydb.type_list)}
         if ptype_psm_dict is not None: ptype_psm_dict_default.update(ptype_psm_dict)
         if ptype_season_dict is not None: ptype_season_dict_default.update(ptype_season_dict)
+        if ptype_clim_dict is not None: ptype_clim_dict_default.update(ptype_clim_dict)
 
         ptype_psm_dict = self.io_cfg(
             'ptype_psm_dict', ptype_psm_dict_default,
@@ -424,6 +427,10 @@ class ReconJob:
 
         ptype_season_dict = self.io_cfg(
             'ptype_season_dict', ptype_season_dict_default,
+            verbose=verbose)
+
+        ptype_clim_dict = self.io_cfg(
+            'ptype_clim_dict', ptype_clim_dict_default,
             verbose=verbose)
 
         calib_period = self.io_cfg(
@@ -435,16 +442,18 @@ class ReconJob:
             psm_name = ptype_psm_dict[pobj.ptype]
 
             if psm_name in ['TempPlusNoise']:
-                for vn in psm.__dict__[psm_name]().climate_required:
+                # for vn in psm.__dict__[psm_name]().climate_required:
+                for vn in ptype_clim_dict[pobj.ptype]:
                     if 'clim' not in pobj.__dict__ or f'model.{vn}' not in pobj.clim:
                         pobj.get_clim(self.prior[vn], tag='model')
             else:
-                for vn in psm.__dict__[psm_name]().climate_required:
+                # for vn in psm.__dict__[psm_name]().climate_required:
+                for vn in ptype_clim_dict[pobj.ptype]:
                     if 'clim' not in pobj.__dict__ or f'obs.{vn}' not in pobj.clim:
                         pobj.get_clim(self.obs[vn], tag='obs')
 
 
-            pobj.psm = psm.__dict__[psm_name](pobj)
+            pobj.psm = psm.__dict__[psm_name](pobj, climate_required=ptype_clim_dict[pobj.ptype])
             if psm_name in ['TempPlusNoise']:
                 pobj.psm.calibrate(**kwargs)
             elif psm_name == 'Bilinear':
@@ -1099,7 +1108,7 @@ class ReconJob:
                     field = self.graphem_solver.field_r[inst],
                     proxy = self.graphem_solver.proxy_r[inst,:])
 
-                G_L.glasso_adj(target_FF=fit_kwargs['sp_FF'], target_FP=fit_kwargs['sp_FP'], target_PP=fit_kwargs['sp_PP'])
+                G_L.glasso_adj(target_FF=fit_kwargs['sp_FF'], target_FP=fit_kwargs['sp_FP'])
                 fit_kwargs.update({'estimate_graph': False, 'graph': G_L.adj})
                 self.graphem_solver.fit(
                     self.graphem_params['field'],

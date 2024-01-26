@@ -386,7 +386,7 @@ class ClimateField:
                 ref_rg = ref.regrid(self.da.lat, self.da.lon)
         else:
             fd_rg = self.copy()
-            ref_rg = self.copy()
+            ref_rg = ref.copy()
 
         if timespan is not None:
             fd_rg = fd_rg[str(timespan[0]):str(timespan[-1])]

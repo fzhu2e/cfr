@@ -627,9 +627,16 @@ Annualizing ProxyDatabase: 100%|██████████| 104/104 [00:01&l
     <span class="s1">&#39;coral.SrCa&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">12</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span>
 <span class="p">}</span>
 
+<span class="n">ptype_clim_dict</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;coral.d18O&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;tas&#39;</span><span class="p">],</span>
+    <span class="s1">&#39;coral.calc&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;tas&#39;</span><span class="p">],</span>
+    <span class="s1">&#39;coral.SrCa&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;tas&#39;</span><span class="p">],</span>
+<span class="p">}</span>
+
 <span class="n">job</span><span class="o">.</span><span class="n">calib_psms</span><span class="p">(</span>
     <span class="n">ptype_psm_dict</span><span class="o">=</span><span class="n">ptype_psm_dict</span><span class="p">,</span>
     <span class="n">ptype_season_dict</span><span class="o">=</span><span class="n">ptype_season_dict</span><span class="p">,</span>
+    <span class="n">ptype_clim_dict</span><span class="o">=</span><span class="n">ptype_clim_dict</span><span class="p">,</span>
     <span class="n">calib_period</span><span class="o">=</span><span class="p">(</span><span class="mi">1850</span><span class="p">,</span> <span class="mi">2015</span><span class="p">),</span>
     <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
 <span class="p">)</span>

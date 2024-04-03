@@ -634,8 +634,8 @@ def replace_str(fpath, d):
         f.write(text)
 
 
-def download(url: str, fname: str, chunk_size=1024, show_bar=True):
-    resp = requests.get(url, stream=True)
+def download(url: str, fname: str, chunk_size=1024, show_bar=True, verify=False):
+    resp = requests.get(url, stream=True, verify=verify)
     total = int(resp.headers.get('content-length', 0))
     if show_bar:
         with open(fname, 'wb') as file, tqdm(

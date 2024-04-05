@@ -83,6 +83,7 @@ class STYLE:
         'speleothem.dD': sns.xkcd_rgb['brown'],
         'bivalve.d18O': sns.xkcd_rgb['gold'],
         'marine.TEX86': sns.xkcd_rgb['brown'],
+        'marine.UK37': sns.xkcd_rgb['brown'],
         'marine.MgCa': sns.xkcd_rgb['brown'],
         'marine.d18O': sns.xkcd_rgb['brown'],
         'marine.MAT': sns.xkcd_rgb['brown'],
@@ -131,7 +132,8 @@ class STYLE:
         'speleothem.d18O': 'o',
         'speleothem.dD': '>',
         'bivalve.d18O': 'o',
-        'marine.TEX86': '*',
+        'marine.TEX86': 's',
+        'marine.UK37': 'P',
         'marine.MgCa': 'v',
         'marine.d18O': 'o',
         'marine.MAT': 'H',
@@ -267,7 +269,8 @@ def plot_field_map(field_var, lat, lon, levels=50, add_cyclic_point=True,
                    lon_ticks=[0, 60, 120, 180, 240, 300], lat_ticks=[-90, 45, 0, 45, 90],
                    land_color=sns.xkcd_rgb['light grey'], ocean_color=sns.xkcd_rgb['light grey'],
                    land_zorder=None, ocean_zorder=None, signif_values=None, signif_range=[0.05, 9999], hatch='..',
-                   clim=None, cmap=None, cmap_under=None, cmap_over=None, cmap_bad=None, extend='both', mode=None, add_gridlines=False,
+                   clim=None, cmap=None, cmap_under=None, cmap_over=None, cmap_bad=None, extend='both', mode=None,
+                   add_gridlines=False, add_coastlines=True,
                    plot_cbar=True, cbar_labels=None, cbar_pad=0.05, cbar_orientation='vertical', cbar_aspect=10,
                    cbar_fraction=0.15, cbar_shrink=0.5, cbar_title=None, cbar_title_x=0.5, cbar_title_y=1.05,
                    fig=None, ax=None):
@@ -407,7 +410,8 @@ def plot_field_map(field_var, lat, lon, levels=50, add_cyclic_point=True,
 
     ax.add_feature(cfeature.LAND, facecolor=land_color, edgecolor=land_color, zorder=land_zorder)
     ax.add_feature(cfeature.OCEAN, facecolor=ocean_color, edgecolor=ocean_color, zorder=ocean_zorder)
-    ax.coastlines(zorder=99)
+    if add_coastlines:
+        ax.coastlines(zorder=99)
 
     if add_gridlines:
         ax.gridlines(edgecolor='gray', linestyle=':', crs=transform)
@@ -507,7 +511,7 @@ def plot_proxies(df, year=np.arange(2001), lon_col='lon', lat_col='lat', type_co
                  figsize=[10, 10], projection='Robinson', proj_args=None, central_longitude=180, markersize=50,
                  plot_count=False, nrow=2, ncol=1, wspace=0.5, hspace=0.3, return_gs=False,
                  lgd_ncol=None, lgd_anchor_upper=(1, 0), lgd_anchor_lower=(1, -0.05),lgd_frameon=False,
-                 enumerate_ax=False, enumerate_prop={'weight': 'bold', 'size': 30}, p=STYLE, stock_img=True,
+                 enumerate_ax=False, enumerate_prop={'weight': 'bold', 'size': 30}, p=STYLE, stock_img=True, modern_topo=True,
                  enumerate_anchor_map=[0, 1], enumerate_anchor_count=[0, 1], map_grid_idx=0, count_grid_idx=1):
     ''' Visualize proxies.
 
@@ -541,7 +545,8 @@ def plot_proxies(df, year=np.arange(2001), lon_col='lon', lat_col='lat', type_co
         ax['map'].set_title(title, fontweight=title_weight)
 
     ax['map'].set_global()
-    ax['map'].add_feature(cfeature.LAND, facecolor='gray', alpha=0.3)
+    if modern_topo:
+        ax['map'].add_feature(cfeature.LAND, facecolor='gray', alpha=0.3)
 
     # plot markers by archive types
     if markers_dict is None:

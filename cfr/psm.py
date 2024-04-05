@@ -9,6 +9,7 @@ try:
     from pathos.multiprocessing import ProcessingPool as Pool
     import fbm
     import PyVSL
+    import pybaywatch as pb
 except:
     pass
 
@@ -1142,4 +1143,125 @@ class VSLite:
             time_unit=self.pobj.time_unit,
         )
 
+        return pp
+
+
+class BayTEX86:
+    ''' Baysian PSM for TEX86
+    
+    References:
+        Tierney, J. E. & Tingley, M. P. A Bayesian, spatially-varying calibration model for the TEX86 proxy. Geochimica et Cosmochimica Acta 127, 83-106 (2014).
+    '''
+    def __init__(self, pobj=None, climate_required=['sst']):
+        self.pobj = pobj
+        self.climate_required = climate_required
+
+    def forward(self, seed=2333, type='SST', mode='analog', tolerance=1):
+        vn = f'model.{self.climate_required[0]}'
+        res = pb.TEX_forward(self.pobj.lat, self.pobj.lon, self.pobj.clim[vn].da.values, seed=seed, type=type, mode=mode, tolerance=tolerance)
+        pct = np.percentile(res, q=[5, 50, 95], axis=1)
+
+        pp = ProxyRecord(
+            pid=self.pobj.pid,
+            time=self.pobj.clim[vn].da.time,
+            value=pct[1],  # median
+            lat=self.pobj.lat,
+            lon=self.pobj.lon,
+            ptype=self.pobj.ptype,
+            value_name=self.pobj.value_name,
+            value_unit=self.pobj.value_unit,
+            time_name=self.pobj.time_name,
+            time_unit=self.pobj.time_unit,
+        )
+        return pp
+
+class BayUK37:
+    ''' Baysian PSM for UK37
+    
+    References:
+        Tierney, J. E. & Tingley, M. P. BAYSPLINE: A New Calibration for the Alkenone Paleothermometer. Paleoceanography and Paleoclimatology 33, 281-301 (2018).
+    '''
+    def __init__(self, pobj=None, climate_required=['sst']):
+        self.pobj = pobj
+        self.climate_required = climate_required
+
+    def forward(self, seed=2333):
+        vn = f'model.{self.climate_required[0]}'
+        res = pb.UK_forward(self.pobj.clim[vn].da.values, seed=seed)
+        pct = np.percentile(res, q=[5, 50, 95], axis=1)
+
+        pp = ProxyRecord(
+            pid=self.pobj.pid,
+            time=self.pobj.clim[vn].da.time,
+            value=pct[1],  # median
+            lat=self.pobj.lat,
+            lon=self.pobj.lon,
+            ptype=self.pobj.ptype,
+            value_name=self.pobj.value_name,
+            value_unit=self.pobj.value_unit,
+            time_name=self.pobj.time_name,
+            time_unit=self.pobj.time_unit,
+        )
+        return pp
+
+
+class BayD18O:
+    ''' Baysian PSM for foram d18O
+    
+    References:
+    '''
+    def __init__(self, pobj=None, climate_required=['sst', 'd18Osw']):
+        self.pobj = pobj
+        self.climate_required = climate_required
+
+    def forward(self, seed=2333, species='all_sea'):
+        vn1 = f'model.{self.climate_required[0]}'
+        vn2 = f'model.{self.climate_required[1]}'
+        res = pb.d18Oc_forward(sst=self.pobj.clim[vn1].da.values, d18Osw=self.pobj.clim[vn2].da.values, seed=seed, species=species)
+        pct = np.percentile(res, q=[5, 50, 95], axis=1)
+
+        pp = ProxyRecord(
+            pid=self.pobj.pid,
+            time=self.pobj.clim[vn1].da.time,
+            value=pct[1],  # median
+            lat=self.pobj.lat,
+            lon=self.pobj.lon,
+            ptype=self.pobj.ptype,
+            value_name=self.pobj.value_name,
+            value_unit=self.pobj.value_unit,
+            time_name=self.pobj.time_name,
+            time_unit=self.pobj.time_unit,
+        )
+        return pp
+
+class BayMgCa:
+    ''' Baysian PSM for Mg/Ca
+    
+    References:
+    '''
+    def __init__(self, pobj=None, climate_required=['sst', 'sss']):
+        self.pobj = pobj
+        self.climate_required = climate_required
+
+    def forward(self, seed=2333, species='all_sea', clean=1, pH=1, omega=1, sw=2, H=1, age=15):
+        vn1 = f'model.{self.climate_required[0]}'
+        vn2 = f'model.{self.climate_required[0]}'
+        res = pb.MgCa_forward(
+            age=age, sst=self.pobj.clim[vn1].da.values, salinity=self.pobj.clim[vn2].da.values,
+            clean=clean, pH=pH, omega=omega, species=species, sw=sw, H=H, seed=seed,
+        )
+        pct = np.percentile(res, q=[5, 50, 95], axis=1)
+
+        pp = ProxyRecord(
+            pid=self.pobj.pid,
+            time=self.pobj.clim[vn1].da.time,
+            value=pct[1],  # median
+            lat=self.pobj.lat,
+            lon=self.pobj.lon,
+            ptype=self.pobj.ptype,
+            value_name=self.pobj.value_name,
+            value_unit=self.pobj.value_unit,
+            time_name=self.pobj.time_name,
+            time_unit=self.pobj.time_unit,
+        )
         return pp

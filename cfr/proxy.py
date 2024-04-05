@@ -72,6 +72,7 @@ def get_ptype(archive_type, proxy_type):
         ('speleothem', 'd18O'): 'speleothem.d18O',
         ('speleothem', 'dD'): 'speleothem.dD',
         ('marine sediment', 'TEX86'): 'marine.TEX86',
+        ('marine sediment', 'UK37'): 'marine.UK37',
         ('marine sediment', 'Mg/Ca'): 'marine.MgCa',
         ('marine sediment', 'foram Mg/Ca'): 'marine.MgCa',
         ('marine sediment', 'd18O'): 'marine.d18O',
@@ -477,7 +478,7 @@ class ProxyRecord:
                 name = f'{tag}.{name}'
 
             nda = field.da.sel(lat=self.lat, lon=self.lon, **_kwargs)
-            if np.all(np.isnan(nda.values)):
+            if np.all(np.isnan(nda.values)) and search_dist is not None:
                 for i in range(1, search_dist+1):
                     p_header(f'{self.pid} >>> Nearest climate is NaN. Searching around within distance of {i} deg ...')
                     da_cond = field.da.where(np.abs(field.da.lat - self.lat)<= i).where(
@@ -493,9 +494,13 @@ class ProxyRecord:
             if not hasattr(self, 'clim'):
                 self.clim = {}
 
-            self.clim[name] = ClimateField(nda)
-            if load: self.clim[name].da.load()
-            if verbose: utils.p_success(f'{self.pid} >>> ProxyRecord.clim["{name}"] created.')
+            if 'nda' in locals():
+                self.clim[name] = ClimateField(nda)
+                if load: self.clim[name].da.load()
+                if verbose: utils.p_success(f'{self.pid} >>> ProxyRecord.clim["{name}"] created.')
+            else:
+                self.clim[name] = None
+                utils.p_fail(f'{self.pid} >>> ProxyRecord.clim["{name}"] = None')
 
     def correct_elev_tas(self, t_rate=-9.8, verbose=False):
         ''' Correct the tas with t_rate = -9.8 degC/km upward by default.
@@ -1194,6 +1199,9 @@ class ProxyDatabase:
             value = row[value_column]
             if type(value) is str:
                 value = utils.arr_str2np(value)
+
+            time = np.atleast_1d(time)
+            value = np.atleast_1d(value)
 
             if len(time) != len(value):
                 print(row[value_column])

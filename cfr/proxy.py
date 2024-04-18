@@ -574,6 +574,7 @@ class ProxyRecord:
                 noise = utils.colored_noise(**_colored_noise_kws)
 
             self.pseudo.value += noise / np.std(noise) * sigma
+            self.pseudo.R = np.var(noise)
             if verbose: utils.p_success(f'>>> ProxyRecord.pseudo added with {noise} noise (SNR={SNR}).')
 
         if match_var or match_mean:

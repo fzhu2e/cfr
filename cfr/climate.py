@@ -541,7 +541,10 @@ class ClimateField:
             if len(self.da.dims) == 3:
                 t_value = self.da.time.values[0]
             elif len(self.da.dims) == 2:
-                t_value = self.da.time.values
+                try:
+                    t_value = self.da.time.values
+                except:
+                    t_value = ''
 
             try:
                 date_str = '-'.join(str(t_value).split('-')[:2])

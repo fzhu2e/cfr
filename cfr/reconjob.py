@@ -476,12 +476,18 @@ class ReconJob:
         if verbose:
             p_success(f'>>> {self.proxydb.nrec_tags("calibrated")} records tagged "calibrated" with ProxyRecord.psm created')
 
-    def forward_psms(self, verbose=False, **kwargs):
+    def forward_psms(self, verbose=False, ptype_forward_dict=None):
         ''' Forward the PSMs.
 
         Args:
             verbose (bool, optional): print verbose information. Defaults to False.
         '''
+        ptype_forward_dict_default = {}
+        if ptype_forward_dict is not None: ptype_forward_dict_default.update(ptype_forward_dict)
+        ptype_forward_dict = self.io_cfg(
+            'ptype_forward_dict', ptype_forward_dict_default,
+            verbose=verbose)
+
         pdb_calib = self.proxydb.filter(by='tag', keys={'calibrated'})
             
         for pid, pobj in tqdm(pdb_calib.records.items(), total=pdb_calib.nrec, desc='Forwarding the PSMs'):
@@ -489,7 +495,10 @@ class ReconJob:
                 if 'clim' not in pobj.__dict__ or f'model.{vn}' not in pobj.clim:
                     pobj.get_clim(self.prior[vn], tag='model')
 
-            pobj.pseudo = pobj.psm.forward(**kwargs)
+            if pobj.ptype in ptype_forward_dict:
+                pobj.pseudo = pobj.psm.forward(**ptype_forward_dict[pobj.ptype])
+            else:
+                pobj.pseudo = pobj.psm.forward()
 
         if verbose:
             p_success(f'>>> ProxyRecord.pseudo created for {pdb_calib.nrec} records')

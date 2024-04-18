@@ -5,7 +5,7 @@ with open('README.md', 'r') as fh:
 
 setup(
     name='cfr',  # required
-    version='2024.4.4',
+    version='2024.4.17',
     description='cfr: a Python package for Climate Field Reconstruction',
     long_description=long_description,
     long_description_content_type='text/x-rst',
@@ -43,6 +43,7 @@ setup(
             'pathos',
             'fbm',
             'pyvsl',
+            'pybaywatch',
         ],
         'ml': [
             'scikit-learn',

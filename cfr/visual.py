@@ -261,7 +261,7 @@ def setlabel(ax, label, loc=2, borderpad=0.6, **kwargs):
 def plot_field_map(field_var, lat, lon, levels=50, add_cyclic_point=True,
                    title=None, title_size=20, title_weight='normal', figsize=[10, 8],
                    plot_proxydb=False, proxydb=None, plot_proxydb_lgd=False, proxydb_lgd_kws=None,
-                   proxy_marker=None, proxy_color=None,
+                   proxy_marker=None, proxy_color=None, modern_topo=True,
                    site_lats=None, site_lons=None, site_marker='o',
                    site_markersize=50, site_color=sns.xkcd_rgb['amber'],
                    projection='Robinson', transform=ccrs.PlateCarree(),
@@ -408,8 +408,10 @@ def plot_field_map(field_var, lat, lon, levels=50, add_cyclic_point=True,
     else:
         ax.set_global()
 
-    ax.add_feature(cfeature.LAND, facecolor=land_color, edgecolor=land_color, zorder=land_zorder)
-    ax.add_feature(cfeature.OCEAN, facecolor=ocean_color, edgecolor=ocean_color, zorder=ocean_zorder)
+    if modern_topo:
+        ax.add_feature(cfeature.LAND, facecolor=land_color, edgecolor=land_color, zorder=land_zorder)
+        ax.add_feature(cfeature.OCEAN, facecolor=ocean_color, edgecolor=ocean_color, zorder=ocean_zorder)
+
     if add_coastlines:
         ax.coastlines(zorder=99)
 

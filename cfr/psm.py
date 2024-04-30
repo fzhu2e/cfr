@@ -224,6 +224,12 @@ class Bilinear:
         exog1_colname = exog1_name.split('.')[-1]
         exog2_colname = exog2_name.split('.')[-1]
 
+        if type(season_list1[0]) is not list:
+            season_list1 = [season_list1]
+
+        if type(season_list2[0]) is not list:
+            season_list2 = [season_list2]
+
         for sn1 in season_list1:
             exog1_ann = exog1.annualize(months=sn1)
             df_exog1 = pd.DataFrame({'time': exog1_ann.da.time.values, exog1_colname: exog1_ann.da.values})

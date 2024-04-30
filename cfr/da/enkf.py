@@ -116,9 +116,10 @@ class EnKF:
         
 
     def gen_Xb(self):
-        vn_1st = list(self.prior.keys())[0]
+        # vn_1st = list(self.prior.keys())[0]
         Xb_var_irow = {}  # index of rows in Xb to store the specific var
         loc = 0
+        i = 0
         for vn in self.recon_vars:
             _, nlat, nlon = np.shape(self.prior[vn].da.values)
             lats, lons = self.prior[vn].da.lat.values, self.prior[vn].da.lon.values
@@ -129,7 +130,7 @@ class EnKF:
             fd = self.prior[vn].da.values[self.prior_sample_idx]  # the size of the time axis becomes self.nens
             fd = np.moveaxis(fd, 0, -1)  # move the time axis to the rightest
             fd_flat = fd.reshape((nlat*nlon, self.nens))
-            if vn == vn_1st:
+            if i == 0:
                 Xb = fd_flat
                 Xb_coords = fd_coords
             else:

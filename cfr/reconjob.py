@@ -417,6 +417,7 @@ class ReconJob:
         ptype_psm_dict_default = {ptype: 'Linear' for ptype in set(self.proxydb.type_list)}
         ptype_season_dict_default = {ptype: list(range(1, 13)) for ptype in set(self.proxydb.type_list)}
         ptype_clim_dict_default = {ptype: ['tas'] for ptype in set(self.proxydb.type_list)}
+
         if ptype_psm_dict is not None: ptype_psm_dict_default.update(ptype_psm_dict)
         if ptype_season_dict is not None: ptype_season_dict_default.update(ptype_season_dict)
         if ptype_clim_dict is not None: ptype_clim_dict_default.update(ptype_clim_dict)
@@ -849,7 +850,8 @@ class ReconJob:
                        anom_period=self.configs[f'obs_anom_period'],
                        rename_dict=obs_rename_dict, verbose=verbose)
         self.calib_psms(ptype_psm_dict=self.configs['ptype_psm_dict'],
-                        ptype_season_dict=self.configs['ptype_season_dict'], verbose=verbose)
+                        ptype_season_dict=self.configs['ptype_season_dict'],
+                        ptype_clim_dict=self.configs['ptype_clim_dict'], verbose=verbose)
         self.forward_psms(verbose=verbose)
 
         if 'prior_annualize_months' in self.configs:

@@ -1,4 +1,3 @@
-from turtle import color
 import numpy as np
 import pandas as pd
 from datetime import datetime
@@ -10,6 +9,7 @@ try:
     from pathos.multiprocessing import ProcessingPool as Pool
     import fbm
     import PyVSL
+    import pybaywatch as pb
 except:
     pass
 
@@ -94,7 +94,10 @@ class Linear:
         self.climate_required = climate_required
 
     def calibrate(self, calib_period=None, nobs_lb=25, metric='fitR2adj',
-        season_list=[list(range(1, 13))], exog_name='obs.tas', **fit_args):
+        season_list=[list(range(1, 13))], exog_name=None, **fit_args):
+        if exog_name is None:
+            exog_name = f'obs.{self.climate_required[0]}'
+
         exog = self.pobj.clim[exog_name]
 
         if type(season_list[0]) is not list:
@@ -161,7 +164,10 @@ class Linear:
             self.calib_details = None
             self.model = None
 
-    def forward(self, exog_name='model.tas'):
+    def forward(self, exog_name=None):
+        if exog_name is None:
+            exog_name = f'model.{self.climate_required[0]}'
+
         sn = self.calib_details['seasonality']
         exog = self.pobj.clim[exog_name]
         exog = exog.annualize(months=sn)
@@ -200,7 +206,14 @@ class Bilinear:
 
     def calibrate(self, calib_period=None, nobs_lb=25, metric='fitR2adj',
         season_list1=[list(range(1, 13))], season_list2=[list(range(1, 13))],
-        exog1_name='obs.tas', exog2_name='obs.pr', **fit_args):
+        exog1_name=None, exog2_name=None, **fit_args):
+
+        if exog1_name is None:
+            exog1_name = f'obs.{self.climate_required[0]}'
+
+        if exog2_name is None:
+            exog2_name = f'obs.{self.climate_required[1]}'
+
         exog1 = self.pobj.clim[exog1_name]
         exog2 = self.pobj.clim[exog2_name]
 
@@ -210,6 +223,12 @@ class Bilinear:
         sn_list = []
         exog1_colname = exog1_name.split('.')[-1]
         exog2_colname = exog2_name.split('.')[-1]
+
+        if type(season_list1[0]) is not list:
+            season_list1 = [season_list1]
+
+        if type(season_list2[0]) is not list:
+            season_list2 = [season_list2]
 
         for sn1 in season_list1:
             exog1_ann = exog1.annualize(months=sn1)
@@ -274,7 +293,12 @@ class Bilinear:
             self.calib_details = None
             self.model = None
 
-    def forward(self, exog1_name='model.tas', exog2_name='model.pr'):
+    def forward(self, exog1_name=None, exog2_name=None):
+        if exog1_name is None:
+            exog1_name = f'model.{self.climate_required[0]}'
+        if exog2_name is None:
+            exog2_name = f'model.{self.climate_required[1]}'
+
         exog1 = self.pobj.clim[exog1_name]
         exog2 = self.pobj.clim[exog2_name]
         sn1, sn2 = self.calib_details['seasonality']
@@ -1125,4 +1149,125 @@ class VSLite:
             time_unit=self.pobj.time_unit,
         )
 
+        return pp
+
+
+class BayTEX86:
+    ''' Baysian PSM for TEX86
+    
+    References:
+        Tierney, J. E. & Tingley, M. P. A Bayesian, spatially-varying calibration model for the TEX86 proxy. Geochimica et Cosmochimica Acta 127, 83-106 (2014).
+    '''
+    def __init__(self, pobj=None, climate_required=['sst']):
+        self.pobj = pobj
+        self.climate_required = climate_required
+
+    def forward(self, seed=2333, type='SST', mode='analog', tolerance=1):
+        vn = f'model.{self.climate_required[0]}'
+        res = pb.TEX_forward(self.pobj.lat, self.pobj.lon, self.pobj.clim[vn].da.values, seed=seed, type=type, mode=mode, tolerance=tolerance)
+        pct = np.percentile(res, q=[5, 50, 95], axis=1)
+
+        pp = ProxyRecord(
+            pid=self.pobj.pid,
+            time=self.pobj.clim[vn].da.time,
+            value=pct[1],  # median
+            lat=self.pobj.lat,
+            lon=self.pobj.lon,
+            ptype=self.pobj.ptype,
+            value_name=self.pobj.value_name,
+            value_unit=self.pobj.value_unit,
+            time_name=self.pobj.time_name,
+            time_unit=self.pobj.time_unit,
+        )
+        return pp
+
+class BayUK37:
+    ''' Baysian PSM for UK37
+    
+    References:
+        Tierney, J. E. & Tingley, M. P. BAYSPLINE: A New Calibration for the Alkenone Paleothermometer. Paleoceanography and Paleoclimatology 33, 281-301 (2018).
+    '''
+    def __init__(self, pobj=None, climate_required=['sst']):
+        self.pobj = pobj
+        self.climate_required = climate_required
+
+    def forward(self, seed=2333):
+        vn = f'model.{self.climate_required[0]}'
+        res = pb.UK_forward(self.pobj.clim[vn].da.values, seed=seed)
+        pct = np.percentile(res, q=[5, 50, 95], axis=1)
+
+        pp = ProxyRecord(
+            pid=self.pobj.pid,
+            time=self.pobj.clim[vn].da.time,
+            value=pct[1],  # median
+            lat=self.pobj.lat,
+            lon=self.pobj.lon,
+            ptype=self.pobj.ptype,
+            value_name=self.pobj.value_name,
+            value_unit=self.pobj.value_unit,
+            time_name=self.pobj.time_name,
+            time_unit=self.pobj.time_unit,
+        )
+        return pp
+
+
+class BayD18O:
+    ''' Baysian PSM for foram d18O
+    
+    References:
+    '''
+    def __init__(self, pobj=None, climate_required=['sst', 'd18Osw']):
+        self.pobj = pobj
+        self.climate_required = climate_required
+
+    def forward(self, seed=2333, species='all_sea'):
+        vn1 = f'model.{self.climate_required[0]}'
+        vn2 = f'model.{self.climate_required[1]}'
+        res = pb.d18Oc_forward(sst=self.pobj.clim[vn1].da.values, d18Osw=self.pobj.clim[vn2].da.values, seed=seed, species=species)
+        pct = np.percentile(res, q=[5, 50, 95], axis=1)
+
+        pp = ProxyRecord(
+            pid=self.pobj.pid,
+            time=self.pobj.clim[vn1].da.time,
+            value=pct[1],  # median
+            lat=self.pobj.lat,
+            lon=self.pobj.lon,
+            ptype=self.pobj.ptype,
+            value_name=self.pobj.value_name,
+            value_unit=self.pobj.value_unit,
+            time_name=self.pobj.time_name,
+            time_unit=self.pobj.time_unit,
+        )
+        return pp
+
+class BayMgCa:
+    ''' Baysian PSM for Mg/Ca
+    
+    References:
+    '''
+    def __init__(self, pobj=None, climate_required=['sst', 'sss']):
+        self.pobj = pobj
+        self.climate_required = climate_required
+
+    def forward(self, seed=2333, species='all_sea', clean=1, pH=1, omega=1, sw=2, H=1, age=15):
+        vn1 = f'model.{self.climate_required[0]}'
+        vn2 = f'model.{self.climate_required[0]}'
+        res = pb.MgCa_forward(
+            age=age, sst=self.pobj.clim[vn1].da.values, salinity=self.pobj.clim[vn2].da.values,
+            clean=clean, pH=pH, omega=omega, species=species, sw=sw, H=H, seed=seed,
+        )
+        pct = np.percentile(res, q=[5, 50, 95], axis=1)
+
+        pp = ProxyRecord(
+            pid=self.pobj.pid,
+            time=self.pobj.clim[vn1].da.time,
+            value=pct[1],  # median
+            lat=self.pobj.lat,
+            lon=self.pobj.lon,
+            ptype=self.pobj.ptype,
+            value_name=self.pobj.value_name,
+            value_unit=self.pobj.value_unit,
+            time_name=self.pobj.time_name,
+            time_unit=self.pobj.time_unit,
+        )
         return pp

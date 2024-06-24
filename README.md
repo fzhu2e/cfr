@@ -1,9 +1,12 @@
 [![PyPI version](https://badge.fury.io/py/cfr.svg)](https://badge.fury.io/py/cfr)
-[![PyPI](https://img.shields.io/badge/python-3.10-blue.svg)]()
+[![PyPI](https://img.shields.io/badge/python-3.11-blue.svg)]()
 [![license](https://img.shields.io/github/license/fzhu2e/cfr.svg)]()
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.7855587.svg)](https://doi.org/10.5281/zenodo.7855587)
 
 # `cfr`: a Python package for Climate Field Reconstruction
+
+> [!NOTE]
+> Zhu, F., Emile-Geay, J., Hakim, G. J., Guillot, D., Khider, D., Tardif, R., & Perkins, W. A. (2024). cfr (v2024.1.26): a Python package for climate field reconstruction. Geoscientific Model Development, 17(8), 3409–3431. https://doi.org/10.5194/gmd-17-3409-2024
 
 `cfr` aims to provide a universal framework for climate field reconstruction (CFR).
 It provides a toolkit for
@@ -20,6 +23,7 @@ For more details, please refer to the documentation linked below.
 + Homepage: https://fzhu2e.github.io/cfr
 + Installation: https://fzhu2e.github.io/cfr/ug-installation.html
 
-## How to cite this repo
+## How to cite
 
-This repo can be cited with DOI: [10.5281/zenodo.7855587](https://doi.org/10.5281/zenodo.7855587)
+If you find this package useful, please cite:
++ Zhu, F., Emile-Geay, J., Hakim, G. J., Guillot, D., Khider, D., Tardif, R., & Perkins, W. A. (2024). cfr (v2024.1.26): a Python package for climate field reconstruction. Geoscientific Model Development, 17(8), 3409–3431. https://doi.org/10.5194/gmd-17-3409-2024

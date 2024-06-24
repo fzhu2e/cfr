@@ -2,6 +2,9 @@
 `cfr`: a Python package for Climate Field Reconstruction
 ***********************************************************
 
+.. note::
+    Zhu, F., Emile-Geay, J., Hakim, G. J., Guillot, D., Khider, D., Tardif, R., & Perkins, W. A. (2024). cfr (v2024.1.26): a Python package for climate field reconstruction. Geoscientific Model Development, 17(8), 3409–3431. https://doi.org/10.5194/gmd-17-3409-2024
+
 `cfr` aims to provide a universal framework for climate field reconstruction (CFR).
 It provides a toolkit for
 

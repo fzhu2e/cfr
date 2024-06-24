@@ -386,7 +386,7 @@ class ClimateField:
                 ref_rg = ref.regrid(self.da.lat, self.da.lon)
         else:
             fd_rg = self.copy()
-            ref_rg = self.copy()
+            ref_rg = ref.copy()
 
         if timespan is not None:
             fd_rg = fd_rg[str(timespan[0]):str(timespan[-1])]
@@ -541,7 +541,10 @@ class ClimateField:
             if len(self.da.dims) == 3:
                 t_value = self.da.time.values[0]
             elif len(self.da.dims) == 2:
-                t_value = self.da.time.values
+                try:
+                    t_value = self.da.time.values
+                except:
+                    t_value = ''
 
             try:
                 date_str = '-'.join(str(t_value).split('-')[:2])
@@ -550,12 +553,14 @@ class ClimateField:
 
             kwargs['title'] = f'{self.da.name}, {date_str}' 
             
-        if len(set(np.diff(self.da.lon))) > 1:
-            # the case when longitudes cross 0 degree
-            fd_plot = self.wrap_lon(mode='180')
-            kwargs['central_longitude'] = 0
-        else:
-            fd_plot = self
+        # if len(set(np.diff(self.da.lon))) > 1:
+        #     # the case when longitudes cross 0 degree
+        #     fd_plot = self.wrap_lon(mode='180')
+        #     kwargs['central_longitude'] = 0
+        # else:
+            # fd_plot = self
+
+        fd_plot = self
 
         _kwargs.update(kwargs)
             

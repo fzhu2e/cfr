@@ -83,6 +83,7 @@ class STYLE:
         'speleothem.dD': sns.xkcd_rgb['brown'],
         'bivalve.d18O': sns.xkcd_rgb['gold'],
         'marine.TEX86': sns.xkcd_rgb['brown'],
+        'marine.UK37': sns.xkcd_rgb['brown'],
         'marine.MgCa': sns.xkcd_rgb['brown'],
         'marine.d18O': sns.xkcd_rgb['brown'],
         'marine.MAT': sns.xkcd_rgb['brown'],
@@ -131,7 +132,8 @@ class STYLE:
         'speleothem.d18O': 'o',
         'speleothem.dD': '>',
         'bivalve.d18O': 'o',
-        'marine.TEX86': '*',
+        'marine.TEX86': 's',
+        'marine.UK37': 'P',
         'marine.MgCa': 'v',
         'marine.d18O': 'o',
         'marine.MAT': 'H',
@@ -259,7 +261,7 @@ def setlabel(ax, label, loc=2, borderpad=0.6, **kwargs):
 def plot_field_map(field_var, lat, lon, levels=50, add_cyclic_point=True,
                    title=None, title_size=20, title_weight='normal', figsize=[10, 8],
                    plot_proxydb=False, proxydb=None, plot_proxydb_lgd=False, proxydb_lgd_kws=None,
-                   proxy_marker=None, proxy_color=None,
+                   proxy_marker=None, proxy_color=None, modern_topo=True,
                    site_lats=None, site_lons=None, site_marker='o',
                    site_markersize=50, site_color=sns.xkcd_rgb['amber'],
                    projection='Robinson', transform=ccrs.PlateCarree(),
@@ -267,7 +269,8 @@ def plot_field_map(field_var, lat, lon, levels=50, add_cyclic_point=True,
                    lon_ticks=[0, 60, 120, 180, 240, 300], lat_ticks=[-90, 45, 0, 45, 90],
                    land_color=sns.xkcd_rgb['light grey'], ocean_color=sns.xkcd_rgb['light grey'],
                    land_zorder=None, ocean_zorder=None, signif_values=None, signif_range=[0.05, 9999], hatch='..',
-                   clim=None, cmap=None, cmap_under=None, cmap_over=None, cmap_bad=None, extend='both', mode=None, add_gridlines=False,
+                   clim=None, cmap=None, cmap_under=None, cmap_over=None, cmap_bad=None, extend='both', mode=None,
+                   add_gridlines=False, add_coastlines=True,
                    plot_cbar=True, cbar_labels=None, cbar_pad=0.05, cbar_orientation='vertical', cbar_aspect=10,
                    cbar_fraction=0.15, cbar_shrink=0.5, cbar_title=None, cbar_title_x=0.5, cbar_title_y=1.05,
                    fig=None, ax=None):
@@ -336,8 +339,11 @@ def plot_field_map(field_var, lat, lon, levels=50, add_cyclic_point=True,
     if add_cyclic_point:
         if mode == 'latlon':
             field_var_c, lon_c = cutil.add_cyclic_point(field_var, lon)
+            # field_var_c, lon_c = acp(field_var, lon)
+
             if signif_values is not None:
                 signif_values_c, lon_c = cutil.add_cyclic_point(signif_values, lon)
+
             lat_c = lat
         elif mode == 'mesh':
             if len(np.shape(lat)) == 1:
@@ -402,14 +408,18 @@ def plot_field_map(field_var, lat, lon, levels=50, add_cyclic_point=True,
     else:
         ax.set_global()
 
-    ax.add_feature(cfeature.LAND, facecolor=land_color, edgecolor=land_color, zorder=land_zorder)
-    ax.add_feature(cfeature.OCEAN, facecolor=ocean_color, edgecolor=ocean_color, zorder=ocean_zorder)
-    ax.coastlines(zorder=99)
+    if modern_topo:
+        ax.add_feature(cfeature.LAND, facecolor=land_color, edgecolor=land_color, zorder=land_zorder)
+        ax.add_feature(cfeature.OCEAN, facecolor=ocean_color, edgecolor=ocean_color, zorder=ocean_zorder)
+
+    if add_coastlines:
+        ax.coastlines(zorder=99)
 
     if add_gridlines:
         ax.gridlines(edgecolor='gray', linestyle=':', crs=transform)
 
-    cmap = plt.get_cmap(cmap)
+    if cmap is not None:
+        cmap = plt.get_cmap(cmap)
     if cmap_under is not None:
         cmap.set_under(cmap_under)
     if cmap_over is not None:
@@ -503,7 +513,7 @@ def plot_proxies(df, year=np.arange(2001), lon_col='lon', lat_col='lat', type_co
                  figsize=[10, 10], projection='Robinson', proj_args=None, central_longitude=180, markersize=50,
                  plot_count=False, nrow=2, ncol=1, wspace=0.5, hspace=0.3, return_gs=False,
                  lgd_ncol=None, lgd_anchor_upper=(1, 0), lgd_anchor_lower=(1, -0.05),lgd_frameon=False,
-                 enumerate_ax=False, enumerate_prop={'weight': 'bold', 'size': 30}, p=STYLE, stock_img=True,
+                 enumerate_ax=False, enumerate_prop={'weight': 'bold', 'size': 30}, p=STYLE, stock_img=True, modern_topo=True,
                  enumerate_anchor_map=[0, 1], enumerate_anchor_count=[0, 1], map_grid_idx=0, count_grid_idx=1):
     ''' Visualize proxies.
 
@@ -537,7 +547,8 @@ def plot_proxies(df, year=np.arange(2001), lon_col='lon', lat_col='lat', type_co
         ax['map'].set_title(title, fontweight=title_weight)
 
     ax['map'].set_global()
-    ax['map'].add_feature(cfeature.LAND, facecolor='gray', alpha=0.3)
+    if modern_topo:
+        ax['map'].add_feature(cfeature.LAND, facecolor='gray', alpha=0.3)
 
     # plot markers by archive types
     if markers_dict is None:
@@ -555,10 +566,17 @@ def plot_proxies(df, year=np.arange(2001), lon_col='lon', lat_col='lat', type_co
         type_names.append(f'{ptype} (n={max_count[-1]})')
         lons = list(df[selector][lon_col])
         lats = list(df[selector][lat_col])
+        if ptype in markers_dict:
+            marker = markers_dict[ptype]
+            color = colors_dict[ptype]
+        else:
+            marker = 'o'
+            color = 'tab:blue'
+
         s_plots.append(
             ax['map'].scatter(
-                lons, lats, marker=markers_dict[ptype],
-                c=colors_dict[ptype], edgecolor='k', s=markersize, transform=ccrs.PlateCarree()
+                lons, lats, marker=marker, c=color,
+                edgecolor='k', s=markersize, transform=ccrs.PlateCarree()
             )
         )
 
@@ -655,7 +673,7 @@ def count_time(df,lgd_ncol=None, type_col="ptype", year=np.arange(2001),time_col
     
     return proxy_count_all,color_discrete_sequence
 
-def plotly_proxies(df):
+def plotly_proxies(df, p=STYLE):
     """ 
     Visualize proxies.
     Args:
@@ -1407,24 +1425,52 @@ def make_lb(name, unit, wrap=False):
     return lb
 
 def plot_scatter_map(values, lats, lons, levels=None,
-    figsize=(12, 6), projection='Robinson', transform=ccrs.PlateCarree(),
-    ax=None, proj_args=None, central_longitude=180, stock_img=True, marker='o', ms=200, edge_clr='w', title=None, title_fs=20,
-    cmap='Reds', vmin=None, vmax=None, clim=None, cmap_under=None, cmap_over=None, cbar=True, cbar_ticks=None, cbar_labels=None, cbar_orientation='vertical',
+    figsize=(12, 6), projection='Robinson', transform=ccrs.PlateCarree(), latlon_range=None,
+    lon_ticks=[0, 60, 120, 180, 240, 300], lat_ticks=[-90, 45, 0, 45, 90],
+    land_color=sns.xkcd_rgb['light grey'], ocean_color=sns.xkcd_rgb['light grey'],
+    land_zorder=None, ocean_zorder=None,
+    fig=None, ax=None, proj_args=None, central_longitude=180, stock_img=True, marker='o', ms=200, edge_clr='w', title=None, title_fs=20,
+    cmap='Reds', vmin=None, vmax=None, clim=None, cmap_under=None, cmap_over=None, plot_cbar=True, cbar_ticks=None, cbar_labels=None, cbar_orientation='vertical',
     cbar_pad=0.05, cbar_extend='neither', cbar_fraction=0.15, cbar_shrink=0.5,
     cbar_title=None, cbar_title_x=0.5, cbar_title_y=1.05, cbar_aspect=10,
     gridlines=True, gl_labels=False, gl_top_lbs=False, gl_right_lbs=False):
 
-    proj_args = {} if proj_args is None else proj_args
-    proj_args_default = {'central_longitude': central_longitude}
-    proj_args_default.update(proj_args)
-    projection = CartopySettings.projection_dict[projection](**proj_args_default)
 
-    if ax is None:
+    if ax is None or fig is None:
         fig = plt.figure(figsize=figsize)
-        ax = fig.add_subplot(projection=projection)
 
+        proj_args = {} if proj_args is None else proj_args
+        proj_args_default = {'central_longitude': central_longitude}
+        proj_args_default.update(proj_args)
+        projection = CartopySettings.projection_dict[projection](**proj_args_default)
+        ax = plt.subplot(projection=projection)
+
+    if latlon_range is not None:
+        lat_min, lat_max, lon_min, lon_max = latlon_range
+        ax.set_extent([lon_min, lon_max, lat_min, lat_max], crs=transform)
+        lat_ticks = np.array(lat_ticks)
+        lon_ticks = np.array(lon_ticks)
+        if lon_min < 0:
+            lon_ticks = np.sort(np.mod(lon_ticks+180, 360) - 180)
+
+        mask_lon = (lon_ticks >= lon_min) & (lon_ticks <= lon_max)
+        mask_lat = (lat_ticks >= lat_min) & (lat_ticks <= lat_max)
+        if lon_min >= 0:
+            lon_formatter = LongitudeFormatter(zero_direction_label=False)
+            lat_formatter = LatitudeFormatter()
+            ax.xaxis.set_major_formatter(lon_formatter)
+            ax.yaxis.set_major_formatter(lat_formatter)
+            ax.set_xticks(lon_ticks[mask_lon], crs=ccrs.PlateCarree())
+            ax.set_yticks(lat_ticks[mask_lat], crs=ccrs.PlateCarree())
+    else:
+        ax.set_global()
+        
     if stock_img:
         ax.stock_img()
+    else:
+        ax.add_feature(cfeature.LAND, facecolor=land_color, edgecolor=land_color, zorder=land_zorder)
+        ax.add_feature(cfeature.OCEAN, facecolor=ocean_color, edgecolor=ocean_color, zorder=ocean_zorder)
+        ax.coastlines(zorder=99)
 
     if title is not None:
         ax.set_title(title, fontweight='bold', fontsize=title_fs)
@@ -1446,7 +1492,7 @@ def plot_scatter_map(values, lats, lons, levels=None,
     if clim is not None:
         im.set_clim(clim)
 
-    if cbar:
+    if plot_cbar:
         cbar = plt.colorbar(im, ax=ax,
             orientation=cbar_orientation, pad=cbar_pad, aspect=cbar_aspect, extend=cbar_extend,
             fraction=cbar_fraction, shrink=cbar_shrink)

@@ -402,21 +402,25 @@ class ReconJob:
             self.__dict__[tag][vn] = fd.crop(lat_min=lat_min, lat_max=lat_max, lon_min=lon_min, lon_max=lon_max)
         
         
-    def calib_psms(self, ptype_psm_dict=None, ptype_season_dict=None, calib_period=None,
+    def calib_psms(self, ptype_psm_dict=None, ptype_season_dict=None, ptype_clim_dict=None, calib_period=None,
                    use_predefined_R=False, verbose=False, **kwargs):
         ''' Calibrate the PSMs.
 
         Args:
             ptype_psm_dict (dict): the dictionary to denote the PSM for each proxy type; 'Linear' for all by default.
             ptype_season_dict (dict): the dictionary to denote the seasonality for each proxy type; calendar annual for all by default.
+            ptype_clim_dict (dict): the dictionary to denote the required climate variables for each proxy type; ['tas'] for all by default.
             calib_period (tuple or list): the time period for calibration.
             use_predefined_R (bool): use the predefined observation error covariance instead of by calibration.
             verbose (bool, optional): print verbose information. Defaults to False.
         '''
         ptype_psm_dict_default = {ptype: 'Linear' for ptype in set(self.proxydb.type_list)}
-        ptype_season_dict_default={ptype: list(range(1, 13)) for ptype in set(self.proxydb.type_list)}
+        ptype_season_dict_default = {ptype: list(range(1, 13)) for ptype in set(self.proxydb.type_list)}
+        ptype_clim_dict_default = {ptype: ['tas'] for ptype in set(self.proxydb.type_list)}
+
         if ptype_psm_dict is not None: ptype_psm_dict_default.update(ptype_psm_dict)
         if ptype_season_dict is not None: ptype_season_dict_default.update(ptype_season_dict)
+        if ptype_clim_dict is not None: ptype_clim_dict_default.update(ptype_clim_dict)
 
         ptype_psm_dict = self.io_cfg(
             'ptype_psm_dict', ptype_psm_dict_default,
@@ -424,6 +428,10 @@ class ReconJob:
 
         ptype_season_dict = self.io_cfg(
             'ptype_season_dict', ptype_season_dict_default,
+            verbose=verbose)
+
+        ptype_clim_dict = self.io_cfg(
+            'ptype_clim_dict', ptype_clim_dict_default,
             verbose=verbose)
 
         calib_period = self.io_cfg(
@@ -435,24 +443,27 @@ class ReconJob:
             psm_name = ptype_psm_dict[pobj.ptype]
 
             if psm_name in ['TempPlusNoise']:
-                for vn in psm.__dict__[psm_name]().climate_required:
+                # for vn in psm.__dict__[psm_name]().climate_required:
+                for vn in ptype_clim_dict[pobj.ptype]:
                     if 'clim' not in pobj.__dict__ or f'model.{vn}' not in pobj.clim:
                         pobj.get_clim(self.prior[vn], tag='model')
             else:
-                for vn in psm.__dict__[psm_name]().climate_required:
+                # for vn in psm.__dict__[psm_name]().climate_required:
+                for vn in ptype_clim_dict[pobj.ptype]:
                     if 'clim' not in pobj.__dict__ or f'obs.{vn}' not in pobj.clim:
                         pobj.get_clim(self.obs[vn], tag='obs')
 
 
-            pobj.psm = psm.__dict__[psm_name](pobj)
+            pobj.psm = psm.__dict__[psm_name](pobj, climate_required=ptype_clim_dict[pobj.ptype])
             if psm_name in ['TempPlusNoise']:
                 pobj.psm.calibrate(**kwargs)
             elif psm_name == 'Bilinear':
                 pobj.psm.calibrate(
-                    season_list1=ptype_season_dict[pobj.ptype],
-                    season_list2=ptype_season_dict[pobj.ptype], calib_period=calib_period)
+                    season_list1=ptype_season_dict[pobj.ptype], season_list2=ptype_season_dict[pobj.ptype],
+                    calib_period=calib_period, **kwargs,
+                )
             else:
-                pobj.psm.calibrate(season_list=ptype_season_dict[pobj.ptype], calib_period=calib_period)
+                pobj.psm.calibrate(season_list=ptype_season_dict[pobj.ptype], calib_period=calib_period, **kwargs)
 
         # give the calibrated records a tag
         for pid, pobj in self.proxydb.records.items():
@@ -466,12 +477,18 @@ class ReconJob:
         if verbose:
             p_success(f'>>> {self.proxydb.nrec_tags("calibrated")} records tagged "calibrated" with ProxyRecord.psm created')
 
-    def forward_psms(self, verbose=False, **kwargs):
+    def forward_psms(self, verbose=False, ptype_forward_dict=None):
         ''' Forward the PSMs.
 
         Args:
             verbose (bool, optional): print verbose information. Defaults to False.
         '''
+        ptype_forward_dict_default = {}
+        if ptype_forward_dict is not None: ptype_forward_dict_default.update(ptype_forward_dict)
+        ptype_forward_dict = self.io_cfg(
+            'ptype_forward_dict', ptype_forward_dict_default,
+            verbose=verbose)
+
         pdb_calib = self.proxydb.filter(by='tag', keys={'calibrated'})
             
         for pid, pobj in tqdm(pdb_calib.records.items(), total=pdb_calib.nrec, desc='Forwarding the PSMs'):
@@ -479,7 +496,10 @@ class ReconJob:
                 if 'clim' not in pobj.__dict__ or f'model.{vn}' not in pobj.clim:
                     pobj.get_clim(self.prior[vn], tag='model')
 
-            pobj.pseudo = pobj.psm.forward(**kwargs)
+            if pobj.ptype in ptype_forward_dict:
+                pobj.pseudo = pobj.psm.forward(**ptype_forward_dict[pobj.ptype])
+            else:
+                pobj.pseudo = pobj.psm.forward()
 
         if verbose:
             p_success(f'>>> ProxyRecord.pseudo created for {pdb_calib.nrec} records')
@@ -830,7 +850,8 @@ class ReconJob:
                        anom_period=self.configs[f'obs_anom_period'],
                        rename_dict=obs_rename_dict, verbose=verbose)
         self.calib_psms(ptype_psm_dict=self.configs['ptype_psm_dict'],
-                        ptype_season_dict=self.configs['ptype_season_dict'], verbose=verbose)
+                        ptype_season_dict=self.configs['ptype_season_dict'],
+                        ptype_clim_dict=self.configs['ptype_clim_dict'], verbose=verbose)
         self.forward_psms(verbose=verbose)
 
         if 'prior_annualize_months' in self.configs:
@@ -1044,7 +1065,7 @@ class ReconJob:
             fit_kws (dict): the arguments for :py:meth: `GraphEM.solver.GraphEM.fit`
                 The most important one is "graph_method"; available options include "neighborhood", "glasso", and "hybrid", where
                 "hybrid" means run "neighborhood" first with default `cutoff_radius=1500` to infill the data matrix and then
-                ran "glasso" with default `sp_FF=3, sp_FP=3` to improve the result further.
+                ran "glasso" with default `sp_FF=3, sp_FP=3, sp_PP=3` to improve the result further.
 
         See also:
             cfr.graphem.solver.GraphEM.fit : fitting the GraphEM method
@@ -1073,6 +1094,7 @@ class ReconJob:
                 'cutoff_radius': 1500,
                 'sp_FF': 3,
                 'sp_FP': 3,
+                'sp_PP': 3,
             }
             fit_kwargs.update(fit_kws)
             if fit_kwargs['graph_method'] in ['neighborhood', 'glasso']:
@@ -1234,6 +1256,6 @@ class ReconJob:
             graph_method=self.configs['graph_method'],
             cutoff_radius=self.configs['cutoff_radius'],
             output_indices=self.configs['output_indices'],
-            sp_FF=self.configs['sp_FF'], sp_FP=self.configs['sp_FP'],
+            sp_FF=self.configs['sp_FF'], sp_FP=self.configs['sp_FP'], sp_PP=self.configs['sp_PP'],
             verbose=verbose,
         )

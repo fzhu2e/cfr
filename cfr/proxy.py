@@ -72,6 +72,7 @@ def get_ptype(archive_type, proxy_type):
         ('speleothem', 'd18O'): 'speleothem.d18O',
         ('speleothem', 'dD'): 'speleothem.dD',
         ('marine sediment', 'TEX86'): 'marine.TEX86',
+        ('marine sediment', 'UK37'): 'marine.UK37',
         ('marine sediment', 'Mg/Ca'): 'marine.MgCa',
         ('marine sediment', 'foram Mg/Ca'): 'marine.MgCa',
         ('marine sediment', 'd18O'): 'marine.d18O',
@@ -477,7 +478,7 @@ class ProxyRecord:
                 name = f'{tag}.{name}'
 
             nda = field.da.sel(lat=self.lat, lon=self.lon, **_kwargs)
-            if np.all(np.isnan(nda.values)):
+            if np.all(np.isnan(nda.values)) and search_dist is not None:
                 for i in range(1, search_dist+1):
                     p_header(f'{self.pid} >>> Nearest climate is NaN. Searching around within distance of {i} deg ...')
                     da_cond = field.da.where(np.abs(field.da.lat - self.lat)<= i).where(
@@ -493,9 +494,13 @@ class ProxyRecord:
             if not hasattr(self, 'clim'):
                 self.clim = {}
 
-            self.clim[name] = ClimateField(nda)
-            if load: self.clim[name].da.load()
-            if verbose: utils.p_success(f'{self.pid} >>> ProxyRecord.clim["{name}"] created.')
+            if 'nda' in locals():
+                self.clim[name] = ClimateField(nda)
+                if load: self.clim[name].da.load()
+                if verbose: utils.p_success(f'{self.pid} >>> ProxyRecord.clim["{name}"] created.')
+            else:
+                self.clim[name] = None
+                utils.p_fail(f'{self.pid} >>> ProxyRecord.clim["{name}"] = None')
 
     def correct_elev_tas(self, t_rate=-9.8, verbose=False):
         ''' Correct the tas with t_rate = -9.8 degC/km upward by default.
@@ -569,6 +574,7 @@ class ProxyRecord:
                 noise = utils.colored_noise(**_colored_noise_kws)
 
             self.pseudo.value += noise / np.std(noise) * sigma
+            self.pseudo.R = np.var(noise)
             if verbose: utils.p_success(f'>>> ProxyRecord.pseudo added with {noise} noise (SNR={SNR}).')
 
         if match_var or match_mean:
@@ -621,7 +627,7 @@ class ProxyRecord:
         return fig
 
     def plot(self, figsize=[12, 4], legend=False, ms=200, stock_img=True, edge_clr='w',
-        wspace=0.1, hspace=0.1, plot_map=True, **kwargs):
+        wspace=0.1, hspace=0.1, plot_map=True, p=visual.STYLE, **kwargs):
         ''' Visualize the ProxyRecord
 
         Args:
@@ -635,7 +641,10 @@ class ProxyRecord:
             plot_map (bool): if True, plot the record on a map. Defaults to True.
         '''
         if 'color' not in kwargs and 'c' not in kwargs:
-            kwargs['color'] = visual.STYLE.colors_dict[self.ptype]
+            if self.ptype in p.colors_dict:
+                kwargs['color'] = p.colors_dict[self.ptype]
+            else:
+                kwargs['color'] = 'tab:blue'
 
         fig = plt.figure(figsize=figsize)
 
@@ -671,9 +680,13 @@ class ProxyRecord:
             if stock_img:
                 ax['map'].stock_img()
 
+            if self.ptype in p.markers_dict:
+                marker = p.markers_dict[self.ptype]
+            else:
+                marker = 'o'
             transform=ccrs.PlateCarree()
             ax['map'].scatter(
-                self.lon, self.lat, marker=visual.STYLE.markers_dict[self.ptype],
+                self.lon, self.lat, marker=marker,
                 s=ms, c=kwargs['color'], edgecolor=edge_clr, transform=transform,
             )
 
@@ -1188,6 +1201,9 @@ class ProxyDatabase:
             if type(value) is str:
                 value = utils.arr_str2np(value)
 
+            time = np.atleast_1d(time)
+            value = np.atleast_1d(value)
+
             if len(time) != len(value):
                 print(row[value_column])
                 print(value)
@@ -1439,19 +1455,19 @@ class ProxyDatabase:
             return fig, ax
 
 
-    # def plotly(self, **kwargs):
-    #     ''' Plot the database on an interactive map utilizing Plotly
-    #     '''
-    #     df = self.to_df()
-    #     fig = px.scatter_geo(
-    #         df, lat='lat', lon='lon',
-    #         color='ptype',
-    #         hover_name='pid',
-    #         projection='natural earth',
-    #         **kwargs,
-    #     )
+    def plotly_concise(self, **kwargs):
+        ''' Plot the database on an interactive map utilizing Plotly
+        '''
+        df = self.to_df()
+        fig = px.scatter_geo(
+            df, lat='lat', lon='lon',
+            color='ptype',
+            hover_name='pid',
+            projection='natural earth',
+            **kwargs,
+        )
 
-    #     return fig
+        return fig
 
 
     def plotly(self, **kwargs):

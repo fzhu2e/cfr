@@ -611,6 +611,10 @@ def colored_noise_2regimes(alpha1, alpha2, f_break, t, f0=None, m=None, seed=Non
 
     return y
 
+def arr_str2np(arr):
+    arr =  np.array([float(s) for s in arr[1:-1].split(',')])
+    return arr
+
 def is_numeric(obj):
     attrs = ['__add__', '__sub__', '__mul__', '__truediv__', '__pow__']
     return all(hasattr(obj, attr) for attr in attrs)
@@ -630,8 +634,8 @@ def replace_str(fpath, d):
         f.write(text)
 
 
-def download(url: str, fname: str, chunk_size=1024, show_bar=True):
-    resp = requests.get(url, stream=True)
+def download(url: str, fname: str, chunk_size=1024, show_bar=True, verify=False):
+    resp = requests.get(url, stream=True, verify=verify)
     total = int(resp.headers.get('content-length', 0))
     if show_bar:
         with open(fname, 'wb') as file, tqdm(
@@ -692,6 +696,7 @@ climfd_url_dict = {
     '20CRv3/pr': 'https://downloads.psl.noaa.gov/Datasets/20thC_ReanV3/Monthlies/sfcSI-MO/prate.mon.mean.nc',
     'HadCRUTv5': 'https://www.metoffice.gov.uk/hadobs/hadcrut5/data/current/analysis/HadCRUT.5.0.1.0.analysis.anomalies.ensemble_mean.nc',
     'HadCRUT4.6_GraphEM': 'https://github.com/fzhu2e/cfr-data/raw/main/HadCRUT4.6_GraphEM_median.nc',
+    'GPCCv2020': 'https://downloads.psl.noaa.gov//Datasets/gpcc/monitor/precip.monitor.mon.total.1x1.v2020.nc',
 }
 
 ensts_url_dict = {

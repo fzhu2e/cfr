@@ -1164,7 +1164,7 @@ class BayTEX86:
 
     def forward(self, seed=2333, type='SST', mode='analog', tolerance=1):
         vn = f'model.{self.climate_required[0]}'
-        res = pb.TEX_forward(self.pobj.lat, self.pobj.lon, self.pobj.clim[vn].da.values, seed=seed, type=type, mode=mode, tolerance=tolerance)
+        res, sigma = pb.TEX_forward(self.pobj.lat, self.pobj.lon, self.pobj.clim[vn].da.values, seed=seed, type=type, mode=mode, tolerance=tolerance)
         pct = np.percentile(res, q=[5, 50, 95], axis=1)
 
         pp = ProxyRecord(
@@ -1179,6 +1179,7 @@ class BayTEX86:
             time_name=self.pobj.time_name,
             time_unit=self.pobj.time_unit,
         )
+        pp.R = sigma**2
         return pp
 
 class BayUK37:
@@ -1193,7 +1194,7 @@ class BayUK37:
 
     def forward(self, seed=2333):
         vn = f'model.{self.climate_required[0]}'
-        res = pb.UK_forward(self.pobj.clim[vn].da.values, seed=seed)
+        res, sigma = pb.UK_forward(self.pobj.clim[vn].da.values, seed=seed)
         pct = np.percentile(res, q=[5, 50, 95], axis=1)
 
         pp = ProxyRecord(
@@ -1208,6 +1209,7 @@ class BayUK37:
             time_name=self.pobj.time_name,
             time_unit=self.pobj.time_unit,
         )
+        pp.R = sigma**2
         return pp
 
 
@@ -1223,7 +1225,7 @@ class BayD18O:
     def forward(self, seed=2333, species='all_sea'):
         vn1 = f'model.{self.climate_required[0]}'
         vn2 = f'model.{self.climate_required[1]}'
-        res = pb.d18Oc_forward(sst=self.pobj.clim[vn1].da.values, d18Osw=self.pobj.clim[vn2].da.values, seed=seed, species=species)
+        res, sigma = pb.d18Oc_forward(sst=self.pobj.clim[vn1].da.values, d18Osw=self.pobj.clim[vn2].da.values, seed=seed, species=species)
         pct = np.percentile(res, q=[5, 50, 95], axis=1)
 
         pp = ProxyRecord(
@@ -1238,6 +1240,7 @@ class BayD18O:
             time_name=self.pobj.time_name,
             time_unit=self.pobj.time_unit,
         )
+        pp.R = sigma**2
         return pp
 
 class BayMgCa:
@@ -1252,7 +1255,7 @@ class BayMgCa:
     def forward(self, seed=2333, species='all_sea', clean=1, pH=1, omega=1, sw=2, H=1, age=15):
         vn1 = f'model.{self.climate_required[0]}'
         vn2 = f'model.{self.climate_required[0]}'
-        res = pb.MgCa_forward(
+        res, sigma = pb.MgCa_forward(
             age=age, sst=self.pobj.clim[vn1].da.values, salinity=self.pobj.clim[vn2].da.values,
             clean=clean, pH=pH, omega=omega, species=species, sw=sw, H=H, seed=seed,
         )
@@ -1270,4 +1273,5 @@ class BayMgCa:
             time_name=self.pobj.time_name,
             time_unit=self.pobj.time_unit,
         )
+        pp.R = sigma**2
         return pp

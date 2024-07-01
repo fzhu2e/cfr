@@ -240,6 +240,17 @@ class EnKF:
                     recon_timescale=recon_timescale,
                     debug=debug,
                 )
+        elif recon_sampling_mode == 'presampled':
+            if verbose: p_header(f'>>> Prior sampling done ahead ...')
+            recon_period = (np.min(recon_yrs), np.max(recon_yrs))
+            vn = list(self.prior.keys())[0]
+            prior_time = self.prior[vn].da.time.values
+            self.prior_sample_years = prior_time
+            self.prior_sample_idx = list(range(len(prior_time)))
+            self.gen_Ye()
+            self.gen_Xb()
+            for yr_idx, target_yr in enumerate(tqdm(recon_yrs, desc='KF updating')):
+                self.Xa[yr_idx] = self.update_yr(target_yr, recon_loc_rad, recon_timescale, debug=debug, verbose=verbose, allownan=allownan)
 
         else:
             raise ValueError('Wrong recon_sampling_mode.')

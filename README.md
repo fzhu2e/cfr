@@ -25,8 +25,3 @@ For more details, please refer to the documentation linked below.
 
 + Homepage: https://fzhu2e.github.io/cfr
 + Installation: https://fzhu2e.github.io/cfr/ug-installation.html
-
-## How to cite
-
-If you find this package useful, please cite:
-+ Zhu, F., Emile-Geay, J., Hakim, G. J., Guillot, D., Khider, D., Tardif, R., & Perkins, W. A. (2024). cfr (v2024.1.26): a Python package for climate field reconstruction. Geoscientific Model Development, 17(8), 3409–3431. https://doi.org/10.5194/gmd-17-3409-2024

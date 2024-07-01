@@ -775,8 +775,10 @@ class ReconJob:
                     iobw =  utils.geo_mean(da, lat_min=-20, lat_max=20, lon_min=40 ,lon_max=100)
                     ds['iobw'] = iobw
 
-            if not output_full_ens: da = da.mean(dim='ens')
-            ds[vn] = da
+            if output_full_ens:
+                ds[vn] = da
+            else:
+                ds[vn] = da.mean(dim='ens')
 
         encoding_dict = {}
         for k in self.recon_fields.keys():

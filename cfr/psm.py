@@ -1252,7 +1252,7 @@ class BayMgCa:
         self.pobj = pobj
         self.climate_required = climate_required
 
-    def forward(self, seed=2333, species='all_sea', clean=1, pH=1, omega=1, sw=2, H=1, age=15):
+    def forward(self, seed=2333, species='all', clean=1, pH=1, omega=1, sw=2, H=1, age=15):
         vn1 = f'model.{self.climate_required[0]}'
         vn2 = f'model.{self.climate_required[0]}'
         res, sigma = pb.MgCa_forward(
@@ -1264,7 +1264,7 @@ class BayMgCa:
         pp = ProxyRecord(
             pid=self.pobj.pid,
             time=self.pobj.clim[vn1].da.time,
-            value=pct[1],  # median
+            value=np.exp(pct[1]),  # median; the raw output is ln(Mg/Ca), so taking exp to recover Mg/Ca
             lat=self.pobj.lat,
             lon=self.pobj.lon,
             ptype=self.pobj.ptype,

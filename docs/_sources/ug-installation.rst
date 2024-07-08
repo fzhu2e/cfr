@@ -70,7 +70,7 @@ Then install some dependencies via :code:`conda`:
 
 .. code-block:: bash
 
-    conda install jupyter notebook cartopy statsmodels pykdtree
+    conda install jupyter notebook cartopy statsmodels pykdtree netcdf4
 
 Once the above dependencies have been installed, simply
 

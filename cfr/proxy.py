@@ -171,7 +171,11 @@ class ProxyRecord:
         self.ptype = ptype
         self.tags = set() if tags is None else tags
 
-        self.dt = np.median(np.diff(time)) if time is not None else None
+        if time is not None and len(time) > 1:
+            self.dt = np.median(np.diff(time))
+        else:
+            self.dt = None
+
         self.value_name = 'Proxy Value' if value_name is None else value_name
         self.value_unit = value_unit
         self.time_name = 'Time' if time_name is None else time_name
@@ -1155,7 +1159,7 @@ class ProxyDatabase:
 
     def from_df(self, df, pid_column='paleoData_pages2kID', lat_column='geo_meanLat', lon_column='geo_meanLon', elev_column='geo_meanElev',
                 time_column='year', value_column='paleoData_values', proxy_type_column='paleoData_proxy', archive_type_column='archiveType',
-                ptype_column='ptype', value_name_column='paleoData_variableName', value_unit_column='paleoData_units',
+                ptype_column='ptype', value_name_column='paleoData_variableName', value_unit_column='paleoData_units', R_column='R',
                 verbose=False):
         ''' Load database from a `pandas.DataFrame`. Note that in most cases, the column names have to be specified.
 
@@ -1212,11 +1216,15 @@ class ProxyDatabase:
             value_name=row[value_name_column] if value_name_column in row else None
             value_unit=row[value_unit_column] if value_name_column in row else None
 
+
             record = ProxyRecord(
                 pid=pid, lat=lat, lon=lon, elev=elev,
                 time=time, value=value, ptype=ptype,
                 value_name=value_name, value_unit=value_unit,
             )
+            if R_column in row:
+                record.R = row[R_column]
+
             records[pid] = record
 
         # update the attributes
@@ -1774,8 +1782,8 @@ class ProxyDatabase:
     def to_df(self):
         ''' Convert the proxy database to a `pandas.DataFrame`.'''
         df = pd.DataFrame(columns=['pid', 'lat', 'lon', 'elev', 'ptype', 'time', 'value'])
-        # df['time'] = df['time'].astype(object)  # not necessary after pandas 1.5.2
-        # df['value'] = df['value'].astype(object) # not necessary after pandas 1.5.2
+        df['time'] = df['time'].astype(object)
+        df['value'] = df['value'].astype(object)
 
         i = 0
         for pid, pobj in self.records.items():
@@ -1784,8 +1792,10 @@ class ProxyDatabase:
             df.loc[i, 'lon'] = pobj.lon
             df.loc[i, 'elev'] = pobj.elev
             df.loc[i, 'ptype'] = pobj.ptype
-            df.loc[i, 'time'] = pobj.time
-            df.loc[i, 'value'] = pobj.value
+            df.at[i, 'time'] = np.array(pobj.time)
+            df.at[i, 'value'] = np.array(pobj.value)
+            if hasattr(pobj, 'R'):
+                df.loc[i, 'R'] = pobj.R
             i += 1
             
         return df

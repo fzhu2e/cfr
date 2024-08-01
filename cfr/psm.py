@@ -72,6 +72,7 @@ class TempPlusNoise:
             value=value,
             lat=self.pobj.lat,
             lon=self.pobj.lon,
+            elev=self.pobj.elev,
             ptype=self.pobj.ptype,
             value_name=self.pobj.value_name,
             value_unit=self.pobj.value_unit,
@@ -182,6 +183,7 @@ class Linear:
             value=np.array(self.model.predict(exog=exog_dict).values),
             lat=self.pobj.lat,
             lon=self.pobj.lon,
+            elev=self.pobj.elev,
             ptype=self.pobj.ptype,
             value_name=self.pobj.value_name,
             value_unit=self.pobj.value_unit,
@@ -322,6 +324,7 @@ class Bilinear:
             value=np.array(self.model.predict(exog=exog_dict).values),
             lat=self.pobj.lat,
             lon=self.pobj.lon,
+            elev=self.pobj.elev,
             ptype=self.pobj.ptype,
             value_name=self.pobj.value_name,
             value_unit=self.pobj.value_unit,
@@ -706,6 +709,7 @@ class Ice_d18O():
             value=ice_diffused[::-1],
             lat=self.pobj.lat,
             lon=self.pobj.lon,
+            elev=self.pobj.elev,
             ptype=self.pobj.ptype,
             value_name=self.pobj.value_name,
             value_unit=self.pobj.value_unit,
@@ -829,6 +833,7 @@ class Lake_VarveThickness():
             value=np.array(varve_res['varves'])[0],
             lat=self.pobj.lat,
             lon=self.pobj.lon,
+            elev=self.pobj.elev,
             ptype=self.pobj.ptype,
             value_name=self.pobj.value_name,
             value_unit=self.pobj.value_unit,
@@ -865,6 +870,7 @@ class Coral_SrCa:
             value=SrCa,
             lat=self.pobj.lat,
             lon=self.pobj.lon,
+            elev=self.pobj.elev,
             ptype=self.pobj.ptype,
             value_name=self.pobj.value_name,
             value_unit=self.pobj.value_unit,
@@ -1034,6 +1040,7 @@ class Coral_d18O:
             value=value,
             lat=self.pobj.lat,
             lon=self.pobj.lon,
+            elev=self.pobj.elev,
             ptype=self.pobj.ptype,
             value_name=self.pobj.value_name,
             value_unit=self.pobj.value_unit,
@@ -1142,6 +1149,7 @@ class VSLite:
             value=vsl_res['trw'],
             lat=self.pobj.lat,
             lon=self.pobj.lon,
+            elev=self.pobj.elev,
             ptype=self.pobj.ptype,
             value_name=self.pobj.value_name,
             value_unit=self.pobj.value_unit,
@@ -1169,10 +1177,11 @@ class BayTEX86:
 
         pp = ProxyRecord(
             pid=self.pobj.pid,
-            time=self.pobj.clim[vn].da.time,
+            time=np.array(self.pobj.clim[vn].da.time.values),
             value=pct[1],  # median
             lat=self.pobj.lat,
             lon=self.pobj.lon,
+            elev=self.pobj.elev,
             ptype=self.pobj.ptype,
             value_name=self.pobj.value_name,
             value_unit=self.pobj.value_unit,
@@ -1199,10 +1208,11 @@ class BayUK37:
 
         pp = ProxyRecord(
             pid=self.pobj.pid,
-            time=self.pobj.clim[vn].da.time,
+            time=np.array(self.pobj.clim[vn].da.time.values),
             value=pct[1],  # median
             lat=self.pobj.lat,
             lon=self.pobj.lon,
+            elev=self.pobj.elev,
             ptype=self.pobj.ptype,
             value_name=self.pobj.value_name,
             value_unit=self.pobj.value_unit,
@@ -1222,7 +1232,7 @@ class BayD18O:
         self.pobj = pobj
         self.climate_required = climate_required
 
-    def forward(self, seed=2333, species='all_sea'):
+    def forward(self, seed=2333, species='all'):
         vn1 = f'model.{self.climate_required[0]}'
         vn2 = f'model.{self.climate_required[1]}'
         res, sigma = pb.d18Oc_forward(sst=self.pobj.clim[vn1].da.values, d18Osw=self.pobj.clim[vn2].da.values, seed=seed, species=species)
@@ -1230,10 +1240,11 @@ class BayD18O:
 
         pp = ProxyRecord(
             pid=self.pobj.pid,
-            time=self.pobj.clim[vn1].da.time,
+            time=np.array(self.pobj.clim[vn1].da.time.values),
             value=pct[1],  # median
             lat=self.pobj.lat,
             lon=self.pobj.lon,
+            elev=self.pobj.elev,
             ptype=self.pobj.ptype,
             value_name=self.pobj.value_name,
             value_unit=self.pobj.value_unit,
@@ -1263,10 +1274,11 @@ class BayMgCa:
 
         pp = ProxyRecord(
             pid=self.pobj.pid,
-            time=self.pobj.clim[vn1].da.time,
+            time=np.array(self.pobj.clim[vn1].da.time.values),
             value=np.exp(pct[1]),  # median; the raw output is ln(Mg/Ca), so taking exp to recover Mg/Ca
             lat=self.pobj.lat,
             lon=self.pobj.lon,
+            elev=self.pobj.elev,
             ptype=self.pobj.ptype,
             value_name=self.pobj.value_name,
             value_unit=self.pobj.value_unit,

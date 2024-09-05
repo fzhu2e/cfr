@@ -315,7 +315,7 @@ def datetime2year_float(date, resolution='month'):
     day = [d.day for d in date]
     if resolution == 'month': day = np.ones(np.size(day))
 
-    year_float = ymd2year_float(year, month, day)
+    year_float = ymd2year_float(year, month, day, resolution)
 
     return year_float
 

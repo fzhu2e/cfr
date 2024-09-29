@@ -5,6 +5,7 @@ from .reconres import ReconRes
 from .ts import EnsTS
 from .gcm import GCMCase, GCMCases
 from . import utils
+from . import psm
 
 try:
     from . import ml

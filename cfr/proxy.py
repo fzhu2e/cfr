@@ -240,6 +240,7 @@ class ProxyRecord:
             path (str): the path to save the file.
             verbose (bool, optional): print verbose information. Defaults to False.
         '''
+        p_warning('>>> Warning: this is an experimental feature.')
         da = self.to_da()
 
         try:
@@ -1868,7 +1869,7 @@ class ProxyDatabase:
         for k in self.records.keys():
             encoding_dict[k] = compress_params
 
-        ds = self.to_ds(annualize=annualize, months=months)
+        ds = self.to_ds(annualize=annualize, months=months, verbose=verbose)
         ds.to_netcdf(path=path, encoding=encoding_dict)
         if verbose: utils.p_success(f'ProxyDatabase saved to: {path}')
 

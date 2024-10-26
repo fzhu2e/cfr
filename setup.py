@@ -5,7 +5,7 @@ with open('README.md', 'r') as fh:
 
 setup(
     name='cfr',  # required
-    version='2024.8.1',
+    version='2024.10.25',
     description='cfr: a Python package for Climate Field Reconstruction',
     long_description=long_description,
     long_description_content_type='text/x-rst',

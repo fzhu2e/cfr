@@ -647,6 +647,15 @@ document.write(`
     <span class="s1">&#39;ice.d18O&#39;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">13</span><span class="p">)),</span>              <span class="c1"># annual</span>
     <span class="s1">&#39;lake.varve_thickness&#39;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">13</span><span class="p">)),</span>  <span class="c1"># annual</span>
 <span class="p">}</span>
+
+<span class="n">ptype_clim_dict</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;tree.TRW&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;tas&#39;</span><span class="p">,</span> <span class="s1">&#39;pr&#39;</span><span class="p">],</span>
+    <span class="s1">&#39;tree.MXD&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;tas&#39;</span><span class="p">],</span>
+    <span class="s1">&#39;coral.d18O&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;tas&#39;</span><span class="p">],</span>
+    <span class="s1">&#39;coral.SrCa&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;tas&#39;</span><span class="p">],</span>
+    <span class="s1">&#39;ice.d18O&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;tas&#39;</span><span class="p">],</span>
+    <span class="s1">&#39;lake.varve_thickness&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;tas&#39;</span><span class="p">],</span>
+<span class="p">}</span>
 </pre></div>
 </div>
 </div>
@@ -661,6 +670,7 @@ document.write(`
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">job</span><span class="o">.</span><span class="n">calib_psms</span><span class="p">(</span>
     <span class="n">ptype_psm_dict</span><span class="o">=</span><span class="n">ptype_psm_dict</span><span class="p">,</span>
     <span class="n">ptype_season_dict</span><span class="o">=</span><span class="n">ptype_season_dict</span><span class="p">,</span>
+    <span class="n">ptype_clim_dict</span><span class="o">=</span><span class="n">ptype_clim_dict</span><span class="p">,</span>
     <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
 <span class="p">)</span>
 </pre></div>

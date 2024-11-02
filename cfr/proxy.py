@@ -1800,7 +1800,7 @@ class ProxyDatabase:
             
         return df
 
-    def to_ds(self, annualize=False, months=None, verbose=False):
+    def to_ds(self, annualize=False, months=None, verbose=True):
         ''' Convert the proxy database to a `xarray.Dataset`
 
         Args:
@@ -1808,6 +1808,7 @@ class ProxyDatabase:
             months (list): months for annulization
             verbose (bool, optional): print verbose information. Defaults to False.
         '''
+        p_warning('>>> Warning: this is an experimental feature.')
         da_dict = {}
         pid_truncated = []
         for pobj in tqdm(self, total=self.nrec):
@@ -1864,11 +1865,12 @@ class ProxyDatabase:
             compress_params (dict): the paramters for compression when storing the reconstruction results to netCDF files.
             verbose (bool, optional): print verbose information. Defaults to False.
         '''
+        p_warning('>>> Warning: this is an experimental feature.')
         encoding_dict = {}
         for k in self.records.keys():
             encoding_dict[k] = compress_params
 
-        ds = self.to_ds(annualize=annualize, months=months)
+        ds = self.to_ds(annualize=annualize, months=months, verbose=verbose)
         ds.to_netcdf(path=path, encoding=encoding_dict)
         if verbose: utils.p_success(f'ProxyDatabase saved to: {path}')
 

@@ -17,7 +17,6 @@ import os
 from scipy import stats
 from scipy.stats.mstats import mquantiles
 from scipy.stats import cumfreq, gaussian_kde
-from scipy.integrate import cumtrapz
 from matplotlib.lines import Line2D
 from matplotlib.patches import Patch
 from matplotlib.legend_handler import HandlerLine2D

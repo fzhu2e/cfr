@@ -228,6 +228,7 @@ class ClimateField:
                     raise ValueError('Variable name should be specified with `vn`.')
 
             da = ds[vn]
+            if load: da.load()
             fd = ClimateField(da)
             if time_name != 'time':
                 fd.da = fd.da.rename({time_name: 'time'})
@@ -239,7 +240,6 @@ class ClimateField:
             if np.min(fd.da.lon) < 0:
                 fd = fd.wrap_lon()
 
-            if load: fd.da.load()
         
         return fd
 

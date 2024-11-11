@@ -119,8 +119,7 @@ class EnKF:
         # vn_1st = list(self.prior.keys())[0]
         Xb_var_irow = {}  # index of rows in Xb to store the specific var
         loc = 0
-        i = 0
-        for vn in self.recon_vars:
+        for i, vn in enumerate(self.recon_vars):
             _, nlat, nlon = np.shape(self.prior[vn].da.values)
             lats, lons = self.prior[vn].da.lat.values, self.prior[vn].da.lon.values
             lon2d, lat2d = np.meshgrid(lons, lats)

@@ -1373,7 +1373,7 @@ class ProxyDatabase:
         mask = (df_proxy.index>=time_period[0]) & (df_proxy.index<=time_period[-1])
         df_proxy = df_proxy[mask]
         pid_list = df_proxy.columns.values
-        R = np.triu(np.corrcoef(df_proxy.values.T), k=1) 
+        R = np.triu(df_proxy.corr(), k=1)
         R[R==0] = np.nan
         di, dj = np.where(R >= r_thresh)
         dup_pids = []

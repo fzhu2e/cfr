@@ -1,0 +1,1987 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Reconstructing temperature + precipitation &#8212; cfr  documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=bd9e20870c6007c4c509" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=bd9e20870c6007c4c509" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=bd9e20870c6007c4c509" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.1/css/all.min.css?digest=bd9e20870c6007c4c509" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.1/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.1/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.1/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=384b581d" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/theme_overrides.css?v=db61ab07" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
+    <link rel="stylesheet" type="text/css" href="../_static/nbsphinx-code-cells.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/style.css?v=fca5bd30" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=bd9e20870c6007c4c509" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=bd9e20870c6007c4c509" />
+  <script src="../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=bd9e20870c6007c4c509"></script>
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=888ff710"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=efea14e4"></script>
+    <script src="../_static/design-tabs.js?v=36754332"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'notebooks/lmr-recon-tas-pr';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a id="pst-skip-link" class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <header>
+  
+    <div class="bd-header navbar navbar-expand-lg bd-navbar">
+    </div>
+  
+  </header>
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/cfr-logo.jpg" class="logo__image only-light" alt="cfr  documentation - Home"/>
+    <script>document.write(`<img src="../_static/cfr-logo.jpg" class="logo__image only-dark" alt="cfr  documentation - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">User Guide</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../ug-installation.html">Installation</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../ug-pp2k.html">pseudoPAGES2k</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="pp2k-pdb-load-viz.html">Loading and Visualization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pp2k-pdb-filter.html">Database Filtering</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pp2k-dashboards.html">Validation Dashboards</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pp2k-ppe-pda.html">PPE: A PDA-based Reconstruction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pp2k-ppe-graphem.html">PPE: A GraphEM-based Reconstruction</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../ug-climate.html">Climate</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="climate-io.html">Input/Output</a></li>
+<li class="toctree-l2"><a class="reference internal" href="climate-ops.html">Basic Operations</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../ug-proxy.html">Proxy</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="proxy-io.html">Input/Output</a></li>
+<li class="toctree-l2"><a class="reference internal" href="proxy-ops.html">Basic Operations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="proxy-analysis.html">Analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="proxy-composites.html">Composites</a></li>
+<li class="toctree-l2"><a class="reference internal" href="proxy-dups.html">Handling duplicate proxies in a <code class="docutils literal notranslate"><span class="pre">ProxyDatabase</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="proxy-load-dod2k.html">Visualize and filter <strong>DoD2k</strong> with <code class="docutils literal notranslate"><span class="pre">cfr</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../ug-psm.html">PSM</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="psm-linear.html">Univariate linear regression</a></li>
+<li class="toctree-l2"><a class="reference internal" href="psm-bilinear.html">Bivariate linear regression</a></li>
+<li class="toctree-l2"><a class="reference internal" href="psm-ice-d18O.html">PSM for ice core d18O</a></li>
+<li class="toctree-l2"><a class="reference internal" href="psm-lake-VarveThickness.html">PSM for lake varve thickness</a></li>
+<li class="toctree-l2"><a class="reference internal" href="psm-coral-SrCa.html">PSM for coral Sr/Ca</a></li>
+<li class="toctree-l2"><a class="reference internal" href="psm-coral-d18O.html">PSM for coral d18O</a></li>
+<li class="toctree-l2"><a class="reference internal" href="psm-tree-TRW.html">PSM for tree TRW (VS-Lite)</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../ug-lmr.html">LMR</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-5"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="lmr-real-pages2k.html">Reconstructing the tropical Pacific SST with PAGES2k</a></li>
+<li class="toctree-l2"><a class="reference internal" href="lmr-assim-no-calib.html">Assimilating records whose PSMs cannot be calibrated</a></li>
+<li class="toctree-l2"><a class="reference internal" href="lmr-recon-pr.html">Reconstructing precipitation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="lmr-cli.html">Running DA with the Command Line Interface (CLI)</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../ug-graphem.html">GraphEM</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-6"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="graphem-primer.html">A primer on GraphEM</a></li>
+<li class="toctree-l2"><a class="reference internal" href="graphem-real-pages2k.html">Reconstructing the tropical Pacific SST with PAGES2k and GraphEM</a></li>
+<li class="toctree-l2"><a class="reference internal" href="graphem-cli.html">Running GraphEM with the Command Line Interface (CLI)</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../ug-api.html">API Reference</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Contributing Guide</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../cg-overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cg-working-with-codebase.html">Working with the Codebase</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cg-updating-docs.html">Updating the Documentation</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/fzhu2e/cfr" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/fzhu2e/cfr/edit/main/notebooks/lmr-recon-tas-pr.ipynb" target="_blank"
+   class="btn btn-sm btn-source-edit-button dropdown-item"
+   title="Suggest edit"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-pencil-alt"></i>
+  </span>
+<span class="btn__text-container">Suggest edit</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/fzhu2e/cfr/issues/new?title=Issue%20on%20page%20%2Fnotebooks/lmr-recon-tas-pr.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/notebooks/lmr-recon-tas-pr.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Reconstructing temperature + precipitation</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Load-the-PAGES2k-database">Load the PAGES2k database</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Load-the-gridded-climate-data">Load the gridded climate data</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Load-the-model-prior">Load the model prior</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Load-the-instrumental-observations">Load the instrumental observations</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Proxy-system-modeling">Proxy system modeling</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Calibrating-the-proxy-system-models">Calibrating the proxy system models</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Forwarding-the-proxy-system-models">Forwarding the proxy system models</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Annualizing,-regridding,-and-cropping-the-prior-field">Annualizing, regridding, and cropping the prior field</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Run-the-DA-solver">Run the DA solver</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Validate-the-reconstruction">Validate the reconstruction</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="Reconstructing-temperature-+-precipitation">
+<h1>Reconstructing temperature + precipitation<a class="headerlink" href="#Reconstructing-temperature-+-precipitation" title="Link to this heading">#</a></h1>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">load_ext</span> autoreload
+<span class="o">%</span><span class="k">autoreload</span> 2
+
+<span class="kn">import</span> <span class="nn">cfr</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">cfr</span><span class="o">.</span><span class="n">__version__</span><span class="p">)</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="n">os</span><span class="o">.</span><span class="n">chdir</span><span class="p">(</span><span class="s1">&#39;/glade/u/home/fengzhu/Github/cfr/docsrc/notebooks&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+The autoreload extension is already loaded. To reload it, use:
+  %reload_ext autoreload
+2024.8.1
+</pre></div></div>
+</div>
+<section id="Load-the-PAGES2k-database">
+<h2>Load the PAGES2k database<a class="headerlink" href="#Load-the-PAGES2k-database" title="Link to this heading">#</a></h2>
+<p>Here we pick some TRW data for illustration purposes.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">job</span> <span class="o">=</span> <span class="n">cfr</span><span class="o">.</span><span class="n">ReconJob</span><span class="p">()</span>
+<span class="n">job</span><span class="o">.</span><span class="n">load_proxydb</span><span class="p">(</span><span class="s1">&#39;PAGES2kv2&#39;</span><span class="p">)</span>
+<span class="n">job</span><span class="o">.</span><span class="n">filter_proxydb</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="s1">&#39;ptype&#39;</span><span class="p">,</span> <span class="n">keys</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;tree.TRW&#39;</span><span class="p">])</span>
+<span class="n">job</span><span class="o">.</span><span class="n">filter_proxydb</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="s1">&#39;loc-square&#39;</span><span class="p">,</span> <span class="n">keys</span><span class="o">=</span><span class="p">[</span><span class="mi">40</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">80</span><span class="p">,</span> <span class="mi">100</span><span class="p">])</span>
+<span class="n">job</span><span class="o">.</span><span class="n">slice_proxydb</span><span class="p">(</span><span class="n">timespan</span><span class="o">=</span><span class="p">[</span><span class="mi">1300</span><span class="p">,</span> <span class="mi">2000</span><span class="p">])</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">job</span><span class="o">.</span><span class="n">proxydb</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">plot_count</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+Slicing ProxyRecord: 100%|██████████| 19/19 [00:00&lt;00:00, 2557.58it/s]
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/notebooks_lmr-recon-tas-pr_3_1.png" src="../_images/notebooks_lmr-recon-tas-pr_3_1.png" />
+</div>
+</div>
+</section>
+<section id="Load-the-gridded-climate-data">
+<h2>Load the gridded climate data<a class="headerlink" href="#Load-the-gridded-climate-data" title="Link to this heading">#</a></h2>
+<section id="Load-the-model-prior">
+<h3>Load the model prior<a class="headerlink" href="#Load-the-model-prior" title="Link to this heading">#</a></h3>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">job</span><span class="o">.</span><span class="n">load_clim</span><span class="p">(</span>
+    <span class="n">tag</span><span class="o">=</span><span class="s1">&#39;prior&#39;</span><span class="p">,</span>
+    <span class="n">path_dict</span><span class="o">=</span><span class="p">{</span>
+        <span class="s1">&#39;tas&#39;</span><span class="p">:</span> <span class="s1">&#39;iCESM_past1000historical/tas&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;pr&#39;</span><span class="p">:</span> <span class="s1">&#39;iCESM_past1000historical/pr&#39;</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="n">anom_period</span><span class="o">=</span><span class="p">(</span><span class="mi">1951</span><span class="p">,</span> <span class="mi">1980</span><span class="p">),</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+<span class="ansi-black-intense-fg ansi-bold">&gt;&gt;&gt; The target file seems existed at: ./data/tas_sfc_Amon_iCESM_past1000historical_085001-200512.nc . Loading from it instead of downloading ...
+</span><span class="ansi-black-intense-fg ansi-bold">&gt;&gt;&gt; The target file seems existed at: ./data/pr_sfc_Amon_iCESM_past1000historical_085001-200512.nc . Loading from it instead of downloading ...
+</span>
+</pre></div></div>
+</div>
+</section>
+<section id="Load-the-instrumental-observations">
+<h3>Load the instrumental observations<a class="headerlink" href="#Load-the-instrumental-observations" title="Link to this heading">#</a></h3>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">job</span><span class="o">.</span><span class="n">load_clim</span><span class="p">(</span>
+    <span class="n">tag</span><span class="o">=</span><span class="s1">&#39;obs&#39;</span><span class="p">,</span>
+    <span class="n">path_dict</span><span class="o">=</span><span class="p">{</span>
+        <span class="s1">&#39;tas&#39;</span><span class="p">:</span> <span class="s1">&#39;gistemp1200_GHCNv4_ERSSTv5&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;pr&#39;</span><span class="p">:</span> <span class="s1">&#39;GPCCv2020&#39;</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="n">rename_dict</span><span class="o">=</span><span class="p">{</span>
+        <span class="s1">&#39;tas&#39;</span><span class="p">:</span> <span class="s1">&#39;tempanomaly&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;pr&#39;</span><span class="p">:</span> <span class="s1">&#39;precip&#39;</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="n">anom_period</span><span class="o">=</span><span class="p">(</span><span class="mi">1982</span><span class="p">,</span> <span class="mi">2020</span><span class="p">),</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+<span class="ansi-black-intense-fg ansi-bold">&gt;&gt;&gt; The target file seems existed at: ./data/gistemp1200_GHCNv4_ERSSTv5.nc.gz . Loading from it instead of downloading ...
+</span><span class="ansi-black-intense-fg ansi-bold">&gt;&gt;&gt; The target file seems existed at: ./data/precip.monitor.mon.total.1x1.v2020.nc . Loading from it instead of downloading ...
+</span>
+</pre></div></div>
+</div>
+</section>
+</section>
+<section id="Proxy-system-modeling">
+<h2>Proxy system modeling<a class="headerlink" href="#Proxy-system-modeling" title="Link to this heading">#</a></h2>
+<section id="Calibrating-the-proxy-system-models">
+<h3>Calibrating the proxy system models<a class="headerlink" href="#Calibrating-the-proxy-system-models" title="Link to this heading">#</a></h3>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ptype_psm_dict</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;tree.TRW&#39;</span><span class="p">:</span> <span class="s1">&#39;Bilinear&#39;</span><span class="p">,</span>
+<span class="p">}</span>
+
+<span class="n">ptype_season_dict</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;tree.TRW&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">],</span>
+<span class="p">}</span>
+
+<span class="n">ptype_clim_dict</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;tree.TRW&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;tas&#39;</span><span class="p">,</span> <span class="s1">&#39;pr&#39;</span><span class="p">],</span>
+<span class="p">}</span>
+
+<span class="n">job</span><span class="o">.</span><span class="n">calib_psms</span><span class="p">(</span>
+    <span class="n">ptype_psm_dict</span><span class="o">=</span><span class="n">ptype_psm_dict</span><span class="p">,</span>
+    <span class="n">ptype_season_dict</span><span class="o">=</span><span class="n">ptype_season_dict</span><span class="p">,</span>
+    <span class="n">ptype_clim_dict</span><span class="o">=</span><span class="n">ptype_clim_dict</span><span class="p">,</span>
+    <span class="n">calib_period</span><span class="o">=</span><span class="p">(</span><span class="mi">1982</span><span class="p">,</span> <span class="mi">2020</span><span class="p">),</span>
+    <span class="n">nobs_lb</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span>
+    <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+<span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;ptype_psm_dict&#34;] = {&#39;tree.TRW&#39;: &#39;Bilinear&#39;}
+</span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;ptype_season_dict&#34;] = {&#39;tree.TRW&#39;: [3, 4, 5, 6, 7, 8]}
+</span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;ptype_clim_dict&#34;] = {&#39;tree.TRW&#39;: [&#39;tas&#39;, &#39;pr&#39;]}
+</span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;psm_calib_period&#34;] = (1982, 2020)
+</span>
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+Calibrating the PSMs: 100%|██████████| 19/19 [00:00&lt;00:00, 19.01it/s]
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+The number of overlapped data points is 14 &lt; 15. Skipping ...
+The number of overlapped data points is 12 &lt; 15. Skipping ...
+<span class="ansi-yellow-intense-fg ansi-bold">&gt;&gt;&gt; PSM for Asi_159 failed to be calibrated.
+</span><span class="ansi-yellow-intense-fg ansi-bold">&gt;&gt;&gt; PSM for Asi_074 failed to be calibrated.
+</span><span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; 17 records tagged &#34;calibrated&#34; with ProxyRecord.psm created
+</span>
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+
+</pre></div></div>
+</div>
+</section>
+<section id="Forwarding-the-proxy-system-models">
+<h3>Forwarding the proxy system models<a class="headerlink" href="#Forwarding-the-proxy-system-models" title="Link to this heading">#</a></h3>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">job</span><span class="o">.</span><span class="n">forward_psms</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+Forwarding the PSMs: 100%|██████████| 17/17 [00:06&lt;00:00,  2.72it/s]
+</pre></div></div>
+</div>
+</section>
+</section>
+<section id="Annualizing,-regridding,-and-cropping-the-prior-field">
+<h2>Annualizing, regridding, and cropping the prior field<a class="headerlink" href="#Annualizing,-regridding,-and-cropping-the-prior-field" title="Link to this heading">#</a></h2>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">job</span><span class="o">.</span><span class="n">annualize_clim</span><span class="p">(</span><span class="n">tag</span><span class="o">=</span><span class="s1">&#39;prior&#39;</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">job</span><span class="o">.</span><span class="n">regrid_clim</span><span class="p">(</span><span class="n">tag</span><span class="o">=</span><span class="s1">&#39;prior&#39;</span><span class="p">,</span> <span class="n">nlat</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span> <span class="n">nlon</span><span class="o">=</span><span class="mi">63</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">job</span><span class="o">.</span><span class="n">crop_clim</span><span class="p">(</span><span class="n">tag</span><span class="o">=</span><span class="s1">&#39;prior&#39;</span><span class="p">,</span> <span class="n">lat_min</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">lat_max</span><span class="o">=</span><span class="mi">60</span><span class="p">,</span> <span class="n">lon_min</span><span class="o">=</span><span class="mi">70</span><span class="p">,</span> <span class="n">lon_max</span><span class="o">=</span><span class="mi">110</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+<span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;prior_annualize_months&#34;] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+</span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; Processing tas ...
+</span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; Processing pr ...
+</span><span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; job.prior updated
+</span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;prior_regrid_nlat&#34;] = 42
+</span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;prior_regrid_nlon&#34;] = 63
+</span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; Processing tas ...
+</span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; Processing pr ...
+</span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;prior_lat_min&#34;] = 30
+</span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;prior_lat_max&#34;] = 60
+</span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;prior_lon_min&#34;] = 70
+</span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;prior_lon_max&#34;] = 110
+</span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; Processing tas ...
+</span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; Processing pr ...
+</span>
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">job</span><span class="o">.</span><span class="n">prior</span><span class="p">[</span><span class="s1">&#39;tas&#39;</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+<span class="c1"># fig, ax = job.prior[&#39;pr&#39;][-1].plot()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/notebooks_lmr-recon-tas-pr_15_0.png" src="../_images/notebooks_lmr-recon-tas-pr_15_0.png" />
+</div>
+</div>
+</section>
+<section id="Run-the-DA-solver">
+<h2>Run the DA solver<a class="headerlink" href="#Run-the-DA-solver" title="Link to this heading">#</a></h2>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">job</span><span class="o">.</span><span class="n">run_da_mc</span><span class="p">(</span>
+    <span class="n">save_dirpath</span><span class="o">=</span><span class="s1">&#39;./recons/lmr-recon-pr&#39;</span><span class="p">,</span>
+    <span class="n">recon_seeds</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">11</span><span class="p">)),</span>
+    <span class="n">recon_vars</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;tas&#39;</span><span class="p">,</span> <span class="s1">&#39;pr&#39;</span><span class="p">],</span>
+    <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+<span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;recon_vars&#34;] = [&#39;tas&#39;, &#39;pr&#39;]
+</span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;recon_seeds&#34;] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+</span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; job.configs[&#34;save_dirpath&#34;] = ./recons/lmr-recon-pr
+</span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; seed: 1 | max: 10
+</span>
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+KF updating: 100%|██████████| 2001/2001 [00:02&lt;00:00, 947.15it/s]
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+<span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; Reconstructed fields saved to: ./recons/lmr-recon-pr/job_r01_recon.nc
+</span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; seed: 2 | max: 10
+</span>
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+KF updating: 100%|██████████| 2001/2001 [00:02&lt;00:00, 731.85it/s]
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+<span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; Reconstructed fields saved to: ./recons/lmr-recon-pr/job_r02_recon.nc
+</span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; seed: 3 | max: 10
+</span>
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+KF updating: 100%|██████████| 2001/2001 [00:02&lt;00:00, 739.55it/s]
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+<span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; Reconstructed fields saved to: ./recons/lmr-recon-pr/job_r03_recon.nc
+</span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; seed: 4 | max: 10
+</span>
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+KF updating: 100%|██████████| 2001/2001 [00:02&lt;00:00, 702.02it/s]
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+<span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; Reconstructed fields saved to: ./recons/lmr-recon-pr/job_r04_recon.nc
+</span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; seed: 5 | max: 10
+</span>
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+KF updating: 100%|██████████| 2001/2001 [00:02&lt;00:00, 683.02it/s]
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+<span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; Reconstructed fields saved to: ./recons/lmr-recon-pr/job_r05_recon.nc
+</span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; seed: 6 | max: 10
+</span>
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+KF updating: 100%|██████████| 2001/2001 [00:02&lt;00:00, 686.40it/s]
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+<span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; Reconstructed fields saved to: ./recons/lmr-recon-pr/job_r06_recon.nc
+</span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; seed: 7 | max: 10
+</span>
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+KF updating: 100%|██████████| 2001/2001 [00:02&lt;00:00, 676.06it/s]
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+<span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; Reconstructed fields saved to: ./recons/lmr-recon-pr/job_r07_recon.nc
+</span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; seed: 8 | max: 10
+</span>
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+KF updating: 100%|██████████| 2001/2001 [00:02&lt;00:00, 680.97it/s]
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+<span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; Reconstructed fields saved to: ./recons/lmr-recon-pr/job_r08_recon.nc
+</span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; seed: 9 | max: 10
+</span>
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+KF updating: 100%|██████████| 2001/2001 [00:02&lt;00:00, 685.33it/s]
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+<span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; Reconstructed fields saved to: ./recons/lmr-recon-pr/job_r09_recon.nc
+</span><span class="ansi-cyan-intense-fg ansi-bold">&gt;&gt;&gt; seed: 10 | max: 10
+</span>
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+KF updating: 100%|██████████| 2001/2001 [00:02&lt;00:00, 685.08it/s]
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+<span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; Reconstructed fields saved to: ./recons/lmr-recon-pr/job_r10_recon.nc
+</span><span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; DONE! Total time spent: 0.66 mins.
+</span>
+</pre></div></div>
+</div>
+</section>
+<section id="Validate-the-reconstruction">
+<h2>Validate the reconstruction<a class="headerlink" href="#Validate-the-reconstruction" title="Link to this heading">#</a></h2>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">res</span> <span class="o">=</span> <span class="n">cfr</span><span class="o">.</span><span class="n">ReconRes</span><span class="p">(</span><span class="s1">&#39;./recons/lmr-recon-pr&#39;</span><span class="p">)</span>
+<span class="n">res</span><span class="o">.</span><span class="n">load</span><span class="p">([</span><span class="s1">&#39;tas&#39;</span><span class="p">,</span> <span class="s1">&#39;pr&#39;</span><span class="p">],</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+<span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; ReconRes.recons[&#34;tas&#34;] created
+</span><span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; ReconRes.da[&#34;tas&#34;] created
+</span><span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; ReconRes.recons[&#34;pr&#34;] created
+</span><span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; ReconRes.da[&#34;pr&#34;] created
+</span>
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[32]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">res</span><span class="o">.</span><span class="n">recons</span><span class="p">[</span><span class="s1">&#39;tas&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">da</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[32]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div><svg style="position: absolute; width: 0; height: 0; overflow: hidden">
+<defs>
+<symbol id="icon-database" viewBox="0 0 32 32">
+<path d="M16 0c-8.837 0-16 2.239-16 5v4c0 2.761 7.163 5 16 5s16-2.239 16-5v-4c0-2.761-7.163-5-16-5z"></path>
+<path d="M16 17c-8.837 0-16-2.239-16-5v6c0 2.761 7.163 5 16 5s16-2.239 16-5v-6c0 2.761-7.163 5-16 5z"></path>
+<path d="M16 26c-8.837 0-16-2.239-16-5v6c0 2.761 7.163 5 16 5s16-2.239 16-5v-6c0 2.761-7.163 5-16 5z"></path>
+</symbol>
+<symbol id="icon-file-text2" viewBox="0 0 32 32">
+<path d="M28.681 7.159c-0.694-0.947-1.662-2.053-2.724-3.116s-2.169-2.030-3.116-2.724c-1.612-1.182-2.393-1.319-2.841-1.319h-15.5c-1.378 0-2.5 1.121-2.5 2.5v27c0 1.378 1.122 2.5 2.5 2.5h23c1.378 0 2.5-1.122 2.5-2.5v-19.5c0-0.448-0.137-1.23-1.319-2.841zM24.543 5.457c0.959 0.959 1.712 1.825 2.268 2.543h-4.811v-4.811c0.718 0.556 1.584 1.309 2.543 2.268zM28 29.5c0 0.271-0.229 0.5-0.5 0.5h-23c-0.271 0-0.5-0.229-0.5-0.5v-27c0-0.271 0.229-0.5 0.5-0.5 0 0 15.499-0 15.5 0v7c0 0.552 0.448 1 1 1h7v19.5z"></path>
+<path d="M23 26h-14c-0.552 0-1-0.448-1-1s0.448-1 1-1h14c0.552 0 1 0.448 1 1s-0.448 1-1 1z"></path>
+<path d="M23 22h-14c-0.552 0-1-0.448-1-1s0.448-1 1-1h14c0.552 0 1 0.448 1 1s-0.448 1-1 1z"></path>
+<path d="M23 18h-14c-0.552 0-1-0.448-1-1s0.448-1 1-1h14c0.552 0 1 0.448 1 1s-0.448 1-1 1z"></path>
+</symbol>
+</defs>
+</svg>
+<style>/* CSS stylesheet for displaying xarray objects in jupyterlab.
+ *
+ */
+
+:root {
+  --xr-font-color0: var(--jp-content-font-color0, rgba(0, 0, 0, 1));
+  --xr-font-color2: var(--jp-content-font-color2, rgba(0, 0, 0, 0.54));
+  --xr-font-color3: var(--jp-content-font-color3, rgba(0, 0, 0, 0.38));
+  --xr-border-color: var(--jp-border-color2, #e0e0e0);
+  --xr-disabled-color: var(--jp-layout-color3, #bdbdbd);
+  --xr-background-color: var(--jp-layout-color0, white);
+  --xr-background-color-row-even: var(--jp-layout-color1, white);
+  --xr-background-color-row-odd: var(--jp-layout-color2, #eeeeee);
+}
+
+html[theme=dark],
+body[data-theme=dark],
+body.vscode-dark {
+  --xr-font-color0: rgba(255, 255, 255, 1);
+  --xr-font-color2: rgba(255, 255, 255, 0.54);
+  --xr-font-color3: rgba(255, 255, 255, 0.38);
+  --xr-border-color: #1F1F1F;
+  --xr-disabled-color: #515151;
+  --xr-background-color: #111111;
+  --xr-background-color-row-even: #111111;
+  --xr-background-color-row-odd: #313131;
+}
+
+.xr-wrap {
+  display: block !important;
+  min-width: 300px;
+  max-width: 700px;
+}
+
+.xr-text-repr-fallback {
+  /* fallback to plain text repr when CSS is not injected (untrusted notebook) */
+  display: none;
+}
+
+.xr-header {
+  padding-top: 6px;
+  padding-bottom: 6px;
+  margin-bottom: 4px;
+  border-bottom: solid 1px var(--xr-border-color);
+}
+
+.xr-header > div,
+.xr-header > ul {
+  display: inline;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.xr-obj-type,
+.xr-array-name {
+  margin-left: 2px;
+  margin-right: 10px;
+}
+
+.xr-obj-type {
+  color: var(--xr-font-color2);
+}
+
+.xr-sections {
+  padding-left: 0 !important;
+  display: grid;
+  grid-template-columns: 150px auto auto 1fr 20px 20px;
+}
+
+.xr-section-item {
+  display: contents;
+}
+
+.xr-section-item input {
+  display: none;
+}
+
+.xr-section-item input + label {
+  color: var(--xr-disabled-color);
+}
+
+.xr-section-item input:enabled + label {
+  cursor: pointer;
+  color: var(--xr-font-color2);
+}
+
+.xr-section-item input:enabled + label:hover {
+  color: var(--xr-font-color0);
+}
+
+.xr-section-summary {
+  grid-column: 1;
+  color: var(--xr-font-color2);
+  font-weight: 500;
+}
+
+.xr-section-summary > span {
+  display: inline-block;
+  padding-left: 0.5em;
+}
+
+.xr-section-summary-in:disabled + label {
+  color: var(--xr-font-color2);
+}
+
+.xr-section-summary-in + label:before {
+  display: inline-block;
+  content: '►';
+  font-size: 11px;
+  width: 15px;
+  text-align: center;
+}
+
+.xr-section-summary-in:disabled + label:before {
+  color: var(--xr-disabled-color);
+}
+
+.xr-section-summary-in:checked + label:before {
+  content: '▼';
+}
+
+.xr-section-summary-in:checked + label > span {
+  display: none;
+}
+
+.xr-section-summary,
+.xr-section-inline-details {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+.xr-section-inline-details {
+  grid-column: 2 / -1;
+}
+
+.xr-section-details {
+  display: none;
+  grid-column: 1 / -1;
+  margin-bottom: 5px;
+}
+
+.xr-section-summary-in:checked ~ .xr-section-details {
+  display: contents;
+}
+
+.xr-array-wrap {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: 20px auto;
+}
+
+.xr-array-wrap > label {
+  grid-column: 1;
+  vertical-align: top;
+}
+
+.xr-preview {
+  color: var(--xr-font-color3);
+}
+
+.xr-array-preview,
+.xr-array-data {
+  padding: 0 5px !important;
+  grid-column: 2;
+}
+
+.xr-array-data,
+.xr-array-in:checked ~ .xr-array-preview {
+  display: none;
+}
+
+.xr-array-in:checked ~ .xr-array-data,
+.xr-array-preview {
+  display: inline-block;
+}
+
+.xr-dim-list {
+  display: inline-block !important;
+  list-style: none;
+  padding: 0 !important;
+  margin: 0;
+}
+
+.xr-dim-list li {
+  display: inline-block;
+  padding: 0;
+  margin: 0;
+}
+
+.xr-dim-list:before {
+  content: '(';
+}
+
+.xr-dim-list:after {
+  content: ')';
+}
+
+.xr-dim-list li:not(:last-child):after {
+  content: ',';
+  padding-right: 5px;
+}
+
+.xr-has-index {
+  font-weight: bold;
+}
+
+.xr-var-list,
+.xr-var-item {
+  display: contents;
+}
+
+.xr-var-item > div,
+.xr-var-item label,
+.xr-var-item > .xr-var-name span {
+  background-color: var(--xr-background-color-row-even);
+  margin-bottom: 0;
+}
+
+.xr-var-item > .xr-var-name:hover span {
+  padding-right: 5px;
+}
+
+.xr-var-list > li:nth-child(odd) > div,
+.xr-var-list > li:nth-child(odd) > label,
+.xr-var-list > li:nth-child(odd) > .xr-var-name span {
+  background-color: var(--xr-background-color-row-odd);
+}
+
+.xr-var-name {
+  grid-column: 1;
+}
+
+.xr-var-dims {
+  grid-column: 2;
+}
+
+.xr-var-dtype {
+  grid-column: 3;
+  text-align: right;
+  color: var(--xr-font-color2);
+}
+
+.xr-var-preview {
+  grid-column: 4;
+}
+
+.xr-index-preview {
+  grid-column: 2 / 5;
+  color: var(--xr-font-color2);
+}
+
+.xr-var-name,
+.xr-var-dims,
+.xr-var-dtype,
+.xr-preview,
+.xr-attrs dt {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding-right: 10px;
+}
+
+.xr-var-name:hover,
+.xr-var-dims:hover,
+.xr-var-dtype:hover,
+.xr-attrs dt:hover {
+  overflow: visible;
+  width: auto;
+  z-index: 1;
+}
+
+.xr-var-attrs,
+.xr-var-data,
+.xr-index-data {
+  display: none;
+  background-color: var(--xr-background-color) !important;
+  padding-bottom: 5px !important;
+}
+
+.xr-var-attrs-in:checked ~ .xr-var-attrs,
+.xr-var-data-in:checked ~ .xr-var-data,
+.xr-index-data-in:checked ~ .xr-index-data {
+  display: block;
+}
+
+.xr-var-data > table {
+  float: right;
+}
+
+.xr-var-name span,
+.xr-var-data,
+.xr-index-name div,
+.xr-index-data,
+.xr-attrs {
+  padding-left: 25px !important;
+}
+
+.xr-attrs,
+.xr-var-attrs,
+.xr-var-data,
+.xr-index-data {
+  grid-column: 1 / -1;
+}
+
+dl.xr-attrs {
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: 125px auto;
+}
+
+.xr-attrs dt,
+.xr-attrs dd {
+  padding: 0;
+  margin: 0;
+  float: left;
+  padding-right: 10px;
+  width: auto;
+}
+
+.xr-attrs dt {
+  font-weight: normal;
+  grid-column: 1;
+}
+
+.xr-attrs dt:hover span {
+  display: inline-block;
+  background: var(--xr-background-color);
+  padding-right: 10px;
+}
+
+.xr-attrs dd {
+  grid-column: 2;
+  white-space: pre-wrap;
+  word-break: break-all;
+}
+
+.xr-icon-database,
+.xr-icon-file-text2,
+.xr-no-icon {
+  display: inline-block;
+  vertical-align: middle;
+  width: 1em;
+  height: 1.5em !important;
+  stroke-width: 0;
+  stroke: currentColor;
+  fill: currentColor;
+}
+</style><pre class='xr-text-repr-fallback'>&lt;xarray.DataArray &#x27;tas&#x27; (time: 2001, lat: 7, lon: 6)&gt; Size: 672kB
+array([[[ 0.09994194, -0.01114566, -0.28780527, -0.01946433,
+          0.13067127,  0.18056922],
+        [-0.06348474,  0.00907094,  0.06146286,  0.07902207,
+         -0.052122  ,  0.04808243],
+        [-0.12725123, -0.02433387, -0.06728959, -0.06462358,
+         -0.03697503, -0.15035118],
+        ...,
+        [-0.50047883, -0.44703035, -0.19053106, -0.13855739,
+         -0.16952965, -0.17459014],
+        [-0.40542615, -0.39860748, -0.08343474, -0.25338142,
+         -0.30857701, -0.39301485],
+        [-0.74760422, -0.84771468, -0.84862768, -0.75581127,
+         -0.8261934 , -0.77835836]],
+
+       [[ 0.09994194, -0.01114566, -0.28780527, -0.01946433,
+          0.13067127,  0.18056922],
+        [-0.06348474,  0.00907094,  0.06146286,  0.07902207,
+         -0.052122  ,  0.04808243],
+        [-0.12725123, -0.02433387, -0.06728959, -0.06462358,
+         -0.03697503, -0.15035118],
+...
+        [-0.42771752, -0.37512191, -0.12303712, -0.05637664,
+         -0.07504313, -0.06774544],
+        [-0.31330716, -0.29791422,  0.02783988, -0.13599379,
+         -0.18444587, -0.26572338],
+        [-0.6408321 , -0.72791884, -0.72328913, -0.62879482,
+         -0.69156975, -0.64362517]],
+
+       [[ 0.2038144 ,  0.10508886, -0.15728825,  0.10588058,
+          0.20463393,  0.25153524],
+        [ 0.0690475 ,  0.14158399,  0.19654482,  0.20843417,
+          0.08301917,  0.19968552],
+        [ 0.05597788,  0.22687434,  0.25093797,  0.24963733,
+          0.28626653,  0.14563686],
+        ...,
+        [-0.05372094, -0.00491027,  0.18871462,  0.24604368,
+          0.20398614,  0.16773966],
+        [-0.05443914, -0.00396666,  0.32771188,  0.14623269,
+          0.08153933, -0.03458547],
+        [-0.43744581, -0.4887002 , -0.47163986, -0.38159608,
+         -0.44644036, -0.41140804]]])
+Coordinates:
+  * time     (time) int64 16kB 0 1 2 3 4 5 6 ... 1995 1996 1997 1998 1999 2000
+  * lat      (lat) float64 56B 32.93 37.32 41.71 46.1 50.49 54.88 59.27
+  * lon      (lon) float64 48B 75.48 81.29 87.1 92.9 98.71 104.5</pre><div class='xr-wrap' style='display:none'><div class='xr-header'><div class='xr-obj-type'>xarray.DataArray</div><div class='xr-array-name'>'tas'</div><ul class='xr-dim-list'><li><span class='xr-has-index'>time</span>: 2001</li><li><span class='xr-has-index'>lat</span>: 7</li><li><span class='xr-has-index'>lon</span>: 6</li></ul></div><ul class='xr-sections'><li class='xr-section-item'><div class='xr-array-wrap'><input id='section-b888310c-597e-425f-868d-7d481ff0bd38' class='xr-array-in' type='checkbox' checked><label for='section-b888310c-597e-425f-868d-7d481ff0bd38' title='Show/hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-array-preview xr-preview'><span>0.09994 -0.01115 -0.2878 -0.01946 ... -0.4716 -0.3816 -0.4464 -0.4114</span></div><div class='xr-array-data'><pre>array([[[ 0.09994194, -0.01114566, -0.28780527, -0.01946433,
+          0.13067127,  0.18056922],
+        [-0.06348474,  0.00907094,  0.06146286,  0.07902207,
+         -0.052122  ,  0.04808243],
+        [-0.12725123, -0.02433387, -0.06728959, -0.06462358,
+         -0.03697503, -0.15035118],
+        ...,
+        [-0.50047883, -0.44703035, -0.19053106, -0.13855739,
+         -0.16952965, -0.17459014],
+        [-0.40542615, -0.39860748, -0.08343474, -0.25338142,
+         -0.30857701, -0.39301485],
+        [-0.74760422, -0.84771468, -0.84862768, -0.75581127,
+         -0.8261934 , -0.77835836]],
+
+       [[ 0.09994194, -0.01114566, -0.28780527, -0.01946433,
+          0.13067127,  0.18056922],
+        [-0.06348474,  0.00907094,  0.06146286,  0.07902207,
+         -0.052122  ,  0.04808243],
+        [-0.12725123, -0.02433387, -0.06728959, -0.06462358,
+         -0.03697503, -0.15035118],
+...
+        [-0.42771752, -0.37512191, -0.12303712, -0.05637664,
+         -0.07504313, -0.06774544],
+        [-0.31330716, -0.29791422,  0.02783988, -0.13599379,
+         -0.18444587, -0.26572338],
+        [-0.6408321 , -0.72791884, -0.72328913, -0.62879482,
+         -0.69156975, -0.64362517]],
+
+       [[ 0.2038144 ,  0.10508886, -0.15728825,  0.10588058,
+          0.20463393,  0.25153524],
+        [ 0.0690475 ,  0.14158399,  0.19654482,  0.20843417,
+          0.08301917,  0.19968552],
+        [ 0.05597788,  0.22687434,  0.25093797,  0.24963733,
+          0.28626653,  0.14563686],
+        ...,
+        [-0.05372094, -0.00491027,  0.18871462,  0.24604368,
+          0.20398614,  0.16773966],
+        [-0.05443914, -0.00396666,  0.32771188,  0.14623269,
+          0.08153933, -0.03458547],
+        [-0.43744581, -0.4887002 , -0.47163986, -0.38159608,
+         -0.44644036, -0.41140804]]])</pre></div></div></li><li class='xr-section-item'><input id='section-be1772a3-7621-4bbd-a452-05f97d8a15fc' class='xr-section-summary-in' type='checkbox'  checked><label for='section-be1772a3-7621-4bbd-a452-05f97d8a15fc' class='xr-section-summary' >Coordinates: <span>(3)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><ul class='xr-var-list'><li class='xr-var-item'><div class='xr-var-name'><span class='xr-has-index'>time</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>int64</div><div class='xr-var-preview xr-preview'>0 1 2 3 4 ... 1997 1998 1999 2000</div><input id='attrs-125cd557-1a89-482e-9829-434765415397' class='xr-var-attrs-in' type='checkbox' disabled><label for='attrs-125cd557-1a89-482e-9829-434765415397' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-fde6cf19-4294-4e11-b52e-94e032de7915' class='xr-var-data-in' type='checkbox'><label for='data-fde6cf19-4294-4e11-b52e-94e032de7915' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'></dl></div><div class='xr-var-data'><pre>array([   0,    1,    2, ..., 1998, 1999, 2000])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span class='xr-has-index'>lat</span></div><div class='xr-var-dims'>(lat)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>32.93 37.32 41.71 ... 54.88 59.27</div><input id='attrs-9f8edc7b-fb0c-4a41-af25-0f1634dd548e' class='xr-var-attrs-in' type='checkbox' disabled><label for='attrs-9f8edc7b-fb0c-4a41-af25-0f1634dd548e' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-c3357794-0bcb-4a73-81d4-02532f710e3d' class='xr-var-data-in' type='checkbox'><label for='data-c3357794-0bcb-4a73-81d4-02532f710e3d' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'></dl></div><div class='xr-var-data'><pre>array([32.926829, 37.317073, 41.707317, 46.097561, 50.487805, 54.878049,
+       59.268293])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span class='xr-has-index'>lon</span></div><div class='xr-var-dims'>(lon)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>75.48 81.29 87.1 92.9 98.71 104.5</div><input id='attrs-2f640796-784a-4b8f-986e-210b91678968' class='xr-var-attrs-in' type='checkbox' disabled><label for='attrs-2f640796-784a-4b8f-986e-210b91678968' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-287b23f8-e593-4dc5-9c3f-00b8134cc2e3' class='xr-var-data-in' type='checkbox'><label for='data-287b23f8-e593-4dc5-9c3f-00b8134cc2e3' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'></dl></div><div class='xr-var-data'><pre>array([ 75.483871,  81.290323,  87.096774,  92.903226,  98.709677, 104.516129])</pre></div></li></ul></div></li><li class='xr-section-item'><input id='section-6477f874-304e-4de1-b0e9-4484c79c15e3' class='xr-section-summary-in' type='checkbox'  ><label for='section-6477f874-304e-4de1-b0e9-4484c79c15e3' class='xr-section-summary' >Indexes: <span>(3)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><ul class='xr-var-list'><li class='xr-var-item'><div class='xr-index-name'><div>time</div></div><div class='xr-index-preview'>PandasIndex</div><div></div><input id='index-d140037f-7e85-49e9-9663-b2bd54a17be6' class='xr-index-data-in' type='checkbox'/><label for='index-d140037f-7e85-49e9-9663-b2bd54a17be6' title='Show/Hide index repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-index-data'><pre>PandasIndex(Index([   0,    1,    2,    3,    4,    5,    6,    7,    8,    9,
+       ...
+       1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2000],
+      dtype=&#x27;int64&#x27;, name=&#x27;time&#x27;, length=2001))</pre></div></li><li class='xr-var-item'><div class='xr-index-name'><div>lat</div></div><div class='xr-index-preview'>PandasIndex</div><div></div><input id='index-3b84171d-524a-42e6-83ca-508c957c27b5' class='xr-index-data-in' type='checkbox'/><label for='index-3b84171d-524a-42e6-83ca-508c957c27b5' title='Show/Hide index repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-index-data'><pre>PandasIndex(Index([32.92682926829269, 37.31707317073172, 41.70731707317074,
+       46.09756097560978, 50.48780487804879,  54.8780487804878,
+       59.26829268292684],
+      dtype=&#x27;float64&#x27;, name=&#x27;lat&#x27;))</pre></div></li><li class='xr-var-item'><div class='xr-index-name'><div>lon</div></div><div class='xr-index-preview'>PandasIndex</div><div></div><input id='index-c70a36d1-5d98-4051-8cee-cec4703d8f7c' class='xr-index-data-in' type='checkbox'/><label for='index-c70a36d1-5d98-4051-8cee-cec4703d8f7c' title='Show/Hide index repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-index-data'><pre>PandasIndex(Index([ 75.48387096774194,  81.29032258064517,  87.09677419354838,
+        92.90322580645162,  98.70967741935485, 104.51612903225806],
+      dtype=&#x27;float64&#x27;, name=&#x27;lon&#x27;))</pre></div></li></ul></div></li><li class='xr-section-item'><input id='section-41fd0b85-91d6-4dd7-8a7e-1f7c79521383' class='xr-section-summary-in' type='checkbox' disabled ><label for='section-41fd0b85-91d6-4dd7-8a7e-1f7c79521383' class='xr-section-summary'  title='Expand/collapse section'>Attributes: <span>(0)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><dl class='xr-attrs'></dl></div></li></ul></div></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[33]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">res</span><span class="o">.</span><span class="n">recons</span><span class="p">[</span><span class="s1">&#39;pr&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">da</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[33]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div><svg style="position: absolute; width: 0; height: 0; overflow: hidden">
+<defs>
+<symbol id="icon-database" viewBox="0 0 32 32">
+<path d="M16 0c-8.837 0-16 2.239-16 5v4c0 2.761 7.163 5 16 5s16-2.239 16-5v-4c0-2.761-7.163-5-16-5z"></path>
+<path d="M16 17c-8.837 0-16-2.239-16-5v6c0 2.761 7.163 5 16 5s16-2.239 16-5v-6c0 2.761-7.163 5-16 5z"></path>
+<path d="M16 26c-8.837 0-16-2.239-16-5v6c0 2.761 7.163 5 16 5s16-2.239 16-5v-6c0 2.761-7.163 5-16 5z"></path>
+</symbol>
+<symbol id="icon-file-text2" viewBox="0 0 32 32">
+<path d="M28.681 7.159c-0.694-0.947-1.662-2.053-2.724-3.116s-2.169-2.030-3.116-2.724c-1.612-1.182-2.393-1.319-2.841-1.319h-15.5c-1.378 0-2.5 1.121-2.5 2.5v27c0 1.378 1.122 2.5 2.5 2.5h23c1.378 0 2.5-1.122 2.5-2.5v-19.5c0-0.448-0.137-1.23-1.319-2.841zM24.543 5.457c0.959 0.959 1.712 1.825 2.268 2.543h-4.811v-4.811c0.718 0.556 1.584 1.309 2.543 2.268zM28 29.5c0 0.271-0.229 0.5-0.5 0.5h-23c-0.271 0-0.5-0.229-0.5-0.5v-27c0-0.271 0.229-0.5 0.5-0.5 0 0 15.499-0 15.5 0v7c0 0.552 0.448 1 1 1h7v19.5z"></path>
+<path d="M23 26h-14c-0.552 0-1-0.448-1-1s0.448-1 1-1h14c0.552 0 1 0.448 1 1s-0.448 1-1 1z"></path>
+<path d="M23 22h-14c-0.552 0-1-0.448-1-1s0.448-1 1-1h14c0.552 0 1 0.448 1 1s-0.448 1-1 1z"></path>
+<path d="M23 18h-14c-0.552 0-1-0.448-1-1s0.448-1 1-1h14c0.552 0 1 0.448 1 1s-0.448 1-1 1z"></path>
+</symbol>
+</defs>
+</svg>
+<style>/* CSS stylesheet for displaying xarray objects in jupyterlab.
+ *
+ */
+
+:root {
+  --xr-font-color0: var(--jp-content-font-color0, rgba(0, 0, 0, 1));
+  --xr-font-color2: var(--jp-content-font-color2, rgba(0, 0, 0, 0.54));
+  --xr-font-color3: var(--jp-content-font-color3, rgba(0, 0, 0, 0.38));
+  --xr-border-color: var(--jp-border-color2, #e0e0e0);
+  --xr-disabled-color: var(--jp-layout-color3, #bdbdbd);
+  --xr-background-color: var(--jp-layout-color0, white);
+  --xr-background-color-row-even: var(--jp-layout-color1, white);
+  --xr-background-color-row-odd: var(--jp-layout-color2, #eeeeee);
+}
+
+html[theme=dark],
+body[data-theme=dark],
+body.vscode-dark {
+  --xr-font-color0: rgba(255, 255, 255, 1);
+  --xr-font-color2: rgba(255, 255, 255, 0.54);
+  --xr-font-color3: rgba(255, 255, 255, 0.38);
+  --xr-border-color: #1F1F1F;
+  --xr-disabled-color: #515151;
+  --xr-background-color: #111111;
+  --xr-background-color-row-even: #111111;
+  --xr-background-color-row-odd: #313131;
+}
+
+.xr-wrap {
+  display: block !important;
+  min-width: 300px;
+  max-width: 700px;
+}
+
+.xr-text-repr-fallback {
+  /* fallback to plain text repr when CSS is not injected (untrusted notebook) */
+  display: none;
+}
+
+.xr-header {
+  padding-top: 6px;
+  padding-bottom: 6px;
+  margin-bottom: 4px;
+  border-bottom: solid 1px var(--xr-border-color);
+}
+
+.xr-header > div,
+.xr-header > ul {
+  display: inline;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.xr-obj-type,
+.xr-array-name {
+  margin-left: 2px;
+  margin-right: 10px;
+}
+
+.xr-obj-type {
+  color: var(--xr-font-color2);
+}
+
+.xr-sections {
+  padding-left: 0 !important;
+  display: grid;
+  grid-template-columns: 150px auto auto 1fr 20px 20px;
+}
+
+.xr-section-item {
+  display: contents;
+}
+
+.xr-section-item input {
+  display: none;
+}
+
+.xr-section-item input + label {
+  color: var(--xr-disabled-color);
+}
+
+.xr-section-item input:enabled + label {
+  cursor: pointer;
+  color: var(--xr-font-color2);
+}
+
+.xr-section-item input:enabled + label:hover {
+  color: var(--xr-font-color0);
+}
+
+.xr-section-summary {
+  grid-column: 1;
+  color: var(--xr-font-color2);
+  font-weight: 500;
+}
+
+.xr-section-summary > span {
+  display: inline-block;
+  padding-left: 0.5em;
+}
+
+.xr-section-summary-in:disabled + label {
+  color: var(--xr-font-color2);
+}
+
+.xr-section-summary-in + label:before {
+  display: inline-block;
+  content: '►';
+  font-size: 11px;
+  width: 15px;
+  text-align: center;
+}
+
+.xr-section-summary-in:disabled + label:before {
+  color: var(--xr-disabled-color);
+}
+
+.xr-section-summary-in:checked + label:before {
+  content: '▼';
+}
+
+.xr-section-summary-in:checked + label > span {
+  display: none;
+}
+
+.xr-section-summary,
+.xr-section-inline-details {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+.xr-section-inline-details {
+  grid-column: 2 / -1;
+}
+
+.xr-section-details {
+  display: none;
+  grid-column: 1 / -1;
+  margin-bottom: 5px;
+}
+
+.xr-section-summary-in:checked ~ .xr-section-details {
+  display: contents;
+}
+
+.xr-array-wrap {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: 20px auto;
+}
+
+.xr-array-wrap > label {
+  grid-column: 1;
+  vertical-align: top;
+}
+
+.xr-preview {
+  color: var(--xr-font-color3);
+}
+
+.xr-array-preview,
+.xr-array-data {
+  padding: 0 5px !important;
+  grid-column: 2;
+}
+
+.xr-array-data,
+.xr-array-in:checked ~ .xr-array-preview {
+  display: none;
+}
+
+.xr-array-in:checked ~ .xr-array-data,
+.xr-array-preview {
+  display: inline-block;
+}
+
+.xr-dim-list {
+  display: inline-block !important;
+  list-style: none;
+  padding: 0 !important;
+  margin: 0;
+}
+
+.xr-dim-list li {
+  display: inline-block;
+  padding: 0;
+  margin: 0;
+}
+
+.xr-dim-list:before {
+  content: '(';
+}
+
+.xr-dim-list:after {
+  content: ')';
+}
+
+.xr-dim-list li:not(:last-child):after {
+  content: ',';
+  padding-right: 5px;
+}
+
+.xr-has-index {
+  font-weight: bold;
+}
+
+.xr-var-list,
+.xr-var-item {
+  display: contents;
+}
+
+.xr-var-item > div,
+.xr-var-item label,
+.xr-var-item > .xr-var-name span {
+  background-color: var(--xr-background-color-row-even);
+  margin-bottom: 0;
+}
+
+.xr-var-item > .xr-var-name:hover span {
+  padding-right: 5px;
+}
+
+.xr-var-list > li:nth-child(odd) > div,
+.xr-var-list > li:nth-child(odd) > label,
+.xr-var-list > li:nth-child(odd) > .xr-var-name span {
+  background-color: var(--xr-background-color-row-odd);
+}
+
+.xr-var-name {
+  grid-column: 1;
+}
+
+.xr-var-dims {
+  grid-column: 2;
+}
+
+.xr-var-dtype {
+  grid-column: 3;
+  text-align: right;
+  color: var(--xr-font-color2);
+}
+
+.xr-var-preview {
+  grid-column: 4;
+}
+
+.xr-index-preview {
+  grid-column: 2 / 5;
+  color: var(--xr-font-color2);
+}
+
+.xr-var-name,
+.xr-var-dims,
+.xr-var-dtype,
+.xr-preview,
+.xr-attrs dt {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding-right: 10px;
+}
+
+.xr-var-name:hover,
+.xr-var-dims:hover,
+.xr-var-dtype:hover,
+.xr-attrs dt:hover {
+  overflow: visible;
+  width: auto;
+  z-index: 1;
+}
+
+.xr-var-attrs,
+.xr-var-data,
+.xr-index-data {
+  display: none;
+  background-color: var(--xr-background-color) !important;
+  padding-bottom: 5px !important;
+}
+
+.xr-var-attrs-in:checked ~ .xr-var-attrs,
+.xr-var-data-in:checked ~ .xr-var-data,
+.xr-index-data-in:checked ~ .xr-index-data {
+  display: block;
+}
+
+.xr-var-data > table {
+  float: right;
+}
+
+.xr-var-name span,
+.xr-var-data,
+.xr-index-name div,
+.xr-index-data,
+.xr-attrs {
+  padding-left: 25px !important;
+}
+
+.xr-attrs,
+.xr-var-attrs,
+.xr-var-data,
+.xr-index-data {
+  grid-column: 1 / -1;
+}
+
+dl.xr-attrs {
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: 125px auto;
+}
+
+.xr-attrs dt,
+.xr-attrs dd {
+  padding: 0;
+  margin: 0;
+  float: left;
+  padding-right: 10px;
+  width: auto;
+}
+
+.xr-attrs dt {
+  font-weight: normal;
+  grid-column: 1;
+}
+
+.xr-attrs dt:hover span {
+  display: inline-block;
+  background: var(--xr-background-color);
+  padding-right: 10px;
+}
+
+.xr-attrs dd {
+  grid-column: 2;
+  white-space: pre-wrap;
+  word-break: break-all;
+}
+
+.xr-icon-database,
+.xr-icon-file-text2,
+.xr-no-icon {
+  display: inline-block;
+  vertical-align: middle;
+  width: 1em;
+  height: 1.5em !important;
+  stroke-width: 0;
+  stroke: currentColor;
+  fill: currentColor;
+}
+</style><pre class='xr-text-repr-fallback'>&lt;xarray.DataArray &#x27;pr&#x27; (time: 2001, lat: 7, lon: 6)&gt; Size: 672kB
+array([[[-3.36414355e-06, -3.93427760e-07, -5.14129704e-07,
+          7.33415840e-08,  3.82032900e-07,  9.14470214e-06],
+        [-3.03331677e-07, -7.34076438e-07, -1.05390690e-06,
+         -1.45900952e-06, -2.42091679e-08,  2.27994468e-06],
+        [ 3.91695343e-07,  7.01853950e-08, -2.96725058e-08,
+         -1.72070678e-07, -2.06018468e-07,  2.05248961e-07],
+        ...,
+        [-4.89854163e-08, -1.58713948e-07, -4.00091107e-07,
+         -5.99470001e-07, -6.14917803e-07, -6.40090995e-07],
+        [-5.49478049e-07, -5.05074523e-07, -4.25791926e-07,
+          1.02290427e-07,  4.22887467e-07,  1.70347806e-07],
+        [-4.53975373e-07, -7.63033551e-07, -8.40894191e-07,
+         -1.00043806e-06, -5.93449298e-07, -5.50491698e-07]],
+
+       [[-3.36414355e-06, -3.93427760e-07, -5.14129704e-07,
+          7.33415840e-08,  3.82032900e-07,  9.14470214e-06],
+        [-3.03331677e-07, -7.34076438e-07, -1.05390690e-06,
+         -1.45900952e-06, -2.42091679e-08,  2.27994468e-06],
+        [ 3.91695343e-07,  7.01853950e-08, -2.96725058e-08,
+         -1.72070678e-07, -2.06018468e-07,  2.05248961e-07],
+...
+        [ 3.48534830e-08, -6.01274462e-08, -2.82369494e-07,
+         -5.07323691e-07, -5.41954065e-07, -5.60825990e-07],
+        [-4.87541343e-07, -4.27534533e-07, -3.63709384e-07,
+          1.22065023e-07,  4.33682402e-07,  1.94875225e-07],
+        [-3.97454744e-07, -7.04343740e-07, -7.78425112e-07,
+         -9.52079487e-07, -5.69983834e-07, -5.26452189e-07]],
+
+       [[-3.33203901e-06, -1.87314902e-07, -1.58971551e-08,
+          4.27073214e-07,  7.59197019e-07,  8.87665026e-06],
+        [-1.57049002e-07, -6.83851833e-07, -1.04259955e-06,
+         -9.13994203e-07,  2.33195435e-07,  2.21044488e-06],
+        [ 6.20160187e-07,  1.32004748e-07, -3.51543929e-08,
+         -1.71176571e-07, -1.26000334e-07,  2.46316356e-07],
+        ...,
+        [ 1.54326102e-07,  8.65929915e-09, -2.43830178e-07,
+         -6.16052593e-07, -5.61417269e-07, -6.05030666e-07],
+        [-2.40231459e-07, -2.16921654e-07, -2.29159371e-07,
+          1.68739105e-07,  4.28005302e-07,  2.26424772e-07],
+        [-1.31250866e-07, -5.07415305e-07, -6.13094900e-07,
+         -7.97165453e-07, -4.31293127e-07, -3.93539453e-07]]])
+Coordinates:
+  * time     (time) int64 16kB 0 1 2 3 4 5 6 ... 1995 1996 1997 1998 1999 2000
+  * lat      (lat) float64 56B 32.93 37.32 41.71 46.1 50.49 54.88 59.27
+  * lon      (lon) float64 48B 75.48 81.29 87.1 92.9 98.71 104.5</pre><div class='xr-wrap' style='display:none'><div class='xr-header'><div class='xr-obj-type'>xarray.DataArray</div><div class='xr-array-name'>'pr'</div><ul class='xr-dim-list'><li><span class='xr-has-index'>time</span>: 2001</li><li><span class='xr-has-index'>lat</span>: 7</li><li><span class='xr-has-index'>lon</span>: 6</li></ul></div><ul class='xr-sections'><li class='xr-section-item'><div class='xr-array-wrap'><input id='section-72beee6e-2fd6-4caa-9713-538c83099063' class='xr-array-in' type='checkbox' checked><label for='section-72beee6e-2fd6-4caa-9713-538c83099063' title='Show/hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-array-preview xr-preview'><span>-3.364e-06 -3.934e-07 -5.141e-07 ... -7.972e-07 -4.313e-07 -3.935e-07</span></div><div class='xr-array-data'><pre>array([[[-3.36414355e-06, -3.93427760e-07, -5.14129704e-07,
+          7.33415840e-08,  3.82032900e-07,  9.14470214e-06],
+        [-3.03331677e-07, -7.34076438e-07, -1.05390690e-06,
+         -1.45900952e-06, -2.42091679e-08,  2.27994468e-06],
+        [ 3.91695343e-07,  7.01853950e-08, -2.96725058e-08,
+         -1.72070678e-07, -2.06018468e-07,  2.05248961e-07],
+        ...,
+        [-4.89854163e-08, -1.58713948e-07, -4.00091107e-07,
+         -5.99470001e-07, -6.14917803e-07, -6.40090995e-07],
+        [-5.49478049e-07, -5.05074523e-07, -4.25791926e-07,
+          1.02290427e-07,  4.22887467e-07,  1.70347806e-07],
+        [-4.53975373e-07, -7.63033551e-07, -8.40894191e-07,
+         -1.00043806e-06, -5.93449298e-07, -5.50491698e-07]],
+
+       [[-3.36414355e-06, -3.93427760e-07, -5.14129704e-07,
+          7.33415840e-08,  3.82032900e-07,  9.14470214e-06],
+        [-3.03331677e-07, -7.34076438e-07, -1.05390690e-06,
+         -1.45900952e-06, -2.42091679e-08,  2.27994468e-06],
+        [ 3.91695343e-07,  7.01853950e-08, -2.96725058e-08,
+         -1.72070678e-07, -2.06018468e-07,  2.05248961e-07],
+...
+        [ 3.48534830e-08, -6.01274462e-08, -2.82369494e-07,
+         -5.07323691e-07, -5.41954065e-07, -5.60825990e-07],
+        [-4.87541343e-07, -4.27534533e-07, -3.63709384e-07,
+          1.22065023e-07,  4.33682402e-07,  1.94875225e-07],
+        [-3.97454744e-07, -7.04343740e-07, -7.78425112e-07,
+         -9.52079487e-07, -5.69983834e-07, -5.26452189e-07]],
+
+       [[-3.33203901e-06, -1.87314902e-07, -1.58971551e-08,
+          4.27073214e-07,  7.59197019e-07,  8.87665026e-06],
+        [-1.57049002e-07, -6.83851833e-07, -1.04259955e-06,
+         -9.13994203e-07,  2.33195435e-07,  2.21044488e-06],
+        [ 6.20160187e-07,  1.32004748e-07, -3.51543929e-08,
+         -1.71176571e-07, -1.26000334e-07,  2.46316356e-07],
+        ...,
+        [ 1.54326102e-07,  8.65929915e-09, -2.43830178e-07,
+         -6.16052593e-07, -5.61417269e-07, -6.05030666e-07],
+        [-2.40231459e-07, -2.16921654e-07, -2.29159371e-07,
+          1.68739105e-07,  4.28005302e-07,  2.26424772e-07],
+        [-1.31250866e-07, -5.07415305e-07, -6.13094900e-07,
+         -7.97165453e-07, -4.31293127e-07, -3.93539453e-07]]])</pre></div></div></li><li class='xr-section-item'><input id='section-d4e8f488-763e-494c-82e9-d230d52e81df' class='xr-section-summary-in' type='checkbox'  checked><label for='section-d4e8f488-763e-494c-82e9-d230d52e81df' class='xr-section-summary' >Coordinates: <span>(3)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><ul class='xr-var-list'><li class='xr-var-item'><div class='xr-var-name'><span class='xr-has-index'>time</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>int64</div><div class='xr-var-preview xr-preview'>0 1 2 3 4 ... 1997 1998 1999 2000</div><input id='attrs-91c1f036-6623-464b-90b9-35e5d986d1a6' class='xr-var-attrs-in' type='checkbox' disabled><label for='attrs-91c1f036-6623-464b-90b9-35e5d986d1a6' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-e7341324-aebe-4719-bfbc-a4bdba3e92ec' class='xr-var-data-in' type='checkbox'><label for='data-e7341324-aebe-4719-bfbc-a4bdba3e92ec' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'></dl></div><div class='xr-var-data'><pre>array([   0,    1,    2, ..., 1998, 1999, 2000])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span class='xr-has-index'>lat</span></div><div class='xr-var-dims'>(lat)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>32.93 37.32 41.71 ... 54.88 59.27</div><input id='attrs-1f401d9b-455b-4330-a7ef-302d9e5ecd27' class='xr-var-attrs-in' type='checkbox' disabled><label for='attrs-1f401d9b-455b-4330-a7ef-302d9e5ecd27' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-82795cb4-e2e4-40f5-b9d6-9b588b69301b' class='xr-var-data-in' type='checkbox'><label for='data-82795cb4-e2e4-40f5-b9d6-9b588b69301b' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'></dl></div><div class='xr-var-data'><pre>array([32.926829, 37.317073, 41.707317, 46.097561, 50.487805, 54.878049,
+       59.268293])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span class='xr-has-index'>lon</span></div><div class='xr-var-dims'>(lon)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>75.48 81.29 87.1 92.9 98.71 104.5</div><input id='attrs-079e813c-374a-4523-8b11-6ef4b306fdd8' class='xr-var-attrs-in' type='checkbox' disabled><label for='attrs-079e813c-374a-4523-8b11-6ef4b306fdd8' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-b413587b-1010-403d-a9b6-fafa6737f132' class='xr-var-data-in' type='checkbox'><label for='data-b413587b-1010-403d-a9b6-fafa6737f132' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'></dl></div><div class='xr-var-data'><pre>array([ 75.483871,  81.290323,  87.096774,  92.903226,  98.709677, 104.516129])</pre></div></li></ul></div></li><li class='xr-section-item'><input id='section-ced15186-4515-4465-847a-3a700452b669' class='xr-section-summary-in' type='checkbox'  ><label for='section-ced15186-4515-4465-847a-3a700452b669' class='xr-section-summary' >Indexes: <span>(3)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><ul class='xr-var-list'><li class='xr-var-item'><div class='xr-index-name'><div>time</div></div><div class='xr-index-preview'>PandasIndex</div><div></div><input id='index-361c1162-c8df-432b-9f12-f5b9b888364b' class='xr-index-data-in' type='checkbox'/><label for='index-361c1162-c8df-432b-9f12-f5b9b888364b' title='Show/Hide index repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-index-data'><pre>PandasIndex(Index([   0,    1,    2,    3,    4,    5,    6,    7,    8,    9,
+       ...
+       1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2000],
+      dtype=&#x27;int64&#x27;, name=&#x27;time&#x27;, length=2001))</pre></div></li><li class='xr-var-item'><div class='xr-index-name'><div>lat</div></div><div class='xr-index-preview'>PandasIndex</div><div></div><input id='index-a601149b-0450-48da-a0b4-494bc561fc8b' class='xr-index-data-in' type='checkbox'/><label for='index-a601149b-0450-48da-a0b4-494bc561fc8b' title='Show/Hide index repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-index-data'><pre>PandasIndex(Index([32.92682926829269, 37.31707317073172, 41.70731707317074,
+       46.09756097560978, 50.48780487804879,  54.8780487804878,
+       59.26829268292684],
+      dtype=&#x27;float64&#x27;, name=&#x27;lat&#x27;))</pre></div></li><li class='xr-var-item'><div class='xr-index-name'><div>lon</div></div><div class='xr-index-preview'>PandasIndex</div><div></div><input id='index-7f4d560e-8d27-4ae6-b86a-33608a2c0fa3' class='xr-index-data-in' type='checkbox'/><label for='index-7f4d560e-8d27-4ae6-b86a-33608a2c0fa3' title='Show/Hide index repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-index-data'><pre>PandasIndex(Index([ 75.48387096774194,  81.29032258064517,  87.09677419354838,
+        92.90322580645162,  98.70967741935485, 104.51612903225806],
+      dtype=&#x27;float64&#x27;, name=&#x27;lon&#x27;))</pre></div></li></ul></div></li><li class='xr-section-item'><input id='section-4d1a4de8-d0ec-42a6-b019-8b2ec3208e5e' class='xr-section-summary-in' type='checkbox' disabled ><label for='section-4d1a4de8-d0ec-42a6-b019-8b2ec3208e5e' class='xr-section-summary'  title='Expand/collapse section'>Attributes: <span>(0)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><dl class='xr-attrs'></dl></div></li></ul></div></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
+</section>
+</section>
+
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Load-the-PAGES2k-database">Load the PAGES2k database</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Load-the-gridded-climate-data">Load the gridded climate data</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Load-the-model-prior">Load the model prior</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Load-the-instrumental-observations">Load the instrumental observations</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Proxy-system-modeling">Proxy system modeling</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Calibrating-the-proxy-system-models">Calibrating the proxy system models</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Forwarding-the-proxy-system-models">Forwarding the proxy system models</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Annualizing,-regridding,-and-cropping-the-prior-field">Annualizing, regridding, and cropping the prior field</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Run-the-DA-solver">Run the DA solver</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Validate-the-reconstruction">Validate the reconstruction</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2024, Feng Zhu, Julien Emile-Geay.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=bd9e20870c6007c4c509"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=bd9e20870c6007c4c509"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

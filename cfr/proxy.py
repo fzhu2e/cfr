@@ -130,7 +130,7 @@ class ProxyRecord:
     ''' The class for a proxy record.
 
     '''
-    def __init__(self, pid=None, time=None, value=None, lat=None, lon=None, elev=None, ptype=None, tags=None,
+    def __init__(self, pid=None, time=None, value=None, lat=None, lon=None, elev=None, ptype=None, climate=None, tags=None,
         value_name=None, value_unit=None, time_name=None, time_unit=None, seasonality=None):
         ''' Initialize a ProxyRecord object
         
@@ -165,6 +165,7 @@ class ProxyRecord:
                 pass
         self.time = time
         self.value = value
+        self.climate = climate
         self.lat = lat
         self.lon = np.mod(lon, 360) if lon is not None else None
         self.elev = elev
@@ -1160,7 +1161,7 @@ class ProxyDatabase:
     def from_df(self, df, pid_column='paleoData_pages2kID', lat_column='geo_meanLat', lon_column='geo_meanLon', elev_column='geo_meanElev',
                 time_column='year', value_column='paleoData_values', proxy_type_column='paleoData_proxy', archive_type_column='archiveType',
                 ptype_column='ptype', value_name_column='paleoData_variableName', value_unit_column='paleoData_units', R_column='R',
-                verbose=False):
+                climate_column='climateInterpretation_variable', verbose=False):
         ''' Load database from a `pandas.DataFrame`. Note that in most cases, the column names have to be specified.
 
         Args:
@@ -1215,12 +1216,14 @@ class ProxyDatabase:
             time, value = utils.clean_ts(time, value)
             value_name=row[value_name_column] if value_name_column in row else None
             value_unit=row[value_unit_column] if value_name_column in row else None
-
+            if climate_column in row:
+                climate = row[climate_column]
 
             record = ProxyRecord(
                 pid=pid, lat=lat, lon=lon, elev=elev,
                 time=time, value=value, ptype=ptype,
                 value_name=value_name, value_unit=value_unit,
+                climate=climate,
             )
             if R_column in row:
                 record.R = row[R_column]
@@ -1853,7 +1856,6 @@ class ProxyDatabase:
 
         new.refresh()
         return new
-        
 
     def to_nc(self, path, annualize=False, months=None, verbose=True, compress_params={'zlib': True}):
         ''' Convert the database to a netCDF file.

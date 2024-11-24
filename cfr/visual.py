@@ -612,11 +612,17 @@ def plot_proxies(df, year=np.arange(2001), lon_col='lon', lat_col='lat', type_co
 
         cumu_count = np.zeros_like(year, dtype=int)
         cumu_last = np.copy(cumu_count)
+
         for ptype in type_set:
+            if ptype in markers_dict:
+                color = colors_dict[ptype]
+            else:
+                color = 'tab:blue'
+
             cumu_count += proxy_count[ptype]
             ax['count'].fill_between(
                 year, cumu_last, cumu_count,
-                facecolor=colors_dict[ptype],
+                facecolor=color,
                 label=f'{ptype}',
                 alpha=0.8,
             )

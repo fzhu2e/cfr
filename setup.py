@@ -5,7 +5,7 @@ with open('README.md', 'r') as fh:
 
 setup(
     name='cfr',  # required
-    version='2024.11.11',
+    version='2024.11.23',
     description='cfr: a Python package for Climate Field Reconstruction',
     long_description=long_description,
     long_description_content_type='text/x-rst',
@@ -20,9 +20,8 @@ setup(
     scripts=['bin/cfr'],
     classifiers=[
         'Natural Language :: English',
-        'Programming Language :: Python :: 3.9',
-        'Programming Language :: Python :: 3.10',
         'Programming Language :: Python :: 3.11',
+        'Programming Language :: Python :: 3.12',
     ],
     install_requires=[
         'colorama',

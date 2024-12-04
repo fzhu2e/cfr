@@ -1218,6 +1218,8 @@ class ProxyDatabase:
             value_unit=row[value_unit_column] if value_name_column in row else None
             if climate_column in row:
                 climate = row[climate_column]
+            else:
+                climate = None
 
             record = ProxyRecord(
                 pid=pid, lat=lat, lon=lon, elev=elev,

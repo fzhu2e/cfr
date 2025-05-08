@@ -204,7 +204,7 @@ class ClimateField:
 
         return fd
 
-    def load_nc(self, path, vn=None, time_name='time', lat_name='lat', lon_name='lon', load=False, return_ds=False, use_cftime=True, **kwargs):
+    def load_nc(self, path, vn=None, time_name='time', lat_name='lat', lon_name='lon', load=True, return_ds=False, use_cftime=True, **kwargs):
         ''' Load the climate field from a netCDF file.
 
         Args:
@@ -413,13 +413,15 @@ class ClimateField:
                 'title': 'Correlation',
             }
         elif stat == 'R2':
-            stat_da = xr.corr(fd_rg.da, ref_rg.da, dim='time')
+            ss_res = ((fd_rg.da - ref_rg.da) ** 2).sum(dim='time')
+            ss_tot = ((ref_rg.da - ref_rg.da.mean(dim='time')) ** 2).sum(dim='time')
+            stat_da = 1 - ss_res/ss_tot
             stat_da = stat_da.expand_dims({'time': [1]})
             stat_da.name = stat
-            stat_fd = ClimateField(stat_da**2)
+            stat_fd = ClimateField(stat_da)
             stat_fd.plot_kwargs = {
                 'cmap': 'Reds',
-                'extend': 'neither',
+                'extend': 'min',
                 'levels': np.linspace(0, 1, 21),
                 'cbar_labels': np.linspace(0, 1, 11),
                 'cbar_title': r'$R^2$',

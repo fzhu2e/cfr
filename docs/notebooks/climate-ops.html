@@ -447,7 +447,7 @@ document.write(`
 <li><p>GISTEMP surface temperature: <a class="reference external" href="https://data.giss.nasa.gov/pub/gistemp/gistemp1200_GHCNv4_ERSSTv5.nc.gz">gistemp1200_GHCNv4_ERSSTv5.nc</a></p></li>
 </ul>
 <p>Due to the new data fetching feature, the above datasets are not required to be downloaded manually.</p>
-<div class="nbinput nblast docutils container">
+<div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
 </div>
@@ -460,10 +460,18 @@ document.write(`
 </pre></div>
 </div>
 </div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+2024.12.4
+</pre></div></div>
+</div>
 <section id="Load-the-test-netCDF-file-as-a-ClimateField">
 <h2>Load the test netCDF file as a <code class="docutils literal notranslate"><span class="pre">ClimateField</span></code><a class="headerlink" href="#Load-the-test-netCDF-file-as-a-ClimateField" title="Link to this heading">#</a></h2>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fd</span> <span class="o">=</span> <span class="n">cfr</span><span class="o">.</span><span class="n">ClimateField</span><span class="p">()</span><span class="o">.</span><span class="n">fetch</span><span class="p">(</span>
@@ -478,22 +486,14 @@ document.write(`
 <div class="nboutput docutils container">
 <div class="prompt empty docutils container">
 </div>
-<div class="output_area stderr docutils container">
-<div class="highlight"><pre>
-Fetching data: 100%|██████████| 24.1M/24.1M [00:26&lt;00:00, 960kiB/s]
-</pre></div></div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-<span class="ansi-green-intense-fg ansi-bold">&gt;&gt;&gt; Downloaded file saved at: ./data/gistemp1200_GHCNv4_ERSSTv5.nc.gz
+<span class="ansi-black-intense-fg ansi-bold">&gt;&gt;&gt; The target file seems existed at: ./data/gistemp1200_GHCNv4_ERSSTv5.nc.gz . Loading from it instead of downloading ...
 </span>
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
 </pre></div>
 </div>
 <div class="output_area rendered_html docutils container">
@@ -527,13 +527,14 @@ Fetching data: 100%|██████████| 24.1M/24.1M [00:26&lt;00:00,
   --xr-background-color-row-odd: var(--jp-layout-color2, #eeeeee);
 }
 
-html[theme=dark],
-body[data-theme=dark],
+html[theme="dark"],
+html[data-theme="dark"],
+body[data-theme="dark"],
 body.vscode-dark {
   --xr-font-color0: rgba(255, 255, 255, 1);
   --xr-font-color2: rgba(255, 255, 255, 0.54);
   --xr-font-color3: rgba(255, 255, 255, 0.38);
-  --xr-border-color: #1F1F1F;
+  --xr-border-color: #1f1f1f;
   --xr-disabled-color: #515151;
   --xr-background-color: #111111;
   --xr-background-color-row-even: #111111;
@@ -578,7 +579,7 @@ body.vscode-dark {
 .xr-sections {
   padding-left: 0 !important;
   display: grid;
-  grid-template-columns: 150px auto auto 1fr 20px 20px;
+  grid-template-columns: 150px auto auto 1fr 0 20px 0 20px;
 }
 
 .xr-section-item {
@@ -586,7 +587,9 @@ body.vscode-dark {
 }
 
 .xr-section-item input {
-  display: none;
+  display: inline-block;
+  opacity: 0;
+  height: 0;
 }
 
 .xr-section-item input + label {
@@ -596,6 +599,10 @@ body.vscode-dark {
 .xr-section-item input:enabled + label {
   cursor: pointer;
   color: var(--xr-font-color2);
+}
+
+.xr-section-item input:focus + label {
+  border: 2px solid var(--xr-font-color0);
 }
 
 .xr-section-item input:enabled + label:hover {
@@ -619,7 +626,7 @@ body.vscode-dark {
 
 .xr-section-summary-in + label:before {
   display: inline-block;
-  content: '►';
+  content: "►";
   font-size: 11px;
   width: 15px;
   text-align: center;
@@ -630,7 +637,7 @@ body.vscode-dark {
 }
 
 .xr-section-summary-in:checked + label:before {
-  content: '▼';
+  content: "▼";
 }
 
 .xr-section-summary-in:checked + label > span {
@@ -702,15 +709,15 @@ body.vscode-dark {
 }
 
 .xr-dim-list:before {
-  content: '(';
+  content: "(";
 }
 
 .xr-dim-list:after {
-  content: ')';
+  content: ")";
 }
 
 .xr-dim-list li:not(:last-child):after {
-  content: ',';
+  content: ",";
   padding-right: 5px;
 }
 
@@ -860,23 +867,110 @@ dl.xr-attrs {
   stroke: currentColor;
   fill: currentColor;
 }
-</style><pre class='xr-text-repr-fallback'>&lt;xarray.DataArray &#x27;tempanomaly&#x27; (time: 1720, lat: 90, lon: 180)&gt;
-[27864000 values with dtype=float32]
+</style><pre class='xr-text-repr-fallback'>&lt;xarray.DataArray &#x27;tempanomaly&#x27; (time: 1720, lat: 90, lon: 180)&gt; Size: 111MB
+array([[[       nan,        nan,        nan, ...,        nan,
+                nan,        nan],
+        [       nan,        nan,        nan, ...,        nan,
+                nan,        nan],
+        [       nan,        nan,        nan, ...,        nan,
+                nan,        nan],
+        ...,
+        [       nan,        nan,        nan, ...,        nan,
+                nan,        nan],
+        [       nan,        nan,        nan, ...,        nan,
+                nan,        nan],
+        [       nan,        nan,        nan, ...,        nan,
+                nan,        nan]],
+
+       [[       nan,        nan,        nan, ...,        nan,
+                nan,        nan],
+        [       nan,        nan,        nan, ...,        nan,
+                nan,        nan],
+        [       nan,        nan,        nan, ...,        nan,
+                nan,        nan],
+...
+        [ 4.14     ,  4.14     ,  4.14     , ...,  4.14     ,
+          4.14     ,  4.14     ],
+        [ 4.14     ,  4.14     ,  4.14     , ...,  4.14     ,
+          4.14     ,  4.14     ],
+        [ 4.14     ,  4.14     ,  4.14     , ...,  4.14     ,
+          4.14     ,  4.14     ]],
+
+       [[ 1.5699999,  1.5699999,  1.5699999, ...,  1.5699999,
+          1.5699999,  1.5699999],
+        [ 1.5699999,  1.5699999,  1.5699999, ...,  1.5699999,
+          1.5699999,  1.5699999],
+        [ 1.5699999,  1.5699999,  1.5699999, ...,  1.5699999,
+          1.5699999,  1.5699999],
+        ...,
+        [ 3.       ,  3.       ,  3.       , ...,  3.       ,
+          3.       ,  3.       ],
+        [ 3.       ,  3.       ,  3.       , ...,  3.       ,
+          3.       ,  3.       ],
+        [ 3.       ,  3.       ,  3.       , ...,  3.       ,
+          3.       ,  3.       ]]], dtype=float32)
 Coordinates:
-  * lat      (lat) float32 -89.0 -87.0 -85.0 -83.0 -81.0 ... 83.0 85.0 87.0 89.0
-  * lon      (lon) float32 1.0 3.0 5.0 7.0 9.0 ... 351.0 353.0 355.0 357.0 359.0
-  * time     (time) object 1880-01-15 00:00:00 ... 2023-04-15 00:00:00
+  * lat      (lat) float32 360B -89.0 -87.0 -85.0 -83.0 ... 83.0 85.0 87.0 89.0
+  * time     (time) object 14kB 1880-01-15 00:00:00 ... 2023-04-15 00:00:00
+  * lon      (lon) float32 720B 1.0 3.0 5.0 7.0 9.0 ... 353.0 355.0 357.0 359.0
 Attributes:
     long_name:     Surface temperature anomaly
     units:         K
-    cell_methods:  time: mean</pre><div class='xr-wrap' style='display:none'><div class='xr-header'><div class='xr-obj-type'>xarray.DataArray</div><div class='xr-array-name'>'tempanomaly'</div><ul class='xr-dim-list'><li><span class='xr-has-index'>time</span>: 1720</li><li><span class='xr-has-index'>lat</span>: 90</li><li><span class='xr-has-index'>lon</span>: 180</li></ul></div><ul class='xr-sections'><li class='xr-section-item'><div class='xr-array-wrap'><input id='section-7d23ce96-b2da-4ae3-932c-14b22637ae19' class='xr-array-in' type='checkbox' checked><label for='section-7d23ce96-b2da-4ae3-932c-14b22637ae19' title='Show/hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-array-preview xr-preview'><span>...</span></div><div class='xr-array-data'><pre>[27864000 values with dtype=float32]</pre></div></div></li><li class='xr-section-item'><input id='section-73cd78ba-03c4-4655-85e4-73b11daf5b3e' class='xr-section-summary-in' type='checkbox'  checked><label for='section-73cd78ba-03c4-4655-85e4-73b11daf5b3e' class='xr-section-summary' >Coordinates: <span>(3)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><ul class='xr-var-list'><li class='xr-var-item'><div class='xr-var-name'><span class='xr-has-index'>lat</span></div><div class='xr-var-dims'>(lat)</div><div class='xr-var-dtype'>float32</div><div class='xr-var-preview xr-preview'>-89.0 -87.0 -85.0 ... 87.0 89.0</div><input id='attrs-8e510ccf-5f08-478b-b0fd-d87b9b000854' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-8e510ccf-5f08-478b-b0fd-d87b9b000854' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-ff1569c8-5e75-44ce-b8c0-5ff8444db8ec' class='xr-var-data-in' type='checkbox'><label for='data-ff1569c8-5e75-44ce-b8c0-5ff8444db8ec' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>standard_name :</span></dt><dd>latitude</dd><dt><span>long_name :</span></dt><dd>Latitude</dd><dt><span>units :</span></dt><dd>degrees_north</dd></dl></div><div class='xr-var-data'><pre>array([-89., -87., -85., -83., -81., -79., -77., -75., -73., -71., -69., -67.,
+    cell_methods:  time: mean</pre><div class='xr-wrap' style='display:none'><div class='xr-header'><div class='xr-obj-type'>xarray.DataArray</div><div class='xr-array-name'>'tempanomaly'</div><ul class='xr-dim-list'><li><span class='xr-has-index'>time</span>: 1720</li><li><span class='xr-has-index'>lat</span>: 90</li><li><span class='xr-has-index'>lon</span>: 180</li></ul></div><ul class='xr-sections'><li class='xr-section-item'><div class='xr-array-wrap'><input id='section-21ab615e-d9f0-4763-87d4-958a2f744dc7' class='xr-array-in' type='checkbox' checked><label for='section-21ab615e-d9f0-4763-87d4-958a2f744dc7' title='Show/hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-array-preview xr-preview'><span>nan nan nan nan nan nan nan nan ... 3.0 3.0 3.0 3.0 3.0 3.0 3.0 3.0</span></div><div class='xr-array-data'><pre>array([[[       nan,        nan,        nan, ...,        nan,
+                nan,        nan],
+        [       nan,        nan,        nan, ...,        nan,
+                nan,        nan],
+        [       nan,        nan,        nan, ...,        nan,
+                nan,        nan],
+        ...,
+        [       nan,        nan,        nan, ...,        nan,
+                nan,        nan],
+        [       nan,        nan,        nan, ...,        nan,
+                nan,        nan],
+        [       nan,        nan,        nan, ...,        nan,
+                nan,        nan]],
+
+       [[       nan,        nan,        nan, ...,        nan,
+                nan,        nan],
+        [       nan,        nan,        nan, ...,        nan,
+                nan,        nan],
+        [       nan,        nan,        nan, ...,        nan,
+                nan,        nan],
+...
+        [ 4.14     ,  4.14     ,  4.14     , ...,  4.14     ,
+          4.14     ,  4.14     ],
+        [ 4.14     ,  4.14     ,  4.14     , ...,  4.14     ,
+          4.14     ,  4.14     ],
+        [ 4.14     ,  4.14     ,  4.14     , ...,  4.14     ,
+          4.14     ,  4.14     ]],
+
+       [[ 1.5699999,  1.5699999,  1.5699999, ...,  1.5699999,
+          1.5699999,  1.5699999],
+        [ 1.5699999,  1.5699999,  1.5699999, ...,  1.5699999,
+          1.5699999,  1.5699999],
+        [ 1.5699999,  1.5699999,  1.5699999, ...,  1.5699999,
+          1.5699999,  1.5699999],
+        ...,
+        [ 3.       ,  3.       ,  3.       , ...,  3.       ,
+          3.       ,  3.       ],
+        [ 3.       ,  3.       ,  3.       , ...,  3.       ,
+          3.       ,  3.       ],
+        [ 3.       ,  3.       ,  3.       , ...,  3.       ,
+          3.       ,  3.       ]]], dtype=float32)</pre></div></div></li><li class='xr-section-item'><input id='section-bc631857-794a-4f0b-b4b2-df5278ccde3e' class='xr-section-summary-in' type='checkbox'  checked><label for='section-bc631857-794a-4f0b-b4b2-df5278ccde3e' class='xr-section-summary' >Coordinates: <span>(3)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><ul class='xr-var-list'><li class='xr-var-item'><div class='xr-var-name'><span class='xr-has-index'>lat</span></div><div class='xr-var-dims'>(lat)</div><div class='xr-var-dtype'>float32</div><div class='xr-var-preview xr-preview'>-89.0 -87.0 -85.0 ... 87.0 89.0</div><input id='attrs-5460f7c7-7b21-4b83-8a75-f80e971af356' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-5460f7c7-7b21-4b83-8a75-f80e971af356' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-74cd6ec5-b1c2-4c9f-b8ac-b3d32be0c2cf' class='xr-var-data-in' type='checkbox'><label for='data-74cd6ec5-b1c2-4c9f-b8ac-b3d32be0c2cf' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>standard_name :</span></dt><dd>latitude</dd><dt><span>long_name :</span></dt><dd>Latitude</dd><dt><span>units :</span></dt><dd>degrees_north</dd></dl></div><div class='xr-var-data'><pre>array([-89., -87., -85., -83., -81., -79., -77., -75., -73., -71., -69., -67.,
        -65., -63., -61., -59., -57., -55., -53., -51., -49., -47., -45., -43.,
        -41., -39., -37., -35., -33., -31., -29., -27., -25., -23., -21., -19.,
        -17., -15., -13., -11.,  -9.,  -7.,  -5.,  -3.,  -1.,   1.,   3.,   5.,
          7.,   9.,  11.,  13.,  15.,  17.,  19.,  21.,  23.,  25.,  27.,  29.,
         31.,  33.,  35.,  37.,  39.,  41.,  43.,  45.,  47.,  49.,  51.,  53.,
         55.,  57.,  59.,  61.,  63.,  65.,  67.,  69.,  71.,  73.,  75.,  77.,
-        79.,  81.,  83.,  85.,  87.,  89.], dtype=float32)</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span class='xr-has-index'>lon</span></div><div class='xr-var-dims'>(lon)</div><div class='xr-var-dtype'>float32</div><div class='xr-var-preview xr-preview'>1.0 3.0 5.0 ... 355.0 357.0 359.0</div><input id='attrs-43bf5c7c-2b2d-4b47-ac02-34e25486c275' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-43bf5c7c-2b2d-4b47-ac02-34e25486c275' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-6f78a394-0032-4aa5-8829-a6322d0783c9' class='xr-var-data-in' type='checkbox'><label for='data-6f78a394-0032-4aa5-8829-a6322d0783c9' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>standard_name :</span></dt><dd>longitude</dd><dt><span>long_name :</span></dt><dd>Longitude</dd><dt><span>units :</span></dt><dd>degrees_east</dd></dl></div><div class='xr-var-data'><pre>array([  1.,   3.,   5.,   7.,   9.,  11.,  13.,  15.,  17.,  19.,  21.,  23.,
+        79.,  81.,  83.,  85.,  87.,  89.], dtype=float32)</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span class='xr-has-index'>time</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>object</div><div class='xr-var-preview xr-preview'>1880-01-15 00:00:00 ... 2023-04-...</div><input id='attrs-5679ef12-8066-42e8-83e0-26133d3fb3e9' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-5679ef12-8066-42e8-83e0-26133d3fb3e9' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-b3200e31-ab8f-4b24-ac7c-1cb7418bde27' class='xr-var-data-in' type='checkbox'><label for='data-b3200e31-ab8f-4b24-ac7c-1cb7418bde27' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>long_name :</span></dt><dd>time</dd><dt><span>bounds :</span></dt><dd>time_bnds</dd></dl></div><div class='xr-var-data'><pre>array([cftime.DatetimeGregorian(1880, 1, 15, 0, 0, 0, 0, has_year_zero=False),
+       cftime.DatetimeGregorian(1880, 2, 15, 0, 0, 0, 0, has_year_zero=False),
+       cftime.DatetimeGregorian(1880, 3, 15, 0, 0, 0, 0, has_year_zero=False),
+       ...,
+       cftime.DatetimeGregorian(2023, 2, 15, 0, 0, 0, 0, has_year_zero=False),
+       cftime.DatetimeGregorian(2023, 3, 15, 0, 0, 0, 0, has_year_zero=False),
+       cftime.DatetimeGregorian(2023, 4, 15, 0, 0, 0, 0, has_year_zero=False)],
+      dtype=object)</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span class='xr-has-index'>lon</span></div><div class='xr-var-dims'>(lon)</div><div class='xr-var-dtype'>float32</div><div class='xr-var-preview xr-preview'>1.0 3.0 5.0 ... 355.0 357.0 359.0</div><input id='attrs-e311b49f-d6d3-4776-ab54-e454764c0c73' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-e311b49f-d6d3-4776-ab54-e454764c0c73' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-c63017f4-ca4a-42e1-bf91-9b90100b400d' class='xr-var-data-in' type='checkbox'><label for='data-c63017f4-ca4a-42e1-bf91-9b90100b400d' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>standard_name :</span></dt><dd>longitude</dd><dt><span>long_name :</span></dt><dd>Longitude</dd><dt><span>units :</span></dt><dd>degrees_east</dd></dl></div><div class='xr-var-data'><pre>array([  1.,   3.,   5.,   7.,   9.,  11.,  13.,  15.,  17.,  19.,  21.,  23.,
         25.,  27.,  29.,  31.,  33.,  35.,  37.,  39.,  41.,  43.,  45.,  47.,
         49.,  51.,  53.,  55.,  57.,  59.,  61.,  63.,  65.,  67.,  69.,  71.,
         73.,  75.,  77.,  79.,  81.,  83.,  85.,  87.,  89.,  91.,  93.,  95.,
@@ -891,29 +985,16 @@ Attributes:
        289., 291., 293., 295., 297., 299., 301., 303., 305., 307., 309., 311.,
        313., 315., 317., 319., 321., 323., 325., 327., 329., 331., 333., 335.,
        337., 339., 341., 343., 345., 347., 349., 351., 353., 355., 357., 359.],
-      dtype=float32)</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span class='xr-has-index'>time</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>object</div><div class='xr-var-preview xr-preview'>1880-01-15 00:00:00 ... 2023-04-...</div><input id='attrs-0519699e-65a5-4dce-8a87-c19524890551' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-0519699e-65a5-4dce-8a87-c19524890551' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-5d241fa2-7a99-4555-b06a-1275c7044a31' class='xr-var-data-in' type='checkbox'><label for='data-5d241fa2-7a99-4555-b06a-1275c7044a31' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>long_name :</span></dt><dd>time</dd><dt><span>bounds :</span></dt><dd>time_bnds</dd></dl></div><div class='xr-var-data'><pre>array([cftime.DatetimeGregorian(1880, 1, 15, 0, 0, 0, 0, has_year_zero=False),
-       cftime.DatetimeGregorian(1880, 2, 15, 0, 0, 0, 0, has_year_zero=False),
-       cftime.DatetimeGregorian(1880, 3, 15, 0, 0, 0, 0, has_year_zero=False),
-       ...,
-       cftime.DatetimeGregorian(2023, 2, 15, 0, 0, 0, 0, has_year_zero=False),
-       cftime.DatetimeGregorian(2023, 3, 15, 0, 0, 0, 0, has_year_zero=False),
-       cftime.DatetimeGregorian(2023, 4, 15, 0, 0, 0, 0, has_year_zero=False)],
-      dtype=object)</pre></div></li></ul></div></li><li class='xr-section-item'><input id='section-0eb2d606-449e-4ee0-8dbe-1d988ea36a37' class='xr-section-summary-in' type='checkbox'  ><label for='section-0eb2d606-449e-4ee0-8dbe-1d988ea36a37' class='xr-section-summary' >Indexes: <span>(3)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><ul class='xr-var-list'><li class='xr-var-item'><div class='xr-index-name'><div>lat</div></div><div class='xr-index-preview'>PandasIndex</div><div></div><input id='index-d4d56535-1590-4583-a7e4-e31a0d097a90' class='xr-index-data-in' type='checkbox'/><label for='index-d4d56535-1590-4583-a7e4-e31a0d097a90' title='Show/Hide index repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-index-data'><pre>PandasIndex(Float64Index([-89.0, -87.0, -85.0, -83.0, -81.0, -79.0, -77.0, -75.0, -73.0,
-              -71.0, -69.0, -67.0, -65.0, -63.0, -61.0, -59.0, -57.0, -55.0,
-              -53.0, -51.0, -49.0, -47.0, -45.0, -43.0, -41.0, -39.0, -37.0,
-              -35.0, -33.0, -31.0, -29.0, -27.0, -25.0, -23.0, -21.0, -19.0,
-              -17.0, -15.0, -13.0, -11.0,  -9.0,  -7.0,  -5.0,  -3.0,  -1.0,
-                1.0,   3.0,   5.0,   7.0,   9.0,  11.0,  13.0,  15.0,  17.0,
-               19.0,  21.0,  23.0,  25.0,  27.0,  29.0,  31.0,  33.0,  35.0,
-               37.0,  39.0,  41.0,  43.0,  45.0,  47.0,  49.0,  51.0,  53.0,
-               55.0,  57.0,  59.0,  61.0,  63.0,  65.0,  67.0,  69.0,  71.0,
-               73.0,  75.0,  77.0,  79.0,  81.0,  83.0,  85.0,  87.0,  89.0],
-             dtype=&#x27;float64&#x27;, name=&#x27;lat&#x27;))</pre></div></li><li class='xr-var-item'><div class='xr-index-name'><div>lon</div></div><div class='xr-index-preview'>PandasIndex</div><div></div><input id='index-c2eb447d-54ca-40ec-a9c0-5713213b975c' class='xr-index-data-in' type='checkbox'/><label for='index-c2eb447d-54ca-40ec-a9c0-5713213b975c' title='Show/Hide index repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-index-data'><pre>PandasIndex(Float64Index([  1.0,   3.0,   5.0,   7.0,   9.0,  11.0,  13.0,  15.0,  17.0,
-               19.0,
-              ...
-              341.0, 343.0, 345.0, 347.0, 349.0, 351.0, 353.0, 355.0, 357.0,
-              359.0],
-             dtype=&#x27;float64&#x27;, name=&#x27;lon&#x27;, length=180))</pre></div></li><li class='xr-var-item'><div class='xr-index-name'><div>time</div></div><div class='xr-index-preview'>PandasIndex</div><div></div><input id='index-0097a21a-6910-4ee2-9fb2-5aadfc58a3ad' class='xr-index-data-in' type='checkbox'/><label for='index-0097a21a-6910-4ee2-9fb2-5aadfc58a3ad' title='Show/Hide index repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-index-data'><pre>PandasIndex(CFTimeIndex([1880-01-15 00:00:00, 1880-02-15 00:00:00, 1880-03-15 00:00:00,
+      dtype=float32)</pre></div></li></ul></div></li><li class='xr-section-item'><input id='section-5debb6af-8b81-4958-8bb8-d89d73aa124d' class='xr-section-summary-in' type='checkbox'  ><label for='section-5debb6af-8b81-4958-8bb8-d89d73aa124d' class='xr-section-summary' >Indexes: <span>(3)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><ul class='xr-var-list'><li class='xr-var-item'><div class='xr-index-name'><div>lat</div></div><div class='xr-index-preview'>PandasIndex</div><input type='checkbox' disabled/><label></label><input id='index-04e22fef-dcfa-47fd-a496-1152429593bd' class='xr-index-data-in' type='checkbox'/><label for='index-04e22fef-dcfa-47fd-a496-1152429593bd' title='Show/Hide index repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-index-data'><pre>PandasIndex(Index([-89.0, -87.0, -85.0, -83.0, -81.0, -79.0, -77.0, -75.0, -73.0, -71.0,
+       -69.0, -67.0, -65.0, -63.0, -61.0, -59.0, -57.0, -55.0, -53.0, -51.0,
+       -49.0, -47.0, -45.0, -43.0, -41.0, -39.0, -37.0, -35.0, -33.0, -31.0,
+       -29.0, -27.0, -25.0, -23.0, -21.0, -19.0, -17.0, -15.0, -13.0, -11.0,
+        -9.0,  -7.0,  -5.0,  -3.0,  -1.0,   1.0,   3.0,   5.0,   7.0,   9.0,
+        11.0,  13.0,  15.0,  17.0,  19.0,  21.0,  23.0,  25.0,  27.0,  29.0,
+        31.0,  33.0,  35.0,  37.0,  39.0,  41.0,  43.0,  45.0,  47.0,  49.0,
+        51.0,  53.0,  55.0,  57.0,  59.0,  61.0,  63.0,  65.0,  67.0,  69.0,
+        71.0,  73.0,  75.0,  77.0,  79.0,  81.0,  83.0,  85.0,  87.0,  89.0],
+      dtype=&#x27;float32&#x27;, name=&#x27;lat&#x27;))</pre></div></li><li class='xr-var-item'><div class='xr-index-name'><div>time</div></div><div class='xr-index-preview'>PandasIndex</div><input type='checkbox' disabled/><label></label><input id='index-19d4cf77-b979-4989-90aa-8e3cdc683584' class='xr-index-data-in' type='checkbox'/><label for='index-19d4cf77-b979-4989-90aa-8e3cdc683584' title='Show/Hide index repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-index-data'><pre>PandasIndex(CFTimeIndex([1880-01-15 00:00:00, 1880-02-15 00:00:00, 1880-03-15 00:00:00,
              1880-04-15 00:00:00, 1880-05-15 00:00:00, 1880-06-15 00:00:00,
              1880-07-15 00:00:00, 1880-08-15 00:00:00, 1880-09-15 00:00:00,
              1880-10-15 00:00:00,
@@ -922,10 +1003,13 @@ Attributes:
              2022-10-15 00:00:00, 2022-11-15 00:00:00, 2022-12-15 00:00:00,
              2023-01-15 00:00:00, 2023-02-15 00:00:00, 2023-03-15 00:00:00,
              2023-04-15 00:00:00],
-            dtype=&#x27;object&#x27;, length=1720, calendar=&#x27;standard&#x27;, freq=&#x27;None&#x27;))</pre></div></li></ul></div></li><li class='xr-section-item'><input id='section-ff4b28e8-220b-4259-ae38-f9585ed94264' class='xr-section-summary-in' type='checkbox'  checked><label for='section-ff4b28e8-220b-4259-ae38-f9585ed94264' class='xr-section-summary' >Attributes: <span>(3)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><dl class='xr-attrs'><dt><span>long_name :</span></dt><dd>Surface temperature anomaly</dd><dt><span>units :</span></dt><dd>K</dd><dt><span>cell_methods :</span></dt><dd>time: mean</dd></dl></div></li></ul></div></div></div>
+            dtype=&#x27;object&#x27;, length=1720, calendar=&#x27;standard&#x27;, freq=None))</pre></div></li><li class='xr-var-item'><div class='xr-index-name'><div>lon</div></div><div class='xr-index-preview'>PandasIndex</div><input type='checkbox' disabled/><label></label><input id='index-1328df95-9d55-49de-8c03-9ca0306737c4' class='xr-index-data-in' type='checkbox'/><label for='index-1328df95-9d55-49de-8c03-9ca0306737c4' title='Show/Hide index repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-index-data'><pre>PandasIndex(Index([  1.0,   3.0,   5.0,   7.0,   9.0,  11.0,  13.0,  15.0,  17.0,  19.0,
+       ...
+       341.0, 343.0, 345.0, 347.0, 349.0, 351.0, 353.0, 355.0, 357.0, 359.0],
+      dtype=&#x27;float32&#x27;, name=&#x27;lon&#x27;, length=180))</pre></div></li></ul></div></li><li class='xr-section-item'><input id='section-4e506f4a-4053-4209-893f-59b13711e2d2' class='xr-section-summary-in' type='checkbox'  checked><label for='section-4e506f4a-4053-4209-893f-59b13711e2d2' class='xr-section-summary' >Attributes: <span>(3)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><dl class='xr-attrs'><dt><span>long_name :</span></dt><dd>Surface temperature anomaly</dd><dt><span>units :</span></dt><dd>K</dd><dt><span>cell_methods :</span></dt><dd>time: mean</dd></dl></div></li></ul></div></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fd</span> <span class="o">=</span> <span class="n">cfr</span><span class="o">.</span><span class="n">ClimateField</span><span class="p">()</span><span class="o">.</span><span class="n">load_nc</span><span class="p">(</span>
@@ -938,7 +1022,7 @@ Attributes:
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
 </pre></div>
 </div>
 <div class="output_area rendered_html docutils container">
@@ -972,13 +1056,14 @@ Attributes:
   --xr-background-color-row-odd: var(--jp-layout-color2, #eeeeee);
 }
 
-html[theme=dark],
-body[data-theme=dark],
+html[theme="dark"],
+html[data-theme="dark"],
+body[data-theme="dark"],
 body.vscode-dark {
   --xr-font-color0: rgba(255, 255, 255, 1);
   --xr-font-color2: rgba(255, 255, 255, 0.54);
   --xr-font-color3: rgba(255, 255, 255, 0.38);
-  --xr-border-color: #1F1F1F;
+  --xr-border-color: #1f1f1f;
   --xr-disabled-color: #515151;
   --xr-background-color: #111111;
   --xr-background-color-row-even: #111111;
@@ -1023,7 +1108,7 @@ body.vscode-dark {
 .xr-sections {
   padding-left: 0 !important;
   display: grid;
-  grid-template-columns: 150px auto auto 1fr 20px 20px;
+  grid-template-columns: 150px auto auto 1fr 0 20px 0 20px;
 }
 
 .xr-section-item {
@@ -1031,7 +1116,9 @@ body.vscode-dark {
 }
 
 .xr-section-item input {
-  display: none;
+  display: inline-block;
+  opacity: 0;
+  height: 0;
 }
 
 .xr-section-item input + label {
@@ -1041,6 +1128,10 @@ body.vscode-dark {
 .xr-section-item input:enabled + label {
   cursor: pointer;
   color: var(--xr-font-color2);
+}
+
+.xr-section-item input:focus + label {
+  border: 2px solid var(--xr-font-color0);
 }
 
 .xr-section-item input:enabled + label:hover {
@@ -1064,7 +1155,7 @@ body.vscode-dark {
 
 .xr-section-summary-in + label:before {
   display: inline-block;
-  content: '►';
+  content: "►";
   font-size: 11px;
   width: 15px;
   text-align: center;
@@ -1075,7 +1166,7 @@ body.vscode-dark {
 }
 
 .xr-section-summary-in:checked + label:before {
-  content: '▼';
+  content: "▼";
 }
 
 .xr-section-summary-in:checked + label > span {
@@ -1147,15 +1238,15 @@ body.vscode-dark {
 }
 
 .xr-dim-list:before {
-  content: '(';
+  content: "(";
 }
 
 .xr-dim-list:after {
-  content: ')';
+  content: ")";
 }
 
 .xr-dim-list li:not(:last-child):after {
-  content: ',';
+  content: ",";
   padding-right: 5px;
 }
 
@@ -1305,23 +1396,110 @@ dl.xr-attrs {
   stroke: currentColor;
   fill: currentColor;
 }
-</style><pre class='xr-text-repr-fallback'>&lt;xarray.DataArray &#x27;tempanomaly&#x27; (time: 1720, lat: 90, lon: 180)&gt;
-[27864000 values with dtype=float32]
+</style><pre class='xr-text-repr-fallback'>&lt;xarray.DataArray &#x27;tempanomaly&#x27; (time: 1720, lat: 90, lon: 180)&gt; Size: 111MB
+array([[[       nan,        nan,        nan, ...,        nan,
+                nan,        nan],
+        [       nan,        nan,        nan, ...,        nan,
+                nan,        nan],
+        [       nan,        nan,        nan, ...,        nan,
+                nan,        nan],
+        ...,
+        [       nan,        nan,        nan, ...,        nan,
+                nan,        nan],
+        [       nan,        nan,        nan, ...,        nan,
+                nan,        nan],
+        [       nan,        nan,        nan, ...,        nan,
+                nan,        nan]],
+
+       [[       nan,        nan,        nan, ...,        nan,
+                nan,        nan],
+        [       nan,        nan,        nan, ...,        nan,
+                nan,        nan],
+        [       nan,        nan,        nan, ...,        nan,
+                nan,        nan],
+...
+        [ 4.14     ,  4.14     ,  4.14     , ...,  4.14     ,
+          4.14     ,  4.14     ],
+        [ 4.14     ,  4.14     ,  4.14     , ...,  4.14     ,
+          4.14     ,  4.14     ],
+        [ 4.14     ,  4.14     ,  4.14     , ...,  4.14     ,
+          4.14     ,  4.14     ]],
+
+       [[ 1.5699999,  1.5699999,  1.5699999, ...,  1.5699999,
+          1.5699999,  1.5699999],
+        [ 1.5699999,  1.5699999,  1.5699999, ...,  1.5699999,
+          1.5699999,  1.5699999],
+        [ 1.5699999,  1.5699999,  1.5699999, ...,  1.5699999,
+          1.5699999,  1.5699999],
+        ...,
+        [ 3.       ,  3.       ,  3.       , ...,  3.       ,
+          3.       ,  3.       ],
+        [ 3.       ,  3.       ,  3.       , ...,  3.       ,
+          3.       ,  3.       ],
+        [ 3.       ,  3.       ,  3.       , ...,  3.       ,
+          3.       ,  3.       ]]], dtype=float32)
 Coordinates:
-  * lat      (lat) float32 -89.0 -87.0 -85.0 -83.0 -81.0 ... 83.0 85.0 87.0 89.0
-  * lon      (lon) float32 1.0 3.0 5.0 7.0 9.0 ... 351.0 353.0 355.0 357.0 359.0
-  * time     (time) object 1880-01-15 00:00:00 ... 2023-04-15 00:00:00
+  * lat      (lat) float32 360B -89.0 -87.0 -85.0 -83.0 ... 83.0 85.0 87.0 89.0
+  * time     (time) object 14kB 1880-01-15 00:00:00 ... 2023-04-15 00:00:00
+  * lon      (lon) float32 720B 1.0 3.0 5.0 7.0 9.0 ... 353.0 355.0 357.0 359.0
 Attributes:
     long_name:     Surface temperature anomaly
     units:         K
-    cell_methods:  time: mean</pre><div class='xr-wrap' style='display:none'><div class='xr-header'><div class='xr-obj-type'>xarray.DataArray</div><div class='xr-array-name'>'tempanomaly'</div><ul class='xr-dim-list'><li><span class='xr-has-index'>time</span>: 1720</li><li><span class='xr-has-index'>lat</span>: 90</li><li><span class='xr-has-index'>lon</span>: 180</li></ul></div><ul class='xr-sections'><li class='xr-section-item'><div class='xr-array-wrap'><input id='section-7ecd2649-e7d3-484f-9bf8-8bfc11feaea8' class='xr-array-in' type='checkbox' checked><label for='section-7ecd2649-e7d3-484f-9bf8-8bfc11feaea8' title='Show/hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-array-preview xr-preview'><span>...</span></div><div class='xr-array-data'><pre>[27864000 values with dtype=float32]</pre></div></div></li><li class='xr-section-item'><input id='section-35380d1c-f03b-4158-bfac-e1c78c54f948' class='xr-section-summary-in' type='checkbox'  checked><label for='section-35380d1c-f03b-4158-bfac-e1c78c54f948' class='xr-section-summary' >Coordinates: <span>(3)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><ul class='xr-var-list'><li class='xr-var-item'><div class='xr-var-name'><span class='xr-has-index'>lat</span></div><div class='xr-var-dims'>(lat)</div><div class='xr-var-dtype'>float32</div><div class='xr-var-preview xr-preview'>-89.0 -87.0 -85.0 ... 87.0 89.0</div><input id='attrs-7a4e4cc4-682b-450c-99a2-be3f2b51d676' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-7a4e4cc4-682b-450c-99a2-be3f2b51d676' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-a25c99ae-f73f-44d5-9912-d9062ee954a4' class='xr-var-data-in' type='checkbox'><label for='data-a25c99ae-f73f-44d5-9912-d9062ee954a4' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>standard_name :</span></dt><dd>latitude</dd><dt><span>long_name :</span></dt><dd>Latitude</dd><dt><span>units :</span></dt><dd>degrees_north</dd></dl></div><div class='xr-var-data'><pre>array([-89., -87., -85., -83., -81., -79., -77., -75., -73., -71., -69., -67.,
+    cell_methods:  time: mean</pre><div class='xr-wrap' style='display:none'><div class='xr-header'><div class='xr-obj-type'>xarray.DataArray</div><div class='xr-array-name'>'tempanomaly'</div><ul class='xr-dim-list'><li><span class='xr-has-index'>time</span>: 1720</li><li><span class='xr-has-index'>lat</span>: 90</li><li><span class='xr-has-index'>lon</span>: 180</li></ul></div><ul class='xr-sections'><li class='xr-section-item'><div class='xr-array-wrap'><input id='section-a62153ef-846d-4c13-bafa-d6dddea6a7a0' class='xr-array-in' type='checkbox' checked><label for='section-a62153ef-846d-4c13-bafa-d6dddea6a7a0' title='Show/hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-array-preview xr-preview'><span>nan nan nan nan nan nan nan nan ... 3.0 3.0 3.0 3.0 3.0 3.0 3.0 3.0</span></div><div class='xr-array-data'><pre>array([[[       nan,        nan,        nan, ...,        nan,
+                nan,        nan],
+        [       nan,        nan,        nan, ...,        nan,
+                nan,        nan],
+        [       nan,        nan,        nan, ...,        nan,
+                nan,        nan],
+        ...,
+        [       nan,        nan,        nan, ...,        nan,
+                nan,        nan],
+        [       nan,        nan,        nan, ...,        nan,
+                nan,        nan],
+        [       nan,        nan,        nan, ...,        nan,
+                nan,        nan]],
+
+       [[       nan,        nan,        nan, ...,        nan,
+                nan,        nan],
+        [       nan,        nan,        nan, ...,        nan,
+                nan,        nan],
+        [       nan,        nan,        nan, ...,        nan,
+                nan,        nan],
+...
+        [ 4.14     ,  4.14     ,  4.14     , ...,  4.14     ,
+          4.14     ,  4.14     ],
+        [ 4.14     ,  4.14     ,  4.14     , ...,  4.14     ,
+          4.14     ,  4.14     ],
+        [ 4.14     ,  4.14     ,  4.14     , ...,  4.14     ,
+          4.14     ,  4.14     ]],
+
+       [[ 1.5699999,  1.5699999,  1.5699999, ...,  1.5699999,
+          1.5699999,  1.5699999],
+        [ 1.5699999,  1.5699999,  1.5699999, ...,  1.5699999,
+          1.5699999,  1.5699999],
+        [ 1.5699999,  1.5699999,  1.5699999, ...,  1.5699999,
+          1.5699999,  1.5699999],
+        ...,
+        [ 3.       ,  3.       ,  3.       , ...,  3.       ,
+          3.       ,  3.       ],
+        [ 3.       ,  3.       ,  3.       , ...,  3.       ,
+          3.       ,  3.       ],
+        [ 3.       ,  3.       ,  3.       , ...,  3.       ,
+          3.       ,  3.       ]]], dtype=float32)</pre></div></div></li><li class='xr-section-item'><input id='section-4bd8ba89-9264-4f2c-bb31-9c588870da0f' class='xr-section-summary-in' type='checkbox'  checked><label for='section-4bd8ba89-9264-4f2c-bb31-9c588870da0f' class='xr-section-summary' >Coordinates: <span>(3)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><ul class='xr-var-list'><li class='xr-var-item'><div class='xr-var-name'><span class='xr-has-index'>lat</span></div><div class='xr-var-dims'>(lat)</div><div class='xr-var-dtype'>float32</div><div class='xr-var-preview xr-preview'>-89.0 -87.0 -85.0 ... 87.0 89.0</div><input id='attrs-5f7fd559-280a-48fb-8107-6810a8f06b8f' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-5f7fd559-280a-48fb-8107-6810a8f06b8f' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-7adc6158-f6e6-447d-a324-009acdb1c176' class='xr-var-data-in' type='checkbox'><label for='data-7adc6158-f6e6-447d-a324-009acdb1c176' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>standard_name :</span></dt><dd>latitude</dd><dt><span>long_name :</span></dt><dd>Latitude</dd><dt><span>units :</span></dt><dd>degrees_north</dd></dl></div><div class='xr-var-data'><pre>array([-89., -87., -85., -83., -81., -79., -77., -75., -73., -71., -69., -67.,
        -65., -63., -61., -59., -57., -55., -53., -51., -49., -47., -45., -43.,
        -41., -39., -37., -35., -33., -31., -29., -27., -25., -23., -21., -19.,
        -17., -15., -13., -11.,  -9.,  -7.,  -5.,  -3.,  -1.,   1.,   3.,   5.,
          7.,   9.,  11.,  13.,  15.,  17.,  19.,  21.,  23.,  25.,  27.,  29.,
         31.,  33.,  35.,  37.,  39.,  41.,  43.,  45.,  47.,  49.,  51.,  53.,
         55.,  57.,  59.,  61.,  63.,  65.,  67.,  69.,  71.,  73.,  75.,  77.,
-        79.,  81.,  83.,  85.,  87.,  89.], dtype=float32)</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span class='xr-has-index'>lon</span></div><div class='xr-var-dims'>(lon)</div><div class='xr-var-dtype'>float32</div><div class='xr-var-preview xr-preview'>1.0 3.0 5.0 ... 355.0 357.0 359.0</div><input id='attrs-a97bbf84-cc3c-42cc-a2a8-2c697ca685c5' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-a97bbf84-cc3c-42cc-a2a8-2c697ca685c5' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-c685fd9a-cc2b-4538-9bf1-e9b5ec6dc91a' class='xr-var-data-in' type='checkbox'><label for='data-c685fd9a-cc2b-4538-9bf1-e9b5ec6dc91a' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>standard_name :</span></dt><dd>longitude</dd><dt><span>long_name :</span></dt><dd>Longitude</dd><dt><span>units :</span></dt><dd>degrees_east</dd></dl></div><div class='xr-var-data'><pre>array([  1.,   3.,   5.,   7.,   9.,  11.,  13.,  15.,  17.,  19.,  21.,  23.,
+        79.,  81.,  83.,  85.,  87.,  89.], dtype=float32)</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span class='xr-has-index'>time</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>object</div><div class='xr-var-preview xr-preview'>1880-01-15 00:00:00 ... 2023-04-...</div><input id='attrs-359de249-b438-45ce-9d9b-48d12cf7c7a3' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-359de249-b438-45ce-9d9b-48d12cf7c7a3' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-5ce260ff-5b7d-4688-8375-820c49bd9cfc' class='xr-var-data-in' type='checkbox'><label for='data-5ce260ff-5b7d-4688-8375-820c49bd9cfc' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>long_name :</span></dt><dd>time</dd><dt><span>bounds :</span></dt><dd>time_bnds</dd></dl></div><div class='xr-var-data'><pre>array([cftime.DatetimeGregorian(1880, 1, 15, 0, 0, 0, 0, has_year_zero=False),
+       cftime.DatetimeGregorian(1880, 2, 15, 0, 0, 0, 0, has_year_zero=False),
+       cftime.DatetimeGregorian(1880, 3, 15, 0, 0, 0, 0, has_year_zero=False),
+       ...,
+       cftime.DatetimeGregorian(2023, 2, 15, 0, 0, 0, 0, has_year_zero=False),
+       cftime.DatetimeGregorian(2023, 3, 15, 0, 0, 0, 0, has_year_zero=False),
+       cftime.DatetimeGregorian(2023, 4, 15, 0, 0, 0, 0, has_year_zero=False)],
+      dtype=object)</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span class='xr-has-index'>lon</span></div><div class='xr-var-dims'>(lon)</div><div class='xr-var-dtype'>float32</div><div class='xr-var-preview xr-preview'>1.0 3.0 5.0 ... 355.0 357.0 359.0</div><input id='attrs-4aeebbb3-117c-4076-87ce-473118f54453' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-4aeebbb3-117c-4076-87ce-473118f54453' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-ab2d7cde-48e8-42d6-89b2-f637b94cab93' class='xr-var-data-in' type='checkbox'><label for='data-ab2d7cde-48e8-42d6-89b2-f637b94cab93' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>standard_name :</span></dt><dd>longitude</dd><dt><span>long_name :</span></dt><dd>Longitude</dd><dt><span>units :</span></dt><dd>degrees_east</dd></dl></div><div class='xr-var-data'><pre>array([  1.,   3.,   5.,   7.,   9.,  11.,  13.,  15.,  17.,  19.,  21.,  23.,
         25.,  27.,  29.,  31.,  33.,  35.,  37.,  39.,  41.,  43.,  45.,  47.,
         49.,  51.,  53.,  55.,  57.,  59.,  61.,  63.,  65.,  67.,  69.,  71.,
         73.,  75.,  77.,  79.,  81.,  83.,  85.,  87.,  89.,  91.,  93.,  95.,
@@ -1336,29 +1514,16 @@ Attributes:
        289., 291., 293., 295., 297., 299., 301., 303., 305., 307., 309., 311.,
        313., 315., 317., 319., 321., 323., 325., 327., 329., 331., 333., 335.,
        337., 339., 341., 343., 345., 347., 349., 351., 353., 355., 357., 359.],
-      dtype=float32)</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span class='xr-has-index'>time</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>object</div><div class='xr-var-preview xr-preview'>1880-01-15 00:00:00 ... 2023-04-...</div><input id='attrs-788b1299-fd47-47db-be4e-62f30c89748f' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-788b1299-fd47-47db-be4e-62f30c89748f' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-b8d81846-e23f-4985-9e7e-e8b2bf7f88d9' class='xr-var-data-in' type='checkbox'><label for='data-b8d81846-e23f-4985-9e7e-e8b2bf7f88d9' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>long_name :</span></dt><dd>time</dd><dt><span>bounds :</span></dt><dd>time_bnds</dd></dl></div><div class='xr-var-data'><pre>array([cftime.DatetimeGregorian(1880, 1, 15, 0, 0, 0, 0, has_year_zero=False),
-       cftime.DatetimeGregorian(1880, 2, 15, 0, 0, 0, 0, has_year_zero=False),
-       cftime.DatetimeGregorian(1880, 3, 15, 0, 0, 0, 0, has_year_zero=False),
-       ...,
-       cftime.DatetimeGregorian(2023, 2, 15, 0, 0, 0, 0, has_year_zero=False),
-       cftime.DatetimeGregorian(2023, 3, 15, 0, 0, 0, 0, has_year_zero=False),
-       cftime.DatetimeGregorian(2023, 4, 15, 0, 0, 0, 0, has_year_zero=False)],
-      dtype=object)</pre></div></li></ul></div></li><li class='xr-section-item'><input id='section-e03c8030-87c7-46a0-a444-bf64f36d950a' class='xr-section-summary-in' type='checkbox'  ><label for='section-e03c8030-87c7-46a0-a444-bf64f36d950a' class='xr-section-summary' >Indexes: <span>(3)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><ul class='xr-var-list'><li class='xr-var-item'><div class='xr-index-name'><div>lat</div></div><div class='xr-index-preview'>PandasIndex</div><div></div><input id='index-57987ae6-3442-417e-9d51-86ca142c6ed0' class='xr-index-data-in' type='checkbox'/><label for='index-57987ae6-3442-417e-9d51-86ca142c6ed0' title='Show/Hide index repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-index-data'><pre>PandasIndex(Float64Index([-89.0, -87.0, -85.0, -83.0, -81.0, -79.0, -77.0, -75.0, -73.0,
-              -71.0, -69.0, -67.0, -65.0, -63.0, -61.0, -59.0, -57.0, -55.0,
-              -53.0, -51.0, -49.0, -47.0, -45.0, -43.0, -41.0, -39.0, -37.0,
-              -35.0, -33.0, -31.0, -29.0, -27.0, -25.0, -23.0, -21.0, -19.0,
-              -17.0, -15.0, -13.0, -11.0,  -9.0,  -7.0,  -5.0,  -3.0,  -1.0,
-                1.0,   3.0,   5.0,   7.0,   9.0,  11.0,  13.0,  15.0,  17.0,
-               19.0,  21.0,  23.0,  25.0,  27.0,  29.0,  31.0,  33.0,  35.0,
-               37.0,  39.0,  41.0,  43.0,  45.0,  47.0,  49.0,  51.0,  53.0,
-               55.0,  57.0,  59.0,  61.0,  63.0,  65.0,  67.0,  69.0,  71.0,
-               73.0,  75.0,  77.0,  79.0,  81.0,  83.0,  85.0,  87.0,  89.0],
-             dtype=&#x27;float64&#x27;, name=&#x27;lat&#x27;))</pre></div></li><li class='xr-var-item'><div class='xr-index-name'><div>lon</div></div><div class='xr-index-preview'>PandasIndex</div><div></div><input id='index-7d80df8e-d65a-4fc7-a128-83f7ea3a061c' class='xr-index-data-in' type='checkbox'/><label for='index-7d80df8e-d65a-4fc7-a128-83f7ea3a061c' title='Show/Hide index repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-index-data'><pre>PandasIndex(Float64Index([  1.0,   3.0,   5.0,   7.0,   9.0,  11.0,  13.0,  15.0,  17.0,
-               19.0,
-              ...
-              341.0, 343.0, 345.0, 347.0, 349.0, 351.0, 353.0, 355.0, 357.0,
-              359.0],
-             dtype=&#x27;float64&#x27;, name=&#x27;lon&#x27;, length=180))</pre></div></li><li class='xr-var-item'><div class='xr-index-name'><div>time</div></div><div class='xr-index-preview'>PandasIndex</div><div></div><input id='index-e99ebcce-164d-482e-92e5-55c363c4cafc' class='xr-index-data-in' type='checkbox'/><label for='index-e99ebcce-164d-482e-92e5-55c363c4cafc' title='Show/Hide index repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-index-data'><pre>PandasIndex(CFTimeIndex([1880-01-15 00:00:00, 1880-02-15 00:00:00, 1880-03-15 00:00:00,
+      dtype=float32)</pre></div></li></ul></div></li><li class='xr-section-item'><input id='section-4f188bb1-239e-495d-af61-dc96c4cf0a4c' class='xr-section-summary-in' type='checkbox'  ><label for='section-4f188bb1-239e-495d-af61-dc96c4cf0a4c' class='xr-section-summary' >Indexes: <span>(3)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><ul class='xr-var-list'><li class='xr-var-item'><div class='xr-index-name'><div>lat</div></div><div class='xr-index-preview'>PandasIndex</div><input type='checkbox' disabled/><label></label><input id='index-d16a8a37-0960-47aa-b406-ace55ca62c52' class='xr-index-data-in' type='checkbox'/><label for='index-d16a8a37-0960-47aa-b406-ace55ca62c52' title='Show/Hide index repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-index-data'><pre>PandasIndex(Index([-89.0, -87.0, -85.0, -83.0, -81.0, -79.0, -77.0, -75.0, -73.0, -71.0,
+       -69.0, -67.0, -65.0, -63.0, -61.0, -59.0, -57.0, -55.0, -53.0, -51.0,
+       -49.0, -47.0, -45.0, -43.0, -41.0, -39.0, -37.0, -35.0, -33.0, -31.0,
+       -29.0, -27.0, -25.0, -23.0, -21.0, -19.0, -17.0, -15.0, -13.0, -11.0,
+        -9.0,  -7.0,  -5.0,  -3.0,  -1.0,   1.0,   3.0,   5.0,   7.0,   9.0,
+        11.0,  13.0,  15.0,  17.0,  19.0,  21.0,  23.0,  25.0,  27.0,  29.0,
+        31.0,  33.0,  35.0,  37.0,  39.0,  41.0,  43.0,  45.0,  47.0,  49.0,
+        51.0,  53.0,  55.0,  57.0,  59.0,  61.0,  63.0,  65.0,  67.0,  69.0,
+        71.0,  73.0,  75.0,  77.0,  79.0,  81.0,  83.0,  85.0,  87.0,  89.0],
+      dtype=&#x27;float32&#x27;, name=&#x27;lat&#x27;))</pre></div></li><li class='xr-var-item'><div class='xr-index-name'><div>time</div></div><div class='xr-index-preview'>PandasIndex</div><input type='checkbox' disabled/><label></label><input id='index-5b99eb92-8c48-4bcd-aba2-be1cf699853e' class='xr-index-data-in' type='checkbox'/><label for='index-5b99eb92-8c48-4bcd-aba2-be1cf699853e' title='Show/Hide index repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-index-data'><pre>PandasIndex(CFTimeIndex([1880-01-15 00:00:00, 1880-02-15 00:00:00, 1880-03-15 00:00:00,
              1880-04-15 00:00:00, 1880-05-15 00:00:00, 1880-06-15 00:00:00,
              1880-07-15 00:00:00, 1880-08-15 00:00:00, 1880-09-15 00:00:00,
              1880-10-15 00:00:00,
@@ -1367,7 +1532,10 @@ Attributes:
              2022-10-15 00:00:00, 2022-11-15 00:00:00, 2022-12-15 00:00:00,
              2023-01-15 00:00:00, 2023-02-15 00:00:00, 2023-03-15 00:00:00,
              2023-04-15 00:00:00],
-            dtype=&#x27;object&#x27;, length=1720, calendar=&#x27;standard&#x27;, freq=&#x27;None&#x27;))</pre></div></li></ul></div></li><li class='xr-section-item'><input id='section-9c08956d-4608-4b62-9894-370a1aa28f05' class='xr-section-summary-in' type='checkbox'  checked><label for='section-9c08956d-4608-4b62-9894-370a1aa28f05' class='xr-section-summary' >Attributes: <span>(3)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><dl class='xr-attrs'><dt><span>long_name :</span></dt><dd>Surface temperature anomaly</dd><dt><span>units :</span></dt><dd>K</dd><dt><span>cell_methods :</span></dt><dd>time: mean</dd></dl></div></li></ul></div></div></div>
+            dtype=&#x27;object&#x27;, length=1720, calendar=&#x27;standard&#x27;, freq=None))</pre></div></li><li class='xr-var-item'><div class='xr-index-name'><div>lon</div></div><div class='xr-index-preview'>PandasIndex</div><input type='checkbox' disabled/><label></label><input id='index-7f1c3aa2-4d82-487f-b32b-0e619d78809c' class='xr-index-data-in' type='checkbox'/><label for='index-7f1c3aa2-4d82-487f-b32b-0e619d78809c' title='Show/Hide index repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-index-data'><pre>PandasIndex(Index([  1.0,   3.0,   5.0,   7.0,   9.0,  11.0,  13.0,  15.0,  17.0,  19.0,
+       ...
+       341.0, 343.0, 345.0, 347.0, 349.0, 351.0, 353.0, 355.0, 357.0, 359.0],
+      dtype=&#x27;float32&#x27;, name=&#x27;lon&#x27;, length=180))</pre></div></li></ul></div></li><li class='xr-section-item'><input id='section-b946c17f-536d-42ce-b47e-52076f9a67da' class='xr-section-summary-in' type='checkbox'  checked><label for='section-b946c17f-536d-42ce-b47e-52076f9a67da' class='xr-section-summary' >Attributes: <span>(3)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><dl class='xr-attrs'><dt><span>long_name :</span></dt><dd>Surface temperature anomaly</dd><dt><span>units :</span></dt><dd>K</dd><dt><span>cell_methods :</span></dt><dd>time: mean</dd></dl></div></li></ul></div></div></div>
 </div>
 </section>
 <section id="Time-slicing">
@@ -7539,7 +7707,7 @@ Attributes:
 <h2>Validate a field against another<a class="headerlink" href="#Validate-a-field-against-another" title="Link to this heading">#</a></h2>
 <p>We may compare two <code class="docutils literal notranslate"><span class="pre">cfr.ClimateField</span></code>s by calling the <code class="docutils literal notranslate"><span class="pre">.validate()</span></code> method. Here as an example, we compare the calendar year annualized field with the JJA annualized field, with three different metrics:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[42]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">stat</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;corr&#39;</span><span class="p">,</span> <span class="s1">&#39;R2&#39;</span><span class="p">,</span> <span class="s1">&#39;CE&#39;</span><span class="p">]:</span>
@@ -7552,21 +7720,9 @@ Attributes:
 <div class="nboutput docutils container">
 <div class="prompt empty docutils container">
 </div>
-<div class="output_area stderr docutils container">
-<div class="highlight"><pre>
-/Users/fengzhu/Apps/miniconda3/envs/cfr-env/lib/python3.9/site-packages/numpy/lib/nanfunctions.py:1878: RuntimeWarning: Degrees of freedom &lt;= 0 for slice.
-  var = nanvar(a, axis=axis, dtype=dtype, out=out, ddof=ddof,
-/Users/fengzhu/Apps/miniconda3/envs/cfr-env/lib/python3.9/site-packages/numpy/lib/nanfunctions.py:1878: RuntimeWarning: Degrees of freedom &lt;= 0 for slice.
-  var = nanvar(a, axis=axis, dtype=dtype, out=out, ddof=ddof,
-/Users/fengzhu/Apps/miniconda3/envs/cfr-env/lib/python3.9/site-packages/numpy/lib/nanfunctions.py:1878: RuntimeWarning: Degrees of freedom &lt;= 0 for slice.
-  var = nanvar(a, axis=axis, dtype=dtype, out=out, ddof=ddof,
-/Users/fengzhu/Apps/miniconda3/envs/cfr-env/lib/python3.9/site-packages/numpy/lib/nanfunctions.py:1878: RuntimeWarning: Degrees of freedom &lt;= 0 for slice.
-  var = nanvar(a, axis=axis, dtype=dtype, out=out, ddof=ddof,
-/Users/fengzhu/Github/cfr/cfr/utils.py:519: RuntimeWarning: Mean of empty slice
-  denom = np.nansum(np.power(ref-np.nanmean(ref,axis=0),2),axis=0)
-/Users/fengzhu/Github/cfr/cfr/utils.py:520: RuntimeWarning: invalid value encountered in divide
-  CE    = 1. - np.divide(numer,denom)
-</pre></div></div>
+<div class="output_area docutils container">
+<img alt="../_images/notebooks_climate-ops_37_0.png" src="../_images/notebooks_climate-ops_37_0.png" />
+</div>
 </div>
 <div class="nboutput docutils container">
 <div class="prompt empty docutils container">
@@ -7575,18 +7731,11 @@ Attributes:
 <img alt="../_images/notebooks_climate-ops_37_1.png" src="../_images/notebooks_climate-ops_37_1.png" />
 </div>
 </div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<img alt="../_images/notebooks_climate-ops_37_2.png" src="../_images/notebooks_climate-ops_37_2.png" />
-</div>
-</div>
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_climate-ops_37_3.png" src="../_images/notebooks_climate-ops_37_3.png" />
+<img alt="../_images/notebooks_climate-ops_37_2.png" src="../_images/notebooks_climate-ops_37_2.png" />
 </div>
 </div>
 <div class="nbinput nblast docutils container">

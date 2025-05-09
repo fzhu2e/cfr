@@ -397,7 +397,7 @@ class ClimateField:
                 fd_rg.da.values,
                 coords={'time': ref_rg.da.time, 'lat': fd_rg.da.lat, 'lon': fd_rg.da.lon}
             )
-
+        
         if stat == 'corr':
             stat_da = xr.corr(fd_rg.da, ref_rg.da, dim='time')
             stat_da = stat_da.expand_dims({'time': [1]})

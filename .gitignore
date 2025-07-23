@@ -137,3 +137,8 @@ docsrc/notebooks/.DS_Store
 
 # test
 /test
+docsrc/notebooks/.jupyter/desktop-workspaces/default-37a8.jupyterlab-workspace
+docsrc/notebooks/.virtual_documents/lmr-real-pages2k-inpdt-verification.ipynb
+*.gz
+*.nc
+*.pkl

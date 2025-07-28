@@ -8,35 +8,32 @@ msgstr ""
 "Language: no\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-msgid "Download source file"
-msgstr "Last ned kildefilen"
+msgid "By the"
+msgstr "Ved"
 
-msgid "suggest edit"
-msgstr "foreslå redigering"
+msgid "By"
+msgstr "Av"
 
-msgid "Toggle navigation"
-msgstr "Bytt navigasjon"
+msgid "Contents"
+msgstr "Innhold"
 
-msgid "open issue"
-msgstr "åpent nummer"
+msgid "Copyright"
+msgstr "opphavsrett"
 
 msgid "Download notebook file"
 msgstr "Last ned notatbokfilen"
 
-msgid "repository"
-msgstr "oppbevaringssted"
-
-msgid "Theme by the"
-msgstr "Tema av"
-
-msgid "Print to PDF"
-msgstr "Skriv ut til PDF"
+msgid "Download source file"
+msgstr "Last ned kildefilen"
 
 msgid "Download this page"
 msgstr "Last ned denne siden"
 
-msgid "Copyright"
-msgstr "opphavsrett"
+msgid "Edit this page"
+msgstr "Rediger denne siden"
+
+msgid "Fullscreen mode"
+msgstr "Fullskjerm-modus"
 
 msgid "Last updated on"
 msgstr "Sist oppdatert den"
@@ -47,29 +44,32 @@ msgstr "Start"
 msgid "Open an issue"
 msgstr "Åpne et problem"
 
-msgid "Fullscreen mode"
-msgstr "Fullskjerm-modus"
-
-msgid "Sphinx Book Theme"
-msgstr "Sphinx boktema"
-
-msgid "Contents"
-msgstr "Innhold"
-
-msgid "Edit this page"
-msgstr "Rediger denne siden"
-
-msgid "next page"
-msgstr "neste side"
+msgid "Print to PDF"
+msgstr "Skriv ut til PDF"
 
 msgid "Source repository"
 msgstr "Kildedepot"
 
-msgid "By"
-msgstr "Av"
+msgid "Sphinx Book Theme"
+msgstr "Sphinx boktema"
 
-msgid "By the"
-msgstr "Ved"
+msgid "Theme by the"
+msgstr "Tema av"
+
+msgid "Toggle navigation"
+msgstr "Bytt navigasjon"
+
+msgid "next page"
+msgstr "neste side"
+
+msgid "open issue"
+msgstr "åpent nummer"
 
 msgid "previous page"
 msgstr "forrige side"
+
+msgid "repository"
+msgstr "oppbevaringssted"
+
+msgid "suggest edit"
+msgstr "foreslå redigering"

@@ -8,35 +8,32 @@ msgstr ""
 "Language: uk\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-msgid "Download source file"
-msgstr "Завантажити вихідний файл"
+msgid "By the"
+msgstr "По"
 
-msgid "suggest edit"
-msgstr "запропонувати редагувати"
+msgid "By"
+msgstr "Автор"
 
-msgid "Toggle navigation"
-msgstr "Переключити навігацію"
+msgid "Contents"
+msgstr "Зміст"
 
-msgid "open issue"
-msgstr "відкритий випуск"
+msgid "Copyright"
+msgstr "Авторське право"
 
 msgid "Download notebook file"
 msgstr "Завантажте файл блокнота"
 
-msgid "repository"
-msgstr "сховище"
-
-msgid "Theme by the"
-msgstr "Тема від"
-
-msgid "Print to PDF"
-msgstr "Друк у форматі PDF"
+msgid "Download source file"
+msgstr "Завантажити вихідний файл"
 
 msgid "Download this page"
 msgstr "Завантажте цю сторінку"
 
-msgid "Copyright"
-msgstr "Авторське право"
+msgid "Edit this page"
+msgstr "Редагувати цю сторінку"
+
+msgid "Fullscreen mode"
+msgstr "Повноекранний режим"
 
 msgid "Last updated on"
 msgstr "Останнє оновлення:"
@@ -47,29 +44,32 @@ msgstr "Запуск"
 msgid "Open an issue"
 msgstr "Відкрийте випуск"
 
-msgid "Fullscreen mode"
-msgstr "Повноекранний режим"
-
-msgid "Sphinx Book Theme"
-msgstr "Тема книги \"Сфінкс\""
-
-msgid "Contents"
-msgstr "Зміст"
-
-msgid "Edit this page"
-msgstr "Редагувати цю сторінку"
-
-msgid "next page"
-msgstr "Наступна сторінка"
+msgid "Print to PDF"
+msgstr "Друк у форматі PDF"
 
 msgid "Source repository"
 msgstr "Джерело сховища"
 
-msgid "By"
-msgstr "Автор"
+msgid "Sphinx Book Theme"
+msgstr "Тема книги \"Сфінкс\""
 
-msgid "By the"
-msgstr "По"
+msgid "Theme by the"
+msgstr "Тема від"
+
+msgid "Toggle navigation"
+msgstr "Переключити навігацію"
+
+msgid "next page"
+msgstr "Наступна сторінка"
+
+msgid "open issue"
+msgstr "відкритий випуск"
 
 msgid "previous page"
 msgstr "Попередня сторінка"
+
+msgid "repository"
+msgstr "сховище"
+
+msgid "suggest edit"
+msgstr "запропонувати редагувати"

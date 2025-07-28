@@ -846,6 +846,37 @@ def in_notebook():
     return True
 
 
+def plot_independent_distribution(independent_info_list: pd.DataFrame,calib_period = [1880, 2000]):
+    """
+    Plot the distribution of independent test results 
+    """
+    fig = plt.figure(figsize=[20, 10])
+    gs = gridspec.GridSpec(2, 2)
+    gs.update(wspace=0.2, hspace=0.2)
+    bins = np.linspace(-1, 1, 41)
+    axs = {}
+    fs = 20
+    for ind_y, metric in enumerate(['corr','ce']):
+        i = 0
+        for label in [True, False]:
+            axs[str(label) + metric] = fig.add_subplot(gs[ind_y, i])
+            ax = axs[str(label) + metric]
+            table_use = independent_info_list[independent_info_list['assim'] == label]
+            ax.hist(
+                table_use[f'in_{metric}'], bins=bins, alpha=0.5, label=f'{calib_period[0]} to {calib_period[1]}', color='blue', density=True
+            )
+            ax.hist(table_use[f'before_{metric}'], bins=bins, alpha=0.5,
+                    label=f'before {calib_period[0]}', density=True, color='red')
+            ax.legend(loc='upper left', fontsize=fs)
+            ax.axvline(x=0, color='black', linestyle='--')
+            title = ['Assimilated Proxies', 'Non-assimilated Proxies'][i]
+            ax.set_title(title, fontsize=fs) if ind_y == 0 else None
+            ax.set_xlabel('Correlation', fontsize=fs) if metric == 'corr' else ax.set_xlabel('Correlation Efficiency', fontsize=fs)
+            ax.set_ylabel('Density', fontsize=fs)
+            i += 1
+    return fig, axs
+
+
 def showfig(fig, close=True):
     '''Show the figure
 

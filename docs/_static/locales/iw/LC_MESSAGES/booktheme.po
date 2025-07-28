@@ -8,35 +8,32 @@ msgstr ""
 "Language: iw\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-msgid "Download source file"
-msgstr "הורד את קובץ המקור"
+msgid "By the"
+msgstr "דרך"
 
-msgid "suggest edit"
-msgstr "מציע לערוך"
+msgid "By"
+msgstr "על ידי"
 
-msgid "Toggle navigation"
-msgstr "החלף ניווט"
+msgid "Contents"
+msgstr "תוכן"
 
-msgid "open issue"
-msgstr "בעיה פתוחה"
+msgid "Copyright"
+msgstr "זכויות יוצרים"
 
 msgid "Download notebook file"
 msgstr "הורד קובץ מחברת"
 
-msgid "repository"
-msgstr "מאגר"
-
-msgid "Theme by the"
-msgstr "נושא מאת"
-
-msgid "Print to PDF"
-msgstr "הדפס לקובץ PDF"
+msgid "Download source file"
+msgstr "הורד את קובץ המקור"
 
 msgid "Download this page"
 msgstr "הורד דף זה"
 
-msgid "Copyright"
-msgstr "זכויות יוצרים"
+msgid "Edit this page"
+msgstr "ערוך דף זה"
+
+msgid "Fullscreen mode"
+msgstr "מצב מסך מלא"
 
 msgid "Last updated on"
 msgstr "עודכן לאחרונה ב"
@@ -47,29 +44,32 @@ msgstr "לְהַשִׁיק"
 msgid "Open an issue"
 msgstr "פתח גיליון"
 
-msgid "Fullscreen mode"
-msgstr "מצב מסך מלא"
-
-msgid "Sphinx Book Theme"
-msgstr "נושא ספר ספינקס"
-
-msgid "Contents"
-msgstr "תוכן"
-
-msgid "Edit this page"
-msgstr "ערוך דף זה"
-
-msgid "next page"
-msgstr "עמוד הבא"
+msgid "Print to PDF"
+msgstr "הדפס לקובץ PDF"
 
 msgid "Source repository"
 msgstr "מאגר המקורות"
 
-msgid "By"
-msgstr "על ידי"
+msgid "Sphinx Book Theme"
+msgstr "נושא ספר ספינקס"
 
-msgid "By the"
-msgstr "דרך"
+msgid "Theme by the"
+msgstr "נושא מאת"
+
+msgid "Toggle navigation"
+msgstr "החלף ניווט"
+
+msgid "next page"
+msgstr "עמוד הבא"
+
+msgid "open issue"
+msgstr "בעיה פתוחה"
 
 msgid "previous page"
 msgstr "עמוד קודם"
+
+msgid "repository"
+msgstr "מאגר"
+
+msgid "suggest edit"
+msgstr "מציע לערוך"

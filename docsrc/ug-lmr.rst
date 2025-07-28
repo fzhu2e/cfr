@@ -8,6 +8,7 @@ In this section, we will cover the below topics:
     :maxdepth: 1
 
     notebooks/lmr-real-pages2k
+    notebooks/lmr-real-pages2k-indpdt-verif
     notebooks/lmr-assim-no-calib
     notebooks/lmr-recon-pr
     notebooks/lmr-cli

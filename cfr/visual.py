@@ -846,13 +846,13 @@ def in_notebook():
     return True
 
 
-def plot_independent_distribution(independent_info_list: pd.DataFrame,calib_period = [1880, 2000]):
+def plot_indpdt_dist(indpdt_info: pd.DataFrame,calib_period = [1880, 2000]):
     """
     Plot the distribution of independent test results 
     """
     fig = plt.figure(figsize=[20, 10])
     gs = gridspec.GridSpec(2, 2)
-    gs.update(wspace=0.2, hspace=0.2)
+    gs.update(wspace=0.2, hspace=0.3)
     bins = np.linspace(-1, 1, 41)
     axs = {}
     fs = 20
@@ -861,7 +861,7 @@ def plot_independent_distribution(independent_info_list: pd.DataFrame,calib_peri
         for label in [True, False]:
             axs[str(label) + metric] = fig.add_subplot(gs[ind_y, i])
             ax = axs[str(label) + metric]
-            table_use = independent_info_list[independent_info_list['assim'] == label]
+            table_use = indpdt_info[indpdt_info['assim'] == label]
             ax.hist(
                 table_use[f'in_{metric}'], bins=bins, alpha=0.5, label=f'{calib_period[0]} to {calib_period[1]}', color='blue', density=True
             )
@@ -870,8 +870,8 @@ def plot_independent_distribution(independent_info_list: pd.DataFrame,calib_peri
             ax.legend(loc='upper left', fontsize=fs)
             ax.axvline(x=0, color='black', linestyle='--')
             title = ['Assimilated Proxies', 'Non-assimilated Proxies'][i]
-            ax.set_title(title, fontsize=fs) if ind_y == 0 else None
-            ax.set_xlabel('Correlation', fontsize=fs) if metric == 'corr' else ax.set_xlabel('Correlation Efficiency', fontsize=fs)
+            ax.set_title(title, fontsize=fs, fontweight='bold') if ind_y == 0 else None
+            ax.set_xlabel('Correlation', fontsize=fs) if metric == 'corr' else ax.set_xlabel('Coefficient of Efficiency', fontsize=fs)
             ax.set_ylabel('Density', fontsize=fs)
             i += 1
     return fig, axs

@@ -8,35 +8,32 @@ msgstr ""
 "Language: pt\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-msgid "Download source file"
-msgstr "Baixar arquivo fonte"
+msgid "By the"
+msgstr "Pelo"
 
-msgid "suggest edit"
-msgstr "sugerir edição"
+msgid "By"
+msgstr "De"
 
-msgid "Toggle navigation"
-msgstr "Alternar de navegação"
+msgid "Contents"
+msgstr "Conteúdo"
 
-msgid "open issue"
-msgstr "questão aberta"
+msgid "Copyright"
+msgstr "direito autoral"
 
 msgid "Download notebook file"
 msgstr "Baixar arquivo de notebook"
 
-msgid "repository"
-msgstr "repositório"
-
-msgid "Theme by the"
-msgstr "Tema por"
-
-msgid "Print to PDF"
-msgstr "Imprimir em PDF"
+msgid "Download source file"
+msgstr "Baixar arquivo fonte"
 
 msgid "Download this page"
 msgstr "Baixe esta página"
 
-msgid "Copyright"
-msgstr "direito autoral"
+msgid "Edit this page"
+msgstr "Edite essa página"
+
+msgid "Fullscreen mode"
+msgstr "Modo tela cheia"
 
 msgid "Last updated on"
 msgstr "Última atualização em"
@@ -47,29 +44,32 @@ msgstr "Lançamento"
 msgid "Open an issue"
 msgstr "Abra um problema"
 
-msgid "Fullscreen mode"
-msgstr "Modo tela cheia"
-
-msgid "Sphinx Book Theme"
-msgstr "Tema do livro Sphinx"
-
-msgid "Contents"
-msgstr "Conteúdo"
-
-msgid "Edit this page"
-msgstr "Edite essa página"
-
-msgid "next page"
-msgstr "próxima página"
+msgid "Print to PDF"
+msgstr "Imprimir em PDF"
 
 msgid "Source repository"
 msgstr "Repositório fonte"
 
-msgid "By"
-msgstr "De"
+msgid "Sphinx Book Theme"
+msgstr "Tema do livro Sphinx"
 
-msgid "By the"
-msgstr "Pelo"
+msgid "Theme by the"
+msgstr "Tema por"
+
+msgid "Toggle navigation"
+msgstr "Alternar de navegação"
+
+msgid "next page"
+msgstr "próxima página"
+
+msgid "open issue"
+msgstr "questão aberta"
 
 msgid "previous page"
 msgstr "página anterior"
+
+msgid "repository"
+msgstr "repositório"
+
+msgid "suggest edit"
+msgstr "sugerir edição"

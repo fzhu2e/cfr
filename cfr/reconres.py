@@ -168,7 +168,7 @@ class ReconRes:
         if verbose:
             p_success(f">>> ReconRes.proxy_labels created")
 
-    def independent_verify(self, job_path, verbose=False, calib_period=(1850, 2000),min_verify_len=10):
+    def indpdt_verif(self, job_path, verbose=False, calib_period=(1850, 2000),min_verif_len=10):
         """
         Perform independent verification.
         job_path (str): the path to the job.
@@ -177,7 +177,7 @@ class ReconRes:
         # load the reconstructions for the "prior"
         job = ReconJob()
         job.load(job_path)
-        independent_info_list = []
+        indpdt_info = []
         for path_index ,path in enumerate(self.paths):
             proxy_labels = self.proxy_labels[path_index]
             job.load_clim(
@@ -229,7 +229,7 @@ class ReconRes:
                         Df_masked = Df[mask]
                     else:
                         Df_masked = Df
-                    if len(Df_masked) < min_verify_len:
+                    if len(Df_masked) < min_verif_len:
                         corr = np.nan
                         ce = np.nan
                     else:
@@ -239,17 +239,17 @@ class ReconRes:
                         )
                     attr_dict[mask_name + '_corr'] = corr
                     attr_dict[mask_name + '_ce'] = ce
-                independent_info_list.append(attr_dict)
-        independent_info_list = pd.DataFrame(independent_info_list)
-        self.independent_info_list = independent_info_list
+                indpdt_info.append(attr_dict)
+        indpdt_info = pd.DataFrame(indpdt_info)
+        self.indpdt_info = indpdt_info
         if verbose:
-            p_success(f">>> Independent verification completed, results stored in ReconRes.independent_info_list")
-            p_success(f">>> Records Number: {len(independent_info_list)}")
-        return independent_info_list
+            p_success(f">>> indpdt verification completed, results stored in ReconRes.indpdt_info")
+            p_success(f">>> Records Number: {len(indpdt_info)}")
+        return indpdt_info
     
-    def plot_independent_verify(self):
+    def plot_indpdt_verif(self):
         """
-        Plot the independent verification results.
+        Plot the indpdt verification results.
         """
-        fig, axs = visual.plot_independent_distribution(self.independent_info_list)
+        fig, axs = visual.plot_indpdt_dist(self.indpdt_info)
         return fig, axs

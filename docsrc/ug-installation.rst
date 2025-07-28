@@ -63,7 +63,7 @@ Taking a clean installation as example, first let's create a new environment nam
 
 .. code-block:: bash
 
-    conda create -n cfr-env python=3.11
+    conda create -n cfr-env python=3.13
     conda activate cfr-env
 
 Then install some dependencies via :code:`conda`:
@@ -86,7 +86,7 @@ and you are ready to
 
 in Python.
 
-If you'd like to also enable the usage of the Proxy System Models, which requires some extra dependencies, simply
+If you'd like to also enable the usage of more advanced Proxy System Models in addition to linear regression based models, which requires some extra dependencies, simply
 
 .. code-block:: bash
 

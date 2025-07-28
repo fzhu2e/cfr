@@ -9,7 +9,6 @@ try:
     from pathos.multiprocessing import ProcessingPool as Pool
     import fbm
     import PyVSL
-    import pybaywatch as pb
 except:
     pass
 

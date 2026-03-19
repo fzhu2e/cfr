@@ -187,6 +187,17 @@ class ReconRes:
                 },
                 anom_period=(1951, 1980),
             )
+            # Reconstruction files use integer year coordinates, not datetime64,
+            # so annualize() cannot access .month on them.  Mark the field as
+            # already annualized so ClimateField.annualize() returns it as-is.
+            job.prior['tas'].da.attrs['annualized'] = 1
+            # Clear only the model.tas cache so forward_psms() re-fetches it
+            # from the newly loaded prior.  Leave other variables (e.g. model.pr)
+            # intact — they came from the original prior in the pickle and are
+            # still valid; we have not replaced them in job.prior.
+            for pobj in job.proxydb.records.values():
+                if 'clim' in pobj.__dict__ and 'model.tas' in pobj.clim:
+                    del pobj.clim['model.tas']
             job.forward_psms(verbose=verbose)
             if verbose:
                 p_success(f">>> Prior loaded from {path}")

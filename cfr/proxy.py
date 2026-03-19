@@ -482,7 +482,14 @@ class ProxyRecord:
             if tag is not None:
                 name = f'{tag}.{name}'
 
-            nda = field.da.sel(lat=self.lat, lon=self.lon, **_kwargs)
+            da = field.da
+            if da.indexes.get('lat') is not None and not da.indexes['lat'].is_unique:
+                _, lat_idx = np.unique(da['lat'].values, return_index=True)
+                da = da.isel(lat=lat_idx)
+            if da.indexes.get('lon') is not None and not da.indexes['lon'].is_unique:
+                _, lon_idx = np.unique(da['lon'].values, return_index=True)
+                da = da.isel(lon=lon_idx)
+            nda = da.sel(lat=self.lat, lon=self.lon, **_kwargs)
             if np.all(np.isnan(nda.values)) and search_dist is not None:
                 for i in range(1, search_dist+1):
                     p_header(f'{self.pid} >>> Nearest climate is NaN. Searching around within distance of {i} deg ...')

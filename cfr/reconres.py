@@ -253,6 +253,7 @@ class ReconRes:
                 indpdt_info.append(attr_dict)
         indpdt_info = pd.DataFrame(indpdt_info)
         self.indpdt_info = indpdt_info
+        self.indpdt_calib_period = calib_period
         if verbose:
             p_success(f">>> indpdt verification completed, results stored in ReconRes.indpdt_info")
             p_success(f">>> Records Number: {len(indpdt_info)}")
@@ -328,5 +329,6 @@ class ReconRes:
         """
         Plot the indpdt verification results.
         """
-        fig, axs = visual.plot_indpdt_dist(self.indpdt_info)
+        calib_period = getattr(self, 'indpdt_calib_period', [1850, 2000])
+        fig, axs = visual.plot_indpdt_dist(self.indpdt_info, calib_period=calib_period)
         return fig, axs

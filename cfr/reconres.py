@@ -180,24 +180,34 @@ class ReconRes:
         indpdt_info = []
         for path_index ,path in enumerate(self.paths):
             proxy_labels = self.proxy_labels[path_index]
+            # Save original prior fields before load_clim wipes job.prior.
+            saved_prior = {k: v for k, v in job.prior.items()}
+            # Detect which prior variables are available in the reconstruction file.
+            with xr.open_dataset(path) as ds_check:
+                recon_vars_in_file = [k for k in saved_prior if k in ds_check]
+            path_dict = {vn: path for vn in recon_vars_in_file}
             job.load_clim(
                 tag="prior",
-                path_dict={
-                    "tas": path,
-                },
+                path_dict=path_dict,
                 anom_period=(1951, 1980),
             )
+            # Restore any prior variables not present in the reconstruction file
+            # (e.g. pr if only tas was reconstructed).
+            for k, v in saved_prior.items():
+                if k not in job.prior:
+                    job.prior[k] = v
             # Reconstruction files use integer year coordinates, not datetime64,
-            # so annualize() cannot access .month on them.  Mark the field as
-            # already annualized so ClimateField.annualize() returns it as-is.
-            job.prior['tas'].da.attrs['annualized'] = 1
-            # Clear only the model.tas cache so forward_psms() re-fetches it
-            # from the newly loaded prior.  Leave other variables (e.g. model.pr)
-            # intact — they came from the original prior in the pickle and are
-            # still valid; we have not replaced them in job.prior.
+            # so annualize() cannot access .month on them.  Mark all reconstructed
+            # fields as already annualized so ClimateField.annualize() returns them as-is.
+            for vn in recon_vars_in_file:
+                job.prior[vn].da.attrs['annualized'] = 1
+            # Clear all model.* clim caches so forward_psms() re-fetches every
+            # variable (tas from the reconstruction, pr etc. from the restored prior).
             for pobj in job.proxydb.records.values():
-                if 'clim' in pobj.__dict__ and 'model.tas' in pobj.clim:
-                    del pobj.clim['model.tas']
+                if 'clim' in pobj.__dict__:
+                    stale_keys = [k for k in pobj.clim if k.startswith('model.')]
+                    for k in stale_keys:
+                        del pobj.clim[k]
             job.forward_psms(verbose=verbose)
             if verbose:
                 p_success(f">>> Prior loaded from {path}")

@@ -228,6 +228,7 @@ class ReconRes:
                 detail = proxy.psm.calib_details
                 attr_dict = {}
                 attr_dict['name'] = pname
+                attr_dict['ptype'] = proxy.ptype
                 attr_dict['seasonality'] = detail['seasonality']
                 if pname in proxy_labels['pids_assim']:
                     attr_dict['assim'] = True

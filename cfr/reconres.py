@@ -168,7 +168,7 @@ class ReconRes:
         if verbose:
             p_success(f">>> ReconRes.proxy_labels created")
 
-    def indpdt_verif(self, job_path, verbose=False, calib_period=(1850, 2000),min_verif_len=10):
+    def indpdt_verif(self, job_path, verbose=False, calib_period=(1850, 2000),min_verif_len=10, debug=False):
         """
         Perform independent verification.
         job_path (str): the path to the job.
@@ -209,6 +209,17 @@ class ReconRes:
                     for k in stale_keys:
                         del pobj.clim[k]
             job.forward_psms(verbose=verbose)
+            if debug and path_index == 0:
+                trw_proxies = [(pid, p) for pid, p in job.proxydb.records.items()
+                               if getattr(p, 'ptype', '') == 'tree.TRW']
+                for pid, p in trw_proxies[:2]:
+                    print(f"\n[debug] {pid} ({p.ptype})")
+                    for key in ['model.tas', 'model.pr']:
+                        if hasattr(p, 'clim') and key in p.clim and p.clim[key] is not None:
+                            da = p.clim[key].da
+                            print(f"  {key}: {da.time.values[0]} → {da.time.values[-1]}, len={len(da.time)}")
+                        else:
+                            print(f"  {key}: NOT FOUND")
             if verbose:
                 p_success(f">>> Prior loaded from {path}")
             # compare the pesudo-proxy records with the real records

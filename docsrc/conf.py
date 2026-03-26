@@ -17,7 +17,7 @@
 
 project = 'cfr'
 author = ''
-copyright = '2025, Feng Zhu, Julien Emile-Geay'
+copyright = '2026, Feng Zhu, Julien Emile-Geay'
 
 
 # -- General configuration ---------------------------------------------------

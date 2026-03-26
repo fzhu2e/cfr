@@ -1,0 +1,496 @@
+#===================================
+# NOTES by Feng Zhu (fengzhu@ucar.edu)
+#-----------------------------------
+# The below configs are tested with the latest version of cfr (v.2024.4.17),
+# and xarray<=2024.02 (2024.03 causes issues).
+# To upgrade:
+# pip install -U cfr
+# pip install xarray==2024.02
+#
+# In this example, I only tested assimilating corals, trees, ice cores, lake sediments.
+# Other proxy types are not tested and could be problematic sometimes.
+
+#===================================
+# BASIC
+#-----------------------------------
+output_indices:
+# output climate indices in addition to the tas field
+# below are all supported ones
+- gm   # global mean
+- nhm  # NH mean
+- shm  # SH mean
+- nino3.4   # NINO indices here and below
+- nino1+2
+- nino3
+- nino4
+- tpi   # Tri-Pole Index
+- wpi   # Western Pacific Index
+- dmi   # Indian Ocean Diple Mode
+- iobw  # Indian Ocean Basin Wide
+
+recon_period:
+# reconstruction period, usually within [0, 2000]
+- 0
+- 2000
+
+recon_seeds:
+# the random seed for each Monte-Carlo iterations; the larger the better,
+# somewhere 10-20 is good for LMR cases
+- 1
+- 2
+- 3
+- 4
+- 5
+- 6
+- 7
+- 8
+- 9
+- 10
+- 11
+- 12
+
+prior_annualize_months:
+# the seasonality of the reconstruction,
+# the below means calendar year annual reconstruction
+# users may set [-12, 1, 2] to reconstruct the winter or [6, 7, 8] to reconstruct the summer or other arbitrary combinations
+- 1
+- 2
+- 3
+- 4
+- 5
+- 6
+- 7
+- 8
+- 9
+- 10
+- 11
+- 12
+
+filter_proxydb_kwargs:
+# this part is related to the selection of proxies to assimilate,
+# users may specify only archive names like the below, or specific "archive.proxy", e.g., coral.d18O, tree.TRW
+  by: ptype
+  keys:
+  - coral
+  - tree
+  - ice
+  - lake
+filter_proxydb_args: []  # do not change this
+
+#===================================
+# Advanced
+#-----------------------------------
+proxydb_path: PAGES2kv2   # the nickname of the loaded proxy database fetch from the cloud, full URL 'PAGES2kv2': 'https://github.com/fzhu2e/cfr-data/raw/main/pages2kv2.json'
+assim_frac: 0.75  # the fraction of proxies to assimilate during each Monte-Carlo iteration
+recon_loc_rad: 25000  # the localization radius
+nens: 100   # ensemble size for the prior, the larger the better, 100 is usually a good default
+
+
+psm_calib_period:
+# the calibration period for the PSMs
+- 1850
+- 2015
+
+prior_anom_period:
+# the period to calculate the anomaly of the prior
+- 1951
+- 1980
+
+# below indicates the domain to crop the prior
+# this step is **optional** and removing them will skip the step
+prior_lat_max: 35
+prior_lat_min: -35
+prior_lon_max: 360
+prior_lon_min: 0
+
+# below indicates the resolution of the regridded prior
+# this step is **optional** and removing them will skip the step
+prior_regrid_nlat: 42
+prior_regrid_nlon: 63
+
+# the below part is specific to the prior datasets
+# and most of them should be configured by us, not the users; users may select dataset to use though
+prior_path:
+# cfr supports the below nicknames to fetch data from the cloud
+# the full URL:
+    # 'iCESM_past1000historical/tas': 'https://atmos.washington.edu/~rtardif/LMR/prior/tas_sfc_Amon_iCESM_past1000historical_085001-200512.nc',
+    # 'iCESM_past1000historical/pr': 'https://atmos.washington.edu/~rtardif/LMR/prior/pr_sfc_Amon_iCESM_past1000historical_085001-200512.nc',
+  pr: iCESM_past1000historical/pr
+  tas: iCESM_past1000historical/tas
+prior_lat_name: lat
+prior_lon_name: lon
+prior_time_name: time
+
+# the below part is specific to the loaded instrumental observations
+# and most of them should be configured by us, not the users; users may select dataset to use though
+obs_path:
+# cfr supports the below nicknames to fetch data from the cloud
+# the full URL:
+    # 'gistemp1200_GHCNv4_ERSSTv5': 'https://data.giss.nasa.gov/pub/gistemp/gistemp1200_GHCNv4_ERSSTv5.nc.gz',
+    # '20CRv3/pr': 'https://downloads.psl.noaa.gov/Datasets/20thC_ReanV3/Monthlies/sfcSI-MO/prate.mon.mean.nc',
+  pr: 20CRv3/pr
+  tas: gistemp1200_GHCNv4_ERSSTv5
+obs_rename_dict:
+  pr: prate          # the original variable name in the loaded pr dataset
+  tas: tempanomaly   # the original variable name in the loaded tas dataset
+obs_lat_name: lat    # the coord name in the loaded obs data
+obs_lon_name: lon    # the coord name in the loaded obs data
+obs_time_name: time  # the coord name in the loaded obs data
+obs_anom_period:
+# the period to calculate anomaly of the instrumental observations
+- 1951
+- 1980
+output_full_ens: false  # if true, cfr will output the full ensemble for the reconstruction field in shape (n_time, n_ens x n_MC, n_lat, n_lon)
+
+ptype_clim_dict:
+# the climate variable input to the PSMs for each proxy type
+# tas by default, execept for tree.TRW if Bilinear PSM is utilized (tas + pr)
+  coral.SrCa:
+  - tas
+  coral.calc:
+  - tas
+  coral.d18O:
+  - tas
+  ice.d18O:
+  - tas
+  ice.dD:
+  - tas
+  ice.melt:
+  - tas
+  lake.BSi:
+  - tas
+  lake.TEX86:
+  - tas
+  lake.accumulation:
+  - tas
+  lake.alkenone:
+  - tas
+  lake.chironomid:
+  - tas
+  lake.chrysophyte:
+  - tas
+  lake.midge:
+  - tas
+  lake.pollen:
+  - tas
+  lake.reflectance:
+  - tas
+  lake.varve_property:
+  - tas
+  lake.varve_thickness:
+  - tas
+  tree.MXD:
+  - tas
+  tree.TRW:
+  - tas
+  - pr
+
+ptype_psm_dict:
+# PSM for each proxy type, Linear by default, and tree.TRW works with both Linear and Bilinear
+  coral.SrCa: Linear
+  coral.calc: Linear
+  coral.d18O: Linear
+  ice.d18O: Linear
+  ice.dD: Linear
+  ice.melt: Linear
+  lake.BSi: Linear
+  lake.TEX86: Linear
+  lake.accumulation: Linear
+  lake.alkenone: Linear
+  lake.chironomid: Linear
+  lake.chrysophyte: Linear
+  lake.midge: Linear
+  lake.pollen: Linear
+  lake.reflectance: Linear
+  lake.varve_property: Linear
+  lake.varve_thickness: Linear
+  tree.MXD: Linear
+  tree.TRW: Bilinear
+
+ptype_season_dict:
+# seasonality of each proxy type
+  coral.SrCa:
+  # the below means annual, could be other combinations, e.g., [6,7,8], [-12,1,2]
+  - 1
+  - 2
+  - 3
+  - 4
+  - 5
+  - 6
+  - 7
+  - 8
+  - 9
+  - 10
+  - 11
+  - 12
+  coral.calc:
+  - 1
+  - 2
+  - 3
+  - 4
+  - 5
+  - 6
+  - 7
+  - 8
+  - 9
+  - 10
+  - 11
+  - 12
+  coral.d18O:
+  - 1
+  - 2
+  - 3
+  - 4
+  - 5
+  - 6
+  - 7
+  - 8
+  - 9
+  - 10
+  - 11
+  - 12
+  ice.d18O:
+  - 1
+  - 2
+  - 3
+  - 4
+  - 5
+  - 6
+  - 7
+  - 8
+  - 9
+  - 10
+  - 11
+  - 12
+  ice.dD:
+  - 1
+  - 2
+  - 3
+  - 4
+  - 5
+  - 6
+  - 7
+  - 8
+  - 9
+  - 10
+  - 11
+  - 12
+  ice.melt:
+  - 1
+  - 2
+  - 3
+  - 4
+  - 5
+  - 6
+  - 7
+  - 8
+  - 9
+  - 10
+  - 11
+  - 12
+  lake.BSi:
+  - 1
+  - 2
+  - 3
+  - 4
+  - 5
+  - 6
+  - 7
+  - 8
+  - 9
+  - 10
+  - 11
+  - 12
+  lake.TEX86:
+  - 1
+  - 2
+  - 3
+  - 4
+  - 5
+  - 6
+  - 7
+  - 8
+  - 9
+  - 10
+  - 11
+  - 12
+  lake.accumulation:
+  - 1
+  - 2
+  - 3
+  - 4
+  - 5
+  - 6
+  - 7
+  - 8
+  - 9
+  - 10
+  - 11
+  - 12
+  lake.alkenone:
+  - 1
+  - 2
+  - 3
+  - 4
+  - 5
+  - 6
+  - 7
+  - 8
+  - 9
+  - 10
+  - 11
+  - 12
+  lake.chironomid:
+  - 1
+  - 2
+  - 3
+  - 4
+  - 5
+  - 6
+  - 7
+  - 8
+  - 9
+  - 10
+  - 11
+  - 12
+  lake.chrysophyte:
+  - 1
+  - 2
+  - 3
+  - 4
+  - 5
+  - 6
+  - 7
+  - 8
+  - 9
+  - 10
+  - 11
+  - 12
+  lake.midge:
+  - 1
+  - 2
+  - 3
+  - 4
+  - 5
+  - 6
+  - 7
+  - 8
+  - 9
+  - 10
+  - 11
+  - 12
+  lake.pollen:
+  - 1
+  - 2
+  - 3
+  - 4
+  - 5
+  - 6
+  - 7
+  - 8
+  - 9
+  - 10
+  - 11
+  - 12
+  lake.reflectance:
+  - 1
+  - 2
+  - 3
+  - 4
+  - 5
+  - 6
+  - 7
+  - 8
+  - 9
+  - 10
+  - 11
+  - 12
+  lake.varve_property:
+  - 1
+  - 2
+  - 3
+  - 4
+  - 5
+  - 6
+  - 7
+  - 8
+  - 9
+  - 10
+  - 11
+  - 12
+  lake.varve_thickness:
+  - 1
+  - 2
+  - 3
+  - 4
+  - 5
+  - 6
+  - 7
+  - 8
+  - 9
+  - 10
+  - 11
+  - 12
+  tree.MXD:
+  - 1
+  - 2
+  - 3
+  - 4
+  - 5
+  - 6
+  - 7
+  - 8
+  - 9
+  - 10
+  - 11
+  - 12
+  tree.TRW:
+  - 1
+  - 2
+  - 3
+  - 4
+  - 5
+  - 6
+  - 7
+  - 8
+  - 9
+  - 10
+  - 11
+  - 12
+#===================================
+# Experimental (DO NOT CHANGE)
+#-----------------------------------
+
+allownan: false  # for tas reconstruction, there should not be any NaNs in the output; if the prior has NaNs (e.g., SST field), this should be turned on
+
+annualize_proxydb_ptypes:
+# this step aims to annualize specific proxy data with monthly resolution,
+# and only coral requires this step
+- coral
+annualize_proxydb_months: 
+# this step aims to annualize specific proxy data with monthly resolution,
+# and only coral requires this step
+- 1
+- 2
+- 3
+- 4
+- 5
+- 6
+- 7
+- 8
+- 9
+- 10
+- 11
+- 12
+
+compress_params:
+# xarray settings to compress the output data
+  zlib: true
+
+ptype_forward_dict: {}       # not used in LMR applications
+recon_sampling_mode: fixed   # the way of temporal sampling for the prior, no need to modify for LMR
+recon_timescale: 1           # annual resolution is assumed for LMR reconstructions, other numbers not tested
+recon_vars:                  # the field to reconstruct, always tas for our application
+- tas
+save_dirpath: ./recons/test-run-da-cfg   # the path to store the reconstruction results
+trim_prior: true             # not used in LMR applications

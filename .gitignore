@@ -131,9 +131,13 @@ dmypy.json
 .pyre/
 
 # DS_Store stuff
-.DS_Store  
-docsrc/.DS_Store 
+.DS_Store
+docsrc/.DS_Store
 docsrc/notebooks/.DS_Store
+
+# Sphinx build artifacts
+docsrc/v2024/_build/
+docsrc/cframe/_build/
 
 # test
 /test

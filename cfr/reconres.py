@@ -322,73 +322,7 @@ class ReconRes:
             p_success(f">>> indpdt verification completed, results stored in ReconRes.indpdt_info")
             p_success(f">>> Records Number: {len(indpdt_info)}")
         return indpdt_info
-    
-    def indpdt_verif2(self, job_path, verbose=False, calib_period=(1850,2000), min_verif_len=10):
-        """
-        Perform independent verification (version 2).
-        """
-        job = ReconJob()  # Remove 'cfr.' since you're already inside the cfr module
-        job.load(job_path)
-        indpdt_info = []
 
-        for path_index, path in enumerate(self.paths):  # Use self.paths
-            lbls = self.proxy_labels[path_index]  # Use self.proxy_labels
-
-            # Load a full prior pool (so TRW can get 'pr', etc.)
-            job.load_clim(tag="analysis",
-                  path_dict={"tas": path},
-                  anom_period=(1951, 1980))
-
-            # Ensure a prior pool exists (from the saved job config) for any other vars PSMs might need
-            job.load_clim(tag="prior",
-                        path_dict=None,
-                        anom_period=(850, 1850))
-
-            # Make the forward step use recon tas (1–2000) while leaving other vars (e.g., pr) as in prior
-            job.prior['tas'] = job.analysis['tas']
-
-            job.forward_psms(verbose=verbose)
-            if verbose:
-                print(f">>> Validating against {path}")
-
-            # compare pseudo-proxy to observed
-            calib_PDB = job.proxydb.filter(by="tag", keys=["calibrated"])
-            for pname, proxy in calib_PDB.records.items():
-                detail = getattr(proxy.psm, 'calib_details', {})
-                attr = {
-                    'name': pname,
-                    'seasonality': detail.get('seasonality', None),
-                    'assim': True if pname in lbls['pids_assim'] else False if pname in lbls['pids_eval'] else None,
-                }
-
-                reconstructed = pd.DataFrame({'time': proxy.pseudo.time, 'estimated': proxy.pseudo.value})
-                real         = pd.DataFrame({'time': proxy.time,          'observed': proxy.value})
-                Df = real.dropna().merge(reconstructed, on='time', how='inner').set_index('time').sort_index()
-
-                masks = {
-                    'all': None,
-                    'in':      (Df.index >= calib_period[0]) & (Df.index <= calib_period[1]),
-                    'before':  (Df.index <  calib_period[0]),
-                }
-                for mname, m in masks.items():
-                    Dfm = Df if m is None else Df[m]
-                    if len(Dfm) < min_verif_len:
-                        corr = np.nan; ce = np.nan
-                    else:
-                        corr = Dfm[['observed','estimated']].corr().iloc[0,1]
-                        ce   = utils.coefficient_efficiency(Dfm.observed.values, Dfm.estimated.values)
-                    attr[f'{mname}_corr'] = corr
-                    attr[f'{mname}_ce']   = ce
-
-                indpdt_info.append(attr)
-
-        self.indpdt_info = pd.DataFrame(indpdt_info)  # Store as instance attribute
-        if verbose:
-            p_success(f">>> indpdt verification completed, results stored in ReconRes.indpdt_info")
-            p_success(f">>> Records Number: {len(self.indpdt_info)}")
-        
-        return self.indpdt_info
-    
     def plot_indpdt_verif(self):
         """
         Plot the indpdt verification results.

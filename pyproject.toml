@@ -4,19 +4,16 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "cfr"
-version = "2026.1.31"
+version = "2026.4.8"
 description = "cfr: a Python package for Climate Field Reconstruction"
 readme = "README.md"
 license = "BSD-3-Clause"
-requires-python = ">=3.11"
+requires-python = ">=3.13"
 authors = [
     {name = "Feng Zhu", email = "fengzhu@ucar.edu"},
-    {name = "Julien Emile-Geay", email = "julieneg@usc.edu"},
 ]
 classifiers = [
     "Natural Language :: English",
-    "Programming Language :: Python :: 3.11",
-    "Programming Language :: Python :: 3.12",
     "Programming Language :: Python :: 3.13",
 ]
 dependencies = [
@@ -36,7 +33,6 @@ dependencies = [
 
 [project.optional-dependencies]
 psm = ["pathos", "fbm"]
-ml = ["scikit-learn", "torch", "torchvision"]
 graphem = ["cython", "scikit-learn", "cfr-graphem"]
 
 [tool.setuptools.packages.find]

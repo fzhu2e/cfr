@@ -1,16 +1,40 @@
-site_name: "cfr"
+site_name: "cfr: a Python package for Climate Field Reconstruction"
 site_description: "A Python package for Climate Field Reconstruction"
 site_url: https://fzhu2e.github.io/cfr
 repo_url: https://github.com/fzhu2e/cfr
 repo_name: fzhu2e/cfr
 
+copyright: Copyright &copy; 2026 Feng Zhu, Julien Emile-Geay.
+
 theme:
   name: material
-  logo: assets/cfr-logo.jpg
+  palette:
+    - scheme: default
+      primary: blue grey
+      accent: light blue
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: blue grey
+      accent: light blue
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
   features:
+    - navigation.tabs
     - navigation.sections
     - navigation.expand
+    - navigation.top
     - content.code.copy
+    - toc.follow
+  font:
+    text: Source Sans Pro
+    code: Source Code Pro
+  logo: assets/cfr-logo.jpg
+  icon:
+    repo: fontawesome/brands/github
 
 plugins:
   - search
@@ -20,8 +44,24 @@ plugins:
         python:
           paths: [.]
           options:
-            show_source: true
+            show_source: false
             show_root_heading: true
+            show_root_full_path: false
+            heading_level: 3
+            members_order: source
+            show_signature_annotations: true
+            separate_signature: true
+            docstring_style: numpy
+
+extra_css:
+  - stylesheets/extra.css
+
+markdown_extensions:
+  - admonition
+  - attr_list
+  - md_in_html
+  - toc:
+      permalink: true
 
 nav:
   - Home: index.md
@@ -33,7 +73,14 @@ nav:
     - PSM: psm.md
     - LMR: lmr.md
     - GraphEM: graphem.md
-  - API Reference: api.md
+  - API Reference:
+    - Overview: api/index.md
+    - Proxy: api/proxy.md
+    - Climate: api/climate.md
+    - Timeseries: api/timeseries.md
+    - PSM: api/psm.md
+    - Data Assimilation: api/da.md
+    - Reconstruction: api/reconstruction.md
   - Notebooks:
     - Climate:
       - IO: notebooks/climate-io.ipynb

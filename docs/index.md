@@ -1,6 +1,6 @@
 # cfr: a Python package for Climate Field Reconstruction
 
-!!! note "Citation"
+!!! cite
     If you use `cfr` in any way for your publications, please cite:
 
     - Zhu, F., Emile-Geay, J., Hakim, G. J., Guillot, D., Khider, D., Tardif, R., & Perkins, W. A. (2024). cfr (v2024.1.26): a Python package for climate field reconstruction. Geoscientific Model Development, 17(8), 3409–3431. <https://doi.org/10.5194/gmd-17-3409-2024>
@@ -16,9 +16,70 @@ It provides a toolkit for
 
 ## Quick Links
 
-| | |
-|---|---|
-| [![Installation](assets/installation.png)](installation.md) [**Installation**](installation.md) | [![pseudoPAGES2k](assets/pp2k.png)](pp2k.md) [**pseudoPAGES2k**](pp2k.md) |
-| [![Climate](assets/climate.png)](climate.md) [**Climate**](climate.md) | [![Proxy](assets/proxy.png)](proxy.md) [**Proxy**](proxy.md) |
-| [![PSM](assets/psm.png)](psm.md) [**PSM**](psm.md) | [![LMR](assets/lmr.png)](lmr.md) [**LMR**](lmr.md) |
-| [![GraphEM](assets/graphem.png)](graphem.md) [**GraphEM**](graphem.md) | [![API](assets/api.png)](api.md) [**API**](api.md) |
+<div class="grid cards" markdown>
+
+-   [![Installation](assets/installation.png)](installation.md)
+
+    ---
+
+    **[Installation](installation.md)**
+
+    Installation instructions.
+
+-   [![pseudoPAGES2k](assets/pp2k.png)](pp2k.md)
+
+    ---
+
+    **[pseudoPAGES2k](pp2k.md)**
+
+    An illustration with the pseudoPAGES2k dataset.
+
+-   [![Climate](assets/climate.png)](climate.md)
+
+    ---
+
+    **[Climate](climate.md)**
+
+    Processing and visualization of the **gridded** climate model simulations and instrumental observations.
+
+-   [![Proxy](assets/proxy.png)](proxy.md)
+
+    ---
+
+    **[Proxy](proxy.md)**
+
+    Processing and visualization of the proxy records and databases.
+
+-   [![PSM](assets/psm.png)](psm.md)
+
+    ---
+
+    **[PSM](psm.md)**
+
+    Proxy System Models for multiple proxy types.
+
+-   [![LMR](assets/lmr.png)](lmr.md)
+
+    ---
+
+    **[LMR](lmr.md)**
+
+    The Last Millennium Reanalysis (LMR) workflows.
+
+-   [![GraphEM](assets/graphem.png)](graphem.md)
+
+    ---
+
+    **[GraphEM](graphem.md)**
+
+    The Graphical Expectation Maximization (GraphEM) workflows.
+
+-   [![API](assets/api.png)](api/index.md)
+
+    ---
+
+    **[API](api/index.md)**
+
+    The essential API.
+
+</div>

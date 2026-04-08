@@ -14,7 +14,7 @@ You may use existing docstrings as examples. A good docstring explains:
 
 ## Updating tutorial notebooks
 
-To update an existing or add a new tutorial notebook, you need to edit and execute the notebook locally under the `docsrc/notebooks` directory.
+To update an existing or add a new tutorial notebook, you need to edit and execute the notebook locally under the `docs/notebooks` directory.
 
 The notebooks are named following a naming convention: `<topic>-<details>.ipynb`
 For instance, the `<topic>` can be `climate`, `proxy`, `psm`, `lmr`, `graphem`, and `pp2k`, and the `<details>` can be a keyword of your notebook, something like `ppe-pages2k`.
@@ -29,7 +29,7 @@ print(cfr.__version__)
 
 To include a new notebook in the User Guide, you need to:
 
-1. Add the notebook to `docsrc/notebooks/`
+1. Add the notebook to `docs/notebooks/`
 2. Add a link to it in the corresponding `docs/*.md` guide page
 3. Add an entry in `mkdocs.yml` under the appropriate section in `nav`
 

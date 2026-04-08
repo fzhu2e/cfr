@@ -37,7 +37,7 @@ New reconstruction methods **must** include a pseudoproxy experiment (PPE) using
 
 ## Documentation
 
-Built with MkDocs (Material theme). Source files in `docs/`, notebooks in `docsrc/notebooks/` (symlinked into `docs/notebooks`).
+Built with MkDocs (Material theme). Source files and notebooks all in `docs/`.
 
 ```bash
 pip install mkdocs mkdocs-material mkdocs-jupyter mkdocstrings[python]

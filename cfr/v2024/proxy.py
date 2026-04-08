@@ -1,0 +1,1979 @@
+from dataclasses import replace
+import glob
+from operator import le
+import os
+from .climate import ClimateField
+import xarray as xr
+import pandas as pd
+import numpy as np
+import plotly.express as px
+import copy
+import ast
+from tqdm import tqdm
+from collections import OrderedDict
+from datetime import datetime
+import matplotlib.pyplot as plt
+from matplotlib import gridspec
+import cartopy.crs as ccrs
+from cartopy.util import add_cyclic_point
+from multiprocessing import Pool, cpu_count
+from functools import partial
+import seaborn as sns
+from . import utils, visual
+from .utils import (
+    p_warning,
+    p_header,
+    p_success,
+    p_fail,
+)
+# for spectral analysis
+try:
+    import pyleoclim as pyleo
+except:
+    pass
+
+def get_ptype(archive_type, proxy_type):
+    '''Get proxy type string based on archive and proxy strings
+
+    If not predefined, it will return in the format `archive_type.proxy_type` with blanks replaced with underscores.
+
+    Args:
+        archive_type (str): archive string
+        proxy_type (str): proxy string
+
+    Returns:
+        str: the proxy type string, e.g., coral.d18O
+
+    '''
+    ptype_dict = {
+        ('tree', 'delta Density'): 'tree.MXD',
+        ('tree', 'MXD'): 'tree.MXD',
+        ('tree', 'TRW'): 'tree.TRW',
+        ('tree', 'ENSO'): 'tree.ENSO',
+        ('coral', 'Sr/Ca'): 'coral.SrCa',
+        ('coral', 'SrCa_annual'): 'coral.SrCa',
+        ('coral', 'Coral Sr/Ca'): 'coral.SrCa',
+        ('coral', 'd18O'): 'coral.d18O',
+        ('coral', 'd18O_annual'): 'coral.d18O',
+        ('coral', 'd18O_sw'): 'coral.d18Osw',
+        ('coral', 'd18O_sw_annual'): 'coral.d18Osw',
+        ('coral', 'calcification'): 'coral.calc',
+        ('coral', 'calcification rate'): 'coral.calc',
+        ('sclerosponge', 'd18O'): 'coral.d18O',
+        ('sclerosponge', 'Sr/Ca'): 'coral.SrCa',
+        ('sclerosponge', 'SrCa'): 'coral.SrCa',
+        ('glacier ice', 'melt'): 'ice.melt',
+        ('glacier ice', 'd18O'): 'ice.d18O',
+        ('glacier ice', 'dD'): 'ice.dD',
+        ('glacier ice', 'deterium excess'): 'ice.d-excess',
+        ('glacier ice', 'isotope diffusion'): 'ice.isotope_diffusion',
+        ('glacier ice', 'hybrid-ice'): 'ice.hybrid',
+        ('glacier ice', '15N/40Ar fractionation'): 'ice.15N40Ar',
+        ('speleothem', 'd18O'): 'speleothem.d18O',
+        ('speleothem', 'dD'): 'speleothem.dD',
+        ('marine sediment', 'TEX86'): 'marine.TEX86',
+        ('marine sediment', 'UK37'): 'marine.UK37',
+        ('marine sediment', 'Mg/Ca'): 'marine.MgCa',
+        ('marine sediment', 'foram Mg/Ca'): 'marine.MgCa',
+        ('marine sediment', 'd18O'): 'marine.d18O',
+        ('marine sediment', 'dynocist MAT'): 'marine.MAT',
+        ('marine sediment', 'alkenone'): 'marine.alkenone',
+        ('marine sediment', 'planktonic foraminifera'): 'marine.foram',
+        ('marine sediment', 'foraminifera'): 'marine.foram',
+        ('marine sediment', 'foram d18O'): 'marine.d18O',
+        ('marine sediment', 'diatom'): 'marine.diatom',
+        ('marine sediment', 'dinocyst'): 'marine.dinocyst',
+        ('marine sediment', 'radiolaria'): 'marine.radiolaria',
+        ('marine sediment', 'GDGT'): 'marine.GDGT',
+        ('lake sediment', 'varve thickness'): 'lake.varve_thickness',
+        ('lake sediment', 'varve property'): 'lake.varve_property',
+        ('lake sediment', 'sed accumulation'): 'lake.accumulation',
+        ('lake sediment', 'chironomid'): 'lake.chironomid',
+        ('lake sediment', 'midge'): 'lake.midge',
+        ('lake sediment', 'TEX86'): 'lake.TEX86',
+        ('lake sediment', 'BSi'): 'lake.BSi',
+        ('lake sediment', 'chrysophyte'): 'lake.chrysophyte',
+        ('lake sediment', 'reflectance'): 'lake.reflectance',
+        ('lake sediment', 'pollen'): 'lake.pollen',
+        ('lake sediment', 'alkenone'): 'lake.alkenone',
+        ('lake sediment', 'diatom'): 'lake.diatom',
+        ('lake sediment', 'd18O'): 'lake.d18O',
+        ('borehole', 'borehole'): 'borehole',
+        ('hybrid', 'hybrid'): 'hybrid',
+        ('bivalve', 'd18O'): 'bivalve.d18O',
+        ('documents', 'Documentary'): 'documents',
+        ('documents', 'historic'): 'documents',
+        ('peat', 'pollen'): 'peat.pollen',
+    }
+
+    ptype_dict_fuzzy = {}
+    for k, v in ptype_dict.items():
+        archive_str, proxy_str = k
+        ptype_dict_fuzzy[(
+            archive_str.lower().replace(' ', '').replace('/', '').replace('_', ''),
+            proxy_str.lower().replace(' ', '').replace('/', '').replace('_', ''),
+        )] = v
+
+    archive_type_fuzzy = archive_type.lower().replace(' ', '').replace('/', '').replace('_', '')
+    proxy_type_fuzzy = proxy_type.lower().replace(' ', '').replace('/', '').replace('_', '')
+
+    input_pair_fuzzy = (archive_type_fuzzy, proxy_type_fuzzy)
+
+    if input_pair_fuzzy in ptype_dict_fuzzy:
+        ptype = ptype_dict_fuzzy[(archive_type_fuzzy, proxy_type_fuzzy)]
+    else:
+        ptype = f"{archive_type_fuzzy}.{proxy_type_fuzzy}"
+
+    return ptype
+
+class ProxyRecord:
+    ''' The class for a proxy record.
+
+    '''
+    def __init__(self, pid=None, time=None, value=None, lat=None, lon=None, elev=None, ptype=None, climate=None, tags=None,
+        value_name=None, value_unit=None, time_name=None, time_unit=None, seasonality=None):
+        ''' Initialize a ProxyRecord object
+        
+        Args:
+            pid (str): the unique proxy ID
+            lat (float): latitude
+            lon (float): longitude
+            elev (float): elevation
+            time (numpy.array): time axis in unit of year CE 
+            time_name (str): the name of the time axis
+            time_unit (str): the unit of the time axis
+            value (numpy.array): proxy value axis
+            value_name (str): the name of the value axis
+            value_unit (str): the unit of the value axis
+            seasonality (list): a list that stands for the seasonality information. For example, '[6, 7, 8]' means the boreal summer (JJA).
+            ptype (str): the label of proxy type according to archive and proxy information;
+                some examples:
+
+                * 'tree.trw' : tree-ring width (TRW)
+                * 'tree.mxd' : maximum latewood density (MXD)
+                * 'coral.d18O' : Coral d18O isotopes
+                * 'coral.SrCa' : Coral Sr/Ca ratios
+                * 'ice.d18O' : Ice core d18O isotopes
+            tags (a set of str):
+                the tags for the record, to enable tag filtering
+        '''
+        self.pid = pid
+        if time is not None:
+            try:
+                time = utils.datetime2year_float(time)
+            except:
+                pass
+        self.time = time
+        self.value = value
+        self.climate = climate
+        self.lat = lat
+        self.lon = np.mod(lon, 360) if lon is not None else None
+        self.elev = elev
+        self.ptype = ptype
+        self.tags = set() if tags is None else tags
+
+        if time is not None and len(time) > 1:
+            self.dt = np.median(np.diff(time))
+        else:
+            self.dt = None
+
+        self.value_name = 'Proxy Value' if value_name is None else value_name
+        self.value_unit = value_unit
+        self.time_name = 'Time' if time_name is None else time_name
+        self.time_unit = 'yr' if time_unit is None else time_unit
+        self.seasonality = seasonality
+
+    def copy(self):
+        ''' Make a deepcopy of the object. '''
+        return copy.deepcopy(self)
+
+    def slice(self, timespan):
+        ''' Slicing the timeseries with a timespan (tuple or list)
+
+        Args:
+            timespan (tuple or list):
+                The list of time points for slicing, whose length must be even.
+                When there are n time points, the output Series includes n/2 segments.
+                For example, if timespan = [a, b], then the sliced output includes one segment [a, b];
+                if timespan = [a, b, c, d], then the sliced output includes segment [a, b] and segment [c, d].
+
+        Returns:
+            ProxyRecord: The sliced Series object.
+
+        '''
+        new = self.copy()
+        n_elements = len(timespan)
+        if n_elements % 2 == 1:
+            raise ValueError('The number of elements in timespan must be even!')
+
+        n_segments = int(n_elements / 2)
+        mask = [False for i in range(np.size(self.time))]
+        for i in range(n_segments):
+            mask |= (self.time >= timespan[i*2]) & (self.time <= timespan[i*2+1])
+
+        new.time = self.time[mask]
+        new.value = self.value[mask]
+        new.dt = np.median(np.diff(new.time))
+        return new
+
+    def concat(self, rec_list):
+        ''' Concatenate the record with a list of other records assuming they share the same location and other metadata.
+
+        Args:
+            rec_list (list or ProxyRecord): a list of ProxyRecord objects.
+        '''
+        new = self.copy()
+        ts_list = [pd.Series(index=self.time, data=self.value)]
+        for rec in rec_list:
+            ts_list.append(pd.Series(index=rec.time, data=rec.value))
+
+        ts_concat = pd.concat(ts_list)
+        ts_concat = ts_concat.sort_index()
+        new.time = ts_concat.index.to_numpy()
+        new.value = ts_concat.values
+        new.dt = np.median(np.diff(new.time))
+        return new
+
+    def to_nc(self, path, verbose=True, **kwargs):
+        ''' Convert the record to a netCDF file.
+
+        Args:
+            path (str): the path to save the file.
+            verbose (bool, optional): print verbose information. Defaults to False.
+        '''
+        da = self.to_da()
+
+        try:
+            dirpath = os.path.dirname(path)
+            os.makedirs(dirpath, exist_ok=True)
+        except:
+            pass
+
+        da.to_netcdf(path=path, **kwargs)
+        if verbose: utils.p_success(f'ProxyRecord saved to: {path}')
+
+    def load_nc(self, path, **kwargs):
+        ''' Load the record from a netCDF file.
+
+        Args:
+            path (str): the path to save the file.
+        '''
+        da = xr.open_dataarray(path, **kwargs)
+        new = self.from_da(da)
+        return new
+
+    def to_da(self):
+        ''' Convert to Xarray.DataArray for computation purposes
+        '''
+        dates = utils.year_float2datetime(self.time)
+        da = xr.DataArray(
+            self.value, dims=['time'], coords={'time': dates}, name=self.pid,
+            attrs={
+                'lat': self.lat,
+                'lon': self.lon,
+                'elev': np.nan if self.elev is None else self.elev,
+                'ptype': self.ptype,
+                'dt': self.dt,
+                'time_name': 'time' if self.time_name is None else self.time_name,
+                'time_unit': 'none' if self.time_unit is None else self.time_unit,
+                'value_name': 'value' if self.value_name is None else self.value_name,
+                'value_unit': 'none' if self.value_unit is None else self.value_unit,
+            }
+        )
+        return da
+
+    def from_da(self, da):
+        ''' Get the time and value axis from the given xarray.DataArray
+
+        Args:
+            da (xarray.DataArray): the `xarray.DataArray` object to load from.
+        '''
+        new = ProxyRecord()
+        if 'time' in da.dims:
+            new.time = utils.datetime2year_float(da.time.values)
+        elif 'year' in da.dims:
+            new.time = da.year.values
+
+        new.value = da.values
+        new.time, new.value = utils.clean_ts(new.time, new.value)
+
+        new.pid = da.name
+        new.lat = da.attrs['lat'] if 'lat' in da.attrs else None
+        new.lon = da.attrs['lon'] if 'lon' in da.attrs else None
+        new.elev = da.attrs['elev'] if 'elev' in da.attrs else None
+        new.ptype = da.attrs['ptype'] if 'ptype' in da.attrs else None
+
+        new.dt = np.median(np.diff(new.time))
+        new.value_name = da.attrs['value_name'] if 'value_name' in da.attrs else None
+        new.value_unit = da.attrs['value_unit'] if 'value_name' in da.attrs else None
+        new.time_name = da.attrs['time_name'] if 'time_name' in da.attrs else None
+        new.time_unit = da.attrs['time_unit'] if 'time_name' in da.attrs else None
+        return new
+
+    def annualize(self, months=list(range(1, 13)), force=False, verbose=False):
+        ''' Annualize/seasonalize the proxy record based on a list of months.
+
+        Args:
+            months (list): the months based on which for annualization; e.g., [6, 7, 8] means JJA annualization
+            force (bool): if True, perform a calendar year annualization if the given months cannot be applied to the data due to missing months in the data. Defaults to `False`.
+        '''
+        new = self.copy()
+        try:
+            new.time, new.value = utils.annualize(self.time, self.value, months=months)
+            new.tags.add('annualized')
+        except:
+            if force:
+                new.time, new.value = utils.annualize(self.time, self.value, months=list(range(1, 13)))
+                new.tags.add('annualized')
+                if verbose: p_warning(f'Record {self.pid} cannot be annualized with months {months}. Use calendar year instead.')
+            else:
+                if verbose: p_warning(f'Record {self.pid} cannot be annualized with months {months}. The record is untouched.')
+
+        new.time, new.value = utils.clean_ts(new.time, new.value)
+        new.dt = np.median(np.diff(new.time))
+        return new
+            
+    def center(self, ref_period=None, thresh=5, force=False, verbose=False):
+        ''' Centering the proxy timeseries regarding a reference period.
+
+        Args:
+            ref_period (tuple or list): the reference time period in the form or (start_yr, end_yr)
+            thresh (int): the minimum number of data points required to perform the centering.
+                If not satisfied, and `force=False`, the record will not be centered.
+            force (bool): if True, the record will be centered regardless of the number of data points. Defaults to `False`.
+            verbose (bool, optional): print verbose information. Defaults to False.
+
+        Returns:
+            new (ProxyRecord): contains the centered values.
+        '''
+        def center_func(new, ref):
+            new.value -= np.nanmean(ref.value)
+            new.tags.add('centered')
+            return new
+            
+        if ref_period is not None:
+            ref = self.slice(ref_period)
+        else:
+            ref = self
+
+        new = self.copy()
+        if len(ref.time) < thresh:
+            if force:
+                ref = self
+                new = center_func(new, ref)
+                if verbose: p_warning(f'The overlapping with the given reference period is too short. Reference over the full record instead.')
+            else:
+                if verbose: p_warning(f'The record is untouched due to short overlapping with the reference period.')
+        else:
+            new = center_func(new, ref)
+
+        return new
+
+    def standardize(self, ref_period=None, thresh=5, force=False, verbose=False):
+        '''
+        Standardizes the record. If the record is constant, a vector of 0s is returned.
+
+        Args:
+            ref_period (list, optional): [min_time, max_time]. The default is None.
+
+        Returns:
+            new (ProxyRecord): contains standardized values.
+        '''
+        def std_func(new, ref):
+            z = (new.value - np.nanmean(ref.value)) / np.nanstd(ref.value)
+            if np.isfinite(z.all()) and ~np.isnan(z.all()):
+                new.value = z
+                new.tags.add('standardized')
+            else:
+                if verbose: p_warning('Standardization failed; the record is untouched.')
+
+            return new
+            
+        if ref_period is not None:
+            ref = self.slice(ref_period)
+        else:
+            ref = self
+
+        new = self.copy()
+        if len(ref.time) < thresh:
+            if force:
+                ref = self
+                new = std_func(new, ref)
+            else:
+                if verbose: p_warning(f'The record is untouched due to short overlapping with the reference period.')
+        else:
+            new = std_func(new, ref)
+
+        return new
+
+    def __getitem__(self, key):
+        ''' This makes the object subscriptable. '''
+        new = self.copy()
+        if type(key) is int or type(key) is list:
+            new.value = new.value[key]
+            new.time = new.time[key]
+        elif type(key) is slice: 
+            if type(key.start) is int:
+                new.value = new.value[key]
+                new.time = new.time[key]
+            elif type(key.start) is str:
+                time_mask = (new.time>=int(key.start)) & (new.time<=int(key.stop))
+                new.value = new.value[time_mask]
+                new.time = new.time[time_mask]
+                if key.step is not None:
+                    new.value = new.value[::int(key.step)]
+                    new.time = new.time[::int(key.step)]
+
+        return new
+
+    def __add__(self, records):
+        ''' Add a list of records into a database
+        '''
+        new = ProxyDatabase()
+        new.records[self.pid] = self.copy()
+        if isinstance(records, ProxyRecord):
+            # if only one record
+            records = [records]
+
+        if isinstance(records, ProxyDatabase):
+            # if a database
+            records = [records.records[pid] for pid in records.records.keys()]
+
+        for record in records:
+            new.records[record.pid] = record
+
+        new.refresh()
+        return new
+
+    def __sub__(self, ref):
+        ''' Substract the reference record
+        '''
+        new = self.copy()
+        new.value = self.value - ref.value
+        return new
+
+    def del_clim(self, verbose=False):
+        ''' Delete the "clim" attribute of the ProxyRecord object.
+
+        Args:
+            verbose (bool, optional): print verbose information. Defaults to False.
+        '''
+        if hasattr(self, 'clim'): del self.clim
+        if verbose: utils.p_success(f'ProxyRecord.clim deleted for {self.pid}.')
+
+    def get_clim(self, fields, tag=None, verbose=False, search_dist=5, load=True, **kwargs):
+        ''' Get the nearest climate from climate fields
+
+        Args:
+            fields (list of cfr.climate.ClimateField): the climate fields
+            tag (str): the tag to put on the obtained climate field, which will be named in the format of "tag.variable_name".
+            search_dist (float): the farest distance to search for climate data in degree
+            verbose (bool, optional): print verbose information. Defaults to False.
+            load (bool): if True, the list of climate fields will be loaded into the memory instead of lazy loading.
+        '''
+        if isinstance(fields, ClimateField):
+            fields = [fields]
+
+        _kwargs = {'method': 'nearest'}
+        _kwargs.update(kwargs)
+        
+        for field in fields:
+            name = field.da.name
+            if tag is not None:
+                name = f'{tag}.{name}'
+
+            nda = field.da.sel(lat=self.lat, lon=self.lon, **_kwargs)
+            if np.all(np.isnan(nda.values)) and search_dist is not None:
+                for i in range(1, search_dist+1):
+                    p_header(f'{self.pid} >>> Nearest climate is NaN. Searching around within distance of {i} deg ...')
+                    da_cond = field.da.where(np.abs(field.da.lat - self.lat)<= i).where(
+                        np.abs(field.da.lon - self.lon) <= i
+                    )
+                    nda = utils.geo_mean(da_cond)
+                    nda.coords['lat'] = self.lat
+                    nda.coords['lon'] = self.lon
+                    if not np.all(np.isnan(nda.values)):
+                        p_success(f'{self.pid} >>> Found nearest climate within distance of {i} deg.')
+                        break
+
+            if not hasattr(self, 'clim'):
+                self.clim = {}
+
+            if 'nda' in locals():
+                self.clim[name] = ClimateField(nda)
+                if load: self.clim[name].da.load()
+                if verbose: utils.p_success(f'{self.pid} >>> ProxyRecord.clim["{name}"] created.')
+            else:
+                self.clim[name] = None
+                utils.p_fail(f'{self.pid} >>> ProxyRecord.clim["{name}"] = None')
+
+    def correct_elev_tas(self, t_rate=-9.8, verbose=False):
+        ''' Correct the tas with t_rate = -9.8 degC/km upward by default.
+
+        Args:
+            t_rage (float): the temperature adjustment rate based on elevation bias.
+            verbose (bool, optional): print verbose information. Defaults to False.
+        '''
+        elev_diff = self.elev - self.clim['model.elev'].da.values[0]
+        self.clim['model.tas'] += t_rate * elev_diff/1e3
+
+        if verbose:
+            utils.p_hint(f'tas correction due to elevation difference (proxy - model): {elev_diff:.2f} meters.')
+            utils.p_success(f'{self.pid} >>> ProxyRecord.clim["model.tas"] corrected by: {t_rate * elev_diff/1e3:.2f} degC.')
+
+    def del_pseudo(self, verbose=False):
+        ''' Delete the `pseudo` attribute of the ProxyRecord object.
+
+        Args:
+            verbose (bool, optional): print verbose information. Defaults to False.
+        '''
+        if hasattr(self, 'pseudo'): del self.pseudo
+        if verbose: utils.p_success(f'ProxyRecord.pseudo deleted for {self.pid}.')
+
+    def get_pseudo(self, psm=None, signal=None, calibrate=True,
+                   add_noise=False, noise='white', SNR=10, seed=None,
+                   match_mean=False, match_var=False, verbose=False,
+                   calib_kws=None, forward_kws=None, colored_noise_kws=None):
+        ''' Generate the pseudoproxy
+
+        Args:
+            psm (object): the PSM objects in `cfr.psm`
+            signal (cfr.ProxyRecord): the signal part for the pseudoproxy.
+                If not provided, it will be generated using the specified `psm`;
+                if provided, the PSM part will be skipped.
+            calibrate (bool): if True and the PSM supports calibration, then the PSM will be calibrated.
+            add_noise (bool): if True, noise will be added onto the `signal`.
+            noise (str): noise type; supports "white" for white noise and "colored" for colored noise.
+            colored_noise_kws (dict): the dictionary of the keyword arguments for colored noise generation.
+            match_mean (bool): match the mean of the pseudoproxy to the real record.
+            match_var (bool): match the variance of the pseudoproxy to the real record.
+            verbose (bool, optional): print verbose information. Defaults to False.
+            calib_kws (dict): the dictionary of the keyword arguments for the calibration step of the PMSs.
+            forward_kws (dict): the dictionary of the keyword arguments for the forward step of the PMSs.
+        '''
+        if signal is None:
+            calib_kws = {} if calib_kws is None else calib_kws
+            forward_kws = {} if forward_kws is None else forward_kws
+
+            mdl = psm(self)
+            if hasattr(mdl, 'calibrate') and calibrate:
+                mdl.calibrate(**calib_kws)
+                self.psm = mdl
+                if verbose: utils.p_success(f'>>> ProxyRecord.psm created.')
+
+            self.pseudo = mdl.forward(**forward_kws)
+        else:
+            self.pseudo = signal
+
+        if verbose: utils.p_success(f'>>> ProxyRecord.pseudo created.')
+
+        if add_noise:
+            sigma = np.nanstd(self.pseudo.value) / SNR
+            if noise == 'white':
+                rng = np.random.default_rng(seed)
+                noise = rng.normal(0, sigma, np.size(self.pseudo.value))
+            elif noise == 'colored':
+                colored_noise_kws = {} if colored_noise_kws is None else colored_noise_kws
+                _colored_noise_kws = {'seed': seed, 'alpha': 1, 't': self.pseudo.time}
+                _colored_noise_kws.update(colored_noise_kws)
+                noise = utils.colored_noise(**_colored_noise_kws)
+
+            self.pseudo.value += noise / np.std(noise) * sigma
+            self.pseudo.R = np.var(noise)
+            if verbose: utils.p_success(f'>>> ProxyRecord.pseudo added with {noise} noise (SNR={SNR}).')
+
+        if match_var or match_mean:
+            proxy_time_min = np.min(self.time)
+            proxy_time_max = np.max(self.time)
+            pseudo_time_min = np.min(self.pseudo.time)
+            pseudo_time_max = np.max(self.pseudo.time)
+            time_min = np.max([proxy_time_min, pseudo_time_min])
+            time_max = np.min([proxy_time_max, pseudo_time_max])
+            mask_proxy = (self.time>=time_min)&(self.time<=time_max)
+            mask_pseudo = (self.pseudo.time>=time_min)&(self.pseudo.time<=time_max)
+            if verbose:
+                utils.p_header(f'>>> timespan: ({time_min}, {time_max})')
+
+
+        value = self.pseudo.value
+
+        if match_var:
+            value = value / np.nanstd(value[mask_pseudo]) * np.nanstd(self.value[mask_proxy])
+            if verbose:
+                utils.p_header(f'>>> Var(proxy)={np.nanvar(self.value[mask_proxy])}')
+                utils.p_header(f'>>> Var(pseudoproxy)={np.nanvar(value[mask_pseudo])}')
+                utils.p_success(f'>>> Variance matched.')
+
+        if match_mean:
+            value = value - np.nanmean(value[mask_pseudo]) + np.nanmean(self.value[mask_proxy])
+            if verbose:
+                utils.p_header(f'>>> Mean(proxy)={np.nanmean(self.value[mask_proxy])}')
+                utils.p_header(f'>>> Mean(pseudoproxy)={np.nanmean(value[mask_pseudo])}')
+                utils.p_success(f'>>> Mean matched.')
+
+        self.pseudo.value = value
+
+
+
+    def plotly(self, **kwargs):
+        ''' Visualize the ProxyRecord with plotly
+        '''
+        time_lb = visual.make_lb(self.time_name, self.time_unit)
+        value_lb = visual.make_lb(self.value_name, self.value_unit)
+
+        _kwargs = {'markers': 'o', 'template': 'seaborn'}
+        _kwargs.update(kwargs)
+        fig = px.line(
+            x=self.time, y=self.value,
+            labels={'x': time_lb, 'y': value_lb},
+            **_kwargs,
+        )
+
+        return fig
+
+    def plot(self, figsize=[12, 4], legend=False, ms=200, stock_img=True, edge_clr='w',
+        wspace=0.1, hspace=0.1, plot_map=True, p=visual.STYLE, **kwargs):
+        ''' Visualize the ProxyRecord
+
+        Args:
+            figsize (list or tuple): the figure size.
+            legend (bool): if True, plot the legend.
+            ms (int): marker size.
+            stock_img (bool): if True, use the stock image background of Cartopy. Defaults to True.
+            edge_clr (str): the edge color of the record on the map.
+            wspace (float): the width spacing between the subplots.
+            hspace (float): the height spacing between the subplots.
+            plot_map (bool): if True, plot the record on a map. Defaults to True.
+        '''
+        if 'color' not in kwargs and 'c' not in kwargs:
+            if self.ptype in p.colors_dict:
+                kwargs['color'] = p.colors_dict[self.ptype]
+            else:
+                kwargs['color'] = 'tab:blue'
+
+        fig = plt.figure(figsize=figsize)
+
+        gs = gridspec.GridSpec(1, 3)
+        gs.update(wspace=wspace, hspace=hspace)
+        ax = {}
+
+        # plot timeseries
+        ax['ts'] = plt.subplot(gs[0, :2])
+
+        # _kwargs = {'marker': 'o'}
+        _kwargs = {}
+        _kwargs.update(kwargs)
+        ax['ts'].plot(self.time, self.value, **_kwargs)
+
+        time_lb = visual.make_lb(self.time_name, self.time_unit)
+        value_lb = visual.make_lb(self.value_name, self.value_unit)
+        ax['ts'].set_xlabel(time_lb)
+        ax['ts'].set_ylabel(value_lb)
+
+        title = f'{self.pid} ({self.ptype}) @ (lat:{self.lat:.2f}, lon:{self.lon:.2f})'
+        if self.seasonality is not None:
+            title += f'\nSeasonality: {self.seasonality}'
+        ax['ts'].set_title(title)
+
+        if legend:
+            ax['ts'].legend()
+
+        # plot map
+        if plot_map:
+            ax['map'] = plt.subplot(gs[0, 2], projection=ccrs.Orthographic(central_longitude=self.lon, central_latitude=self.lat))
+            ax['map'].set_global()
+            if stock_img:
+                ax['map'].stock_img()
+
+            if self.ptype in p.markers_dict:
+                marker = p.markers_dict[self.ptype]
+            else:
+                marker = 'o'
+            transform=ccrs.PlateCarree()
+            ax['map'].scatter(
+                self.lon, self.lat, marker=marker,
+                s=ms, c=kwargs['color'], edgecolor=edge_clr, transform=transform,
+            )
+
+        return fig, ax
+
+    def dashboard(self, figsize=[10, 8], ms=200, stock_img=True, edge_clr='w', self_lb='real', psd_lb='PSD', pseudo_lb='pseudo',
+        wspace=0.1, hspace=0.3, spec_method='wwz', spec_settings=None, pseudo_clr=None, **kwargs):
+        ''' Plot a dashboard of the proxy/pseudoproxy.
+
+        Args:
+            figsize (list or tuple): the figure size.
+            ms (int): marker size.
+            stock_img (bool): if True, use the stock image background of Cartopy. Defaults to True.
+            edge_clr (str): the edge color of the record on the map.
+            wspace (float): the width spacing between the subplots.
+            hspace (float): the height spacing between the subplots.
+            spec_method (str): the spectral analysis method to apply.
+            spec_settings (dict): the dictionary of the keyword arguments for the specified spectral analysis method.
+            pseudo_clr (str): the color for the pseudoproxy.
+            pseudo_lb (str): the label for the pseudoproxy.
+            self_lb (str): the label for the self ProxyRecord.
+        '''
+        if not hasattr(self, 'pseudo'):
+            raise ValueError('Need to get the pseudoproxy data.')
+
+        if 'color' not in kwargs and 'c' not in kwargs:
+            kwargs['color'] = visual.STYLE.colors_dict[self.ptype]
+
+        fig = plt.figure(figsize=figsize)
+
+        gs = gridspec.GridSpec(2, 3)
+        gs.update(wspace=wspace, hspace=hspace)
+        ax = {}
+
+        # plot proxy/pseudoproxy timeseries
+        ax['ts'] = plt.subplot(gs[0, :2])
+
+        _kwargs = {'label': self_lb, 'zorder': 3, 'alpha': 0.7}
+        _kwargs.update(kwargs)
+        ax['ts'].plot(self.time, self.value, **_kwargs)
+
+        time_lb = visual.make_lb(self.time_name, self.time_unit)
+        value_lb = visual.make_lb(self.value_name, self.value_unit)
+        ax['ts'].set_ylabel(value_lb)
+        ax['ts'].set_xlabel(time_lb)
+        ax['ts'].plot(
+            self.pseudo.time, self.pseudo.value,
+            color=pseudo_clr, label=pseudo_lb)
+        ax['ts'].legend(loc='upper left', ncol=2)
+        title = f'{self.pid} ({self.ptype})'
+        if self.seasonality is not None:
+            title += f'\nSeasonality: {self.seasonality}'
+        ax['ts'].set_title(title)
+
+        # plot probability density
+        ax['pd'] = plt.subplot(gs[0, 2], sharey=ax['ts'])
+        df_real = pd.DataFrame()
+        df_real['value'] = self.value
+        df_real['year'] = [int(t) for t in self.time]
+        df_real['dataset'] = 'real'
+
+        df_pseudo = pd.DataFrame()
+        df_pseudo['value'] = self.pseudo.value
+        df_pseudo['year'] = [int(t) for t in self.pseudo.time]
+        df_pseudo['dataset'] = 'pseudo'
+
+        df = pd.concat([df_real, df_pseudo])
+        df['all'] = ''
+        sns.violinplot(
+            data=df, x='all', y='value', ax=ax['pd'],
+            split=True, hue='dataset', inner='quart',
+            palette={'real': ax['ts'].lines[0].get_color(), 'pseudo': ax['ts'].lines[1].get_color()},
+        )
+        ax['pd'].set_ylabel('')
+        ax['pd'].set_xlabel('')
+        ax['pd'].tick_params(axis='y', colors='none')
+        ax['pd'].yaxis.set_ticks_position('none') 
+        ax['pd'].tick_params(axis='x', colors='none')
+        ax['pd'].xaxis.set_ticks_position('none') 
+        ax['pd'].set_title('Probability Distribution')
+        ax['pd'].legend_ = None
+            
+        # plot map
+        ax['map'] = plt.subplot(gs[1, 2], projection=ccrs.Orthographic(central_longitude=self.lon, central_latitude=self.lat))
+        ax['map'].set_global()
+        if stock_img:
+            ax['map'].stock_img()
+
+        transform=ccrs.PlateCarree()
+        ax['map'].scatter(
+            self.lon, self.lat, marker=visual.STYLE.markers_dict[self.ptype],
+            s=ms, c=visual.STYLE.colors_dict[self.ptype], edgecolor=edge_clr, transform=transform,
+        )
+        ax['map'].set_title(f'lat: {self.lat:.2f}, lon: {self.lon:.2f}')
+
+        # plot PSD
+        ax['psd'] = plt.subplot(gs[1, :2])
+        ts, psd = {}, {}
+        ts['real'] = pyleo.Series(time=self.time, value=self.value)
+        psd['real'] = ts['real'].spectral(method=spec_method, settings=spec_settings)
+        psd['real'].plot(ax=ax['psd'], **_kwargs)
+
+        ts['pseudo'] = pyleo.Series(time=self.pseudo.time, value=self.pseudo.value)
+        psd['pseudo'] = ts['pseudo'].slice([self.time.min(), self.time.max()]).spectral(method=spec_method, settings=spec_settings)
+        psd['pseudo'].plot(ax=ax['psd'], ylabel=psd_lb, color=pseudo_clr, label='pseudo')
+
+        ax['psd'].legend_ = None
+        ax['psd'].text(
+            x=0.95, y=0.97, s=f'Timespan: {int(self.time.min())}-{int(self.time.max())}',
+            horizontalalignment='right',
+            verticalalignment='top',
+            transform=ax['psd'].transAxes,
+        )
+        ax['psd'].set_xlabel('Period [yrs]')
+
+        return fig, ax
+
+    def dashboard_clim(self, clim_units=None, clim_colors=None, figsize=[14, 8], scaled_pr=False, ms=200, stock_img=True, edge_clr='w',
+        wspace=0.3, hspace=0.5, spec_method='wwz', **kwargs):
+        ''' Plot a dashboard of the proxy/pseudoproxy along with the climate signal.
+
+        Args:
+            figsize (list or tuple): the figure size.
+            ms (int): marker size.
+            stock_img (bool): if True, use the stock image background of Cartopy. Defaults to True.
+            edge_clr (str): the edge color of the record on the map.
+            wspace (float): the width spacing between the subplots.
+            hspace (float): the height spacing between the subplots.
+            spec_method (str): the spectral analysis method to apply.
+            pseudo_clr (str): the color for the pseudoproxy.
+            clim_units (dict, optional): the dictionary of units for climate signals. Defaults to None.
+            clim_colors (dict, optional): the dictionary of colors for climate signals. Defaults to None.
+            scaled_pr (bool): scale the precipitation values.
+        '''
+
+        if not hasattr(self, 'clim'):
+            raise ValueError('Need to get the nearest climate data.')
+
+        if not hasattr(self, 'pseudo'):
+            raise ValueError('Need to get the pseudoproxy data.')
+
+        if 'color' not in kwargs and 'c' not in kwargs:
+            kwargs['color'] = visual.STYLE.colors_dict[self.ptype]
+
+        fig = plt.figure(figsize=figsize)
+
+        nclim = len(clim_units)
+        gs = gridspec.GridSpec(2*nclim, 3)
+        gs.update(wspace=wspace, hspace=hspace)
+        ax = {}
+
+        # plot proxy/pseudoproxy timeseries
+        ax['ts'] = plt.subplot(gs[:nclim, :2])
+
+        _kwargs = {'label': 'real', 'zorder': 3}
+        _kwargs.update(kwargs)
+        ax['ts'].plot(self.time, self.value, **_kwargs)
+
+        time_lb = visual.make_lb(self.time_name, self.time_unit)
+        value_lb = visual.make_lb(self.value_name, self.value_unit)
+
+        ax['ts'].set_ylabel(value_lb)
+        ax['ts'].plot(self.pseudo.time, self.pseudo.value, label='pseudo')
+        ax['ts'].legend(loc='upper left', ncol=2, bbox_to_anchor=(0, 1.0))
+        title = f'{self.pid} ({self.ptype}) @ (lat:{self.lat:.2f}, lon:{self.lon:.2f})'
+        if self.seasonality is not None:
+            title += f'\nSeasonality: {self.seasonality}'
+        ax['ts'].set_title(title)
+            
+        # plot climate signals
+        i = 0
+        for k, v in self.clim.items():
+            if k in clim_units:
+                ax[k] = plt.subplot(gs[nclim+i, :2], sharex=ax['ts'])
+                ax[k].plot(v.time, v.da.values, color=clim_colors[k], label=k)
+                # ax[k].set_title(k)
+                vn = k.split('_')[-1] if '_' in k else k
+                ylb = f'{vn} [{clim_units[k]}]'
+                if len(ylb)>=10:
+                    ylb = f'{vn}\n[{clim_units[k]}]'
+                    
+                ax[k].set_ylabel(ylb)
+                if vn == 'pr' and scaled_pr:
+                    ax[k].set_title(r'1e-5', loc='left')
+
+                ax[k].legend(loc='upper left', bbox_to_anchor=(0, 1.2))
+                ax[k].set_xlim([self.time.min(), self.time.max()])
+                i += 1
+        ax[k].set_xlabel(time_lb)
+
+
+        # plot map
+        ax['map'] = plt.subplot(gs[:nclim, 2], projection=ccrs.Orthographic(central_longitude=self.lon, central_latitude=self.lat))
+        ax['map'].set_global()
+        if stock_img:
+            ax['map'].stock_img()
+
+        transform=ccrs.PlateCarree()
+        ax['map'].scatter(
+            self.lon, self.lat, marker=visual.STYLE.markers_dict[self.ptype],
+            s=ms, c=kwargs['color'], edgecolor=edge_clr, transform=transform,
+        )
+
+        # plot spectral analysis
+        try:
+            import pyleoclim as pyleo
+        except:
+            raise ImportError('Need to install pyleoclim: `pip install pyleoclim`.')
+
+        ax['psd'] = plt.subplot(gs[nclim:, 2])
+
+        ts, psd = {}, {}
+        ts['real'] = pyleo.Series(time=self.time, value=self.value)
+        psd['real'] = ts['real'].spectral(method=spec_method)
+        psd['real'].plot(ax=ax['psd'], **_kwargs)
+
+        ts['pseudo'] = pyleo.Series(time=self.pseudo.time, value=self.pseudo.value)
+        psd['pseudo'] = ts['pseudo'].slice([self.time.min(), self.time.max()]).spectral(method=spec_method)
+        psd['pseudo'].plot(ax=ax['psd'], label='pseudo')
+
+        for k, v in self.clim.items():
+            if k in clim_units:
+                ts[k] = pyleo.Series(time=v.time, value=v.da.values)
+                psd[k] = ts[k].slice([self.time.min(), self.time.max()]).spectral(method=spec_method)
+                psd[k].plot(ax=ax['psd'], label=k, color=clim_colors[k])
+
+        # ax['psd'].legend(loc='upper left', ncol=2, bbox_to_anchor=(0, 1.2))
+        ax['psd'].legend_ = None
+        ax['psd'].set_title(f'Timespan: {int(self.time.min())}-{int(self.time.max())}')
+
+        return fig, ax
+
+    def plot_dups(self, figsize=[12, 4], legend=False, ms=200, stock_img=True, edge_clr='w',
+            wspace=0.1, hspace=0.1, plot_map=True, lgd_kws=None, **kwargs):
+        ''' Plot the against other duplicated records
+
+        Args:
+            figsize (list or tuple): the figure size.
+            legend (bool): if True, plot the legend.
+            ms (int): marker size.
+            stock_img (bool): if True, use the stock image background of Cartopy. Defaults to True.
+            edge_clr (str): the edge color of the record on the map.
+            wspace (float): the width spacing between the subplots.
+            hspace (float): the height spacing between the subplots.
+            plot_map (bool): if True, plot the record on a map.
+            lgd_kws (diction): the dictionary of keyword arguments for the legend.
+        '''
+        lgd_kws = {} if lgd_kws is None else lgd_kws
+
+        fig, ax = self.plot(
+            figsize=figsize,
+            legend=legend,
+            ms=ms,
+            stock_img=stock_img,
+            edge_clr=edge_clr,
+            wspace=wspace,
+            hspace=hspace,
+            plot_map=plot_map,
+            label=f'{self.pid} ({self.ptype})',
+            **kwargs
+        )
+        for pobj in self.dups:
+            ax['ts'].plot(pobj.time, pobj.value, label=f'{pobj.pid} ({pobj.ptype})')
+            transform=ccrs.PlateCarree()
+            ax['map'].scatter(
+                pobj.lon, pobj.lat, marker=visual.STYLE.markers_dict[pobj.ptype],
+                s=ms, edgecolor=edge_clr, transform=transform,
+            )
+
+        ax['ts'].set_ylabel('Proxy values')
+        _lgd_kws = {'ncol': 2}
+        _lgd_kws.update(lgd_kws)
+        ax['ts'].legend(**_lgd_kws)
+
+        return fig, ax
+
+    def plot_compare(self, ref, label=None, title=None, ref_label=None, ref_color=None, ref_zorder=2,
+                    figsize=[12, 4], legend=False, ms=200, stock_img=True, edge_clr='w',
+                    wspace=0.1, hspace=0.1, plot_map=True, lgd_kws=None, **kwargs):
+        ''' Plot against another reference record.
+
+        Args:
+            ref (cfr.proxy.ProxyRecord): the reference record.
+            label (str): the label of the self record.
+            ref_label (str): the label of the reference record.
+            ref_color (str): the color to visualize the reference record.
+            ref_zorder (int): the z-axis ordering of the reference record.
+            title (str): the title of the figure.
+            figsize (list or tuple): the figure size.
+            legend (bool): if True, plot the legend.
+            ms (int): marker size.
+            stock_img (bool): if True, use the stock image background of Cartopy. Defaults to True.
+            edge_clr (str): the edge color of the record on the map.
+            wspace (float): the width spacing between the subplots.
+            hspace (float): the height spacing between the subplots.
+            plot_map (bool): if True, plot the record on a map.
+            lgd_kws (diction): the dictionary of keyword arguments for the legend.
+        '''
+        lgd_kws = {} if lgd_kws is None else lgd_kws
+
+        fig, ax = self.plot(
+            figsize=figsize,
+            legend=legend,
+            ms=ms,
+            stock_img=stock_img,
+            edge_clr=edge_clr,
+            wspace=wspace,
+            hspace=hspace,
+            plot_map=plot_map,
+            label=label,
+            **kwargs
+        )
+
+        if title is not None:
+            ax['ts'].set_title(title)
+
+        ax['ts'].plot(ref.time, ref.value, color=ref_color, label=ref_label, zorder=ref_zorder)
+        # transform=ccrs.PlateCarree()
+        # ax['map'].scatter(
+        #     ref.lon, ref.lat, marker=visual.STYLE.markers_dict[ref.ptype],
+        #     s=ms, edgecolor=edge_clr, transform=transform,
+        #     zorder=ref_zorder, 
+        # )
+
+        if label is not None or ref_label is not None:
+            _lgd_kws = {'ncol': 2}
+            _lgd_kws.update(lgd_kws)
+            ax['ts'].legend(**_lgd_kws)
+
+        return fig, ax
+
+
+class ProxyDatabase:
+    ''' The class for a proxy database.
+    '''
+    def __init__(self, records=None, source=None):
+        ''' Initialize a ProxyDatabase
+
+        Args:
+            records (dict): a dict of the :py:mod:`cfr.proxy.ProxyRecord` objects with proxy ID as keys
+            source (str): a path to the original source file
+        '''
+        self.records = {} if records is None else records
+        self.source = source
+        if records is not None:
+            self.refresh()
+
+    def __getitem__(self, key):
+        ''' This makes the object subscriptable. '''
+        if type(key) is str:
+            new = self.records[key]
+        else:
+            new = self.copy()
+            key = new.pids[key]
+            new = new.filter(by='pid', keys=key, mode='exact')
+            if len(new.records) == 1:
+                pid = new.pids[0]
+                new = new.records[pid]
+
+        return new
+
+    def copy(self):
+        ''' Make a deepcopy of the object. '''
+        return copy.deepcopy(self)
+
+    def center(self, ref_period, force=False, thresh=5, verbose=False):
+        ''' Center the proxy timeseries against a reference time period.
+
+        Args:
+            ref_period (tuple or list): the reference time period in the form or (start_yr, end_yr)
+            force (bool): if True, perform a calendar year annualization if the given months cannot be applied to the data due to missing months in the data. Defaults to `False`.
+            thresh (int): the minimum number of data points to perform the processing.
+            
+        Returns
+            new (cfr.ProxyDatabase)
+        '''
+        new = ProxyDatabase()
+        for pid, pobj in tqdm(self.records.items(), total=self.nrec, desc='Centering each of the ProxyRecord'):
+            spobj = pobj.center(ref_period=ref_period, force=force, thresh=thresh, verbose=False)
+            new += spobj
+
+        new = new.filter(by='tag', keys=['centered'])
+        if verbose and not force: p_warning(f'{self.nrec - new.nrec} records have been dropped as they cannot be properly centered with the reference period.')
+        return new
+    
+    def standardize(self, ref_period, force=False, thresh=5, verbose=False):
+        ''' Standardize elements of a proxy database against a reference time period.
+            Elements that have no values over the reference period are dropped 
+
+        Args:
+            ref_period (tuple or list): the reference time period in the form or (start_yr, end_yr)
+            force (bool): if True, perform a calendar year annualization if the given months cannot be applied to the data due to missing months in the data. Defaults to `False`.
+            thresh (int): the minimum number of data points to perform the processing.
+            
+        Returns
+            new (cfr.ProxyDatabase)
+        '''
+        new = ProxyDatabase()
+        for pid, pobj in tqdm(self.records.items(), total=self.nrec, desc='Standardizing each of the ProxyRecords'):
+            spobj = pobj.standardize(ref_period=ref_period, force=force, thresh=thresh, verbose=False)
+            new += spobj
+
+        new = new.filter(by='tag', keys=['standardized'])
+        if verbose and not force: p_warning(f'{self.nrec - new.nrec} records have been dropped as they cannot be properly standardized with the reference period.')
+        return new
+
+    def refresh(self):
+        ''' Refresh a bunch of attributes. '''
+        self.nrec = len(self.records)
+        self.pids = [pobj.pid for pid, pobj in self.records.items()]
+        self.lats = [pobj.lat for pid, pobj in self.records.items()]
+        self.lons = [pobj.lon for pid, pobj in self.records.items()]
+        self.elevs = [pobj.elev for pid, pobj in self.records.items()]
+        self.type_list = [pobj.ptype for pid, pobj in self.records.items()]
+        self.type_dict = {}
+        for t in self.type_list:
+            if t not in self.type_dict:
+                self.type_dict[t] = 1
+            else:
+                self.type_dict[t] += 1
+
+    def fetch(self, name=None, **kwargs):
+        ''' Fetch a proxy database from cloud
+
+        Args:
+            name (str): a predifined database name or an URL starting with "http" 
+        '''
+        url_dict = utils.proxydb_url_dict
+
+        if name is None:
+            p_warning(f'>>> Choose one from the supported databases:')
+            for k in url_dict.keys():
+                p_warning(f'- {k}')
+            return None
+
+        if name in url_dict:
+            url = url_dict[name]
+        else:
+            url = name
+
+        read_func = {
+            '.json': pd.read_json,
+            '.csv': pd.read_csv,
+            '.pkl': pd.read_pickle,
+        }
+        ext = os.path.splitext(url)[-1].lower()
+        if ext == '.nc':
+            if url[:4] == 'http':
+                # cloud
+                fpath = '.cfr_download_tmp'
+                if os.path.exists(fpath): os.remove(fpath)
+                utils.download(url, fpath, show_bar=False)
+                pdb = self.load_nc(fpath)
+                os.remove(fpath)
+            else:
+                # local
+                pdb = self.load_nc(url, **kwargs)
+        elif ext in read_func:
+            # cloud & local
+            df = read_func[ext](url)
+            pdb = self.from_df(df, **kwargs)
+        else:
+            raise ValueError('Wrong file extention based on the given URL!')
+
+        return pdb
+
+    def from_df(self, df, pid_column='paleoData_pages2kID', lat_column='geo_meanLat', lon_column='geo_meanLon', elev_column='geo_meanElev',
+                time_column='year', value_column='paleoData_values', proxy_type_column='paleoData_proxy', archive_type_column='archiveType',
+                ptype_column='ptype', value_name_column='paleoData_variableName', value_unit_column='paleoData_units', R_column='R',
+                climate_column='climateInterpretation_variable', verbose=False):
+        ''' Load database from a `pandas.DataFrame`. Note that in most cases, the column names have to be specified.
+
+        Args:
+            df (pandas.DataFrame): a Pandas DataFrame include at least lat, lon, time, value, proxy_type
+            pid_column (str): the column name for proxy ID.
+            lat_column (str): the column name for latitude.
+            lon_column (str): the column name for longitude.
+            elev_column (str): the column name for elevation.
+            time_column (str): the column name for time axis.
+            value_column (str): the column name for value axis.
+            proxy_type_column (str): the column name for proxy type information.
+            archive_type_column (str): the column name for archive type information.
+            ptype_column (str): the column name for proxy type information in format "archive.proxy".
+            value_name_column (str): the column name for proxy variable name.
+            value_unit_column (str): the column name for proxy variable unit.
+            verbose (bool, optional): print verbose information. Defaults to False.
+        '''
+        new = self.copy()
+        if not isinstance(df, pd.DataFrame):
+            err_msg = 'the input df should be a Pandas DataFrame.'
+            if verbose:
+                utils.p_fail(f'ProxyDatabase.from_df() >>> {err_msg}')
+            raise TypeError(err_msg)
+
+        records = OrderedDict()
+
+        for idx, row in df.iterrows():
+            if ptype_column not in row:
+                proxy_type = row[proxy_type_column]
+                archive_type = row[archive_type_column]
+                ptype = get_ptype(archive_type, proxy_type)
+            else:
+                ptype = row[ptype_column]
+            pid = row[pid_column]
+            lat = row[lat_column]
+            lon = np.mod(row[lon_column], 360)
+            elev = row[elev_column]
+            time = row[time_column]
+            if type(time) is str:
+                time = utils.arr_str2np(time)
+            value = row[value_column]
+            if type(value) is str:
+                value = utils.arr_str2np(value)
+
+            time = np.atleast_1d(time)
+            value = np.atleast_1d(value)
+
+            if len(time) != len(value):
+                print(row[value_column])
+                print(value)
+
+            time, value = utils.clean_ts(time, value)
+            value_name=row[value_name_column] if value_name_column in row else None
+            value_unit=row[value_unit_column] if value_name_column in row else None
+            if climate_column in row:
+                climate = row[climate_column]
+            else:
+                climate = None
+
+            record = ProxyRecord(
+                pid=pid, lat=lat, lon=lon, elev=elev,
+                time=time, value=value, ptype=ptype,
+                value_name=value_name, value_unit=value_unit,
+                climate=climate,
+            )
+            if R_column in row:
+                record.R = row[R_column]
+
+            records[pid] = record
+
+        # update the attributes
+        new.records = records
+        new.refresh()
+        return new
+
+    def __add__(self, records):
+        ''' Add a list of records into the database.
+
+        Args:
+            records (list): a list of :py:mod:`cfr.proxy.ProxyRecord`
+                can also be a single :py:mod:`cfr.proxy.ProxyRecord` or :py:mod:`cfr.proxy.ProxyDatabase`
+
+        '''
+        new = self.copy()
+        if isinstance(records, ProxyRecord):
+            # if only one record
+            records = [records]
+
+        if isinstance(records, ProxyDatabase):
+            # if a database
+            pdb = records
+            records = [pdb.records[pid] for pid in pdb.records.keys()]
+
+        for record in records:
+            new.records[record.pid] = record
+
+        new.refresh()
+        return new
+
+    def __sub__(self, records):
+        ''' Subtract a list of records from a database.
+
+        Args:
+            records (list): a list of :py:mod:`cfr.proxy.ProxyRecord`
+                can also be a single :py:mod:`cfr.proxy.ProxyRecord` or :py:mod:`cfr.proxy.ProxyDatabase`
+
+        '''
+        new = self.copy()
+        if isinstance(records, ProxyRecord):
+            # if only one record
+            records = [records]
+
+        if isinstance(records, ProxyDatabase):
+            # if a database
+            pdb = records
+            records = [pdb.records[pid] for pid in pdb.records.keys()]
+
+        for record in records:
+            try:
+                del new.records[record.pid]
+            except:
+                utils.p_warning(f'>>> Subtracting {record.pid} failed.')
+
+        new.refresh()
+        return new
+
+    def filter(self, by, keys, mode='fuzzy'):
+        ''' Filter the proxy database according to given ptype list.
+
+        Args:
+            by (str): filter by a keyword {'ptype', 'pid', 'dt', 'lat', 'lon', 'loc', 'tag'}
+            keys (set): a set of keywords
+
+                * For `by = 'ptype' or 'pid'`, keys take a fuzzy match
+                * For `by = 'dt' or 'lat' or 'lon'`, keys = (min, max)
+                * For `by = 'loc-squre'`, keys = (lat_min, lat_max, lon_min, lon_max)
+                * For `by = 'loc-circle'`, keys = (center_lat, center_lon, distance)
+                * For `by = 'tag'`, keys should be a list of tags
+
+            mode (str): 'fuzzy' or 'exact' search when `by = 'ptype' or 'pid'`
+
+        '''
+        if isinstance(keys, str): keys = [keys]
+
+        new_db = ProxyDatabase()
+        pobjs = []
+        for pid, pobj in self.records.items():
+            target = {
+                'ptype': pobj.ptype,
+                'pid': pobj.pid,
+                'dt': pobj.dt,
+                'lat': pobj.lat,
+                'lon': pobj.lon,
+                'loc-square': (pobj.lat, pobj.lon),
+                'loc-circle': (pobj.lat, pobj.lon),
+                'tag': pobj.tags,
+            }
+            if by in ['ptype', 'pid']:
+                for key in keys:
+                    if mode == 'fuzzy':
+                        if key in target[by]:
+                            pobjs.append(pobj)
+                    elif mode == 'exact':
+                        if key == target[by]:
+                            pobjs.append(pobj)
+            elif by in ['dt', 'lat', 'lon']:
+                if target[by] >= keys[0] and target[by] <= keys[-1]:
+                    pobjs.append(pobj)
+            elif by == 'loc-square':
+                plat, plon = target[by]
+                if plat >= keys[0] and plat <= keys[1] and plon >= keys[2] and plon <= keys[3]:
+                    pobjs.append(pobj)
+            elif by == 'loc-circle':
+                plat, plon = target[by]
+                d = utils.gcd(plat, plon, keys[0], keys[1])
+                if d <= keys[2]:
+                    pobjs.append(pobj)
+            elif by == 'tag':
+                if set(keys) <= target[by]:
+                    pobjs.append(pobj)
+            
+        new_db += pobjs
+        new_db.refresh()
+        return new_db
+
+    def nrec_tags(self, keys):
+        ''' Check the number of tagged records.
+
+        Args:
+            keys (list): list of tag strings
+
+        '''
+        nrec = 0
+        if isinstance(keys, str): keys = [keys]
+        keys = set(keys)
+        for pid, pobj in self.records.items():
+            if keys <= pobj.tags:
+                nrec += 1
+
+        return nrec
+
+    def find_duplicates(self, r_thresh=0.9, time_period=[0, 2000]):
+        ''' Find duplicated proxy records based on a correlation threshold.
+        
+        Args:
+            r_thresh (float): the correlation threshold to determine if two records are duplicated. Defaults to 0.9.
+            time_period (tuple or list): the timespan over which to compare two records. Defaults to [0, 2000].
+        '''
+        df_proxy = pd.DataFrame(index=np.arange(time_period[0], time_period[1]+1))
+        for pid, pobj in self.records.items():
+            series = pd.Series(index=pobj.time, data=pobj.value, name=pid)
+            df_proxy = pd.concat([df_proxy, series], axis=1)
+
+        mask = (df_proxy.index>=time_period[0]) & (df_proxy.index<=time_period[-1])
+        df_proxy = df_proxy[mask]
+        pid_list = df_proxy.columns.values
+        R = np.triu(df_proxy.corr(), k=1)
+        R[R==0] = np.nan
+        di, dj = np.where(R >= r_thresh)
+        dup_pids = []
+        for i, j in zip(di, dj):
+            pid_i = pid_list[i]
+            pid_j = pid_list[j]
+            if not hasattr(self.records[pid_i], 'dups'):
+                self.records[pid_i].dups = [self.records[pid_j]]
+                self.records[pid_i].dup_pids = [pid_j]
+            else:
+                self.records[pid_i].dups.append(self.records[pid_j])
+                self.records[pid_i].dup_pids.append(pid_j)
+
+            if not hasattr(self.records[pid_j], 'dups'):
+                self.records[pid_j].dups = [self.records[pid_i]]
+                self.records[pid_j].dup_pids = [pid_i]
+            else:
+                self.records[pid_j].dups.append(self.records[pid_i])
+                self.records[pid_j].dup_pids.append(pid_i)
+
+            dup_pids.append(pid_i)
+            dup_pids.append(pid_j)
+
+        dup_pids = set(dup_pids)
+        pdb_dups = self.filter(by='pid', keys=dup_pids, mode='exact')
+        pdb_dups.groups = []
+        for pid, pobj in pdb_dups.records.items():
+            s_tmp = set([pid, *pobj.dup_pids])
+            flag = True
+            for g in pdb_dups.groups:
+                if len(s_tmp & set(g)) > 0:  # found in an existing group
+                    g |= s_tmp  # merge into that group
+                    flag = False  # will not create a new group
+                    break
+
+            if flag:
+                pdb_dups.groups.append(s_tmp)
+
+        pdb_dups.dup_args = {'r_thresh': r_thresh, 'time_period': time_period}
+
+        p_header('>>> Groups of duplicates:')
+        for i, g in enumerate(pdb_dups.groups):
+            print(i+1, g)
+
+        p_header('>>> Hint for the next step:')
+        p_header('Use the method `ProxyDatabase.squeeze_dups(pids_to_keep=pid_list)` to keep only one record from each group.')
+
+        return pdb_dups
+
+    def squeeze_dups(self, pids_to_keep=None):
+        ''' Remove the duplicated records and keep only one.
+
+        Args:
+            pids_to_keep (list): a list of proxy IDs forced to keep.
+        '''
+        if pids_to_keep is None:
+            p_warning('>>> Note: since `pids_to_keep` is not specified, the first of each group of the duplicates is picked.')
+            pids_to_keep = []
+            for g in self.groups:
+                pids_to_keep.append(list(g)[0])
+        
+        pids_to_keep = set(pids_to_keep)
+        p_header(f'>>> pids to keep (n={len(pids_to_keep)}):')
+        print(pids_to_keep)
+        pdb_to_keep = self.filter(by='pid', keys=pids_to_keep)
+        for pid, pobj in pdb_to_keep.records.items():
+            if hasattr(pobj, 'dups'): del(pobj.dups)
+            if hasattr(pobj, 'dup_pids'):del(pobj.dup_pids)
+        return pdb_to_keep
+        
+
+    def plot(self, **kws):
+        '''Visualize the proxy database. See :py:func:`cfr.visual.plot_proxies()` for more information.
+        '''
+
+        time_list = []
+        for pid, pobj in self.records.items():
+            time_list.append(pobj.time)
+
+        df = pd.DataFrame({'lat': self.lats, 'lon': self.lons, 'type': self.type_list, 'time': time_list, 'pid': self.pids})
+
+        if 'return_gs' in kws and kws['return_gs'] is True:
+            fig, ax, gs = visual.plot_proxies(df, **kws)
+            return fig, ax, gs
+        else:
+            fig, ax = visual.plot_proxies(df, **kws)
+            return fig, ax
+
+
+    def plotly_concise(self, **kwargs):
+        ''' Plot the database on an interactive map utilizing Plotly
+        '''
+        df = self.to_df()
+        fig = px.scatter_geo(
+            df, lat='lat', lon='lon',
+            color='ptype',
+            hover_name='pid',
+            projection='natural earth',
+            **kwargs,
+        )
+
+        return fig
+
+
+    def plotly(self, **kwargs):
+        '''Plot the database on an interactive map utilizing Plotly
+        '''
+
+        df = self.to_df()
+        fig = visual.plotly_proxies(df,**kwargs)
+        return fig
+    
+    def plotly_count(self,**kwargs):
+        ''' Plot the database number-counting on an interactive map utilizing Plotly
+        '''
+        df = self.to_df()
+        fig = visual.plotly_proxies_count(df,**kwargs)
+        return fig
+
+
+
+    def make_composite(self, obs=None, obs_nc_path=None, vn='tas', lat_name=None, lon_name=None, bin_width=10, n_bootstraps=1000, qs=(0.025, 0.975), stat_func=np.nanmean, anom_period=[1951, 1980]):
+        ''' Make composites of the records in the proxy database.
+
+        Args:
+            obs (cfr.climate.ClimateField): the observation field as a reference for scaling the proxy values.
+            obs_nc_path (str):  the path of the netCDF file of the reference observation.
+            vn (str): the variable name of the referenced observation.
+            lat_name (str): the name of the latitude dimension in the referenced observation.
+            lon_name (str): the name of the longitude dimension in the referenced observation.
+            bin_width (int): the width for binning.
+            n_bootstraps (int): the number of bootstraps for uncertainty quantification.
+            qs (list or tuple): the quantiles to plot.
+            stat_func (function): the function to apply for the calculation of the binned value.
+            anom_period (list or tuple): the time period over which to calculate the anomaly.
+        '''
+        if obs is None and obs_nc_path is not None:
+            obs = ClimateField().load_nc(obs_nc_path, vn=vn, lat_name=lat_name, lon_name=lon_name)
+
+        for pid, pobj in tqdm(self.records.items(), total=self.nrec, desc='Analyzing ProxyRecord'):
+            pobj_stdd = pobj.standardize()
+            proxy_time, proxy_value, _ = utils.smooth_ts(pobj_stdd.time, pobj_stdd.value, bin_width=bin_width)
+
+            ts_proxy = pd.Series(index=proxy_time, data=proxy_value, name=pid)
+            if 'df_proxy' not in locals():
+                df_proxy = ts_proxy.to_frame()
+            else:
+                df_proxy = pd.merge(df_proxy, ts_proxy, left_index=True, right_index=True, how='outer')
+
+            if obs is not None:
+                pobj.get_clim(obs, tag='obs')
+                pobj.clim[f'obs.{vn}'].center(ref_period=anom_period)
+                clim_time = utils.datetime2year_float(pobj.clim[f'obs.{vn}'].da.time.values)
+                obs_time, obs_value, _ = utils.smooth_ts(clim_time, pobj.clim[f'obs.{vn}'].da.values, bin_width=bin_width)
+                ts_obs = pd.Series(index=obs_time, data=obs_value, name=pid)
+
+                if 'df_obs' not in locals():
+                    df_obs = ts_obs.to_frame()
+                else:
+                    df_obs = pd.merge(df_obs, ts_obs, left_index=True, right_index=True, how='outer')
+            else:
+                df_obs = None
+
+        proxy_comp = df_proxy.apply(stat_func, axis=1)
+
+        if obs is not None:
+            obs_comp = df_obs.apply(stat_func, axis=1)
+            ols_model = utils.ols_ts(proxy_comp.index, proxy_comp.values, obs_comp.index, obs_comp.values)
+            results = ols_model.fit()
+            intercept = results.params[0]
+            slope = results.params[1]
+            r2 = results.rsquared
+        else:
+            obs_comp = None
+            r2 = None
+            slope = 1 / np.nanstd(proxy_comp.values)
+            intercept = - np.nanmean(proxy_comp.values) * slope
+
+        proxy_comp_scaled = proxy_comp.values*slope + intercept
+
+        proxy_bin_vector = utils.make_bin_vector(proxy_comp.index, bin_width=bin_width)
+        proxy_comp_time, proxy_comp_value = utils.bin_ts(proxy_comp.index, proxy_comp_scaled, bin_vector=proxy_bin_vector, smoothed=True)
+
+        if obs is not None:
+            obs_bin_vector = utils.make_bin_vector(obs_comp.index, bin_width=bin_width)
+            obs_comp_time, obs_comp_value = utils.bin_ts(obs_comp.index, obs_comp.values, bin_vector=obs_bin_vector, smoothed=True)
+        else:
+            obs_comp_time = None
+            obs_comp_value = None
+
+        proxy_sq_low = np.empty_like(proxy_comp.index)
+        proxy_sq_high = np.empty_like(proxy_comp.index)
+        proxy_num = np.empty_like(proxy_comp.index)
+        idx = 0
+        for _, row in tqdm(df_proxy.iterrows(), total=len(df_proxy), desc='Bootstrapping'):
+            samples = np.array(row.to_list())*slope + intercept
+            proxy_num[idx] = np.size([s for s in samples if not np.isnan(s)])
+            bootstrap_samples = utils.bootstrap(samples, n_bootstraps=n_bootstraps, stat_func=stat_func)
+            proxy_sq_low[idx] = np.quantile(bootstrap_samples, qs[0])
+            proxy_sq_high[idx] = np.quantile(bootstrap_samples, qs[1])
+            idx += 1
+
+        proxy_sq_low_time, proxy_sq_low_value = utils.bin_ts(proxy_comp.index, proxy_sq_low, bin_vector=proxy_bin_vector, smoothed=True)
+        proxy_sq_high_time, proxy_sq_high_value = utils.bin_ts(proxy_comp.index, proxy_sq_high, bin_vector=proxy_bin_vector, smoothed=True)
+        proxy_num_time, proxy_num_value = utils.bin_ts(proxy_comp.index, proxy_num, bin_vector=proxy_bin_vector, smoothed=True)
+
+        res_dict = {
+            'df_proxy': df_proxy,
+            'df_obs': df_obs,
+            'proxy_comp': proxy_comp,
+            'proxy_comp_time': proxy_comp_time,
+            'proxy_comp_value': proxy_comp_value,
+            'proxy_sq_low_time': proxy_sq_low_time,
+            'proxy_sq_high_time': proxy_sq_high_time,
+            'proxy_sq_low_value': proxy_sq_low_value,
+            'proxy_sq_high_value': proxy_sq_high_value,
+            'proxy_num': proxy_num,
+            'proxy_num_time': proxy_num_time,
+            'proxy_num_value': proxy_num_value,
+            'obs_comp': obs_comp,
+            'obs_comp_time': obs_comp_time,
+            'obs_comp_value': obs_comp_value,
+            'bin_width': bin_width,
+            'intercept': intercept,
+            'slope': slope,
+            'r2': r2,
+        }
+
+        pdb_new = self.copy()
+        pdb_new.composite = res_dict
+        return pdb_new
+
+
+    def plot_composite(self, figsize=[10, 4], clr_proxy=None, clr_count='tab:gray', clr_obs='tab:red',
+                       left_ylim=[-2, 2], right_ylim=None, ylim_num=5, xlim=[0, 2000], base_n=60,
+                       ax=None):
+        ''' Plot the composites of the records in the proxy database.
+
+        Args:
+            figsize (list or tuple): the figure size.
+            clr_proxy (str): the color to visualize the proxy composite curve.
+            clr_count (str): the color to visualize the record count.
+            clr_obs (str): the color to visualize the referenced observation.
+            left_ylim (list): the limit for the left y-axis.
+            right_ylim (list): the limit for the right y-axis.
+            ylim_num (int): the number of ticks for the left y-axis
+            xlim (list): the limit for the x-axis.
+            base_n (int): the number to determine the upper bound for the record count.
+            ax (object, optional): `matplotlib.axes`. Defaults to None.
+        '''
+        archives = set()
+        for k in self.type_list:
+            try:
+                archives.add(k.split('.')[0])
+            except:
+                archives.add(k)
+
+        if len(archives) == 1:
+            archive = list(archives)[0]
+        else:
+            archive = 'Multiple Archives'
+
+        if clr_proxy is None:
+            if archive in visual.PAGES2k.archive_types:
+                clr_proxy = visual.PAGES2k.colors_dict[archive]
+            else:
+                clr_proxy = 'tab:blue'
+
+        if ax is None:
+            fig = plt.figure(figsize=figsize,facecolor='white')
+            ax = {}
+
+        # title_font = {
+        #     'fontname': 'Arial',
+        #     'size': '24',
+        #     'color': 'black',
+        #     'weight': 'normal',
+        #     'verticalalignment': 'bottom',
+        # }
+        if self.composite['df_obs'] is not None:
+            lb_proxy = fr'proxy, conversion factor = {np.abs(self.composite["slope"]):.3f}, $R^2$ = {self.composite["r2"]:.3f}'
+        else:
+            lb_proxy = f'proxy, conversion factor = {np.abs(self.composite["slope"]):.3f}'
+
+        ax['var'] = fig.add_subplot()
+        ax['var'].plot(self.composite['proxy_comp_time'], self.composite['proxy_comp_value'], color=clr_proxy, lw=1, label=lb_proxy)
+        if self.composite['df_obs'] is not None:
+            ax['var'].plot(self.composite['obs_comp_time'], self.composite['obs_comp_value'], color=clr_obs, lw=1, label='instrumental')
+        ax['var'].fill_between(
+            self.composite['proxy_sq_low_time'],
+            self.composite['proxy_sq_low_value'],
+            self.composite['proxy_sq_high_value'],
+            alpha=0.2, color=clr_proxy,
+        )
+        ax['var'].set_xlim(xlim)
+        ax['var'].set_ylim(left_ylim)
+        ax['var'].set_yticks(np.linspace(np.min(left_ylim), np.max(left_ylim), ylim_num))
+        ax['var'].set_xticks(np.linspace(np.min(xlim), np.max(xlim), 5))
+        ax['var'].set_yticks(np.linspace(left_ylim[0], left_ylim[1], ylim_num))
+        ax['var'].set_xlabel('Year (CE)')
+        ax['var'].set_ylabel('Composite', color=clr_proxy)
+        ax['var'].tick_params('y', colors=clr_proxy)
+        ax['var'].spines['left'].set_color(clr_proxy)
+        ax['var'].spines['bottom'].set_color('k')
+        ax['var'].spines['bottom'].set_alpha(0.5)
+        ax['var'].spines['top'].set_visible(False)
+        ax['var'].yaxis.grid(True, color=clr_proxy, alpha=0.5, ls='-')
+        ax['var'].xaxis.grid(False)
+        ax['var'].set_title(f'{archive}, {self.nrec} records, bin_width={self.composite["bin_width"]}', weight='bold')
+        ax['var'].legend(loc='upper left', frameon=False)
+
+        ax['count'] = ax['var'].twinx()
+        ax['count'].set_ylabel('# records', color=clr_count)
+        ax['count'].bar(
+            self.composite['proxy_comp'].index,
+            self.composite['proxy_num'],
+            self.composite['bin_width']*0.9, color=clr_count, alpha=0.2)
+
+        if right_ylim is None:
+            count_max = int((np.max(self.composite['proxy_num']) // base_n + 1) * base_n)
+            right_ylim = [0, count_max]
+
+        ax['count'].set_ylim(right_ylim)
+        ax['count'].set_yticks(np.linspace(np.min(right_ylim), np.max(right_ylim), ylim_num))
+        ax['count'].grid(False)
+        ax['count'].spines['bottom'].set_visible(False)
+        ax['count'].spines['right'].set_visible(True)
+        ax['count'].spines['left'].set_visible(False)
+        ax['count'].spines['top'].set_visible(False)
+        ax['count'].tick_params(axis='y', colors=clr_count)
+        ax['count'].spines['right'].set_color(clr_count)
+
+        if 'fig' in locals():
+            return fig, ax
+        else:
+            return ax
+
+    def annualize(self, months=list(range(1, 13)), force=False, verbose=False):
+        ''' Annualize the records in the proxy database.
+
+        Args:
+            months (list): the months based on which for annualization; e.g., [6, 7, 8] means JJA annualization
+            force (bool): if True, perform a calendar year annualization if the given months cannot be applied to the data due to missing months in the data. Defaults to `False`.
+        '''
+        new = ProxyDatabase()
+        for pid, pobj in tqdm(self.records.items(), total=self.nrec, desc='Annualizing ProxyDatabase'):
+            spobj = pobj.annualize(months=months, force=force, verbose=False)
+            new += spobj
+
+        new = new.filter(by='tag', keys=['annualized'])
+        if verbose and not force: p_warning(f'{self.nrec - new.nrec} records have been dropped as they cannot be properly annualized with the given months.')
+        return new
+
+    def slice(self, timespan):
+        ''' Slice the records in the proxy database.
+
+        Args:
+            timespan (tuple or list):
+                The list of time points for slicing, whose length must be even.
+                When there are n time points, the output Series includes n/2 segments.
+                For example, if timespan = [a, b], then the sliced output includes one segment [a, b];
+                if timespan = [a, b, c, d], then the sliced output includes segment [a, b] and segment [c, d].
+        '''
+        new = ProxyDatabase()
+        for pid, pobj in tqdm(self.records.items(), total=self.nrec, desc='Slicing ProxyRecord'):
+            spobj = pobj.slice(timespan=timespan)
+            new += spobj
+
+        new.refresh()
+        return new
+
+
+    def del_clim(self, verbose=False):
+        ''' Delete the nearest climate data for the records in the proxy database.
+
+        Args:
+            verbose (bool, optional): print verbose information. Defaults to False.
+        '''
+        new = ProxyDatabase()
+        for pid, pobj in tqdm(self.records.items(), total=self.nrec, desc='Deleting the nearest climate for ProxyRecord'):
+            pobj.del_clim(verbose=verbose)
+            new += pobj
+
+        new.refresh()
+        return new
+
+    def get_clim(self, field, tag=None, verbose=False, load=True, **kwargs):
+        ''' Get the nearest climate data for the records in the proxy database.
+
+        Args:
+            fields (list of cfr.climate.ClimateField): the climate fields
+            tag (str): the tag to put on the obtained climate field, which will be named in the format of "tag.variable_name".
+            verbose (bool, optional): print verbose information. Defaults to False.
+            load (bool): if True, the list of climate fields will be loaded into the memory instead of lazy loading.
+        '''
+
+        new = ProxyDatabase()
+        for pid, pobj in tqdm(self.records.items(), total=self.nrec, desc='Getting the nearest climate for ProxyRecord'):
+            pobj.get_clim(field, tag=tag, verbose=verbose, load=load, **kwargs)
+            new += pobj
+
+        new.refresh()
+
+        return new
+
+    def to_df(self):
+        ''' Convert the proxy database to a `pandas.DataFrame`.'''
+        df = pd.DataFrame(columns=['pid', 'lat', 'lon', 'elev', 'ptype', 'time', 'value'])
+        df['time'] = df['time'].astype(object)
+        df['value'] = df['value'].astype(object)
+
+        i = 0
+        for pid, pobj in self.records.items():
+            df.loc[i, 'pid'] = pobj.pid
+            df.loc[i, 'lat'] = pobj.lat
+            df.loc[i, 'lon'] = pobj.lon
+            df.loc[i, 'elev'] = pobj.elev
+            df.loc[i, 'ptype'] = pobj.ptype
+            df.at[i, 'time'] = np.array(pobj.time)
+            df.at[i, 'value'] = np.array(pobj.value)
+            if hasattr(pobj, 'R'):
+                df.loc[i, 'R'] = pobj.R
+            i += 1
+            
+        return df
+
+    def to_ds(self, annualize=False, months=None, verbose=True):
+        ''' Convert the proxy database to a `xarray.Dataset`
+
+        Args:
+            annualize (bool): annualize the proxy records with `months`
+            months (list): months for annulization
+            verbose (bool, optional): print verbose information. Defaults to False.
+        '''
+        p_warning('>>> Warning: this is an experimental feature.')
+        da_dict = {}
+        pid_truncated = []
+        for pobj in tqdm(self, total=self.nrec):
+            if np.min(pobj.time) <= 0:
+                pid_truncated.append(pobj.pid)
+                pobj = pobj.slice([1, np.max(pobj.time)])
+
+            if annualize:
+                pobj = pobj.annualize(months=months)
+
+            da = pobj.to_da()
+
+            # remove potential duplicated indexes
+            _, index = np.unique(da['time'], return_index=True)
+            da = da.isel(time=index)
+
+            if annualize:
+                da = da.rename({'time': 'year'})
+                da['year'] = np.array([int(t) for t in pobj.time])
+
+            da_dict[pobj.pid] = da
+
+        if verbose:
+            utils.p_warning(f'>>> Data before 1 CE is dropped for records: {pid_truncated}.')
+
+        ds = xr.Dataset(da_dict)
+        if annualize:
+            ds['year'] = np.array([int(t) for t in ds['year']])
+
+        return ds
+
+    def from_ds(self, ds):
+        ''' Load the proxy database from a `xarray.Dataset`
+
+        Args:
+            ds (xarray.Dataset): the xarray.Dataset to load from
+        '''
+        new = self.copy()
+        for vn in ds.var():
+            da = ds[vn]
+            new.records[vn] = ProxyRecord().from_da(da)
+
+        new.refresh()
+        return new
+
+    def to_nc(self, path, annualize=False, months=None, verbose=True, compress_params={'zlib': True}):
+        ''' Convert the database to a netCDF file.
+
+        Args:
+            path (str): the path to save the file.
+            annualize (bool): annualize the proxy records with `months`
+            months (list): months for annulization
+            compress_params (dict): the paramters for compression when storing the reconstruction results to netCDF files.
+            verbose (bool, optional): print verbose information. Defaults to False.
+        '''
+        p_warning('>>> Warning: this is an experimental feature.')
+        encoding_dict = {}
+        for k in self.records.keys():
+            encoding_dict[k] = compress_params
+
+        ds = self.to_ds(annualize=annualize, months=months, verbose=verbose)
+        ds.to_netcdf(path=path, encoding=encoding_dict)
+        if verbose: utils.p_success(f'ProxyDatabase saved to: {path}')
+
+    def load_nc(self, path, use_cftime=True, **kwargs):
+        ''' Load the database from a netCDF file.
+
+        Args:
+            path (str): the path to save the file.
+            use_cftime (bool): if True, use the cftime convention. Defaults to `True`.
+        '''
+        ds = xr.open_dataset(path, use_cftime=use_cftime, **kwargs)
+        pdb = ProxyDatabase().from_ds(ds)
+        return pdb
+
+    def to_multi_nc(self, dirpath, verbose=True, compress_params={'zlib': True}):
+        ''' Convert the proxy database to multiple netCDF files. One for each record.
+
+        Args:
+            dirpath (str): the directory path of the multiple .nc files
+            compress_params (dict): the paramters for compression when storing the reconstruction results to netCDF files.
+            verbose (bool, optional): print verbose information. Defaults to False.
+        '''
+        os.makedirs(dirpath, exist_ok=True)
+        pid_truncated = []
+        for pid, pobj in tqdm(self.records.items(), total=self.nrec, desc='Saving ProxyDatabase to .nc files'):
+            if np.min(pobj.time) <= 0:
+                pid_truncated.append(pid)
+                pobj = pobj.slice([1, np.max(pobj.time)])
+            da = pobj.to_da()
+            path = os.path.join(dirpath, f'{pid}.nc')
+            da.to_netcdf(path=path, encoding={da.name: compress_params})
+
+        if verbose:
+            utils.p_warning(f'>>> Data before 1 CE is dropped for records: {pid_truncated}.')
+            utils.p_success(f'>>> ProxyDatabase saved to: {dirpath}')
+
+    def load_multi_nc(self, dirpath, nproc=None):
+        ''' Load from multiple netCDF files.
+
+        Args:
+            dirpath (str): the directory path of the multiple .nc files
+            nproc (int): the number of processors for loading,
+                the default is by multiprocessing.cpu_count()
+
+        '''
+        paths = sorted(glob.glob(os.path.join(dirpath, '*.nc')))
+        new = ProxyDatabase()
+
+        if nproc is None: nproc = cpu_count()
+        with Pool(nproc) as pool:
+            das = list(
+                tqdm(
+                    pool.imap(partial(xr.open_dataarray, use_cftime=True), paths),
+                    total=len(paths),
+                    desc='Loading .nc files',
+                )
+            )
+
+        for da in das:
+            pobj = ProxyRecord().from_da(da)
+            new += pobj
+
+        return new
+
+    def correct_elev_tas(self, t_rate=-9.8, verbose=False):
+        ''' Correct the tas with t_rate = -9.8 degC/km upward by default.
+
+        Args:
+            t_rage (float): the temperature adjustment rate based on elevation bias.
+            verbose (bool, optional): print verbose information. Defaults to False.
+        '''
+        for pobj in tqdm(self, total=self.nrec, desc='Performing elevation correction for tas for each ProxyRecord'):
+            pobj.correct_elev_tas(t_rate=t_rate)
+
+        if verbose:
+            utils.p_success(f'>>> ProxyDatabase updated with tas corrected for elevation bias.')
+
+    def count_availability(self, year=np.arange(2001)):
+        ''' Count the proxy availability in time
+        
+        Args:
+            year (array-like): count the proxy availability based on the given years.
+        '''
+        df = self.to_df()
+        df_count = {}
+        type_set = np.unique(df['ptype'])
+        for ptype in type_set[::-1]:
+            df_count[ptype] = pd.DataFrame(index=year)
+
+        for index, row in df.iterrows():
+            ptype = row['ptype']
+            time = np.array(row['time']).astype(int)
+            time = time[~np.isnan(time)]
+            time = time[time<np.max(year)+1]
+            time = np.sort(list(set(time)))  # remove the duplicates for monthly data
+            ts = pd.Series(index=time, data=1, name=row['pid'])
+            df_count[ptype] = pd.concat([df_count[ptype], ts], axis=1)
+
+        for ptype in df_count.keys():
+            df_count[ptype]['Sum'] = df_count[ptype].sum(axis=1).astype(int)
+
+        return df_count

@@ -132,8 +132,6 @@ dmypy.json
 
 # DS_Store stuff
 .DS_Store  
-docsrc/.DS_Store 
-docsrc/notebooks/.DS_Store
 
 # test
 /test

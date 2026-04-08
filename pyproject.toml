@@ -1,0 +1,47 @@
+[build-system]
+requires = ["setuptools>=64"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "cfr"
+version = "2026.1.31"
+description = "cfr: a Python package for Climate Field Reconstruction"
+readme = "README.md"
+license = "BSD-3-Clause"
+requires-python = ">=3.11"
+authors = [
+    {name = "Feng Zhu", email = "fengzhu@ucar.edu"},
+    {name = "Julien Emile-Geay", email = "julieneg@usc.edu"},
+]
+classifiers = [
+    "Natural Language :: English",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+]
+dependencies = [
+    "colorama",
+    "seaborn",
+    "pandas",
+    "tqdm",
+    "xarray",
+    "netCDF4",
+    "nc-time-axis",
+    "dask",
+    "statsmodels",
+    "eofs",
+    "plotly",
+    "pyresample",
+]
+
+[project.optional-dependencies]
+psm = ["pathos", "fbm"]
+ml = ["scikit-learn", "torch", "torchvision"]
+graphem = ["cython", "scikit-learn", "cfr-graphem"]
+
+[tool.setuptools.packages.find]
+include = ["cfr*"]
+
+[project.urls]
+Homepage = "https://github.com/fzhu2e/cfr"
+Documentation = "https://fzhu2e.github.io/cfr"

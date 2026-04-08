@@ -1,0 +1,75 @@
+site_name: "cfr"
+site_description: "A Python package for Climate Field Reconstruction"
+site_url: https://fzhu2e.github.io/cfr
+repo_url: https://github.com/fzhu2e/cfr
+repo_name: fzhu2e/cfr
+
+theme:
+  name: material
+  logo: assets/cfr-logo.jpg
+  features:
+    - navigation.sections
+    - navigation.expand
+    - content.code.copy
+
+plugins:
+  - search
+  - mkdocs-jupyter
+  - mkdocstrings:
+      handlers:
+        python:
+          paths: [.]
+          options:
+            show_source: true
+            show_root_heading: true
+
+nav:
+  - Home: index.md
+  - User Guide:
+    - Installation: installation.md
+    - pseudoPAGES2k: pp2k.md
+    - Climate: climate.md
+    - Proxy: proxy.md
+    - PSM: psm.md
+    - LMR: lmr.md
+    - GraphEM: graphem.md
+  - API Reference: api.md
+  - Notebooks:
+    - Climate:
+      - IO: notebooks/climate-io.ipynb
+      - Operations: notebooks/climate-ops.ipynb
+    - Proxy:
+      - IO: notebooks/proxy-io.ipynb
+      - Operations: notebooks/proxy-ops.ipynb
+      - Analysis: notebooks/proxy-analysis.ipynb
+      - Composites: notebooks/proxy-composites.ipynb
+      - Duplicates: notebooks/proxy-dups.ipynb
+      - DOD2k: notebooks/proxy-load-dod2k.ipynb
+    - PSM:
+      - Linear: notebooks/psm-linear.ipynb
+      - Bilinear: notebooks/psm-bilinear.ipynb
+      - Ice d18O: notebooks/psm-ice-d18O.ipynb
+      - Lake Varve Thickness: notebooks/psm-lake-VarveThickness.ipynb
+      - Coral SrCa: notebooks/psm-coral-SrCa.ipynb
+      - Coral d18O: notebooks/psm-coral-d18O.ipynb
+      - Tree TRW: notebooks/psm-tree-TRW.ipynb
+    - pseudoPAGES2k:
+      - Load & Visualize: notebooks/pp2k-pdb-load-viz.ipynb
+      - Filter: notebooks/pp2k-pdb-filter.ipynb
+      - Dashboards: notebooks/pp2k-dashboards.ipynb
+      - PPE PDA: notebooks/pp2k-ppe-pda.ipynb
+      - PPE GraphEM: notebooks/pp2k-ppe-graphem.ipynb
+    - LMR:
+      - Real PAGES2k: notebooks/lmr-real-pages2k.ipynb
+      - Independent Verification: notebooks/lmr-real-pages2k-indpdt-verif.ipynb
+      - Assimilation No Calib: notebooks/lmr-assim-no-calib.ipynb
+      - Reconstruct Precipitation: notebooks/lmr-recon-pr.ipynb
+      - CLI: notebooks/lmr-cli.ipynb
+    - GraphEM:
+      - Primer: notebooks/graphem-primer.ipynb
+      - Real PAGES2k: notebooks/graphem-real-pages2k.ipynb
+      - CLI: notebooks/graphem-cli.ipynb
+  - Contributing:
+    - Overview: contributing.md
+    - Working with the Codebase: working-with-codebase.md
+    - Updating Docs: updating-docs.md

@@ -1,0 +1,55 @@
+/* Larger site logo */
+.md-header__button.md-logo img {
+  height: 2.5rem;
+  width: auto;
+}
+
+.grid.cards img {
+  max-height: 200px;
+  max-width: 200px;
+  display: block;
+  margin: 0 auto;
+}
+
+.md-typeset pre.xr-text-repr-fallback {
+    display: none;
+}
+
+.md-typeset ul.xr-sections, .jupyter-wrapper .jp-OutputArea-output dl.xr-attrs {
+    display: grid;
+}
+
+.md-typeset li.xr-var-item, .md-typeset ul.xr-var-list {
+    display: contents;
+}
+
+.md-typeset .xr-section-details {
+    display: none;
+}
+
+.md-typeset ul.xr-dim-list li {
+    margin-bottom: 0;
+    margin-left: 0;
+}
+
+.md-typeset ul.xr-dim-list {
+    margin-bottom: 0;
+    margin-top: 0;
+}
+
+/* Scale down xarray HTML widget font size */
+.xr-wrap,
+.xr-wrap * {
+  font-size: 0.5rem !important;
+  line-height: 1.4 !important;
+}
+
+.jupyter-wrapper .jp-OutputArea-output .xr-attrs dt {
+    padding: 0;
+    margin: 0;
+    float: left;
+    padding-right: 10px;
+    width: auto;
+    font-weight: normal;
+    grid-column: 1;
+}

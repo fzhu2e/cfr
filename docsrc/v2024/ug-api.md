@@ -1,24 +1,25 @@
-API Reference
-=============
+# API Reference
 
-Proxy
------
+## Proxy
 
+```{eval-rst}
 .. autoclass:: cfr.proxy.ProxyRecord
     :members:
 
 .. autoclass:: cfr.proxy.ProxyDatabase
     :members:
+```
 
-Climate
--------
+## Climate
 
+```{eval-rst}
 .. autoclass:: cfr.climate.ClimateField
     :members:
+```
 
-PSM
-------
+## PSM
 
+```{eval-rst}
 .. autoclass:: cfr.psm.Linear
     :members:
 
@@ -39,28 +40,32 @@ PSM
 
 .. autoclass:: cfr.psm.VSLite
     :members:
+```
 
-DA
-------
+## DA
 
+```{eval-rst}
 .. autoclass:: cfr.da.EnKF
     :members:
+```
 
+## ReconJob
 
-ReconJob
---------
-
+```{eval-rst}
 .. autoclass:: cfr.reconjob.ReconJob
     :members:
+```
 
-ReconRes
---------
+## ReconRes
 
+```{eval-rst}
 .. autoclass:: cfr.reconres.ReconRes
    :members:
+```
 
-EnsTS
---------
+## EnsTS
 
+```{eval-rst}
 .. autoclass:: cfr.ts.EnsTS
    :members:
+```

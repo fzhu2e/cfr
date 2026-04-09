@@ -13,11 +13,21 @@ exclude_patterns = [
 ]
 
 extensions = [
+    'myst_parser',
     'nbsphinx',
     'sphinx.ext.autodoc',
     'sphinx.ext.napoleon',
     'sphinx_copybutton',
     'sphinx_design',
+]
+
+source_suffix = {
+    '.rst': 'restructuredtext',
+    '.md': 'markdown',
+}
+
+myst_enable_extensions = [
+    'colon_fence',
 ]
 
 html_logo = '../cfr-logo.jpg'

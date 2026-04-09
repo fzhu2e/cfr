@@ -1,11 +1,11 @@
-*************************************
-`cfr`: CFRAME Documentation
-*************************************
+*****************************************************************
+`cfr`: a Python package for Climate Field Reconstruction
+*****************************************************************
 
 .. note::
-   The CFRAME backend is under active development. Documentation will be added as features are implemented.
+   The v2026 backend is under active development. Documentation will be added as features are implemented.
 
-Welcome to the CFRAME documentation. This backend provides an alternative reconstruction framework within the cfr package.
+Welcome to the v2026 documentation. This backend provides an alternative reconstruction framework within the cfr package.
 
 .. toctree::
    :maxdepth: 2

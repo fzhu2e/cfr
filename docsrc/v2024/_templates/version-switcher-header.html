@@ -1,0 +1,45 @@
+<style>
+.version-switcher { position:relative; display:inline-block; margin-right:0.75rem; }
+.version-switcher__btn {
+  display:inline-flex; align-items:center; gap:0.4rem;
+  padding:0.4rem 0.75rem; font-size:0.9rem;
+  background:#fff; color:#333; border:1px solid #aaa; border-radius:4px;
+  cursor:pointer; min-width:10rem; justify-content:space-between;
+}
+.version-switcher__btn:hover { background:#f5f5f5; }
+.version-switcher__btn::after {
+  content:""; border-left:4px solid transparent; border-right:4px solid transparent;
+  border-top:5px solid #666;
+}
+.version-switcher__menu {
+  display:none; position:absolute; right:0; top:100%; margin-top:2px;
+  background:#fff; border:1px solid #ccc; border-radius:4px;
+  box-shadow:0 4px 12px rgba(0,0,0,0.15); min-width:100%; z-index:1000;
+  list-style:none; padding:0.25rem 0; margin:2px 0 0;
+}
+.version-switcher__menu.show { display:block; }
+.version-switcher__menu a {
+  display:block; padding:0.4rem 0.75rem; color:#333;
+  text-decoration:none; white-space:nowrap;
+}
+.version-switcher__menu a:hover { background:#f0f0f0; }
+.version-switcher__menu a.active { font-weight:600; color:#0969da; }
+</style>
+
+<div class="version-switcher">
+  <button class="version-switcher__btn" onclick="this.nextElementSibling.classList.toggle('show')" type="button">
+    v2024 (stable)
+  </button>
+  <ul class="version-switcher__menu">
+    <li><a class="active" href="../v2024/index.html">v2024 (stable)</a></li>
+    <li><a href="../v2026/index.html">v2026 (development)</a></li>
+  </ul>
+</div>
+
+<script>
+document.addEventListener("click", function(e) {
+  if (!e.target.closest(".version-switcher")) {
+    document.querySelectorAll(".version-switcher__menu.show").forEach(function(m) { m.classList.remove("show"); });
+  }
+});
+</script>

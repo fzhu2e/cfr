@@ -1,11 +1,8 @@
 # Configuration file for the Sphinx documentation builder.
 
-project = 'cfr (CFRAME)'
+project = 'cfr (v2026)'
 author = ''
-copyright = '2026, Feng Zhu, Julien Emile-Geay'
-
-# This version label is used by the version switcher dropdown
-version = 'v2026'
+copyright = '2026, Feng Zhu'
 
 templates_path = ['_templates']
 
@@ -23,17 +20,15 @@ extensions = [
     'sphinx_design',
 ]
 
+html_logo = '../cfr-logo.jpg'
+
 html_theme = 'sphinx_book_theme'
 html_theme_options = {
     'repository_url': 'https://github.com/fzhu2e/cfr',
     'use_repository_button': True,
     'use_issues_button': True,
     'use_fullscreen_button': False,
-    'switcher': {
-        'json_url': 'https://fzhu2e.github.io/cfr/versions.json',
-        'version_match': version,
-    },
-    'navbar_end': ['version-switcher', 'theme-switcher'],
+    'article_header_end': 'version-switcher-header.html, article-header-buttons.html',
 }
 
 html_static_path = ['_static']

@@ -35,7 +35,7 @@ For instance, if the new notebook is about proxy system modeling, then edit `doc
 From the repository root, run:
 
 ```bash
-bash docsrc/build_publish.sh
+bash docsrc/build.sh
 ```
 
 This may require installing other sphinx-related packages and [pandoc](https://pandoc.org/installing.html).

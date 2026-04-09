@@ -30,7 +30,7 @@ myst_enable_extensions = [
     'colon_fence',
 ]
 
-html_logo = '../cfr-logo.jpg'
+html_logo = '../_static/cfr-logo.jpg'
 
 html_theme = 'sphinx_book_theme'
 html_theme_options = {
@@ -41,4 +41,4 @@ html_theme_options = {
     'article_header_end': 'version-switcher-header.html, article-header-buttons.html',
 }
 
-html_static_path = ['_static']
+html_static_path = ['../_static']

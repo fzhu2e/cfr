@@ -73,6 +73,9 @@ instance/
 # Sphinx documentation
 docs/_build/
 
+# Built documentation site (deployed via gh-pages)
+_site/
+
 # PyBuilder
 target/
 

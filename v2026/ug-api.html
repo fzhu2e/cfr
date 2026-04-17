@@ -1,0 +1,906 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" data-theme="light">
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>API Reference &#8212; cfr (v2026)  documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "light";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/theme_overrides.css?v=beb52c9c" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="_static/style.css?v=fca5bd30" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="_static/doctools.js?v=9bcbadda"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script src="_static/design-tabs.js?v=f930bc37"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'ug-api';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Overview" href="cg-overview.html" />
+    <link rel="prev" title="PPE: Pliocene Equilibrium Reconstruction" href="notebooks/da-ppe-equilibrium.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="light">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="index.html">
+  
+  
+  
+  
+  
+    
+    
+    
+    <img src="_static/cfr-logo.jpg" class="logo__image only-light" alt="cfr (v2026)  documentation - Home"/>
+    <script>document.write(`<img src="_static/cfr-logo.jpg" class="logo__image only-dark" alt="cfr (v2026)  documentation - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">User Guide</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="ug-installation.html">Installation</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="ug-da.html">Data Assimilation</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="notebooks/da-ppe-transient.html">PPE: Last Millennium Reanalysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="notebooks/da-ppe-equilibrium.html">PPE: Pliocene Equilibrium Reconstruction</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">API Reference</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Contributing Guide</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="cg-overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cg-working-with-codebase.html">Working with the Codebase</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cg-updating-docs.html">Updating the Documentation</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item"><style>
+.version-switcher { position:relative; display:inline-block; margin-right:0.75rem; }
+.version-switcher__btn {
+  display:inline-flex; align-items:center; gap:0.4rem;
+  padding:0.4rem 0.75rem; font-size:0.9rem;
+  background:#fff; color:#333; border:1px solid #aaa; border-radius:4px;
+  cursor:pointer; min-width:10rem; justify-content:space-between;
+}
+.version-switcher__btn:hover { background:#f5f5f5; }
+.version-switcher__btn::after {
+  content:""; border-left:4px solid transparent; border-right:4px solid transparent;
+  border-top:5px solid #666;
+}
+.version-switcher__menu {
+  display:none; position:absolute; right:0; top:100%; margin-top:2px;
+  background:#fff; border:1px solid #ccc; border-radius:4px;
+  box-shadow:0 4px 12px rgba(0,0,0,0.15); min-width:100%; z-index:1000;
+  list-style:none; padding:0.25rem 0; margin:2px 0 0;
+}
+.version-switcher__menu.show { display:block; }
+.version-switcher__menu a {
+  display:block; padding:0.4rem 0.75rem; color:#333;
+  text-decoration:none; white-space:nowrap;
+}
+.version-switcher__menu a:hover { background:#f0f0f0; }
+.version-switcher__menu a.active { font-weight:600; color:#0969da; }
+</style>
+
+<div class="version-switcher">
+  <button class="version-switcher__btn" onclick="this.nextElementSibling.classList.toggle('show')" type="button">
+    v2026 (development)
+  </button>
+  <ul class="version-switcher__menu">
+    <li><a href="../v2024/index.html">v2024 (stable)</a></li>
+    <li><a class="active" href="../v2026/index.html">v2026 (development)</a></li>
+  </ul>
+</div>
+
+<script>
+document.addEventListener("click", function(e) {
+  if (!e.target.closest(".version-switcher")) {
+    document.querySelectorAll(".version-switcher__menu.show").forEach(function(m) { m.classList.remove("show"); });
+  }
+});
+</script></div>
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/fzhu2e/cfr" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/fzhu2e/cfr/issues/new?title=Issue%20on%20page%20%2Fug-api.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/ug-api.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>API Reference</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#obs">Obs</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.v2026.obs.Obs"><code class="docutils literal notranslate"><span class="pre">Obs</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.v2026.obs.Obs.plotly"><code class="docutils literal notranslate"><span class="pre">Obs.plotly()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.v2026.obs.ProxyRecord"><code class="docutils literal notranslate"><span class="pre">ProxyRecord</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#prior">Prior</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.v2026.prior.PriorMember"><code class="docutils literal notranslate"><span class="pre">PriorMember</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.v2026.prior.PriorMember.gen_samples_Gaussian"><code class="docutils literal notranslate"><span class="pre">PriorMember.gen_samples_Gaussian()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.v2026.prior.PriorMember.gen_samples_bootstrap"><code class="docutils literal notranslate"><span class="pre">PriorMember.gen_samples_bootstrap()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.v2026.prior.Prior"><code class="docutils literal notranslate"><span class="pre">Prior</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#psm">PSM</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.v2026.psm.IdenticalTS"><code class="docutils literal notranslate"><span class="pre">IdenticalTS</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.v2026.psm.IdenticalSST"><code class="docutils literal notranslate"><span class="pre">IdenticalSST</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.v2026.psm.IdenticalSSS"><code class="docutils literal notranslate"><span class="pre">IdenticalSSS</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.v2026.psm.IdenticalSSTSSS"><code class="docutils literal notranslate"><span class="pre">IdenticalSSTSSS</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.v2026.psm.TEX86"><code class="docutils literal notranslate"><span class="pre">TEX86</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.v2026.psm.UK37"><code class="docutils literal notranslate"><span class="pre">UK37</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.v2026.psm.MgCa"><code class="docutils literal notranslate"><span class="pre">MgCa</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.v2026.psm.d18Oc"><code class="docutils literal notranslate"><span class="pre">d18Oc</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#da">DA</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.v2026.enkf.Solver"><code class="docutils literal notranslate"><span class="pre">Solver</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.v2026.enkf.Solver.prep"><code class="docutils literal notranslate"><span class="pre">Solver.prep()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.v2026.enkf.solver.EnSRF"><code class="docutils literal notranslate"><span class="pre">EnSRF</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.v2026.enkf.solver.EnSRF.plot_T"><code class="docutils literal notranslate"><span class="pre">EnSRF.plot_T()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.v2026.enkf.solver.EnSRF.update"><code class="docutils literal notranslate"><span class="pre">EnSRF.update()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.v2026.enkf.solver.EnSRF_DASH"><code class="docutils literal notranslate"><span class="pre">EnSRF_DASH</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.v2026.enkf.solver.EnSRF_DASH.update"><code class="docutils literal notranslate"><span class="pre">EnSRF_DASH.update()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.v2026.enkf.solver.EnOI"><code class="docutils literal notranslate"><span class="pre">EnOI</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.v2026.enkf.solver.EnOI.update"><code class="docutils literal notranslate"><span class="pre">EnOI.update()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="api-reference">
+<h1>API Reference<a class="headerlink" href="#api-reference" title="Link to this heading">#</a></h1>
+<section id="obs">
+<h2>Obs<a class="headerlink" href="#obs" title="Link to this heading">#</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="cfr.v2026.obs.Obs">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cfr.v2026.obs.</span></span><span class="sig-name descname"><span class="pre">Obs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DataFrame</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.v2026.obs.Obs" title="Link to this definition">#</a></dt>
+<dd><p>Observation database for proxy records.</p>
+<p>Manages a collection of proxy observations stored in a DataFrame, providing
+methods for setup, proxy system modeling, plotting, and conversion to xarray.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>df</strong> (<em>pd.DataFrame</em>) – DataFrame with columns: pid, lat, lon, time, value, psm_name, R, type.</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="cfr.v2026.obs.Obs.plotly">
+<span class="sig-name descname"><span class="pre">plotly</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kws</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.v2026.obs.Obs.plotly" title="Link to this definition">#</a></dt>
+<dd><p>Plot the database on an interactive map utilizing Plotly</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="cfr.v2026.obs.ProxyRecord">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cfr.v2026.obs.</span></span><span class="sig-name descname"><span class="pre">ProxyRecord</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Series</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.v2026.obs.ProxyRecord" title="Link to this definition">#</a></dt>
+<dd><p>A single proxy record extracted from the observation database.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>data</strong> (<em>pd.Series</em>) – A row from the Obs DataFrame containing proxy metadata and values.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="prior">
+<h2>Prior<a class="headerlink" href="#prior" title="Link to this heading">#</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="cfr.v2026.prior.PriorMember">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cfr.v2026.prior.</span></span><span class="sig-name descname"><span class="pre">PriorMember</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ds</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.v2026.prior.PriorMember" title="Link to this definition">#</a></dt>
+<dd><p>A single prior member from which ensemble samples can be generated.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>ds</strong> (<em>xr.Dataset</em><em> or </em><em>xr.DataArray</em>) – Climate model output dataset to serve as a prior member.</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="cfr.v2026.prior.PriorMember.gen_samples_Gaussian">
+<span class="sig-name descname"><span class="pre">gen_samples_Gaussian</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">local_sigma</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">global_sigma</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nens</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.v2026.prior.PriorMember.gen_samples_Gaussian" title="Link to this definition">#</a></dt>
+<dd><p>Generate samples following Gaussian</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>sigma</strong> (<em>dict</em>) – Dictionary with standard deviation (sigma) for each variable.</p></li>
+<li><p><strong>nens</strong> (<em>int</em>) – Number of ensemble members to generate.</p></li>
+<li><p><strong>seed</strong> (<em>int</em>) – Seed for reproducibility.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cfr.v2026.prior.PriorMember.gen_samples_bootstrap">
+<span class="sig-name descname"><span class="pre">gen_samples_bootstrap</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nens</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">30</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">clim_yrs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">50</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dim</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'time'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.v2026.prior.PriorMember.gen_samples_bootstrap" title="Link to this definition">#</a></dt>
+<dd><p>Generate samples from the prior pool</p>
+<p>Args:</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="cfr.v2026.prior.Prior">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cfr.v2026.prior.</span></span><span class="sig-name descname"><span class="pre">Prior</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">members</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.v2026.prior.Prior" title="Link to this definition">#</a></dt>
+<dd><p>Prior ensemble constructed from one or more PriorMember instances.</p>
+<p>Concatenates ensemble samples from prior members and provides methods
+for regridding, annualization, inflation, and state vector extraction.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>members</strong> (<a class="reference internal" href="#cfr.v2026.prior.PriorMember" title="cfr.v2026.prior.PriorMember"><em>PriorMember</em></a><em> or </em><em>list</em><em> of </em><a class="reference internal" href="#cfr.v2026.prior.PriorMember" title="cfr.v2026.prior.PriorMember"><em>PriorMember</em></a>) – One or more prior members whose samples form the ensemble.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="psm">
+<h2>PSM<a class="headerlink" href="#psm" title="Link to this heading">#</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="cfr.v2026.psm.IdenticalTS">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cfr.v2026.psm.</span></span><span class="sig-name descname"><span class="pre">IdenticalTS</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">record</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#cfr.v2026.obs.ProxyRecord" title="cfr.v2026.obs.ProxyRecord"><span class="pre">ProxyRecord</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.v2026.psm.IdenticalTS" title="Link to this definition">#</a></dt>
+<dd><p>Identity PSM for surface temperature (TS/tas).</p>
+<p>Returns the climate model surface temperature directly as the
+pseudo-observation (no transformation applied).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>record</strong> (<a class="reference internal" href="#cfr.v2026.obs.ProxyRecord" title="cfr.v2026.obs.ProxyRecord"><em>ProxyRecord</em></a><em>, </em><em>optional</em>) – The proxy record associated with this PSM.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="cfr.v2026.psm.IdenticalSST">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cfr.v2026.psm.</span></span><span class="sig-name descname"><span class="pre">IdenticalSST</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">record</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#cfr.v2026.obs.ProxyRecord" title="cfr.v2026.obs.ProxyRecord"><span class="pre">ProxyRecord</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.v2026.psm.IdenticalSST" title="Link to this definition">#</a></dt>
+<dd><p>Identity PSM for sea surface temperature (SST).</p>
+<p>Returns the climate model SST directly as the pseudo-observation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>record</strong> (<a class="reference internal" href="#cfr.v2026.obs.ProxyRecord" title="cfr.v2026.obs.ProxyRecord"><em>ProxyRecord</em></a><em>, </em><em>optional</em>) – The proxy record associated with this PSM.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="cfr.v2026.psm.IdenticalSSS">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cfr.v2026.psm.</span></span><span class="sig-name descname"><span class="pre">IdenticalSSS</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">record</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#cfr.v2026.obs.ProxyRecord" title="cfr.v2026.obs.ProxyRecord"><span class="pre">ProxyRecord</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.v2026.psm.IdenticalSSS" title="Link to this definition">#</a></dt>
+<dd><p>Identity PSM for sea surface salinity (SSS).</p>
+<p>Returns the climate model SSS directly as the pseudo-observation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>record</strong> (<a class="reference internal" href="#cfr.v2026.obs.ProxyRecord" title="cfr.v2026.obs.ProxyRecord"><em>ProxyRecord</em></a><em>, </em><em>optional</em>) – The proxy record associated with this PSM.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="cfr.v2026.psm.IdenticalSSTSSS">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cfr.v2026.psm.</span></span><span class="sig-name descname"><span class="pre">IdenticalSSTSSS</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">record</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#cfr.v2026.obs.ProxyRecord" title="cfr.v2026.obs.ProxyRecord"><span class="pre">ProxyRecord</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.v2026.psm.IdenticalSSTSSS" title="Link to this definition">#</a></dt>
+<dd><p>Identity PSM for combined SST + SSS.</p>
+<p>Returns the sum of SST and SSS from the climate model as the pseudo-observation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>record</strong> (<a class="reference internal" href="#cfr.v2026.obs.ProxyRecord" title="cfr.v2026.obs.ProxyRecord"><em>ProxyRecord</em></a><em>, </em><em>optional</em>) – The proxy record associated with this PSM.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="cfr.v2026.psm.TEX86">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cfr.v2026.psm.</span></span><span class="sig-name descname"><span class="pre">TEX86</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">record</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#cfr.v2026.obs.ProxyRecord" title="cfr.v2026.obs.ProxyRecord"><span class="pre">ProxyRecord</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.v2026.psm.TEX86" title="Link to this definition">#</a></dt>
+<dd><p>PSM for TEX86 paleothermometry.</p>
+<p>Converts SST to TEX86 values using the BAYWATCH forward model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>record</strong> (<a class="reference internal" href="#cfr.v2026.obs.ProxyRecord" title="cfr.v2026.obs.ProxyRecord"><em>ProxyRecord</em></a><em>, </em><em>optional</em>) – The proxy record associated with this PSM.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="cfr.v2026.psm.UK37">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cfr.v2026.psm.</span></span><span class="sig-name descname"><span class="pre">UK37</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">record</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#cfr.v2026.obs.ProxyRecord" title="cfr.v2026.obs.ProxyRecord"><span class="pre">ProxyRecord</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.v2026.psm.UK37" title="Link to this definition">#</a></dt>
+<dd><p>PSM for UK’37 paleothermometry.</p>
+<p>Converts SST to UK’37 values using the BAYWATCH forward model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>record</strong> (<a class="reference internal" href="#cfr.v2026.obs.ProxyRecord" title="cfr.v2026.obs.ProxyRecord"><em>ProxyRecord</em></a><em>, </em><em>optional</em>) – The proxy record associated with this PSM.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="cfr.v2026.psm.MgCa">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cfr.v2026.psm.</span></span><span class="sig-name descname"><span class="pre">MgCa</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">record</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#cfr.v2026.obs.ProxyRecord" title="cfr.v2026.obs.ProxyRecord"><span class="pre">ProxyRecord</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.v2026.psm.MgCa" title="Link to this definition">#</a></dt>
+<dd><p>PSM for Mg/Ca paleothermometry.</p>
+<p>Converts SST and SSS to Mg/Ca ratios using the BAYMAG forward model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>record</strong> (<a class="reference internal" href="#cfr.v2026.obs.ProxyRecord" title="cfr.v2026.obs.ProxyRecord"><em>ProxyRecord</em></a><em>, </em><em>optional</em>) – The proxy record associated with this PSM.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="cfr.v2026.psm.d18Oc">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cfr.v2026.psm.</span></span><span class="sig-name descname"><span class="pre">d18Oc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">record</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#cfr.v2026.obs.ProxyRecord" title="cfr.v2026.obs.ProxyRecord"><span class="pre">ProxyRecord</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.v2026.psm.d18Oc" title="Link to this definition">#</a></dt>
+<dd><p>PSM for foraminiferal d18O of calcite.</p>
+<p>Converts SST, SSS, and d18Osw to d18Oc using the BAYFOX forward model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>record</strong> (<a class="reference internal" href="#cfr.v2026.obs.ProxyRecord" title="cfr.v2026.obs.ProxyRecord"><em>ProxyRecord</em></a><em>, </em><em>optional</em>) – The proxy record associated with this PSM.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="da">
+<h2>DA<a class="headerlink" href="#da" title="Link to this heading">#</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="cfr.v2026.enkf.Solver">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cfr.v2026.enkf.</span></span><span class="sig-name descname"><span class="pre">Solver</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">prior</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">obs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prior_target</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.v2026.enkf.Solver" title="Link to this definition">#</a></dt>
+<dd><p>High-level data assimilation solver.</p>
+<p>Orchestrates the full DA workflow: proxy system modeling, localization,
+ensemble update, and validation against truth.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>prior</strong> (<a class="reference internal" href="#cfr.v2026.prior.Prior" title="cfr.v2026.prior.Prior"><em>Prior</em></a>) – The prior ensemble.</p></li>
+<li><p><strong>obs</strong> (<a class="reference internal" href="#cfr.v2026.obs.Obs" title="cfr.v2026.obs.Obs"><em>Obs</em></a>) – The observation database.</p></li>
+<li><p><strong>prior_target</strong> (<a class="reference internal" href="#cfr.v2026.prior.Prior" title="cfr.v2026.prior.Prior"><em>Prior</em></a><em>, </em><em>optional</em>) – Target prior for EnOI mode.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="cfr.v2026.enkf.Solver.prep">
+<span class="sig-name descname"><span class="pre">prep</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">recon_period</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">recon_season</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[1,</span> <span class="pre">2,</span> <span class="pre">3,</span> <span class="pre">4,</span> <span class="pre">5,</span> <span class="pre">6,</span> <span class="pre">7,</span> <span class="pre">8,</span> <span class="pre">9,</span> <span class="pre">10,</span> <span class="pre">11,</span> <span class="pre">12]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">localize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">loc_method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'gaspari_cohn'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">loc_radius</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2500</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dist_vsf</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">startover</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">get_clim_kws</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">fwd_kws</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.v2026.enkf.Solver.prep" title="Link to this definition">#</a></dt>
+<dd><p>Prepare Y=H(X) and the localization matrix for DA</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>dist_vsf</strong> (<em>float</em><em>, </em><em>list</em><em> of </em><em>float</em>) – the vertical scaling factor of the distance</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="cfr.v2026.enkf.solver.EnSRF">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cfr.v2026.enkf.solver.</span></span><span class="sig-name descname"><span class="pre">EnSRF</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Y</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">R</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">L</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Lobs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.v2026.enkf.solver.EnSRF" title="Link to this definition">#</a></dt>
+<dd><p>Ensemble Square Root Filter (EnSRF) with localization.</p>
+<p>Implements the deterministic EnSRF update following Whitaker &amp; Hamill (2002),
+with Gaspari-Cohn covariance localization.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>X</strong> (<em>ndarray</em><em> (</em><em>n</em><em>, </em><em>N</em><em>)</em>) – Ensemble of prior state vectors.</p></li>
+<li><p><strong>Y</strong> (<em>ndarray</em><em> (</em><em>m</em><em>, </em><em>N</em><em>)</em>) – Ensemble of forward estimates, Y = H(X).</p></li>
+<li><p><strong>y</strong> (<em>ndarray</em><em> (</em><em>m</em><em>, </em><em>1</em><em>)</em>) – Observation vector.</p></li>
+<li><p><strong>R</strong> (<em>ndarray</em><em> (</em><em>m</em><em>, </em><em>m</em><em>)</em>) – Observation error covariance matrix.</p></li>
+<li><p><strong>L</strong> (<em>ndarray</em><em> (</em><em>n</em><em>, </em><em>m</em><em>)</em><em>, </em><em>optional</em>) – Localization matrix for state-observation covariance.</p></li>
+<li><p><strong>Lobs</strong> (<em>ndarray</em><em> (</em><em>m</em><em>, </em><em>m</em><em>)</em><em>, </em><em>optional</em>) – Localization matrix for observation-observation covariance.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="cfr.v2026.enkf.solver.EnSRF.plot_T">
+<span class="sig-name descname"><span class="pre">plot_T</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cmap</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'viridis'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.v2026.enkf.solver.EnSRF.plot_T" title="Link to this definition">#</a></dt>
+<dd><p>Check the T matrix</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cfr.v2026.enkf.solver.EnSRF.update">
+<span class="sig-name descname"><span class="pre">update</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">debug</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.v2026.enkf.solver.EnSRF.update" title="Link to this definition">#</a></dt>
+<dd><p>Perform an EnSRF update with localization.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="cfr.v2026.enkf.solver.EnSRF_DASH">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cfr.v2026.enkf.solver.</span></span><span class="sig-name descname"><span class="pre">EnSRF_DASH</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Y</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">R</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">L</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Lobs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.v2026.enkf.solver.EnSRF_DASH" title="Link to this definition">#</a></dt>
+<dd><p>EnSRF variant following the DASH formulation.</p>
+<p>Uses an alternative square root update for ensemble perturbations
+based on matrix square root of the analysis covariance.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>X</strong> (<em>ndarray</em><em> (</em><em>n</em><em>, </em><em>N</em><em>)</em>) – Ensemble of prior state vectors.</p></li>
+<li><p><strong>Y</strong> (<em>ndarray</em><em> (</em><em>m</em><em>, </em><em>N</em><em>)</em>) – Ensemble of forward estimates, Y = H(X).</p></li>
+<li><p><strong>y</strong> (<em>ndarray</em><em> (</em><em>m</em><em>, </em><em>1</em><em>)</em>) – Observation vector.</p></li>
+<li><p><strong>R</strong> (<em>ndarray</em><em> (</em><em>m</em><em>, </em><em>m</em><em>)</em>) – Observation error covariance matrix.</p></li>
+<li><p><strong>L</strong> (<em>ndarray</em><em> (</em><em>n</em><em>, </em><em>m</em><em>)</em><em>, </em><em>optional</em>) – Localization matrix for state-observation covariance.</p></li>
+<li><p><strong>Lobs</strong> (<em>ndarray</em><em> (</em><em>m</em><em>, </em><em>m</em><em>)</em><em>, </em><em>optional</em>) – Localization matrix for observation-observation covariance.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="cfr.v2026.enkf.solver.EnSRF_DASH.update">
+<span class="sig-name descname"><span class="pre">update</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">debug</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.v2026.enkf.solver.EnSRF_DASH.update" title="Link to this definition">#</a></dt>
+<dd><p>Perform an EnSRF update with localization.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="cfr.v2026.enkf.solver.EnOI">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cfr.v2026.enkf.solver.</span></span><span class="sig-name descname"><span class="pre">EnOI</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X_target</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Y</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">R</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">L</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.v2026.enkf.solver.EnOI" title="Link to this definition">#</a></dt>
+<dd><p>Ensemble Optimal Interpolation (EnOI).</p>
+<p>Updates a target state using a static ensemble for covariance estimation,
+rather than updating the ensemble itself.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>X_target</strong> (<em>ndarray</em><em> (</em><em>n</em><em>, </em><em>1</em><em>)</em>) – Target state vector to be updated (e.g., monthly prior).</p></li>
+<li><p><strong>X</strong> (<em>ndarray</em><em> (</em><em>n</em><em>, </em><em>N</em><em>)</em>) – Static ensemble of prior state vectors for covariance estimation.</p></li>
+<li><p><strong>Y</strong> (<em>ndarray</em><em> (</em><em>m</em><em>, </em><em>N</em><em>)</em>) – Ensemble of forward estimates, Y = H(X).</p></li>
+<li><p><strong>y</strong> (<em>ndarray</em><em> (</em><em>m</em><em>, </em><em>1</em><em>)</em>) – Observation vector.</p></li>
+<li><p><strong>R</strong> (<em>ndarray</em><em> (</em><em>m</em><em>, </em><em>m</em><em>)</em>) – Observation error covariance matrix.</p></li>
+<li><p><strong>L</strong> (<em>ndarray</em><em> (</em><em>n</em><em>, </em><em>m</em><em>)</em><em>, </em><em>optional</em>) – Localization matrix.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="cfr.v2026.enkf.solver.EnOI.update">
+<span class="sig-name descname"><span class="pre">update</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">debug</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cfr.v2026.enkf.solver.EnOI.update" title="Link to this definition">#</a></dt>
+<dd><p>Perform an EnOI update with localization.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="notebooks/da-ppe-equilibrium.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">PPE: Pliocene Equilibrium Reconstruction</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="cg-overview.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Overview</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#obs">Obs</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.v2026.obs.Obs"><code class="docutils literal notranslate"><span class="pre">Obs</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.v2026.obs.Obs.plotly"><code class="docutils literal notranslate"><span class="pre">Obs.plotly()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.v2026.obs.ProxyRecord"><code class="docutils literal notranslate"><span class="pre">ProxyRecord</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#prior">Prior</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.v2026.prior.PriorMember"><code class="docutils literal notranslate"><span class="pre">PriorMember</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.v2026.prior.PriorMember.gen_samples_Gaussian"><code class="docutils literal notranslate"><span class="pre">PriorMember.gen_samples_Gaussian()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.v2026.prior.PriorMember.gen_samples_bootstrap"><code class="docutils literal notranslate"><span class="pre">PriorMember.gen_samples_bootstrap()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.v2026.prior.Prior"><code class="docutils literal notranslate"><span class="pre">Prior</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#psm">PSM</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.v2026.psm.IdenticalTS"><code class="docutils literal notranslate"><span class="pre">IdenticalTS</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.v2026.psm.IdenticalSST"><code class="docutils literal notranslate"><span class="pre">IdenticalSST</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.v2026.psm.IdenticalSSS"><code class="docutils literal notranslate"><span class="pre">IdenticalSSS</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.v2026.psm.IdenticalSSTSSS"><code class="docutils literal notranslate"><span class="pre">IdenticalSSTSSS</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.v2026.psm.TEX86"><code class="docutils literal notranslate"><span class="pre">TEX86</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.v2026.psm.UK37"><code class="docutils literal notranslate"><span class="pre">UK37</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.v2026.psm.MgCa"><code class="docutils literal notranslate"><span class="pre">MgCa</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.v2026.psm.d18Oc"><code class="docutils literal notranslate"><span class="pre">d18Oc</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#da">DA</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.v2026.enkf.Solver"><code class="docutils literal notranslate"><span class="pre">Solver</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.v2026.enkf.Solver.prep"><code class="docutils literal notranslate"><span class="pre">Solver.prep()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.v2026.enkf.solver.EnSRF"><code class="docutils literal notranslate"><span class="pre">EnSRF</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.v2026.enkf.solver.EnSRF.plot_T"><code class="docutils literal notranslate"><span class="pre">EnSRF.plot_T()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.v2026.enkf.solver.EnSRF.update"><code class="docutils literal notranslate"><span class="pre">EnSRF.update()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.v2026.enkf.solver.EnSRF_DASH"><code class="docutils literal notranslate"><span class="pre">EnSRF_DASH</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.v2026.enkf.solver.EnSRF_DASH.update"><code class="docutils literal notranslate"><span class="pre">EnSRF_DASH.update()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.v2026.enkf.solver.EnOI"><code class="docutils literal notranslate"><span class="pre">EnOI</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cfr.v2026.enkf.solver.EnOI.update"><code class="docutils literal notranslate"><span class="pre">EnOI.update()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2026, Feng Zhu.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

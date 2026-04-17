@@ -13,8 +13,63 @@ If you use `cfr` in any way for your publications, please cite:
 
 Welcome to the v2026 documentation. This backend provides an alternative reconstruction framework within the cfr package.
 
+&nbsp;
+
+::::{grid} 1 1 2 2
+:gutter: 2
+
+:::{grid-item-card} Installation
+:class-title: custom-title
+:class-body: custom-body
+:img-top: ../_static/installation.png
+:link: ug-installation
+:link-type: doc
+
+Installation instructions.
+:::
+
+:::{grid-item-card} LMR
+:class-title: custom-title
+:class-body: custom-body
+:img-top: ../_static/lmr.png
+:link: ug-lmr
+:link-type: doc
+
+The Last Millennium Reanalysis (LMR) workflows.
+:::
+
+:::{grid-item-card} API
+:class-title: custom-title
+:class-body: custom-body
+:img-top: ../_static/api.png
+:link: ug-api
+:link-type: doc
+
+The essential API.
+:::
+
 ```{toctree}
 :maxdepth: 2
 :hidden:
 :caption: Contents
+```
+
+```{toctree}
+:maxdepth: 2
+:hidden:
+:caption: User Guide
+
+ug-installation
+ug-lmr
+ug-api
+```
+
+```{toctree}
+:maxdepth: 2
+:hidden:
+:caption: Contributing Guide
+
+cg-overview
+cg-working-with-codebase
+cg-updating-docs
 ```

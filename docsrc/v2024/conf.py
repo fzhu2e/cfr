@@ -36,11 +36,14 @@ html_logo = '../_static/cfr-logo.jpg'
 html_theme = 'sphinx_book_theme'
 html_theme_options = {
     'repository_url': 'https://github.com/fzhu2e/cfr',
-    'use_edit_page_button': True,
     'use_repository_button': True,
     'use_issues_button': True,
     'use_fullscreen_button': False,
     'article_header_end': 'version-switcher-header.html, article-header-buttons.html',
+}
+
+html_context = {
+    'default_mode': 'light',
 }
 
 html_static_path = ['../_static']

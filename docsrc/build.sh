@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
 # Build both documentation backends and assemble the output in _site/
-# Run from the repository root: bash docsrc/build_publish.sh
+# Run from the repository root: bash docsrc/build.sh
 #
 # Usage:
-#   bash docsrc/build_publish.sh              # build only
-#   bash docsrc/build_publish.sh --deploy     # build and deploy to gh-pages
-#   bash docsrc/build_publish.sh --push       # deploy only (skip build)
+#   bash docsrc/build.sh              # build only
+#   bash docsrc/build.sh --deploy     # build and deploy to gh-pages
+#   bash docsrc/build.sh --push       # deploy only (skip build)
 
 set -e
 
@@ -49,6 +49,6 @@ else
     echo "  python -m http.server -d _site 8000"
     echo ""
     echo "To deploy to gh-pages:"
-    echo "  bash docsrc/build_publish.sh --deploy"
-    echo "  bash docsrc/build_publish.sh --push   # skip build"
+    echo "  bash docsrc/build.sh --deploy"
+    echo "  bash docsrc/build.sh --push   # skip build"
 fi

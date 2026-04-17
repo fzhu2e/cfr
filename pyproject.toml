@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "cfr"
-version = "2026.4.8"
+version = "2026.4.16"
 description = "cfr: a Python package for Climate Field Reconstruction"
 readme = "README.md"
 license = "BSD-3-Clause"

@@ -41,4 +41,12 @@ html_theme_options = {
     'article_header_end': 'version-switcher-header.html, article-header-buttons.html',
 }
 
+html_context = {
+    'default_mode': 'light',
+}
+
 html_static_path = ['../_static']
+html_css_files = ['style.css']
+
+def setup(app):
+    app.add_css_file('theme_overrides.css')

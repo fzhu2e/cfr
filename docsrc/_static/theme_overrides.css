@@ -13,3 +13,10 @@
     text-align: left;
     margin-left: max(45px, 15%);
 }
+
+/* Hide the dark/light mode toggle button */
+.theme-switch-button,
+button.theme-switch-button,
+.bd-header .theme-switch-button {
+    display: none !important;
+}

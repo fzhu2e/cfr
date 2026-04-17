@@ -23,7 +23,7 @@ It provides a toolkit for
 :::{grid-item-card} Installation
 :class-title: custom-title
 :class-body: custom-body
-:img-top: _static/installation.png
+:img-top: ../_static/installation.png
 :link: ug-installation
 :link-type: doc
 
@@ -33,7 +33,7 @@ Installation instructions.
 :::{grid-item-card} pseudoPAGES2k
 :class-title: custom-title
 :class-body: custom-body
-:img-top: _static/pp2k.png
+:img-top: ../_static/pp2k.png
 :link: ug-pp2k
 :link-type: doc
 
@@ -43,7 +43,7 @@ An illustration with the pseudoPAGES2k dataset.
 :::{grid-item-card} Climate
 :class-title: custom-title
 :class-body: custom-body
-:img-top: _static/climate.png
+:img-top: ../_static/climate.png
 :link: ug-climate
 :link-type: doc
 
@@ -53,7 +53,7 @@ Processing and visualization of the **gridded** climate model simulations and in
 :::{grid-item-card} Proxy
 :class-title: custom-title
 :class-body: custom-body
-:img-top: _static/proxy.png
+:img-top: ../_static/proxy.png
 :link: ug-proxy
 :link-type: doc
 
@@ -63,7 +63,7 @@ Processing and visualization of the proxy records and databases.
 :::{grid-item-card} PSM
 :class-title: custom-title
 :class-body: custom-body
-:img-top: _static/psm.png
+:img-top: ../_static/psm.png
 :link: ug-psm
 :link-type: doc
 
@@ -73,7 +73,7 @@ Proxy System Models for multiple proxy types.
 :::{grid-item-card} LMR
 :class-title: custom-title
 :class-body: custom-body
-:img-top: _static/lmr.png
+:img-top: ../_static/lmr.png
 :link: ug-lmr
 :link-type: doc
 
@@ -83,7 +83,7 @@ The Last Millennium Reanalysis (LMR) workflows.
 :::{grid-item-card} GraphEM
 :class-title: custom-title
 :class-body: custom-body
-:img-top: _static/graphem.png
+:img-top: ../_static/graphem.png
 :link: ug-graphem
 :link-type: doc
 
@@ -93,7 +93,7 @@ The Graphical Expectation Maximization (GraphEM) workflows.
 :::{grid-item-card} API
 :class-title: custom-title
 :class-body: custom-body
-:img-top: _static/api.png
+:img-top: ../_static/api.png
 :link: ug-api
 :link-type: doc
 

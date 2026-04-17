@@ -89,6 +89,26 @@ def gaspari_cohn_DASH(dist, loc_radius, scale=0.5):
 
 
 class EnSRF:
+    '''Ensemble Square Root Filter (EnSRF) with localization.
+
+    Implements the deterministic EnSRF update following Whitaker & Hamill (2002),
+    with Gaspari-Cohn covariance localization.
+
+    Parameters
+    ----------
+    X : ndarray (n, N)
+        Ensemble of prior state vectors.
+    Y : ndarray (m, N)
+        Ensemble of forward estimates, Y = H(X).
+    y : ndarray (m, 1)
+        Observation vector.
+    R : ndarray (m, m)
+        Observation error covariance matrix.
+    L : ndarray (n, m), optional
+        Localization matrix for state-observation covariance.
+    Lobs : ndarray (m, m), optional
+        Localization matrix for observation-observation covariance.
+    '''
     def __init__(self, X=None, Y=None, y=None, R=None, L=None, Lobs=None):
         self.X = X            # ensemble of the prior state vectors (n x N)
         self.Y = Y            # ensemble of the forward estimates (m x N); Y=H(X)
@@ -198,6 +218,26 @@ class EnSRF:
         return fig, ax
 
 class EnSRF_DASH:
+    '''EnSRF variant following the DASH formulation.
+
+    Uses an alternative square root update for ensemble perturbations
+    based on matrix square root of the analysis covariance.
+
+    Parameters
+    ----------
+    X : ndarray (n, N)
+        Ensemble of prior state vectors.
+    Y : ndarray (m, N)
+        Ensemble of forward estimates, Y = H(X).
+    y : ndarray (m, 1)
+        Observation vector.
+    R : ndarray (m, m)
+        Observation error covariance matrix.
+    L : ndarray (n, m), optional
+        Localization matrix for state-observation covariance.
+    Lobs : ndarray (m, m), optional
+        Localization matrix for observation-observation covariance.
+    '''
     def __init__(self, X=None, Y=None, y=None, R=None, L=None, Lobs=None):
         self.X = X            # ensemble of the prior state vectors (n x N)
         self.Y = Y            # ensemble of the forward estimates (m x N); Y=H(X)
@@ -266,6 +306,26 @@ class EnSRF_DASH:
 
 
 class EnOI:
+    '''Ensemble Optimal Interpolation (EnOI).
+
+    Updates a target state using a static ensemble for covariance estimation,
+    rather than updating the ensemble itself.
+
+    Parameters
+    ----------
+    X_target : ndarray (n, 1)
+        Target state vector to be updated (e.g., monthly prior).
+    X : ndarray (n, N)
+        Static ensemble of prior state vectors for covariance estimation.
+    Y : ndarray (m, N)
+        Ensemble of forward estimates, Y = H(X).
+    y : ndarray (m, 1)
+        Observation vector.
+    R : ndarray (m, m)
+        Observation error covariance matrix.
+    L : ndarray (n, m), optional
+        Localization matrix.
+    '''
     def __init__(self, X_target=None, X=None, Y=None, y=None, R=None, L=None):
         self.X_target = X_target   # the **monthly** prior state vectors (n x 1)
         self.X = X         # ensemble of the prior state vectors (n x N)
@@ -318,6 +378,20 @@ class EnOI:
 
 
 class Solver:
+    '''High-level data assimilation solver.
+
+    Orchestrates the full DA workflow: proxy system modeling, localization,
+    ensemble update, and validation against truth.
+
+    Parameters
+    ----------
+    prior : Prior
+        The prior ensemble.
+    obs : Obs
+        The observation database.
+    prior_target : Prior, optional
+        Target prior for EnOI mode.
+    '''
     def __init__(self, prior=None, obs=None, prior_target=None):
         self.prior = prior.copy()
         self.obs = obs

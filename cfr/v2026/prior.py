@@ -9,6 +9,13 @@ from . import psm
 from . import utils
 
 class PriorMember:
+    '''A single prior member from which ensemble samples can be generated.
+
+    Parameters
+    ----------
+    ds : xr.Dataset or xr.DataArray
+        Climate model output dataset to serve as a prior member.
+    '''
     def __init__(self, ds):
         if isinstance(ds, xr.DataArray): ds = ds.to_dataset()
         self.ds = ds
@@ -54,6 +61,16 @@ class PriorMember:
 
 
 class Prior:
+    '''Prior ensemble constructed from one or more PriorMember instances.
+
+    Concatenates ensemble samples from prior members and provides methods
+    for regridding, annualization, inflation, and state vector extraction.
+
+    Parameters
+    ----------
+    members : PriorMember or list of PriorMember
+        One or more prior members whose samples form the ensemble.
+    '''
     def __init__(self, members):
         if not isinstance(members, list): members = [members]
         ds_list = []

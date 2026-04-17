@@ -6,6 +6,16 @@ from . import utils
 from . import obs
 
 class IdenticalTS:
+    '''Identity PSM for surface temperature (TS/tas).
+
+    Returns the climate model surface temperature directly as the
+    pseudo-observation (no transformation applied).
+
+    Parameters
+    ----------
+    record : ProxyRecord, optional
+        The proxy record associated with this PSM.
+    '''
     def __init__(self, record:obs.ProxyRecord=None):
         self.record = record
 
@@ -22,6 +32,15 @@ class IdenticalTS:
         return output
 
 class IdenticalSST:
+    '''Identity PSM for sea surface temperature (SST).
+
+    Returns the climate model SST directly as the pseudo-observation.
+
+    Parameters
+    ----------
+    record : ProxyRecord, optional
+        The proxy record associated with this PSM.
+    '''
     def __init__(self, record:obs.ProxyRecord=None):
         self.record = record
 
@@ -46,6 +65,15 @@ class IdenticalSST:
         return output
 
 class IdenticalSSS:
+    '''Identity PSM for sea surface salinity (SSS).
+
+    Returns the climate model SSS directly as the pseudo-observation.
+
+    Parameters
+    ----------
+    record : ProxyRecord, optional
+        The proxy record associated with this PSM.
+    '''
     def __init__(self, record:obs.ProxyRecord=None):
         self.record = record
 
@@ -69,6 +97,15 @@ class IdenticalSSS:
         return output
 
 class IdenticalSSTSSS:
+    '''Identity PSM for combined SST + SSS.
+
+    Returns the sum of SST and SSS from the climate model as the pseudo-observation.
+
+    Parameters
+    ----------
+    record : ProxyRecord, optional
+        The proxy record associated with this PSM.
+    '''
     def __init__(self, record:obs.ProxyRecord=None):
         self.record = record
 
@@ -81,6 +118,15 @@ class IdenticalSSTSSS:
         return output
 
 class TEX86:
+    '''PSM for TEX86 paleothermometry.
+
+    Converts SST to TEX86 values using the BAYWATCH forward model.
+
+    Parameters
+    ----------
+    record : ProxyRecord, optional
+        The proxy record associated with this PSM.
+    '''
     def __init__(self, record:obs.ProxyRecord=None):
         self.record = record
 
@@ -120,6 +166,15 @@ class TEX86:
         return output
 
 class UK37:
+    '''PSM for UK'37 paleothermometry.
+
+    Converts SST to UK'37 values using the BAYWATCH forward model.
+
+    Parameters
+    ----------
+    record : ProxyRecord, optional
+        The proxy record associated with this PSM.
+    '''
     def __init__(self, record:obs.ProxyRecord=None):
         self.record = record
 
@@ -146,6 +201,15 @@ class UK37:
         return output
 
 class MgCa:
+    '''PSM for Mg/Ca paleothermometry.
+
+    Converts SST and SSS to Mg/Ca ratios using the BAYMAG forward model.
+
+    Parameters
+    ----------
+    record : ProxyRecord, optional
+        The proxy record associated with this PSM.
+    '''
     def __init__(self, record:obs.ProxyRecord=None):
         self.record = record
 
@@ -193,6 +257,15 @@ class MgCa:
         return output
 
 class d18Oc:
+    '''PSM for foraminiferal d18O of calcite.
+
+    Converts SST, SSS, and d18Osw to d18Oc using the BAYFOX forward model.
+
+    Parameters
+    ----------
+    record : ProxyRecord, optional
+        The proxy record associated with this PSM.
+    '''
     def __init__(self, record:obs.ProxyRecord=None):
         self.record = record
 

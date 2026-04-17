@@ -1,71 +1,65 @@
 # API Reference
 
-## Proxy
+## Obs
 
 ```{eval-rst}
-.. autoclass:: cfr.proxy.ProxyRecord
+.. autoclass:: cfr.v2026.obs.Obs
     :members:
 
-.. autoclass:: cfr.proxy.ProxyDatabase
+.. autoclass:: cfr.v2026.obs.ProxyRecord
     :members:
 ```
 
-## Climate
+## Prior
 
 ```{eval-rst}
-.. autoclass:: cfr.climate.ClimateField
+.. autoclass:: cfr.v2026.prior.PriorMember
+    :members:
+
+.. autoclass:: cfr.v2026.prior.Prior
     :members:
 ```
 
 ## PSM
 
 ```{eval-rst}
-.. autoclass:: cfr.psm.Linear
+.. autoclass:: cfr.v2026.psm.IdenticalTS
     :members:
 
-.. autoclass:: cfr.psm.Bilinear
+.. autoclass:: cfr.v2026.psm.IdenticalSST
     :members:
 
-.. autoclass:: cfr.psm.Ice_d18O
+.. autoclass:: cfr.v2026.psm.IdenticalSSS
     :members:
 
-.. autoclass:: cfr.psm.Lake_VarveThickness
+.. autoclass:: cfr.v2026.psm.IdenticalSSTSSS
     :members:
 
-.. autoclass:: cfr.psm.Coral_SrCa
+.. autoclass:: cfr.v2026.psm.TEX86
     :members:
 
-.. autoclass:: cfr.psm.Coral_d18O
+.. autoclass:: cfr.v2026.psm.UK37
     :members:
 
-.. autoclass:: cfr.psm.VSLite
+.. autoclass:: cfr.v2026.psm.MgCa
+    :members:
+
+.. autoclass:: cfr.v2026.psm.d18Oc
     :members:
 ```
 
 ## DA
 
 ```{eval-rst}
-.. autoclass:: cfr.da.EnKF
+.. autoclass:: cfr.v2026.enkf.Solver
     :members:
-```
 
-## ReconJob
-
-```{eval-rst}
-.. autoclass:: cfr.reconjob.ReconJob
+.. autoclass:: cfr.v2026.enkf.solver.EnSRF
     :members:
-```
 
-## ReconRes
+.. autoclass:: cfr.v2026.enkf.solver.EnSRF_DASH
+    :members:
 
-```{eval-rst}
-.. autoclass:: cfr.reconres.ReconRes
-   :members:
-```
-
-## EnsTS
-
-```{eval-rst}
-.. autoclass:: cfr.ts.EnsTS
-   :members:
+.. autoclass:: cfr.v2026.enkf.solver.EnOI
+    :members:
 ```

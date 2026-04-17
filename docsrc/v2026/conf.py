@@ -10,6 +10,7 @@ exclude_patterns = [
     '_build',
     'Thumbs.db',
     '.DS_Store',
+    'notebooks/test*.ipynb',  # notebooks starting with test won't be rendered
 ]
 
 extensions = [
@@ -44,6 +45,12 @@ html_theme_options = {
 html_context = {
     'default_mode': 'light',
 }
+
+autodoc_mock_imports = [
+    'mpi4py', 'xesmf', 'esmpy', 'ESMF',
+    'cartopy', 'x4c', 'plotly',
+    'pybaywatch', 'sklearn',
+]
 
 html_static_path = ['../_static']
 html_css_files = ['style.css']

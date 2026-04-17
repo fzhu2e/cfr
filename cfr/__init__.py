@@ -113,7 +113,7 @@ import warnings
 try:
     from cartopy.io import DownloadWarning
     warnings.filterwarnings('ignore', category=DownloadWarning)
-except ImportError:
+except (ImportError, TypeError):
     pass
 
 # mute future warnings from pkgs like pandas

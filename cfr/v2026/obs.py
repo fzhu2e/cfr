@@ -14,6 +14,16 @@ from tqdm import tqdm
 from . import psm
 from . import utils
 class Obs:
+    '''Observation database for proxy records.
+
+    Manages a collection of proxy observations stored in a DataFrame, providing
+    methods for setup, proxy system modeling, plotting, and conversion to xarray.
+
+    Parameters
+    ----------
+    df : pd.DataFrame
+        DataFrame with columns: pid, lat, lon, time, value, psm_name, R, type.
+    '''
     def __init__(self, df:pd.DataFrame):
         self.df = df.reset_index(drop=True)   # with columns: pid, lat, lon, time, value, psm_name, R, type
         self.df['lon'] = pd.to_numeric(self.df['lon'], errors='coerce')
@@ -192,6 +202,13 @@ class Obs:
 
 
 class ProxyRecord:
+    '''A single proxy record extracted from the observation database.
+
+    Parameters
+    ----------
+    data : pd.Series
+        A row from the Obs DataFrame containing proxy metadata and values.
+    '''
     def __init__(self, data:pd.Series):
         self.data = data.copy()
         if 'time' in data: self.data['time'] = np.array(data['time'])

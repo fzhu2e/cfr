@@ -28,14 +28,14 @@ Welcome to the v2026 documentation. This backend provides an alternative reconst
 Installation instructions.
 :::
 
-:::{grid-item-card} LMR
+:::{grid-item-card} Data Assimilation
 :class-title: custom-title
 :class-body: custom-body
 :img-top: ../_static/lmr.png
-:link: ug-lmr
+:link: ug-da
 :link-type: doc
 
-The Last Millennium Reanalysis (LMR) workflows.
+The Data Assimilation (DA) workflows.
 :::
 
 :::{grid-item-card} API
@@ -60,7 +60,7 @@ The essential API.
 :caption: User Guide
 
 ug-installation
-ug-lmr
+ug-da
 ug-api
 ```
 

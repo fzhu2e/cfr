@@ -3,28 +3,39 @@
 # Run from the repository root: bash docsrc/build.sh
 #
 # Usage:
-#   bash docsrc/build.sh              # build only
-#   bash docsrc/build.sh --deploy     # build and deploy to gh-pages
+#   bash docsrc/build.sh              # build all versions
+#   bash docsrc/build.sh v2024        # rebuild v2024 only
+#   bash docsrc/build.sh v2026        # rebuild v2026 only
+#   bash docsrc/build.sh --deploy     # build all and deploy to gh-pages
 #   bash docsrc/build.sh --push       # deploy only (skip build)
 
 set -e
 
 ACTION="build"
-if [ "$1" = "--deploy" ]; then
-    ACTION="build-and-deploy"
-elif [ "$1" = "--push" ]; then
-    ACTION="push"
-fi
+VERSION="all"
+
+for arg in "$@"; do
+    case "$arg" in
+        --deploy) ACTION="build-and-deploy" ;;
+        --push)   ACTION="push" ;;
+        v2024|v2026) VERSION="$arg" ;;
+    esac
+done
 
 if [ "$ACTION" != "push" ]; then
-    # Clean previous builds
-    rm -rf _site
+    if [ "$VERSION" = "all" ]; then
+        rm -rf _site
+    fi
 
-    # Build v2024 docs
-    sphinx-build docsrc/v2024 _site/v2024
+    if [ "$VERSION" = "all" ] || [ "$VERSION" = "v2024" ]; then
+        rm -rf _site/v2024
+        sphinx-build docsrc/v2024 _site/v2024
+    fi
 
-    # Build v2026 docs
-    sphinx-build docsrc/v2026 _site/v2026
+    if [ "$VERSION" = "all" ] || [ "$VERSION" = "v2026" ]; then
+        rm -rf _site/v2026
+        sphinx-build docsrc/v2026 _site/v2026
+    fi
 
     # Copy landing page
     cp docsrc/landing/index.html _site/index.html

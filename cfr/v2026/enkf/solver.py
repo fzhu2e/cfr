@@ -475,7 +475,7 @@ class Solver:
         else:
             run_t_partial = partial(self.run_t, method=method, debug=debug)
             with Pool(processes=nproc) as p:
-                res = list(tqdm(p.imap_unordered(run_t_partial, self.time, chunksize=chunksize), total=len(self.time), desc='Updating time slices'))
+                res = list(tqdm(p.imap(run_t_partial, self.time, chunksize=chunksize), total=len(self.time), desc='Updating time slices'))
 
         S, post = zip(*res)
 

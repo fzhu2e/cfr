@@ -7,6 +7,7 @@ In this section, we will cover the below topics:
 ```{toctree}
 :maxdepth: 1
 
-notebooks/da-ppe-transient
-notebooks/da-ppe-equilibrium
+notebooks/da-pseudo-LMR
+notebooks/da-pseudo-PlioDA
+notebooks/da-real-PlioDA
 ```

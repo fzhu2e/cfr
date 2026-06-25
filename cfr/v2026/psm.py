@@ -1,9 +1,18 @@
 import xarray as xr
-import pybaywatch as pb
 import numpy as np
 
 from . import utils
 from . import obs
+
+def _import_pybaywatch():
+    try:
+        import pybaywatch as pb
+    except ImportError as e:
+        raise ImportError(
+            "pybaywatch is required for this PSM but is not installed. "
+            "Install it with: pip install cfr[baywatch]"
+        ) from e
+    return pb
 
 class IdenticalTS:
     '''Identity PSM for surface temperature (TS/tas).
@@ -156,6 +165,7 @@ class TEX86:
             'mode': mode,
             'tolerance': tolerance,
         }
+        pb = _import_pybaywatch()
         res = pb.TEX_forward(**self.params)
         if res['status'] == 'FAIL':
             utils.p_warning(f'>>> Forward modeling failed for proxy: {self.meta["pid"]}')
@@ -196,6 +206,7 @@ class UK37:
             'order': order,
             'seed': seed,
         }
+        pb = _import_pybaywatch()
         res = pb.UK_forward(**self.params)
         output = np.median(res['values'], axis=1)
         return output
@@ -232,6 +243,7 @@ class MgCa:
         lat = self.record.data.lat
         lon = self.record.data.lon
         depth = self.record.data.depth
+        pb = _import_pybaywatch()
         if omega is None and pH is None:
             lon180 = np.mod(lon + 180, 360) - 180
             omega, pH = pb.core.omgph(lat, lon180, depth)
@@ -298,6 +310,7 @@ class d18Oc:
             'species': species,
             'seed': seed,
         }
+        pb = _import_pybaywatch()
         res = pb.d18Oc_forward(**self.params)
         output = np.median(res['values'], axis=1)
         return output

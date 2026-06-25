@@ -40,9 +40,6 @@ html_theme_options = {
     'use_issues_button': True,
     'use_fullscreen_button': False,
     'article_header_end': 'version-switcher-header.html, article-header-buttons.html',
-}
-
-html_context = {
     'default_mode': 'light',
 }
 

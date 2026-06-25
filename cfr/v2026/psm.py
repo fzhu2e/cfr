@@ -9,8 +9,8 @@ def _import_pybaywatch():
         import pybaywatch as pb
     except ImportError as e:
         raise ImportError(
-            "pybaywatch is required for this PSM but is not installed. "
-            "Install it with: pip install cfr[baywatch]"
+            'pybaywatch is required for this PSM but is not installed. '
+            'Install it with: pip install "cfr[psm]"'
         ) from e
     return pb
 
